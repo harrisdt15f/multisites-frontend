@@ -1,0 +1,1168 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+/*===========display:inline-block;  共用============*/
+.main-deadline,
+.main-lottery-num,
+.main-lottery-num-pk,
+.main-lottery-list,
+.main-lottery-list-pk,
+.main-lottery-num li,
+.main-lottery-num-pk li,
+.main-lottery-issue,
+.main-lottery-issueNum,
+.bet-type-crow li,
+.bet-type-group-list li,
+.hide-bet-type-ico,
+.hide-bet-type-txt,
+.main-play-introduce .ico-why,
+.ico-case,
+.main-play-introduce .introduce-txt,
+.main-ball-content li,
+.main-ball-control li,
+.main-column-1,
+.main-btn-add span,
+.main-btn-confirm span,
+.main-btn-modify span,
+.btn-ball-import span,
+.main-betting-detail-box {
+	display: inline-block;
+	letter-spacing: normal;
+	word-spacing: normal;
+	vertical-align: top;
+	/*ie*/
+	display: block\9;
+	float: left\9;
+}
+.bet-type-optional,
+.bet-type-group-list .group-name,
+.hide-bet-type-ico,
+.ball-list-name span,
+.ico-add,
+.ico-confirm,
+.ico-import {
+	background-image: url(../images/game_ico.png);
+	background-repeat: no-repeat;
+}
+.main-lottery-top-msg,
+.bet-type-box,
+.main-ball-box { box-shadow: 0 2px 1px 0 rgba(200, 200, 200, 0.35); }
+/*=====开奖信息===========================================================================================
+==============================================================================================*/
+.main-lottery-top-msg {
+	height: 120px;
+	padding-left:15px;
+	margin-bottom: 20px;
+	background: #fff;
+	border: 1px solid #d5d5d5;
+	border-radius: 5px;
+	clear: both;
+	text-align: center;
+}
+.main-deadline,
+.main-lottery-num,
+.main-lottery-num-pk,
+.main-lottery-list,
+.main-lottery-list-pk,
+.main-lottery-num li,
+.main-lottery-num-pk li { text-align: center; }
+/*剩余投注时间*/
+.main-deadline {
+	padding-top: 5px;
+	margin-right: 10px;
+	float: left;
+}
+.main-deadline h5 {
+	text-align: center;
+	line-height: 14px;
+}
+.main-lottery-num h5,
+.main-lottery-num-pk h5,
+.main-lottery-list h5,
+.main-lottery-list-pk h5 {
+	margin-bottom: 5px;
+	text-align: center;
+}
+.main-deadline .main-deadline-txt {
+	font-size: 12px;
+	text-align: center;
+	line-height: 16px;
+}
+.main-deadline .main-deadline-time {
+	font-size: 54px;
+	line-height: 62px;
+}
+.main-deadline .main-deadline-name {
+	font-size: 45px;
+	font-weight: bold;
+	line-height: 62px;
+}
+/*最新开奖*/
+.main-lottery-num {
+	min-width: 340px;
+	margin-right: 10px;
+}
+.main-lottery-num h5 span { color: #f6543b; }
+.main-lottery-num ul li {
+	height: 60px;
+	width: 60px;
+	margin-top: 5px;
+	margin-right: 3px;
+	background-color: #f6543b;
+	border-radius: 30px;
+	box-shadow: 0px 2px 0px #c7c7c7;
+	color: #fff;
+	font-size: 38px;
+	line-height: 60px;
+	/*ie*/
+	margin: 5px 1px\9;
+}
+/*pk10*/
+.main-lottery-num-pk {
+	max-width: 300px;
+	margin-right: 18px;
+}
+.main-lottery-num-pk h5 span { color: #f6543b; }
+.main-lottery-num-pk ul {
+	height: 80px;
+	margin-left: 12px;
+}
+.main-lottery-num-pk ul li {
+	height: 36px;
+	width: 36px;
+	margin-top: 2px;
+	margin-right: 20px;
+	background-color: #f6543b;
+	border-radius: 30px;
+	box-shadow: 0px 2px 0px #c7c7c7;
+	color: #fff;
+	font-size: 24px;
+	line-height: 36px;
+	/*ie*/
+	margin: 5px 1px\9;
+}
+li.open-num { background: url(../images/time/open-num.gif) no-repeat center center; }
+/*近期开奖*/
+.main-lottery-list {
+	width: 230px;
+	height: 100px;
+	background-color: #f6f6f7;
+	float: right;
+	border-left: 1px solid #dadada;
+	border-radius: 0 6px 0 0;
+}
+.main-lottery-list h5 a {
+	margin-left: 5px;
+	color: #fff;
+	padding: 0 3px;
+	display: inline-block;
+	background-color: #80afdc;
+	line-height: 18px;
+	font-size: 12px;
+	border-radius: 3px;
+}
+.main-lottery-list ul {
+	padding: 3px 10px;
+	height: 60px;
+	background: #f6f6f7;
+	line-height: 21px;
+	border-radius: 5px;
+	position: relative;
+	z-index: 9;
+	overflow: hidden;
+}
+.main-lottery-list ul:hover { height: 210px; }
+.main-lottery-list ul li {
+	margin-bottom: 1px;
+	overflow: hidden;
+	clear: both;
+}
+.main-lottery-issue {
+	margin-right: 10px;
+	float: left;
+}
+.main-lottery-issueNum {
+	float: right;
+	text-decoration: underline;
+	text-align: right;
+}
+.main-lottery-issueNum i{
+	display: inline-block;
+	letter-spacing: normal;
+	word-spacing: normal;
+	vertical-align: top;
+	height: 18px;
+	width: 18px;
+	border-radius: 9px;
+	background-color: #737885;
+	color: #fff;
+	text-align: center;
+	line-height: 18px;
+	margin-right: 1px;
+	font-size: 11px;
+
+}
+.main-lottery-issueNum i:nth-child(4),.main-lottery-issueNum i:nth-child(5){  background-color: #f9654f;}
+.main-lottery-issueNum .i__red{
+	background-color: #f9654f;
+}
+/*pk10*/
+.main-lottery-list-pk {
+	width: 280px;
+	height: 90px;
+	padding-left: 5px;
+	float: right;
+	border-left: 1px solid #dadada;
+}
+.main-lottery-list-pk h5 a {
+	margin-left: 5px;
+	color: #0b7be7;
+}
+.main-lottery-list-pk ul {
+	padding: 5px;
+	height: 63px;
+	background: #fff;
+	line-height: 21px;
+	border-radius: 5px;
+	position: relative;
+	z-index: 9;
+	overflow: hidden;
+}
+.main-lottery-list-pk ul:hover { height: 210px; }
+.main-lottery-list-pk ul li {
+	overflow: hidden;
+	clear: both;
+}
+/*=====玩法类型=====================================================================================================
+=======================================================================================================*/
+.bet-type-box {
+	margin-bottom: 10px;
+	background: #fff;
+	border: 1px solid #d5d5d5;
+	border-top: 2px solid #f6543b;
+	border-radius: 5px;
+	position: relative;
+}
+.bet-type-crow {
+	padding-right: 80px;
+	background: #e9e9e9;
+	text-align: left;
+	position: relative;
+	background: #e9e9e9 url(../images/bet-type-crow-bg.png) repeat-x 0 0;
+}
+.bet-type-crow ul {
+	height: 42px;
+	padding: 0 5px;
+}
+.bet-type-crow li {
+	margin-right: 6px;
+	text-align: center;
+	cursor: pointer;
+	line-height: 42px;
+}
+.bet-type-crow li a {
+	height: 42px;
+	min-width: 62px;
+	padding: 0 2px;
+	display: block;
+}
+.bet-type-crow li a:hover { color: #f6543b; }
+.bet-type-crow li.on {
+	height: 42px;
+	padding: 0;
+	background: #fff;
+	color: #f6543b;
+}
+.bet-type-crow li.on2 {
+	height: 42px;
+	padding: 0;
+	background: #fff;
+	line-height: 42px;
+	color: #f6543b;
+}
+.bet-type-crow li.on a {
+	cursor: default;
+	color: #f6543b;
+}
+.bet-type-crow-name {
+	font-size: 16px;
+	display: block;
+}
+.bet-type-crow li .bet-type-group-name {
+	font-size: 12px;
+	color: #666;
+	display: none;
+}
+.bet-type-crow li.on .bet-type-group-name { display: block; }
+.bet-type-optional {
+	width: 60px;
+	height: 32px;
+	padding-bottom: 13px;
+	background-position: -3px -6px;
+	line-height: 32px;
+	position: absolute;
+	top: -5px;
+	right: 10px;
+	font-size: 16px;
+	display: block;
+	text-align: center;
+	cursor: pointer;
+}
+.bet-type-optional a { color: #fff; }
+/*直选组选类型*/
+.bet-type-group {
+	height: auto;
+	padding: 8px 12px 0 12px;
+	background: #fff;
+	font-size: 12px;
+}
+.bet-type-group-list {
+	margin-bottom: 12px;
+	position: relative;
+	text-align: left;
+	overflow: hidden;
+	clear: both;
+}
+.bet-type-group-list .group-name {
+	min-width: 55px;
+	height: 21px;
+	padding: 0 2px;
+	margin: 0px 10px 0 0;
+	background-position: 6px -74px;
+	background-color: #ddd;
+	color: #666;
+	text-align: center;
+	line-height: 21px;
+	float: left;
+}
+.bet-type-group-list ul { float: left; }
+.bet-type-group-list li { height: 22px; }
+.bet-type-group-list li a {
+	height: 20px;
+	min-width: 50px;
+	padding: 0 10px;
+	margin-right: 10px;
+	border: 1px solid #d6d6d6;
+	display: block;
+	line-height: 20px;
+	border-radius: 3px;
+	text-align: center;
+}
+.bet-type-group-list li a:hover {     background-color: #e8e8e8; }
+.bet-type-group-list li a:active { border: 1px solid #f6543b; }
+.bet-type-group-list li.on a {
+	color: #fff;
+	background-color: #f6543b;
+	border: 1px solid #f6543b;
+}
+/*玩法展开 折起*/
+.bet-type-group-hide {
+	background: rgba(255, 255, 255, 0.90);
+	position: absolute;
+	z-index: 99;
+	width: 100%;
+	box-sizing: border-box;
+	border-radius: 0 0 5px 5px;
+	border: 1px solid #d5d5d5;
+}
+.hide-bet-type-btn {
+	text-align: center;
+	position: absolute;
+	font-size: 12px;
+	color: #666;
+	right: 0px;
+	bottom: -17px;
+}
+.hide-bet-type-btn a {
+	height: 18px;
+	padding: 0 10px;
+	background: #e4e4e4;
+	line-height: 18px;
+	display: block;
+	border-radius: 0px 0px 5px 5px;
+}
+.hide-bet-type-txt { }
+.hide-bet-type-ico {
+	width: 12px;
+	height: 12px;
+	margin: 3px 5px 0 0;
+	background-position: -54px -64px;
+}
+.hide-open .hide-bet-type-ico { background-position: -54px -52px; }
+/*玩法介绍 、冷热遗漏==============================================================
+=========================================================================*/
+.main-row-1 {
+	margin-bottom: 10px;
+	position: relative;
+}
+.main-play-introduce {
+	height: 28px;
+	padding-right: 260px;
+	line-height: 28px;
+	text-align: left;
+}
+.main-play-introduce .ico-why,
+.main-play-introduce .ico-case {
+	width: 22px;
+	height: 22px;
+	margin-right: 5px;
+	background-color: #93BBE4;
+	border-radius: 11px;
+	color: #fff;
+	text-align: center;
+	line-height: 22px;
+	position: relative;
+}
+/*玩法提示*/
+.tooltip1 {
+	width: 300px;
+	height: auto;
+	min-height: 24px;
+	padding: 5px 12px;
+	z-index: 1005;
+	background-color: #fff3ee;
+	border-radius: 5px;
+	border: 1px solid #f6a699;
+	vertical-align: middle;
+	color: #111;
+	line-height: 24px;
+	font-size: 12px;
+	display: none;
+	position: absolute;
+	text-align: left;
+	overflow: hidden;
+	left: -150px;
+	bottom: 30px;
+}
+.main-play-introduce .ico-why span,
+.main-play-introduce .ico-case span {
+	width: 0;
+	height: 0;
+	position: absolute;
+	border: 5px solid #fff;
+	display: none;
+	left: 5px;
+	bottom: 25px;
+	border-color: #f6a699 #fff #fff #fff;
+	border-bottom-width: 0px;
+}
+.main-play-introduce a.ico-why:hover .tooltip1,
+.main-play-introduce a.ico-case:hover .tooltip1,
+.main-play-introduce a.ico-why:hover span,
+.main-play-introduce a.ico-case:hover span { display: block; }
+.main-play-introduce .introduce-txt { font-size: 12px; }
+.main-hotball-check {
+	width: 260px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	text-align: right;
+}
+/*选号区=================================================================================
+============================================================================================*/
+.main-ball-section {
+	margin-bottom: 10px;
+	position: relative;
+}
+.main-ball-box {
+	min-height: 150px;
+	background-color: #424753;
+	border-radius: 5px;
+	position: relative;
+}
+/*复式投注球区------------------------------------------------------------*/
+.main-ball-list {
+	padding: 10px 10px 5px 80px;
+	border-bottom: 1px solid #252a37;
+	position: relative;
+	overflow: hidden;
+	clear: both;
+	border-radius: 5px;
+}
+/*位数 遗漏类型*/
+.ball-list-name {
+	color: #fff;
+	text-align: center;
+	line-height: 21px;
+	position: absolute;
+	left: 15px;
+	top: 21px;
+	font-size: 12px;
+}
+.ball-list-name span {
+	min-width: 51px;
+	height: 20px;
+	padding-top: 1px;
+	padding-right: 2px;
+	margin-bottom: 7px;
+	line-height: 20px;
+	background-position: 0 -53px;
+	color: #fff;
+	display: block;
+}
+.ball-list-name i {
+	width: 45px;
+	height: 21px;
+	padding0: 0 5px 5px 0;
+	color: #999;
+}
+/*号码数字盘*/
+.main-ball-content {
+	text-align: left;
+	float: left;
+}
+.main-ball-content ul {
+	/*ie*/
+	overflow: hidden\9;
+	clear: both\9;
+}
+.main-ball-content li {
+	text-align: center;
+	margin-right: 3px;
+	/*ie*/
+	margin: 0 1px\9;
+}
+.main-ball-content li a {
+	min-width: 30px;
+	height: 38px;
+	padding: 0 4px;
+	margin-bottom: 3px;
+	border-radius: 21px;
+	border: 2px solid #a5a8af;
+
+	color: #cfd2d8;
+	line-height: 38px;
+	display: block;
+	font-size: 18px;
+}
+.main-ball-long li a { padding: 0 10px; }
+.main-ball-content li a:hover {
+	background-color: #f6543b;
+	background: linear-gradient(to bottom, #ffa7a4, #fb5c42);
+	border: 2px solid #ff8b79;
+	color: #fff;
+}
+.main-ball-content li a:active {
+	background: linear-gradient(to bottom, #ffbbb9, #ec5a42);
+	box-shadow: 0px 0px 3px 1px #000000db;
+}
+.main-ball-content li.ball-on a {
+	min-width: 30px;
+	height: 38px;
+	line-height: 38px;
+	background-color: #f6543b;
+	background: linear-gradient(to bottom, #ffa7a4, #fb5c42);
+	border: 2px solid #ff8b79;
+	box-shadow: 0px 2px 1px #000;
+	color: #fff;
+}
+/*冷热遗漏显示*/
+.main-ball-content li i {
+	font-size: 12px;
+	color: #888;
+}
+/*全大小单双清*/
+.main-ball-control {
+	text-align: right;
+	float: right;
+}
+.main-ball-control ul {
+	/*ie*/
+	overflow: hidden\9;
+	clear: both\9;
+}
+.main-ball-control li {
+	margin-left: 3px;
+	/*ie*/
+	margin: 0 1px\9;
+}
+.main-ball-control li a {
+	min-width: 30px;
+	height: 42px;
+	padding: 0 6px;
+	background-color: #191e29;
+	border-radius: 21px;
+	color: #b3b7c1;
+	text-align: center;
+	line-height: 42px;
+	display: block;
+	font-size: 16px;
+}
+.main-ball-control li a:hover {
+	background-color: #535763;
+	box-shadow: 0px 2px 1px #000;
+	color: #b3b7c1;
+}
+.main-ball-control li a:active {
+	background-color: #d1d1d1;
+	box-shadow: 0px 2px 1px #000;
+	color: #424753;
+}
+.main-ball-control li.ball-on a {
+	background-color: #fff;
+	color: #333;
+}
+/*只有一行*/
+.only-one { padding: 50px 10px 40px 80px; }
+.only-one .ball-list-name { top: 56px; }
+/*单式投注区------------------------------------------------------------*/
+.main-single-entry { padding: 15px; }
+.main-balls-import {
+	padding-left: 200px;
+	height: 36px;
+	position: relative;
+	text-align: right;
+}
+.btn-ball-import {
+	text-align: center;
+	position: absolute!important;
+	left: 0px;
+	top: 0px;
+}
+.btn-ball-import:hover { background-color: #0f83f2; }
+.btn-ball-import span { }
+.ico-import {
+	width: 20px;
+	height: 20px;
+	margin: 6px 10px 0 0;
+	border: 2px solid #fff;
+	border-radius: 12px;
+	background-position: -47px -98px;
+}
+.import-clean-list {
+	padding-top: 6px;
+	color: #e7e7e7;
+}
+.import-clean-list .btn-tab { background: none; }
+.import-clean-list a { color: #fff; }
+.import-clean-list .btn-tab:hover {
+	background: #f6543b;
+	color: #fff;
+	border: 1px solid #f6543b;
+}
+.import-clean-list .btn-tab:active { background-color: #F34F36; }
+.balls-import-box {
+	height: 70px;
+	padding: 5px 10px;
+	margin-top: 10px;
+	background-color: #545454;
+	border: 1px solid #676767;
+	border-radius: 5px;
+}
+.balls-import-txt {
+	width: 100%;
+	height: 70px;
+	background: none;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	overflow-y: auto;
+}
+/*任选选项*/
+.main-optional-txt {
+	padding: 10px 10px 0px 10px;
+	font-size: 12px;
+	text-align: right;
+	color: #ddd;
+}
+.main-optional-txt input { margin-right: 3px; }
+.main-optional-txt span { padding: 5px; }
+.main-optional-txt strong { padding: 3px; }
+/*机选*/
+.main-ball-random {
+	position: absolute;
+	top: 5px;
+	right: -25px;
+}
+.main-ball-random a {
+	width: 14px;
+	background: #fff;
+	padding: 5px;
+	margin-bottom: 5px;
+	line-height: 13px;
+	font-size: 12px;
+	border: 1px solid #aaa;
+	border-left: 0;
+	border-radius: 0 5px 5px 0;
+	display: block;
+}
+.main-ball-random a:hover { color: #f6543b; }
+.main-ball-random a:active { border-color: #f6543b; }
+/* 添加选号==============================================================================================
+===================================================================================================*/
+.bet-statistics {
+	margin-bottom: 10px;
+	overflow: hidden;
+	clear: both;
+}
+.main-column-1 { }
+/*模式*/
+.bet-choose-total,
+.bet-play-mode,
+.bet-count-msg,
+.bet-pick-box,
+.bet-future-set {
+	font-size: 12px;
+	text-align: left;
+}
+.bet-choose-total {
+	width: 180px;
+	margin-top: 10px;
+	float: left;
+}
+.bet-choose-total .bet-choose-ipt {
+	width: 18px;
+	height: 24px;
+	text-align: center;
+	border: 1px solid #a6aab5;
+	background: #a9afbf;
+	font-size: 14px;
+	color: #424753;
+	cursor: pointer;
+	line-height: 22px;
+	border-radius: 2px;
+	vertical-align: top;
+}
+.bet-play-mode {
+	width: 140px;
+	margin-top: 10px;
+	padding-left: 40px;
+	position: relative;
+	float: left;
+}
+.play-mode-name {
+	height: 26px;
+	width: 40px;
+	line-height: 26px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+}
+/*返点*/
+.data-slider-box {
+	display: inline-block;
+	min-height: 16px;
+}
+.bet-point,
+.bet-point-btns {
+	width: auto;
+	text-align: left;
+}
+.bet-point {
+	margin-bottom: 11px;
+	font-size: 12px;
+	color: #999;
+}
+.bet-rebate-mode {
+	margin-top: 10px;
+	width: 120px;
+	float: left;
+	line-height: 24px;
+	padding-left: 10px;
+	font-size: 12px;
+}
+.data-slider-box select {
+	padding: 0 5px;
+	height: 26px;
+	min-width: 80px;
+	line-height: 26px;
+	text-align: left;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 2px;
+}
+/*添加选号按钮*/
+.bet-add-box {
+	width: auto;
+	height: 44px;
+	line-height: 44px;
+	text-align: right;
+	position: relative;
+}
+.bet-total-money {
+	font-size: 24px;
+	text-align: right;
+}
+.main-btn-add ,.main-btn-fastadd{
+	display: inline-block;
+	text-align: center;
+}
+.main-btn-fastadd{
+	margin: 0 8px;
+	background-color: #ff6a21;
+}
+.main-btn-fastadd:hover{
+	background-color: #ff894f;
+}
+.main-btn-fastadd:active
+{
+	background-color: #ff6316;
+}
+.main-cancel-box {
+	height: 48px;
+	position: absolute!important;
+	right: 0;
+	top: 0;
+	text-align: center;
+	overflow: hidden;
+	clear: both;
+}
+.main-btn-modify,
+.main-btn-cancel {
+	height: 42px;
+	padding: 0 10px;
+	line-height: 42px;
+	font-size: 16px;
+	float: left;
+}
+.main-btn-modify { background: #f6543b; }
+.main-btn-cancel {
+	min-width: 80px;
+	background-color: #0b7be7;
+	text-align: center;
+	font-size: 18px;
+}
+.main-btn-cancel:hover {
+	background-color: #248ef3;
+	color: #fff;
+}
+.main-btn-cancel:active { background-color: #0370d8; }
+.ico-add,
+.ico-confirm {
+	width: 20px;
+	height: 20px;
+	margin: 8px 10px 0 0;
+	border: 2px solid #fff;
+	border-radius: 12px;
+	/*ie*/
+	margin-left: 30px\9;
+}
+.ico-add { background-position: -1px -97px; }
+/*确认投注==========================================================================================================
+===============================================================================================*/
+.bet-count-confirm {
+	padding-bottom: 10px;
+	overflow: hidden;
+	clear: both;
+	text-align: left;
+	position: relative;
+}
+/*购买信息*/
+.bet-count-msg {
+	width: 150px;
+	padding-right: 5px;
+}
+.bet-total-note,
+.bet-total-multiple,
+.bet-count-total-money,
+.bet-future-select { margin-bottom: 5px; }
+/*购买记录简略*/
+.bet-msg-pick-bd { padding-right: 350px; }
+.bet-pick-box {
+	padding-right: 35px;
+	position: relative;
+}
+.bet-pick-his-box {
+	font-size: 12px;
+	position: relative;
+}
+.bet-history-box {
+	min-width: 848px;
+	min-height: 90px;
+	max-height: 160px;
+	position: relative;
+	overflow: hidden;
+	overflow-y: scroll!important;
+}
+.bet-pick-ipt-box {
+	height: 160px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+.bet-pick-txt {
+	height: 24px;
+	padding-right: 80px;
+	margin-bottom: 2px;
+	position: relative;
+}
+.bet-pick-txt a {
+	margin-right: 10px;
+	border-bottom: 1px solid #f6f6f6;
+}
+.bet-pick-txt .on {
+	color: #f6543b;
+	border-bottom: 1px solid #f6543b;
+}
+.txt-clean {
+	width: 20px;
+	line-height: 14px;
+	position: absolute;
+	top: 20px;
+	right: 5px;
+}
+.txt-clean:hover { color: #f6543b; }
+.bet-ipttxt {
+	width: 440px;
+	height: 90px;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+.bet-history-box td,
+.bet-pick-ipt-box td {
+	padding-top: 3px;
+	border-bottom: 1px dashed #d6d6d6;
+}
+.bet-history-box th,
+.bet-pick-ipt-box th {
+	padding: 0 3px;
+	background: #f6f6f6;
+	text-align: left;
+}
+.bet-history-box i,
+.bet-pick-ipt-box i {
+	padding: 2px 0;
+	line-height: 16px;
+	margin-right: 5px;
+	max-width: 160px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/*未来期 追号设定*/
+.bet-future-set {
+	width: 160px;
+	margin-left: 23px;
+	margin-top: 8px;
+	position: absolute;
+	right: 170px;
+	top: 0;
+}
+.bet-future-select-box { }
+.bet-future-select {
+	width: 140px;
+	height: 24px;
+}
+.bet-future-num {
+	width: 140px;
+	padding: 2px 0;
+	margin-bottom: 5px;
+	background-color: #0b7be7;
+	color: #fff;
+	display: block;
+	text-align: center;
+}
+.bet-future-num:hover{ background-color: #1f8bf3;}
+.bet-future-ipt {
+	margin-right: 5px;
+	border: 1px solid #f6543b;
+}
+/*确认投注按钮*/
+.main-btn-confirm-box {
+	position: absolute!important;
+	right: 0;
+	top: 5px;
+}
+.main-btn-confirm {
+	margin-left: 10px;
+	text-align: center;
+}
+.ico-confirm { background-position: -24px -97px; }
+/*投注详情===========================================================================
+==========================================================================================================*/
+.main-betting-detail { padding: 15px 0 5px 0px; }
+.main-betting-detail ul {
+	max-height: 260px;
+	text-align: left;
+	overflow-y: scroll;
+}
+.main-betting-detail-box {
+	width: 245px;
+	height: 96px;
+	padding: 10px 14px;
+	margin: 0 3px 10px 3px;
+	background: #fff;
+	border: 1px solid #aaa;
+	position: relative;
+	font-size: 12px;
+	border-radius: 5px;
+	text-align: left;
+	cursor: pointer;
+}
+.main-betting-detail .on {
+	width: 243px;
+	height: 94px;
+	border: 2px solid #f6543b;
+}
+.main-betting-detail .on .close {
+	background: #f6543b;
+	cursor: pointer;
+}
+.main-betting-detail li:hover { box-shadow: 0px 2px 1px #ddd; }
+.main-betting-detail p {
+	width: 100%;
+	line-height: 20px;
+}
+.betting-detail-num {
+	height: 42px;
+	color: #f6543b;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
+.betting-detail-txt { }
+.betting-detail-txt strong { margin: 3px; }
+/*追号*/
+.times {
+	width: 35px;
+	height: 24px;
+	text-align: center;
+	line-height: 24px;
+	padding: 0 5px;
+	border: 1px solid #ddd;
+	background: #fff;
+	border-radius: 5px;
+}
+
+/************---------------------小屏----------------------------------**************/
+@media only screen and (max-height : 800px) {
+	.main-lottery-top-msg {
+		height: 12px;
+		margin-bottom: 10px;
+	}
+	.main-deadline .main-deadline-time {
+		font-size: 42px;
+		line-height: 48px;
+	}
+	.main-deadline .main-deadline-name {
+		font-size: 42px;
+		line-height: 48px;
+	}
+	.main-lottery-num ul li {
+		height: 48px;
+		width: 48px;
+		margin-top: 0px;
+		border-radius: 24px;
+		line-height: 48px;
+		font-size: 32px;
+	}
+	.main-lottery-num-pk ul {
+		height: 60px;
+		margin-left: 20px;
+	}
+	.main-lottery-num-pk ul li {
+		height: 28px;
+		width: 28px;
+		margin-right: 28px;
+		font-size: 18px;
+		line-height: 28px;
+		/*ie*/
+		margin: 5px 1px\9;
+	}
+	.main-lottery-list,
+	.main-lottery-list-pk { height: 90px; }
+	.main-lottery-list ul,
+	.main-lottery-list-pk ul {
+		padding: 0 6px;
+		height: 56px;
+		line-height: 18px;
+	}
+	.bet-type-crow-name { font-size: 14px; }
+	.main-lottery-list ul:hover,
+	.main-lottery-list-pk ul:hover { height: 200px; }
+	.main-lottery-list ul li,
+	.main-lottery-list-pk ul li { font-size: 12px; }
+	.bet-type-crow ul { height: 42px; }
+	.bet-type-crow li { line-height: 42px; }
+	.bet-type-crow li a { height: 42px; }
+	.bet-type-crow li.on { height: 42px; }
+	.bet-type-optional {
+		height: 32px;
+		background-position: -3px -6px;
+		line-height: 32px;
+	}
+	.bet-type-group { padding: 8px 12px 0 12px; }
+	.bet-type-group-list { margin-bottom: 5px; }
+	.bet-type-group-list .group-name { margin: 0px 10px 0 0; }
+	.bet-type-group-list li { height: 22px; }
+	.bet-type-group-list li a {
+		height: 20px;
+		padding: 0 8px;
+		line-height: 20px;
+	}
+	.main-row-1 { margin-bottom: 8px; }
+	.main-ball-section { margin-bottom: 10px; }
+	.main-ball-box { min-height: 120px; }
+	.main-ball-list { padding: 8px 10px 3px 80px; }
+	/*位数 遗漏类型*/
+	.ball-list-name { top: 16px; }
+	.main-ball-random a {
+		padding: 3px 5px;
+		line-height: 12px;
+	}
+	.main-ball-content li a {
+		min-width: 32px;
+		height: 34px;
+		padding: 0 1px;
+		margin-bottom: 5px;
+		border-radius: 19px;
+		line-height: 34px;
+	}
+
+	.main-ball-control li a {
+		min-width: 30px;
+		height: 32px;
+		padding: 0 1px;
+		border-radius: 16px;
+		line-height: 32px;
+	}
+	.main-ball-content li.ball-on a {
+		min-width: 32px;
+		height: 34px;
+		line-height: 34px;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.main-center-con { width: 100%; }
+	.main-bottom-con { width: 100%; }
+	.main-deadline {
+		margin-right: 0px;
+		float: none;
+		display: inline-block;
+	}
+	.main-lottery-num {
+		min-width: auto;
+		margin-right: 0px;
+		float:none;  display: inline-block;
+	}
+	.main-lottery-list { display: none; }
+	.bet-type-crow ul { height: auto; }
+	.main-play-introduce { padding-right: 0; }
+	.main-ball-control {
+		text-align: left;
+		float: left;
+	}
+	.tabs-r-txt {
+		position: inherit;
+		right: auto;
+		top: auto;
+	}
+	.bet-msg-pick-bd { padding-right: 0px; }
+	.bet-future-set {
+		width: 100%;
+		text-align: right;
+		position: inherit;
+		right: auto;
+		margin:10px 0 0 0 ;
+	}
+	.main-btn-confirm-box {
+		position: inherit!important;
+		right: auto;
+		top: auto;
+		text-align: right;
+	}
+}
