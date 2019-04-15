@@ -1,22 +1,22 @@
 <template id="game-order">
     <div class="main-bottom">
-        <div class="main-bottom-con"  id="project">
+        <div class="main-bottom-con" id="project">
             <div class="tabs-box-menu m-B">
                 <div class="tabs-r-txt" id="project-bar">
-                    <p>当前总共<strong class="txt-red" id="project-num">{{currentOrderState.count}}</strong>注，
-                        我要翻 <input type="text" class="ipt ipt-muliple" id="project-times" v-model="currentOrderState.times">
-                        倍，总金额<strong class="txt-red" id="project-cost"> {{totalCost}} </strong>元。</p>
+                    <p>当前总共<strong class="txt-red" id="project-num">{{totals.number}}</strong>注，
+                        我要翻 <input type="text" placeholder="1" class="ipt ipt-muliple" id="project-times" v-model="totalSub.double"/>
+                        倍，总金额<strong class="txt-red" id="project-cost"> {{totalSub.double > 1 ? totalSub.money : totals.money}} </strong>元。</p>
                 </div>
                 <ul class="tabs-ul">
-                    <li v-bind:class="{'on' : orderTab == 'order'}" @click="chooseTab('order')"><a href="javascript:;" id="project-current">当前投注</a></li>
-                    <li v-bind:class="{'on' : orderTab == 'history'}"  @click="chooseTab('history')"><a href="javascript:;" id="project-history">投注历史</a></li>
+                    <li :class="{'on' : orderTab === 'order'}" @click="chooseTab('order')"><a href="javascript:;" id="project-current">当前投注</a></li>
+                    <li :class="{'on' : orderTab === 'history'}"  @click="chooseTab('history')"><a href="javascript:;" id="project-history">投注历史</a></li>
                 </ul>
             </div>
 
-            <div class="bet-count-confirm" id="project-project" v-if="orderTab == 'order'">
+            <div class="bet-count-confirm" id="project-project" v-if="orderTab === 'order'">
                 <div class="bet-msg-pick-bd">
                     <div class="bet-pick-box">
-                        <a href="javascript:;" class="txt-clean" id="project-empty">清空选号</a>
+                        <a href="javascript:;" class="txt-clean" id="project-empty" @click="clearOrderList()">清空选号</a>
                         <div class="iptbox bet-pick-ipt-box">
                             <table width="100%">
                                 <thead>
@@ -39,7 +39,7 @@
                                     <td><i>{{order.times}}</i></td>
                                     <td><i>{{order.mode}}</i></td>
                                     <td><i>{{order.cost}}</i></td>
-                                    <td width="5"><i><a href="javascript:;" class="del">删除</a></i></td>
+                                    <td width="5"><i><a href="javascript:;" class="del" @click="deleteOrderList(order, _orderIndex)">删除</a></i></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -47,40 +47,48 @@
 
                     </div>
                 </div>
-                <div class="">
+                <div>
                     <div class="bet-future-set" v-if="!currentLottery.fast_open">
                         <a href="javascript:;" class="btn bet-future-num" id="trace-open">我&nbsp;&nbsp;要&nbsp;&nbsp;追&nbsp;&nbsp;号</a>
-                        <p>&nbsp;</p>
-                        <p class="bet-future-select-box">
-                            <select class="ipt bet-future-select" id="issues">
-                            </select>
-                        </p>
+<!--                        <p>&nbsp;</p>-->
+<!--                        <p class="bet-future-select-box">-->
+<!--                            <select class="ipt bet-future-select" id="issues">-->
+<!--                            </select>-->
+<!--                        </p>-->
                     </div>
                 </div>
                 <div class="main-btn-confirm-box">
-                    <a href="javascript:;" class="btn main-btn-confirm" id="project-submit"><span class="ico-confirm"></span><span>确认投注</span></a>
+                    <a href="javascript:;" class="btn main-btn-confirm" id="project-submit" @click="submitBet()"><span class="ico-confirm"></span><span>确认投注</span></a>
                 </div>
             </div>
 
-            <div class="bet-count-confirm"  id="project-order" v-if="orderTab == 'history'">
+            <div class="bet-count-confirm"  id="project-order" v-if="orderTab === 'history'">
                 <div class="bet-pick-his-box">
                     <div class="iptbox bet-history-box">
                         <table width="100%">
                             <thead>
-                            <tr>
-                                <th><i>编号</i></th>
-                                <th><i>奖期</i></th>
-                                <th><i>时间</i></th>
-                                <th><i>玩法</i></th>
-                                <th><i>号码</i></th>
-                                <th><i>总额(元)</i></th>
-                                <th><i>奖金</i></th>
-                                <th><i>模式</i></th>
-                                <th><i>倍数</i></th>
-                                <th><i>状态</i></th>
-                            </tr>
+                                <tr>
+                                    <th><i>编号</i></th>
+                                    <th><i>奖期</i></th>
+                                    <th><i>时间</i></th>
+                                    <th><i>玩法</i></th>
+                                    <th><i>号码</i></th>
+                                    <th><i>总额(元)</i></th>
+                                    <th><i>奖金</i></th>
+                                    <th><i>模式</i></th>
+                                    <th><i>倍数</i></th>
+                                    <th><i>状态</i></th>
+                                </tr>
                             </thead>
                             <tbody style="cursor: pointer;" id="order-data">
+                                <tr v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
+<!--                                    <td><i>{{order.method_name}}</i></td>-->
+<!--                                    <td><i>{{order.codes}}</i></td>-->
+<!--                                    <td><i>{{order.count}}</i></td>-->
+<!--                                    <td><i>{{order.times}}</i></td>-->
+<!--                                    <td><i>{{order.mode}}</i></td>-->
+<!--                                    <td><i>{{order.cost}}</i></td>-->
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -170,47 +178,117 @@
     </div>
 </template>
 <script>
-
-    export default {
-        name: 'game-order',
-        template: '#game-order',
-        computed: {
-            orderList: function () {
-                return this.$store.state.orderList;
+import { mapState } from 'vuex'
+export default {
+    name: 'game-order',
+    data() {
+        return {
+            orderTab:'order',
+            total: {
+                number: 0,
+                money: 0
             },
-            currentOrderState: function () {
-                return this.$store.state.currentOrderState;
+            totalSub: {
+                number: 0,
+                double: 1,
+                money: 0
             },
-            totalCost: function () {
-                return this.$store.state.totalCost;
+            orderListSub: []
+        }
+    },
+    computed: {
+        ...mapState([
+            'orderList',
+            'currentOrderState',
+            'totalCost',
+            'currentLottery',
+            'bet'
+        ]),
+        // 翻倍
+        totals () {
+            this.total = {
+                number: 0,
+                money: 0
+            }
+            for (let i = 0; i < this.orderList.length; i++) {
+                this.total.number += this.orderList[i].count
+                this.total.money += this.orderList[i].cost
+            }
+            this.totalSub.money = parseInt(this.totalSub.double) * Number(this.total.money)
+            return this.total
+        }
+    },
+    watch: {
+        'totalSub.double': {
+            handler () {
+                // 计算翻倍后的金额
+                this.totalSub.money = parseInt(this.totalSub.double) * Number(this.total.money)
             },
-            currentLottery: function () {
-                return this.$store.state.currentLottery;
-            },
+            deep: true
+        }
+    },
+    created () {
+    },
+    methods: {
+        chooseTab (tab) {
+            this.orderTab = tab
+            if (tab === 'history') {
+                this.Api.getBetHistory(this.currentLottery.en_name).then(res => {
+                    console.log(res)
+                })
+            }
         },
-        data() {
-            return {
-                orderTab:'order',
-            };
+        submitBet () {
+            let issus = {
+                20180405001: true
+            }
+            // 计算翻倍后的 金额 和倍数
+            let [list = JSON.parse(this.bet.doubleBeforeOrder), money = null] = []
+            if (list.length === 0) {
+                return false
+            }
+            for (let i = 0; i < list.length; i++) {
+                list[i].cost = Number(list[i].cost) * Number(this.totalSub.double)
+                list[i].count = Number(list[i].count) * Number(this.totalSub.double)
+            }
+            money = this.totalSub.double > 1 ? this.totalSub.money : this.totals.money
+            this.Api.bet(this.currentLottery.en_name, issus, list, money).then((res) => {
+                console.log(res)
+            })
         },
-
-        created () {
-
+        // 删除当前投注
+        deleteOrderList (item, index) {
+            this.orderList.splice(index, 1)
+            this.bet.doubleBeforeOrder = JSON.stringify(this.orderList)
+            this.totalSub.money -= Number(item.cost) * Number(this.totalSub.double)
+            if (this.orderList.length === 0) {
+                this.total ={
+                    number: 0,
+                    money: 0
+                }
+                this.totalSub = {
+                    number: 0,
+                    double: 1,
+                    money: 0
+                }
+            }
         },
-
-        destroyed: function () {
-
-        },
-
-        watch: {
-        },
-
-        methods: {
-            chooseTab(tab) {
-                this.orderTab = tab;
+        // 清空当前投注
+        clearOrderList () {
+            this.$store.commit('orderList', [])
+            this.bet.doubleBeforeOrder = JSON.stringify([])
+            this.total ={
+                number: 0,
+                money: 0
+            }
+            this.totalSub = {
+                number: 0,
+                double: 1,
+                money: 0
             }
         }
-    };
+    }
+}
 </script>
 
 <style>

@@ -3,7 +3,7 @@
         <div class="main-deadline">
             <div v-if="currentLottery.fast_open">
                 <h5>第
-                    <strong id="current_no" v-if="issueInfo[0]['issues']">{{issueInfo[0]['issue_no']}}</strong>
+                    <strong id="current_no" v-if="issueInfo[0] && issueInfo[0]['issues']">{{issueInfo[0]['issue_no']}}</strong>
                     <strong id="current_no" v-else></strong>
                     期剩余投注时间</h5>
                 <div class="main-deadline-time" id="current_remainTime">00:00</div>
@@ -63,51 +63,48 @@
 
 </template>
 <script>
+export default {
+    name: 'game-issue',
+    template: '#game-issue',
+    components: {
+    },
+    computed: {
+        currentLottery: function () {
 
-    import {API} from "../../API";
-
-    export default {
-        name: 'game-issue',
-        template: '#game-issue',
-        components: {
+            return this.$store.state.currentLottery;
         },
-        computed: {
-            currentLottery: function () {
-
-                return this.$store.state.currentLottery;
-            },
-            issueHistory: function () {
-                return this.$store.state.issueHistory;
-            }
-        },
-        data() {
-            return {
-                loading: false,
-            };
-        },
-
-        created () {
-        },
-
-        destroyed: function () {
-        },
-
-        watch: {
-
-        },
-        methods: {
-            // 刷新历史
-            issueGetHistory() {
-                API.getIssueHistory(this.lotterySign, 10).then(function (data) {
-                    if (data) {
-                        this.issueHistory = data;
-                    }
-                });
-
-
-            }
+        issueHistory: function () {
+            return this.$store.state.issueHistory;
         }
-    };
+    },
+    data() {
+        return {
+            loading: false,
+        };
+    },
+
+    created () {
+    },
+
+    destroyed: function () {
+    },
+
+    watch: {
+
+    },
+    methods: {
+        // 刷新历史
+        issueGetHistory() {
+            this.Api.getIssueHistory(this.lotterySign).then(data => {
+                if (data.isSuccess) {
+                    this.issueHistory = data.data;
+                }
+            });
+
+
+        }
+    }
+};
 </script>
 
 <style>

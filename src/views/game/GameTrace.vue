@@ -93,107 +93,101 @@
 </template>
 <script>
 
-    import {API} from "../../API";
-    import methods from "../../lib//config/method"
-    import GameSelect from "./GameSelect";
+import {API} from "../../API";
+import methods from "../../lib//config/method"
+import GameSelect from "./GameSelect";
 
-    export default {
-        name: 'gameBet',
-        template: '#game-bet',
-        components: {
-            GameSelect
-        },
-        props: {
-            'lotterySign': String,
-        },
-        data() {
-            return {
-                loading: false,
-                defaultGroup:"",
-                defaultMethod:"",
-                lottery: {},
-                methodConfig: {},
-                issueInfo: {},
-                selectedGroup: '',
-                selectedGroupIndex: '',
-                selectedMethodId: '',
-                currentMethod: {},
+export default {
+    name: 'gameBet',
+    template: '#game-bet',
+    components: {
+        GameSelect
+    },
+    props: {
+        'lotterySign': String,
+    },
+    data() {
+        return {
+            loading: false,
+            defaultGroup:"",
+            defaultMethod:"",
+            lottery: {},
+            methodConfig: {},
+            issueInfo: {},
+            selectedGroup: '',
+            selectedGroupIndex: '',
+            selectedMethodId: '',
+            currentMethod: {},
 
-                // 定时器
-                issueHistoryTimer: null,
-                // 奖期相关
-                issueCurrent:{},
-                issueBefore:{},
-                issueNext:{},
-                issueHistory:{}
-            };
-        },
+            // 定时器
+            issueHistoryTimer: null,
+            // 奖期相关
+            issueCurrent:{},
+            issueBefore:{},
+            issueNext:{},
+            issueHistory:{}
+        }
+    },
+    created () {
+        clearInterval(this.issueHistoryTimer)
+        this.issueHistoryTimer = null;
 
-        created () {
-            clearInterval(this.issueHistoryTimer);
-            this.issueHistoryTimer = null;
+        this.getLotteryInfo();
+    },
 
-            this.getLotteryInfo();
-        },
+    destroyed: function () {
+        clearInterval(this.issueHistoryTimer)
+        this.issueHistoryTimer = null;
+    },
 
-        destroyed: function () {
-            clearInterval(this.issueHistoryTimer);
-            this.issueHistoryTimer = null;
-        },
-
-        watch: {
-            // 如果路由有变化，会再次执行该方法
-            '$route': 'getLotteryInfo'
-        },
-
-        methods: {
-            getLotteryInfo() {
-                this.loading = true;
-                API.getLotteryInfo(this.lotterySign).then(data => {
+    watch: {
+        // 如果路由有变化，会再次执行该方法
+        '$route': 'getLotteryInfo'
+    },
+    methods: {
+        getLotteryInfo() {
+            this.loading = true;
+            this.Api.getLotteryInfo(this.lotterySign).then(data => {
+                if (data.isSuccess) {
                     this.loading = false;
-                    this.issueInfo      = data.issueInfo;
-                    this.issueHistory   = data.issueHistory;
-                    this.lottery        = data.lottery;
-                    this.methodConfig   = data.methods;
-                    this.defaultGroup   = data.defaultGroup;
-                    this.defaultMethod  = data.defaultMethod;
-
+                    this.issueInfo      = data.data.issueInfo;
+                    this.issueHistory   = data.data.issueHistory;
+                    this.lottery        = data.data.lottery;
+                    this.methodConfig   = data.data.methods;
+                    this.defaultGroup   = data.data.defaultGroup;
+                    this.defaultMethod  = data.data.defaultMethod;
                     this.selectGroup(this.defaultGroup, 0);
                     this.selectMethod(this.defaultMethod);
-                });
-            },
+                }
+            });
+        },
 
-            // 选中玩法组
-            selectGroup(groupSign, _index) {
-                this.selectedGroup      = groupSign;
-                this.selectedGroupIndex = _index;
-                this.selectedMethodId = "";
-                this.$store.state.currentMethod = {};
-                this.selectMethod(this.methodConfig[_index]['rows'][0]['methods'][0]['method_id']);
-            },
+        // 选中玩法组
+        selectGroup(groupSign, _index) {
+            this.selectedGroup      = groupSign;
+            this.selectedGroupIndex = _index;
+            this.selectedMethodId = "";
+            this.$store.state.currentMethod = {};
+            this.selectMethod(this.methodConfig[_index]['rows'][0]['methods'][0]['method_id']);
+        },
 
-            // 选中玩法
-            selectMethod(methodId) {
-                this.$store.state.currentMethod = methods[this.lottery.series_id][methodId];
-                this.selectedMethodId = methodId;
-            },
-            // 刷新历史
-            issueGetHistory() {
-                API.getIssueHistory(this.lotterySign, 10).then(function (response) {
-                    self.refreshTimer       =   null;
-                    self.open_list_first    =   true;
-
-                    if (response.data.isSuccess) {
-                        this.issueHistory = response.data.data;
-                    } else {
-                        consoel.log(response.data.msg);
-                    }
-                });
-
-
-            }
+        // 选中玩法
+        selectMethod(methodId) {
+            this.$store.state.currentMethod = methods[this.lottery.series_id][methodId];
+            this.selectedMethodId = methodId;
+        },
+        // 刷新历史
+        issueGetHistory () {
+            this.Api.getIssueHistory(this.lotterySign, data).then(data => {
+                self.refreshTimer = null;
+                self.open_list_first = true;
+                if (data.isSuccess) {
+                    this.issueHistory = response.data.data;
+                }
+            })
         }
-    };
+    }
+}
 </script>
 
 <style>

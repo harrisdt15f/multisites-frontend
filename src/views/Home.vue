@@ -1,10 +1,10 @@
 <template id="home">
   <div class="home">
     <Header></Header>
-    <el-main>
-      <ProductList/>
-    </el-main>
-    <Footer></Footer>
+<!--    <el-main>-->
+<!--      <ProductList/>-->
+<!--    </el-main>-->
+<!--    <Footer></Footer>-->
   </div>
 </template>
 

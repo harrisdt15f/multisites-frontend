@@ -114,9 +114,6 @@ export function calculateMNH(method, state) {
             }
         }
     }
-    console.log(m);
-    console.log(n);
-    console.log(h);
     return [m, n, h];
 }
 export function calculateByPosition(data, method, state) {

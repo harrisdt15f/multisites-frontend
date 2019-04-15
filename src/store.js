@@ -9,7 +9,8 @@ const store =  new Vuex.Store({
         userConfig:{
             singlePrice: 2,
         },
-
+        // 当前彩种
+        currentLotterySign: 'cqssc',
         // 模式配置
         modeConfig: {
             '1':"元",
@@ -17,14 +18,11 @@ const store =  new Vuex.Store({
             '0.01':'分',
             '0.001':'厘',
         },
-
         // 玩法相关
         defaultGroup:'',
         defaultMethod:'',
         allMethods:{},
-
         lotteryList:{},
-
         // 主界面头部
         issueHistory:{},
         currentLottery:{},
@@ -32,11 +30,15 @@ const store =  new Vuex.Store({
         currentIssue:{},
         beforeIssue:{},
         nextIssue:{},
-
         // 计算属性
         currentOrderState:{},
         totalCost:{},
         orderList:[],
+        // 投注相关的
+        bet: {
+            // 翻倍计算，初始化值
+            doubleBeforeOrder: []
+        }
     },
     mutations: {
         // 用户配置
@@ -88,7 +90,6 @@ const store =  new Vuex.Store({
         currentOrderState (state, order) {
             state.currentOrderState = order;
         },
-
         // 总花费
         totalCost (state, cost) {
             state.totalCost = cost;
@@ -108,6 +109,10 @@ const store =  new Vuex.Store({
         defaultMethod (state, defaultMethod) {
             state.defaultMethod = defaultMethod;
         },
+        // 当前彩种
+        currentLotterySign (state, sign) {
+            state.currentLotterySign = sign
+        }
     },
     actions: {
     }

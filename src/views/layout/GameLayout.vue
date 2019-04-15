@@ -8,49 +8,54 @@
 </template>
 
 <script>
-    import GameLeft from "../game/GameLeft";
-    import { API } from "../../API";
+import GameLeft from "../game/GameLeft";
 
-    export default {
-        name: 'GameLayout',
-        template: '#game-layout',
-        components: {
-            GameLeft,
-        },
+export default {
+    name: 'GameLayout',
+    components: {
+        GameLeft,
+    },
 
-        created() {
-            this.getAllLotteries();
-            this.getIssueInfo();
-        },
+    created() {
+        this.getLotteryList()
+        this.getIssueInfo()
+    },
 
-        data() {
-            return {
-                lotteries: {},
-                currentLotterySign:'cqssc',
-                currentLottery:{},
-                issueInfo:{}
-            };
-        },
-
-        methods: {
-            getAllLotteries() {
-                API.getAllLotteries().then(data => {
-                    this.lotteries = data;
+    data() {
+        return {
+            lotteries: {},
+            currentLotterySign:'cqssc',
+            currentLottery:{},
+            issueInfo:{}
+        };
+    },
+    watch: {
+    },
+    methods: {
+        getLotteryList() {
+            this.Api.getLotteryList().then(data => {
+                if (data.isSuccess) {
+                    this.lotteries = data.data;
                     this.currentLottery = this.lotteries[this.currentLotterySign];
-                });
-            },
-            getIssueInfo() {
-                API.getIssueInfo(this.currentLotterySign).then(data => {
-                    this.issueInfo = data;
-                });
-            },
-
-            onSelectLottery(sign) {
-                this.currentLotterySign = sign;
-                this.getIssueInfo();
+                }
+            })
+        },
+        getIssueInfo() {
+            let data = {
+                lottery_sign: this.currentLotterySign
             }
+            this.Api.getIssueInfo(data).then(data => {
+                if (data.isSuccess) {
+                    this.issueInfo = data.data;
+                }
+            });
+        },
+        onSelectLottery(sign) {
+            this.currentLotterySign = sign;
+            this.getIssueInfo();
         }
-    };
+    }
+};
 </script>
 <style>
     @import "../../assets/css/index.css";

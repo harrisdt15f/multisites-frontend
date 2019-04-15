@@ -1,54 +1,63 @@
-import qs from 'qs';
-import axios from 'axios';
+import qs from 'qs'
+import axios from 'axios'
 import router from 'vue-router'
-axios.defaults.baseURL = 'http://api.lottery.me/api/v1/';
-axios.defaults.timeout = 1000 * 60 * 3;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-axios.defaults.headers.get['Content-Type'] = 'application/json';
+import { Message, MessageBox } from 'element-ui'
+axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
+// axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
+axios.defaults.timeout = 1000 * 60 * 3
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
+axios.defaults.headers.get['Content-Type'] = 'application/json'
+let token = localStorage.getItem('X-Authorization-Token')
+axios.defaults.headers.Authorization = 'Bearer ' + token
+axios.interceptors.request.use((config) => {
+    axios.defaults.headers = {
+        'Authorization':  'Bearer ' + token
+    }
+    return config
+}, (error) => {
+    return Promise.reject(error)
+})
+axios.interceptors.response.use(
+    (response) => {
+        if (response.data && response.data.isSuccess) {
+            return response.data
+        } else if (response.data && response.data.msg)  {
+            let msg = response.data.msg
+            MessageBox(msg, '提示', {
+                confirmButtonText: '确定'
+            })
+            return []
+        }
+    }, (error) => {
+        if (error.response &&
+            error.response.status &&
+            error.response.status === 401 ||
+            error.response.status === 402 ||
+            error.response.status === 403 ||
+            error.response.status === 422) {
+            this.RemoveCurrentUser();
+            router.push('login');
+            return Promise.reject(error)
+        } else {
+            return Promise.reject(error)
+        }
+    })
 export const API = {
-    CreateHttpClient: function () {
-
-        let token = localStorage.getItem('X-Authorization-Token');
-        let axiosInstance = axios.create({
-            headers: {
-                'Authorization': "Bearer" + token
-            },
-
-            paramsSerializer: (params) => {
-                return qs.stringify(params, {
-                    arrayFormat: 'brackets'
-                });
-            }
-        });
-
-        axiosInstance.interceptors.response.use(
-            (response) => {
-                if (response.data.isSuccess) {
-                    return response.data.data;
-                } else {
-                    alert(response.data.msg);
-                    return [];
-                }
-            },
-            (error) => {
-            console.log(error);
-            if (error.response && error.response.status === 401 ||
-                error.response.status === 402 ||
-                error.response.status === 403 ||
-                error.response.status === 422) {
-                this.RemoveCurrentUser();
-                router.push('login');
-                return Promise.reject(error);
-
-            } else {
-                return Promise.reject(error);
-            }
-        });
-
-        return axiosInstance;
+    url: {
+        // 登录
+        login: 'login',
+        // 获取所有彩种
+        lotteryList: 'lotteryList',
+        // 获取彩种详情
+        lotteryInfo: 'lotteryInfo',
+        // 获取奖期信息
+        issueHistory: 'issueHistory',
+        // 投注
+        bet: 'bet',
+        // 获取投注历史
+        betHistory: 'projectHistory',
     },
-
     IsSignedIn: function(){
         let o = this.GetCurrentUser();
         if(o && o.id > 0){
@@ -56,7 +65,6 @@ export const API = {
         }
         return false;
     },
-
     GetCurrentUser: function () {
         let currentUser = undefined
         if (localStorage.getItem('current-user')) {
@@ -64,45 +72,90 @@ export const API = {
         }
         return currentUser;
     },
-
-    SetCurrentUser: function (auth_token, user) {
-        localStorage.setItem('X-Authorization-Token', auth_token);
-        localStorage.setItem('current-user', qs.stringify(user));
-    },
-
     RemoveCurrentUser: function () {
         localStorage.removeItem('X-Authorization-Token');
         localStorage.removeItem('current-user');
     },
+    get(url) {
+        return new Promise((resolve, reject) => {
+            axios.get(url).then((res) => {
+                resolve(res);
+            }). catch((error) => {
+                reject(error)
+            })
+        })
+    },
+    post(url, json) {
+        return new Promise((resolve, reject) => {
+            axios.post(url, json).then((res) => {
+                resolve(res)
+            }). catch((error) => {
+                reject(error)
+            })
+        })
+    },
+    /**  ============================== 接口 =============================== **/
 
-
-    Login: function (username, password) {
-        let loginData = {
+    // 登录
+    login(username, password) {
+        let data = {
             username: username,
             password: password,
         };
-        return this.CreateHttpClient().post("login", loginData).then(response => response);
+        return this.post(this.url.login, data).then(response =>  response);
     },
-
-    /**  ============================== 游戏接口 =============================== **/
-
     // 获取所有彩种
-    getAllLotteries: function () {
-        return this.CreateHttpClient().get("lotteryList", {}).then(response => response);
+    getLotteryList () {
+        return this.get(this.url.lotteryList).then(response => response)
     },
-
-    // 获取彩种详情
-    getLotteryInfo: function (lotterySign) {
-        return this.CreateHttpClient().post("lotteryInfo", {'lottery_sign':lotterySign}).then(response => response);
-    },
-
     // 获取奖期信息
-    getIssueInfo: function (lotterySign) {
-        return this.CreateHttpClient().post("issueHistory", {'lottery_sign':lotterySign}).then(response => response);
+    getIssueInfo(lotterySign) {
+        let data = {
+            'lottery_sign':lotterySign
+        }
+        return this.post(this.url.issueHistory, data).then(response => response)
     },
-
     // 获取奖期历史
-    getIssueHistory:function (lotterySign, count = 10) {
-        return this.CreateHttpClient().post("issueHistory", {'lottery_sign':lotterySign, 'count': count}).then(response => response);
+    getIssueHistory(lotterySign, count = 10) {
+        let data = {
+            'lottery_sign':lotterySign,
+            'count': count
+        }
+        return this.post(this.url.issueHistory, data).then(response => response)
+    },
+    // 获取彩种详情
+    getLotteryInfo(lotterySign) {
+        let data ={
+            'lottery_sign':lotterySign
+        }
+        return this.post(this.url.lotteryInfo, data).then(response => response)
+    },
+    /*
+        * 投注
+        *lottery_sign  彩种标识
+        *trace_issues @json 追号期号
+        *balls @[{}] 投注号码
+        *trace_win_stop @ 0 否 1 是 是否中奖追号停止
+        *total_cost  投注金额
+    */
+    bet(lotterySign, issues, balls, total_cost, trace_win_stop = 1) {
+        let data = {
+            'lottery_sign': lotterySign,
+            'trace_issues': issues,
+            'balls': balls,
+            'trace_win_stop': trace_win_stop,
+            'total_cost': total_cost
+        }
+        return this.post(this.url.bet, data).then(response => response)
+    },
+    /*
+        * 投注历史
+   */
+    getBetHistory (sign, count = 50) {
+        let data = {
+            lottery_sign: sign,
+            count: count
+        }
+        return this.post(this.url.betHistory, data).then(response => response)
     }
 }

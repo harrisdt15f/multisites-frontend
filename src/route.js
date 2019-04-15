@@ -5,6 +5,7 @@ import {API} from "./API";
 
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
+import Header from './components/Header'
 import GameLayout from "./views/layout/GameLayout";
 import GameMain from "./views/game/GameMain";
 
@@ -13,26 +14,12 @@ Vue.use(Router);
 const router = new Router({
     mode: 'history',
     routes: [
-        {
-            path: '/login',
-            name: 'login',
-            component: Login
-        },
-        {
-            path: '/register',
-            name: 'register',
-            component: Register
-        },
-        {
-            path: '/bet',
-            component: GameLayout,
-            props: true,
+        { path: '/login', name: 'login', component: Login},
+        { path: '/register', name: 'register', component: Register },
+        { path: '/home', name: 'home', component: Header },
+        { path: '/bet', component: GameLayout, props: true,
             children: [
-                {
-                    path: ':lotterySign',
-                    component: GameMain,
-                    props: true
-                },
+                { path: ':lotterySign', component: GameMain, props: true }
             ]
         },
     ]
