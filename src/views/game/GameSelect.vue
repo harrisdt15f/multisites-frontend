@@ -91,6 +91,7 @@
 import { mapState } from 'vuex';
 import { array_unique3 } from '../../lib/funs';
 import algorithm from '../../lib/algorithm';
+import pako from 'pako/index.js';
 
 export default {
     name: 'game-select',
@@ -180,8 +181,8 @@ export default {
     methods: {
         // 添加投注单
         addOrder(oneKey) {
+            console.log(this.currentMethod);
             if (this.currentMethod.type === 'multi') {
-                console.log('multi')
                 let order = {
                     method_id:      this.currentMethod.method,
                     method_name:    this.currentMethod.name,
@@ -199,7 +200,6 @@ export default {
                     });
                     return
                 }
-                console.log(order)
                 if (oneKey) {
                     this.oneKeyList.unshift(order)
                 } else {
@@ -214,33 +214,37 @@ export default {
                 }
                 // this.$store.commit('orderList', this.orderList)
             } else {
-                console.log('no multi')
-                let _input
-                let tmp = (this.inputCodes || '').split(',')
-                let temp = array_unique3(tmp);
+
+                let _input = '';
+
+                let tmp     = (this.inputCodes || '').split(',');
+                let temp    = array_unique3(tmp);
                 if ((tmp.length - temp.length) > 0) {
                     this.inputCodes = temp.join(',');
                     this.calculate( this.currentMethod, this.orderState);
                 }
+
                 this.input = this.inputCodes;
+
                 //优化单式//需要压缩
-                if (this.inputCodes.b64 && (temp.length > 100)) {
-                    _input = `base64:${compress(Bconvert(temp.sort()))}`;
+                if (this.currentMethod.b64 && (temp.length > 10)) {
+                    _input = new Uint8Array(temp);
+                    _input = pako.gzip(_input, {gzip:true});
                 } else {
                     _input = this.inputCodes;
                 }
+
                 let order = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
-                    codes: this.convertCodes(),
-                    num: this.num,
-                    times:this.times,
-                    cost: 2,
-                    mode: 1,
-                    point: this.betGroup,
+                    codes: _input,
+                    count: this.currentOrder.currentCount,
+                    times: this.currentOrder.currentTimes,
+                    cost:  this.currentOrder.currentCost,
+                    mode:  this.currentOrder.currentMode,
+                    prize_group: this.currentOrder.currentGroup
                 };
-                console.log(order)
-                order._codes = this.formatInputCodes(order.codes);
+                this.orderList.unshift(order)
             }
 
         },
