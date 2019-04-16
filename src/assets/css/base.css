@@ -490,12 +490,7 @@ a.button-collapse.top-nav.full {
 	min-height: 800px;
 	border: none;
 }
-.main-center-con {
-	width: 1000px;
-	padding: 10px 0 0px 0!important;
-	margin: 0 auto;
-	position: relative;
-}
+
 .main-bottom {
 	padding-bottom:20px;
 
@@ -740,7 +735,6 @@ a.main-fix-close:hover {
 		font-size: 16px;
 	}
 	.main-post-msg_txt { width: 845px; }
-	.main-center-con { width: 870px; }
 	.main-bottom-con { width: 870px; }
 	.pages-center-con { width: 870px; }
 	.warp{ width:1000px;}

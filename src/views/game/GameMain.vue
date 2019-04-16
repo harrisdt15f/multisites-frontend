@@ -3,8 +3,8 @@
         <div class="main-center-con">
             <game-issue></game-issue>
             <game-method></game-method>
-            <game-select></game-select>
-            <game-order></game-order>
+<!--            <game-select></game-select>-->
+<!--            <game-order></game-order>-->
         </div>
     </div>
 </template>
@@ -16,7 +16,6 @@ import GameMethod from './GameMethod'
 
 export default {
     name: 'game-main',
-    template: '#game-main',
     components: {
         GameMethod,
         GameOrder,
@@ -75,5 +74,5 @@ export default {
 </script>
 
 <style>
-
+    @import '../../assets/css/game-v2.css';
 </style>

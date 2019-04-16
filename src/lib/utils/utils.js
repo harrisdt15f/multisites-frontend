@@ -40,6 +40,22 @@ let Utils = {
     // 去除字符串回车
     removeEnter (str) {
         return str.replace(/[\r]/g, "")
+    },
+    /*
+    * 显示小数点后面几位
+    * str 字符串
+    * num 显示几个小数点
+    */
+    toFixed (str, num = 2) {
+        if (str.indexOf('.') > -1) {
+            return str.substr(0, str.lastIndexOf('.') + num + 1)
+        } else {
+            let zeo = ''
+            for (let i = 0; i < num; i++) {
+                zeo += '0'
+            }
+            return str + '.' + zeo
+        }
     }
 }
 export default Utils

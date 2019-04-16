@@ -74,7 +74,7 @@ export default {
           }
           localStorage.setItem('X-Authorization-Token', response.data.token)
           this.Utils.storage.set('current-user', response.data)
-          this.$router.push('/bet/cqssc');
+          this.$router.push('/home');
         }
       })
     },
