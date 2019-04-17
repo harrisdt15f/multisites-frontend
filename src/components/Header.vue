@@ -71,11 +71,25 @@
 <!--            </section>-->
           </section>
           <ul class="nav-r">
-            <li class="nav-li nav-li-first" @mouseenter="navMenuEnter()" @mouseleave="navMenuLevae()">
+            <li class="nav-li nav-li-first" >
               <section class="nav-a">
                 <section class="nav-text">
                   <section class="text-1">彩票游戏</section>
                 </section>
+              </section>
+              <section class="nav-menu">
+                <section class="nav-lottery w">
+                  <section class="number-con" v-for="(item, index) in lotteryLists" :key="index">
+                    <section class="com-title">{{item.name}}系列</section>
+                    <nav class="play-sort">
+                      <a class="play-link" @click="goLottery(lottery)" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
+                        {{lottery.name}}
+                        <!--                <i class=" play-icon play-hot  "></i>-->
+                      </a>
+                    </nav>
+                  </section>
+                </section>
+                <section class="nav-line"></section>
               </section>
             </li>
             <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
@@ -169,25 +183,12 @@
           </ul>
         </section>
       </section>
-      <section class="nav-menu" @mouseenter="navMenuEnter('obj')" @mouseleave="navMenuShow = false" >
-        <section class="nav-lottery w">
-          <section class="number-con" v-for="(item, index) in lotteryLists" :key="index">
-            <section class="com-title">{{item.name}}系列</section>
-            <nav class="play-sort">
-              <a class="play-link" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
-                {{lottery.name}}
-<!--                <i class=" play-icon play-hot  "></i>-->
-              </a>
-            </nav>
-          </section>
-        </section>
-        <section class="nav-line"></section>
-      </section>
     </section>
   </section>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Header',
   data() {
@@ -197,27 +198,36 @@ export default {
         balance: ''
 
       },
-      lotteryLists: [],
-      navMenuShow: false,
-      navShow: true
+      lotteryLists: []
     }
+  },
+  computed: {
+    ...mapState([
+      'currentLottery',
+      'lotteryAll'
+    ])
   },
   watch: {
-    'navMenuShow' (newVal) {
-      if (!newVal) {
-        this.navMenuLevae()
-      }
-    }
   },
   created () {
+    // 获取用户登录后的信息
     let account = this.Utils.storage.get('current-user');
     if (account && account.data) {
       this.account = account.data
-      console.log(this.account)
     }
+    this.$store.dispatch('lotteryAll')
     this.lotteryList()
   },
+  mounted () {
+    // 彩票游戏列表全屏宽
+    let navMenu = document.getElementsByClassName('nav-menu')[0]
+    this.Animation.screenWidth(navMenu)
+  },
   methods: {
+    goLottery (item) {
+      this.$router.push('/bet/'+ item.id)
+      this.$store.commit('currentLottery', this.lotteryAll[item.id].lottery)
+    },
     logout () {
       // 退出登录
       this.Utils.storage.remove('current-user')
@@ -264,38 +274,6 @@ export default {
           navDrop[i].className = navDrop[i].className.substr(0, navDrop[i].className.indexOf(' on-transform'))
         }
       }
-    },
-    navMenuEnter (obj = '') {
-      this.navMenuShow = obj === 'obj'
-      let [
-        menu = document.getElementsByClassName('nav-menu')[0]
-      ] = []
-      menu.style.display = 'block'
-      if (this.navMenuShow) {
-        return false
-      }
-      if(menu.className.indexOf('on-transform') === -1 && this.navShow) {
-        setTimeout(() => {
-          menu.className = menu.className + ' on-transform'
-          setTimeout(() => {
-            // this.navShow = false
-          }, 100)
-        }, 100)
-      }
-    },
-    navMenuLevae () {
-      setTimeout(() => {
-        if (this.navMenuShow) {
-          return false
-        }
-        let [
-          menu = document.getElementsByClassName('nav-menu')[0]
-        ] = []
-        if (menu.className.indexOf('on-transform') > -1) {
-          menu.style.display = 'none'
-          menu.className = menu.className.substr(0, menu.className.indexOf(' on-transform'))
-        }
-      }, 100)
     }
   }
 }

@@ -245,7 +245,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	position: relative;
 }
 .bet-type-crow {
-	padding-right: 80px;
 	background: #e9e9e9;
 	text-align: left;
 	position: relative;
@@ -253,7 +252,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 }
 .bet-type-crow ul {
 	height: 42px;
-	padding: 0 5px;
+	padding-right:5px;
 }
 .bet-type-crow li {
 	margin-right: 6px;
@@ -462,7 +461,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 /*选号区=================================================================================
 ============================================================================================*/
 .main-ball-section {
-	margin-bottom: 10px;
 	position: relative;
 }
 .main-ball-box {
@@ -1094,7 +1092,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 		line-height: 20px;
 	}
 	.main-row-1 { margin-bottom: 8px; }
-	.main-ball-section { margin-bottom: 10px; }
 	.main-ball-box { min-height: 120px; }
 	.main-ball-list { padding: 8px 10px 3px 80px; }
 	/*位数 遗漏类型*/

@@ -8,12 +8,11 @@
                         倍，总金额<strong class="txt-red" id="project-cost"> {{totalSub.double > 1 ? totalSub.money : totals.money}} </strong>元。</p>
                 </div>
                 <ul class="tabs-ul">
-                    <li :class="{'on' : orderTab === 'order'}" @click="chooseTab('order')"><a href="javascript:;" id="project-current">当前投注</a></li>
-                    <li :class="{'on' : orderTab === 'history'}"  @click="chooseTab('history')"><a href="javascript:;" id="project-history">投注历史</a></li>
+                    <li><a href="javascript:;" id="project-current">当前投注</a></li>
                 </ul>
             </div>
 
-            <div class="bet-count-confirm" id="project-project" v-if="orderTab === 'order'">
+            <div class="bet-count-confirm" id="project-project">
                 <div class="bet-msg-pick-bd">
                     <div class="bet-pick-box">
                         <a href="javascript:;" class="txt-clean" id="project-empty" @click="clearOrderList()">清空选号</a>
@@ -60,41 +59,6 @@
                 <div class="main-btn-confirm-box">
                     <a href="javascript:;" class="btn main-btn-confirm" id="project-submit" @click="submitBet()"><span class="ico-confirm"></span><span>确认投注</span></a>
                 </div>
-            </div>
-
-            <div class="bet-count-confirm"  id="project-order" v-if="orderTab === 'history'">
-                <div class="bet-pick-his-box">
-                    <div class="iptbox bet-history-box">
-                        <table width="100%">
-                            <thead>
-                                <tr>
-                                    <th><i>编号</i></th>
-                                    <th><i>奖期</i></th>
-                                    <th><i>时间</i></th>
-                                    <th><i>玩法</i></th>
-                                    <th><i>号码</i></th>
-                                    <th><i>总额(元)</i></th>
-                                    <th><i>奖金</i></th>
-                                    <th><i>模式</i></th>
-                                    <th><i>倍数</i></th>
-                                    <th><i>状态</i></th>
-                                </tr>
-                            </thead>
-                            <tbody style="cursor: pointer;" id="order-data">
-                                <tr v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
-<!--                                    <td><i>{{order.method_name}}</i></td>-->
-<!--                                    <td><i>{{order.codes}}</i></td>-->
-<!--                                    <td><i>{{order.count}}</i></td>-->
-<!--                                    <td><i>{{order.times}}</i></td>-->
-<!--                                    <td><i>{{order.mode}}</i></td>-->
-<!--                                    <td><i>{{order.cost}}</i></td>-->
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-
             </div>
         </div>
 
@@ -175,6 +139,109 @@
                 </div>
             </div>
         </div>
+        <div class="list-full-history" id="J-list-history-panel">
+            <div class="title clearfix">
+                <ul>
+                    <li class="current">我的投注</li>
+                    <li class="">我的追号</li>
+                    <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></ul>
+            </div>
+            <div class="content panel-current">
+                <table width="100%">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="th-line">游戏</div>
+                        </th>
+                        <th>
+                            <div class="th-line">玩法</div>
+                        </th>
+                        <th>
+                            <div class="th-line">期号</div>
+                        </th>
+                        <th width="150">
+                            <div class="th-line">开奖号</div>
+                        </th>
+                        <th>
+                            <div class="th-line">投注内容</div>
+                        </th>
+                        <th>
+                            <div class="th-line">投注金额</div>
+                        </th>
+                        <th width="120">
+                            <div class="th-line">奖金</div>
+                        </th>
+                        <th>
+                            <div class="th-line">奖金组-返点</div>
+                        </th>
+                        <th>
+                            <div class="th-line">状态</div>
+                        </th>
+                        <th>
+                            <div class="th-line">操作</div>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody id="J-tbody-historys-bets">
+                    <tr class="row-data-49383596 row-status-2">
+                        <td><span class="cls-gamename">重庆时时彩</span></td>
+                        <td><span class="cls-method">五星直选单式</span></td>
+                        <td><span class="cls-number">190415040</span></td>
+                        <td><span class="cls-prizeballs">35443</span></td>
+                        <td><span class="cls-balls">11111|2222...</span></td>
+                        <td><span class="cls-money">0.10</span></td>
+                        <td><span class="cls-prize">0.00</span></td>
+                        <td><span class="cls-commission">1800-0.00%</span></td>
+                        <td><span class="cls-status">未中奖</span></td>
+                        <td><a target="_blank" href="javascript:;">详情</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="content" style="display:none">
+                <table width="100%">
+                    <thead>
+                    <tr>
+                        <th><div class="th-line">游戏</div></th>
+                        <th><div class="th-line">玩法</div></th>
+                        <th><div class="th-line">起始奖期</div></th>
+                        <th><div class="th-line">追号进度</div></th>
+                        <th><div class="th-line">总追号金额</div></th>
+                        <th><div class="th-line">已中奖金额</div></th>
+                        <th>
+                            <div class="th-line">追中即停</div>
+                        </th>
+                        <th>
+                            <div class="th-line">状态</div>
+                        </th>
+                        <th>
+                            <div class="th-line">操作</div>
+                        </th>
+                    </tr>
+
+                    </thead>
+                    <tbody id="J-tbody-historys-traces">
+                        <tr class="row-data-369489">
+                            <td><span class="cls-gamename">重庆时时彩</span></td>
+                            <td><span class="cls-method">后二大小单双</span></td>
+                            <td><span class="cls-startnumber">190108088</span></td>
+                            <td><span class="cls-progress">2/10</span></td>
+                            <td><span class="cls-amount">0.20</span></td>
+                            <td><span class="cls-balls">0.07</span></td>
+                            <td><span class="cls-iswinstop">是</span></td>
+                            <td><span class="cls-status">系统终止</span></td>
+                            <td><a target="_blank" href="https://chunqiucp5.com/traces/view/369489">详情</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row-more">
+                <a href="javascript:;" target="_blank">更多游戏记录...</a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -183,7 +250,6 @@ export default {
     name: 'game-order',
     data() {
         return {
-            orderTab:'order',
             total: {
                 number: 0,
                 money: 0
@@ -230,14 +296,6 @@ export default {
     created () {
     },
     methods: {
-        chooseTab (tab) {
-            this.orderTab = tab
-            if (tab === 'history') {
-                this.Api.getBetHistory(this.currentLottery.en_name).then(res => {
-                    console.log(res)
-                })
-            }
-        },
         submitBet () {
             let issus = {
                 20180405001: true

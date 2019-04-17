@@ -1,7 +1,10 @@
 <template id="home">
   <div class="home">
     <Header></Header>
-    <GameMain></GameMain>
+    <router-view></router-view>
+<!--    <el-main>-->
+<!--      <ProductList/>-->
+<!--    </el-main>-->
 <!--    <Footer></Footer>-->
   </div>
 </template>
@@ -16,7 +19,7 @@ export default {
   components: {
     GameMain,
     Header,
-    Footer
+    Footer,
   }
 }
 </script>

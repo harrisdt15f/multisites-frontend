@@ -1,26 +1,17 @@
-<template id="home">
-    <div class="warp">
-    <div  class="main-center">
-        <game-left :lotteries="lotteries" v-on:select-lottery="onSelectLottery"></game-left>
+<template>
+    <section>
         <router-view></router-view>
-    </div>
-    </div>
+    </section>
 </template>
 
 <script>
-import GameLeft from "../game/GameLeft";
 
 export default {
     name: 'GameLayout',
-    components: {
-        GameLeft,
-    },
-
     created() {
         this.getLotteryList()
         this.getIssueInfo()
     },
-
     data() {
         return {
             lotteries: {},
@@ -28,8 +19,6 @@ export default {
             currentLottery:{},
             issueInfo:{}
         };
-    },
-    watch: {
     },
     methods: {
         getLotteryList() {
@@ -55,7 +44,7 @@ export default {
             this.getIssueInfo();
         }
     }
-};
+}
 </script>
 <style>
     @import "../../assets/css/index.css";

@@ -368,11 +368,6 @@ i.ico-hot {
 .tabs-box-menu {
 	position: relative;
 }
-.tabs-ul, .tabs-menu ul {
-	height: 42px;
-	border-bottom: 2px solid #e4e6e7;
-	position: relative;
-}
 .tabs-ul li, .tabs-menu li {
 	margin-right: 20px;
 	float: left;
@@ -412,7 +407,7 @@ i.ico-hot {
 	font-size: 12px;
 	position: absolute;
 	right: 0;
-	top: 12px;
+	top: 55px;
 	z-index: 32;
 }
 .tabs-r-txt strong {

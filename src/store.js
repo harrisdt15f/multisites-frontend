@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { API } from './API'
 
 Vue.use(Vuex);
 
@@ -24,10 +25,8 @@ const store =  new Vuex.Store({
         allMethods:{},
         lotteryList:{},
         // 主界面头部
-        issueHistory:{},
         currentLottery:{},
         currentMethod: {},
-        currentIssue:{},
         beforeIssue:{},
         nextIssue:{},
         // 计算属性
@@ -38,7 +37,9 @@ const store =  new Vuex.Store({
         bet: {
             // 翻倍计算，初始化值
             doubleBeforeOrder: []
-        }
+        },
+        // 全部彩种
+        lotteryAll: {}
     },
     mutations: {
         // 用户配置
@@ -60,12 +61,6 @@ const store =  new Vuex.Store({
         currentLottery (state, lottery) {
             state.currentLottery = lottery;
         },
-
-        // 当前奖期
-        currentIssue (state, issue) {
-            state.currentIssue = issue;
-        },
-
         // 下一奖期
         nextIssue (state, issue) {
             state.nextIssue = issue;
@@ -79,11 +74,6 @@ const store =  new Vuex.Store({
         // 当前玩法
         currentMethod (state, method) {
             state.currentMethod = method;
-        },
-
-        // 奖期历史
-        issueHistory (state, historyData) {
-            state.issueHistory = historyData;
         },
 
         // 当前选中订单数据
@@ -112,9 +102,21 @@ const store =  new Vuex.Store({
         // 当前彩种
         currentLotterySign (state, sign) {
             state.currentLotterySign = sign
+        },
+        // 全部彩种
+        lotteryAll (state, data) {
+            state.lotteryAll = data
         }
     },
     actions: {
+        // 全部彩种
+        lotteryAll ({ commit }) {
+            API.getLotteryInfo().then(res => {
+                if (res.isSuccess) {
+                  commit('lotteryAll', res.data)
+                }
+            })
+        }
     }
 });
 

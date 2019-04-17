@@ -337,9 +337,10 @@
 }
 .nav-menu {
     position: absolute;
-    top: 85px;
+    top: 86px;
     left: 0;
     width: 100%;
+    height:0;
     background: #FFF;
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -347,19 +348,16 @@
     -o-transition: all 0.3s;
     transition: all 0.3s;
     opacity: 0;
-    display:none;
+    padding:0;
     overflow: hidden;
-    -webkit-transform: translateY(-300%);
-    -moz-transform: translateY(-300%);
-    -ms-transform: translateY(-300%);
-    -o-transform: translateY(-300%);
-    transform: translateY(-300%);
     box-shadow: 0 3px 10px rgba(68, 68, 68, 0.38);
     border-bottom: 2px solid #FF5656;
-    padding: 5px 0;
+    z-index: -1;
 }
-.nav-lottery {
-    padding: 25px 0;
+.nav-li-first:hover .nav-menu {
+    padding:30px 0 ;
+    opacity: 1;
+    height:auto;
 }
 .number-con {
     float: left;
@@ -380,6 +378,10 @@
 }
 .nav-lottery .number-con:first-child .play-sort li {
     width: 116px;
+}
+.number-con,
+.play-sort {
+    text-align:left;
 }
 .play-sort .play-link, .nav-sort .play-link {
     position: relative;
@@ -456,8 +458,7 @@
     border-radius: 8px;
 }
 .nav-drop.on-transform,
-.nav-li .nav-drop.on-transform,
-.nav-menu.on-transform{
+.nav-li .nav-drop.on-transform{
     opacity: 1;
     -webkit-transform: translateY(0);
     -moz-transform: translateY(0);

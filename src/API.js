@@ -57,6 +57,8 @@ export const API = {
         bet: 'bet',
         // 获取投注历史
         betHistory: 'projectHistory',
+        // 可用奖期
+        issueInfo: 'issueInfo',
     },
     IsSignedIn: function(){
         let o = this.GetCurrentUser();
@@ -108,13 +110,6 @@ export const API = {
     getLotteryList () {
         return this.get(this.url.lotteryList).then(response => response)
     },
-    // 获取奖期信息
-    getIssueInfo(lotterySign) {
-        let data = {
-            'lottery_sign':lotterySign
-        }
-        return this.post(this.url.issueHistory, data).then(response => response)
-    },
     // 获取奖期历史
     getIssueHistory(lotterySign, count = 10) {
         let data = {
@@ -124,11 +119,11 @@ export const API = {
         return this.post(this.url.issueHistory, data).then(response => response)
     },
     // 获取彩种详情
-    getLotteryInfo(lotterySign) {
-        let data ={
-            'lottery_sign':lotterySign
-        }
-        return this.post(this.url.lotteryInfo, data).then(response => response)
+    getLotteryInfo() {
+        // let data ={
+        //     'lottery_sign':lotterySign
+        // }
+        return this.post(this.url.lotteryInfo).then(response => response)
     },
     /*
         * 投注
@@ -157,5 +152,14 @@ export const API = {
             count: count
         }
         return this.post(this.url.betHistory, data).then(response => response)
+    },
+    /*
+     * 可用奖期
+    */
+    getOpenAward (sign) {
+        let data = {
+            lottery_sign: sign
+        }
+        return this.post(this.url.issueInfo, data).then(response => response)
     }
 }

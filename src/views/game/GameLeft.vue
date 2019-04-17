@@ -26,7 +26,6 @@
 import { mapState } from 'vuex'
 export default {
     name: 'gameLeft',
-    template: '#game-left',
     components: {
 
     },

@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import {API} from "./API";
+import { API } from './API';
 
 import Login from './views/auth/Login.vue'
 import Register from './views/auth/Register.vue'
-import Home from "./views/Home";
-import GameLayout from "./views/layout/GameLayout";
-import GameMain from "./views/game/GameMain";
+import Home from './views/Home';
+import GameMain from './views/game/GameMain';
 
 Vue.use(Router);
 
@@ -16,12 +15,11 @@ const router = new Router({
     routes: [
         { path: '/login', name: 'login', component: Login},
         { path: '/register', name: 'register', component: Register },
-        { path: '/home', name: 'home', component: Home },
-        { path: '/bet', component: GameLayout, props: true,
+        { path: '/home', name: 'home', component: Home,
             children: [
-                { path: ':lotterySign', component: GameMain, props: true }
+                { path: '/bet/:lotterySign', component: GameMain, props: true }
             ]
-        },
+        }
     ]
 });
 

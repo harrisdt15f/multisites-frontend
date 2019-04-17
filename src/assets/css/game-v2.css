@@ -1413,7 +1413,7 @@ body {
     color: #959595;
     text-align: center;
     float: left;
-    padding: 15px 0 0 15px;
+    padding-top:15px;
 }
 
 .bet-statistics li {
@@ -1563,9 +1563,9 @@ body {
     text-align: center;
 }
 
-.select-game-statics-multiple .choose-list-cont a.choose-item-current, .select-game-statics-multiple .choose-list-cont a:hover {
-    background: #EBE7DC;
-}
+/*.select-game-statics-multiple .choose-list-cont a.choose-item-current, .select-game-statics-multiple .choose-list-cont a:hover {*/
+/*    background: #EBE7DC;*/
+/*}*/
 
 .choose-model-text {
     display: inline-block;

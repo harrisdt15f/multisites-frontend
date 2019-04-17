@@ -1,5 +1,5 @@
-<template id="game-select">
-    <div >
+<template>
+    <section>
         <div class="main-row-1">
             <div class="main-play-introduce">
                 <div class="introduce-txt" id="method-desc">{{currentMethod.desc}}</div>
@@ -7,8 +7,8 @@
                 <a href="javascript:;" class="ico-case">例<div class="tooltip1" id="method-example">{{currentMethod.example}}</div><span></span></a>
             </div>
         </div>
-        <div class="main-ball-section">
-            <div class="main-ball-random"><a href="javascript:;" class=" btn-red" id="random1">机选一注</a><a href="javascript:;" class=" btn-red" id="random5">机选五注</a></div>
+        <div class="main-ball-section fw">
+<!--            <div class="main-ball-random"><a href="javascript:;" class=" btn-red" id="random1">机选一注</a><a href="javascript:;" class=" btn-red" id="random5">机选五注</a></div>-->
             <div class="main-ball-box" id="ball-multi" v-if="currentMethod.type === 'multi'">
                 <div class="position">
 
@@ -50,42 +50,39 @@
                 </div>
             </div>
         </div>
-        <div>
-            <div class="bet-statistics">
-                <div class="main-column-1 FL">
-                    <div class="bet-choose-total">共<span id="num" class="txt-red m-L m-R">{{currentOrder.currentCount}}</span>注，
-                        <input type="button" value="-" class="bet-choose-ipt" id="times-reduce" @click="timeReduce()">
-                        <input type="text" class="ipt ipt-muliple" value="1" id="times" v-model="currentOrder.currentTimes">
-                        <input type="button" value="+" class="bet-choose-ipt" id="times-add" @click="timeAdd()">
-                        倍
-                    </div>
-                    <div class="bet-play-mode"> <span class="play-mode-name">模式：</span>
-                        <div class="btn-tab-list">
-                            <a
+        <div class="bet-statistics w100">
+            <div class="main-column-1 FL">
+                <div class="bet-choose-total">共<span id="num" class="txt-red m-L m-R">{{currentOrder.currentCount}}</span>注，
+                    <input type="button" value="-" class="bet-choose-ipt" id="times-reduce" @click="timeReduce()">
+                    <input type="text" class="ipt ipt-muliple" value="1" id="times" v-model="currentOrder.currentTimes">
+                    <input type="button" value="+" class="bet-choose-ipt" id="times-add" @click="timeAdd()">
+                    倍
+                </div>
+                <div class="bet-play-mode fw"> <span class="play-mode-name">模式：</span>
+                    <div class="btn-tab-list">
+                        <a
                                 v-for="(mode, modeIndex) in currentLottery.valid_modes"
                                 href="javascript:;"
                                 @click="selectMode(mode.val)"
                                 :class="['btn-tab', 'btn-effect', 'btn-red', currentOrder.currentMode === mode.val ? 'tab-on' : '']" :key="modeIndex" :v="modeIndex">
-                                {{mode.title}}
-                            </a>
-                        </div>
+                            {{mode.title}}
+                        </a>
+                    </div>
 
-                    </div>
-                    <div class="bet-rebate-mode">
-                        <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
-                    </div>
                 </div>
-                <div class="main-column-1 FR">
-                    <div class="bet-add-box">
-                        <strong class="bet-total-money" id="cost">{{currentOrder.currentCost}}</strong>元
-                        <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" id="fast-add" @click="oneKeyBet()"><span class="ico-add"></span><span>一键投注</span></a>
-                        <a href="javascript:;" class="btn main-btn-add btn-effect" id="add" @click="addOrder()"><span class="ico-add"></span><span>添加选号</span></a>
-                    </div>
+                <!--                    <div class="bet-rebate-mode">-->
+                <!--                        <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>-->
+                <!--                    </div>-->
+            </div>
+            <div class="main-column-1 FR">
+                <div class="bet-add-box">
+                    <strong class="bet-total-money" id="cost">{{currentOrder.currentCost}}</strong>元
+                    <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" id="fast-add" @click="oneKeyBet()"><span class="ico-add"></span><span>一键投注</span></a>
+                    <a href="javascript:;" class="btn main-btn-add btn-effect" id="add" @click="addOrder()"><span class="ico-add"></span><span>添加选号</span></a>
                 </div>
             </div>
         </div>
-    </div>
-
+    </section>
 </template>
 <script>
 import { mapState } from 'vuex';
