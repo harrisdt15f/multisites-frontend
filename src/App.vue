@@ -11,6 +11,9 @@
   };
 </script>
 <style>
+body{
+      overflow-x:hidden;
+}
 .w {
       width: 990px;
       margin: 0 auto;

@@ -17,12 +17,12 @@
                     <div class="main-ball-list"   v-for="(_number, _tabName, yIndex) in currentMethod.layout" :key="yIndex">
                         <div class="ball-list-name"><span>{{_tabName}}</span></div>
                         <ul class="main-ball-content">
-                            <li v-for="(_code, xIndex) in _number" :key="xIndex" v-bind:class="{'ball-on': chooseNumber[yIndex][xIndex] }"  @click="selectCode(yIndex, xIndex)" >
+                            <li v-for="(_code, xIndex) in _number" :key="xIndex" :class="{'ball-on': chooseNumber[yIndex][xIndex]}"  @click="selectCode(yIndex, xIndex)">
                                 <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
                             </li>
                         </ul>
                         <ul class="main-ball-control">
-                            <li v-for="(_btnText, bIndex) in  currentMethod.buttons" :key="bIndex" v-bind:class="{'ball-on': chooseButton[yIndex][bIndex] }"  @click="selectButton(yIndex, bIndex)" >
+                            <li v-for="(_btnText, bIndex) in  currentMethod.buttons" :key="bIndex" :class="{'ball-on': chooseButton[yIndex][bIndex] }"  @click="selectButton(yIndex, bIndex)" >
                                 <a href="javascript:;" class="ball" :x="bIndex" :y="yIndex">{{_btnText}}</a>
                             </li>
                         </ul>
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="main-ball-box" id="ball-text" v-if="currentMethod.type != 'multi'">
+            <div class="main-ball-box" id="ball-text" v-else>
                 <div class="position">
 
                 </div>
@@ -70,9 +70,9 @@
                     </div>
 
                 </div>
-                <!--                    <div class="bet-rebate-mode">-->
-                <!--                        <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>-->
-                <!--                    </div>-->
+                                    <div class="bet-rebate-mode">
+                                        <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
+                                    </div>
             </div>
             <div class="main-column-1 FR">
                 <div class="bet-add-box">
@@ -99,8 +99,8 @@ export default {
         return {
             inputCodesInitText:"",
             inputCodes:{},
-            chooseNumber:[],
-            chooseButton:[],
+            chooseNumber:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
+            chooseButton:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
             choosePosition:[],
             // 当前选中状态
             currentOrder:{
@@ -123,33 +123,14 @@ export default {
             'currentLottery',
             'currentMethod',
             'currentLotterySign',
-            'bet'
+            'bet',
+            'currentIssue'
         ]),
-        // 单价
-         // singlePrice: function () {
-        //     return this.$store.state.userConfig.singlePrice;
-        // },
 
         // 模式配置
         modeConfig: function () {
             return this.currentLottery.valid_modes;
         },
-
-        // 订单列表
-        // orderList: function () {
-        //     return this.$store.state.orderList;
-        // },
-
-        // 总花费
-        // totalCost: function () {
-        //     return this.$store.state.totalCost;
-        // },
-
-        // 当前彩种
-        // currentLottery: function () {
-        //     return this.$store.state.currentLottery;
-        // },
-
         // 当前订单状态
         orderState: function () {
             return {
@@ -158,10 +139,6 @@ export default {
                 position: this.choosePosition
             }
         }
-
-        // currentMethod :function () {
-        //     return  this.$store.state.currentMethod;
-        // },
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
@@ -173,12 +150,13 @@ export default {
         }
     },
     created() {
-        this.inputAreaInit();
+        this.inputAreaInit()
     },
     methods: {
+        //
+        
         // 添加投注单
         addOrder(oneKey) {
-            console.log(this.currentMethod);
             if (this.currentMethod.type === 'multi') {
                 let order = {
                     method_id:      this.currentMethod.method,
@@ -308,7 +286,7 @@ export default {
         selectCode(y, x) {
             this.cleanChooseButton(y);
             // 限制号码个数
-            if (this.currentMethod.limitSelectedCount && (this.chooseNumber[y][x] === false)) {
+            if (this.currentMethod.limitSelectedCount && (this.chooseNumber[y] && this.chooseNumber[y][x] === false)) {
                 let count = 0;
                 for (let c = 0; c < this.chooseNumber[y].length; c++) {
                     const col1 = this.chooseNumber[y][c];
@@ -426,7 +404,7 @@ export default {
 
         // 初始化选号
         initChoose() {
-            this.chooseNumber = [];
+            this.chooseNumber = []
             if (this.currentMethod.layout) {
                 const iterable = Object.keys(this.currentMethod.layout);
 
@@ -484,10 +462,10 @@ export default {
                 }
                 return codes.join('|')
             } else {
-                let [ codes = [] ] = []
-
-                console.log(method)
-                console.log(this.Utils.removeAllSpace(this.inputCodes).replace(/,/g,'|'))
+                // let [ codes = [] ] = []
+                //
+                // console.log(method)
+                // console.log(this.Utils.removeAllSpace(this.inputCodes).replace(/,/g,'|'))
             }
         },
 
@@ -563,19 +541,19 @@ export default {
         },
         // 一键投注
         oneKeyBet () {
-            let issus = {
-                20180405001: true
-            }
+            let currentIssus = this.currentIssue.issue_no
+            let issus = {}
+            issus[currentIssus] = true
             this.addOrder(true)
             if (this.oneKeyList.length === 0) {
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, this.oneKeyList, this.orderList.cos).then((res) => {
-                console.log(res)
+                // console.log(res)
             })
         }
     }
-};
+}
 </script>
 
 <style>

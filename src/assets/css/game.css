@@ -842,7 +842,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 ===============================================================================================*/
 .bet-count-confirm {
 	padding-bottom: 10px;
-	overflow: hidden;
 	clear: both;
 	text-align: left;
 	position: relative;
@@ -857,9 +856,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 .bet-count-total-money,
 .bet-future-select { margin-bottom: 5px; }
 /*购买记录简略*/
-.bet-msg-pick-bd { padding-right: 350px; }
 .bet-pick-box {
-	padding-right: 35px;
 	position: relative;
 }
 .bet-pick-his-box {
@@ -892,7 +889,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 .bet-pick-txt .on {
 	color: #f6543b;
 	border-bottom: 1px solid #f6543b;
-}
+}.bet-count-confirm
 .txt-clean {
 	width: 20px;
 	line-height: 14px;
@@ -930,15 +927,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	white-space: nowrap;
 }
 /*未来期 追号设定*/
-.bet-future-set {
-	width: 160px;
-	margin-left: 23px;
-	margin-top: 8px;
-	position: absolute;
-	right: 170px;
-	top: 0;
-}
-.bet-future-select-box { }
 .bet-future-select {
 	width: 140px;
 	height: 24px;
@@ -958,11 +946,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	border: 1px solid #f6543b;
 }
 /*确认投注按钮*/
-.main-btn-confirm-box {
-	position: absolute!important;
-	right: 0;
-	top: 5px;
-}
+
 .main-btn-confirm {
 	margin-left: 10px;
 	text-align: center;
@@ -1023,6 +1007,13 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	border: 1px solid #ddd;
 	background: #fff;
 	border-radius: 5px;
+}
+.bet-future-set{
+	text-align:center;
+}
+.bet-future-set .btn{
+	display:inline-block;
+	vertical-align: middle;
 }
 
 /************---------------------小屏----------------------------------**************/
@@ -1147,14 +1138,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 		position: inherit;
 		right: auto;
 		top: auto;
-	}
-	.bet-msg-pick-bd { padding-right: 0px; }
-	.bet-future-set {
-		width: 100%;
-		text-align: right;
-		position: inherit;
-		right: auto;
-		margin:10px 0 0 0 ;
 	}
 	.main-btn-confirm-box {
 		position: inherit!important;

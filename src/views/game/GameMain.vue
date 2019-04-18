@@ -3,9 +3,9 @@
         <game-issue></game-issue>
         <section class="w" style="padding-top:25px;">
             <section style="width:890px;float:left;">
-<!--                <game-method></game-method>-->
-<!--                <game-select></game-select>-->
-<!--                <game-order></game-order>-->
+                <game-method></game-method>
+                <game-select></game-select>
+                <game-order></game-order>
             </section>
             <div class="main-right j-hide">
                 <div class="list-historys" id="J-list-historys">
@@ -66,6 +66,10 @@ export default {
         ])
     },
     watch: {
+        'currentLottery' () {
+            this.issueGetHistory()
+            this.getLotteryInfo()
+        },
         'lotteryAll' (newVal) {
             // 页面刷新重新获取
             let sign  = this.$route.params.lotterySign

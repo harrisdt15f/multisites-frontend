@@ -26,6 +26,7 @@ const store =  new Vuex.Store({
         lotteryList:{},
         // 主界面头部
         currentLottery:{},
+        currentIssue: {},
         currentMethod: {},
         beforeIssue:{},
         nextIssue:{},
@@ -39,7 +40,9 @@ const store =  new Vuex.Store({
             doubleBeforeOrder: []
         },
         // 全部彩种
-        lotteryAll: {}
+        lotteryAll: {},
+        // 彩种全部期数
+        issueInfo: []
     },
     mutations: {
         // 用户配置
@@ -106,6 +109,14 @@ const store =  new Vuex.Store({
         // 全部彩种
         lotteryAll (state, data) {
             state.lotteryAll = data
+        },
+        // 当前奖期信息
+        currentIssue (state, data) {
+            state.currentIssue = data
+        },
+        // 所有彩种期数
+        issueInfo (state, data) {
+            state.issueInfo = data
         }
     },
     actions: {

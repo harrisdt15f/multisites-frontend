@@ -2220,12 +2220,6 @@ a.btn-bet-allin-disable, a.btn-bet-allin-disable:hover, a.btn-bet-allin-disable:
     padding: 5px 0;
 }
 
-.chase-table-container {
-    overflow-y: auto;
-    max-height: 144px;
-
-}
-
 .play-footer-inner-trace .chase-table-container {
     border: 1px solid #DEDEDE;
 }

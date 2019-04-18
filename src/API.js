@@ -1,7 +1,7 @@
 import qs from 'qs'
 import axios from 'axios'
 import router from 'vue-router'
-import { Message, MessageBox } from 'element-ui'
+import { MessageBox } from 'element-ui'
 axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
 // axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
