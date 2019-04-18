@@ -159,14 +159,15 @@ export default {
         addOrder(oneKey) {
             if (this.currentMethod.type === 'multi') {
                 let order = {
-                    method_id:      this.currentMethod.method,
-                    method_name:    this.currentMethod.name,
-                    codes:          this.convertCodes(),
-                    count:          this.currentOrder.currentCount,
-                    times:          this.currentOrder.currentTimes,
+                    method_id: this.currentMethod.method,
+                    method_name: this.currentMethod.name,
+                    codes: this.convertCodes(),
+                    count: this.currentOrder.currentCount,
+                    times: this.currentOrder.currentTimes,
                     cost:           this.currentOrder.currentCost,
                     mode:           this.currentOrder.currentMode,
-                    prize_group:    this.currentOrder.currentGroup
+                    prize_group:    this.currentOrder.currentGroup,
+                    price: 2
                 }
                 order._codes = this.formatInputCodes(order.codes)
                 if (!this.currentOrder.currentCost || Number(this.currentOrder.currentCost) <= 0) {
@@ -217,7 +218,8 @@ export default {
                     times: this.currentOrder.currentTimes,
                     cost:  this.currentOrder.currentCost,
                     mode:  this.currentOrder.currentMode,
-                    prize_group: this.currentOrder.currentGroup
+                    prize_group: this.currentOrder.currentGroup,
+                    price: 2
                 };
                 this.orderList.unshift(order)
             }
@@ -548,7 +550,7 @@ export default {
             if (this.oneKeyList.length === 0) {
                 return false
             }
-            this.Api.bet(this.currentLottery.en_name, issus, this.oneKeyList, this.orderList.cos).then((res) => {
+            this.Api.bet(this.currentLottery.en_name, issus, this.oneKeyList, this.orderList.cost).then((res) => {
                 // console.log(res)
             })
         }
