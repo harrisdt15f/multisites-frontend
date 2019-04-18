@@ -6,6 +6,12 @@ Vue.use(Vuex);
 
 const store =  new Vuex.Store({
     state: {
+        // 用户信息
+        account: {
+            username: '',
+            balance: ''
+
+        },
         // 用户配置
         userConfig:{
             singlePrice: 2,
@@ -117,6 +123,10 @@ const store =  new Vuex.Store({
         // 所有彩种期数
         issueInfo (state, data) {
             state.issueInfo = data
+        },
+        // 用户信息
+        account (state, data) {
+            state.account = data
         }
     },
     actions: {

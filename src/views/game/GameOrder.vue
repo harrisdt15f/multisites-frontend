@@ -540,6 +540,17 @@ export default {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
                     })
+                    this.Api.getBalance().then((res) => {
+                        if (res.isSuccess) {
+                            let account = this.Utils.storage.get('current-user');
+                            if (account && account.data) {
+                                account.data.balance = res.data.balance
+                                account.data.frozen = res.data.frozen
+                                this.$store.commit('account', account.data)
+                                this.Utils.storage.set('current-user', account.data)
+                            }
+                        }
+                    })
                 }
             })
         },

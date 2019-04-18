@@ -193,18 +193,14 @@ export default {
   name: 'Header',
   data() {
     return {
-      account: {
-        username: '',
-        balance: ''
-
-      },
       lotteryLists: []
     }
   },
   computed: {
     ...mapState([
       'currentLottery',
-      'lotteryAll'
+      'lotteryAll',
+      'account'
     ])
   },
   watch: {
@@ -213,7 +209,7 @@ export default {
     // 获取用户登录后的信息
     let account = this.Utils.storage.get('current-user');
     if (account && account.data) {
-      this.account = account.data
+      this.$store.commit('account', account.data)
     }
     this.$store.dispatch('lotteryAll')
     this.lotteryList()
@@ -227,8 +223,14 @@ export default {
     // 刷新用户余额
     refresh () {
       this.Api.getBalance().then((res) => {
-        if (res.isSuccess && this.account && this.account.balance) {
-          this.account.balance = res.data.balance
+        if (res.isSuccess) {
+          let account = this.Utils.storage.get('current-user');
+          if (account && account.data) {
+            account.data.balance = res.data.balance
+            account.data.frozen = res.data.frozen
+            this.$store.commit('account', account.data)
+            this.Utils.storage.set('current-user', account.data)
+          }
         }
       })
     },

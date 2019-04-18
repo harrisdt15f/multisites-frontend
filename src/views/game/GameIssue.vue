@@ -9,6 +9,8 @@
           <div class="win-issue">
             <div class="win-issue-s"><span class="open"></span></div>
             <div class="text">第 {{notice.issue ?  notice.issue : currentIssue.issue_no}} 期</div>
+            {{currentIssue.issue_no}}
+            {{notice.issue}}
           </div>
           <div class="deadline">
             <div class="deadline-text">投注截止：</div>
@@ -161,6 +163,7 @@ export default {
         this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
           if (res.isSuccess) {
             this.$store.commit('issueInfo', res.data.issueInfo)
+            this.issueNum = 0
             // this.issueInfo = res.data.issueInfo
             // 开始倒计时
             this.times()
@@ -170,11 +173,13 @@ export default {
       times () {
         // 当前 奖期倒计时
         let [
-          time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000,
+          time = 0,
         ] = []
+        time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
         let hour = 0
         let minute = 0
         let second  = time
+        this.notice.issue = this.issueInfo[this.issueNum].issue_no
         this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
         this.currentIssueTimer = setInterval(() => {
           // 计算 倒计时
@@ -193,7 +198,7 @@ export default {
           } else {
             clearInterval(this.currentIssueTimer)
             this.issueNum += 1
-            this.notice.issue = this.issueInfo[this.issueNum].issue_no
+            this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
             this.notice.show = true
             this.times()
             if (this.issueNum === this.issueInfo.length) {
