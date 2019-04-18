@@ -59,6 +59,8 @@ export const API = {
         betHistory: 'projectHistory',
         // 可用奖期
         issueInfo: 'issueInfo',
+        // 获取用户余额
+        balance: 'balance'
     },
     IsSignedIn: function(){
         let o = this.GetCurrentUser();
@@ -161,5 +163,11 @@ export const API = {
             lottery_sign: sign
         }
         return this.post(this.url.issueInfo, data).then(response => response)
+    },
+    /*
+     * 获取用户余额
+    */
+    getBalance () {
+        return this.post(this.url.balance).then(response => response)
     }
 }

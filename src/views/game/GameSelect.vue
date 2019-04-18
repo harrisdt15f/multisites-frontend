@@ -112,7 +112,7 @@ export default {
                 currentCodes:{},
             },
             // 一键投注
-            oneKeyList: []
+            oneKeyList: {}
         }
     },
     computed: {
@@ -177,7 +177,7 @@ export default {
                     return
                 }
                 if (oneKey) {
-                    this.oneKeyList.unshift(order)
+                    this.oneKeyList = order
                 } else {
                     this.orderList.unshift(order)
                     // 初始化翻倍后的数据
@@ -188,7 +188,6 @@ export default {
                     doubleBeforeOrder.push(order)
                     this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
                 }
-                // this.$store.commit('orderList', this.orderList)
             } else {
 
                 let _input = '';
@@ -550,8 +549,13 @@ export default {
             if (this.oneKeyList.length === 0) {
                 return false
             }
-            this.Api.bet(this.currentLottery.en_name, issus, this.oneKeyList, this.orderList.cost).then((res) => {
-                // console.log(res)
+            this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
+                if (res.isSuccess) {
+                    this.oneKeyList = []
+                    this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
+                        confirmButtonText: '确定'
+                    })
+                }
             })
         }
     }

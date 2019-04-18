@@ -41,7 +41,7 @@
             <span class="wallet">钱包余额：</span>
             <span class="header-money">￥</span>
             <span class="header-money">{{Utils.toFixed(this.account.balance)}}</span>
-            <a href="javascript:;" class="refresh"></a>
+            <a href="javascript:;" class="refresh" @click="refresh()"></a>
           </section>
           <span class="header-line">|</span>
           <section class="header-drop">
@@ -224,6 +224,14 @@ export default {
     this.Animation.screenWidth(navMenu)
   },
   methods: {
+    // 刷新用户余额
+    refresh () {
+      this.Api.getBalance().then((res) => {
+        if (res.isSuccess && this.account && this.account.balance) {
+          this.account.balance = res.data.balance
+        }
+      })
+    },
     goLottery (item) {
       this.$router.push('/bet/'+ item.id)
       this.$store.commit('currentLottery', this.lotteryAll[item.id].lottery)

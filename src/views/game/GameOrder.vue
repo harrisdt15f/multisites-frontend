@@ -252,12 +252,17 @@
                 <a href="javascript:;" target="_blank">更多游戏记录...</a>
             </div>
         </div>
+<!--        <msg></msg>-->
     </div>
 </template>
 <script>
 import { mapState } from 'vuex'
+import msg from '../../components/message'
 export default {
     name: 'game-order',
+    components: {
+        msg
+    },
     data() {
         return {
             total: {
@@ -529,7 +534,13 @@ export default {
             }
             money = this.totalSub.double > 1 ? this.totalSub.money : this.totals.money
             this.Api.bet(this.currentLottery.en_name, issus, list, money).then((res) => {
-                // console.log(res)
+                if (res.isSuccess) {
+                    this.$store.commit('orderList', [])
+                    this.bet.doubleBeforeOrder = JSON.stringify([])
+                    this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
+                        confirmButtonText: '确定'
+                    })
+                }
             })
         },
         // 删除当前投注
