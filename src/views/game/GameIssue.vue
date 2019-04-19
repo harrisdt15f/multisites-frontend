@@ -9,8 +9,6 @@
           <div class="win-issue">
             <div class="win-issue-s"><span class="open"></span></div>
             <div class="text">第 {{notice.issue ?  notice.issue : currentIssue.issue_no}} 期</div>
-            {{currentIssue.issue_no}}
-            {{notice.issue}}
           </div>
           <div class="deadline">
             <div class="deadline-text">投注截止：</div>
@@ -37,9 +35,12 @@
           <a class="trend info" target="_blank" href="javascript:;"><span>开奖说明</span></a>
         </div>
       </div>
-      <div class="game-header-inform">
-        <a href="javascript:void(0)" class="a">尊敬的玩家：您好应广大玩家强烈要求，平台隆重推出《腾讯5分彩》以及《腾讯时时彩》，开奖号码完全依据官方春秋娱乐平台运营部</a>
-      </div>
+      <section class="notice">
+        <img src="../../assets/images/bet/bet-notice.png" class="notice-img"><span class="fl">:</span>
+        <div class="game-header-inform" id="meque">
+          <p class="a" id="meque_text">{{scrollNotice.length > 1 ? scrollNotice : '暂无公告'}}</p>
+        </div>
+      </section>
     </section>
     <section class="game-header-r j-hide">
       <div class="game-header-r-t clearfix">
@@ -47,30 +48,13 @@
         <a href="javascript:void(0)" class="a">更多&gt;&gt;</a>
       </div>
       <ul class="game-header-r-c">
-        <li data-id="412">
+        <li data-id="412"  v-for="(item, index) in lotteryNotice" :key="index">
           <span class="dot"></span>
           <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
           <span class="date">2019-04-12</span>
         </li>
-        <li data-id="408">
-          <span class="dot"></span>
-          <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
-          <span class="date">2019-03-29</span>
-        </li>
-        <li data-id="378">
-          <span class="dot"></span>
-          <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
-          <span class="date">2018-12-03</span>
-        </li>
-        <li data-id="359">
-          <span class="dot"></span>
-          <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
-          <span class="date">2018-10-20</span>
-        </li>
-        <li data-id="342">
-          <span class="dot"></span>
-          <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
-          <span class="date">2018-08-02</span>
+        <li v-if="lotteryNotice === 0">
+           暂无公告
         </li>
       </ul>
     </section>
@@ -96,6 +80,8 @@ export default {
     },
     data() {
         return {
+          lotteryNotice: [],
+          scrollNotice: [],
           currentIssue: {},
           lastIssue: {},
           issueNum: 0,
@@ -112,6 +98,10 @@ export default {
       this.getIssue()
       this.getLottery()
     },
+   mounted () {
+      // 滚动公告
+      this.Animation.notice('meque', 'meque_text', -1)
+   },
     watch: {
       'currentLottery' () {
         // 路由变化的时候更换彩种信息
@@ -137,6 +127,15 @@ export default {
       }
     },
     methods: {
+      // 获取公告列表  彩种右侧公告 和 彩种滚动公告
+      getNoticeList () {
+        this.Api.getNoticeList().then(res => {
+          if (res.isSuccess) {
+            this.lotteryNotice = res.data.list
+            this.scrollNotice = res.data.roll
+          }
+        })
+      },
       // 获取开奖结果
       getLottery () {
         this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
@@ -152,6 +151,8 @@ export default {
               ] = []
               if ( currTime - parseInt(nowTime) === 0) {
                 clearInterval(timer)
+                // 更新历史开奖记录
+                this.$store.dispatch('issueHistory')
                 this.getLottery()
               }
             }, 1000)
@@ -241,5 +242,32 @@ export default {
   }
   .red{
     color:red;
+  }
+
+  .notice {
+    background:#fff;
+    overflow:hidden;
+    margin-top:1px;
+    line-height: 38px;
+  }
+  .notice-img {
+    float: left;
+    margin: 12px 4px 0 5px;
+  }
+  #meque {
+    width: 831px;
+    height: 40px;
+    line-height: 40px;
+    margin-left:5px;
+    overflow: hidden;
+    position: relative;
+    float:left;
+  }
+  #meque_text {
+    white-space: nowrap;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
   }
 </style>

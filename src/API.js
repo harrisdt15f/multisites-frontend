@@ -2,6 +2,7 @@ import qs from 'qs'
 import axios from 'axios'
 import router from 'vue-router'
 import { MessageBox } from 'element-ui'
+import Utils  from './lib/utils/utils'
 axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
 // axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
@@ -36,8 +37,9 @@ axios.interceptors.response.use(
             error.response.status === 402 ||
             error.response.status === 403 ||
             error.response.status === 422) {
-            this.RemoveCurrentUser();
-            router.push('login');
+            Utils.storage.remove('X-Authorization-Token')
+            Utils.storage.remove('current-user')
+            router.push('/login');
             return Promise.reject(error)
         } else {
             return Promise.reject(error)
@@ -60,7 +62,9 @@ export const API = {
         // 可用奖期
         issueInfo: 'issueInfo',
         // 获取用户余额
-        balance: 'balance'
+        balance: 'balance',
+        // 获取公告列表  彩种右侧公告 和 彩种滚动公告
+        noticeList: 'noticeList'
     },
     IsSignedIn: function(){
         let o = this.GetCurrentUser();
@@ -169,5 +173,11 @@ export const API = {
     */
     getBalance () {
         return this.post(this.url.balance).then(response => response)
+    },
+    /*
+    * 获取用户余额
+   */
+    getNoticeList () {
+        return this.post(this.url.noticeList).then(response => response)
     }
 }

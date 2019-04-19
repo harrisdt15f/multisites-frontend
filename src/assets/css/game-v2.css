@@ -496,15 +496,12 @@ body {
 }
 
 .game-header-inform {
-    border-top: 1px solid rgba(151, 151, 151, 0.4);
     background: #FFF;
-    padding: 0 15px;
+    padding: 0 15px 0 5px;
     height: 40px;
 }
 
 .game-header-inform .a {
-    padding-left: 30px;
-    background: url(../../assets/images/bet/bet-notice.png) no-repeat left center;
     line-height: 40px;
     color: #454545;
     height: 40px;
@@ -545,6 +542,7 @@ body {
 
 .game-header-r-c {
     padding-top: 8px;
+    text-align:center;
 }
 
 .game-header-r-c li {

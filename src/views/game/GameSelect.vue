@@ -3,8 +3,8 @@
         <div class="main-row-1">
             <div class="main-play-introduce">
                 <div class="introduce-txt" id="method-desc">{{currentMethod.desc}}</div>
-                <a href="javascript:;" class="ico-why">?<div class="tooltip1" id="method-help">{{currentMethod.help}}</div><span></span></a>
-                <a href="javascript:;" class="ico-case">例<div class="tooltip1" id="method-example">{{currentMethod.example}}</div><span></span></a>
+                <a href="javascript:;" class="ico-why">?<div class="tooltip1" v-html="currentMethod.help"></div><span></span></a>
+                <a href="javascript:;" class="ico-case">例<div class="tooltip1" v-html="currentMethod.example"></div><span></span></a>
             </div>
         </div>
         <div class="main-ball-section fw">
@@ -39,7 +39,7 @@
                         <div class="main-balls-import">
                             <div id="singleUpload" class="btn btn-blue btn-ball-import">导入注单</div>
                             <div class="btn-tab-list import-clean-list">
-                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理重复和错误</a>
+                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理号码</a>
                                 <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
                             </div>
                         </div>
@@ -141,6 +141,16 @@ export default {
         }
     },
     watch: {
+        'orderList' (newVal) {
+            if (newVal.length === 0) {
+                this.clearBtn()
+            }
+        },
+        'oneKeyList' (newVal) {
+            if (newVal.length === 0) {
+                this.clearBtn()
+            }
+        },
         // 如果路由有变化，会再次执行该方法
         '$store.state.currentMethod': {
             handler() {
@@ -153,8 +163,14 @@ export default {
         this.inputAreaInit()
     },
     methods: {
-        //
-        
+        // 投注成功 清除选中的按钮
+        clearBtn () {
+            for (let j = 0; j < this.chooseNumber.length; j++) {
+                for (let i = 0; i < this.chooseNumber[j].length; i++) {
+                    this.$set(this.chooseNumber[j], i, false)
+                }
+            }
+        },
         // 添加投注单
         addOrder(oneKey) {
             if (this.currentMethod.type === 'multi') {
@@ -190,13 +206,13 @@ export default {
                 }
             } else {
 
-                let _input = '';
+                let _input = ''
 
-                let tmp     = (this.inputCodes || '').split(',');
-                let temp    = array_unique3(tmp);
+                let tmp = (this.inputCodes || '').split(',')
+                let temp = array_unique3(tmp)
                 if ((tmp.length - temp.length) > 0) {
-                    this.inputCodes = temp.join(',');
-                    this.calculate( this.currentMethod, this.orderState);
+                    this.inputCodes = temp.join(',')
+                    this.calculate( this.currentMethod, this.orderState)
                 }
 
                 this.input = this.inputCodes;
@@ -219,8 +235,19 @@ export default {
                     mode:  this.currentOrder.currentMode,
                     prize_group: this.currentOrder.currentGroup,
                     price: 2
-                };
-                this.orderList.unshift(order)
+                }
+                if (oneKey) {
+                    this.oneKeyList = order
+                } else {
+                    this.orderList.unshift(order)
+                    // 初始化翻倍后的数据
+                    let doubleBeforeOrder = []
+                    if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                        doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                    }
+                    doubleBeforeOrder.push(order)
+                    this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+                }
             }
 
         },
@@ -433,7 +460,6 @@ export default {
             for (let j = 0; j < this.chooseNumber[y].length; j++) {
                 this.chooseNumber[y][j] = false;
             }
-
         },
 
         // 清空按钮
@@ -515,7 +541,7 @@ export default {
         },
         // 单式输入框获取焦点
         inputAreaFocus() {
-            // this.inputCodes = ''
+            this.inputCodes = ''
         },
         // 单式输入框失去焦点
         inputAreaBlur() {
@@ -530,15 +556,23 @@ export default {
         },
         // 清理重复项 和 错误项
         inputClearRepeatOrder() {
-            let [ codes = this.inputCodes.replace(/[\r\n/,/]/g, ' '), method = this.currentMethod ] = []
-            console.log(codes)
-            // for (let i = codes.length - 1; i >= 0; i--) {
-            //     if (codes[i].length < Number(method.b64)) {
-            //         codes.splice(i, 1)
-            //     }
-            // }
-            // console.log(codes)
-            // this.inputCodes = codes.join(' ')
+            let _input = ''
+            let tmp = (this.inputCodes || '').split(',')
+            let temp = array_unique3(tmp)
+            if ((tmp.length - temp.length) > 0) {
+                this.inputCodes = temp.join(',')
+                this.calculate( this.currentMethod, this.orderState)
+            }
+    
+            this.input = this.inputCodes;
+    
+            //优化单式//需要压缩
+            if (this.currentMethod.b64 && (temp.length > 10)) {
+                _input = new Uint8Array(temp)
+                _input = pako.gzip(_input, {gzip:true})
+            } else {
+                _input = this.inputCodes
+            }
         },
         // 一键投注
         oneKeyBet () {
@@ -546,7 +580,7 @@ export default {
             let issus = {}
             issus[currentIssus] = true
             this.addOrder(true)
-            if (JSON.stringify(this.oneKeyList) === '{}') {
+            if (JSON.stringify(this.oneKeyList) === '{}' || this.oneKeyList.length === 0) {
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
@@ -555,6 +589,9 @@ export default {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
                     })
+                    // 获取我的投注 我的追号记录
+                    this.$store.dispatch('betHistory')
+                    // 刷新余额
                     this.Api.getBalance().then((res) => {
                         if (res.isSuccess) {
                             let account = this.Utils.storage.get('current-user');

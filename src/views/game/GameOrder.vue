@@ -236,7 +236,7 @@
 
                     </thead>
                     <tbody id="J-tbody-historys-bets">
-                        <tr class="row-data-49383596 row-status-2" v-for="(item, index) in betHistory.myBetList">
+                        <tr class="row-data-49383596 row-status-2" v-for="(item, index) in bet.betHistory.myBetList">
                             <td><span class="cls-gamename">{{item.name}}</span></td>
                             <td><span class="cls-method">{{item.method_name}}</span></td>
                             <td><span class="cls-number">{{item.issue}}</span></td>
@@ -352,9 +352,7 @@ export default {
                 doubleB: 2
             },
             betHistory: {
-                tab: 0,
-                myBetList: [],
-                myChaseList: []
+                tab: 0
             }
         }
     },
@@ -454,23 +452,11 @@ export default {
         }
     },
     created () {
-        this.getMyBet()
+        // 获取我的投注 我的追号记录
+        this.$store.dispatch('betHistory')
         this.chase.maxIssue = this.lotteryAll[this.currentLottery.en_name].lottery.max_trace_number
     },
     methods: {
-        // 我的投注
-        getMyBet () {
-            this.Api.getBetHistory(this.currentLottery.en_name).then((res) => {
-                if (res.isSuccess) {
-                    let project = res.data.project
-                    for (let i = 0; i < project.length; i++) {
-                        project[i].name = this.lotteryAll[project[i].lottery_name].lottery.cn_name
-                    }
-                    this.betHistory.myBetList = project
-                    this.betHistory.myChaseList = res.data.trace
-                }
-            })
-        },
         // 清除追号 关闭窗口
         clearChase () {
             this.chase.sameCon = false
@@ -678,6 +664,9 @@ export default {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
                     })
+                    // 获取我的投注 我的追号记录
+                    this.$store.dispatch('betHistory')
+                    // 刷新余额
                     this.Api.getBalance().then((res) => {
                         if (res.isSuccess) {
                             let account = this.Utils.storage.get('current-user');

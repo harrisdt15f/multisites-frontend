@@ -43,12 +43,19 @@ const store =  new Vuex.Store({
         // 投注相关的
         bet: {
             // 翻倍计算，初始化值
-            doubleBeforeOrder: []
+            doubleBeforeOrder: [],
+            // 我的投注 我的追号
+            betHistory: {
+                myBetList: [],
+                myChaseList: []
+            },
+            issueHistory: []
         },
         // 全部彩种
         lotteryAll: {},
         // 彩种全部期数
-        issueInfo: []
+        issueInfo: [],
+        // 历史开奖记录
     },
     mutations: {
         // 用户配置
@@ -127,6 +134,15 @@ const store =  new Vuex.Store({
         // 用户信息
         account (state, data) {
             state.account = data
+        },
+        // 我的投注 和 我的追号
+        betHistory (state, data) {
+            state.bet.betHistory.myBetList = data.project
+            state.bet.betHistory.myChaseList = data.trace
+        },
+        // 历史开奖记录
+        issueHistory (state, data) {
+            state.bet.issueHistory = data
         }
     },
     actions: {
@@ -137,8 +153,28 @@ const store =  new Vuex.Store({
                   commit('lotteryAll', res.data)
                 }
             })
+        },
+        // 我的投注 和 我的追号
+        betHistory ({ commit, state }) {
+            API.getBetHistory(state.currentLottery.en_name).then((res) => {
+                if (res.isSuccess) {
+                    let project = res.data.project
+                    for (let i = 0; i < project.length; i++) {
+                        project[i].name = state.lotteryAll[project[i].lottery_name].lottery.cn_name
+                    }
+                    commit('betHistory', res.data)
+                }
+            })
+        },
+        // 历史开奖记录
+        issueHistory ({ commit, state }) {
+            API.getIssueHistory(state.currentLottery.en_name).then(data => {
+                if (data.isSuccess) {
+                    commit('issueHistory', data.data)
+                }
+            })
         }
     }
-});
+})
 
 export default store;

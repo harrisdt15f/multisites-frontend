@@ -19,7 +19,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr :class="{first: index === historyIssueList.length - 1}" v-for="(item, index) in historyIssueList" :key="index">
+                                <tr :class="{first: index === bet.issueHistory.length - 1}" v-for="(item, index) in bet.issueHistory" :key="index">
                                     <td><span class="number">{{item.issue_no}} 期</span></td>
                                     <td>
                                         <span class="balls">
@@ -62,32 +62,29 @@ export default {
     computed: {
         ...mapState([
             'currentLottery',
-            'lotteryAll'
+            'lotteryAll',
+            'bet'
         ])
     },
     watch: {
         'currentLottery' () {
-            this.issueGetHistory()
+            this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
+            this.mainShow = true
         },
         'lotteryAll' (newVal) {
             // 页面刷新重新获取
             let sign  = this.$route.params.lotterySign
             this.$store.commit('currentLottery', newVal[sign].lottery)
-            this.issueGetHistory()
-            this.getLotteryInfo()
-            this.mainShow = true
         }
     },
     created () {
         // 页面刷新时不执行
         if (Object.keys(this.lotteryAll).length !== 0) {
-            this.issueGetHistory()
+            this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
             this.mainShow = true
         }
-    },
-    mounted () {
     },
     methods: {
         getLotteryInfo() {
@@ -95,17 +92,9 @@ export default {
             this.$store.commit('defaultGroup', lottery.defaultGroup)
             this.$store.commit('defaultMethod', lottery.defaultMethod)
             this.$store.commit('allMethods', lottery.methodConfig)
-        },
-        // 历史奖期
-        issueGetHistory () {
-            this.Api.getIssueHistory(this.currentLottery.en_name).then(data => {
-                if (data.isSuccess) {
-                    this.historyIssueList = data.data
-                }
-            });
         }
     }
-};
+}
 </script>
 
 <style>

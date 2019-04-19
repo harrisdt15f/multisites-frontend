@@ -379,7 +379,6 @@
 .nav-lottery .number-con:first-child .play-sort li {
     width: 116px;
 }
-.number-con,
 .play-sort {
     text-align:left;
 }
@@ -403,23 +402,22 @@
     padding-left: 10px;
 }
 .nav-lottery .number-con:first-child {
-    width: 18%;
-    padding-left: 10px;
+    width: 220px;
 }
 .nav-lottery .number-con:nth-child(2) {
-    width: 18%;
+    width: 220px;
 }
 .nav-lottery .number-con:nth-child(3) {
-    width: 18%;
+    width: 220px;
 }
 .nav-lottery .number-con:nth-child(4) {
-    width: 12%;
+    width: 100px;
 }
 .nav-lottery .number-con:nth-child(5) {
-    width: 12%;
+    width: 120px;
 }
 .nav-lottery .number-con:nth-child(6) {
-    width: 12%;
+    width: 100px;
 }
 .nav-lottery .number-con:last-child .play-sort {
     border-right: none;
@@ -451,6 +449,7 @@
     position: relative;
     line-height: 25px;
     font-size: 13px;
+    text-align:center;
     font-family: "Microsoft YaHei";
 }
 .play-link {
@@ -487,10 +486,12 @@
     -o-transform: translateY(30px);
     transform: translateY(30px);
 }
-.jack-nav .nav-r .nav-li:hover{
+.jack-nav .nav-r .nav-li:hover,
+.play-sort .play-link:hover{
     background:#FF5656;
 }
-.jack-nav .nav-r .nav-li:hover .text-1{
+.jack-nav .nav-r .nav-li:hover .text-1,
+.play-sort .play-link:hover{
     color:#fff;
 }
 .unread-msg-num {
