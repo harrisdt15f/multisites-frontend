@@ -26,8 +26,8 @@
               <em  v-for="(item, index) in lastIssue.open_code" :key="index">{{item}}</em>
             </div>
           </div>
-          <div class="lottery-tip">提示：当天 <span class="col">00</span> 点至 <span class="col">23</span> 点 &nbsp; 当日共有
-            <span class="col">59</span> 期
+          <div class="lottery-tip">
+            提示：<em v-html="descs"></em>
           </div>
         </div>
         <div class="trend-info">
@@ -38,7 +38,7 @@
       <section class="notice">
         <img src="../../assets/images/bet/bet-notice.png" class="notice-img"><span class="fl">:</span>
         <div class="game-header-inform" id="meque">
-          <p class="a" id="meque_text">{{scrollNotice.length > 1 ? scrollNotice : '暂无公告'}}</p>
+          <p class="a" id="meque_text">{{scrollNotice && scrollNotice.content ? scrollNotice.content : '暂无公告'}}</p>
         </div>
       </section>
     </section>
@@ -50,8 +50,8 @@
       <ul class="game-header-r-c">
         <li data-id="412"  v-for="(item, index) in lotteryNotice" :key="index">
           <span class="dot"></span>
-          <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
-          <span class="date">2019-04-12</span>
+          <a href="javascript:void(0)" class="a">{{item.title}}</a>
+          <span class="date">{{item.start_day}}</span>
         </li>
         <li v-if="lotteryNotice.length === 0">
            暂无公告
@@ -80,6 +80,7 @@ export default {
     },
     data() {
         return {
+          descs: '',
           lotteryNotice: [],
           scrollNotice: [],
           currentIssue: {},
@@ -95,14 +96,25 @@ export default {
         }
     },
     created () {
+      // 开奖号码下的 提示语
+      if (this.$route.query && this.$route.query.desc) {
+        this.descs = this.$route.query.desc
+      }
       this.getIssue()
       this.getLottery()
     },
    mounted () {
       // 滚动公告
+     this.getNoticeList()
       this.Animation.notice('meque', 'meque_text', -1)
    },
     watch: {
+      // 开奖号码下的 提示语
+      '$route' () {
+        if (this.$route.query && this.$route.query.desc) {
+          this.descs = this.$route.query.desc
+        }
+      },
       'currentLottery' () {
         // 路由变化的时候更换彩种信息
         clearInterval(this.currentIssueTimer)

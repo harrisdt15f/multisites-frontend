@@ -17,7 +17,7 @@ const router = new Router({
         { path: '/register', name: 'register', component: Register },
         { path: '/home', name: 'home', component: Home,
             children: [
-                { path: '/bet/:lotterySign', component: GameMain, props: true }
+                { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true }
             ]
         }
     ]

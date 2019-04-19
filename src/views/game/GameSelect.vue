@@ -85,10 +85,10 @@
     </section>
 </template>
 <script>
-import { mapState } from 'vuex';
-import { array_unique3 } from '../../lib/funs';
-import algorithm from '../../lib/algorithm';
-import pako from 'pako/index.js';
+import { mapState } from 'vuex'
+import { array_unique3 } from '../../lib/funs'
+import algorithm from '../../lib/algorithm'
+import pako from 'pako/index.js'
 
 export default {
     name: 'game-select',
@@ -580,12 +580,12 @@ export default {
             let issus = {}
             issus[currentIssus] = true
             this.addOrder(true)
-            if (JSON.stringify(this.oneKeyList) === '{}' || this.oneKeyList.length === 0) {
+            if (JSON.stringify(this.oneKeyList) === '{}') {
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
                 if (res.isSuccess) {
-                    this.oneKeyList = []
+                    this.oneKeyList = {}
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
                     })
