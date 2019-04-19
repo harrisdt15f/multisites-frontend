@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import { API } from './API'
 import Utils  from './lib/utils/utils'
 
 import Login from './views/auth/Login.vue'

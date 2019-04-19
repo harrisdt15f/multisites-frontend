@@ -37,9 +37,8 @@ axios.interceptors.response.use(
             error.response.status === 402 ||
             error.response.status === 403 ||
             error.response.status === 422) {
-            Utils.storage.remove('X-Authorization-Token')
-            Utils.storage.remove('current-user')
-            router.push('/login');
+            this.RemoveCurrentUser();
+            router.push('login');
             return Promise.reject(error)
         } else {
             return Promise.reject(error)
