@@ -53,7 +53,7 @@
           <a href="javascript:void(0)" class="a">新彩种火爆上线</a>
           <span class="date">2019-04-12</span>
         </li>
-        <li v-if="lotteryNotice === 0">
+        <li v-if="lotteryNotice.length === 0">
            暂无公告
         </li>
       </ul>
