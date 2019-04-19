@@ -1146,3 +1146,11 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 		text-align: right;
 	}
 }
+.bet-count-confirm .txt-clean{
+	width: 20px;
+	line-height: 14px;
+	position: absolute;
+	bottom: -17px;
+	right: auto;
+	left: -20px;
+}

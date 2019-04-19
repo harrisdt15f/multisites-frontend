@@ -546,7 +546,7 @@ export default {
             let issus = {}
             issus[currentIssus] = true
             this.addOrder(true)
-            if (this.oneKeyList.length === 0) {
+            if (JSON.stringify(this.oneKeyList) === '{}') {
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
