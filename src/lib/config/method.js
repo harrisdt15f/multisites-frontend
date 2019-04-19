@@ -19,7 +19,7 @@ export default {
             'method': 'ZX5',
             'desc': '从万位、千位、百位、十位、个位各选一个号码组成一注。',
             'help': '从万位、千位、百位、十位、个位中选择一个5位数号码组成一注，所选号码与开奖号码全部相同，且顺序一致，即为中奖。',
-            'example': '投注方案：13456<br>开奖号码：13456，即中五星直选。',
+            'example': '投注方案：13456 开奖号码：13456，即中五星直选。',
             'type': 'multi',
             'layout': {
                 '万位': digitalCodesTpl,
@@ -276,9 +276,10 @@ export default {
             'buttons': digitalPosTpl
         },
 
+        // 前三配置
         'QZX3': {
             'name': '直选复式',
-            'method': 'ZX3',
+            'method': 'QZX3',
             'desc': '从万位、千位、百位各选一个号码组成一注。',
             'help': '从万位、千位、百位中选择一个3位数号码组成一注，所选号码与开奖号码后3位相同，且顺序一致，即为中奖。',
             'example': '投注方案：345<br>开奖号码：前三位 345，即中前三直选。',
@@ -292,7 +293,7 @@ export default {
         },
         'QZX3_S': {
             'name': '直选单式',
-            'method': 'ZX3_S',
+            'method': 'QZX3_S',
             'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
             'help': '手动输入一个3位数号码组成一注，所选号码与开奖号码的万位、千位、百位相同，且顺序一致，即为中奖。',
             'example': '投注方案：345<br>开奖号码：前三位 345，即中前三直选。',
@@ -301,7 +302,7 @@ export default {
         },
         'QZH3': {
             'name': '前三组合',
-            'method': 'ZH3',
+            'method': 'QZH3',
             'desc': '从万位、千位、百位各选一个号码组成三注。',
             'help': '从万位、千位、百位中至少各选择一个号码组成1-3星的组合共三注，当百位号码与开奖号码相同，则中1个3等奖；<br>如果百位与千位号码与开奖号码相同，则中1个3等奖以及1个2等奖，依此类推，最高可中3个奖。',
             'example': '投注方案：购买：6+7+8，该票共6元，由以上3注：678(三星)、78(二星)、8(一星)构成<br>开奖号码：前三位 678，即可中三星、二星、一星各1注。',
@@ -315,7 +316,7 @@ export default {
         },
         'QZXHZ': {
             'name': '直选和值',
-            'method': 'ZXHZ',
+            'method': 'QZXHZ',
             'desc': '从0-27中任意选择1个或1个以上号码。',
             'help': '所选数值等于开奖号码的万位、千位、百位三个数字相加之和，即为中奖。',
             'example': '投注方案：和值 1<br>开奖号码：前三位 001、010、100，即中前三直选。',
@@ -327,7 +328,7 @@ export default {
         },
         'QZXKD': {
             'name': '直选跨度',
-            'method': 'ZXKD',
+            'method': 'QZXKD',
             'desc': '从0-9中选择1个号码。',
             'help': '所选数值等于开奖号码的前3位最大与最小数字相减之差，即为中奖。',
             'example': '投注方案：跨度8<br>开奖号码：前三位0,8,X，其中X不等于9；或者前三位1,9,X，其中X不等于0，即可中前三直选。',
@@ -387,6 +388,7 @@ export default {
             'type': 'text',
             'b64': 3
         },
+
         'QZUHZ': {
             'name': '组选和值',
             'method': 'QZUHZ',
@@ -399,6 +401,7 @@ export default {
             },
             'buttons': []
         },
+
         'QZU3BD': {
             'name': '组选包胆',
             'method': 'QZU3BD',
@@ -427,6 +430,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QTS3': {
             'name': '特殊号',
             'method': 'QTS3',
@@ -446,6 +450,7 @@ export default {
             'buttons': []
         },
 
+        // 中三
         'ZZX3': {
             'name': '直选复式',
             'method': 'ZZX3',
@@ -460,6 +465,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'ZZX3_S': {
             'name': '直选单式',
             'method': 'ZZX3_S',
@@ -469,6 +475,7 @@ export default {
             'type': 'text',
             'b64': 3
         },
+
         'ZZH3': {
             'name': '中三组合',
             'method': 'ZZH3',
@@ -483,6 +490,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'ZZXHZ': {
             'name': '直选和值',
             'method': 'ZZXHZ',
@@ -495,6 +503,7 @@ export default {
             },
             'buttons': []
         },
+
         'ZZXKD': {
             'name': '直选跨度',
             'method': 'ZZXKD',
@@ -520,6 +529,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'ZZU3_S': {
             'name': '组三单式',
             'method': 'ZZU3_S',
@@ -528,6 +538,7 @@ export default {
             'example': '投注方案：588<br>开奖号码：中间三位588（顺序不限），即可中 中三组选三。',
             'type': 'text'
         },
+
         'ZZU6': {
             'name': '组六复式',
             'method': 'ZZU6',
@@ -540,6 +551,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'ZZU6_S': {
             'name': '组六单式',
             'method': 'ZZU6_S',
@@ -548,6 +560,7 @@ export default {
             'example': '投注方案：123<br>开奖号码：中间三位 312（顺序不限），即中 中三组选六。',
             'type': 'text'
         },
+
         'ZHHZX': {
             'name': '混合组选',
             'method': 'ZHHZX',
@@ -557,6 +570,7 @@ export default {
             'type': 'text',
             'b64': 3
         },
+
         'ZZUHZ': {
             'name': '组选和值',
             'method': 'ZZUHZ',
@@ -569,6 +583,7 @@ export default {
             },
             'buttons': []
         },
+
         'ZZU3BD': {
             'name': '组选包胆',
             'method': 'ZZU3BD',
@@ -597,6 +612,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'ZTS3': {
             'name': '特殊号',
             'method': 'ZTS3',
@@ -616,6 +632,7 @@ export default {
             'buttons': []
         },
 
+        // 后三
         'HZX3': {
             'name': '直选复式',
             'method': 'HZX3',
@@ -630,6 +647,7 @@ export default {
             },
             'buttons': digitalPosTpl,
         },
+
         'HZX3_S': {
             'name': '直选单式',
             'method': 'HZX3_S',
@@ -639,6 +657,7 @@ export default {
             'type': 'text',
             'b64': 3
         },
+
         'HZH3': {
             'name': '后三组合',
             'method': 'HZH3',
@@ -653,6 +672,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZXHZ': {
             'name': '直选和值',
             'method': 'HZXHZ',
@@ -665,6 +685,7 @@ export default {
             },
             'buttons': []
         },
+
         'HZXKD': {
             'name': '直选跨度',
             'method': 'HZXKD',
@@ -677,6 +698,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZU3': {
             'name': '组三复式',
             'method': 'HZU3',
@@ -689,6 +711,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZU3_S': {
             'name': '组三单式',
             'method': 'HZU3_S',
@@ -697,6 +720,7 @@ export default {
             'example': '投注方案：001<br>开奖号码：后三位 010（顺序不限），即中后三组选三。',
             'type': 'text'
         },
+
         'HZU6': {
             'name': '组六复式',
             'method': 'HZU6',
@@ -709,6 +733,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZU6_S': {
             'name': '组六单式',
             'method': 'HZU6_S',
@@ -717,6 +742,7 @@ export default {
             'example': '投注方案：123<br>开奖号码：后三位 321（顺序不限），即中后三组选六。',
             'type': 'text'
         },
+
         'HHHZX': {
             'name': '混合组选',
             'method': 'HHHZX',
@@ -726,6 +752,7 @@ export default {
             'type': 'text',
             'b64': 3
         },
+
         'HZUHZ': {
             'name': '组选和值',
             'method': 'HZUHZ',
@@ -738,6 +765,7 @@ export default {
             },
             'buttons': []
         },
+
         'HZU3BD': {
             'name': '组选包胆',
             'method': 'HZU3BD',
@@ -753,6 +781,7 @@ export default {
                 1
             ]
         },
+
         'HHZWS': {
             'name': '和值尾数',
             'method': 'HHZWS',
@@ -765,6 +794,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HTS3': {
             'name': '特殊号',
             'method': 'HTS3',
@@ -797,6 +827,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QZX2_S': {
             'name': '直选单式',
             'method': 'QZX2_S',
@@ -805,6 +836,7 @@ export default {
             'example': '投注方案：58<br>开奖号码：前二位 58，即中前二直选。',
             'type': 'text'
         },
+
         'QZXHZ2': {
             'name': '直选和值',
             'method': 'QZXHZ2',
@@ -817,6 +849,7 @@ export default {
             },
             'buttons': []
         },
+
         'QZXKD2': {
             'name': '直选跨度',
             'method': 'QZXKD2',
@@ -829,6 +862,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QZU2': {
             'name': '组选复式',
             'method': 'QZU2',
@@ -841,6 +875,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QZU2_S': {
             'name': '组选单式',
             'method': 'QZU2_S',
@@ -849,6 +884,7 @@ export default {
             'example': '投注方案：58<br>开奖号码：前二位 85 或者 58（顺序不限，不含对子号），即中前二组选。',
             'type': 'text'
         },
+
         'QZUHZ2': {
             'name': '组选和值',
             'method': 'QZUHZ2',
@@ -861,6 +897,7 @@ export default {
             },
             'buttons': []
         },
+
         'QZU2BD': {
             'name': '组选包胆',
             'method': 'QZU2BD',
@@ -876,6 +913,7 @@ export default {
                 1
             ]
         },
+
         'HZX2': {
             'name': '直选复式',
             'method': 'HZX2',
@@ -889,6 +927,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZX2_S': {
             'name': '直选单式',
             'method': 'HZX2_S',
@@ -897,6 +936,7 @@ export default {
             'example': '投注方案：58<br>开奖号码：后二位 58，即中后二直选。',
             'type': 'text'
         },
+
         'HZXHZ2': {
             'name': '直选和值',
             'method': 'HZXHZ2',
@@ -909,6 +949,7 @@ export default {
             },
             'buttons': []
         },
+
         'HZXKD2': {
             'name': '直选跨度',
             'method': 'HZXKD2',
@@ -921,6 +962,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZU2': {
             'name': '组选复式',
             'method': 'HZU2',
@@ -933,6 +975,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HZU2_S': {
             'name': '组选单式',
             'method': 'HZU2_S',
@@ -941,6 +984,7 @@ export default {
             'example': '投注方案：58<br>开奖号码：后二位 85 或者 58（顺序不限，不含对子号），即中后二组选。',
             'type': 'text'
         },
+
         'HZUHZ2': {
             'name': '组选和值',
             'method': 'HZUHZ2',
@@ -953,6 +997,7 @@ export default {
             },
             'buttons': []
         },
+
         'HZU2BD': {
             'name': '组选包胆',
             'method': 'HZU2BD',
@@ -968,6 +1013,7 @@ export default {
                 1
             ]
         },
+
         'DWD': {
             'name': '定位胆',
             'method': 'DWD',
@@ -984,6 +1030,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HBDW31': {
             'name': '后三一码',
             'method': 'HBDW31',
@@ -996,6 +1043,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QBDW31': {
             'name': '前三一码',
             'method': 'QBDW31',
@@ -1008,6 +1056,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'HBDW32': {
             'name': '后三二码',
             'method': 'HBDW32',
@@ -1020,6 +1069,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'QBDW32': {
             'name': '前三二码',
             'method': 'QBDW32',
@@ -1032,6 +1082,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'BDW41': {
             'name': '四星一码',
             'method': 'BDW41',
@@ -1044,6 +1095,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'BDW42': {
             'name': '四星二码',
             'method': 'BDW42',
@@ -1056,6 +1108,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'BDW52': {
             'name': '五星二码',
             'method': 'BDW52',
