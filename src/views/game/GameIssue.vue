@@ -198,16 +198,7 @@ export default {
           // 计算 倒计时
           time -= 1
           if (time >= 0) {
-            second = time
-            if (second > 60) {
-              minute = second / 60
-              second = second % 60
-            }
-            if (minute > 60) {
-              hour = second / 60
-              minute = minute % 60
-            }
-            this.time = parseInt(hour) + ':' + parseInt(minute)  + ':' + parseInt(second)
+            this.time = this.Utils.formatSeconds(time)
           } else {
             clearInterval(this.currentIssueTimer)
             this.issueNum += 1

@@ -57,6 +57,30 @@ let Utils = {
             return str + '.' + zeo
         }
     },
+    // 将剩余秒数转换成倒计时
+    formatSeconds (value) {
+        let secondTime = parseInt(value)
+        let minuteTime = 0
+        let hourTime = 0
+        if (secondTime > 60) {
+            minuteTime = parseInt(secondTime / 60)
+            secondTime = parseInt(secondTime % 60)
+            if (minuteTime > 60) {
+                hourTime = parseInt(minuteTime / 60)
+                minuteTime = parseInt(minuteTime % 60)
+            }
+        }
+        if (secondTime < 10) {
+            secondTime = '0' + parseInt(secondTime)
+        }
+        if (minuteTime < 10) {
+            minuteTime = '0' + parseInt(minuteTime)
+        }
+        if (hourTime < 10) {
+            hourTime = '0' + parseInt(hourTime)
+        }
+        return hourTime + ':' + minuteTime + ':' + secondTime
+    },
     // obj 传入时间  返回 yyyy-mm-dd
     formatTime (obj, format = 'YYYY-MM-DD') {
     let date = new Date(obj);
