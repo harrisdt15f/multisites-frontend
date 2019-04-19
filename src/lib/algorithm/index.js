@@ -106,38 +106,96 @@ export default {
         return cc.C(m, 1) * cc.C(n, 1) - cc.C(h, 1);
     },
 
-    //三星
+    // 三星
 
-    ZX3(method, state) {
+    QZX3(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2 * n3;
     },
-    ZX3_S(method, state) {
+
+    ZZX3(method, state) {
+        this.QZX3(method, state);
+    },
+
+    HZX3(method, state) {
+        this.QZX3(method, state);
+    },
+
+    // 租3 单式
+    QZX3_S(method, state) {
         return cc.calculateByIuput(3, method, function () {
             return true;
         }, state);
     },
-    ZH3(method, state) {
+
+    ZZX3_S(method, state) {
+        this.QZX3_S(method, state);
+    },
+
+    HZX3_S(method, state) {
+        this.QZX3_S(method, state);
+    },
+
+    // 组合3
+    QZH3(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2 * n3 * 3;
     },
-    ZXHZ(method, state) {
+
+    ZZH3(method, state) {
+        this.QZH3(method, state);
+    },
+
+    HZH3(method, state) {
+        this.QZH3(method, state);
+    },
+
+    // 三星之选和值
+    QZXHZ(method, state) {
         let data;
         data = [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 63, 69, 73, 75, 75, 73, 69, 63, 55, 45, 36, 28, 21, 15, 10, 6, 3, 1];
         return cc.calculateByPosition(data, method, state);
     },
-    ZXKD(method, state) {
+
+    ZZXHZ(method, state) {
+        this.QZXHZ(method, state);
+    },
+
+    HZXHZ(method, state) {
+        this.QZXHZ(method, state);
+    },
+
+    // 只选包胆
+    QZXKD(method, state) {
         let data;
         data = [10, 54, 96, 126, 144, 150, 144, 126, 96, 54];
         return cc.calculateByPosition(data, method, state);
     },
-    QZU3(method, state) {
-        let h, m, n, ref;
-        ref = cc.calculateMNH(method, state), m = ref[0], n = ref[1], h = ref[2];
-        return cc.C(n, 2) * 2;
+
+    ZZXKD(method, state) {
+        this.QZXKD(method, state);
     },
+
+    HZXKD(method, state) {
+        this.QZXKD(method, state);
+    },
+
+    // 组3
+    QZU3(method, state) {
+        this.QZU3(method, state);
+    },
+
+    ZZU3(method, state) {
+        this.QZU3(method, state);
+    },
+
+    HZU3(method, state) {
+        this.QZU3(method, state);
+    },
+
+    // 组三单式
     QZU3_S(method, state) {
         return cc.calculateByZuIuput(3, method, input => {
             let ref;
@@ -149,11 +207,31 @@ export default {
             }
         }, state);
     },
+
+    ZZU3_S(method, state) {
+        this.QZU3_S(method, state);
+    },
+
+    HZU3_S(method, state) {
+        this.QZU3_S(method, state);
+    },
+
+    // 组六
     QZU6(method, state) {
         let h, m, n, ref;
         ref = cc.calculateMNH(method, state), m = ref[0], n = ref[1], h = ref[2];
         return cc.C(n, 3);
     },
+
+    ZZU6(method, state) {
+        this.QZU6(method, state);
+    },
+
+    HZU6(method, state) {
+        this.QZU6(method, state);
+    },
+
+    // 前组六
     QZU6_S(method, state) {
         return cc.calculateByZuIuput(3, method, input => {
             if (input[0] === input[1] || input[1] === input[2] || input[0] === input[2]) {
@@ -162,7 +240,17 @@ export default {
             return true;
         }, state);
     },
-    HHZX(method, state) {
+
+    ZZU6_S(method, state) {
+        this.QZU6_S(method, state);
+    },
+
+    HZU6_S(method, state) {
+        this.QZU6_S(method, state);
+    },
+
+    // 三星 - 混合组选
+    QHHZX(method, state) {
         return cc.calculateByZuIuput(3, method, input => {
             let ref;
             if ((input[0] === (ref = input[1]) && ref === input[2])) {
@@ -171,27 +259,74 @@ export default {
             return true;
         }, state);
     },
-    ZUHZ(method, state) {
+
+    ZHHZX(method, state) {
+        this.QHHZX(method, state);
+    },
+
+    HHHZX(method, state) {
+        this.QHHZX(method, state);
+    },
+
+    // 组3 和值
+    QZUHZ(method, state) {
         let data;
         data = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1];
         return cc.calculateByPosition(data, method, state);
     },
-    ZU3BD(method, state) {
+
+    ZZUHZ(method, state) {
+        this.ZZUHZ(method, state);
+    },
+
+    HZUHZ(method, state) {
+        this.HZUHZ(method, state);
+    },
+
+    // 组三 包胆
+    QZU3BD(method, state) {
         let data;
         data = [54, 54, 54, 54, 54, 54, 54, 54, 54, 54];
         return cc.calculateByPosition(data, method, state);
     },
-    HZWS(method, state) {
+
+    ZZU3BD(method, state) {
+        this.QZU3BD(method, state);
+    },
+
+    HZU3BD(method, state) {
+        this.QZU3BD(method, state);
+    },
+
+    // 前三 和值尾数
+    QHZWS(method, state) {
         let h, m, n, ref;
         ref = cc.calculateMNH(method, state), m = ref[0], n = ref[1], h = ref[2];
         return cc.C(n, 1);
     },
-    TS3(method, state) {
+
+    ZHZWS(method, state) {
+        this.QHZWS(method, state);
+    },
+
+    HHZWS(method, state) {
+        this.QHZWS(method, state);
+    },
+
+    // 特殊3
+    QTS3(method, state) {
         let data;
         data = [1, 1, 1];
         return cc.calculateByPosition(data, method, state);
     },
 
+    ZTS3(method, state) {
+        this.QTS3(method, state);
+    },
+
+    HTS3(method, state) {
+        this.QTS3(method, state);
+    },
 
     //两星
     ZX2(method, state) {
