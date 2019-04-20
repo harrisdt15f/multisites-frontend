@@ -2253,10 +2253,9 @@ export default {
         }
     },
     'lotto': {
-
-        'LTZX3': {
+        'LTQ3ZX3': {
             'name': '前三直选复式',
-            'method': 'LTZX3',
+            'method': 'LTQ3ZX3',
             'desc': '从第一位、第二位、第三位中至少各选择1个号码。',
             'help': '从01-11共11个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：01 02 03 * *，即中前三直选。',
@@ -2268,18 +2267,20 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'LTZX3_S': {
+
+        'LTQ3ZX3_S': {
             'name': '前三直选单式',
-            'method': 'LTZX3_S',
+            'method': 'LTQ3ZX3_S',
             'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
             'help': '手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：01 02 03 * *，即中前三直选。',
             'type': 'text',
             'number': 3
         },
-        'LTZU3': {
+
+        'LTQ3ZU3': {
             'name': '前三组选复式',
-            'method': 'LTZU3',
+            'method': 'LTQ3ZU3',
             'desc': '从01-11中任意选择3个或3个以上号码。',
             'help': '从01-11中共11个号码中选择3个号码，所选号码与当期顺序摇出的5个号码中的前3个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：03 01 02 * *（前三顺序不限），即中前三组选。',
@@ -2289,18 +2290,20 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'LTZU3_S': {
+
+        'LTQ3ZU3_S': {
             'name': '前三组选单式',
-            'method': 'LTZU3_S',
+            'method': 'LTQ3ZU3_S',
             'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
             'help': '手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前3个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：03 01 02 * *（前三顺序不限），即中前三组选。',
             'type': 'text',
             'number': 3
         },
-        'LTDTZU3': {
+
+        'LTQ3ZU3DT': {
             'name': '前三组选胆拖',
-            'method': 'LTDTZU3',
+            'method': 'LTQ3ZU3DT',
             'desc': '从01-11中，选取3个及以上的号码进行投注，每注需至少包括1个胆码及2个拖码。',
             'help': '从01-11中，选取3个及以上的号码进行投注，每注需至少包括1个胆码及2个拖码。<br>所选单注号码与当期顺序摇出的5个号码中的前3个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：胆码 02，拖码 01 06<br>开奖号码：02 01 06 * *（前三顺序不限），即中前三组选胆拖。',
@@ -2317,9 +2320,9 @@ export default {
             'limitSelectedSomePosition': true
         },
 
-        'LTZX2': {
+        'LTQ2ZX2': {
             'name': '前二直选复式',
-            'method': 'LTZX2',
+            'method': 'LTQ2ZX2',
             'desc': '从第一位、第二位中至少各选择1个号码。',
             'help': '从01-11共11个号码中选择2个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前2个号码相同，且顺序一致，即中奖。',
             'example': '投注方案：01 02<br>开奖号码：01 02 * * *，即中前二直选。',
@@ -2330,18 +2333,20 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'LTZX2_S': {
+
+        'LTQ2ZX2_S': {
             'name': '前二直选单式',
-            'method': 'LTZX2_S',
+            'method': 'LTQ2ZX2_S',
             'desc': '手动输入号码，至少输入1个两位数号码组成一注。',
             'help': '手动输入2个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前2个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02<br>开奖号码：01 02 * * *，即中前二直选。',
             'type': 'text',
             'number': 3
         },
-        'LTZU2': {
+
+        'LTQ2ZU2': {
             'name': '前二组选复式',
-            'method': 'LTZU2',
+            'method': 'LTQ2ZU2',
             'desc': '从01-11中任意选择2个或2个以上号码。',
             'help': '从01-11中共11个号码中选择2个号码，所选号码与当期顺序摇出的5个号码中的前2个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：01 02<br>开奖号码：02 01 * * *，（前二顺序不限），即中前二组选。',
@@ -2351,18 +2356,20 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'LTZU2_S': {
+
+        'LTQ2ZU2_S': {
             'name': '前二组选单式',
-            'method': 'LTZU2_S',
+            'method': 'LTQ2ZU2_S',
             'desc': '手动输入号码，至少输入1个两位数号码组成一注。',
             'help': '手动输入2个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前2个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：01 02<br>开奖号码：02 01 * * *，（前二顺序不限），即中前二组选。',
             'type': 'text',
             'number': 3
         },
-        'LTDTZU2': {
+
+        'LTQ2DTZU2': {
             'name': '前二组选胆拖',
-            'method': 'LTDTZU2',
+            'method': 'LTQ2DTZU2',
             'desc': '从01-11中，选取2个及以上的号码进行投注，每注需至少包括1个胆码及1个拖码。',
             'help': '从01-11中，选取2个及以上的号码进行投注，每注需至少包括1个胆码及1个拖码。<br>所选单注号码与当期顺序摇出的5个号码中的前2个号码相同，顺序不限，即为中奖。',
             'example': '投注方案：胆码 01，拖码 06<br>开奖号码：06 01 * * *，（前二顺序不限），即中前二组选胆拖。',
@@ -2391,6 +2398,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'LTDWD': {
             'name': '定位胆',
             'method': 'LTDWD',
@@ -2405,6 +2413,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'LTDDS': {
             'name': '定单双',
             'method': 'LTDDS',
@@ -2565,6 +2574,7 @@ export default {
             'example': '投注方案：05 04 11<br>开奖号码：08 04 11 05 03，即中任选三中三。',
             'type': 'text'
         },
+
         'LTRX4_S': {
             'name': '任选四中四',
             'method': 'LTRX4_S',
@@ -2573,6 +2583,7 @@ export default {
             'example': '投注方案：05 04 08 03<br>开奖号码：08 04 11 05 03，即中任选四中四。',
             'type': 'text'
         },
+
         'LTRX5_S': {
             'name': '任选五中五',
             'method': 'LTRX5_S',
@@ -2581,6 +2592,7 @@ export default {
             'example': '投注方案：05 04 11 03 08<br>开奖号码：08 04 11 05 03，即中任选五中五。',
             'type': 'text'
         },
+
         'LTRX6_S': {
             'name': '任选六中五',
             'method': 'LTRX6_S',
@@ -2589,6 +2601,7 @@ export default {
             'example': '投注方案：05 10 04 11 03 08<br>开奖号码：08 04 11 05 03，即中任选六中五。',
             'type': 'text'
         },
+
         'LTRX7_S': {
             'name': '任选七中五',
             'method': 'LTRX7_S',
@@ -2597,6 +2610,7 @@ export default {
             'example': '投注方案：05 10 04 11 03 08 09<br>开奖号码：08 04 11 05 03，即中任选七中五。',
             'type': 'text'
         },
+
         'LTRX8_S': {
             'name': '任选八中五',
             'method': 'LTRX8_S',
@@ -2605,6 +2619,7 @@ export default {
             'example': '投注方案：05 10 04 11 03 08 09 01<br>开奖号码：08 04 11 05 03，即中任选八中五。',
             'type': 'text'
         },
+
         'LTRXDT2': {
             'name': '任选二中二',
             'method': 'LTRXDT2',
@@ -2623,6 +2638,7 @@ export default {
             ],
             'limitSelectedSomePosition': true
         },
+
         'LTRXDT3': {
             'name': '任选三中三',
             'method': 'LTRXDT3',

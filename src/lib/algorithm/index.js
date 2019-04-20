@@ -115,11 +115,11 @@ export default {
     },
 
     ZZX3(method, state) {
-        this.QZX3(method, state);
+        return this.QZX3(method, state);
     },
 
     HZX3(method, state) {
-        this.QZX3(method, state);
+        return this.QZX3(method, state);
     },
 
     // 租3 单式
@@ -130,11 +130,11 @@ export default {
     },
 
     ZZX3_S(method, state) {
-        this.QZX3_S(method, state);
+        return this.QZX3_S(method, state);
     },
 
     HZX3_S(method, state) {
-        this.QZX3_S(method, state);
+        return this.QZX3_S(method, state);
     },
 
     // 组合3
@@ -145,11 +145,11 @@ export default {
     },
 
     ZZH3(method, state) {
-        this.QZH3(method, state);
+        return this.QZH3(method, state);
     },
 
     HZH3(method, state) {
-        this.QZH3(method, state);
+        return this.QZH3(method, state);
     },
 
     // 三星之选和值
@@ -160,11 +160,11 @@ export default {
     },
 
     ZZXHZ(method, state) {
-        this.QZXHZ(method, state);
+        return this.QZXHZ(method, state);
     },
 
     HZXHZ(method, state) {
-        this.QZXHZ(method, state);
+        return this.QZXHZ(method, state);
     },
 
     // 只选包胆
@@ -175,24 +175,24 @@ export default {
     },
 
     ZZXKD(method, state) {
-        this.QZXKD(method, state);
+        return this.QZXKD(method, state);
     },
 
     HZXKD(method, state) {
-        this.QZXKD(method, state);
+        return this.QZXKD(method, state);
     },
 
     // 组3
     QZU3(method, state) {
-        this.QZU3(method, state);
+        return this.QZU3(method, state);
     },
 
     ZZU3(method, state) {
-        this.QZU3(method, state);
+        return this.QZU3(method, state);
     },
 
     HZU3(method, state) {
-        this.QZU3(method, state);
+        return this.QZU3(method, state);
     },
 
     // 组三单式
@@ -209,11 +209,11 @@ export default {
     },
 
     ZZU3_S(method, state) {
-        this.QZU3_S(method, state);
+        return this.QZU3_S(method, state);
     },
 
     HZU3_S(method, state) {
-        this.QZU3_S(method, state);
+        return this.QZU3_S(method, state);
     },
 
     // 组六
@@ -224,11 +224,11 @@ export default {
     },
 
     ZZU6(method, state) {
-        this.QZU6(method, state);
+        return this.QZU6(method, state);
     },
 
     HZU6(method, state) {
-        this.QZU6(method, state);
+        return this.QZU6(method, state);
     },
 
     // 前组六
@@ -242,11 +242,11 @@ export default {
     },
 
     ZZU6_S(method, state) {
-        this.QZU6_S(method, state);
+        return this.QZU6_S(method, state);
     },
 
     HZU6_S(method, state) {
-        this.QZU6_S(method, state);
+        return this.QZU6_S(method, state);
     },
 
     // 三星 - 混合组选
@@ -261,11 +261,11 @@ export default {
     },
 
     ZHHZX(method, state) {
-        this.QHHZX(method, state);
+        return this.QHHZX(method, state);
     },
 
     HHHZX(method, state) {
-        this.QHHZX(method, state);
+        return this.QHHZX(method, state);
     },
 
     // 组3 和值
@@ -276,11 +276,11 @@ export default {
     },
 
     ZZUHZ(method, state) {
-        this.ZZUHZ(method, state);
+        return this.ZZUHZ(method, state);
     },
 
     HZUHZ(method, state) {
-        this.HZUHZ(method, state);
+        return this.HZUHZ(method, state);
     },
 
     // 组三 包胆
@@ -291,11 +291,11 @@ export default {
     },
 
     ZZU3BD(method, state) {
-        this.QZU3BD(method, state);
+        return this.QZU3BD(method, state);
     },
 
     HZU3BD(method, state) {
-        this.QZU3BD(method, state);
+        return this.QZU3BD(method, state);
     },
 
     // 前三 和值尾数
@@ -306,11 +306,11 @@ export default {
     },
 
     ZHZWS(method, state) {
-        this.QHZWS(method, state);
+        return this.QHZWS(method, state);
     },
 
     HHZWS(method, state) {
-        this.QHZWS(method, state);
+        return this.QHZWS(method, state);
     },
 
     // 特殊3
@@ -321,11 +321,11 @@ export default {
     },
 
     ZTS3(method, state) {
-        this.QTS3(method, state);
+        return this.QTS3(method, state);
     },
 
     HTS3(method, state) {
-        this.QTS3(method, state);
+        return this.QTS3(method, state);
     },
 
     //两星
@@ -668,9 +668,9 @@ export default {
     },
 
 
-    //------------------乐透------------------
+    // ------------------ 乐透类型 ------------------
 
-    LTZX3(method, state) {
+    LTQ3ZX3(method, state) {
         let A, AB, ABC, AC, B, BC, C, listA, listB, listC, ref, ref1, result;
         ref = cc.calculateN(method, state), A = ref[0], B = ref[1], C = ref[2];
         ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1], listC = ref1[2];
@@ -685,18 +685,22 @@ export default {
             return 0;
         }
     },
-    LTZX3_S(method, state) {
+
+    LTQ3ZX3_S(method, state) {
         return cc.calculateLTByIuput(method, 3, num => +num && +num >= 1 && +num <= 11, state);
     },
-    LTZU3(method, state) {
+
+    LTQ3ZU3(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 3);
     },
-    LTZU3_S(method, state) {
+
+    LTQ3ZU3_S(method, state) {
         return cc.calculateLTByIuput(method, 3, num => +num && +num >= 1 && +num <= 11, state);
     },
-    LTDTZU3(method, state) {
+
+    LTQ3ZU3DT(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
         if (!n1) {
@@ -704,7 +708,8 @@ export default {
         }
         return cc.C(n2, 3 - n1);
     },
-    LTZX2(method, state) {
+
+    LTQ2ZX2(method, state) {
         let A, AB, B, listA, listB, ref, ref1, result;
         ref = cc.calculateN(method, state), A = ref[0], B = ref[1];
         ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1];
@@ -716,18 +721,22 @@ export default {
             return 0;
         }
     },
-    LTZX2_S(method, state) {
+
+    LTQ2ZX2_S(method, state) {
         return cc.calculateLTByIuput(method, 2, num => +num && +num >= 1 && +num <= 11, state);
     },
-    LTZU2(method, state) {
+
+    LTQ2ZU2(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 2);
     },
-    LTZU2_S(method, state) {
+
+    LTQ2ZU2_S(method, state) {
         return cc.calculateLTByIuput(method, 2, num => +num && +num >= 1 && +num <= 11, state);
     },
-    LTDTZU2(method, state) {
+
+    LTQ2DTZU2(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
         if (!n1) {
@@ -735,17 +744,21 @@ export default {
         }
         return cc.C(n2, 2 - n1);
     },
+
     LTBDW(method, state) {
         return cc.calculateN(method, state)[0];
     },
+
     LTDWD(method, state) {
         let n1, n2, n3, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2];
         return n1 + n2 + n3;
     },
+
     LTDDS(method, state) {
         return cc.calculateN(method, state)[0];
     },
+
     LTCZW(method, state) {
         return cc.calculateN(method, state)[0];
     },
@@ -755,65 +768,81 @@ export default {
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 1);
     },
+
     LTRX1_S(method, state) {
         return cc.calculateLTRXByIuput(method, 1, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX2(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 2);
     },
+
     LTRX2_S(method, state) {
         return cc.calculateLTRXByIuput(method, 2, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX3(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 3);
     },
+
     LTRX3_S(method, state) {
         return cc.calculateLTRXByIuput(method, 3, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX4(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 4);
     },
+
     LTRX4_S(method, state) {
         return cc.calculateLTRXByIuput(method, 4, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX5(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 5);
     },
+
     LTRX5_S(method, state) {
         return cc.calculateLTRXByIuput(method, 5, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX6(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 6);
     },
+
     LTRX6_S(method, state) {
         return cc.calculateLTRXByIuput(method, 6, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX7(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 7);
     },
+
     LTRX7_S(method, state) {
         return cc.calculateLTRXByIuput(method, 7, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRX8(method, state) {
         let n;
         n = cc.calculateN(method, state)[0];
         return cc.C(n, 8);
     },
+
     LTRX8_S(method, state) {
         return cc.calculateLTRXByIuput(method, 8, num => +num && +num >= 1 && +num <= 11, state);
     },
+
     LTRXDT2(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -822,6 +851,7 @@ export default {
         }
         return cc.C(n2, 2 - n1);
     },
+
     LTRXDT3(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -830,6 +860,7 @@ export default {
         }
         return cc.C(n2, 3 - n1);
     },
+
     LTRXDT4(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -838,6 +869,7 @@ export default {
         }
         return cc.C(n2, 4 - n1);
     },
+
     LTRXDT5(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -846,6 +878,7 @@ export default {
         }
         return cc.C(n2, 5 - n1);
     },
+
     LTRXDT6(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -854,6 +887,7 @@ export default {
         }
         return cc.C(n2, 6 - n1);
     },
+
     LTRXDT7(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -862,6 +896,7 @@ export default {
         }
         return cc.C(n2, 7 - n1);
     },
+
     LTRXDT8(method, state) {
         let n1, n2, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
@@ -872,7 +907,7 @@ export default {
     },
 
 
-    //------------------PK10------------------
+    // ------------------PK10------------------
     PKZX1(method, state) {
         let n1;
         n1 = cc.calculateN(method, state)[0];
