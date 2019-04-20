@@ -13,6 +13,7 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
+        { path: '/', redirect: '/login', component: Login},
         { path: '/login', name: 'login', component: Login},
         { path: '/register', name: 'register', component: Register },
         { path: '/home', name: 'home', component: Home,

@@ -100,6 +100,8 @@ export default {
       // 开奖号码下的 提示语
       if (this.$route.query && this.$route.query.desc) {
         this.descs = this.$route.query.desc
+      } else {
+        this.lotteryList()
       }
       this.getIssue()
       this.getLottery()
@@ -111,8 +113,8 @@ export default {
    },
     watch: {
       // 开奖号码下的 提示语
-      'bet.issueDesc' () {
-        console.log(22222)
+      'bet.issueDesc' (newVal) {
+        this.descs = newVal
       },
       'currentLottery' () {
         // 路由变化的时候更换彩种信息
@@ -138,6 +140,21 @@ export default {
       }
     },
     methods: {
+      // 获取提示语
+      lotteryList () {
+        this.Api.getLotteryList().then((res) => {
+          if (res.isSuccess) {
+            let data = res.data
+            for (let i = 0; i < data.length; i++) {
+              for (let j = 0; j < data[i].list.length; j++) {
+                if (data[i].list[j].id === this.$route.params.lotterySign) {
+                  this.descs = data[i].list[j].desc
+                }
+              }
+            }
+          }
+        })
+      },
       // 获取公告列表  彩种右侧公告 和 彩种滚动公告
       getNoticeList () {
         this.Api.getNoticeList().then(res => {

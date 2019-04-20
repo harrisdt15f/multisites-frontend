@@ -82,7 +82,7 @@
                   <section class="number-con" v-for="(item, index) in lotteryLists" :key="index">
                     <section class="com-title">{{item.name}}系列</section>
                     <nav class="play-sort">
-                      <a class="play-link" @click="goLottery(lottery, item)" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
+                      <a class="play-link" @click="goLottery(lottery)" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
                         {{lottery.name}}
                         <!--                <i class=" play-icon play-hot  "></i>-->
                       </a>
@@ -236,9 +236,9 @@ export default {
       })
     },
     // 去投注页
-    goLottery (lottery, item) {
+    goLottery (lottery) {
       this.$router.push('/bet/'+ lottery.id)
-      this.$store.commit('issueDesc', item.desc)
+      this.$store.commit('issueDesc', lottery.desc)
       this.$store.commit('currentLottery', this.lotteryAll[lottery.id].lottery)
     },
     logout () {
