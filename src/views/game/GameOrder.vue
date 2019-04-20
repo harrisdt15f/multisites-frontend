@@ -36,7 +36,7 @@
                                     <td><i>{{order.count}}</i></td>
                                     <td><i>{{order.times}}</i></td>
                                     <td><i>{{order.mode}}</i></td>
-                                    <td><i>{{order.cost}}</i></td>
+                                    <td><i>{{Utils.toFixed(String(order.cost))}}</i></td>
                                     <td width="5"><i><a href="javascript:;" class="del" @click="deleteOrderList(order, _orderIndex)">删除</a></i></td>
                                 </tr>
                                 </tbody>
@@ -182,9 +182,9 @@
             </div>
             <div class="bet-future-set">
                 总金额
-                <template v-if="chase.sameCon">{{chase.sameMoneyAll}}</template>
-                <template v-else-if="chase.doubleCon">{{chase.doubleMoneyAll}}</template>
-                <template v-else>{{totals.money}}</template>
+                <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
+                <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
+                <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
 <!--                <a href="javascript:;" class="btn bet-future-num" id="trace-open">我&nbsp;&nbsp;要&nbsp;&nbsp;追&nbsp;&nbsp;号</a>-->
                 <a href="javascript:;" class="btn main-btn-confirm" id="project-submit" @click="submitBet()">
                     <span class="ico-confirm"></span><span>确认投注</span>

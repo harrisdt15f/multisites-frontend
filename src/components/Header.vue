@@ -193,7 +193,8 @@ export default {
   name: 'Header',
   data() {
     return {
-      lotteryLists: []
+      lotteryLists: [],
+      issueDesc: ''
     }
   },
   computed: {
@@ -236,12 +237,8 @@ export default {
     },
     // 去投注页
     goLottery (lottery, item) {
-      this.$router.push({
-        path: '/bet/'+ lottery.id,
-        query: {
-          desc: item.desc
-        }
-      })
+      this.$router.push('/bet/'+ lottery.id)
+      this.$store.commit('issueDesc', item.desc)
       this.$store.commit('currentLottery', this.lotteryAll[lottery.id].lottery)
     },
     logout () {

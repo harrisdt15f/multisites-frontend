@@ -75,7 +75,8 @@ export default {
       ...mapState([
         'currentLottery',
         'lotteryAll',
-        'issueInfo'
+        'issueInfo',
+        'bet'
       ])
     },
     data() {
@@ -110,10 +111,8 @@ export default {
    },
     watch: {
       // 开奖号码下的 提示语
-      '$route' () {
-        if (this.$route.query && this.$route.query.desc) {
-          this.descs = this.$route.query.desc
-        }
+      'bet.issueDesc' () {
+        console.log(22222)
       },
       'currentLottery' () {
         // 路由变化的时候更换彩种信息

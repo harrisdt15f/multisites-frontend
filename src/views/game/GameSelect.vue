@@ -39,12 +39,18 @@
                         <div class="main-balls-import">
                             <div id="singleUpload" class="btn btn-blue btn-ball-import">导入注单</div>
                             <div class="btn-tab-list import-clean-list">
-                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理号码</a>
+                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理重复和错误号码</a>
                                 <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
                             </div>
                         </div>
                         <div class="balls-import-box">
-                              <textarea @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" id='ball-text-v' v-model="inputCodes"></textarea>
+             <!--               <el-input
+                                    type="textarea"
+                                    :autosize="{ minRows: 2, maxRows: 4}"
+                                    placeholder="请输入内容"
+                                    v-model="textarea2">
+                            </el-input>-->
+                              <textarea @input="inputAreaChange()" @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" id='ball-text-v' v-model="inputCodes"></textarea>
                         </div>
                     </div>
                 </div>
@@ -70,13 +76,13 @@
                     </div>
 
                 </div>
-                                    <div class="bet-rebate-mode">
-                                        <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
-                                    </div>
+                <div class="bet-rebate-mode">
+                    <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
+                </div>
             </div>
             <div class="main-column-1 FR">
                 <div class="bet-add-box">
-                    <strong class="bet-total-money" id="cost">{{currentOrder.currentCost}}</strong>元
+                    <strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
                     <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" id="fast-add" @click="oneKeyBet()"><span class="ico-add"></span><span>一键投注</span></a>
                     <a href="javascript:;" class="btn main-btn-add btn-effect" id="add" @click="addOrder()"><span class="ico-add"></span><span>添加选号</span></a>
                 </div>
@@ -99,6 +105,7 @@ export default {
         return {
             inputCodesInitText:"",
             inputCodes:{},
+            inputCodesSingle: 0,
             chooseNumber:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
             chooseButton:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
             choosePosition:[],
@@ -147,7 +154,7 @@ export default {
             }
         },
         'oneKeyList' (newVal) {
-            if (newVal.length === 0) {
+            if (JSON.stringify(newVal) === '{}') {
                 this.clearBtn()
             }
         },
@@ -173,8 +180,9 @@ export default {
         },
         // 添加投注单
         addOrder(oneKey) {
+            let order = null
             if (this.currentMethod.type === 'multi') {
-                let order = {
+                order = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
                     codes: this.convertCodes(),
@@ -189,43 +197,72 @@ export default {
                 if (!this.currentOrder.currentCost || Number(this.currentOrder.currentCost) <= 0) {
                     this.$alert('选号不符合规则, 请按照规则选号', '提示', {
                         confirmButtonText: '确定'
-                    });
+                    })
                     return
                 }
                 if (oneKey) {
                     this.oneKeyList = order
                 } else {
-                    this.orderList.unshift(order)
-                    // 初始化翻倍后的数据
-                    let doubleBeforeOrder = []
-                    if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                        doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                    let index = this.orderList.findIndex((item) => {
+                        return order.codes === item.codes
+                    })
+                    // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
+                    if (index > -1) {
+                        this.$alert('您选择的号码在号码篮已存在，将直接进行倍数累加，返点以第一单为准', '提示', {
+                            confirmButtonText: '确定',
+                            callback:() => {
+                                this.$set(this.orderList[index], 'times', this.orderList[index].times + order.times)
+                                this.$set(this.orderList[index], 'cost', Number(this.orderList[index].cost) + Number(order.cost))
+                            }
+                        })
+                    } else {
+                        this.orderList.unshift(order)
                     }
-                    doubleBeforeOrder.push(order)
-                    this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+                    // 添加完选号 清空选中号码
+                    this.clearBtn()
                 }
             } else {
-
                 let _input = ''
-
-                let tmp = (this.inputCodes || '').split(',')
+                let tmp = (this.inputCodes || '').split(',').map((item) => {
+                    return this.Utils.removeAllSpace(item)
+                })
+                for (let i = tmp.length; i >= 0; i --) {
+                    // 去除非数字项
+                    if (isNaN(tmp[i])) {
+                        tmp.splice(i, 1)
+                    }
+                    // 去除 小于 或者 大于规定长度
+                    if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
+                        tmp.splice(i, 1)
+                    }
+                }
+                // 去重
                 let temp = array_unique3(tmp)
-                if ((tmp.length - temp.length) > 0) {
-                    this.inputCodes = temp.join(',')
-                    this.calculate( this.currentMethod, this.orderState)
+                this.inputCodes = temp.join(',')
+                this.calculate( this.currentMethod, this.orderState)
+                // if ((tmp.length - temp.length) > 0) {
+                //     this.inputCodes = temp.join(',')
+                //     this.calculate( this.currentMethod, this.orderState)
+                // }
+                this.input = this.inputCodes
+                if (isNaN(temp[0])) {
+                    this.$alert('请输入正确的投注号码！', '提示', {
+                        confirmButtonText: '确定'
+                    })
+                    return
                 }
-
-                this.input = this.inputCodes;
-
                 //优化单式//需要压缩
-                if (this.currentMethod.b64 && (temp.length > 10)) {
-                    _input = new Uint8Array(temp);
-                    _input = pako.gzip(_input, {gzip:true});
-                } else {
-                    _input = this.inputCodes;
+                if (this.currentMethod.b64) {
+                    _input = new Uint8Array(temp)
+                    _input = pako.gzip(_input, {gzip:true})
                 }
-
-                let order = {
+                // if (this.currentMethod.b64 && (temp.length > 10)) {
+                //     _input = new Uint8Array(temp)
+                //     _input = pako.gzip(_input, {gzip:true})
+                // } else {
+                //     _input = this.inputCodes;
+                // }
+                order = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
                     codes: _input,
@@ -239,68 +276,77 @@ export default {
                 if (oneKey) {
                     this.oneKeyList = order
                 } else {
+                    this.oneKeyList = {}
                     this.orderList.unshift(order)
-                    // 初始化翻倍后的数据
-                    let doubleBeforeOrder = []
-                    if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                        doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
-                    }
-                    doubleBeforeOrder.push(order)
-                    this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
                 }
+                this.inputCodesSingle = 0
+                this.inputCodes = ''
             }
-
+            // 清空注单值
+            this.currentOrder.currentCost = 0
+            this.currentOrder.currentCount = 0
+            this.currentOrder.currentTimes = 1
+            // 初始化翻倍后的数据
+            let doubleBeforeOrder = []
+            if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+            }
+            doubleBeforeOrder.push(order)
+            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
         },
 
         // 计算注数
         calculate() {
-            const method = this.currentMethod;
-            let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc;
-
-            inputcodes      = '';
-            positionDesc    = [];
-
-            result = algorithm[method.method](method, this.orderState);
-
-            if (method.rx && result[0]) {
-                _count  = result[0];
-                _cnt    = result[1];
-                _pcnt   = 0;
-                ref     = this.orderState.position;
-                for (k in ref) {
-                    item = ref[k];
-                    if (item) {
-                        _pcnt += 1;
+            if (this.currentMethod.type === 'multi') {
+                const method = this.currentMethod;
+                let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc;
+                inputcodes      = '';
+                positionDesc    = [];
+    
+                result = algorithm[method.method](method, this.orderState);
+                if (method.rx && result[0]) {
+                    _count  = result[0];
+                    _cnt    = result[1];
+                    _pcnt   = 0;
+                    ref     = this.orderState.position;
+                    for (k in ref) {
+                        item = ref[k];
+                        if (item) {
+                            _pcnt += 1;
+                        }
                     }
+                    positionDesc = [_pcnt, _cnt];
+                    if (result.length === 3) {
+                        inputcodes = result[2];
+                    }
+                } else if (result instanceof Array && result[0]) {
+                    _count      = result[0];
+                    inputcodes  = result[1];
+                } else {
+                    _count = result;
                 }
-                positionDesc = [_pcnt, _cnt];
-                if (result.length === 3) {
-                    inputcodes = result[2];
-                }
-            } else if (result instanceof Array && result[0]) {
-                _count      = result[0];
-                inputcodes  = result[1];
+    
+                this.currentOrder.currentCount      = _count;
+                this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes;
+                this.currentOrder.inputcodes        = inputcodes;
+                this.currentOrder.positionDesc      = positionDesc;
+    
+                return [_count, inputcodes, positionDesc];
             } else {
-                _count = result;
+                this.currentOrder.currentCost = (this.inputCodesSingle * 2 * this.currentOrder.currentTimes) * this.currentOrder.currentMode
+                this.currentOrder.currentCount = this.inputCodesSingle
             }
-
-            this.currentOrder.currentCount      = _count;
-            this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes;
-            this.currentOrder.inputcodes        = inputcodes;
-            this.currentOrder.positionDesc      = positionDesc;
-
-            return [_count, inputcodes, positionDesc];
         },
 
         // 倍数增加
         timeAdd() {
-            this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1;
-            this.calculate();
+            this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
+            this.calculate()
         },
 
         // 倍数减少
         timeReduce() {
-            this.currentOrder.currentTimes > 1 ? this.currentOrder.currentTimes = +this.currentOrder.currentTimes - 1 : "";
+            this.currentOrder.currentTimes > 1 ? this.currentOrder.currentTimes = +this.currentOrder.currentTimes - 1 : ''
             this.calculate();
         },
 
@@ -461,7 +507,6 @@ export default {
                 this.chooseNumber[y][j] = false;
             }
         },
-
         // 清空按钮
         cleanChooseButton(y) {
             for (let j = 0; j < this.chooseButton[y].length; j++) {
@@ -534,21 +579,44 @@ export default {
         // 输入框初始化
         inputAreaInit() {
           this.inputCodesInitText = "说明：\n" +
-              "1、每一注号码之间的间隔符支持 回车 逗号[,] 分号[;] 每注内间隔使用空格即可。\n" +
+              "1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n" +
               "2、文件格式必须是.txt格式。\n" +
               "3、导入文本内容后将覆盖文本框中现有的内容";
           this.inputCodes = this.inputCodesInitText
         },
         // 单式输入框获取焦点
         inputAreaFocus() {
-            this.inputCodes = ''
-        },
-        // 单式输入框失去焦点
-        inputAreaBlur() {
-            if (this.inputCodes && this.inputCodes !== this.inputCodesInitText) {
+            if (this.inputCodes === this.inputCodesInitText) {
+                this.inputCodes = ''
                 return true
             }
-            this.inputCodes = this.inputCodesInitText
+        },
+        // 单式输入框 变化时
+        inputAreaChange () {
+            let tmp = (this.inputCodes || '').split(',').map((item) => {
+                return this.Utils.removeAllSpace(item)
+            })
+            for (let i = tmp.length; i >= 0; i --) {
+                // 去除非数字项
+                if (isNaN(tmp[i])) {
+                    tmp.splice(i, 1)
+                }
+                // 去除 小于 或者 大于规定长度
+                if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
+                    tmp.splice(i, 1)
+                }
+            }
+            // 去重
+            let temp = array_unique3(tmp)
+            this.inputCodes = temp.join(',')
+            this.inputCodesSingle = temp.length
+            this.calculate()
+        },
+        // 单式输入框失去焦点
+        inputAreaBlur () {
+            if (!this.inputCodes) {
+                this.inputCodes = this.inputCodesInitText
+            }
         },
         // 清空直选单式文本
         inputClearOrder() {
@@ -556,23 +624,44 @@ export default {
         },
         // 清理重复项 和 错误项
         inputClearRepeatOrder() {
-            let _input = ''
-            let tmp = (this.inputCodes || '').split(',')
-            let temp = array_unique3(tmp)
-            if ((tmp.length - temp.length) > 0) {
-                this.inputCodes = temp.join(',')
-                this.calculate( this.currentMethod, this.orderState)
-            }
-    
-            this.input = this.inputCodes;
-    
-            //优化单式//需要压缩
-            if (this.currentMethod.b64 && (temp.length > 10)) {
-                _input = new Uint8Array(temp)
-                _input = pako.gzip(_input, {gzip:true})
-            } else {
-                _input = this.inputCodes
-            }
+            // let tmp = (this.inputCodes || '').split(',').map((item) => {
+            //     return this.Utils.removeAllSpace(item)
+            // })
+            // for (let i = tmp.length; i >= 0; i --) {
+            //     // 去除非数字项
+            //     if (isNaN(tmp[i])) {
+            //         tmp.splice(i, 1)
+            //     }
+            //     // 去除 小于 或者 大于规定长度
+            //     if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
+            //         tmp.splice(i, 1)
+            //     }
+            // }
+            // // 去重
+            // let temp = array_unique3(tmp)
+            // this.inputCodes = temp.join(',')
+            // this.inputCodesSingle = temp.length
+            // this.calculate()
+            
+            
+            // let _input = ''
+            // let tmp = (this.inputCodes || '').split(',')
+            // let temp = array_unique3(tmp)
+            // if ((tmp.length - temp.length) > 0) {
+            //     this.inputCodes = temp.join(',')
+            //     this.calculate( this.currentMethod, this.orderState)
+            // }
+            //
+            // this.input = this.inputCodes;
+            //
+            // //优化单式//需要压缩
+            // if (this.currentMethod.b64 && (temp.length > 10)) {
+            //     _input = new Uint8Array(temp)
+            //     _input = pako.gzip(_input, {gzip:true})
+            // } else {
+            //     _input = this.inputCodes
+            // }
+            // console.log(_input)
         },
         // 一键投注
         oneKeyBet () {
@@ -589,6 +678,12 @@ export default {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
                     })
+                    // 添加完选号 清空选中号码
+                    this.clearBtn()
+                    // 清空注单值
+                    this.currentOrder.currentCost = 0
+                    this.currentOrder.currentCount = 0
+                    this.currentOrder.currentTimes = 1
                     // 获取我的投注 我的追号记录
                     this.$store.dispatch('betHistory')
                     // 刷新余额

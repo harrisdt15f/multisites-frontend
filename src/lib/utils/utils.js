@@ -39,7 +39,7 @@ let Utils = {
     },
     // 去除字符串回车
     removeEnter (str) {
-        return str.replace(/[\r]/g, "")
+        return str.replace(/[\r]/g, '')
     },
     /*
     * 显示小数点后面几位
@@ -83,11 +83,11 @@ let Utils = {
     },
     // obj 传入时间  返回 yyyy-mm-dd
     formatTime (obj, format = 'YYYY-MM-DD') {
-    let date = new Date(obj);
-    let date2 = date.toLocaleDateString().split('/');
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
+    let date = new Date(obj)
+    let date2 = date.toLocaleDateString().split('/')
+    let hours = date.getHours()
+    let minutes = date.getMinutes()
+    let seconds = date.getSeconds()
     if (date2[1] < 10) {
         date2[1] = '0' + date2[1]
     }

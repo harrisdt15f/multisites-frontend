@@ -49,7 +49,8 @@ const store =  new Vuex.Store({
                 myBetList: [],
                 myChaseList: []
             },
-            issueHistory: []
+            issueHistory: [],
+            issueDesc: ''
         },
         // 全部彩种
         lotteryAll: {},
@@ -143,6 +144,10 @@ const store =  new Vuex.Store({
         // 历史开奖记录
         issueHistory (state, data) {
             state.bet.issueHistory = data
+        },
+        // 投注页面 奖期
+        issueDesc (state, data) {
+            state.bet.issueDesc = data
         }
     },
     actions: {

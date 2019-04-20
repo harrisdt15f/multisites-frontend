@@ -705,7 +705,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	text-align: left;
 }
 .bet-choose-total {
-	width: 180px;
+	width: 190px;
 	margin-top: 10px;
 	float: left;
 }
@@ -723,7 +723,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	vertical-align: top;
 }
 .bet-play-mode {
-	width: 140px;
+	width: 115px;
 	margin-top: 10px;
 	padding-left: 40px;
 	position: relative;
