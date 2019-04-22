@@ -3008,6 +3008,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'PKQZX1_S': {
             'name': '第一名单式',
             'method': 'PKQZX1_S',
@@ -3020,6 +3021,29 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
+        'PKQD2': {
+            'name': '第二名复式',
+            'method': 'PKQD2',
+            'desc': '从第二名中至少各选择1个号码。',
+            'help': '从第二名投注的1个号码与开奖号码中的第2位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* 01 * * * * * * * *，即中第二名复式.',
+            'type': 'multi',
+            'layout': {
+                '亚军': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+
+        'PKQD2_S': {
+            'name': '第二名单式',
+            'method': 'PKQD2_S',
+            'desc': '从第二名中至少各选择1个号码。',
+            'help': '从第二名投注的1个号码与开奖号码中的第2位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* 01 * * * * * * * *，即中第二名单式.',
+            'type': 'text',
+        },
+
         'PKQZX2': {
             'name': '猜前二复式',
             'method': 'PKQZX2',
@@ -3033,6 +3057,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'PKQZX2_S': {
             'name': '猜前二单式',
             'method': 'PKQZX2_S',
@@ -3042,6 +3067,29 @@ export default {
             'type': 'text',
             'number': 2
         },
+
+        'PKQD3': {
+            'name': '第三名复式',
+            'method': 'PKQD3',
+            'desc': '从第三名中至少各选择1个号码。',
+            'help': '从第三名投注的1个号码与开奖号码中的第3位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* 01 * * * * * * * *，即中第三名复式.',
+            'type': 'multi',
+            'layout': {
+                '第三名': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+
+        'PKQD3_S': {
+            'name': '第三名单式',
+            'method': 'PKQD3_S',
+            'desc': '从第三名中至少各选择1个号码。',
+            'help': '从第三名投注的1个号码与开奖号码中的第3位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* * 01 * * * * * * *，即中第三名单式.',
+            'type': 'text',
+        },
+
         'PKQZX3': {
             'name': '猜前三复式',
             'method': 'PKQZX3',
@@ -3056,6 +3104,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'PKQZX3_S': {
             'name': '猜前三单式',
             'method': 'PKQZX3_S',
@@ -3065,6 +3114,29 @@ export default {
             'type': 'text',
             'number': 3
         },
+
+        'PKQD4': {
+            'name': '第四名复式',
+            'method': 'PKQD4',
+            'desc': '从第四名中至少各选择1个号码。',
+            'help': '从第四名投注的1个号码与开奖号码中的第4位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* * * 01 * * * * * *，即中第四名复式.',
+            'type': 'multi',
+            'layout': {
+                '第四名': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+
+        'PKQD4_S': {
+            'name': '第四名单式',
+            'method': 'PKQD4_S',
+            'desc': '从第四名中至少各选择1个号码。',
+            'help': '从第四名投注的1个号码与开奖号码中的第4位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* * * 01 * * * * * *，即中第四名复式.',
+            'type': 'text',
+        },
+
         'PKQZX4': {
             'name': '猜前四复式',
             'method': 'PKQZX4',
@@ -3080,6 +3152,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'PKQZX4_S': {
             'name': '猜前四单式',
             'method': 'PKQZX4_S',
@@ -3088,6 +3161,28 @@ export default {
             'example': '投注方案：01 02 03 04<br>开奖号码：01 02 03 04 * * * * * *，即中第四名单式。',
             'type': 'text',
             'number': 4
+        },
+
+        'PKQD5': {
+            'name': '第五名复式',
+            'method': 'PKQD5',
+            'desc': '从第五名中至少各选择1个号码。',
+            'help': '从第五名投注的1个号码与开奖号码中的第5位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* * * * 01 * * * * *，即中第五名复式.',
+            'type': 'multi',
+            'layout': {
+                '第四名': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+
+        'PKQD5_S': {
+            'name': '第五名单式',
+            'method': 'PKQD5_S',
+            'desc': '从第五名中至少各选择1个号码。',
+            'help': '从第五名投注的1个号码与开奖号码中的第5位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：* * * * 01 * * * * *，即中第五名复式.',
+            'type': 'text',
         },
 
         'PKQZX5': {
@@ -3106,6 +3201,7 @@ export default {
             },
             'buttons': digitalPosTpl
         },
+
         'PKQZX5_S': {
             'name': '猜前五单式',
             'method': 'PKQZX5_S',

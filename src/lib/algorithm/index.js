@@ -919,6 +919,18 @@ export default {
         return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
     },
 
+    // 猜第2
+    PKQD2(method, state) {
+        let n1;
+        n1 = cc.calculateN(method, state)[0];
+        return n1;
+    },
+
+    // 猜第2 单式
+    PKQD2_S(method, state) {
+        return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
     // 猜前二
     PKQZX2(method, state) {
         let A, AB, B, listA, listB, ref, ref1, result;
@@ -936,6 +948,18 @@ export default {
     // 猜前二单式
     PKQZX2_S(method, state) {
         return cc.calculateLTByIuput(method, 2, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 猜第3
+    PKQD3(method, state) {
+        let n1;
+        n1 = cc.calculateN(method, state)[0];
+        return n1;
+    },
+
+    // 猜第3 单式
+    PKQD3_S(method, state) {
+        return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
     },
 
     // 猜前三
@@ -958,6 +982,18 @@ export default {
     // 猜前3单式
     PKQZX3_S(method, state) {
         return cc.calculateLTByIuput(method, 3, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 猜第4
+    PKQD4(method, state) {
+        let n1;
+        n1 = cc.calculateN(method, state)[0];
+        return n1;
+    },
+
+    // 猜第4 单式
+    PKQD4_S(method, state) {
+        return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
     },
 
     // 猜前4
