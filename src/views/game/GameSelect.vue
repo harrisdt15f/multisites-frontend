@@ -148,6 +148,9 @@ export default {
         }
     },
     watch: {
+        // 号码被清空时 清空注单
+        'currentOrder.currentCost' (newVal) {
+        },
         'orderList' (newVal) {
             if (newVal.length === 0) {
                 this.clearBtn()
@@ -218,6 +221,17 @@ export default {
                     } else {
                         this.orderList.unshift(order)
                     }
+                    // 初始化翻倍后的数据
+                    let doubleBeforeOrder = []
+                    if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                        doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                    }
+                    doubleBeforeOrder.push(order)
+                    this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+                    // 清空注单值
+                    this.currentOrder.currentCost = 0
+                    this.currentOrder.currentCount = 0
+                    this.currentOrder.currentTimes = 1
                     // 添加完选号 清空选中号码
                     this.clearBtn()
                 }
@@ -239,7 +253,7 @@ export default {
                 // 去重
                 let temp = array_unique3(tmp)
                 this.inputCodes = temp.join(',')
-                this.calculate( this.currentMethod, this.orderState)
+                this.calculate(this.currentMethod, this.orderState)
                 // if ((tmp.length - temp.length) > 0) {
                 //     this.inputCodes = temp.join(',')
                 //     this.calculate( this.currentMethod, this.orderState)
@@ -278,21 +292,21 @@ export default {
                 } else {
                     this.oneKeyList = {}
                     this.orderList.unshift(order)
+                    // 初始化翻倍后的数据
+                    let doubleBeforeOrder = []
+                    if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                        doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                    }
+                    doubleBeforeOrder.push(order)
+                    this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
                 }
+                // 清空注单值
+                this.currentOrder.currentCost = 0
+                this.currentOrder.currentCount = 0
+                this.currentOrder.currentTimes = 1
                 this.inputCodesSingle = 0
                 this.inputCodes = ''
             }
-            // 清空注单值
-            this.currentOrder.currentCost = 0
-            this.currentOrder.currentCount = 0
-            this.currentOrder.currentTimes = 1
-            // 初始化翻倍后的数据
-            let doubleBeforeOrder = []
-            if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
-            }
-            doubleBeforeOrder.push(order)
-            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
         },
 
         // 计算注数
@@ -393,129 +407,124 @@ export default {
 
         // 选择按钮
         selectButton(y, b) {
-            this.cleanChooseButton(y);
-            this.cleanChooseNumber(y);
-            this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b]);
+            this.cleanChooseButton(y)
+            this.cleanChooseNumber(y)
+            this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
 
-            let rowData = this.chooseNumber[y];
+            let rowData = this.chooseNumber[y]
 
             if ((this.currentLottery.series_id === 'lotto') || (this.currentLottery.series_id === 'pk10')) {
                 switch (this.currentMethod.buttons[b]) {
                     case '全':
                         for (let i = 0; i < rowData.length; i++) {
-                            this.chooseNumber[y][i] = true;
+                            this.chooseNumber[y][i] = true
                         }
-                        break;
+                        break
                     case '大':
                         for (let i = 0; i < rowData.length; i++) {
                             if (i >= (rowData.length / 2)) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                     case '小':
                         for (let i = 0; i < rowData.length; i++) {
                             if (i < (rowData.length / 2)) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                     case '奇':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 1) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                     case '偶':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 0) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                 }
             } else {
                 switch (this.currentMethod.buttons[b]) {
                     case '全':
                         for (let i = 0; i < rowData.length; i++) {
-                            this.chooseNumber[y][i] = true;
+                            this.chooseNumber[y][i] = true
                         }
-                        break;
+                        break
                     case '大':
                         for (let i = 0; i < rowData.length; i++) {
                             if (i >= (rowData.length / 2)) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                     case '小':
                         for (let i = 0; i < rowData.length; i++) {
                             if (i < (rowData.length / 2)) {
                                 this.chooseNumber[y][i] = true;
                             }
                         }
-                        break;
+                        break
                     case '奇':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 1) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                     case '偶':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 0) {
-                                this.chooseNumber[y][i] = true;
+                                this.chooseNumber[y][i] = true
                             }
                         }
-                        break;
+                        break
                 }
             }
-
-            this.calculate();
+            this.calculate()
         },
-
         // 初始化选号
         initChoose() {
             this.chooseNumber = []
             if (this.currentMethod.layout) {
-                const iterable = Object.keys(this.currentMethod.layout);
-
+                const iterable = Object.keys(this.currentMethod.layout)
                 for (let i = 0; i < iterable.length; i++) {
-                    let row = iterable[i];
-                    this.chooseNumber[i] = [];
-                    this.chooseButton[i] = [];
+                    let row = iterable[i]
+                    this.chooseNumber[i] = []
+                    this.chooseButton[i] = []
                     let _xData = [];
                     for (let j = 0; j < this.currentMethod.layout[row].length; j++) {
-                        _xData[j] = false;
-
+                        _xData[j] = false
                     }
-                    let _bData = [];
+                    let _bData = []
                     for (let k = 0; k < this.currentMethod.buttons; k++) {
-                        _bData[k] = false;
+                        _bData[k] = false
                     }
-                    this.$set(this.chooseButton, i, _bData);
-                    this.$set(this.chooseNumber, i, _xData);
+                    this.$set(this.chooseButton, i, _bData)
+                    this.$set(this.chooseNumber, i, _xData)
                 }
             }
         },
-
         // 清空选号
         cleanChooseNumber(y) {
             for (let j = 0; j < this.chooseNumber[y].length; j++) {
-                this.chooseNumber[y][j] = false;
+                this.chooseNumber[y][j] = false
             }
         },
         // 清空按钮
         cleanChooseButton(y) {
             for (let j = 0; j < this.chooseButton[y].length; j++) {
-                this.chooseButton[y][j] = false;
+                this.chooseButton[y][j] = false
             }
         },
         // 切换号码
         convertCodes() {
-            const method = this.currentMethod;
+            const method = this.currentMethod
             // 选球类型
             if (method.type === 'multi') {
                 const codes = []
@@ -669,7 +678,7 @@ export default {
             let issus = {}
             issus[currentIssus] = true
             this.addOrder(true)
-            if (JSON.stringify(this.oneKeyList) === '{}') {
+            if (parseInt(this.currentOrder.currentCost) <= 0 || JSON.stringify(this.oneKeyList) === '{}') {
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
