@@ -906,14 +906,21 @@ export default {
         return cc.C(n2, 8 - n1);
     },
 
-
     // ------------------PK10------------------
-    PKZX1(method, state) {
+    // 猜冠军
+    PKQZX1(method, state) {
         let n1;
         n1 = cc.calculateN(method, state)[0];
         return n1;
     },
-    PKZX2(method, state) {
+
+    // 猜冠军单式
+    PKQZX1_S(method, state) {
+        return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 猜前二
+    PKQZX2(method, state) {
         let A, AB, B, listA, listB, ref, ref1, result;
         ref = cc.calculateN(method, state), A = ref[0], B = ref[1];
         ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1];
@@ -925,9 +932,65 @@ export default {
 
         return 0;
     },
-    PKZX2_S(method, state) {
+
+    // 猜前二单式
+    PKQZX2_S(method, state) {
         return cc.calculateLTByIuput(method, 2, num => +num && +num >= 1 && +num <= 10, state);
     },
+
+    // 猜前三
+    PKQZX3(method, state) {
+        let A, AB, ABC, AC, B, BC, C, listA, listB, listC, ref, ref1, result;
+        ref = cc.calculateN(method, state), A = ref[0], B = ref[1], C = ref[2];
+        ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1], listC = ref1[2];
+        BC = cc.N(listB, listC);
+        AC = cc.N(listA, listC);
+        AB = cc.N(listA, listB);
+        ABC = cc.N(listA, listB, listC);
+        result = A * B * C - A * BC - B * AC - C * AB + 2 * ABC;
+        if (result > 0) {
+            return result;
+        } else {
+            return 0;
+        }
+    },
+
+    // 猜前3单式
+    PKQZX3_S(method, state) {
+        return cc.calculateLTByIuput(method, 3, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 猜前4
+    PKQZX4(method, state) {
+        let A, AB, ABC, AC, B, BC, C, listA, listB, listC, ref, ref1, result;
+        ref = cc.calculateN(method, state), A = ref[0], B = ref[1], C = ref[2];
+        ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1], listC = ref1[2];
+        BC = cc.N(listB, listC);
+        AC = cc.N(listA, listC);
+        AB = cc.N(listA, listB);
+        ABC = cc.N(listA, listB, listC);
+        result = A * B * C - A * BC - B * AC - C * AB + 2 * ABC;
+        if (result > 0) {
+            return result;
+        } else {
+            return 0;
+        }
+    },
+
+    // 猜前４单式
+    PKQZX4_S(method, state) {
+        return cc.calculateLTByIuput(method, 4, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    PKDWD(method, state) {
+        //let n1, n10, n2, n3, n4, n5, n6, n7, n8, n9, ref;
+        let n1, n2, n3, n4, n5, ref;
+        //ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4], n6 = ref[5], n7 = ref[6], n8 = ref[7], n9 = ref[8], n10 = ref[9];
+        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
+        //return n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10;
+        return n1 + n2 + n3 + n4 + n5;
+    },
+
     n(a, b, c) {
         let i, item, j, len, len1, oldResult, result;
         result = [];
@@ -949,31 +1012,4 @@ export default {
         }
         return result.length;
     },
-    PKZX3(method, state) {
-        let A, AB, ABC, AC, B, BC, C, listA, listB, listC, ref, ref1, result;
-        ref = cc.calculateN(method, state), A = ref[0], B = ref[1], C = ref[2];
-        ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1], listC = ref1[2];
-        BC = cc.N(listB, listC);
-        AC = cc.N(listA, listC);
-        AB = cc.N(listA, listB);
-        ABC = cc.N(listA, listB, listC);
-        result = A * B * C - A * BC - B * AC - C * AB + 2 * ABC;
-        if (result > 0) {
-            return result;
-        } else {
-            return 0;
-        }
-    },
-    PKZX3_S(method, state) {
-        return cc.calculateLTByIuput(method, 3, num => +num && +num >= 1 && +num <= 10, state);
-    },
-    PKDWD(method, state) {
-        //let n1, n10, n2, n3, n4, n5, n6, n7, n8, n9, ref;
-        let n1, n2, n3, n4, n5, ref;
-        //ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4], n6 = ref[5], n7 = ref[6], n8 = ref[7], n9 = ref[8], n10 = ref[9];
-        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
-        //return n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10;
-        return n1 + n2 + n3 + n4 + n5;
-    }
-
 }

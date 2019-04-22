@@ -1,15 +1,15 @@
-const digitalCodesTpl   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-const digitalPosTpl     = ["全", "大", "小", "奇", "偶", "清"];
-const digitalZxhzTpl    = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
-const digitalZuhzTpl    = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
+const digitalCodesTpl = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const digitalPosTpl = ["全", "大", "小", "奇", "偶", "清"];
+const digitalZxhzTpl = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+const digitalZuhzTpl = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
 
-const digitalZxhz2Tpl   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
-const digitalZuhz2Tpl   = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-const digitalDxdsTpl    = ['大', '小', '单', '双'];
-const digitalLhhTpl     = ['龙', '虎', '和'];
+const digitalZxhz2Tpl = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+const digitalZuhz2Tpl = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+const digitalDxdsTpl = ['大', '小', '单', '双'];
+const digitalLhhTpl = ['龙', '虎', '和'];
 
-const lottoCodesTpl     = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'];
-const pk10CodesTpl      = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
+const lottoCodesTpl = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'];
+const pk10CodesTpl = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
 
 export default {
     'ssc': {
@@ -1210,8 +1210,7 @@ export default {
             'layout': {
                 '万/千': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHWB': {
             'name': '万百',
@@ -1224,8 +1223,7 @@ export default {
             'layout': {
                 '万/百': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHWS': {
             'name': '万十',
@@ -1238,8 +1236,7 @@ export default {
             'layout': {
                 '万/十': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHWG': {
             'name': '万个',
@@ -1252,8 +1249,7 @@ export default {
             'layout': {
                 '万/个': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHQB': {
             'name': '千百',
@@ -1266,8 +1262,7 @@ export default {
             'layout': {
                 '千/百': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHQS': {
             'name': '千十',
@@ -1280,8 +1275,7 @@ export default {
             'layout': {
                 '千/十': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHQG': {
             'name': '千个',
@@ -1294,8 +1288,7 @@ export default {
             'layout': {
                 '千/个': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHBS': {
             'name': '百十',
@@ -1308,8 +1301,7 @@ export default {
             'layout': {
                 '百/十': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'LHBG': {
             'name': '百个',
@@ -1322,8 +1314,7 @@ export default {
             'layout': {
                 '百/个': digitalLhhTpl
             },
-            'buttons': [
-            ]
+            'buttons': []
         },
         'RZX2': {
             'name': '直选复式',
@@ -3005,9 +2996,9 @@ export default {
         },
     },
     'pk10': {
-        'QZX1': {
-            'name': '直选复式',
-            'method': 'PKZX1',
+        'PKQZX1': {
+            'name': '第一名复式',
+            'method': 'PKQZX1',
             'desc': '从冠军中至少各选择1个号码。',
             'help': '从冠军投注的1个号码与开奖号码中的第1位数号码相同，视为中奖。',
             'example': '投注方案：01 <br>开奖号码为：01 * * * * * * * * *，即中前一直选。',
@@ -3017,9 +3008,21 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'QZX2': {
-            'name': '直选复式',
-            'method': 'PKZX2',
+        'PKQZX1_S': {
+            'name': '第一名单式',
+            'method': 'PKQZX1_S',
+            'desc': '从冠军中至少各选择1个号码。',
+            'help': '从冠军投注的1个号码与开奖号码中的第1位数号码相同，视为中奖。',
+            'example': '投注方案：01 <br>开奖号码为：01 * * * * * * * * *，即中前一直选。',
+            'type': 'text',
+            'layout': {
+                '冠军': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+        'PKQZX2': {
+            'name': '猜前二复式',
+            'method': 'PKQZX2',
             'desc': '从冠军、亚军中至少各选择1个号码。',
             'help': '从01-10共10个号码中选择2个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前2个号码相同，且顺序一致，即中奖。',
             'example': '投注方案：01 02<br>开奖号码：01 02 * * * * * * * *，即中前二直选。',
@@ -3030,18 +3033,18 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'QZX2_S': {
-            'name': '直选单式',
-            'method': 'PKZX2_S',
+        'PKQZX2_S': {
+            'name': '猜前二单式',
+            'method': 'PKQZX2_S',
             'desc': '手动输入号码，至少输入1个两位数号码组成一注。',
             'help': '手动输入2个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前2个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02<br>开奖号码：01 02 * * * * * * * *，即中前二直选。',
             'type': 'text',
-            'number': 3
+            'number': 2
         },
-        'QZX3': {
-            'name': '直选复式',
-            'method': 'PKZX3',
+        'PKQZX3': {
+            'name': '猜前三复式',
+            'method': 'PKQZX3',
             'desc': '从冠军、亚军、季军中至少各选择1个号码。',
             'help': '从01-10共10个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：01 02 03 * * * * * * *，即中前三直选。',
@@ -3053,16 +3056,67 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-        'QZX3_S': {
-            'name': '直选单式',
-            'method': 'PKZX3_S',
+        'PKQZX3_S': {
+            'name': '猜前三单式',
+            'method': 'PKQZX3_S',
             'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
             'help': '手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
             'example': '投注方案：01 02 03<br>开奖号码：01 02 03 * * * * * * *，即中前三直选。',
             'type': 'text',
             'number': 3
         },
-        'DWD': {
+        'PKQZX4': {
+            'name': '猜前四复式',
+            'method': 'PKQZX4',
+            'desc': '从冠军、亚军、季军中至少各选择1个号码。',
+            'help': '从01-10共10个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
+            'example': '投注方案：01 02 03 04<br>开奖号码：01 02 03 04 * * * * * *，即中第四名单式。',
+            'type': 'multi',
+            'layout': {
+                '冠军': pk10CodesTpl,
+                '亚军': pk10CodesTpl,
+                '季军': pk10CodesTpl,
+                '第四名': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+        'PKQZX4_S': {
+            'name': '猜前四单式',
+            'method': 'PKQZX4_S',
+            'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
+            'help': '手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
+            'example': '投注方案：01 02 03 04<br>开奖号码：01 02 03 04 * * * * * *，即中第四名单式。',
+            'type': 'text',
+            'number': 4
+        },
+
+        'PKQZX5': {
+            'name': '猜前五复式',
+            'method': 'PKQZX5',
+            'desc': '从冠军、亚军、季军中至少各选择1个号码。',
+            'help': '从01-10共10个号码中选择3个不重复的号码组成一注，所选号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
+            'example': '投注方案：01 02 03 04<br>开奖号码：01 02 03 04 * * * * * *，即中第四名单式。',
+            'type': 'multi',
+            'layout': {
+                '冠军': pk10CodesTpl,
+                '亚军': pk10CodesTpl,
+                '季军': pk10CodesTpl,
+                '第四名': pk10CodesTpl,
+                '第五名': pk10CodesTpl
+            },
+            'buttons': digitalPosTpl
+        },
+        'PKQZX5_S': {
+            'name': '猜前五单式',
+            'method': 'PKQZX5_S',
+            'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
+            'help': '手动输入3个号码组成一注，所输入的号码与当期顺序摇出的5个号码中的前3个号码相同，且顺序一致，即为中奖。',
+            'example': '投注方案：01 02 03 04 05<br>开奖号码：01 02 03 04 05 * * * * *，即中第四名单式。',
+            'type': 'text',
+            'number': 5
+        },
+
+        'PKDWD': {
             'name': '定位胆',
             'method': 'PKDWD',
             'desc': '从冠军到第五名任意位置上任意选择1个或1个以上号码。',
