@@ -144,10 +144,13 @@ export default {
       lotteryList () {
         this.Api.getLotteryList().then((res) => {
           if (res.isSuccess) {
-            let data = res.data
+            let [
+              data = res.data,
+              sign = this.$route.params.lotterySign
+            ] = []
             for (let i = 0; i < data.length; i++) {
               for (let j = 0; j < data[i].list.length; j++) {
-                if (data[i].list[j].id === this.$route.params.lotterySign) {
+                if (data[i].list[j].id === sign) {
                   this.descs = data[i].list[j].desc
                 }
               }

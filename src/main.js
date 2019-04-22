@@ -6,8 +6,10 @@ import { API } from './API'
 import Utils from './lib/utils/utils'
 import animation from './lib/animation/animation'
 
-import ElementUI  from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import ElementUI  from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import 'font-awesome/css/font-awesome.css'
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 

@@ -1,8 +1,46 @@
 @charset "UTF-8";
-/* CSS Document
-html,body{
-    overflow-x:hidden;overflow-y:hidden
-}*/
+body,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,textarea,p,th,td{margin:0;padding:0;}
+table {border-collapse:collapse;border-spacing:0;}
+html{font-size:62.5%;}
+body{font-size: 14px;color: #222;line-height: 24px;}
+ol,ul{list-style:none;}
+a{text-decoration:none;}
+img{border:none;display:block;}
+em{font-style:normal;}
+input,textarea{outline:none;border:0;}
+a,input,select, textarea, a:active, a:hover {outline: none;}
+select, input {box-sizing: border-box;}
+.clear {
+	clear: both;
+}
+
+.ft12{font-size:12px !important;}
+.ft16{font-size:16px !important;}
+.ft18{font-size:18px !important;}
+.ft20{font-size:20px !important;}
+.ft22{font-size:22px !important;}
+
+.cred{color:red;}
+.cfff{color:#fff;}
+.c333{color:#333;}
+.c666{color:#666;}
+.c999{color:#999;}
+
+.ft0{font-size:0;}
+.w100{width:100%;}
+.ftn{font-weight:normal;}
+.ftb{font-weight:bold;}
+.tl{text-align:left;}
+.tc{text-align:center;}
+.tr{text-align:right;}
+.fl{float:left;}
+.fr{float:right;}
+.fw{overflow:hidden;}
+.dl{display:block;}
+.dn{display:none;}
+.pr{position:relative;}
+.cur{cursor: pointer;}
+.dinv{display:inline-block;vertical-align:middle;}
 /*头部==================================================================================================================
 ===============================================================================================================*/
 #header {

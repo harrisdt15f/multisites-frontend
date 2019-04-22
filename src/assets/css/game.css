@@ -723,9 +723,9 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	vertical-align: top;
 }
 .bet-play-mode {
-	width: 115px;
+	width: 95px;
 	margin-top: 10px;
-	padding-left: 40px;
+	padding-left: 33px;
 	position: relative;
 	float: left;
 }
@@ -758,7 +758,6 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	width: 120px;
 	float: left;
 	line-height: 24px;
-	padding-left: 10px;
 	font-size: 12px;
 }
 .data-slider-box select {
@@ -784,6 +783,7 @@ li.open-num { background: url(../images/time/open-num.gif) no-repeat center cent
 	text-align: right;
 }
 .main-btn-add ,.main-btn-fastadd{
+	max-width:130px;
 	display: inline-block;
 	text-align: center;
 }

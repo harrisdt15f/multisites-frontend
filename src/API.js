@@ -2,8 +2,8 @@ import qs from 'qs'
 import axios from 'axios'
 import router from 'vue-router'
 import { MessageBox } from 'element-ui'
-import Utils  from './lib/utils/utils'
-//axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
+// import Utils  from './lib/utils/utils'
+// axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
 axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
 axios.defaults.timeout = 1000 * 60 * 3

@@ -2,76 +2,7 @@
 /* CSS Document */
 
 /*统一默认设置*/
-html, body, div, h1, h2, h3, h4, h5, p, a, ul, ol, li, span, form, img, select, input, textarea, button, table, td, tr, iframe, dl, dt, dd {
-	padding: 0;
-	margin: 0;
-	color: inherit;
-	font-size: inherit;
-	line-height: inherit;
-}
-a, input, select, textarea, a:active, a:hover {
-	outline: none;
-}
-select, input {
-	box-sizing: border-box;
-}
-img {
-	border: none;
-}
-li {
-	list-style: none;
-}
-i,
-em{
-	font-style: normal;
-}
-.clear {
-	clear: both;
-}
-html {
-	font-family: sans-serif;
-	/* 1 */
-	-ms-text-size-adjust: 100%;
-	/* 2 */
-	-webkit-text-size-adjust: 100%;
-	/* 2 */ }
-body {
-	font-size: 14px;
-	color: #222;
-	line-height: 24px;
-}
-ol,ul{list-style:none;}
-a{text-decoration:none;    color: #454545;}
-img{border:none;display:block;}
-em{font-style:normal;}
-input,textarea{outline:none;border:0;}
 
-.cred{color:red;}
-.cfff{color:#fff;}
-.c333{color:#333;}
-.c666{color:#666;}
-.c999{color:#999;}
-
-.w100{width:100%;}
-.ftn{font-weight:normal;}
-.ftb{font-weight:bold;}
-.flex{display:flex;}
-.flexa{display:flex;align-items:center;}
-.flexj{display:flex;justify-content:center;}
-.tl{text-align:left;}
-.tc{text-align:center;}
-.tr{text-align:right;}
-.fl{float:left;}
-.fr{float:right;}
-.fw{overflow:hidden;}
-.dl{display:block;}
-.dn{display:none;}
-.dinv{display:inline-block;vertical-align:middle;}
-/*a 连接设定==================================================================
-         =========================================================================================*/
-a {
-	text-decoration: none;
-}
 /*a被选择后  鼠标变指针*/
 .selected__a {
 	cursor: default;

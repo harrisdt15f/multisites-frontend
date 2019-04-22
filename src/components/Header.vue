@@ -1,4 +1,4 @@
-<template id="header">
+<template>
   <section>
     <section class="jack-header">
       <section class="w">
@@ -8,180 +8,148 @@
           <a href="javascript:;" class="header-l-a">防劫持教程</a>
         </nav>
         <section class="header-r">
-          <a href="javascript:;" class="header-vip  header-vip-1"></a>
+          <span class="header-vip"></span>
           <section class="header-drop down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
             <a href="javascript:;" class="header-drop-a">
-              <span class="header-person"></span>
+              <i class="fa fa-user ft18"></i>
               <span class="header-user">{{account.username}}<em class="header-message">0</em></span>
-              <span class="arrow-down"></span>
+              <i class="fa fa-angle-down arrow-down ft20"></i>
             </a>
             <section class="nav-drop bar-drop down-menu c333">
               <section class="nav-wrap down-wrap">
-                <section class="my-name"><em>您好，</em><em class="header-col">{{account.username}}</em></section>
+                <section class="my-name">您好，<em class="header-col">{{account.username}}</em></section>
                 <section class="bar-box tc">
-                  <a href="javascript:void(0);" class="bar-link tab_menu">
-                    <span class="play-pos">平台公告<em class="header-message">0</em></span>
+                  <a href="javascript:void(0);" class="bar-link">
+                    平台公告<em class="header-message">0</em>
                   </a>
-                  <a href="javascript:void(0);" class="bar-link tab_menu"><span class="play-pos">站内信</span></a>
+                  <a href="javascript:void(0);" class="bar-link">站内信<em class="header-message">0</em></a>
                 </section>
                 <section class="bar-box tc">
-                  <a href="javascript:;" class="bar-link">
-                    <img src="../assets/images/home/exit.png" class="dinv"><span class="bar-exit" @click="logout()">退出登录</span>
-                  </a>
+                  <i class="fa fa-sign-out ft16"></i>
+                  <span class="cur bar-exit" @click="logout()">退出登录</span>
                 </section>
                 <section class="login-time tc">
-                  <section class="ex-login">上次登录</section>
-                  <section class="time">{{account.last_login_time}}</section>
+                  上次登录<br>{{account.last_login_time}}
                 </section>
               </section>
             </section>
           </section>
           <span class="header-line">|</span>
-          <section class="header-drop">
+          <section class="header-drop header-money">
             <span class="wallet">钱包余额：</span>
-            <span class="header-money">￥</span>
-            <span class="header-money">{{Utils.toFixed(this.account.balance)}}</span>
-            <a href="javascript:;" class="refresh" @click="refresh()"></a>
+            ￥{{Utils.toFixed(this.account.balance)}}
+            <i class="fa fa-rotate-left ft14 cur refresh" @click="refresh()"></i>
           </section>
           <span class="header-line">|</span>
           <section class="header-drop">
             <a href="javascript:;" class="header-btn">充值</a>
             <a href="javascript:;" class="header-btn">提款</a>
             <a href="javascript:;" class="header-btn">钱包</a>
-            <a class="header-server online-server">
-              <span class="online-server-logo"></span>
-              <span class="online-server-lab">在线客服</span>
-            </a>
+            <span class="header-server cur">在线客服</span>
           </section>
         </section>
       </section>
     </section>
     <section class="jack-nav">
-      <section class="jack-nav-bg">
-        <section class="w" style="height:84px;">
-          <section class="nav-l">
-<!--            <img src="../assets/images/home/logo.png" height="60">-->
-<!--            <section class="logo-lab">-->
-<!--              <a class="platform-name-canvas" href="https://chunqiucp5.com">-->
-<!--                <span class="platform-name"></span>-->
-<!--              </a><br>-->
-<!--              <a class="domain-name-canvas" href="https://0120.com/" target="_blank">-->
-<!--                <span class="domain-name"></span>-->
-<!--              </a>-->
-<!--            </section>-->
-          </section>
-          <ul class="nav-r">
-            <li class="nav-li nav-li-first" >
-              <section class="nav-a">
-                <section class="nav-text">
-                  <section class="text-1">彩票游戏</section>
-                </section>
-              </section>
-              <section class="nav-menu">
-                <section class="nav-lottery w">
-                  <section class="number-con" v-for="(item, index) in lotteryLists" :key="index">
-                    <section class="com-title">{{item.name}}系列</section>
-                    <nav class="play-sort">
-                      <a class="play-link" @click="goLottery(lottery)" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
-                        {{lottery.name}}
-                        <!--                <i class=" play-icon play-hot  "></i>-->
-                      </a>
-                    </nav>
-                  </section>
-                </section>
-                <section class="nav-line"></section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">游戏记录</section>
-              </section>
-              <section class="nav-drop down-menu">
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link">游戏记录</a></li>
-                    <li><a href="javascript:;" class="play-link">追号记录</a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">资金管理</section>
-              </section>
-              <section class="nav-drop down-menu dn" >
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link">充值记录</a></li>
-                    <li><a href="javascript:;" class="play-link">充值</a></li>
-                    <li><a href="javascript:;" class="play-link">提现记录</a></li>
-                    <li><a href="javascript:;" class="play-link">提款</a></li>
-                    <li><a href="javascript:;" class="play-link">账变记录</a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">账户管理</section>
-              </section>
-              <section class="nav-drop down-menu dn" >
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link">银行卡管理</a></li>
-                    <li><a href="javascript:;" class="play-link">密码管理</a></li>
-                    <li><a href="javascript:;" class="play-link">奖金组详情</a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">代理中心</section>
-              </section>
-              <section class="nav-drop down-menu dn">
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link">团队管理</a></li>
-                    <li><a href="javascript:;" class="play-link">团队盈亏</a></li>
-                    <li><a href="javascript:;" class="play-link">下级开户</a></li>
-                    <li><a href="javascript:;" class="play-link">代理消息<span class="unread-msg-num">0</span></a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">幸运棋牌</section>
-              </section>
-              <section class="nav-drop nav-drop-last down-menu dn">
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link" target="_blank">进入游戏</a></li>
-                    <li><a href="javascript:;" class="play-link">游戏记录</a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
-              <section class="nav-a">
-                <section class="text-1">刮刮乐</section>
-              </section>
-              <section class="nav-drop nav-drop-last down-menu dn">
-                <section class="nav-wrap down-wrap">
-                  <ul class="nav-sort">
-                    <li><a href="javascript:;" class="play-link" target="_blank">进入游戏</a></li>
-                    <li><a href="javascript:;" class="play-link">刮刮乐转账</a></li>
-                  </ul>
-                </section>
-              </section>
-            </li>
-            <li class="nav-active">
-              <a href="javascript:;" class="nav-monery">
-              </a>
-            </li>
-          </ul>
+      <section class="w" style="height:84px;">
+        <section class="nav-l">
         </section>
+        <ul class="nav-r">
+          <li class="nav-li nav-li-first"  @mouseenter="lotteryEnter()" @mouseleave="lotteryLeave()">
+            <section class="nav-a">
+              彩票游戏
+            </section>
+            <section class="nav-menu">
+              <section class="nav-lottery w">
+                <section class="number-con" v-for="(item, index) in lotteryLists" :key="index">
+                  <section class="com-title">{{item.name}}系列</section>
+                  <nav class="play-sort">
+                    <a class="play-link" @click="goLottery(lottery)" href="javascript:;" v-for="(lottery, index) in item.list" :key="index">
+                      {{lottery.name}}
+<!--                      <i class=" play-icon play-hot  "></i>-->
+                    </a>
+                  </nav>
+                </section>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">游戏记录</section>
+            <section class="nav-drop down-menu">
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link">游戏记录</a>
+                  <a href="javascript:;" class="play-link">追号记录</a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">资金管理</section>
+            <section class="nav-drop down-menu dn" >
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link">充值记录</a>
+                  <a href="javascript:;" class="play-link">充值</a>
+                  <a href="javascript:;" class="play-link">提现记录</a>
+                  <a href="javascript:;" class="play-link">提款</a>
+                  <a href="javascript:;" class="play-link">账变记录</a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">账户管理</section>
+            <section class="nav-drop down-menu dn" >
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link">银行卡管理</a>
+                  <a href="javascript:;" class="play-link">密码管理</a>
+                  <a href="javascript:;" class="play-link">奖金组详情</a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">代理中心</section>
+            <section class="nav-drop down-menu dn">
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link">团队管理</a>
+                  <a href="javascript:;" class="play-link">盈亏管理</a>
+                  <a href="javascript:;" class="play-link">下级开户</a>
+                  <a href="javascript:;" class="play-link">代理消息<span class="unread-msg-num">0</span></a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">幸运棋牌</section>
+            <section class="nav-drop nav-drop-last down-menu dn">
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link" target="_blank">进入游戏</a>
+                  <a href="javascript:;" class="play-link">游戏记录</a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-li down-drop" @mouseenter="translateEnter($event)" @mouseleave="translateLeave($event)">
+            <section class="nav-a">刮刮乐</section>
+            <section class="nav-drop nav-drop-last down-menu dn">
+              <section class="nav-wrap down-wrap">
+                <nav class="nav-sort">
+                  <a href="javascript:;" class="play-link">进入游戏</a>
+                  <a href="javascript:;" class="play-link">刮刮乐转账</a>
+                </nav>
+              </section>
+            </section>
+          </li>
+          <li class="nav-active">
+            <a href="javascript:;" class="nav-monery">
+            </a>
+          </li>
+        </ul>
       </section>
     </section>
   </section>
@@ -217,15 +185,17 @@ export default {
   },
   mounted () {
     // 彩票游戏列表全屏宽
-    let navMenu = document.getElementsByClassName('nav-menu')[0]
-    this.Animation.screenWidth(navMenu)
+    let frist = document.getElementsByClassName('nav-li-first')[0]
+    let navMenu = frist.getElementsByClassName('nav-menu')[0]
+    navMenu.style.width =  document.body.clientWidth + 'px'
+    navMenu.style.left = -frist.getBoundingClientRect().left + 'px'
   },
   methods: {
     // 刷新用户余额
     refresh () {
       this.Api.getBalance().then((res) => {
         if (res.isSuccess) {
-          let account = this.Utils.storage.get('current-user');
+          let account = this.Utils.storage.get('current-user')
           if (account && account.data) {
             account.data.balance = res.data.balance
             account.data.frozen = res.data.frozen
@@ -254,8 +224,24 @@ export default {
         }
       })
     },
+    // 彩票游戏 进入动画
+    lotteryEnter () {
+      let navMenu = document.getElementsByClassName('nav-menu')[0]
+      navMenu.style.display = 'block'
+      setTimeout(() => {
+        this.Animation.move(navMenu, {height: 120, opacity: 100}, 1)
+      }, 30)
+    },
+    // 彩票游戏 离开动画
+    lotteryLeave () {
+      let navMenu = document.getElementsByClassName('nav-menu')[0]
+      this.Animation.move(navMenu, {height: 0, opacity: 0}, 1)
+      setTimeout(() => {
+        navMenu.style.display = 'none'
+      }, 200)
+    },
+    // 导航用鼠标 移入 动画
     translateEnter (e) {
-      // 导航用鼠标 移入 动画
       let [ target = e.target.children ] = []
       for (let i = 0; i < target.length; i++) {
         for (let j = 0; j < target[i].children.length; j++) {
@@ -271,8 +257,8 @@ export default {
         }
       }
     },
+    // 导航鼠标 移出 动画
     translateLeave () {
-      // 导航鼠标 移出 动画
       let [
         headerR = document.getElementsByClassName('header-r')[0],
         arrowDown = headerR.getElementsByClassName('arrow-down')[0],
