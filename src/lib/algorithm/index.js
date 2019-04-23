@@ -998,19 +998,61 @@ export default {
 
     // 猜前4
     PKQZX4(method, state) {
-        let A, AB, ABC, AC, B, BC, C, listA, listB, listC, ref, ref1, result;
-        ref = cc.calculateN(method, state), A = ref[0], B = ref[1], C = ref[2];
-        ref1 = cc.calculateNDetail(method, state), listA = ref1[0], listB = ref1[1], listC = ref1[2];
-        BC = cc.N(listB, listC);
-        AC = cc.N(listA, listC);
-        AB = cc.N(listA, listB);
-        ABC = cc.N(listA, listB, listC);
-        result = A * B * C - A * BC - B * AC - C * AB + 2 * ABC;
-        if (result > 0) {
-            return result;
-        } else {
-            return 0;
+        let choices     = state.choices;
+        let _result     = [
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        ];
+
+        // 过滤
+        for(let a = 0; a < choices.length; a ++) {
+            let row = choices[a];
+
+            for(let b = 0; b < row.length; b ++) {
+                if (row[b]) {
+                    _result[a][b] = b;
+                }
+            }
         }
+
+        // 递归
+        let data = _.reduce(_result, function (last, current) {
+            if (!last) {
+                return current;
+            }
+
+            let _data = [];
+            for(let i = 0; i < last.length; i ++) {
+                if (last[i] < 0) {
+                    continue;
+                }
+
+                for(let k = 0; k < current.length; k ++) {
+                    if (current[k] < 0) {
+                        continue;
+                    }
+                    _data.push(last[i] + '' + current[k]);
+                }
+            }
+
+            return _data;
+        });
+
+        let total = 0;
+        for (let z = 0; z < data.length; z ++) {
+            let codeArr  = _.split(data[z], '');
+
+            // 判断是否合适
+            let _codeArr = _.uniq(codeArr);
+            if (codeArr.length != _.size(_codeArr)) {
+                continue;
+            }
+
+            total ++;
+        }
+        return total;
     },
 
     // 猜前４单式
@@ -1018,6 +1060,84 @@ export default {
         return cc.calculateLTByIuput(method, 4, num => +num && +num >= 1 && +num <= 10, state);
     },
 
+    // 猜第5
+    PKQD5(method, state) {
+        let n1;
+        n1 = cc.calculateN(method, state)[0];
+        return n1;
+    },
+
+    // 猜第5 单式
+    PKQD5_S(method, state) {
+        return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 猜前4
+    PKQZX5(method, state) {
+        let choices     = state.choices;
+        let _result     = [
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+            [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],
+        ];
+
+        // 过滤
+        for(let a = 0; a < choices.length; a ++) {
+            let row = choices[a];
+
+            for(let b = 0; b < row.length; b ++) {
+                if (row[b]) {
+                    _result[a][b] = b;
+                }
+            }
+        }
+
+        // 递归
+        let data = _.reduce(_result, function (last, current) {
+            if (!last) {
+                return current;
+            }
+
+            let _data = [];
+            for(let i = 0; i < last.length; i ++) {
+                if (last[i] < 0) {
+                    continue;
+                }
+
+                for(let k = 0; k < current.length; k ++) {
+                    if (current[k] < 0) {
+                        continue;
+                    }
+                    _data.push(last[i] + '' + current[k]);
+                }
+            }
+
+            return _data;
+        });
+
+        let total = 0;
+        for (let z = 0; z < data.length; z ++) {
+            let codeArr  = _.split(data[z], '');
+
+            // 判断是否合适
+            let _codeArr = _.uniq(codeArr);
+            if (codeArr.length != _.size(_codeArr)) {
+                continue;
+            }
+
+            total ++;
+        }
+        return total;
+    },
+
+    // 猜前４单式
+    PKQZX5_S(method, state) {
+        return cc.calculateLTByIuput(method, 5, num => +num && +num >= 1 && +num <= 10, state);
+    },
+
+    // 定位胆
     PKDWD(method, state) {
         //let n1, n10, n2, n3, n4, n5, n6, n7, n8, n9, ref;
         let n1, n2, n3, n4, n5, ref;
@@ -1025,27 +1145,5 @@ export default {
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         //return n1 + n2 + n3 + n4 + n5 + n6 + n7 + n8 + n9 + n10;
         return n1 + n2 + n3 + n4 + n5;
-    },
-
-    n(a, b, c) {
-        let i, item, j, len, len1, oldResult, result;
-        result = [];
-        for (i = 0, len = a.length; i < len; i++) {
-            item = a[i];
-            if (b.indexOf(item) >= 0) {
-                result.push(item);
-            }
-        }
-        if (c) {
-            oldResult = result;
-            result = [];
-            for (j = 0, len1 = oldResult.length; j < len1; j++) {
-                item = oldResult[j];
-                if (c.indexOf(item) >= 0) {
-                    result.push(item);
-                }
-            }
-        }
-        return result.length;
     },
 }
