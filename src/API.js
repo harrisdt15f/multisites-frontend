@@ -3,7 +3,7 @@ import axios from 'axios'
 import router from 'vue-router'
 import { MessageBox } from 'element-ui'
 // import Utils  from './lib/utils/utils'
-axios.defaults.baseURL = 'http://api.lottery.me/api/v1/'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
 //axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
 axios.defaults.timeout = 1000 * 60 * 3
@@ -108,10 +108,10 @@ export const API = {
     // 登录
     login(username, password) {
         let data = {
-            username: username,
-            password: password,
-        };
-        return this.post(this.url.login, data).then(response =>  response);
+            'username': username,
+            'password': password,
+        }
+        return this.post(this.url.login, data).then(response =>  response)
     },
     // 获取所有彩种
     getLotteryList () {
@@ -152,8 +152,8 @@ export const API = {
    */
     getBetHistory (sign, count = 50) {
         let data = {
-            lottery_sign: sign,
-            count: count
+            'lottery_sign': sign,
+            'count': count
         }
         return this.post(this.url.betHistory, data).then(response => response)
     },
@@ -162,7 +162,7 @@ export const API = {
     */
     getOpenAward (sign) {
         let data = {
-            lottery_sign: sign
+            'lottery_sign': sign
         }
         return this.post(this.url.issueInfo, data).then(response => response)
     },

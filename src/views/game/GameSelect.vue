@@ -38,9 +38,9 @@
             <div class="main-column-1 fl">
                 <div class="bet-choose-total">
                     共 {{currentOrder.currentCount}} 注，
-                    <input type="button" value="-" class="bet-choose-ipt" id="times-reduce" @click="timeReduce()">
-                    <input type="text" class="ipt ipt-muliple" value="1" id="times" v-model="currentOrder.currentTimes">
-                    <input type="button" value="+" class="bet-choose-ipt" id="times-add" @click="timeAdd()">
+                    <input type="button" value="-" class="bet-choose-ipt" @click="timeReduce()">
+                    <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes">
+                    <input type="button" value="+" class="bet-choose-ipt" @click="timeAdd()">
                     倍
                 </div>
                 <div class="bet-play-mode fw">
