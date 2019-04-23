@@ -765,7 +765,6 @@ body {
 .chase-table-container {
 	border: 1px solid #DEDEDE;
 	overflow-y: auto;
-	max-height: 144px;
 
 }
 .chase-table .input {
@@ -895,26 +894,6 @@ body {
 	height: 72px;
 	padding: 23px 10px;
 	border-right: 1px solid #E5E5E5;
-}
-.chase-table-container {
-	overflow-y: auto;
-	max-height: 144px;
-
-}
-
-.play-footer-inner-trace .chase-table-container {
-	border: 1px solid #DEDEDE;
-}
-
-.chase-table .input {
-	width: 46px;
-	padding: 3px;;
-	text-align: center;
-}
-
-.chase-tab-content .chase-btn {
-	text-align: center;
-	padding: 10px;
 }
 .chase-site {
 	padding: 10px;
