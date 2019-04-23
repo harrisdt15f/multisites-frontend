@@ -7,32 +7,32 @@
                 <game-select></game-select>
                 <game-order></game-order>
             </section>
-            <div class="main-right j-hide">
-                <div class="list-historys" id="J-list-historys">
-                    <div class="record">历史开奖记录</div>
-                    <div class="cont" id="J-minitrend-cont">
-                        <table width="100%" class="bet-table-trend" id="J-minitrend-trendtable-68" style="display: table;">
-                            <thead>
-                            <tr>
-                                <th><span class="number">奖期</span></th>
-                                <th><span class="balls">开奖</span></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr :class="{first: index === bet.issueHistory.length - 1}" v-for="(item, index) in bet.issueHistory" :key="index">
-                                    <td><span class="number">{{item.issue_no}} 期</span></td>
-                                    <td>
-                                        <span class="balls">
-                                            <i class="curr" v-for="(num, numIndex) in item.code.split(',')" :key="numIndex">{{num}}</i>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="more">查看完整走势</div>
-                    </div>
-                </div>
-            </div>
+            <section class="main-right">
+                <section class="list-historys">
+                    <section class="record">历史开奖记录</section>
+                    <table width="100%" class="bet-table-trend">
+                        <thead>
+                        <tr>
+                            <th>奖期</th>
+                            <th>开奖</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr :class="{first: index === bet.issueHistory.length - 1}" v-for="(item, index) in bet.issueHistory" :key="index">
+                            <td>{{item.issue_no}} 期</td>
+                            <td class="balls">
+                                <i
+                                        :class="{curr: numIndex < item.code.split(',').length - 2}"
+                                        v-for="(num, numIndex) in item.code.split(',')"
+                                        :key="numIndex"
+                                >{{num}}</i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <section class="cur more">查看完整走势</section>
+                </section>
+            </section>
         </section>
     </section>
 </template>
@@ -98,9 +98,5 @@ export default {
 </script>
 
 <style>
-    @import "../../assets/css/index.css";
-    @import "../../assets/css/shared.css";
-    @import "../../assets/css/base.css";
     @import "../../assets/css/game.css";
-    @import '../../assets/css/game-v2.css';
 </style>

@@ -50,7 +50,10 @@ const store =  new Vuex.Store({
                 myChaseList: []
             },
             issueHistory: [],
-            issueDesc: ''
+            // 开奖区域 下方提示语
+            issueDesc: '',
+            // 玩法切换时
+            methodsTab: 0
         },
         // 全部彩种
         lotteryAll: {},
@@ -148,6 +151,10 @@ const store =  new Vuex.Store({
         // 投注页面 奖期
         issueDesc (state, data) {
             state.bet.issueDesc = data
+        },
+        // 玩法切换时
+        methodsTab (state) {
+            state.bet.methodsTab += 1
         }
     },
     actions: {

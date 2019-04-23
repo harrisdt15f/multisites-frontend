@@ -60,7 +60,7 @@ export default {
     },
 		created () {
         this.selectGroup(this.defaultGroup)
-        this.selectMethod(this.defaultMethod);
+        this.selectMethod(this.defaultMethod)
 		},
     methods: {
       // 选中玩法组
@@ -70,16 +70,15 @@ export default {
           this.selectedMethodId = ''
           this.$store.commit('currentMethod', {})
           this.selectMethod(this.allMethods[_index]['rows'][0]['methods'][0]['method_id'])
+		      this.$store.commit('methodsTab')
       },
 
       // 选中玩法
       selectMethod(methodId) {
           this.$store.commit('currentMethod', methods[this.currentLottery.series_id][methodId])
           this.selectedMethodId = methodId
+          this.$store.commit('methodsTab')
       },
     }
 }
 </script>
-
-<style scoped>
-</style>

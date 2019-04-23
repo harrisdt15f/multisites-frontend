@@ -1,7 +1,0 @@
-export {AppViewModel} from "./AppViewModel"
-export {CrowdViewModel} from "./CrowdViewModel"
-export {IssueViewModel} from "./IssueViewModel"
-export {MethodViewModel} from "./MethodViewModel"
-export {OrderViewModel} from "./OrderViewModel"
-export {ProjectViewModel} from "./ProjectViewModel"
-export {TraceViewModel} from "./TraceViewModel"

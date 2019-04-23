@@ -1,22 +1,22 @@
 <template id="game-order">
-    <div class="main-bottom">
-        <div class="main-bottom-con" id="project">
-<!--            <div class="tabs-box-menu m-B">-->
-<!--                <div class="tabs-r-txt" id="project-bar">-->
+    <section class="main-bottom">
+        <section class="main-bottom-con" id="project">
+<!--            <section class="tabs-box-menu m-B">-->
+<!--                <section class="tabs-r-txt" id="project-bar">-->
 <!--                    <p>当前总共<strong class="txt-red" id="project-num">{{totals.number}}</strong>注，-->
 <!--                        我要翻 <input type="text" placeholder="1" class="ipt ipt-muliple" id="project-times" v-model="totalSub.double"/>-->
 <!--                        倍，共<strong class="txt-red" id="project-cost"> {{totalSub.double > 1 ? totalSub.money : totals.money}} </strong>元。</p>-->
-<!--                </div>-->
+<!--                </section>-->
 <!--                <ul class="tabs-ul">-->
 <!--                    <li><a href="javascript:;" id="project-current">当前投注</a></li>-->
 <!--                </ul>-->
-<!--            </div>-->
+<!--            </section>-->
 
-            <div class="bet-count-confirm" id="project-project">
-                <div class="bet-msg-pick-bd">
-                    <div class="bet-pick-box">
+            <section class="bet-count-confirm" id="project-project">
+                <section class="bet-msg-pick-bd">
+                    <section class="bet-pick-box">
                         <a href="javascript:;" class="txt-clean" id="project-empty" @click="clearOrderList()">清空选号</a>
-                        <div class="iptbox bet-pick-ipt-box">
+                        <section class="iptbox bet-pick-ipt-box">
                             <table width="100%">
                                 <thead>
                                 <tr>
@@ -41,8 +41,8 @@
                                 </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
+                        </section>
+                    </section>
                     <section class="tc chase">
                         <section class="pr chase-title">追号设置
                             <el-button size="mini" class="chase-clear" @click="clearChase()">清除追号计划并关闭窗口</el-button>
@@ -74,9 +74,9 @@
                             </li>
                         </ul>
                     </section>
-                </div>
-            </div>
-<!--            <div class="chase-table-container" v-if="chaseTab === 0">
+                </section>
+            </section>
+<!--            <section class="chase-table-container" v-if="chaseTab === 0">
                 <table class="chase-table">
                     <tbody data-type="lirunlv">
                     <tr>
@@ -115,8 +115,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>-->
-            <div class="chase-table-container" v-if="chase.sameCon">
+            </section>-->
+            <section class="chase-table-container" v-if="chase.sameCon">
                 <table class="chase-table">
                     <tbody data-type="lirunlv">
                     <tr>
@@ -147,8 +147,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="chase-table-container" v-if="chase.doubleCon">
+            </section>
+            <section class="chase-table-container" v-if="chase.doubleCon">
                 <table class="chase-table">
                     <tbody data-type="lirunlv">
                     <tr>
@@ -179,8 +179,8 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="bet-future-set">
+            </section>
+            <section class="bet-future-set">
                 总金额
                 <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
                 <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
@@ -189,132 +189,81 @@
                 <a href="javascript:;" class="btn main-btn-confirm" id="project-submit" @click="submitBet()">
                     <span class="ico-confirm"></span><span>确认投注</span>
                 </a>
-            </div>
-        </div>
-        <div class="list-full-history">
-            <div class="title clearfix">
-                <ul>
-                    <li :class="{current: betHistory.tab === 0}" @click="betHistory.tab = 0">我的投注</li>
-                    <li :class="{current: betHistory.tab === 1}" @click="betHistory.tab = 1">我的追号</li>
-                </ul>
-            </div>
-            <div v-if="betHistory.tab === 0" class="content panel-current">
-                <table width="100%">
-                    <thead>
+            </section>
+        </section>
+        <section class="list-full-history">
+            <ul>
+                <li class="title-list" :class="{current: betHistory.tab === 0}" @click="betHistory.tab = 0">我的投注</li>
+                <li class="title-list" :class="{current: betHistory.tab === 1}" @click="betHistory.tab = 1">我的追号</li>
+            </ul>
+            <table  v-if="betHistory.tab === 0" width="100%">
+                <thead>
+                <tr>
+                    <th>游戏</th>
+                    <th>玩法</th>
+                    <th>期号</th>
+                    <th width="150">开奖号</th>
+                    <th>投注内容</th>
+                    <th>投注金额</th>
+                    <th width="120">奖金</th>
+                    <th>奖金组-返点</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item, index) in bet.betHistory.myBetList">
+                    <td>{{item.name}}</td>
+                    <td>{{item.method_name}}</td>
+                    <td>{{item.issue}}</td>
+                    <td>{{item.open_codes}}</td>
+                    <td>{{item.bet_codes}}</td>
+                    <td>{{item.total_cost}}</td>
+                    <td>0.00</td>
+                    <td>{{item.prize_group}}</td>
+                    <td>{{item.status}}</td>
+                    <td class="cur">详情</td>
+                </tr>
+                </tbody>
+            </table>
+            <table  v-if="betHistory.tab === 1" width="100%">
+                <thead>
                     <tr>
-                        <th>
-                            <div class="th-line">游戏</div>
-                        </th>
-                        <th>
-                            <div class="th-line">玩法</div>
-                        </th>
-                        <th>
-                            <div class="th-line">期号</div>
-                        </th>
-                        <th width="150">
-                            <div class="th-line">开奖号</div>
-                        </th>
-                        <th>
-                            <div class="th-line">投注内容</div>
-                        </th>
-                        <th>
-                            <div class="th-line">投注金额</div>
-                        </th>
-                        <th width="120">
-                            <div class="th-line">奖金</div>
-                        </th>
-                        <th>
-                            <div class="th-line">奖金组-返点</div>
-                        </th>
-                        <th>
-                            <div class="th-line">状态</div>
-                        </th>
-                        <th>
-                            <div class="th-line">操作</div>
-                        </th>
+                        <th>游戏</th>
+                        <th>玩法</th>
+                        <th>期号</th>
+                        <th width="150">开奖号</th>
+                        <th>投注内容</th>
+                        <th>投注金额</th>
+                        <th width="120">奖金</th>
+                        <th>奖金组-返点</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
-
-                    </thead>
-                    <tbody id="J-tbody-historys-bets">
-                        <tr class="row-data-49383596 row-status-2" v-for="(item, index) in bet.betHistory.myBetList">
-                            <td><span class="cls-gamename">{{item.name}}</span></td>
-                            <td><span class="cls-method">{{item.method_name}}</span></td>
-                            <td><span class="cls-number">{{item.issue}}</span></td>
-                            <td><span class="cls-prizeballs">{{item.open_codes}}</span></td>
-                            <td><span class="cls-balls">{{item.bet_codes}}</span></td>
-                            <td><span class="cls-money">{{item.total_cost}}</span></td>
-                            <td><span class="cls-prize">0.00</span></td>
-                            <td><span class="cls-commission">{{item.prize_group}}</span></td>
-                            <td><span class="cls-status">{{item.status}}</span></td>
-                            <td><a target="_blank" href="javascript:;">详情</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div v-if="betHistory.tab === 1" class="content panel-current">
-                <table width="100%">
-                    <thead>
+                </thead>
+                <tbody>
                     <tr>
-                        <th>
-                            <div class="th-line">游戏</div>
-                        </th>
-                        <th>
-                            <div class="th-line">玩法</div>
-                        </th>
-                        <th>
-                            <div class="th-line">起始奖期</div>
-                        </th>
-                        <th width="150">
-                            <div class="th-line">追号进度</div>
-                        </th>
-                        <th>
-                            <div class="th-line">总追号金额</div>
-                        </th>
-                        <th>
-                            <div class="th-line">已中奖金额</div>
-                        </th>
-                        <th width="120">
-                            <div class="th-line">追中即停</div>
-                        </th>
-                        <th>
-                            <div class="th-line">状态</div>
-                        </th>
-                        <th>
-                            <div class="th-line">操作</div>
-                        </th>
+                        <td>重庆时时彩</td>
+                        <td>五星直选单式</td>
+                        <td>190415040</td>
+                        <td>190415040</td>
+                        <td>11111|2222...</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>未中奖</td>
+                        <td>0</td>
+                        <td class="cur">详情</td>
                     </tr>
-            
-                    </thead>
-                    <tbody>
-                    <tr class="row-data-49383596 row-status-2">
-                        <td><span class="cls-gamename">重庆时时彩</span></td>
-                        <td><span class="cls-method">五星直选单式</span></td>
-                        <td><span class="cls-number">190415040</span></td>
-                        <td><span class="cls-prizeballs">35443</span></td>
-                        <td><span class="cls-balls">11111|2222...</span></td>
-                        <td><span class="cls-money">0.10</span></td>
-                        <td><span class="cls-prize">0.00</span></td>
-                        <td><span class="cls-status">未中奖</span></td>
-                        <td><a target="_blank" href="javascript:;">详情</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row-more">
-                <a href="javascript:;" target="_blank">更多游戏记录...</a>
-            </div>
-        </div>
-<!--        <msg></msg>-->
-    </div>
+                </tbody>
+            </table>
+            <section class="row-more">更多游戏记录...</section>
+        </section>
+    </section>
 </template>
 <script>
 import { mapState } from 'vuex'
-import msg from '../../components/message'
 export default {
     name: 'game-order',
-    components: {
-        msg
-    },
     data() {
         return {
             total: {
@@ -715,71 +664,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .bet-pick-box{
-        float:left;
-        width:480px;
-    }
-    .chase{
-        float:left;
-        width:400px;
-        height:172px;
-    }
-    .chase-title{
-        height:40px;
-        line-height:40px;
-        background:#F9F9F9;
-    }
-    .chase-clear{
-        position:absolute;
-        right: 10px;
-        top:7px;
-    }
-    .chase-tabs{
-        background:#eeeff0;
-    }
-    .chase-tab{
-        float:left;
-        width:50%;
-        height:29px;
-        line-height:29px;
-        background:#dee0e3;
-    }
-    .chase-tab.active {
-        background:#eeeff0;
-    }
-    .tab-inputs{
-        padding:15px 0 10px;
-    }
-    .tab-cons{
-        padding-bottom:17px;
-        background:#eeeff0;
-    }
-    .tab-input{
-        margin:0 3px;
-        text-align:center;
-        width:40px;
-        height:28px;
-        border:1px solid #ccc;
-    }
-    .list-full-history .title{
-        position:static;
-    }
-    .chase /deep/ .el-table td,
-    .chase /deep/ .el-table th{
-        padding:2px 0 ;
-    }
-    .chase /deep/ .el-table th>.cell {
-        font-weight:normal;
-    }
-    .chase-table-container{
-        padding-top:15px;
-        overflow: hidden;
-        clear: both;
-    }
-    .bet-future-set{
-        padding-top:15px;
-        clear: both;
-    }
-</style>

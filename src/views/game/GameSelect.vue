@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="bet-statistics w100">
-            <div class="main-column-1 FL">
+            <div class="main-column-1 fl">
                 <div class="bet-choose-total">共<span id="num" class="txt-red m-L m-R">{{currentOrder.currentCount}}</span>注，
                     <input type="button" value="-" class="bet-choose-ipt" id="times-reduce" @click="timeReduce()">
                     <input type="text" class="ipt ipt-muliple" value="1" id="times" v-model="currentOrder.currentTimes">
@@ -80,7 +80,7 @@
                     <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
                 </div>
             </div>
-            <div class="main-column-1 FR">
+            <div class="main-column-1 fr">
                 <div class="bet-add-box">
                     <strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
                     <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" id="fast-add" @click="oneKeyBet()"><span class="ico-add"></span><span>一键投注</span></a>
@@ -98,16 +98,25 @@ import pako from 'pako/index.js'
 
 export default {
     name: 'game-select',
-    template: '#game-select',
-    components: {
-    },
     data() {
         return {
-            inputCodesInitText:"",
+            inputCodesInitText:'',
             inputCodes:{},
             inputCodesSingle: 0,
-            chooseNumber:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
-            chooseButton:[ [false], [false], [false], [false], [false], [false], [false], [false] ],
+            chooseNumber:[
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false]
+            ],
+            chooseButton:[
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false],
+                [false, false, false, false, false, false, false, false, false, false]
+            ],
             choosePosition:[],
             // 当前选中状态
             currentOrder:{
@@ -148,6 +157,12 @@ export default {
         }
     },
     watch: {
+        // 切换玩法时
+        'bet.methodsTab' () {
+            this.currentOrder.currentCost = 0
+            this.currentOrder.currentCount = 0
+            this.currentOrder.currentTimes = 1
+        },
         // 号码被清空时 清空注单
         'currentOrder.currentCost' (newVal) {
         },
@@ -312,38 +327,38 @@ export default {
         // 计算注数
         calculate() {
             if (this.currentMethod.type === 'multi') {
-                const method = this.currentMethod;
-                let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc;
-                inputcodes      = '';
-                positionDesc    = [];
+                const method = this.currentMethod
+                let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc
+                inputcodes      = ''
+                positionDesc    = []
     
                 result = algorithm[method.method](method, this.orderState);
                 if (method.rx && result[0]) {
-                    _count  = result[0];
-                    _cnt    = result[1];
-                    _pcnt   = 0;
-                    ref     = this.orderState.position;
+                    _count  = result[0]
+                    _cnt    = result[1]
+                    _pcnt   = 0
+                    ref     = this.orderState.position
                     for (k in ref) {
-                        item = ref[k];
+                        item = ref[k]
                         if (item) {
-                            _pcnt += 1;
+                            _pcnt += 1
                         }
                     }
-                    positionDesc = [_pcnt, _cnt];
+                    positionDesc = [_pcnt, _cnt]
                     if (result.length === 3) {
-                        inputcodes = result[2];
+                        inputcodes = result[2]
                     }
                 } else if (result instanceof Array && result[0]) {
-                    _count      = result[0];
-                    inputcodes  = result[1];
+                    _count      = result[0]
+                    inputcodes  = result[1]
                 } else {
-                    _count = result;
+                    _count = result
                 }
     
-                this.currentOrder.currentCount      = _count;
-                this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes;
-                this.currentOrder.inputcodes        = inputcodes;
-                this.currentOrder.positionDesc      = positionDesc;
+                this.currentOrder.currentCount      = _count
+                this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes
+                this.currentOrder.inputcodes        = inputcodes
+                this.currentOrder.positionDesc      = positionDesc
     
                 return [_count, inputcodes, positionDesc];
             } else {
@@ -412,7 +427,6 @@ export default {
             this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
 
             let rowData = this.chooseNumber[y]
-
             if ((this.currentLottery.series_id === 'lotto') || (this.currentLottery.series_id === 'pk10')) {
                 switch (this.currentMethod.buttons[b]) {
                     case '全':
@@ -713,7 +727,3 @@ export default {
     }
 }
 </script>
-
-<style>
-
-</style>

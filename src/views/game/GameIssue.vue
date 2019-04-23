@@ -1,55 +1,57 @@
 <template>
   <section class="game-header w fw">
     <section class="game-header-l">
-      <div class="game-header-w">
-        <div class="game-header-s">
-          <div class="logo-lottery">
-            <div class="text">{{currentLottery.cn_name}}</div>
-          </div>
-          <div class="win-issue">
-            <div class="win-issue-s"><span class="open"></span></div>
-            <div class="text">第 {{notice.issue ?  notice.issue : currentIssue.issue_no}} 期</div>
-          </div>
-          <div class="deadline">
-            <div class="deadline-text">投注截止：</div>
-            {{ time }}
-          </div>
-        </div>
-        <div class="game-lottery">
-          <div class="lottery-text">
-            <span class="prev-win">上期开奖号码</span>
-            <span class="prev-date">第<span class="num">{{lastIssue.issue_no}}</span>期</span>
-            <span class="official-win"  style="visibility: visible;">官方开奖</span>
-          </div>
-          <div class="lottery-number-w">
-            <div id="J-lottery-balls-lasttime" class="lottery-number">
-              <em  v-for="(item, index) in lastIssue.open_code" :key="index">{{item}}</em>
-            </div>
-          </div>
-          <div class="lottery-tip">
-            提示：<em v-html="descs"></em>
-          </div>
-        </div>
-        <div class="trend-info">
-          <a href="javascript:;" target="_blank" class="trend"><span>开奖趋势</span></a>
-          <a class="trend info" target="_blank" href="javascript:;"><span>开奖说明</span></a>
-        </div>
-      </div>
+      <section class="game-header-w">
+        <section class="game-header-s">
+          <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
+          <section class="win-issue">
+            <span class="music open"></span><br>
+            第 {{notice.issue ?  notice.issue : currentIssue.issue_no}} 期
+          </section>
+          <section class="deadline">
+            投注截止： {{ time }}
+          </section>
+        </section>
+        <section class="game-lottery">
+          <section class="c333 lottery-text">
+            <span class="red">上期开奖号码</span>
+            第 {{lastIssue.issue_no}} 期
+            <span class="official-win">官方开奖</span>
+          </section>
+          <section class="tc lottery-number">
+            <em class="num" v-for="(item, index) in lastIssue.open_code" :key="index">
+              <span class="num-bg">{{item}}</span>
+            </em>
+          </section>
+          <section class="lottery-tip">
+            提示：<em class="desc" v-html="descs"></em>
+          </section>
+        </section>
+        <section class="trend-info">
+          <span class="trend">开奖趋势</span>
+          <span class="trend info">开奖说明</span>
+        </section>
+      </section>
       <section class="notice">
-        <img src="../../assets/images/bet/bet-notice.png" class="notice-img"><span class="fl">:</span>
-        <div class="game-header-inform" id="meque">
+        <i class="fa fa-volume-up ft16 notice-img"> :</i>
+        <section id="meque">
           <p class="a" id="meque_text">{{scrollNotice && scrollNotice.content ? scrollNotice.content : '暂无公告'}}</p>
-        </div>
+        </section>
       </section>
     </section>
     <section class="game-header-r j-hide">
-      <div class="game-header-r-t clearfix">
+      <section class="game-header-r-t clearfix">
+        <i class="fa fa-commenting-o ft18"></i>
         <span class="span">彩种公告</span>
-        <a href="javascript:void(0)" class="a">更多&gt;&gt;</a>
-      </div>
+        <a href="javascript:void(0)" class="a">更多>></a>
+      </section>
       <ul class="game-header-r-c">
-        <li data-id="412"  v-for="(item, index) in lotteryNotice" :key="index">
-          <span class="dot"></span>
+        <li v-for="(item, index) in lotteryNotice" :key="index">
+          <ul class="dots">
+            <li class="dot"></li>
+            <li class="dot"></li>
+            <li class="dot"></li>
+          </ul>
           <a href="javascript:void(0)" class="a">{{item.title}}</a>
           <span class="date">{{item.start_day}}</span>
         </li>
@@ -59,11 +61,11 @@
       </ul>
     </section>
     <section class="msg-notice-bg" v-if="notice.show">
-      <div class="msg-notice">
+      <section class="msg-notice">
         <strong>当前已进入</strong><br>
         <strong class="red">{{notice.issue}}</strong><br>
         <strong>请留意期号变化({{notice.time}})</strong>
-      </div>
+      </section>
     </section>
   </section>
 </template>
@@ -233,63 +235,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-  .msg-notice-bg{
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:999;
-    background:rgba(0,0,0, .5);
-  }
-  .msg-notice{
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    margin: auto;
-    padding-top:10px;
-    width:150px;
-    height:100px;
-    border:3px solid #666;
-    border-radius:5px;
-    color:#666;
-    text-align: center;
-    font-size:16px;
-    background:#dedede;
-    line-height:30px;
-  }
-  .red{
-    color:red;
-  }
-
-  .notice {
-    background:#fff;
-    overflow:hidden;
-    margin-top:1px;
-    line-height: 38px;
-  }
-  .notice-img {
-    float: left;
-    margin: 12px 4px 0 5px;
-  }
-  #meque {
-    width: 831px;
-    height: 40px;
-    line-height: 40px;
-    margin-left:5px;
-    overflow: hidden;
-    position: relative;
-    float:left;
-  }
-  #meque_text {
-    white-space: nowrap;
-    position: absolute;
-    left: 0;
-    top: 0;
-    cursor: pointer;
-  }
-</style>

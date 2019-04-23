@@ -9,16 +9,18 @@ axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 axios.defaults.timeout = 1000 * 60 * 3
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
 axios.defaults.headers.get['Content-Type'] = 'application/json'
-let token = localStorage.getItem('X-Authorization-Token')
-axios.defaults.headers.Authorization = 'Bearer ' + token
-axios.interceptors.request.use((config) => {
-    axios.defaults.headers = {
-        'Authorization':  'Bearer ' + token
-    }
-    return config
-}, (error) => {
+
+axios.interceptors.request.use(
+    config => {
+        let token = localStorage.getItem('X-Authorization-Token')
+        if (token) {
+            config.headers.Authorization = 'Bearer ' + token
+        }
+        return config
+    },
+    error => {
     return Promise.reject(error)
-})
+    })
 axios.interceptors.response.use(
     (response) => {
         if (response.data && response.data.isSuccess) {
@@ -37,8 +39,8 @@ axios.interceptors.response.use(
             error.response.status === 402 ||
             error.response.status === 403 ||
             error.response.status === 422) {
-            this.RemoveCurrentUser();
-            router.push('login');
+            this.RemoveCurrentUser()
+            router.push('login')
             return Promise.reject(error)
         } else {
             return Promise.reject(error)

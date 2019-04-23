@@ -1,7 +1,7 @@
 <template>
-    <section>
-        <router-view></router-view>
-    </section>
+<!--    <section>-->
+<!--        <router-view></router-view>-->
+<!--    </section>-->
 </template>
 
 <script>
@@ -46,9 +46,3 @@ export default {
     }
 }
 </script>
-<style>
-    @import "../../assets/css/index.css";
-    @import "../../assets/css/shared.css";
-    @import "../../assets/css/base.css";
-    @import "../../assets/css/game.css";
-</style>
