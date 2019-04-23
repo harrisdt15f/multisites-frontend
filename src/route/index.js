@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Utils  from './lib/utils/utils'
+import Utils  from '../lib/utils/utils'
 
-import Login from './views/auth/Login.vue'
-import Register from './views/auth/Register.vue'
-import Home from './views/Home'
-import GameMain from './views/game/GameMain'
+import Login from '../views/auth/Login.vue'
+import Register from '../views/auth/Register.vue'
+import Home from '../views/Home'
+import GameMain from '../views/game/GameMain'
 
 Vue.use(Router)
 

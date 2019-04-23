@@ -198,4 +198,4 @@ export default {
 
         'PKDWD': {'total': 10, 'prize': 18, 'count': 1}
     }
-};
+}

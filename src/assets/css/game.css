@@ -241,6 +241,7 @@ body {
 }
 .bet-type-group-list li {
 	float:left;
+	margin-bottom:3px;
 	height: 22px;
 	min-width: 50px;
 	padding: 0 10px;
@@ -760,6 +761,249 @@ body {
 }
 
 /*追号*/
+
+.chase-table-container {
+	border: 1px solid #DEDEDE;
+	overflow-y: auto;
+	max-height: 144px;
+
+}
+.chase-table .input {
+	width: 46px;
+	padding: 3px;;
+	text-align: center;
+}
+
+.chase-tab-content .chase-btn {
+	text-align: center;
+	padding: 10px;
+}
+.chase-tab {
+	background: rgba(67, 77, 98, 0.1);
+}
+
+.chase-tab-title h3 {
+	float: left;
+	padding-left: 14px;
+	font-weight: normal;
+}
+
+.chase-tab-title li {
+	float: left;
+	line-height: 40px;
+	color: #343D4F;
+	background: rgba(67, 77, 98, 0.1);
+	width: 33.3333%;
+	cursor: pointer;
+	text-align: center;
+}
+
+.chase-tab-title li.current, .chase-tab-title li.current:hover {
+	position: relative;
+	background: none;
+	cursor: default;
+}
+
+.chase-tab-title .icon-question {
+	position: relative;
+	overflow: visible;
+	background: none repeat scroll 0 0 #fe7877;
+	border-radius: 2px;
+	color: #fff;
+	font-style: normal;
+	height: 18px;
+	line-height: 18px;
+	padding: 1px 3px;
+	vertical-align: middle;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.chase-tab-title .chase-stop .chase-stop-tip {
+	display: none;
+	position: absolute;
+	background: #FFFFE1;
+	font-style: normal;
+	top: -86px;
+	left: -260px;
+	width: 240px;
+	padding: 10px;
+	line-height: 180%;
+	color: #666;
+	text-align: left;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+
+}
+
+.chase-tab-title .chase-stop .chase-stop-tip a {
+	text-decoration: underline;
+}
+
+.chase-tab-title .chase-stop .chase-stop-tip-current {
+	display: block;
+}
+.chase-tab-content {
+	color: #333;
+	display: none;
+	padding: 10px;
+	border-bottom: none;
+	min-height: 101px;
+}
+
+.chase-tab-content-current {
+	display: block;
+}
+
+.chase-tab-content .input {
+	width: 26px !important;
+	text-align: center;
+}
+
+.chase-select-normal {
+	padding: 15px 30px;
+	background: #FFF;
+}
+
+.chase-select-normal li {
+	float: left;
+	margin-right: 15px;
+}
+
+.chase-select-normal .function-select-title {
+	float: none;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: middle;
+}
+
+.chase-select-normal .choose-model {
+	width: 60px;
+}
+
+.chase-select-high {
+	height: 118px;
+	border: 1px solid #E5E5E5;
+	border-top: 0;
+	background: #FFF;
+}
+
+.chase-select-high .title {
+	float: left;
+	width: 12px;
+	height: 72px;
+	padding: 23px 10px;
+	border-right: 1px solid #E5E5E5;
+}
+.chase-table-container {
+	overflow-y: auto;
+	max-height: 144px;
+
+}
+
+.play-footer-inner-trace .chase-table-container {
+	border: 1px solid #DEDEDE;
+}
+
+.chase-table .input {
+	width: 46px;
+	padding: 3px;;
+	text-align: center;
+}
+
+.chase-tab-content .chase-btn {
+	text-align: center;
+	padding: 10px;
+}
+.chase-site {
+	padding: 10px;
+}
+
+.chase-site-btn {
+	display: inline-block;
+	width: 68px;
+	height: 24px;
+	padding: 0 5px;
+	line-height: 24px;
+	color: #FFF;
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+	background: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+	background: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+	background: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1));
+	background: #4E5072;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 1px 1px rgba(255, 255, 255, .1) inset;
+}
+
+.chase-site-btn:hover {
+	text-decoration: none;
+	background-color: #646381;
+	color: #FFF;
+}
+
+.chase-site-btn i {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: 5px;
+	vertical-align: middle;
+	overflow: hidden;
+}
+
+.chase-site-content {
+	margin-top: 5px;
+	color: #D2D2D5;
+	padding: 0 10px;
+	display: none;
+}
+
+.chase-site-trace-delete {
+	color: #E0D2B7;
+	text-decoration: underline;
+	display: inline-block;
+	margin-left: 20px;
+}
+.chase-table {
+	width: 100%;
+	border-collapse: separate;
+	*border-collapse: collapse;
+}
+
+.chase-table a {
+	text-decoration: underline;
+}
+
+.chase-table a + a {
+	margin-left: 10px;
+}
+
+.chase-table td, .chase-table th {
+	padding: 6px;
+	background: #F7F7F7;
+	text-align: center;
+	color: #666;
+	border-right: 1px solid #DBDBDB;
+	border-top: 1px solid #DBDBDB;
+}
+
+.chase-table th {
+	border-top: none;
+	font-size: 12px;
+	color: #666;
+	background-color: #F0EEE2;
+	width: auto !important;
+}
+
+.chase-table td:last-child, .chase-table th:last-child {
+	border-right: none;
+}
+
+.chase-table td {
+	background-color: #F4F4F4;
+}
+
+
 .times {
 	padding: 0 5px;
 	width: 35px;
@@ -1137,6 +1381,7 @@ body {
 	height:29px;
 	line-height:29px;
 	background:#dee0e3;
+	cursor: pointer;
 }
 .chase-tab.active {
 	background:#eeeff0;
@@ -1235,4 +1480,9 @@ body {
 }
 .list-full-history .row-more:hover {
 	background-image: linear-gradient(0deg, #E7E7E7 100%, #E7E7E7 100%);
+}
+.btn-ball-import{
+	position: absolute;
+	left: 0;
+	color: #fff;
 }

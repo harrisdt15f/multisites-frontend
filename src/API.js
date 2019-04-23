@@ -1,10 +1,7 @@
-import qs from 'qs'
 import axios from 'axios'
 import router from 'vue-router'
 import { MessageBox } from 'element-ui'
-// import Utils  from './lib/utils/utils'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-//axios.defaults.baseURL = 'https://api.cc9950.info/api/v1/'
 
 axios.defaults.timeout = 1000 * 60 * 3
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
@@ -39,7 +36,8 @@ axios.interceptors.response.use(
             error.response.status === 402 ||
             error.response.status === 403 ||
             error.response.status === 422) {
-            this.RemoveCurrentUser()
+            localStorage.removeItem('X-Authorization-Token')
+            localStorage.removeItem('current-user')
             router.push('login')
             return Promise.reject(error)
         } else {
@@ -67,28 +65,10 @@ export const API = {
         // 获取公告列表  彩种右侧公告 和 彩种滚动公告
         noticeList: 'noticeList'
     },
-    IsSignedIn: function(){
-        let o = this.GetCurrentUser();
-        if(o && o.id > 0){
-            return true;
-        }
-        return false;
-    },
-    GetCurrentUser: function () {
-        let currentUser = undefined
-        if (localStorage.getItem('current-user')) {
-            currentUser = qs.parse(localStorage.getItem('current-user'));
-        }
-        return currentUser;
-    },
-    RemoveCurrentUser: function () {
-        localStorage.removeItem('X-Authorization-Token');
-        localStorage.removeItem('current-user');
-    },
     get(url) {
         return new Promise((resolve, reject) => {
             axios.get(url).then((res) => {
-                resolve(res);
+                resolve(res)
             }). catch((error) => {
                 reject(error)
             })

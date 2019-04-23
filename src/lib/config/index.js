@@ -1,8 +1,6 @@
-import lotteries from './lottery';
 import methods from './method';
 import prizes from './prizes';
-import setting from './setting';
 
-export default {lotteries, methods, prizes, setting};
+export default {methods, prizes}
 
-export {lotteries, methods, prizes, setting};
+export {methods, prizes}

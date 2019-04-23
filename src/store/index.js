@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { API } from './API'
+import { API } from '../API'
 
 Vue.use(Vuex);
 
-const store =  new Vuex.Store({
+const index =  new Vuex.Store({
     state: {
         // 用户信息
         account: {
@@ -189,4 +189,4 @@ const store =  new Vuex.Store({
     }
 })
 
-export default store;
+export default index;

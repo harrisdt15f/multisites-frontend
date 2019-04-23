@@ -23,7 +23,7 @@
         <div class="main-ball-box" v-else>
             <div class="main-single-entry">
                 <div class="main-balls-import">
-                    <div id="singleUpload" class="btn btn-blue btn-ball-import">导入注单</div>
+                    <div class="btn btn-blue btn-ball-import">导入注单</div>
                     <div class="btn-tab-list import-clean-list">
                         <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理重复和错误号码</a>
                         <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
@@ -72,7 +72,6 @@
 </template>
 <script>
 import { mapState } from 'vuex'
-import { array_unique3 } from '../../lib/funs'
 import algorithm from '../../lib/algorithm'
 import pako from 'pako/index.js'
 
@@ -246,7 +245,7 @@ export default {
                     }
                 }
                 // 去重
-                let temp = array_unique3(tmp)
+                let temp = Array.from(new Set(tmp))
                 this.inputCodes = temp.join(',')
                 this.calculate(this.currentMethod, this.orderState)
                 // if ((tmp.length - temp.length) > 0) {
@@ -610,7 +609,7 @@ export default {
                 }
             }
             // 去重
-            let temp = array_unique3(tmp)
+            let temp = Array.from(new Set(tmp))
             this.inputCodes = temp.join(',')
             this.inputCodesSingle = temp.length
             this.calculate()
@@ -641,7 +640,7 @@ export default {
             //     }
             // }
             // // 去重
-            // let temp = array_unique3(tmp)
+            // let temp = Array.from(new Set(tmp))
             // this.inputCodes = temp.join(',')
             // this.inputCodesSingle = temp.length
             // this.calculate()
@@ -649,7 +648,7 @@ export default {
             
             // let _input = ''
             // let tmp = (this.inputCodes || '').split(',')
-            // let temp = array_unique3(tmp)
+            // let temp = Array.from(new Set(tmp))
             // if ((tmp.length - temp.length) > 0) {
             //     this.inputCodes = temp.join(',')
             //     this.calculate( this.currentMethod, this.orderState)

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './route'
-import store from './store'
+import index from './store'
 import { API } from './API'
 import Utils from './lib/utils/utils'
 import animation from './lib/animation/animation'
@@ -20,6 +20,6 @@ Vue.prototype.Animation = animation
 Vue.prototype._ = _
 new Vue({
     router,
-    store,
+    store: index,
     render: h => h(App),
 }).$mount('#app')

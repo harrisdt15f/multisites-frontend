@@ -1,5 +1,3 @@
-import * as func from '../funs';
-
 export function C(arr, num) {
     let _results;
     const r = [];
@@ -210,7 +208,7 @@ export function calculateLTByIuput(method, num, f, state) {
         codes = [];
         for (l = 0, len = arr.length; l < len; l++) {
             item = arr[l];
-            numbers = func.array_unique3(item.split(' '));
+            numbers = Array.from(new Set(item.split(' ')))
             if (numbers.length === num) {
                 p = false;
                 for (i = o = 0, len1 = numbers.length; o < len1; i = ++o) {

@@ -3229,4 +3229,4 @@ export default {
             'buttons': digitalPosTpl
         }
     }
-};
+}
