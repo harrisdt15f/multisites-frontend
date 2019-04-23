@@ -173,11 +173,29 @@ export default {
         'DXDS': {'total': 1000, 'prize': 7.2, 'count': 250}
     },
     'pk10': {
-        'PKZX1': {'total': 10, 'prize': 18, 'count': 1},
-        'PKZX2': {'total': 90, 'prize': 162, 'count': 1},
-        'PKZX2_S': {'total': 90, 'prize': 162, 'count': 1},
-        'PKZX3': {'total': 720, 'prize': 1296, 'count': 1},
-        'PKZX3_S': {'total': 720, 'prize': 1296, 'count': 1},
+        'PKQZX1': {'total': 10, 'prize': 18, 'count': 1},
+
+        'PKQD2': {'total': 10, 'prize': 18, 'count': 1},
+        'PKQD2_S': {'total': 10, 'prize': 18, 'count': 1},
+
+        'PKQZX2': {'total': 90, 'prize': 162, 'count': 1},
+        'PKQZX2_S': {'total': 90, 'prize': 162, 'count': 1},
+
+        'PKQD3': {'total': 10, 'prize': 18, 'count': 1},
+        'PKQD3_S': {'total': 10, 'prize': 18, 'count': 1},
+
+        'PKQZX3': {'total': 720, 'prize': 1296, 'count': 1},
+        'PKQZX3_S': {'total': 720, 'prize': 1296, 'count': 1},
+
+        'PKQD4': {'total': 10, 'prize': 18, 'count': 1},
+        'PKQD4_S': {'total': 10, 'prize': 18, 'count': 1},
+
+        'PKQZX4': {'total': 5040, 'prize': 1296, 'count': 1},
+        'PKQZX4_S': {'total': 5040, 'prize': 1296, 'count': 1},
+
+        'PKQD5': {'total': 10, 'prize': 18, 'count': 1},
+        'PKQD5_S': {'total': 10, 'prize': 18, 'count': 1},
+
         'PKDWD': {'total': 10, 'prize': 18, 'count': 1}
     }
 };

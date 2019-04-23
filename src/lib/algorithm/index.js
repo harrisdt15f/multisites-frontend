@@ -1052,6 +1052,10 @@ export default {
 
             total ++;
         }
+
+        data    = [];
+        _result = [];
+
         return total;
     },
 
@@ -1072,7 +1076,7 @@ export default {
         return cc.calculateLTByIuput(method, 1, num => +num && +num >= 1 && +num <= 10, state);
     },
 
-    // 猜前4
+    // 猜前5
     PKQZX5(method, state) {
         let choices     = state.choices;
         let _result     = [
@@ -1129,10 +1133,13 @@ export default {
 
             total ++;
         }
+
+        data    = [];
+        _result = [];
         return total;
     },
 
-    // 猜前４单式
+    // 猜前5单式
     PKQZX5_S(method, state) {
         return cc.calculateLTByIuput(method, 5, num => +num && +num >= 1 && +num <= 10, state);
     },
