@@ -185,9 +185,8 @@
                 <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
                 <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
                 <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
-<!--                <a href="javascript:;" class="btn bet-future-num" id="trace-open">我&nbsp;&nbsp;要&nbsp;&nbsp;追&nbsp;&nbsp;号</a>-->
                 <a href="javascript:;" class="btn main-btn-confirm" id="project-submit" @click="submitBet()">
-                    <span class="ico-confirm"></span><span>确认投注</span>
+                    <i class="fa fa-check-circle ft20"></i>确认投注
                 </a>
             </section>
         </section>

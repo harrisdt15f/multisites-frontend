@@ -127,9 +127,6 @@ export const API = {
     },
     // 获取彩种详情
     getLotteryInfo() {
-        // let data ={
-        //     'lottery_sign':lotterySign
-        // }
         return this.post(this.url.lotteryInfo).then(response => response)
     },
     /*

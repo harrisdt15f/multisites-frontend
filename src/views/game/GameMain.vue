@@ -13,18 +13,19 @@
                     <table width="100%" class="bet-table-trend">
                         <thead>
                         <tr>
-                            <th>奖期</th>
-                            <th>开奖</th>
+                            <th class="th">奖期</th>
+                            <th class="th">开奖</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr :class="{first: index === bet.issueHistory.length - 1}" v-for="(item, index) in bet.issueHistory" :key="index">
-                            <td>{{item.issue_no}} 期</td>
-                            <td class="balls">
+                            <td class="td">{{item.issue_no}} 期</td>
+                            <td class="td balls">
                                 <i
-                                        :class="{curr: numIndex < item.code.split(',').length - 2}"
-                                        v-for="(num, numIndex) in item.code.split(',')"
-                                        :key="numIndex"
+                                    class="i"
+                                    :class="{curr: numIndex < item.code.split(',').length - 2}"
+                                    v-for="(num, numIndex) in item.code.split(',')"
+                                    :key="numIndex"
                                 >{{num}}</i>
                             </td>
                         </tr>

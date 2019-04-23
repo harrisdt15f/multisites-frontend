@@ -1,26 +1,22 @@
 <template>
 	<section class="fw">
 		<div class="bet-type-crow">
-			<ul id="crowd-menu">
-				<li v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
-					<a href="javascript:;">
-						<span class="bet-type-crow-name">{{_group.name}}</span>
-						<span class="bet-type-group-name"></span>
-					</a>
+			<ul>
+				<li class="bet-type-crow-li" v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
+					<span class="bet-type-crow-name">{{_group.name}}</span>
+					<span class="bet-type-group-name"></span>
 				</li>
 			</ul>
-			<div v-if="currentLottery.hasrx" class="bet-type-optional" id="rx"><span></span></div>
+			<div v-if="currentLottery.hasrx" class="bet-type-optional"><span></span></div>
 		</div>
-		<div id="crowd-menu2" v-if="selectedGroup" >
-			<div  class="bet-type-group" v-if="selectedGroup">
-				<div class="bet-type-group-list"  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']" :key="_rowIndex">
-					<div class="group-name">{{row.name}}</div>
-					<ul>
-						<li v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
-							<a href="javascript:;" class="btn-red"> {{method.method_name}}</a>
-						</li>
-					</ul>
-				</div>
+		<div  class="bet-type-group" v-if="selectedGroup">
+			<div class="bet-type-group-list"  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']" :key="_rowIndex">
+				<div class="group-name">{{row.name}}</div>
+				<ul>
+					<li class="bet-type-group-list-li" v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
+						{{method.method_name}}
+					</li>
+				</ul>
 			</div>
 		</div>
 	</section>

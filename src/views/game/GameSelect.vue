@@ -1,91 +1,71 @@
 <template>
     <section>
-        <div class="main-row-1">
-            <div class="main-play-introduce">
-                <div class="introduce-txt" id="method-desc">{{currentMethod.desc}}</div>
-                <a href="javascript:;" class="ico-why">?<div class="tooltip1" v-html="currentMethod.help"></div><span></span></a>
-                <a href="javascript:;" class="ico-case">例<div class="tooltip1" v-html="currentMethod.example"></div><span></span></a>
+        <div class="main-play-introduce ft12">
+            {{currentMethod.desc}}
+            <a href="javascript:;" class="ico-why">?<div class="tooltip1" v-html="currentMethod.help"></div></a>
+            <a href="javascript:;" class="ico-case">例<div class="tooltip1" v-html="currentMethod.example"></div></a>
+        </div>
+        <div class="main-ball-box ball" v-if="currentMethod.type === 'multi'">
+            <div class="main-ball-list"   v-for="(_number, _tabName, yIndex) in currentMethod.layout" :key="yIndex">
+                <div class="ball-list-name">{{_tabName}}</div>
+                <ul class="main-ball-content">
+                    <li class="main-ball-content-li" v-for="(_code, xIndex) in _number" :key="xIndex" :class="{'ball-on': chooseNumber[yIndex][xIndex]}"  @click="selectCode(yIndex, xIndex)">
+                        <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
+                    </li>
+                </ul>
+                <ul class="main-ball-control">
+                    <li class="main-ball-control-li" v-for="(_btnText, bIndex) in  currentMethod.buttons" :key="bIndex" :class="{'ball-on': chooseButton[yIndex][bIndex] }"  @click="selectButton(yIndex, bIndex)" >
+                        <a href="javascript:;" class="ball" :x="bIndex" :y="yIndex">{{_btnText}}</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="main-ball-section fw">
-<!--            <div class="main-ball-random"><a href="javascript:;" class=" btn-red" id="random1">机选一注</a><a href="javascript:;" class=" btn-red" id="random5">机选五注</a></div>-->
-            <div class="main-ball-box" id="ball-multi" v-if="currentMethod.type === 'multi'">
-                <div class="position">
-
-                </div>
-                <div class="ball">
-                    <div class="main-ball-list"   v-for="(_number, _tabName, yIndex) in currentMethod.layout" :key="yIndex">
-                        <div class="ball-list-name"><span>{{_tabName}}</span></div>
-                        <ul class="main-ball-content">
-                            <li v-for="(_code, xIndex) in _number" :key="xIndex" :class="{'ball-on': chooseNumber[yIndex][xIndex]}"  @click="selectCode(yIndex, xIndex)">
-                                <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
-                            </li>
-                        </ul>
-                        <ul class="main-ball-control">
-                            <li v-for="(_btnText, bIndex) in  currentMethod.buttons" :key="bIndex" :class="{'ball-on': chooseButton[yIndex][bIndex] }"  @click="selectButton(yIndex, bIndex)" >
-                                <a href="javascript:;" class="ball" :x="bIndex" :y="yIndex">{{_btnText}}</a>
-                            </li>
-                        </ul>
+        <div class="main-ball-box" v-else>
+            <div class="main-single-entry">
+                <div class="main-balls-import">
+                    <div id="singleUpload" class="btn btn-blue btn-ball-import">导入注单</div>
+                    <div class="btn-tab-list import-clean-list">
+                        <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理重复和错误号码</a>
+                        <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
                     </div>
                 </div>
-            </div>
-
-            <div class="main-ball-box" id="ball-text" v-else>
-                <div class="position">
-
-                </div>
-                <div class="ball">
-                    <div class="main-single-entry">
-                        <div class="main-balls-import">
-                            <div id="singleUpload" class="btn btn-blue btn-ball-import">导入注单</div>
-                            <div class="btn-tab-list import-clean-list">
-                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearRepeatOrder()">清理重复和错误号码</a>
-                                <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
-                            </div>
-                        </div>
-                        <div class="balls-import-box">
-             <!--               <el-input
-                                    type="textarea"
-                                    :autosize="{ minRows: 2, maxRows: 4}"
-                                    placeholder="请输入内容"
-                                    v-model="textarea2">
-                            </el-input>-->
-                              <textarea @input="inputAreaChange()" @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" id='ball-text-v' v-model="inputCodes"></textarea>
-                        </div>
-                    </div>
+                <div class="balls-import-box">
+                    <textarea @input="inputAreaChange()" @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" id='ball-text-v' v-model="inputCodes"></textarea>
                 </div>
             </div>
         </div>
         <div class="bet-statistics w100">
             <div class="main-column-1 fl">
-                <div class="bet-choose-total">共<span id="num" class="txt-red m-L m-R">{{currentOrder.currentCount}}</span>注，
+                <div class="bet-choose-total">
+                    共 {{currentOrder.currentCount}} 注，
                     <input type="button" value="-" class="bet-choose-ipt" id="times-reduce" @click="timeReduce()">
                     <input type="text" class="ipt ipt-muliple" value="1" id="times" v-model="currentOrder.currentTimes">
                     <input type="button" value="+" class="bet-choose-ipt" id="times-add" @click="timeAdd()">
                     倍
                 </div>
-                <div class="bet-play-mode fw"> <span class="play-mode-name">模式：</span>
-                    <div class="btn-tab-list">
-                        <a
-                                v-for="(mode, modeIndex) in currentLottery.valid_modes"
-                                href="javascript:;"
-                                @click="selectMode(mode.val)"
-                                :class="['btn-tab', 'btn-effect', 'btn-red', currentOrder.currentMode === mode.val ? 'tab-on' : '']" :key="modeIndex" :v="modeIndex">
-                            {{mode.title}}
-                        </a>
-                    </div>
-
+                <div class="bet-play-mode fw">
+                    模式：
+                    <a
+                        v-for="(mode, modeIndex) in currentLottery.valid_modes"
+                        href="javascript:;"
+                        @click="selectMode(mode.val)"
+                        :class="['btn-tab', 'btn-effect', 'btn-red', currentOrder.currentMode === mode.val ? 'tab-on' : '']"
+                        :key="modeIndex"
+                        :v="modeIndex"
+                    >
+                        {{mode.title}}
+                    </a>
                 </div>
-                <div class="bet-rebate-mode">
-                    <div class="block"><el-slider v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider></div>
-                </div>
+                <el-slider class="bet-rebate-mode" v-model="currentOrder.currentGroup" v-bind:min=1700 v-bind:max=1980></el-slider>
             </div>
-            <div class="main-column-1 fr">
-                <div class="bet-add-box">
-                    <strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
-                    <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" id="fast-add" @click="oneKeyBet()"><span class="ico-add"></span><span>一键投注</span></a>
-                    <a href="javascript:;" class="btn main-btn-add btn-effect" id="add" @click="addOrder()"><span class="ico-add"></span><span>添加选号</span></a>
-                </div>
+            <div class="bet-add-box fr">
+                <strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
+                <a href="javascript:;" class="btn main-btn-fastadd  btn-effect" @click="oneKeyBet()">
+                    一键投注
+                </a>
+                <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
+                    <i class="fa fa-download ft20"></i>添加选号
+                </a>
             </div>
         </div>
     </section>

@@ -176,7 +176,7 @@ export default {
   },
   created () {
     // 获取用户登录后的信息
-    let account = this.Utils.storage.get('current-user');
+    let account = this.Utils.storage.get('current-user')
     if (account && account.data) {
       this.$store.commit('account', account.data)
     }
