@@ -1,4 +1,42 @@
 let animation = {
+    // 中奖排行榜notice('meque', 'meque_text', -1)
+    ranking (meques, text, speed) {
+        let [
+            mequeText = document.getElementById(text),
+            meque = document.getElementById(meques),
+            timer = null
+        ] = []
+        if (parseInt(this.getStyle(mequeText, 'height')) < parseInt(this.getStyle(meque, 'height'))) {
+            return false
+        }
+        mequeText.innerHTML = mequeText.innerHTML + mequeText.innerHTML
+        clearInterval(timer)
+        timer = setInterval(notice, 40)
+        notice()
+        function notice () {
+            if (mequeText.offsetTop < -mequeText.offsetHeight / 2) {
+                mequeText.style.top = 0
+            }
+            mequeText.style.top = mequeText.offsetTop + speed +'px'
+        }
+        mequeText.onmouseover = function () {
+            clearInterval(timer)
+        }
+        mequeText.onmouseout = function () {
+            timer = setInterval(notice, 40)
+        }
+        mequeText.onmousedown = function (ev) {
+            var ev = ev || window.event
+            var disY = ev.clientY - this.offsetTop
+            mequeText.onmousemove = function (ev) {
+                var ev = ev || window.event
+                mequeText.style.top = ev.clientY - disY + 'px'
+            }
+            document.onmouseup = function () {
+                mequeText.onmousemove = null
+            }
+        }
+    },
     // 滚动公告  notice('meque', 'meque_text', -1)
     notice (meques, text, speed) {
         let [

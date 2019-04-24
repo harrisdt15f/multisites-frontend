@@ -452,7 +452,7 @@ export default {
     height: 27px;
     float: left;
     margin: 0 5px 0 8px;
-    background: url(../assets/images/home/hj.png) no-repeat 0 0;
+    background: url(../assets/images/hj.png) no-repeat 0 0;
   }
   .jack-header .header-r .header-btn:hover {
     background: #ff5656;

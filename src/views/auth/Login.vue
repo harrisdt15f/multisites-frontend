@@ -1,4 +1,4 @@
-<template id="login">
+<template>
   <section class="login">
     <section class="main">
       <el-form :model="user" :rules="userRules" ref="userForm" label-width="150px">

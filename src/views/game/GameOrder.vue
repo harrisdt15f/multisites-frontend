@@ -1,4 +1,4 @@
-<template id="game-order">
+<template>
     <section class="main-bottom">
         <section class="main-bottom-con" id="project">
 <!--            <section class="tabs-box-menu m-B">-->

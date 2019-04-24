@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body,html,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,textarea,p,th,td{margin:0;padding:0;}
 table {border-collapse:collapse;border-spacing:0;}
-body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;}
+body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;background:#f7f7f7;}
 ol,ul{list-style:none;}
 a{text-decoration:none;}
 img{border:none;display:block;}
@@ -26,7 +26,10 @@ select, input {box-sizing: border-box;}
 .c333{color:#333;}
 .c666{color:#666;}
 .c999{color:#999;}
+/* 字体红色 */
+.c51313{color:#c51313;}
 
+.mr{margin: 0 auto;}
 .ft0{font-size:0;}
 .w100{width:100%;}
 .ftn{font-weight:normal;}
@@ -42,6 +45,7 @@ select, input {box-sizing: border-box;}
 .pr{position:relative;}
 .cur{cursor: pointer;}
 .dinv{display:inline-block;vertical-align:middle;}
+.wzfw{text-overflow:Ellipsis;overflow:hidden;white-space:nowrap;}
 
 .w {
 	width: 990px;

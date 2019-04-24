@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="balls-import-box">
-                    <textarea @input="inputAreaChange()" @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" id='ball-text-v' v-model="inputCodes"></textarea>
+                    <textarea @input="inputAreaChange()" @focus="inputAreaFocus()" @blur="inputAreaBlur()" class="balls-import-txt" v-model="inputCodes"></textarea>
                 </div>
             </div>
         </div>
@@ -141,6 +141,7 @@ export default {
             this.currentOrder.currentCost = 0
             this.currentOrder.currentCount = 0
             this.currentOrder.currentTimes = 1
+            this.inputCodes = `说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容`
         },
         // 号码被清空时 清空注单
         'currentOrder.currentCost' (newVal) {
@@ -232,7 +233,7 @@ export default {
             } else {
                 let _input = ''
                 let tmp = (this.inputCodes || '').split(',').map((item) => {
-                    return this.Utils.removeAllSpace(item)
+                    return this.Utils.trim(item)
                 })
                 for (let i = tmp.length; i >= 0; i --) {
                     // 去除非数字项
@@ -307,11 +308,12 @@ export default {
         calculate() {
             if (this.currentMethod.type === 'multi') {
                 const method = this.currentMethod
+                console.log(method)
                 let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc
                 inputcodes      = ''
                 positionDesc    = []
     
-                result = algorithm[method.method](method, this.orderState);
+                result = algorithm[method.method](method, this.orderState)
                 if (method.rx && result[0]) {
                     _count  = result[0]
                     _cnt    = result[1]
@@ -539,7 +541,6 @@ export default {
                 // let [ codes = [] ] = []
                 //
                 // console.log(method)
-                // console.log(this.Utils.removeAllSpace(this.inputCodes).replace(/,/g,'|'))
             }
         },
 
@@ -551,39 +552,35 @@ export default {
                     (this.currentLottery.series_id === 'digital3') ||
                     (this.currentLottery.series_id === 'p3p5')) {
                     if (Array.from(code).includes('|') || (this.currentMethod.method === 'DWD')) {
-                        return code.replace(/&/g, '');
+                        return code.replace(/&/g, '')
                     } else {
-                        return code.replace(/&/g, ',');
+                        return code.replace(/&/g, ',')
                     }
                 } else if (this.currentLottery.series_id === 'lotto') {
                     if (Array.from(code).includes('|') || (this.currentMethod.method === 'LTDWD')) {
-                        return code.replace(/&/g, ' ');
+                        return code.replace(/&/g, ' ')
                     } else {
-                        return code.replace(/&/g, ',');
+                        return code.replace(/&/g, ',')
                     }
                 } else if (this.currentLottery.series_id === 'pk10') {
                     if (Array.from(code).includes('|') || (this.currentMethod.method === 'PKDWD')) {
-                        return code.replace(/&/g, ' ');
+                        return code.replace(/&/g, ' ')
                     } else {
-                        return code.replace(/&/g, ',');
+                        return code.replace(/&/g, ',')
                     }
                 } else if (this.currentLottery.series_id === 'ks') {
                     if (Array.from(code).includes('|')) {
                         return code.replace(/&/g, '');
                     } else {
-                        return code.replace(/&/g, ',');
+                        return code.replace(/&/g, ',')
                     }
                 }
             }
             return code;
         },
-
         // 输入框初始化
         inputAreaInit() {
-          this.inputCodesInitText = "说明：\n" +
-              "1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n" +
-              "2、文件格式必须是.txt格式。\n" +
-              "3、导入文本内容后将覆盖文本框中现有的内容";
+          this.inputCodesInitText = `说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容`
           this.inputCodes = this.inputCodesInitText
         },
         // 单式输入框获取焦点
@@ -595,19 +592,7 @@ export default {
         },
         // 单式输入框 变化时
         inputAreaChange () {
-            let tmp = (this.inputCodes || '').split(',').map((item) => {
-                return this.Utils.removeAllSpace(item)
-            })
-            for (let i = tmp.length; i >= 0; i --) {
-                // 去除非数字项
-                if (isNaN(tmp[i])) {
-                    tmp.splice(i, 1)
-                }
-                // 去除 小于 或者 大于规定长度
-                if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
-                    tmp.splice(i, 1)
-                }
-            }
+            let tmp = (this.inputCodes || '').split(',')
             // 去重
             let temp = Array.from(new Set(tmp))
             this.inputCodes = temp.join(',')
@@ -626,44 +611,25 @@ export default {
         },
         // 清理重复项 和 错误项
         inputClearRepeatOrder() {
-            // let tmp = (this.inputCodes || '').split(',').map((item) => {
-            //     return this.Utils.removeAllSpace(item)
-            // })
-            // for (let i = tmp.length; i >= 0; i --) {
-            //     // 去除非数字项
-            //     if (isNaN(tmp[i])) {
-            //         tmp.splice(i, 1)
-            //     }
-            //     // 去除 小于 或者 大于规定长度
-            //     if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
-            //         tmp.splice(i, 1)
-            //     }
-            // }
-            // // 去重
-            // let temp = Array.from(new Set(tmp))
-            // this.inputCodes = temp.join(',')
-            // this.inputCodesSingle = temp.length
-            // this.calculate()
-            
-            
-            // let _input = ''
-            // let tmp = (this.inputCodes || '').split(',')
-            // let temp = Array.from(new Set(tmp))
-            // if ((tmp.length - temp.length) > 0) {
-            //     this.inputCodes = temp.join(',')
-            //     this.calculate( this.currentMethod, this.orderState)
-            // }
-            //
-            // this.input = this.inputCodes;
-            //
-            // //优化单式//需要压缩
-            // if (this.currentMethod.b64 && (temp.length > 10)) {
-            //     _input = new Uint8Array(temp)
-            //     _input = pako.gzip(_input, {gzip:true})
-            // } else {
-            //     _input = this.inputCodes
-            // }
-            // console.log(_input)
+            console.log(this.currentMethod)
+            let tmp = (this.inputCodes || '').split(',').map((item) => {
+                return this.Utils.trim(item)
+            })
+            for (let i = tmp.length; i >= 0; i --) {
+                // 去除非数字项
+                if (isNaN(tmp[i])) {
+                    tmp.splice(i, 1)
+                }
+                // 去除 小于 或者 大于规定长度
+                if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
+                    tmp.splice(i, 1)
+                }
+            }
+            // 去重
+            let temp = Array.from(new Set(tmp))
+            this.inputCodes = temp.join(',')
+            this.inputCodesSingle = temp.length
+            this.calculate()
         },
         // 一键投注
         oneKeyBet () {

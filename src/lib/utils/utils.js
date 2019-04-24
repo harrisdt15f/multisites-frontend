@@ -33,6 +33,9 @@ let Utils = {
     removeAllSpace (str) {
         return str.replace(/\s+/g, '')
     },
+    trim (str) {
+        return str.replace(/(^\s+)|(\s+$)/g, '')
+    },
     // 去除字符串换行
     removeLineFeed (str) {
         return str.replace(/[\n]/g, '')

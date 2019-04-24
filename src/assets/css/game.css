@@ -185,6 +185,7 @@ body {
 	color: #f6543b;
 }
 .bet-type-crow-name {
+	padding:0 3px;
 	font-size: 16px;
 	display: block;
 }
