@@ -328,33 +328,59 @@ export default {
         return this.QTS3(method, state);
     },
 
-    //两星
-    ZX2(method, state) {
+    // 两星
+    QZX2(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2;
     },
-    ZX2_S(method, state) {
+
+    HZX2(method, state) {
+        return this.QZX2(method, state);
+    },
+
+    QZX2_S(method, state) {
         return cc.calculateByIuput(2, method, function () {
             return true;
         }, state);
     },
-    ZXHZ2(method, state) {
+
+    HZX2_S(method, state) {
+        return this.QZX2_S(method, state);
+    },
+
+    QZX2HZ(method, state) {
         let data;
         data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].concat([9, 8, 7, 6, 5, 4, 3, 2, 1]);
         return cc.calculateByPosition(data, method, state);
     },
-    ZXKD2(method, state) {
+
+    HZX2HZ(method, state) {
+        return this.QZX2HZ(method, state);
+    },
+
+    QZX2KD(method, state) {
         let data;
         data = [10, 18, 16, 14, 12, 10, 8, 6, 4, 2];
         return cc.calculateByPosition(data, method, state);
     },
-    ZU2(method, state) {
+
+    HZX2KD(method, state) {
+        return this.QZX2KD(method, state);
+    },
+
+    // 组 2
+    QZU2(method, state) {
         let h, m, n, ref;
         ref = cc.calculateMNH(method, state), m = ref[0], n = ref[1], h = ref[2];
         return cc.C(n, 2);
     },
-    ZU2_S(method, state) {
+
+    HZU2(method, state) {
+        return this.QZU2(method, state);
+    },
+
+    QZU2_S(method, state) {
         return cc.calculateByZuIuput(2, method, input => {
             if (input[0] !== input[1]) {
                 return true;
@@ -362,70 +388,108 @@ export default {
             return false;
         }, state);
     },
-    ZUHZ2(method, state) {
+
+    HZU2_S(method, state) {
+        return this.QZU2_S(method, state);
+    },
+
+    // 前 组选和值 2
+    QZU2HZ(method, state) {
         let data;
         data = [1, 1, 2, 2, 3, 3, 4, 4, 5, 4, 4, 3, 3, 2, 2, 1, 1];
         return cc.calculateByPosition(data, method, state);
     },
-    ZU2BD(method, state) {
+
+    // 后 组选和值 2
+    HZU2HZ(method, state) {
+        return this.QZU2HZ(method, state);
+    },
+
+    // 组选包胆
+    QZU2BD(method, state) {
         let data;
         data = [9, 9, 9, 9, 9, 9, 9, 9, 9, 9];
         return cc.calculateByPosition(data, method, state);
     },
 
+    HZU2BD(method, state) {
+        return this.QZU2BD(method, state);
+    },
 
-    //一星
-
+    // 一星
     DWD(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 + n2 + n3 + n4 + n5;
     },
 
-    //不定位
-    BDW1(method, state) {
+    // 不定位
+    QBDW31(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 1);
     },
-    BDW2(method, state) {
+
+    HBDW31(method, state) {
+        return this.QBDW31(method, state);
+    },
+
+    QBDW32(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 2);
     },
+
+    HBDW32(method, state) {
+        return this.QBDW32(method, state);
+    },
+
     BDW41(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 1);
     },
+
     BDW42(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 2);
     },
+
     BDW52(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 2);
     },
+
     BDW53(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return cc.C(n1, 3);
     },
-    //大小单双
+
+    // 大小单双
     DXDS(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2;
     },
+
+    Q2DXDS(method, state) {
+        return this.DXDS(method, state);
+    },
+
+    H2DXDS(method, state) {
+        return this.DXDS(method, state);
+    },
+
     DXDS3(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2 * n3;
     },
 
-    //任选
+    // 任选
     RZX2(method, state) {
         let arr, cnt, i, j, len, n1, n2, ref;
         cnt = 0;
