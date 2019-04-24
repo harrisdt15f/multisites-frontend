@@ -184,7 +184,9 @@ export default {
 
     // 组3
     QZU3(method, state) {
-        return this.QZU3(method, state);
+        let h, m, n, ref;
+        ref = cc.calculateMNH(method, state), m = ref[0], n = ref[1], h = ref[2];
+        return cc.C(n, 2) * 2;
     },
 
     ZZU3(method, state) {
