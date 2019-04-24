@@ -657,82 +657,46 @@ export default {
     },
 
     //------------------快三------------------
-    STHTX(method, state) {
-        return 1;
-    },
-    KSHZ(method, state) {
-        return cc.calculateN(method, state)[0];
-    },
+
+    // 快3和值大小单双
     KSHZDXDS(method, state) {
         return cc.calculateN(method, state)[0];
     },
-    STHDX(method, state) {
+
+    // 快3和值
+    KSHZ(method, state) {
         return cc.calculateN(method, state)[0];
-    },
-    ETHFX(method, state) {
-        return cc.calculateN(method, state)[0];
-    },
-    ETHDX(method, state) {
-        let n1, n2, ref;
-        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
-        return n1 * n2;
-    },
-    ETHDX_S(method, state) {
-        return cc.calculateByZuIuput(3, method, input => {
-            let ref;
-            if ((input[0] === (ref = input[1]) && ref === input[2])) {
-                return false;
-            }
-            if (input[0] === input[1] || input[1] === input[2] || input[0] === input[2]) {
-                return true;
-            }
-        }, state);
-    },
-    SBTH(method, state) {
-        let n;
-        n = cc.calculateN(method, state)[0];
-        return cc.C(n, 3);
-    },
-    SBTH_S(method, state) {
-        return cc.calculateByZuIuput(3, method, input => {
-            if (input[0] !== input[1] && input[1] !== input[2]) {
-                return true;
-            }
-            return false;
-        }, state);
-    },
-    SBTHDT(method, state) {
-        let n1, n2, ref;
-        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
-        return cc.C(n2, 3 - n1);
-    },
-    SBTHHZ(method, state) {
-        let data;
-        data = [1, 1, 2, 3, 3, 3, 3, 2, 1, 1];
-        return cc.calculateByPosition(data, method, state);
-    },
-    EBTH(method, state) {
-        let n;
-        n = cc.calculateN(method, state)[0];
-        return cc.C(n, 2);
-    },
-    EBTH_S(method, state) {
-        return cc.calculateByZuIuput(2, method, input => {
-            if (input[0] !== input[1]) {
-                return true;
-            }
-            return false;
-        }, state);
-    },
-    EBTHDT(method, state) {
-        let n1, n2, ref;
-        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1];
-        return cc.C(n2, 2 - n1);
-    },
-    SLTHTX(method, state) {
-        return 1;
     },
 
+    // 三不同号
+    SBTH(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
+
+    // 三同号
+    STH(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
+
+    // 三连号
+    SLH(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
+
+    // 二不同号
+    EBTH(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
+
+    // 二同号
+    ETH(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
+
+    // 单挑一骰
+    DTYS(method, state) {
+        return cc.calculateN(method, state)[0];
+    },
 
     // ------------------ 乐透类型 ------------------
 
