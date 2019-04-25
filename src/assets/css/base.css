@@ -47,8 +47,12 @@ select, input {box-sizing: border-box;}
 .dinv{display:inline-block;vertical-align:middle;}
 .wzfw{text-overflow:Ellipsis;overflow:hidden;white-space:nowrap;}
 
+.w13{
+	width: 1335px;
+	margin: 0 auto;
+}
 .w {
-	width: 990px;
+	width: 1200px;
 	margin: 0 auto;
 	position: relative;
 }
@@ -63,9 +67,4 @@ a, button {
 	-ms-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
-}
-@media (min-width: 1280px){
-	.w {
-		width: 1200px;
-	}
 }
