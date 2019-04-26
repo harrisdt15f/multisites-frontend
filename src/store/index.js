@@ -10,7 +10,6 @@ const index =  new Vuex.Store({
         account: {
             username: '',
             balance: ''
-
         },
         // 用户配置
         userConfig:{
@@ -93,7 +92,7 @@ const index =  new Vuex.Store({
 
         // 当前玩法
         currentMethod (state, method) {
-            state.currentMethod = method;
+            state.currentMethod = method
         },
 
         // 当前选中订单数据
@@ -107,12 +106,12 @@ const index =  new Vuex.Store({
 
         // 当前彩种所有玩法
         allMethods (state, allMethods) {
-            state.allMethods = allMethods;
+            state.allMethods = allMethods
         },
 
         // 当前彩种所有玩法
         defaultGroup (state, defaultGroup) {
-            state.defaultGroup = defaultGroup;
+            state.defaultGroup = defaultGroup
         },
 
         // 当前彩种所有玩法

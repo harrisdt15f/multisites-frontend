@@ -14,15 +14,16 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
-        { path: '/', redirect: '/login', component: Login},
+        { path: '/', redirect: '/home'},
         { path: '/login', name: 'login', component: Login},
         { path: '/register', name: 'register', component: Register },
         { path: '/home', name: 'home', component: Home,
             children: [
-                { path: '', name: 'index-closed1.vue', component: Index},
+                { path: '', name: 'index-closed1', component: Index},
                 { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true }
             ]
-        }
+        },
+        { path: '*', redirect: '/home'}
     ]
 });
 
@@ -33,7 +34,7 @@ router.beforeEach((to, from, next) => {
     const authRequired = !publicPageNames.includes(to.name)
     const currentUser = Utils.storage.get('current-user')
     if (authRequired && (!currentUser || currentUser.data.user_id <= 0)) {
-        // return next('/login')
+        return next('/login')
     }
     next()
 });

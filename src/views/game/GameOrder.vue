@@ -1,6 +1,6 @@
 <template>
     <section class="main-bottom">
-        <section class="main-bottom-con" id="project">
+        <section class="main-bottom-con" v-if="currentMethod.type !== 'lhc'">
 <!--            <section class="tabs-box-menu m-B">-->
 <!--                <section class="tabs-r-txt" id="project-bar">-->
 <!--                    <p>当前总共<strong class="txt-red" id="project-num">{{totals.number}}</strong>注，-->
@@ -11,8 +11,7 @@
 <!--                    <li><a href="javascript:;" id="project-current">当前投注</a></li>-->
 <!--                </ul>-->
 <!--            </section>-->
-
-            <section class="bet-count-confirm" id="project-project">
+            <section class="bet-count-confirm">
                 <section class="bet-msg-pick-bd">
                     <section class="bet-pick-box">
                         <a href="javascript:;" class="txt-clean" id="project-empty" @click="clearOrderList()">清空选号</a>
@@ -53,12 +52,6 @@
                             <li class="chase-tab" :class="{active: chaseTab === 2}"  @click="chaseTabHan(2)">翻倍</li>
                         </ul>
                         <ul class="fw tab-cons">
-<!--                            <li class="tab-con" v-if="chaseTab === 0">-->
-<!--                                <section class="tab-inputs">-->
-<!--                                    最低收益率:<input type="text" v-model="chase.rateNum" :placeholder="chase.rateNum" class="tab-input">%  追号期数<input type="text" v-model="chase.rateIssue" :placeholder="chase.rateIssue" class="tab-input">-->
-<!--                                </section>-->
-<!--                                <el-button size="small" @click="chaseRateSubmit()">生成追号计划</el-button>-->
-<!--                            </li>-->
                             <li class="tab-con" v-if="chaseTab === 1">
                                 <section class="tab-inputs">
                                     起始倍数:<input type="text" v-model="chase.sameNum" :placeholder="chase.sameNum" class="tab-input">倍 追号期数<input type="text" v-model="chase.sameIssue" :placeholder="chase.sameIssue" class="tab-input">
@@ -76,46 +69,6 @@
                     </section>
                 </section>
             </section>
-<!--            <section class="chase-table-container" v-if="chaseTab === 0">
-                <table class="chase-table">
-                    <tbody data-type="lirunlv">
-                    <tr>
-                        <th class="text-center">序号</th>
-                        <th><input data-action="checkedAll" type="checkbox" checked="checked"> 追号期次</th>
-                        <th>倍数</th>
-                        <th>金额</th>
-                        <th>奖金</th>
-                        <th>盈利金额</th>
-                        <th>盈利率</th>
-                    </tr>
-                        <tr v-for="(item, index) in chase.rateData" :key="index">
-                            <td class="text-center">{{index + 1}}</td>
-                            <td>
-                                <input data-action="checkedRow" class="trace-row-checked" type="checkbox" checked="checked">
-                                <span class="trace-row-number">
-                                    {{item.issue_no}}
-                                    <span class="icon-period-current"></span>
-                                </span>
-                            </td>
-                            <td>
-                                <input class="trace-row-multiple" value="1" type="text" style="width:30px;text-align:center;">
-                            </td>
-                            <td>
-                                <span class="trace-row-money">2.00</span>
-                            </td>
-                            <td>
-                                <span class="trace-row-userGroupMoney">1,800.00</span>
-                            </td>
-                            <td>
-                                <span class="trace-row-winTotalAmount">1,798.00</span>
-                            </td>
-                            <td>
-                                <span class="trace-row-yinglilv">89900.00</span>%
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>-->
             <section class="chase-table-container" v-if="chase.sameCon">
                 <table class="chase-table">
                     <tbody data-type="lirunlv">
@@ -195,16 +148,16 @@
                 <li class="title-list" :class="{current: betHistory.tab === 0}" @click="betHistory.tab = 0">我的投注</li>
                 <li class="title-list" :class="{current: betHistory.tab === 1}" @click="betHistory.tab = 1">我的追号</li>
             </ul>
-            <table  v-if="betHistory.tab === 0" width="100%">
+            <table v-if="betHistory.tab === 0" class="w100">
                 <thead>
                 <tr>
                     <th>游戏</th>
                     <th>玩法</th>
                     <th>期号</th>
-                    <th width="150">开奖号</th>
+                    <th>开奖号</th>
                     <th>投注内容</th>
                     <th>投注金额</th>
-                    <th width="120">奖金</th>
+                    <th>奖金</th>
                     <th>奖金组-返点</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -216,7 +169,7 @@
                     <td>{{item.method_name}}</td>
                     <td>{{item.issue}}</td>
                     <td>{{item.open_codes}}</td>
-                    <td>{{item.bet_codes}}</td>
+                    <td style="display:inline-block;width:170px;" class="wzfw">{{item.bet_codes}}</td>
                     <td>{{item.total_cost}}</td>
                     <td>0.00</td>
                     <td>{{item.prize_group}}</td>
@@ -225,16 +178,16 @@
                 </tr>
                 </tbody>
             </table>
-            <table  v-if="betHistory.tab === 1" width="100%">
+            <table v-if="betHistory.tab === 1" class="w100">
                 <thead>
                     <tr>
                         <th>游戏</th>
                         <th>玩法</th>
                         <th>期号</th>
-                        <th width="150">开奖号</th>
+                        <th>开奖号</th>
                         <th>投注内容</th>
                         <th>投注金额</th>
-                        <th width="120">奖金</th>
+                        <th>奖金</th>
                         <th>奖金组-返点</th>
                         <th>状态</th>
                         <th>操作</th>
@@ -246,7 +199,7 @@
                         <td>五星直选单式</td>
                         <td>190415040</td>
                         <td>190415040</td>
-                        <td>11111|2222...</td>
+                        <td style="display:inline-block;width:170px;" class="wzfw">1</td>
                         <td>1</td>
                         <td>2</td>
                         <td>未中奖</td>
@@ -311,6 +264,7 @@ export default {
             'currentOrderState',
             'totalCost',
             'currentLottery',
+            'currentMethod',
             'bet',
             'currentIssue',
             'issueInfo'
@@ -525,19 +479,6 @@ export default {
                     this.$set(this.chase.sameData[i], 'multiple', this.chase.sameNum)
                 }
             }
-        },
-        // 生成利率追号
-        chaseRateSubmit () {
-            let [ rateIssue = this.chase.rateIssue ] = []
-            let list = this.issueInfo.filter((item) => {
-                return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-            })
-            for (let i = 0; i < list.length; i++) {
-                if (i < rateIssue) {
-                    this.chase.rateData.push(list[i])
-                }
-            }
-            console.log(this.chase.rateData[0])
         },
         // 追号tab 切换
         chaseTabHan (val) {

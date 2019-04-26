@@ -8,7 +8,7 @@
         <section class="head-notice">
           <i class="fa fa-volume-up ft21 head-notice-img"></i>
           <section id="head-meque">
-            <p id="head-meque_text">22323232</p>
+            <p id="head-meque_text">中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！</p>
           </section>
         </section>
         <ul class="ft0 fr head-users">
@@ -34,14 +34,14 @@
       <section class="w13">
         <nav class="fr">
           <section class="nav" :class="{on: $route.path === '/home'}">
-            <a href="javascript:;" class="nav-title">首页</a>
+            <router-link tag="a" to="/home" href="javascript:;"  class="nav-title">首页</router-link>
           </section>
           <section class="nav">
             <a href="javascript:;" class="nav-title">彩票游戏</a>
             <section class="tc nav-menu-box">
               <ul class="nav-menus" v-for="(lottery, index) in lotteryLists" :key="index">
-                <li class="nav-menu nav-menu-icon" :class="menusName(lottery.sign)"></li>
-                <li class="nav-menu nav-menu-title">{{lottery.name}}</li>
+                <li class="nav-menu-icon" :class="menusName(lottery.sign)"></li>
+                <li class="nav-menu-title">{{lottery.name}}</li>
                 <li class="nav-menu cur"
                     v-for="(item, itemIndex) in lottery.list"
                     :key="itemIndex"
@@ -183,6 +183,7 @@ export default {
     width:275px;
     height:80px;
     background:url(../assets/images/header/logo-bg.png) no-repeat;
+    border-radius: 33px;
   }
   .logo{
     margin:10px auto 0;
@@ -290,15 +291,20 @@ export default {
     display:inline-block;
     vertical-align:top;
   }
-  .nav-menu{
-    width:135px;
+  .nav-menu,
+  .nav-menu-title{
+    padding-left:6px;
+    width:129px;
     color:#f1f1f1;
     font-size:14px;
     text-align:left;
     line-height:33px;
   }
+  .nav-menu:hover{
+    background:#c81313;
+  }
   .nav-menu-icon{
-    margin:5px 0 15px 1px;
+    margin:5px 0 7px 7px;
     background:url(../assets/images/hj.png) no-repeat -578px 0;
   }
   .nav-menu-icon1{
@@ -326,6 +332,7 @@ export default {
     background-position:-353px 0;
   }
   .nav-menu-title{
+    padding-bottom:14px;
     font-weight:bold;
     font-size:18px;
   }
