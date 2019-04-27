@@ -296,10 +296,11 @@ body {
 
 /*玩法介绍 、冷热遗漏*/
 .main-play-introduce {
-	padding: 5px 0 4px;
+	padding: 5px 0 4px 12px;
 	height: 28px;
 	line-height: 28px;
 	text-align: left;
+	background:#fff;
 }
 .main-play-introduce .ico-why,
 .main-play-introduce .ico-case {
@@ -395,6 +396,11 @@ body {
 	width: 45px;
 	height: 21px;
 	color: #999;
+}
+
+.main-center{
+	float:left;
+	width:890px;
 }
 /*号码数字盘*/
 .main-ball-content {
@@ -1425,13 +1431,15 @@ body {
 	padding: 8px 4px;
 	text-align: center;
 	color: #171E2A;
-	border-bottom: 1px dashed #D4D4D4;
 	white-space: nowrap;
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	-ms-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
+}
+.list-full-history tr{
+	border-bottom: 1px dashed #D4D4D4;
 }
 
 .list-full-history th {
@@ -1441,7 +1449,7 @@ body {
 	color: #171E2A;
 	white-space: nowrap;
 }
-.list-full-history tbody tr:hover td {
+.list-full-history tbody tr:hover{
 	background: #f5f5f5;
 	color: #000;
 }
@@ -1465,4 +1473,30 @@ body {
 	position: absolute;
 	left: 0;
 	color: #fff;
+}
+
+.lhc-end{
+	float: right;
+	position: relative;
+	bottom:5px;
+	margin-right:15px;
+	width: 80px;
+	height: 24px;
+	border-radius: 3px;
+	overflow: hidden;
+}
+.lhc-end .input {
+	width: 40px;
+	height: 100%;
+	cursor: pointer;
+	float: left;
+	line-height: 24px;
+	text-align: center;
+	color: #565656;
+	font-size: 12px;
+	background:#ccc;
+}
+.lhc-end .input.curr {
+	background: #FF5656;
+	color: #ffffff;
 }

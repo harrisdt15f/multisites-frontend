@@ -331,6 +331,7 @@ export default {
 		right:0;
 		margin:0 auto;
 		width:197px;
+		transition:all .15s;
 	}
 	.lotter-list-desc{
 		padding:200px 0 35px;
@@ -352,8 +353,11 @@ export default {
 		font-weight:bold;
 		text-shadow:-1px 1px 0 #000;
 	}
-	.lotter-list-btn:hover{
-		margin-top:2px;
+	.lottery-list:hover .lotter-list-name{
+		top:34px;
+	}
+	.lottery-list:hover .lotter-list-btn{
+		margin-top:3px;
 	}
   /*公告 和 热门彩种*/
 	.lottery-info{
@@ -532,7 +536,6 @@ export default {
 		margin-bottom: 10px;
 		width: 200px;
 		height: 100px;
-		border-radius: 4px;
 		background-color: #409EFF;
 		text-align: center;
 		color: #fff;

@@ -4,6 +4,15 @@
             {{currentMethod.desc}}
             <a href="javascript:;" class="ico-why">?<div class="tooltip1" v-html="currentMethod.help"></div></a>
             <a href="javascript:;" class="ico-case">例<div class="tooltip1" v-html="currentMethod.example"></div></a>
+       
+            <div class="lhc-end ab"  v-if="currentMethod.type === 'lhc'">
+                <el-tooltip content="1800 - 0.00%" placement="bottom">
+                    <input type="button" class="input high curr" value="A面">
+                </el-tooltip>
+                <el-tooltip content="1800 - 0.00%" placement="bottom">
+                    <input type="button" class="input low" value="B面">
+                </el-tooltip>
+            </div>
         </div>
         <div class="main-ball-box ball" v-if="currentMethod.type === 'multi'">
             <div class="main-ball-list"   v-for="(_number, _tabName, yIndex) in currentMethod.layout" :key="yIndex">
@@ -20,6 +29,7 @@
                 </ul>
             </div>
         </div>
+        <Lhc v-else-if="currentMethod.type === 'lhc'"></Lhc>
         <div class="main-ball-box" v-else>
             <div class="main-single-entry">
                 <div class="main-balls-import">
@@ -34,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="bet-statistics w100">
+        <div class="bet-statistics w100" v-if="currentMethod.type !== 'lhc'">
             <div class="main-column-1 fl">
                 <div class="bet-choose-total">
                     共 {{currentOrder.currentCount}} 注，
@@ -74,6 +84,8 @@
 import { mapState } from 'vuex'
 import algorithm from '../../lib/algorithm'
 import pako from 'pako/index.js'
+
+import Lhc from '@/components/game/lhc'
 
 export default {
     name: 'game-select',
@@ -119,7 +131,8 @@ export default {
             'currentMethod',
             'currentLotterySign',
             'bet',
-            'currentIssue'
+            'currentIssue',
+            'allMethods'
         ]),
 
         // 模式配置
@@ -157,7 +170,7 @@ export default {
             }
         },
         // 如果路由有变化，会再次执行该方法
-        '$store.state.currentMethod': {
+        'currentMethod': {
             handler() {
                 this.initChoose()
             },
@@ -308,7 +321,6 @@ export default {
         calculate() {
             if (this.currentMethod.type === 'multi') {
                 const method = this.currentMethod
-                console.log(method)
                 let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc
                 inputcodes      = ''
                 positionDesc    = []
@@ -429,14 +441,14 @@ export default {
                             }
                         }
                         break
-                    case '奇':
+                    case '偶':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 1) {
                                 this.chooseNumber[y][i] = true
                             }
                         }
                         break
-                    case '偶':
+                    case '奇':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 0) {
                                 this.chooseNumber[y][i] = true
@@ -465,14 +477,14 @@ export default {
                             }
                         }
                         break
-                    case '奇':
+                    case '偶':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 1) {
                                 this.chooseNumber[y][i] = true
                             }
                         }
                         break
-                    case '偶':
+                    case '奇':
                         for (let i = 0; i < rowData.length; i++) {
                             if (((i + 1) % 2) === 0) {
                                 this.chooseNumber[y][i] = true
@@ -669,6 +681,9 @@ export default {
                 }
             })
         }
+    },
+    components: {
+        Lhc
     }
 }
 </script>

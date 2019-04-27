@@ -2,7 +2,7 @@
     <section v-if="mainShow">
         <game-issue></game-issue>
         <section class="w" style="padding-top:25px;">
-            <section style="width:890px;float:left;">
+            <section class="main-center">
                 <game-method></game-method>
                 <game-select></game-select>
                 <game-order></game-order>
