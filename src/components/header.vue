@@ -158,7 +158,7 @@ export default {
     lotteryList () {
       this.Api.getLotteryList().then((res) => {
         if (res.isSuccess) {
-          this.lotteryLists = res.data
+          this.lotteryLists = res.data.data
         }
       })
     },
