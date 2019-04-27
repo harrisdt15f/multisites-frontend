@@ -147,7 +147,7 @@ export default {
         this.Api.getLotteryList().then((res) => {
           if (res.isSuccess) {
             let [
-              data = res.data,
+              data = res.data.data,
               sign = this.$route.params.lotterySign
             ] = []
             for (let i = 0; i < data.length; i++) {
