@@ -17,6 +17,7 @@ select, input {box-sizing: border-box;}
 
 .ft12{font-size:12px !important;}
 .ft16{font-size:16px !important;}
+.ft14{font-size:16px !important;}
 .ft18{font-size:18px !important;}
 .ft20{font-size:20px !important;}
 .ft22{font-size:22px !important;}
@@ -34,6 +35,7 @@ select, input {box-sizing: border-box;}
 .mr{margin: 0 auto;}
 .ft0{font-size:0;}
 .w100{width:100%;}
+.w50{width:50% !important;}
 .ftn{font-weight:normal;}
 .ftb{font-weight:bold;}
 .tl{text-align:left;}

@@ -497,6 +497,7 @@ export default {
         },
         // 初始化选号
         initChoose() {
+            console.log(this.currentMethod)
             this.chooseNumber = []
             if (this.currentMethod.layout) {
                 const iterable = Object.keys(this.currentMethod.layout)

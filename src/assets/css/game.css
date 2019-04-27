@@ -296,11 +296,11 @@ body {
 
 /*玩法介绍 、冷热遗漏*/
 .main-play-introduce {
-	padding: 5px 0 4px 12px;
-	height: 28px;
+	position: relative;
+	padding: 5px 100px 4px 12px;
 	line-height: 28px;
 	text-align: left;
-	background:#fff;
+	background: #fff;
 }
 .main-play-introduce .ico-why,
 .main-play-introduce .ico-case {
@@ -1476,9 +1476,9 @@ body {
 }
 
 .lhc-end{
-	float: right;
-	position: relative;
-	bottom:5px;
+	position: absolute;
+	top:10px;
+	right:0;
 	margin-right:15px;
 	width: 80px;
 	height: 24px;
