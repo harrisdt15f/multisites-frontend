@@ -475,17 +475,26 @@ export default {
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2;
     },
+    // 二星大小单双
     Q2DXDS(method, state) {
         return this.DXDS(method, state);
     },
     H2DXDS(method, state) {
         return this.DXDS(method, state);
     },
-    DXDS3(method, state) {
+    // 三星大小单双
+    Q3DXDS(method, state) {
         let n1, n2, n3, n4, n5, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2], n4 = ref[3], n5 = ref[4];
         return n1 * n2 * n3;
     },
+    Z3DXDS(method, state) {
+        return this.Q3DXDS(method, state);
+    },
+    H3DXDS(method, state) {
+        return this.Q3DXDS(method, state);
+    },
+    // 龙虎
     LHWQ(method, state) {
         let data;
         data = [1, 1, 1];
