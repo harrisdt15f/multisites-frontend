@@ -194,18 +194,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>重庆时时彩</td>
-                        <td>五星直选单式</td>
-                        <td>190415040</td>
-                        <td>190415040</td>
-                        <td style="display:inline-block;width:170px;" class="wzfw">1</td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>未中奖</td>
-                        <td>0</td>
-                        <td class="cur">详情</td>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <td>重庆时时彩</td>-->
+<!--                        <td>五星直选单式</td>-->
+<!--                        <td>190415040</td>-->
+<!--                        <td>190415040</td>-->
+<!--                        <td style="display:inline-block;width:170px;" class="wzfw">1</td>-->
+<!--                        <td>1</td>-->
+<!--                        <td>2</td>-->
+<!--                        <td>未中奖</td>-->
+<!--                        <td>0</td>-->
+<!--                        <td class="cur">详情</td>-->
+<!--                    </tr>-->
                 </tbody>
             </table>
             <section class="row-more">更多游戏记录...</section>

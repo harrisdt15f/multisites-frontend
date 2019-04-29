@@ -1,5 +1,6 @@
 <template>
 	<section class="pr lhc">
+<!--正特 特马-->
 		<section v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1" class="fl">
 			<ul class="fw ball-titles BB-titles">
 				<li class="ball-title">号码</li>
@@ -20,12 +21,9 @@
 					<input type="text" v-model="item.money" maxlength="8" class="lhc-tm-list-text">
 		  	</li>
 			</ul>
-			<section class="fw tc submit">
-				总金额 {{Utils.toFixed(String(currentOrder.money))}}
-				<a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
-				<a href="javascript:;" class="silde-reset" @click="clearNumber()"><i class="fa fa-refresh"></i>重置</a>
-			</section>
 		</section>
+		
+<!--半波-->
 		<section v-else-if="currentMethod.method === 'BB'" style="background:#fff;">
 			<section class="ball-titles">
 				<section class="fw fl lhc-bb ft0">
@@ -63,29 +61,108 @@
 					</ul>
 				</section>
 			</section>
-	
 		</section>
-		<section v-else-if="currentMethod.method === 'TX'" style="background:#fff;">
-			<section class="ball-titles">
-				<section class="fw fl lhc-bb ft0">
-					<ul class="fw ball-titles">
-						<li class="ball-title">号码</li>
-						<li class="ball-title">金额</li>
-					</ul>
-					<ul class="fw lhc-tm-lists">
-						<li class="lhc-tm-list" :class="{on: item.flag}" v-if="index < 9" v-for="(item, index) in newCodes" :key="index">
-							<span class="lhc-bb-ball-name">{{item.name}}</span><span class="lhc-bb-ball-name">x 6.17</span>
-							<ul class="fw lhc-bb-balls">
-								<li class="lhc-bb-ball ft14" :class="ballColor(item)" v-for="(cd, cdIndex) in item.code" :key="cdIndex">
-									{{cd}}
-								</li>
-							</ul>
-							<input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
-						</li>
-					</ul>
-				</section>
+		
+<!--生肖-->
+		<template v-else-if="currentMethod.method === 'SX'">
+			<section class="fw lhc-sx">
+				<ul class="fw ball-titles">
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+				</ul>
+				<ul class="fw lhc-tm-lists">
+					<li class="lhc-tm-list" :class="{on: item.flag}" v-for="(item, index) in newCodes" :key="index">
+						<span class="lhc-bb-ball-name lhc-bb-ball-icon"
+						      :style="{backgroundPosition: item.position}"
+						></span><span class="lhc-bb-ball-name">{{item.name}}</span><span class="lhc-bb-ball-name">x 6.17</span>
+						<ul class="fw lhc-bb-balls">
+							<li class="lhc-bb-ball" :class="ballColor(item, cdIndex)" v-for="(cd, cdIndex) in item.code" :key="cdIndex">
+							{{cd}}
+							</li>
+						</ul>
+						<input type="text" class="lhc-bb-ball-money" v-model="item.money">
+					</li>
+				</ul>
 			</section>
+		</template>
+		
+<!--尾数-->
+		<template v-else-if="currentMethod.method === 'WX'">
+			<section class="fw lhc-sx lhc-wx">
+				<ul class="fw ball-titles">
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+				</ul>
+				<ul class="fw lhc-tm-lists">
+					<li class="lhc-tm-list" :class="{on: item.flag}" v-for="(item, index) in newCodes" :key="index">
+						<span class="lhc-bb-ball-name tc ft16">{{item.name}} 尾 </span><span class="lhc-bb-ball-name">x 6.17</span>
+						<ul class="fw lhc-bb-balls">
+							<li class="lhc-bb-ball" :class="ballColor(item, cdIndex)" v-for="(cd, cdIndex) in item.code" :key="cdIndex">
+								{{cd}}
+							</li>
+						</ul>
+						<input type="text" class="lhc-bb-ball-money" v-model="item.money">
+					</li>
+				</ul>
+			</section>
+		</template>
+		
+<!--总分-->
+		<template v-else-if="currentMethod.method === 'ZF'">
+			<section class="fw lhc-sx">
+				<ul class="fw ball-titles">
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+					<li class="ball-title">号码</li>
+					<li class="ball-title">金额</li>
+				</ul>
+				<ul class="fw lhc-tm-lists lhc-tm-lists-zf">
+					<li class="lhc-tm-list" :class="{on: item.flag}" v-for="(item, index) in newCodes" :key="index">
+						<span class="lhc-bb-ball-name tc ft16">{{item.name}}</span>
+						<span class="lhc-bb-ball-name">x 6.17</span>
+						{{item.desc}}
+						<input type="text" class="lhc-bb-ball-money" v-model="item.money">
+					</li>
+				</ul>
+			</section>
+		</template>
+		
+<!--不中-->
+		<template v-else-if="currentMethod.method === 'BZ'">
+			<section class="fw lhc-bz">
+				<ul class="fw ball-titles">
+					<li class="ball-title"  v-for="(item, index) in 10" :key="index">号码</li>
+				</ul>
+				<ul class="fw lhc-tm-lists lhc-tm-lists-zf">
+					<li class="lhc-bz-list"
+					    v-for="(item, index) in newCodes"
+					    :key="index"
+					    @click="selectNumber(item)"
+					>
+						<span class="lhc-tm-list" :class="ballColor(item)">{{item.code}}</span>
+						<span class="lhc-bz-list-checbox" :class="{on: item.flag}"></span>
+						<span class="dn">{{item.money}}</span>
+					</li>
+				</ul>
+			</section>
+		</template>
+		
+<!--投注按钮-->
+		<section class="fw clear tc submit">
+			<template v-if="currentMethod.method === 'BZ'">
+				<p class="lhc-bz-odds">赔率 x 2.01</p>
+				<input type="text" v-model="currentOrder.money" maxlength="8" class="lhc-tm-list-text">
+			</template>
+			<span v-if="currentMethod.method !== 'BZ'" >总金额 {{Utils.toFixed(String(currentOrder.money))}}</span>
+			<a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
+			<a href="javascript:;" class="silde-reset" @click="clearNumber()"><i class="fa fa-refresh"></i>重置</a>
 		</section>
+		
+<!--右侧-->
 		<section class="silde">
 			<section class="fw">
 				<p class="fw">金额(元)：<input type="text" v-model="currentOrder.betMoney" maxlength="8" class="silde-money-text"></p>
@@ -93,9 +170,11 @@
 				<a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
 			</section>
 			<section class="silde-plays">
+				
+				<!--正特 特马-->
 				<template v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1">
 					<section class="fw silde-play red">
-						<span @click="selectNumberSub(item)" v-for="(item, index) in currentMethod.buttons.red" :key="index">
+						<span class="cur" @click="selectNumberSub(item)" v-for="(item, index) in currentMethod.buttons.red" :key="index">
 							<el-radio v-model="playValue"
 							          :label="index"
 							>
@@ -133,9 +212,11 @@
 						>{{item.code}}</li>
 					</ul>
 				</template>
+				
+				<!--半波-->
 				<template v-if="currentMethod.method === 'BB'">
 					<section class="fw silde-play">
-						<span @click="selectNumberSub(item)" v-for="(item, index) in currentMethod.buttons.wave" :key="index">
+						<span @click="selectNumber(item)" v-for="(item, index) in currentMethod.buttons.wave" :key="index">
 							<el-radio v-model="playValue"
 							          :label="index"
 							>
@@ -155,29 +236,101 @@
 						>{{item.code}}</li>
 					</ul>
 				</template>
+				
+				<!--生肖-->
+				<template v-if="currentMethod.method === 'SX'">
+					<section class="fw silde-play lhc-silde-play">
+						<span @click="selectNumber(item)" v-for="(item, index) in currentMethod.buttons.class" :key="index">
+							<el-radio v-model="playValue"
+							          :label="index"
+							>
+								{{item}}
+							</el-radio>
+						</span>
+					</section>
+					<ul class="fw plays">
+						<li class="play w50 red"
+						    :class="{on: item.flag}"
+						    v-for="(item, index) in plays"
+						    :key="index"
+						    @click="selectNumber(item)"
+						>{{item.code}}</li>
+					</ul>
+					<ul class="fw plays lhc-silde-playsFive">
+						<li class="play w100"
+						    :class="{on: item.flag}"
+						    v-for="(item, index) in playsFive"
+						    :key="index"
+						    @click="selectNumber(item)"
+						>{{item.code}}</li>
+					</ul>
+				</template>
+				
+				<!--尾数-->
+				<template v-if="currentMethod.method === 'WX'">
+					<section class="fw silde-play lhc-silde-play">
+						<span @click="selectNumber(item)" v-for="(item, index) in currentMethod.buttons.class" :key="index">
+							<el-radio v-model="playValue"
+							          :label="index"
+							>
+								{{item}}
+							</el-radio>
+						</span>
+					</section>
+				</template>
 			</section>
 		</section>
+		
+<!--投注弹出框-->
 		<el-dialog
 						title="下注清单"
 						:visible.sync="submitDialog"
 						width="30%">
 			<section class="bet-header">
-				共计：￥ {{currentOrder.list.length}} 注, 你确定要下注吗?
+				<template v-if="currentMethod.method !== 'BZ'">
+					共计：￥ {{currentOrder.money}}元 {{currentOrder.list.length}}注, 你确定要下注吗?
+				</template>
+				<template v-else>
+					<span v-for="(item, index) in currentOrder.list" :key="index">
+							{{item.code}},
+						</span>
+				</template>
 			</section>
 			<ul class="fw bet-lists">
+				
+				<!--正特 特马-->
 				<li class="bet-list"
-				    v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1"
+				    v-if="
+				    currentMethod.method === 'TM' ||
+				    currentMethod.method.indexOf('ZT') > -1"
 				    v-for="(item, index) in currentOrder.list"
 				    :key="index"
 				>
 					{{currentMethod.name}}({{item.code}}) 44.10 x {{item.money}}
 				</li>
+				
+				<!--半波 生肖 尾数 总分-->
 				<li class="bet-list"
-				    v-if="currentMethod.method === 'BB'"
+				    v-if="
+				    currentMethod.method === 'BB' ||
+				    currentMethod.method === 'SX' ||
+				    currentMethod.method === 'WX' ||
+				    currentMethod.method === 'ZF'"
 				    v-for="(item, index) in currentOrder.list"
 				    :key="index"
 				>
 					{{currentMethod.name}}({{item.name}}) 6.17 x {{parseInt(item.money)}}
+				</li>
+				
+				<!--不中-->
+				<li class="bet-list"
+				    v-if="currentMethod.method === 'BZ'"
+				>
+					<p>
+						组合共: <span class="red">111</span> 组 <br>
+						单注金额: <span class="red">{{Utils.toFixed(String(currentOrder.money))}}</span> 元 <br>
+						总下注金额: <span class="red">22222222</span> 元
+					</p>
 				</li>
 			</ul>
 			<span slot="footer" class="dialog-footer">
@@ -204,7 +357,10 @@ export default {
 		        // 绿球
             greenBall: [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49],
 		        playValue: '1',
+		        // 右侧表格辅助选项
 		        plays: [],
+		        // 生肖五行辅助选项
+		        playsFive: [],
             play: {
 		            clear: true
             },
@@ -219,7 +375,9 @@ export default {
                 currentCodes:{},
 		            list: []
             },
-            submitDialog: false
+            submitDialog: false,
+		        // 总分布局
+		        isMethodZF: false
         }
 		},
     computed: {
@@ -232,6 +390,23 @@ export default {
 		watch: {
         'currentMethod' (newVal) {
             // 将号码顺序转换 和 初始渲染数据处理
+            let [
+                silde = document.getElementsByClassName('silde')[0]
+            ] = []
+		        if (newVal.method === 'ZF' || newVal.method === 'BZ') {
+                let [
+                    mainCenter = document.getElementsByClassName('main-center')[0],
+                ] = []
+                mainCenter.style.width = '100%'
+                silde.style.display = 'none'
+		        } else if (newVal.method.indexOf('ZT') > -1 || newVal.method === 'BB') {
+                silde.style.top = '-147px'
+		        } else  {
+                silde.style.display = 'block'
+                silde.style.top = '-119px'
+		            this.enterMain()
+				        
+		        }
             this.ballSort()
         },
         'bet.methodsTab' () {
@@ -329,7 +504,7 @@ export default {
             for (let j = 0; j < this.newCodes.length; j++) {
                 if (this.newCodes[j].flag) {
                     this.currentOrder.list.push(this.newCodes[j])
-		                if (!this.newCodes[j].money) {
+		                if (!this.newCodes[j].money && this.currentMethod.method !== 'BZ') {
                         this.$alert('你还未投注 或 投注错误', '提示', {
                             confirmButtonText: '确定'
                         })
@@ -337,7 +512,7 @@ export default {
 		                }
                 }
             }
-            if (this.currentOrder.list.length < 1) {
+            if (this.currentOrder.list.length < 1 || parseInt(this.currentOrder.money) === 0) {
                 this.$alert('你还未投注 或 投注错误', '提示', {
                     confirmButtonText: '确定'
                 })
@@ -354,6 +529,11 @@ export default {
             for (let i = 0; i < this.plays.length; i++) {
                 this.$set(this.plays[i], 'flag', false)
             }
+            if (this.currentMethod.method === 'SX') {
+                for (let i = 0; i < this.playsFive.length; i++) {
+                    this.$set(this.playsFive[i], 'flag', false)
+                }
+            }
             this.playValue = -1
             this.currentOrder.betMoney = 0
 				},
@@ -362,7 +542,8 @@ export default {
             let [
                 temp = []
             ] = []
-            console.log(item)
+		        
+		        // 特马 正特
            if (this.currentMethod.method === 'TM' || this.currentMethod.method.indexOf('ZT') > -1) {
                if (item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双') {
                    this.play.clear = true
@@ -469,46 +650,170 @@ export default {
                        }
                    }
                }
-           } else if (this.currentMethod.method === 'BB') {
-		           // 半波
-		           if(item.code === '大') {
+           }
+           
+           // 半波
+           else if (this.currentMethod.method === 'BB') {
+               let code = item.code ? item.code : item
+               if (code.indexOf('红波') > -1) {
+                   temp = this.newCodes.filter(i => {
+                       return i.name.indexOf('红大') > -1 || i.name.indexOf('红小') > -1
+                   })
+               } else if (code.indexOf('绿波') > -1) {
+                   temp = this.newCodes.filter(i => {
+                       return i.name.indexOf('绿大') > -1 || i.name.indexOf('绿小') > -1
+                   })
+               } else if (code.indexOf('蓝波') > -1) {
+                   temp = this.newCodes.filter(i => {
+                       return i.name.indexOf('蓝大') > -1 || i.name.indexOf('蓝小') > -1
+                   })
+               } else if(code === '大') {
 		               temp = this.newCodes.filter(i => {
 		                   return i.name.indexOf('大') > -1
 		               })
-		           } else if(item.code === '小') {
+		           } else if(code === '小') {
                    temp = this.newCodes.filter(i => {
                        return i.name.indexOf('小') > -1
                    })
-               } else if(item.code === '单') {
+               } else if(code === '单') {
                    temp = this.newCodes.filter(i => {
                        return i.name.indexOf('红单') > -1 || i.name.indexOf('蓝单') > -1 || i.name.indexOf('绿单') > -1
                    })
-               } else if(item.code === '双') {
+               } else if(code === '双') {
                    temp = this.newCodes.filter(i => {
                        return i.name.indexOf('红双') > -1 || i.name.indexOf('蓝双') > -1 || i.name.indexOf('绿双') > -1
                    })
-               } else if(item.code === '合单') {
+               } else if(code === '合单') {
                    temp = this.newCodes.filter(i => {
                        return i.name.indexOf('合单') > -1
                    })
-               } else if(item.code === '合双') {
+               } else if(code === '合双') {
                    temp = this.newCodes.filter(i => {
                        return i.name.indexOf('合双') > -1
                    })
                }
                this.clearNumber()
-		           item.flag = true
+		           if (item.code) {
+                   item.flag = true
+               }
                for (let i = 0; i < temp.length; i++) {
                    for (let j = 0; j < this.newCodes.length; j++) {
-                       if(temp[i].name === this.newCodes[j].name) {
+                       if (temp[i].name) {
+                           if(temp[i].name === this.newCodes[j].name) {
+                               this.$set(this.newCodes[j], 'flag', true)
+                           }
+                       } else {
+                           if(temp[i] === this.newCodes[j].name) {
+                               this.$set(this.newCodes[j], 'flag', true)
+                           }
+                       }
+                   }
+               }
+           }
+           
+           // 生肖
+           else if (this.currentMethod.method === 'SX') {
+               let code = item.code ? item.code : item
+               if(code === '大肖') {
+                   temp = ['鼠', '牛', '虎', '兔', '龙', '蛇']
+		               
+               } else if(code === '小肖') {
+                   temp = ['马', '羊', '猴', '鸡', '狗', '猪']
+		               
+               } else if(code === '男肖') {
+                   temp = ['鼠', '马', '牛', '虎', '猴', '龙', '狗']
+		               
+               } else if(code.indexOf('女肖') > -1) {
+                   temp = ['羊', '兔', '鸡', '蛇', '猪']
+		               
+               } else if(code === '吉美生肖') {
+                   temp = ['马', '羊', '兔', '鸡', '龙', '蛇']
+		               
+               } else if(code === '凶丑生肖') {
+                   temp = ['鼠', '牛', '虎', '猴', '狗', '猪']
+		               
+               } else if(code === '野外六兽') {
+                   temp = ['鼠', '虎', '猴', '兔', '龙', '蛇']
+
+               } else if(code === '家内六畜') {
+                   temp = ['牛', '马', '羊', '鸡', '狗', '猪']
+
+               } else if(code === '阳性生肖') {
+                   temp = ['牛', '羊', '虎', '猴', '兔', '鸡']
+
+               } else if(code === '阴性生肖') {
+                   temp = ['鼠', '马', '龙', '狗', '蛇', '猪']
+
+               } else if(code.indexOf('金') > -1) {
+                   temp = ['猴', '鸡']
+
+               } else if(code.indexOf('木') > -1) {
+                   temp = ['虎', '兔']
+
+               } else if(code.indexOf('水') > -1) {
+                   temp = ['鼠', '猪']
+
+               } else if(code.indexOf('火') > -1) {
+                   temp = ['蛇', '马']
+
+               } else if(code.indexOf('土') > -1) {
+                   temp = ['牛', '龙', '羊', '狗']
+
+               }
+               this.clearNumber()
+               for (let i = 0; i < temp.length; i++) {
+                   for (let j = 0; j < this.newCodes.length; j++) {
+                       if(temp[i] === this.newCodes[j].name) {
                            this.$set(this.newCodes[j], 'flag', true)
                        }
                    }
                }
            }
-         
+           
+           // 尾数
+           else if (this.currentMethod.method === 'WX') {
+               let [
+                   codes = this.currentMethod.layout.codes
+               ] = []
+		           
+		           switch (item) {
+				           case '大':
+				               temp = [5, 6, 7, 8, 9]
+				            break
+                   case '小':
+                       temp = [0, 1, 2, 3, 4]
+                       break
+                   case '单':
+                       for (let i = 0; i < codes.length; i++) {
+                           if (i % 2 !== 0) {
+                               temp.push(i)
+                           }
+                       }
+                       break
+                   case '双':
+                       for (let i = 0; i < codes.length; i++) {
+                           if (i % 2 === 0) {
+                               temp.push(i)
+                           }
+                       }
+                       break
+               }
+               this.clearNumber()
+               for (let i = 0; i < temp.length; i++) {
+                   for (let j = 0; j < this.newCodes.length; j++) {
+                       if(temp[i] === this.newCodes[j].name) {
+                           this.$set(this.newCodes[j], 'flag', true)
+                       }
+                   }
+               }
+           }
+
+           // 不中
+           else if (this.currentMethod.method === 'BZ') {
+               item.flag = !item.flag
+           }
         },
-        // 特马 正特 分颜色 选择号码
+        //分颜色 选择号码
 				selectNumberSub (item) {
 				    let [
                 temp = []
@@ -587,50 +892,28 @@ export default {
                         }
                     }
                 }
-            } else if (this.currentMethod.method === 'BB') {
-                // 半波
-                if (item.indexOf('红波') > -1) {
-                    temp = this.newCodes.filter(i => {
-                        return i.name.indexOf('红大') > -1 || i.name.indexOf('红小') > -1
-                    })
-                } else if (item.indexOf('绿波') > -1) {
-                    temp = this.newCodes.filter(i => {
-                        return i.name.indexOf('绿大') > -1 || i.name.indexOf('绿小') > -1
-                    })
-                } else if (item.indexOf('蓝波') > -1) {
-                    temp = this.newCodes.filter(i => {
-                        return i.name.indexOf('蓝大') > -1 || i.name.indexOf('蓝小') > -1
-                    })
-                }
-                this.clearNumber()
-                for (let i = 0; i < temp.length; i++) {
-                    for (let j = 0; j < this.newCodes.length; j++) {
-                        if(temp[i].name === this.newCodes[j].name) {
-                            this.$set(this.newCodes[j], 'flag', true)
-                        }
-                    }
-                }
             }
 				},
         // 将号码顺序转换 和 初始渲染数据处理
 				ballSort () {
             this.newCodes = []
             this.plays = []
+            this.playsFive = []
 				    // 特马 正特
 						if (this.currentMethod.method === 'TM' || this.currentMethod.method.indexOf('ZT') > -1) {
-                let sub = this.currentMethod.buttons.sub
+                // 大小生肖选择数据处理
+                let [
+                    codes = this.currentMethod.layout.codes,
+                    tempCode = [],
+                    newCodes = [],
+                    sub = this.currentMethod.buttons.sub
+                ] = []
                 for (let i = 0; i < sub.length; i++) {
                     let json = {}
                     json.code = sub[i]
                     json.flag = false
                     this.plays.push(json)
                 }
-                // 大小生肖选择数据处理
-                let [
-                    codes = this.currentMethod.layout.codes,
-                    tempCode = [],
-                    newCodes = []
-                ] = []
                 for (let i = 0; i < Math.ceil(codes.length / 5); i++) {
                     tempCode.push([])
                 }
@@ -650,13 +933,15 @@ export default {
                     json.money = 0
                     this.newCodes.push(json)
                 }
-						} else if (this.currentMethod.method === 'BB') {
-                // 半波
+						}
+						
+            // 半波
+						else if (this.currentMethod.method === 'BB') {
                 let [
                     codes = this.currentMethod.layout.codes,
-                    obj = []
+                    obj = [],
+                    sub = this.currentMethod.buttons.sub
                 ] = []
-                let sub = this.currentMethod.buttons.sub
                 for (let i = 0; i < sub.length; i++) {
                     let json = {}
                     json.code = sub[i]
@@ -741,42 +1026,293 @@ export default {
                     }
                 }
 						}
-      
+						
+						// 生肖
+						else if (this.currentMethod.method === 'SX') {
+                let [
+                    codes = this.currentMethod.layout.codes,
+		                sub = this.currentMethod.buttons.alias,
+                    fiveElements = this.currentMethod.buttons.fiveElements
+                ] = []
+								// 吉美生肖
+                for (let i = 0; i < sub.length; i++) {
+                    let json = {}
+                    json.code = sub[i]
+                    json.flag = false
+                    this.plays.push(json)
+                }
+                for (let i = 0; i < fiveElements.length; i++) {
+                    let json = {}
+                    json.code = fiveElements[i]
+                    json.flag = false
+                    this.playsFive.push(json)
+                }
+                for (let i = 0; i < codes.length; i++) {
+                    let json = {}
+                    if (codes[i].indexOf('鼠') > -1) {
+                        json.name = '鼠'
+                        json.code = [12, 24, 36, 48]
+                        json.position = '-57px -4px'
+
+                    } else if (codes[i].indexOf('马') > -1) {
+                        json.name = '马'
+                        json.code = [6, 18, 30, 42]
+                        json.position = '-10px -4px'
+		                    
+                    } else if (codes[i].indexOf('牛') > -1) {
+                        json.name = '牛'
+                        json.code = [11, 23, 35, 47]
+		                    json.position = '-292px -4px'
+
+                    } else if (codes[i].indexOf('羊') > -1) {
+                        json.name = '羊'
+                        json.code = [5, 17, 29, 41]
+                        json.position = '-339px -4px'
+		                    
+                    } else if (codes[i].indexOf('虎') > -1) {
+                        json.name = '虎'
+                        json.code = [10, 22, 34, 46]
+                        json.position = '-104px -4px'
+		                    
+                    } else if (codes[i].indexOf('猴') > -1) {
+                        json.name = '猴'
+                        json.code = [4, 16, 28, 40]
+                        json.position = '-386px -4px'
+		                    
+                    } else if (codes[i].indexOf('兔') > -1) {
+                        json.name = '兔'
+                        json.code = [9, 21, 33, 45]
+                        json.position = '-151px -4px'
+
+                    } else if (codes[i].indexOf('鸡') > -1) {
+                        json.name = '鸡'
+                        json.code = [3, 15, 27, 39]
+                        json.position = '-433px -4px'
+
+                    } else if (codes[i].indexOf('龙') > -1) {
+                        json.name = '龙'
+                        json.code = [8, 20, 32, 44]
+                        json.position = '-198px -4px'
+
+                    } else if (codes[i].indexOf('狗') > -1) {
+                        json.name = '狗'
+                        json.code = [2, 14, 26, 38]
+                        json.position = '-480px -4px'
+
+                    } else if (codes[i].indexOf('蛇') > -1) {
+                        json.name = '蛇'
+                        json.code = [7, 19, 31, 43]
+                        json.position = '-245px -4px'
+
+                    } else if (codes[i].indexOf('猪') > -1) {
+                        json.name = '猪'
+                        json.code = [1, 13, 25, 37, 49]
+                        json.position = '-527px -4px'
+
+                    }
+                    this.newCodes.push(json)
+                }
+						}
+						
+            // 尾数
+            else if (this.currentMethod.method === 'WX') {
+                let [
+                    codes = this.currentMethod.layout.codes,
+		                tempWx = [],
+		                tempCodes = [],
+                    newCodes = [],
+                    sub = this.currentMethod.buttons.class
+                ] = []
+                // 右侧 辅助选项
+                for (let i = 0; i < sub.length; i++) {
+                    let json = {}
+                    json.code = sub[i]
+                    json.flag = false
+                    this.plays.push(json)
+                }
+                for (let i = 0; i < codes.length; i++) {
+                    let json = {}
+                    if (codes[i] === '0') {
+                        json.name = 0
+                        json.code = [10, 20, 30, 40]
+
+                    } else if (codes[i] === '1') {
+                        json.name = 1
+                        json.code = ['01', 11, 21, 31, 41]
+
+                    } else if (codes[i] === '2') {
+                        json.name = 2
+                        json.code = ['02', 12, 22, 32, 42]
+
+                    } else if (codes[i] === '3') {
+                        json.name = 3
+                        json.code = ['03', 13, 23, 33, 43]
+
+                    } else if (codes[i] === '4') {
+                        json.name = 4
+                        json.code = ['04', 14, 24, 34, 44]
+
+                    } else if (codes[i] === '5') {
+                        json.name = 5
+                        json.code = ['05', 15, 25, 35, 45]
+
+                    } else if (codes[i] === '6') {
+                        json.name = 6
+                        json.code = ['06', 16, 26, 36 ,46]
+
+                    } else if (codes[i] === '7') {
+                        json.name = 7
+                        json.code = ['07', 17, 27, 37 ,47]
+
+                    } else if (codes[i] === '8') {
+                        json.name = 8
+                        json.code = ['08', 18, 28, 38, 48]
+
+                    } else if (codes[i] === '9') {
+                        json.name = 9
+                        json.code = ['09', 19, 29, 39, 49]
+
+                    }
+                    tempCodes.push(json)
+                }
+                
+                // 渲染数据排序
+                for (let i = 0; i < Math.ceil(tempCodes.length / 2); i++) {
+                    tempWx.push([])
+                }
+                for (let i = 0; i < tempCodes.length; i++) {
+                    tempWx[i % Math.ceil(tempCodes.length / 2)].push(tempCodes[i])
+                }
+                for (let i = 0; i < tempWx.length; i++) {
+                    newCodes = newCodes.concat(tempWx[i])
+                }
+                for (let i = 0; i < newCodes.length; i++) {
+                    let json = {}
+                    json.flag = false
+                    json.name = newCodes[i].name
+                    json.code = newCodes[i].code
+                    json.money = 0
+                    this.newCodes.push(json)
+                }
+                
+            }
+
+            // 总分
+            else if (this.currentMethod.method === 'ZF') {
+                let [
+                    codes = this.currentMethod.layout.codes
+                ] = []
+                for (let i = 0; i < codes.length; i++) {
+                    let json = {}
+                    json.name = codes[i]
+                    json.flag = false
+                    json.money = 0
+                    switch (codes[i]) {
+                        case '大':
+                            json.desc = '总分大于等于175的，即视为中奖。'
+                            break
+                        case '小':
+                            json.desc = '总分小于等于174的，即视为中奖。'
+                            break
+                        case '单':
+                            json.desc = '总分是单数的，即视为中奖。'
+                            break
+                        case '双':
+                            json.desc = '总分是双数的，即视为中奖。'
+                            break
+                        case '大单':
+                            json.desc = '总分小于等于175且为单数的，即视为中奖。'
+                            break
+                        case '大双':
+                            json.desc = '总分大于等于175且为双数的，即视为中奖。'
+                            break
+                        case '小单':
+                            json.desc = '总分小于等于174且为单数的，即视为中奖。'
+                            break
+                        case '小双':
+                            json.desc = '总分小于等于174且为双数的，即视为中奖。'
+                            break
+                    }
+                    this.newCodes.push(json)
+                }
+            }
+
+            // 不中
+            else if (this.currentMethod.method === 'BZ') {
+                let [
+                    codes = this.currentMethod.layout.codes,
+		                newCode = [],
+		                tempCode = []
+                ] = []
+                for (let i = 0; i < Math.ceil(codes.length / 10); i++) {
+                    tempCode.push([])
+                }
+                for (let i = 0; i < codes.length; i++) {
+                    tempCode[i % Math.ceil(codes.length / 10)].push(codes[i])
+                }
+                for (let i = 0; i < tempCode.length; i++) {
+                    newCode = newCode.concat(tempCode[i])
+                }
+                for (let i = 0; i < newCode.length; i++) {
+                    let json = {}
+                    json.code = newCode[i]
+                    json.flag = false
+                    json.money = 0
+                    this.newCodes.push(json)
+                }
+            }
 				},
         // 计算 球 背景色
-        ballColor(item) {
-            if (this.redBall.includes(parseInt(item.code))) {
-                return 'lhc-tm-list-q-red'
-            } else if (this.blueBall.includes(parseInt(item.code))) {
-                return 'lhc-tm-list-q-blue'
-            } else if (this.greenBall.includes(parseInt(item.code))) {
-                return 'lhc-tm-list-q-green'
-            }
+        ballColor(item, index = 0) {
+		        if (!Array.isArray(item.code)) {
+                if (this.redBall.includes(parseInt(item.code))) {
+                    return 'lhc-tm-list-q-red'
+                } else if (this.blueBall.includes(parseInt(item.code))) {
+                    return 'lhc-tm-list-q-blue'
+                } else if (this.greenBall.includes(parseInt(item.code))) {
+                    return 'lhc-tm-list-q-green'
+                }
+		        } else {
+                if (this.redBall.includes(parseInt(item.code[index]))) {
+                    return 'lhc-tm-list-q-red'
+                } else if (this.blueBall.includes(parseInt(item.code[index]))) {
+                    return 'lhc-tm-list-q-blue'
+                } else if (this.greenBall.includes(parseInt(item.code[index]))) {
+                    return 'lhc-tm-list-q-green'
+                }
+		        }
+        },
+        // 进入离开的布局
+				enterMain () {
+            let [
+                mainRight = document.getElementsByClassName('main-right')[0],
+                gameHeaderL = document.getElementsByClassName('game-header-l')[0],
+                gameHeaderR = document.getElementsByClassName('game-header-r')[0],
+                mainCenter = document.getElementsByClassName('main-center')[0]
+            ] = []
+            mainRight.style.display = 'none'
+            mainCenter.style.width = '990px'
+            gameHeaderL.style.width = '990px'
+            gameHeaderR.style.width = '200px'
+				},
+        leaveMain () {
+            let [
+                mainRight = document.getElementsByClassName('main-right')[0],
+                gameHeaderL = document.getElementsByClassName('game-header-l')[0],
+                gameHeaderR = document.getElementsByClassName('game-header-r')[0],
+                mainCenter = document.getElementsByClassName('main-center')[0]
+            ] = []
+            mainRight.style.display = 'block'
+            mainCenter.style.width = '890px'
+            gameHeaderL.style.width = '890px'
+            gameHeaderR.style.width = '300px'
         }
     },
     mounted () {
-        let [
-            mainRight = document.getElementsByClassName('main-right')[0],
-            gameHeaderL = document.getElementsByClassName('game-header-l')[0],
-            gameHeaderR = document.getElementsByClassName('game-header-r')[0],
-            mainCenter = document.getElementsByClassName('main-center')[0]
-        ] = []
-        mainRight.style.display = 'none'
-        mainCenter.style.width = '990px'
-        gameHeaderL.style.width = '990px'
-        gameHeaderR.style.width = '200px'
+        this.enterMain()
     },
     destroyed () {
-        let [
-            mainRight = document.getElementsByClassName('main-right')[0],
-            gameHeaderL = document.getElementsByClassName('game-header-l')[0],
-            gameHeaderR = document.getElementsByClassName('game-header-r')[0],
-            mainCenter = document.getElementsByClassName('main-center')[0]
-        ] = []
-        mainRight.style.display = 'block'
-        mainCenter.style.width = '890px'
-        gameHeaderL.style.width = '890px'
-        gameHeaderR.style.width = '300px'
+        this.leaveMain()
     }
 }
 </script>
@@ -839,6 +1375,7 @@ export default {
 	}
 	.silde-play{
 		padding-top:15px;
+		cursor:pointer;
 	}
 	.el-radio {
 		position:relative;
@@ -885,13 +1422,13 @@ export default {
 	}
 	.plays{
 		margin:18px auto 0;
-		width:160px;
+		width:168px;
 		border-left: 1px solid #E0E0E0;
 		border-top: 1px solid #E0E0E0;
 	}
 	.play{
 		float:left;
-		width: 40px;
+		width: 42px;
 		height: 30px;
 		border-right: 1px solid #E0E0E0;
 		border-bottom: 1px solid #E0E0E0;
@@ -917,12 +1454,13 @@ export default {
 		float:left;
 		width:95px;
 		text-align:center;
+		font-size:14px;
 	}
 	.ball-title:nth-of-type(1){
-		padding-left:10px;
+		/*padding-left:10px;*/
 	}
 	.BB-titles .ball-title{
-		width:25%;
+		width:9.8%;
 	}
 	.lhc-tm-lists{
 		padding:15px 0 15px 10px;
@@ -974,6 +1512,10 @@ export default {
 		border-radius:3px;
 		box-shadow:1px 1px 2px #e8e8e8 inset;
 		color:#999;
+	}
+	.submit{
+		position:relative;
+		background:#fff;
 	}
 	.submit .silde-reset,
 	.submit .silde-submit{
@@ -1062,4 +1604,141 @@ export default {
 		display:inline-block;
 		vertical-align: middle;
 	}
+	/*生肖*/
+	.lhc-sx .ball-title {
+		width:25%;
+	}
+	.lhc-sx .lhc-tm-lists{
+		padding-left:0;
+	}
+	.lhc-sx .ball-title:nth-of-type(1) {
+		padding-left:0;
+	}
+	.lhc-sx .lhc-bb-balls{
+		width: 210px;
+	}
+	.lhc-sx .lhc-bb-ball-money{
+		float: none;
+	}
+	.lhc-sx .lhc-bb-ball{
+		margin: 0 5px;
+	}
+	.lhc-sx .lhc-tm-list{
+		margin:0 5px 5px 0;
+		width: calc(50% - 5px);
+		text-align:left;
+	}
+	.lhc-sx .lhc-bb-ball-icon{
+		margin: 0 5px 0 10px;
+		width: 30px;
+		height:34px;
+		background: url(../../assets/images/methods/zodiac.png) no-repeat;
+	}
+	.lhc-silde-play .el-radio{
+		width:51px;
+	}
+	.lhc-silde-playsFive .play {
+		text-align:left;
+		text-indent:1rem;
+	}
+	.lhc-wx .lhc-bb-balls{
+		width: 231px;
+	}
+	.lhc-wx .lhc-tm-list{
+		padding-left:20px;
+		width: calc(50% - 25px);
+	}
+	
+	/*总分*/
+	.lhc-tm-lists-zf .lhc-tm-list{
+		padding-left:8px;
+		margin-left:12px;
+		width: 474px;
+	}
+	.lhc-tm-lists-zf .lhc-tm-list:nth-of-type(2),
+	.lhc-tm-lists-zf .lhc-tm-list:nth-of-type(4),
+	.lhc-tm-lists-zf .lhc-tm-list:nth-of-type(6),
+	.lhc-tm-lists-zf .lhc-tm-list:nth-of-type(8){
+		margin-left:112px;
+	}
+	.lhc-tm-lists-zf .lhc-bb-ball-money{
+		float:right;
+	}
+	.lhc-bz .ball-title:nth-of-type(1){
+		padding-left:0;
+	}
+	.lhc-bz .ball-title{
+		width:10%;
+	}
+	.lhc-bz .lhc-tm-lists{
+		padding-bottom:5px;
+		border-bottom: 1px solid #D6D5D4;
+	}
+	.lhc-bz .lhc-tm-list{
+		padding-left:0;
+		margin-left: 9px !important;
+		width: 32px;
+		height: 32px;
+		line-height: 32px;
+		color:#fff;
+		font-size:17px;
+	}
+	.lhc-bz-list{
+		float:left;
+		width:10%;
+	}
+	.lhc-bz-list-checbox{
+		display: inline-block;
+		margin-left:20px;
+		vertical-align:middle;
+		width:23px;
+		height:23px;
+		background:url(../../assets/images/hj.png) no-repeat -154px -49px;
+	}
+	.lhc-bz-list-checbox.on{
+		background-position:-197px -49px;
+	}
+	.lhc-bz-odds {
+		position:absolute;
+		top:6px;
+		left:30px;
+	}
+	.submit .lhc-tm-list-text{
+		float:none;
+		display: inline-block;
+		vertical-align: initial;
+	}
+/*	.lhc-sx:nth-of-type(2) .lhc-bb-ball-icon{
+		background-position:-10px -4px;
+	}
+	.lhc-sx:nth-of-type(3) .lhc-bb-ball-icon{
+		background-position:-292px -4px;
+	}
+	.lhc-sx:nth-of-type(4) .lhc-bb-ball-icon{
+		background-position:-339px -4px;
+	}
+	.lhc-sx:nth-of-type(5) .lhc-bb-ball-icon{
+		background-position:-104px -4px;
+	}
+	.lhc-sx:nth-of-type(6) .lhc-bb-ball-icon{
+		background-position:-386px -4px;
+	}
+	.lhc-sx:nth-of-type(7) .lhc-bb-ball-icon{
+		background-position:-151px -4px;
+	}
+	.lhc-sx:nth-of-type(8) .lhc-bb-ball-icon{
+		background-position:-433px -4px;
+	}
+	.lhc-sx:nth-of-type(9) .lhc-bb-ball-icon{
+		background-position:-198px -4px;
+	}
+	.lhc-sx:nth-of-type(10) .lhc-bb-ball-icon{
+		background-position:-480px -4px;
+	}
+	.lhc-sx:nth-of-type(11) .lhc-bb-ball-icon{
+		background-position:-245px -4px;
+	}
+	.lhc-sx:nth-of-type(12) .lhc-bb-ball-icon{
+		background-position:-527px -4px;
+	}*/
 </style>

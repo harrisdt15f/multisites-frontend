@@ -34,11 +34,11 @@ select, input {box-sizing: border-box;}
 
 .mr{margin: 0 auto;}
 .ft0{font-size:0;}
-.w100{width:100%;}
+.w100{width:100% !important;}
 .w50{width:50% !important;}
 .ftn{font-weight:normal;}
 .ftb{font-weight:bold;}
-.tl{text-align:left;}
+.tl{text-align:left !important;}
 .tc{text-align:center;}
 .tr{text-align:right;}
 .fl{float:left;}

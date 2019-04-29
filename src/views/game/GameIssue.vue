@@ -120,6 +120,8 @@ export default {
       },
       'currentLottery' () {
         // 路由变化的时候更换彩种信息
+        this.getNoticeList()
+        this.Animation.notice('meque', 'meque_text', -1)
         clearInterval(this.currentIssueTimer)
         this.getIssue()
         this.getLottery()

@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
     const authRequired = !publicPageNames.includes(to.name)
     const currentUser = Utils.storage.get('current-user')
     if (authRequired && (!currentUser || currentUser.data.user_id <= 0)) {
-        return next('/login')
+        // return next('/login')
     }
     next()
 });
