@@ -61,6 +61,7 @@ export default {
     methods: {
       // 选中玩法组
       selectGroup(groupSign, _index = 0) {
+
           this.selectedGroup = groupSign
           this.selectedGroupIndex = _index
           this.selectedMethodId = ''

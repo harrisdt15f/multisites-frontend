@@ -269,7 +269,7 @@
 				<!--尾数-->
 				<template v-if="currentMethod.method === 'WX'">
 					<section class="fw silde-play lhc-silde-play">
-						<span @click="selectNumber(item)" v-for="(item, index) in currentMethod.buttons.class" :key="index">
+						<span class="lhc-wx-silde-play" @click="selectNumber(item)" v-for="(item, index) in currentMethod.buttons.class" :key="index">
 							<el-radio v-model="playValue"
 							          :label="index"
 							>
@@ -1378,6 +1378,8 @@ export default {
 	.silde-play{
 		padding-top:15px;
 		cursor:pointer;
+		color:#7D7D7D;
+		font-size:13px;
 	}
 	.el-radio {
 		position:relative;
@@ -1643,6 +1645,10 @@ export default {
 		text-align:left;
 		text-indent:1rem;
 	}
+	.lhc-wx-silde-play .el-radio{
+		width:70px;
+	}
+	
 	.lhc-wx .lhc-bb-balls{
 		width: 231px;
 	}
