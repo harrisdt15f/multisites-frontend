@@ -1302,10 +1302,12 @@ export default {
                 gameHeaderR = document.getElementsByClassName('game-header-r')[0],
                 mainCenter = document.getElementsByClassName('main-center')[0]
             ] = []
-            mainRight.style.display = 'block'
-            mainCenter.style.width = '890px'
-            gameHeaderL.style.width = '890px'
-            gameHeaderR.style.width = '300px'
+		        if (mainRight) {
+                mainRight.style.display = 'block'
+                mainCenter.style.width = '890px'
+                gameHeaderL.style.width = '890px'
+                gameHeaderR.style.width = '300px'
+		        }
         }
     },
     mounted () {
