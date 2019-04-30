@@ -148,10 +148,7 @@ export default {
                 img: [
                     {src: require('../assets/images/index/banner1.jpg'), opacity: 1},
                     {src: require('../assets/images/index/banner2.jpg'), opacity: 0},
-                    {src: require('../assets/images/index/banner4.jpg'), opacity: 0},
-                    {src: require('../assets/images/index/banner3.jpg'), opacity: 0},
-                    {src: require('../assets/images/index/banner5.jpg'), opacity: 0},
-                    {src: require('../assets/images/index/banner6.jpg'), opacity: 0}
+                    {src: require('../assets/images/index/banner3.jpg'), opacity: 0}
                 ],
 		            timer: null,
 		            num: 1
@@ -273,7 +270,7 @@ export default {
 	/*轮播*/
 	.banner{
 		position:relative;
-		height:635px;
+		height:634px;
 	}
 	.banner .transition-box{
 		position:absolute;
