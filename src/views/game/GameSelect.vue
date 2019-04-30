@@ -43,7 +43,7 @@
                  v-for="(_number, _tabName, yIndex) in currentMethod.layout"
                  :key="yIndex"
         >
-<!-- 三不同号 三同号 三连号-->
+            
             <ul class="k3-dxds-lists k3-sbth-lists"
                 v-if="
                 currentMethod.method !== 'KSHZDXDS' &&
@@ -255,7 +255,7 @@ export default {
         // 添加投注单
         addOrder(oneKey) {
             let order = null
-            if (this.currentMethod.type === 'multi') {
+            if (this.currentMethod.type === 'multi' || this.currentMethod.type === 'k3') {
                 order = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
@@ -410,7 +410,6 @@ export default {
                 } else {
                     _count = result
                 }
-    
                 this.currentOrder.currentCount      = _count
                 this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes
                 this.currentOrder.inputcodes        = inputcodes
@@ -621,7 +620,7 @@ export default {
 
         // 格式化号码
         formatInputCodes(code) {
-            if (this.currentMethod.type === 'multi') {
+            if (this.currentMethod.type === 'multi' || this.currentMethod.type === 'k3') {
                 if (
                     (this.currentLottery.series_id === 'ssc') ||
                     (this.currentLottery.series_id === 'digital3') ||
@@ -645,7 +644,7 @@ export default {
                     }
                 } else if (this.currentLottery.series_id === 'ks') {
                     if (Array.from(code).includes('|')) {
-                        return code.replace(/&/g, '');
+                        return code.replace(/&/g, '')
                     } else {
                         return code.replace(/&/g, ',')
                     }
@@ -713,6 +712,9 @@ export default {
             issus[currentIssus] = true
             this.addOrder(true)
             if (parseInt(this.currentOrder.currentCost) <= 0 || JSON.stringify(this.oneKeyList) === '{}') {
+                this.$alert('请输入正确的投注号码！', '提示', {
+                    confirmButtonText: '确定'
+                })
                 return false
             }
             this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
