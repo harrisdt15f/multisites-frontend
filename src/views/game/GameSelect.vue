@@ -595,7 +595,7 @@ export default {
         convertCodes() {
             const method = this.currentMethod
             // 选球类型
-            if (method.type === 'multi') {
+            if (method.type === 'multi' || method.type === 'k3') {
                 const codes = []
                 const iterable = Object.keys(method.layout)
                 for (let i = 0; i < iterable.length; i++) {
