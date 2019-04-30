@@ -11,12 +11,14 @@
 		</div>
 		<div  class="bet-type-group" v-if="selectedGroup">
 			<div class="bet-type-group-list"  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']" :key="_rowIndex">
-				<div class="group-name">{{row.name}}</div>
-				<ul>
-					<li class="bet-type-group-list-li" v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
-						{{method.method_name}}
-					</li>
-				</ul>
+				<template v-if="row.methods.length > 1">
+					<div class="group-name">{{row.name}}</div>
+					<ul>
+						<li class="bet-type-group-list-li" v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
+							{{method.method_name}}
+						</li>
+					</ul>
+				</template>
 			</div>
 		</div>
 	</section>

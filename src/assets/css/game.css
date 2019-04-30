@@ -1500,3 +1500,130 @@ body {
 	background: #FF5656;
 	color: #ffffff;
 }
+
+/*快三*/
+.ball-k3{
+	background:#fff;
+}
+.k3-dxds-lists{
+	padding: 30px 0 50px;
+	text-align:center;
+}
+.k3-dxds-list{
+	display: inline-block;
+	vertical-align: middle;
+}
+.k3-dxds-lk{
+	display:block;
+	padding: 7px 10px 7px 12px;
+	margin: 5px 18px;
+	width: 45px;
+	height: 45px;
+	background: #F0F0F0 \0;
+	background-image: linear-gradient(-226deg, #F2F2F2 0%, #EEEEEE 46%, #C7C8CA 100%);
+	box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.38);
+	border-radius: 15px;
+	line-height: 45px;
+	font-size: 35px;
+	color: #444;
+}
+.k3-dxds-lk:hover{
+	color: #D53446;
+}
+.k3-dxds-lk.active{
+	background: #F5515F \0;
+	background-image: linear-gradient(-225deg, #F5515F 0%, #9F041B 100%);
+	color: #FFF;
+	animation: k3Scale .3s;
+}
+
+/*三不同号*/
+.k3-sbth-lists{
+
+}
+.k3-sbth-lists .k3-dxds-list {
+	padding: 7px 10px 3px;
+	margin: 1px 5px 5px;
+	width: auto;
+	border-radius: 5px;
+}
+.k3-sbth-dxds-lk{
+	display:inline-block;
+	vertical-align:middle;
+	width:41px;
+	height:41px;
+	background:url(../../assets/images/hj.png) no-repeat -248px -42px;
+}
+.k3-sbth-lists .k3-dxds-list.active{
+	background: #F60;
+	animation: k3Scale .3s;
+}
+.k3-sbth-lists .k3-sbth-1{
+	background-position:-248px -42px;
+}
+.k3-sbth-lists .k3-sbth-2{
+	background-position:-301px -42px;
+}
+.k3-sbth-lists .k3-sbth-3{
+	background-position:-353px -42px;
+}
+.k3-sbth-lists .k3-sbth-4{
+	background-position:-408px -42px;
+}
+.k3-sbth-lists .k3-sbth-5{
+	background-position:-463px -42px;
+}
+.k3-sbth-lists .k3-sbth-6{
+	background-position:-517px -42px;
+}
+
+/*三同号*/
+.k3-sth-lists{
+	width:100%;
+}
+.k3-sth-lists .k3-dxds-list{
+	margin: 1px 2px 5px;
+}
+
+/*二不同号*/
+.k3-ebth-lists{
+	margin: 0 auto;
+	width: 600px;
+}
+
+/*单挑一*/
+.k3-dtys-lists .k3-sbth-dxds-lk{
+	width:73px;
+	height:73px;
+	background:url(../../assets/images/hj.png) no-repeat -428px -92px;
+}
+
+.k3-dtys-lists .k3-sbth-1{
+	background-position:-428px -92px;
+}
+.k3-dtys-lists .k3-sbth-2{
+	background-position:-344px -92px;
+}
+
+.k3-dtys-lists .k3-sbth-3{
+	background-position:-258px -92px;
+}
+
+.k3-dtys-lists .k3-sbth-4{
+	background-position:-172px -92px;
+}
+
+.k3-dtys-lists .k3-sbth-5{
+	background-position:-85px -92px;
+}
+
+.k3-dtys-lists .k3-sbth-6{
+	background-position:0 -92px;
+}
+
+
+@keyframes k3Scale {
+	0% { transform: scale(1)}
+	50% { transform: scale(1.2)}
+	100% { transform: scale(1)}
+}

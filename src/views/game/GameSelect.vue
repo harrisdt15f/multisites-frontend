@@ -14,8 +14,14 @@
                 </el-tooltip>
             </div>
         </div>
+    
+        
         <div class="main-ball-box ball" v-if="currentMethod.type === 'multi'">
-            <div class="main-ball-list"   v-for="(_number, _tabName, yIndex) in currentMethod.layout" :key="yIndex">
+            <div
+                 class="main-ball-list"
+                 v-for="(_number, _tabName, yIndex) in currentMethod.layout"
+                 :key="yIndex"
+            >
                 <div class="ball-list-name">{{_tabName}}</div>
                 <ul class="main-ball-content">
                     <li class="main-ball-content-li" v-for="(_code, xIndex) in _number" :key="xIndex" :class="{'ball-on': chooseNumber[yIndex][xIndex]}"  @click="selectCode(yIndex, xIndex)">
@@ -29,7 +35,61 @@
                 </ul>
             </div>
         </div>
+        
+        
+<!--快三-->
+        <section v-else-if="currentMethod.type === 'k3'"
+                 class="ball-k3"
+                 v-for="(_number, _tabName, yIndex) in currentMethod.layout"
+                 :key="yIndex"
+        >
+<!-- 三不同号 三同号 三连号-->
+            <ul class="k3-dxds-lists k3-sbth-lists"
+                v-if="
+                currentMethod.method !== 'KSHZDXDS' &&
+                currentMethod.method !== 'KSHZ'"
+                :class="{
+                'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
+                'k3-ebth-lists': currentMethod.method === 'EBTH',
+                'k3-dtys-lists': currentMethod.method === 'DTYS'
+                }"
+            >
+                <li class="k3-dxds-list"
+                    v-for="(_code, xIndex) in _number"
+                    :key="xIndex"
+                    @click="selectCode(yIndex, xIndex)"
+                    :class="{'active': chooseNumber[yIndex][xIndex]}"
+                >
+                    <a href="javascript:;"
+                       class="k3-sbth-dxds-lk"
+                       :class="'k3-sbth-' + _code_sub"
+                       :x="xIndex"
+                       :y="yIndex"
+                       v-for="(_code_sub, index) in String(_code).split('')" :key="index"
+                    ></a>
+                </li>
+            </ul>
+    
+            
+<!-- 合值 大小单双-->
+            <ul class="k3-dxds-lists" v-else>
+                <li class="k3-dxds-list" v-for="(_code, xIndex) in _number" :key="xIndex" @click="selectCode(yIndex, xIndex)">
+                    <a href="javascript:;"
+                       class="k3-dxds-lk"
+                       :class="{'active': chooseNumber[yIndex][xIndex]}"
+                       :x="xIndex"
+                       :y="yIndex"
+                    >{{_code}}</a>
+                </li>
+            </ul>
+        </section>
+        
+        
+<!--六合彩-->
         <Lhc v-else-if="currentMethod.type === 'lhc'"></Lhc>
+        
+        
+<!--直选-->
         <div class="main-ball-box" v-else>
             <div class="main-single-entry">
                 <div class="main-balls-import">
@@ -44,6 +104,8 @@
                 </div>
             </div>
         </div>
+        
+        
         <div class="bet-statistics w100" v-if="currentMethod.type !== 'lhc'">
             <div class="main-column-1 fl">
                 <div class="bet-choose-total">
@@ -151,6 +213,7 @@ export default {
     watch: {
         // 切换玩法时
         'bet.methodsTab' () {
+            console.log(this.currentMethod)
             this.currentOrder.currentCost = 0
             this.currentOrder.currentCount = 0
             this.currentOrder.currentTimes = 1
@@ -319,7 +382,7 @@ export default {
 
         // 计算注数
         calculate() {
-            if (this.currentMethod.type === 'multi') {
+            if (this.currentMethod.type === 'multi' || this.currentMethod.type === 'k3') {
                 const method = this.currentMethod
                 let _cnt, _count = 0, _pcnt, item, k, ref, result, inputcodes, positionDesc
                 inputcodes      = ''

@@ -526,9 +526,13 @@ export default {
                 this.$set(this.newCodes[j], 'flag', false)
                 this.$set(this.newCodes[j], 'money', 0)
             }
+            
+            
             for (let i = 0; i < this.plays.length; i++) {
                 this.$set(this.plays[i], 'flag', false)
             }
+            
+            
             if (this.currentMethod.method === 'SX') {
                 for (let i = 0; i < this.playsFive.length; i++) {
                     this.$set(this.playsFive[i], 'flag', false)
@@ -813,7 +817,7 @@ export default {
                item.flag = !item.flag
            }
         },
-        //分颜色 选择号码
+        //特马 正特 颜色 选择号码
 				selectNumberSub (item) {
 				    let [
                 temp = []
