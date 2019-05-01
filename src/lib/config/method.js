@@ -49,6 +49,11 @@ const lhcZsCodesTpl = ['大', '小', '单', '双', '大单', '大双', '小单',
 
 /*lhc 六合彩 end*/
 
+/* === PC蛋蛋 === */
+const pcTmCodesTpl      = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+const pcDxdsCodesTpl    = ['大', '小', '单', '双', '大单', '大双', '小单', '小双'];
+
+
 export default {
     'ssc': {
 
@@ -3625,6 +3630,44 @@ export default {
             'layout': {
                 'codes': lhcCodesTpl
             }
+        },
+    },
+    'pcdd': {
+        'TM': {
+            'name': '特码',
+            'method': 'TM',
+            'desc': '特码如果和购买号码相同则中奖!',
+            'help': '',
+            'example': '',
+            'type': 'pcdd',
+            'layout': {
+                'codes': pcTmCodesTpl
+            },
+            'buttons': []
+        },
+        'DXDS': {
+            'name': '大小单双',
+            'method': 'DXDS',
+            'desc': '特码如果和购买号码相同则中奖!',
+            'help': '',
+            'example': '',
+            'type': 'lhc',
+            'layout': {
+                'codes': pcDxdsCodesTpl
+            },
+            'buttons': []
+        },
+        'HB': {
+            'name': '大小单双',
+            'method': 'DXDS',
+            'desc': '特码如果和购买号码相同则中奖!',
+            'help': '',
+            'example': '',
+            'type': 'lhc',
+            'layout': {
+                'codes': pcDxdsCodesTpl
+            },
+            'buttons': []
         },
     }
 }

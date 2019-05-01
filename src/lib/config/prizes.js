@@ -197,5 +197,54 @@ export default {
         'PKQD5_S': {'total': 10, 'prize': 18, 'count': 1},
 
         'PKDWD': {'total': 10, 'prize': 18, 'count': 1}
+    },
+    'pcdd': {
+        'HW0': {'total': 1000,  'prize': 1800.0000, 'count': 1},
+        'HW1': {'total': 1000,  'prize': 599.9998, 'count': 3},
+        'HW2': {'total': 1000,  'prize': 300.0000, 'count': 6},
+        'HW3': {'total': 1000,  'prize': 180.0000, 'count': 10},
+        'HW4': {'total': 1000,  'prize': 120.0000, 'count': 15},
+        'HW5': {'total': 1000,  'prize': 85.7080, 'count': 21},
+        'HW6': {'total': 1000,  'prize': 64.2856, 'count': 28},
+
+        'HW7': {'total': 1000,  'prize': 50.0000, 'count': 36},
+        'HW8': {'total': 1000,  'prize': 39.9998, 'count': 45},
+        'HW9': {'total': 1000,  'prize': 32.7272, 'count': 55},
+        'HW10': {'total': 1000, 'prize': 28.5714, 'count': 63},
+        'HW11': {'total': 1000, 'prize': 26.0870, 'count': 69},
+        'HW12': {'total': 1000, 'prize': 24.6574, 'count': 73},
+
+        'HW13': {'total': 1000, 'prize': 23.9998, 'count': 75},
+        'HW14': {'total': 1000, 'prize': 23.9998, 'count': 75},
+        'HW15': {'total': 1000, 'prize': 24.6574, 'count': 73},
+        'HW16': {'total': 1000, 'prize': 26.0870, 'count': 69},
+        'HW17': {'total': 1000, 'prize': 28.5714, 'count': 63},
+        'HW18': {'total': 1000, 'prize': 32.7272, 'count': 55},
+        'HW19': {'total': 1000, 'prize': 39.9998, 'count': 45},
+        'HW20': {'total': 1000, 'prize': 50.0000, 'count': 36},
+        'HW21': {'total': 1000, 'prize': 64.2856, 'count': 28},
+        'HW22': {'total': 1000, 'prize': 85.7080, 'count': 21},
+        'HW23': {'total': 1000, 'prize': 120.0000, 'count': 15},
+        'HW24': {'total': 1000, 'prize': 180.0000, 'count': 10},
+        'HW25': {'total': 1000, 'prize': 300.0000, 'count': 6},
+        'HW26': {'total': 1000, 'prize': 599.9998, 'count': 3},
+        'HW27': {'total': 1000, 'prize': 1800.0000, 'count': 1},
+
+        'BIG': {'total': 1000, 'prize': 3.6, 'count': 500},
+        'SMALL': {'total': 1000, 'prize': 3.6, 'count': 500},
+        'ODD': {'total': 1000, 'prize': 3.6, 'count': 500},
+        'EVEN': {'total': 1000, 'prize': 3.6, 'count': 500},
+        'BIG_ODD': {'total': 1000, 'prize': 7.7922, 'count': 231},
+        'BIG_EVEN': {'total': 1000, 'prize': 6.6914, 'count': 269},
+        'SMALL_ODD': {'total': 1000, 'prize': 7.7922, 'count': 231},
+        'SMALL_EVEN': {'total': 1000, 'prize': 6.6914, 'count': 269},
+
+        'SUPER_BIG': {'total': 1000, 'prize': 32.1426, 'count': 56},
+        'SUPER_SMALL': {'total': 1000, 'prize': 32.1426, 'count': 56},
+        'BAOZI': {'total': 1000, 'prize': 90, 'count': 10},
+
+        'RED': {'total': 1000, 'prize': 4.5974, 'count': 332},
+        'BLUE': {'total': 1000, 'prize': 5.9160, 'count': 258},
+        'GREEN': {'total': 1000, 'prize': 5.9160, 'count': 258},
     }
 }
