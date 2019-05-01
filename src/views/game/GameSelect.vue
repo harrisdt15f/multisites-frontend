@@ -181,7 +181,8 @@ export default {
                 currentCodes:{},
             },
             // 一键投注
-            oneKeyList: {}
+            oneKeyList: {},
+            dsTimer: null
         }
     },
     computed: {
@@ -213,7 +214,6 @@ export default {
     watch: {
         // 切换玩法时
         'bet.methodsTab' () {
-            console.log(this.currentMethod)
             this.currentOrder.currentCost = 0
             this.currentOrder.currentCount = 0
             this.currentOrder.currentTimes = 1
@@ -410,12 +410,12 @@ export default {
                 } else {
                     _count = result
                 }
-                this.currentOrder.currentCount      = _count
-                this.currentOrder.currentCost       = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes
-                this.currentOrder.inputcodes        = inputcodes
-                this.currentOrder.positionDesc      = positionDesc
-    
-                return [_count, inputcodes, positionDesc];
+                this.currentOrder.currentCount = _count
+                this.currentOrder.currentCost = +_count * + this.currentOrder.currentMode * + this.userConfig.singlePrice * +this.currentOrder.currentTimes
+                this.currentOrder.inputcodes = inputcodes
+                this.currentOrder.positionDesc = positionDesc
+                
+                return [_count, inputcodes, positionDesc]
             } else {
                 this.currentOrder.currentCost = (this.inputCodesSingle * 2 * this.currentOrder.currentTimes) * this.currentOrder.currentMode
                 this.currentOrder.currentCount = this.inputCodesSingle
@@ -595,7 +595,7 @@ export default {
         convertCodes() {
             const method = this.currentMethod
             // 选球类型
-            if (method.type === 'multi') {
+            if (method.type === 'multi' || method.type === 'k3') {
                 const codes = []
                 const iterable = Object.keys(method.layout)
                 for (let i = 0; i < iterable.length; i++) {
@@ -617,7 +617,7 @@ export default {
                 // console.log(method)
             }
         },
-
+        
         // 格式化号码
         formatInputCodes(code) {
             if (this.currentMethod.type === 'multi' || this.currentMethod.type === 'k3') {
@@ -666,12 +666,15 @@ export default {
         },
         // 单式输入框 变化时
         inputAreaChange () {
-            let tmp = (this.inputCodes || '').split(',')
+            // let tmp = (this.inputCodes || '').split(',')
             // 去重
-            let temp = Array.from(new Set(tmp))
-            this.inputCodes = temp.join(',')
-            this.inputCodesSingle = temp.length
-            this.calculate()
+            // let temp = Array.from(new Set(tmp))
+            // this.inputCodes = temp.join(',')
+            // this.inputCodesSingle = temp.length
+            clearInterval(this.dsTimer)
+            this.dsTimer = setTimeout(() => {
+                this.inputClearRepeatOrder()
+            }, 1000)
         },
         // 单式输入框失去焦点
         inputAreaBlur () {
@@ -685,24 +688,55 @@ export default {
         },
         // 清理重复项 和 错误项
         inputClearRepeatOrder() {
-            console.log(this.currentMethod)
-            let tmp = (this.inputCodes || '').split(',').map((item) => {
-                return this.Utils.trim(item)
-            })
-            for (let i = tmp.length; i >= 0; i --) {
-                // 去除非数字项
-                if (isNaN(tmp[i])) {
-                    tmp.splice(i, 1)
+            let [
+                tmp = (this.inputCodes || '').split(',').map((item) => {
+                    return this.Utils.trim(item)
+                }),
+                deleteArr = []
+            ] = []
+            
+            // 任选单式
+            if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
+                for (let j = 0; j < tmp.length; j++) {
+                    let tempj = tmp[j].split(' ')
+                    for (let i = 0; i < tempj.length; i++) {
+                        if (
+                            tempj.length !== this.currentMethod.b64 ||
+                            parseInt(tempj[i]) > 11 ||
+                            parseInt(tempj[i]) < 0 ||
+                            tempj[i].length !== this.currentMethod.number
+                        ) {
+                            deleteArr.push(tmp[j])
+                        }
+                    }
                 }
-                // 去除 小于 或者 大于规定长度
-                if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
-                    tmp.splice(i, 1)
+                for (let i = 0; i < deleteArr.length; i++) {
+                    for (let j = 0; j < tmp.length; j++) {
+                        if(deleteArr[i] === tmp[j] || isNaN(tmp[j])) {
+                            tmp.splice(j, 1)
+                        }
+                    }
+                }
+            } else {
+                for (let i = tmp.length; i >= 0; i --) {
+                    // 去除非数字项
+                    if (isNaN(tmp[i])) {
+                        tmp.splice(i, 1)
+                    }
+                    // 去除 小于 或者 大于规定长度
+                    if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
+                        tmp.splice(i, 1)
+                    }
                 }
             }
-            // 去重
             let temp = Array.from(new Set(tmp))
             this.inputCodes = temp.join(',')
-            this.inputCodesSingle = temp.length
+            
+            if (!this.inputCodes) {
+                this.inputCodesSingle = 0
+            } else {
+                this.inputCodesSingle = this.inputCodes.split(',').length
+            }
             this.calculate()
         },
         // 一键投注

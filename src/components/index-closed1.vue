@@ -35,7 +35,6 @@
 					<a href="javascript:;"
 					   :style="{background: 'url(' + item.btn + ') no-repeat'}"
 					   class="tc dl mr ft22 lotter-list-btn"
-					   
 					>立即投注</a>
 				</li>
 			</ul>
@@ -179,7 +178,7 @@ export default {
                         btn: require('../assets/images/index/lottery-btn4.png'),
                         desc: '<span>20</span> 分钟 / 期 全天共 <span>1</span> 期'
                     }
-                ],
+                ]
 		        },
 		        bet: {
                 multiple: 1
