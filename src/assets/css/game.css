@@ -1627,3 +1627,48 @@ body {
 	50% { transform: scale(1.2)}
 	100% { transform: scale(1)}
 }
+
+/*娱乐城  pc蛋蛋*/
+.ylc-main{
+	margin-top:30px;
+	background:#fff;
+}
+.ylc-nav{
+	padding: 0 25px;
+	vertical-align: middle;
+	height: 43px;
+	line-height: 43px;
+	background:#575770;
+	border-radius: 5px 5px 0 0;
+	border: 1px solid #D4D4D4;
+}
+.ylc-list{
+	float:left;
+	padding:0 25px;
+	height: 43px;
+	box-sizing:border-box;
+	border-top:3px solid transparent;
+	line-height: 43px;
+	color:#fff;
+	text-align:center;
+}
+.ylc-list:hover,
+.ylc-list.on{
+	border-top:3px solid #e91b38;
+	background:#fff;
+	color:#3b3c47;
+}
+.ylc-kx{
+	font-size:12px;
+	color:#fff;
+	float:right;
+}
+.ylc-kx:before{
+	content:'';
+	display:inline-block;
+	vertical-align:middle;
+	margin-right:3px;
+	width:17px;
+	height:17px;
+	background:url(../../assets/images/hj.png) no-repeat -576px -45px;
+}

@@ -1,7 +1,11 @@
 <template>
     <section v-if="mainShow">
+    
+<!--开奖区-->
         <game-issue></game-issue>
-        <section class="w" style="padding-top:25px;">
+        
+        
+        <section class="w dn" style="padding-top:25px;">
             <section class="main-center">
                 <game-method></game-method>
                 <game-select></game-select>
@@ -35,6 +39,9 @@
                 </section>
             </section>
         </section>
+        
+        
+        <GameYlc></GameYlc>
     </section>
 </template>
 <script>
@@ -42,6 +49,7 @@ import GameSelect from './GameSelect'
 import GameIssue from './GameIssue'
 import GameOrder from './GameOrder'
 import GameMethod from './GameMethod'
+import GameYlc from '../../components/game/ylc'
 import { mapState } from 'vuex'
 export default {
     name: 'game-main',
@@ -49,7 +57,8 @@ export default {
         GameMethod,
         GameOrder,
         GameIssue,
-        GameSelect
+        GameSelect,
+        GameYlc
     },
     props: {
         'lotterySign': String,
@@ -77,6 +86,7 @@ export default {
             // 页面刷新重新获取
             let sign  = this.$route.params.lotterySign
             this.$store.commit('currentLottery', newVal[sign].lottery)
+            console.log(this.currentLottery)
         }
     },
     created () {

@@ -8,6 +8,7 @@ import Register from '../views/auth/Register.vue'
 import Home from '../views/Home'
 import GameMain from '../views/game/GameMain'
 import Index from '../components/index-closed1'
+import Ylc from '../components/game/ylc'
 
 Vue.use(Router)
 
@@ -20,7 +21,8 @@ const router = new Router({
         { path: '/home', name: 'home', component: Home,
             children: [
                 { path: '', name: 'index-closed1', component: Index},
-                { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true }
+                { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true },
+                { path: 'ylc', name: 'ylc', component: Ylc, props: true },
             ]
         },
         { path: '*', redirect: '/home'}

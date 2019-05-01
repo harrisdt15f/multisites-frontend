@@ -53,7 +53,8 @@
             </section>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">体育竞技</a>
+<!--            <a href="javascript:;" class="nav-title">体育竞技</a>-->
+	          <router-link tag="a" to="ylc" class="nav-title">PC蛋蛋</router-link>
           </section>
           <section class="nav">
             <a href="javascript:;" class="nav-title">电子娱乐</a>
