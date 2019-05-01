@@ -704,7 +704,8 @@ export default {
                             tempj.length !== this.currentMethod.b64 ||
                             parseInt(tempj[i]) > 11 ||
                             parseInt(tempj[i]) < 0 ||
-                            tempj[i].length !== this.currentMethod.number
+                            tempj[i].length !== this.currentMethod.number ||
+                            isNaN(tempj[i])
                         ) {
                             deleteArr.push(tmp[j])
                         }
@@ -712,7 +713,7 @@ export default {
                 }
                 for (let i = 0; i < deleteArr.length; i++) {
                     for (let j = 0; j < tmp.length; j++) {
-                        if(deleteArr[i] === tmp[j] || isNaN(tmp[j])) {
+                        if(deleteArr[i] === tmp[j]) {
                             tmp.splice(j, 1)
                         }
                     }
