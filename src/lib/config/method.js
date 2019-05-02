@@ -50,9 +50,15 @@ const lhcZsCodesTpl = ['大', '小', '单', '双', '大单', '大双', '小单',
 /*lhc 六合彩 end*/
 
 /* === PC蛋蛋 === */
-const pcTmCodesTpl      = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
-const pcDxdsCodesTpl    = ['大', '小', '单', '双', '大单', '大双', '小单', '小双', '极大', '极小', '红波', '蓝波', '绿波', '豹子']
+const pcTmCodesTpl      = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
+const pcDxdsCodesTpl    = ['大', '小', '单', '双', '大单', '大双', '小单', '小双', '极大', '极小'];
+const a                 = ['b', 's', 'o', 'e', 'bo', 'be', 'so', 'se', 'sb', 'ss'];
 
+const pcBZCodesTpl      = ['豹子'];
+const b                 = ['bz'];
+
+const pcBoCodesTpl      = ['红波', '蓝波', '绿波'];
+const c                 = ['red', 'blue', 'green'];
 
 export default {
     'ssc': {
@@ -3634,9 +3640,9 @@ export default {
 
     // pc蛋蛋
     'pcdd': {
-        'T0': {
+        'TM': {
             'name': '整合',
-            'method': 'T0',
+            'method': 'TM',
             'desc': '',
             'help': '',
             'example': '',
@@ -3644,8 +3650,44 @@ export default {
             'layout': {
                 'codes': pcTmCodesTpl
             },
-            'buttons': pcDxdsCodesTpl
-        }
+            'buttons': []
+        },
+        'PCDDDXDS': {
+            'name': '整合',
+            'method': 'PCDDDXDS',
+            'desc': '',
+            'help': '',
+            'example': '',
+            'type': 'pcdd',
+            'layout': {
+                'codes': pcDxdsCodesTpl
+            },
+            'buttons': []
+        },
+        'BZ': {
+            'name': '整合',
+            'method': 'BZ',
+            'desc': '',
+            'help': '',
+            'example': '',
+            'type': 'pcdd',
+            'layout': {
+                'codes': pcBZCodesTpl
+            },
+            'buttons': []
+        },
+        'BO': {
+            'name': '整合',
+            'method': 'BO',
+            'desc': '',
+            'help': '',
+            'example': '',
+            'type': 'pcdd',
+            'layout': {
+                'codes': pcBoCodesTpl
+            },
+            'buttons': []
+        },
     },
     'ylc': {
         'ZH': {
