@@ -3631,10 +3631,12 @@ export default {
             }
         },
     },
+
+    // pc蛋蛋
     'pcdd': {
-        'ZH': {
+        'T0': {
             'name': '整合',
-            'method': 'ZH',
+            'method': 'T0',
             'desc': '',
             'help': '',
             'example': '',

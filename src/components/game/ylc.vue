@@ -478,18 +478,24 @@
 						</ul>-->
 						
 						
-						<section class="fw clear">
-							<ul class="ylc-title ntb" :class="{nrb: index === 3}" v-for="(item, index) in 4" :key="index">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-						</section>
+<!--						<section class="fw clear">-->
+<!--							<ul class="ylc-title ntb" :class="{nrb: index === 3}" v-for="(item, index) in 4" :key="index">-->
+<!--								<li class="ylc-title-list">号码</li>-->
+<!--								<li class="ylc-title-list">赔率</li>-->
+<!--								<li class="ylc-title-list">金额</li>-->
+<!--							</ul>-->
+<!--						</section>-->
 						<section class="fw">
 							<ul class="ylc-bet ylc-bet-line w25"
+							    v-if="list.length > 0"
 							    v-for="(list, index) in pcdd.allBtnList"
 							    :key="index"
 							>
+								<li class="fw">
+									<span class="ylc-title-list">号码</span>
+									<span class="ylc-title-list">赔率</span>
+									<span class="ylc-title-list" :class="{nrb: index === 3}">金额</span>
+								</li>
 								<li class="ylc-bet-list"
 								    :class="{active: item.flag, nrb: index === 3}"
 								    @click="listChecked(item)"
@@ -503,6 +509,7 @@
 									</section>
 								</li>
 								<li class="ylc-bet-list"
+								    :class="{nrb: index === 3}"
 								    v-for="cc in (4 - list.length)"
 								></li>
 							</ul>
@@ -667,6 +674,13 @@ export default {
 		        ylc: true,
 		        pcdds: false,
 		        
+		        bq: {
+                gray: [0, 13, 14, 27],
+                green: [1, 4, 7, 10, 16, 19, 22, 25],
+                blue: [2, 5, 8, 11, 17, 20, 23, 26],
+                red: [3, 6, 9, 12, 15, 18, 21, 24]
+		        },
+		        
 		        // 快选设置
             kxInfo: {
 		            show: false,
@@ -684,7 +698,7 @@ export default {
 		        playList: null,
 		        
 		        // 导航 状态
-            ylcListOn: 'ZH',
+            ylcListOn: 'T0',
             ylcRightTab: {
                 show: 0
             },
@@ -819,7 +833,7 @@ export default {
                         })
                         return false
                     }
-                    money += allCodeList[i].money
+                    money += Number(allCodeList[i].money)
                     list.push(allCodeList[i])
                 }
             }
@@ -844,28 +858,34 @@ export default {
         
         //投注
 				bet () {
-            let currentIssus = this.currentIssue.issue_no
-            let issus = {}
-            let order = {
-                method_id: this.currentMethod.method,
-                method_name: this.currentMethod.name,
-                codes: '',
-                count: this.currentOrder.list.length,
-                times: 1,
-                cost: this.currentOrder.betMoney,
-                mode: this.currentOrder.currentMode,
-                prize_group: '',
-                price: 2
+            let [
+                currentIssus = this.currentIssue.issue_no,
+                list = this.currentOrder.list,
+                issus = {},
+                order = []
+            ] = []
+            for (let i = 0; i < list.length; i++) {
+		            let json = {
+                    method_id: this.currentMethod.method,
+                    method_name: this.currentMethod.name,
+                    codes: String(list[i].code),
+                    count: this.currentOrder.list.length,
+                    times: 1,
+                    cost: this.currentOrder.betMoney,
+                    mode: this.currentOrder.currentMode,
+                    prize_group: '',
+                    price: 2
+		            }
+		            order.push(json)
             }
             issus[currentIssus] = true
-            this.addOrder(true)
             if (parseInt(this.currentOrder.betMoney) <= 0 || this.currentOrder.list.length === 0) {
                 this.$alert('你还未投注 或 投注错误', '提示', {
                     confirmButtonText: '确定'
                 })
                 return false
             }
-            this.Api.bet(this.currentLottery.en_name, issus, [this.oneKeyList], this.orderList.cost).then((res) => {
+            this.Api.bet(this.currentLottery.en_name, issus, order, this.currentOrder.betMoney).then((res) => {
                 if (res.isSuccess) {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
                         confirmButtonText: '确定'
@@ -972,29 +992,41 @@ export default {
             for (let i = 0; i < Math.ceil(list.length / 4); i++) {
                 tempList.push([])
             }
-            for (let i = 0; i < list.length; i++) {
-                let json = {}
-                json.code = list[i]
-		            json.flag = false
-                json.money = 0
-                json.odds = 27.2222
-                if (list[i] === '大' || list[i] === '小' || list[i] === '单' || list[i] === '双') {
-                    tempList[0].push(json)
-                } else if (list[i] === '大单' || list[i] === '大双' || list[i] === '小单' || list[i] === '小双') {
-                    tempList[1].push(json)
-                } else if (list[i] === '极大' || list[i] === '极小') {
-                    tempList[2].push(json)
-                } else if (list[i] === '红波' || list[i] === '蓝波' || list[i] === '绿波' || list[i] === '豹子') {
-                    if (list[i] === '红波') {
-                        json.class = 'ylc-red'
-                    } else if (list[i] === '蓝波') {
-                        json.class = 'ylc-blue'
-                    } else if (list[i] === '绿波') {
-                        json.class = 'ylc-green'
-                    } else if (list[i] === '豹子') {
-                        json.class = 'ylc-gray'
+            for (let j = 0; j < this.allMethods.length; j++) {
+                for (let i = 0; i < list.length; i++) {
+                    let json = {}
+                    json.code = list[i]
+                    json.flag = false
+                    json.money = 0
+                    json.odds = 27.2222
+                    if (this.allMethods[j].name === '大小单双') {
+                        if (list[i] === '大' || list[i] === '小' || list[i] === '单' || list[i] === '双') {
+                            tempList[0].push(json)
+                        }
+                        if (list[i] === '大单' || list[i] === '大双' || list[i] === '小单' || list[i] === '小双') {
+                            tempList[1].push(json)
+                        }
+                        if (list[i] === '极大' || list[i] === '极小') {
+                            tempList[2].push(json)
+                        }
                     }
-                    tempList[3].push(json)
+                    if (this.allMethods[j].name === '波') {
+                        if (list[i] === '红波' || list[i] === '蓝波' || list[i] === '绿波') {
+                            if (list[i] === '红波') {
+                                json.class = 'ylc-red'
+                            } else if (list[i] === '蓝波') {
+                                json.class = 'ylc-blue'
+                            } else if (list[i] === '绿波') {
+                                json.class = 'ylc-green'
+                            }
+                            tempList[3].push(json)
+                        }
+                    }
+                    if (this.allMethods[j].name === '豹子') {
+                        if (list[i] === '豹子') {
+                            tempList[3].push(json)
+                        }
+                    }
                 }
             }
             this.pcdd.allBtnList = tempList
@@ -1002,19 +1034,13 @@ export default {
 				
         // pc蛋蛋整合  号码背景图
 				pcddAllIcon (item) {
-            let [
-                gray = [0, 13, 14, 27],
-                green = [1, 4, 7, 10, 16, 19, 22, 25],
-		            blue = [2, 5, 8, 11, 17, 20, 23, 26],
-		            red = [3, 6, 9, 12, 15, 18, 21, 24]
-            ] = []
-						if (gray.includes(item.code)) {
+						if (this.bq.gray.includes(item.code)) {
 						    return 'ylc-bet-list-gray'
-						} else if (green.includes(item.code)) {
+						} else if (this.bq.green.includes(item.code)) {
                 return 'ylc-bet-list-green'
-            } else if (blue.includes(item.code)) {
+            } else if (this.bq.blue.includes(item.code)) {
                 return 'ylc-bet-list-blue'
-            } else if (red.includes(item.code)) {
+            } else if (this.bq.red.includes(item.code)) {
                 return 'ylc-bet-list-red'
             }
         },

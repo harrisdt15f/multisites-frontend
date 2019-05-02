@@ -92,6 +92,7 @@ export default {
 	
 	      // 选中玩法
 	      selectMethod(methodId) {
+		        console.log(methodId)
 	          this.$store.commit('currentMethod', methods[this.currentLottery.series_id][methodId])
 	          this.selectedMethodId = methodId
 	          this.$store.commit('methodsTab')

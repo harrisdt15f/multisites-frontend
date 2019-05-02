@@ -209,46 +209,6 @@ const index =  new Vuex.Store({
                             }
                         ]
                     }
-                    res.data.ylc = {
-                        defaultGroup: 'ylc',
-                        defaultMethod: 'ZH',
-                        lottery: {
-                            auto_open: 0,
-                            cn_name: "娱乐城",
-                            code_length: 5,
-                            created_at: null,
-                            day_issue: 59,
-                            en_name: "ylc",
-                            id: 1,
-                            is_fast: 1,
-                            issue_format: "ymd|N3",
-                            issue_type: "day",
-                            max_prize_group: 1990,
-                            max_times: 1000,
-                            max_trace_number: 59,
-                            min_prize_group: 1700,
-                            min_times: 1,
-                            positions: "w,q,b,s,g",
-                            series_id: "pcdd",
-                            status: 1,
-                            updated_at: null,
-                            valid_code: "0,1,2,3,4,5,6,7,8,9",
-                            valid_modes: {
-                                '1': { title: "元", val: 1 },
-                                '2': { title: "角", val: .1 },
-                                '3': { title: "分", val: .01 }
-                            }
-                        },
-                        methodConfig: [
-                            {
-                                name: '整合',
-                                rows: [
-                                    { methods: [{ method_id: 'ZH', method_name: '整合' }], name: '整合', sign: 'zhenghe'}
-                                ],
-                                sign: 'ZH'
-                            }
-                        ]
-                    }
                   commit('lotteryAll', res.data)
                 }
             })
