@@ -5,11 +5,9 @@
         <game-issue></game-issue>
         
         
-        <section class="w dn" style="padding-top:25px;">
+        <section v-if="currentLottery.en_name !== 'pcdd' && chengePlay === 'gf'" class="w" style="padding-top:25px;">
             <section class="main-center">
                 <game-method></game-method>
-                <game-select></game-select>
-                <game-order></game-order>
             </section>
             <section class="main-right">
                 <section class="list-historys">
@@ -41,13 +39,11 @@
         </section>
         
         
-        <GameYlc></GameYlc>
+        <GameYlc v-if="currentLottery.en_name === 'pcdd' || chengePlay === 'ylc'"></GameYlc>
     </section>
 </template>
 <script>
-import GameSelect from './GameSelect'
 import GameIssue from './GameIssue'
-import GameOrder from './GameOrder'
 import GameMethod from './GameMethod'
 import GameYlc from '../../components/game/ylc'
 import { mapState } from 'vuex'
@@ -55,9 +51,7 @@ export default {
     name: 'game-main',
     components: {
         GameMethod,
-        GameOrder,
         GameIssue,
-        GameSelect,
         GameYlc
     },
     props: {
@@ -73,7 +67,8 @@ export default {
         ...mapState([
             'currentLottery',
             'lotteryAll',
-            'bet'
+            'bet',
+            'chengePlay'
         ])
     },
     watch: {
@@ -86,7 +81,6 @@ export default {
             // 页面刷新重新获取
             let sign  = this.$route.params.lotterySign
             this.$store.commit('currentLottery', newVal[sign].lottery)
-            console.log(this.currentLottery)
         }
     },
     created () {

@@ -455,6 +455,7 @@ export default {
 		    this.ballSort()
     },
 		methods: {
+        
         // 确认下注
 				confirmSubmit () {
             let order = {
@@ -494,10 +495,12 @@ export default {
                 }
             })
 				},
+				
 				// 取消下注
         submitClose() {
             this.submitDialog = false
         },
+				
         // 立即下注
 				submit () {
             this.currentOrder.list = []
@@ -520,6 +523,7 @@ export default {
             }
             this.submitDialog = true
 				},
+				
         // 清空 重置 已选
 				clearNumber () {
             for (let j = 0; j < this.newCodes.length; j++) {
@@ -541,6 +545,7 @@ export default {
             this.playValue = -1
             this.currentOrder.betMoney = 0
 				},
+				
         // 特马 正特 大小 生肖 选择号码  半波 大小单双 合单 合双选择器
         selectNumber (item) {
             let [
@@ -817,6 +822,7 @@ export default {
                item.flag = !item.flag
            }
         },
+				
         //特马 正特 颜色 选择号码
 				selectNumberSub (item) {
 				    let [
@@ -898,6 +904,7 @@ export default {
                 }
             }
 				},
+				
         // 将号码顺序转换 和 初始渲染数据处理
 				ballSort () {
             this.newCodes = []
@@ -1266,6 +1273,7 @@ export default {
                 }
             }
 				},
+				
         // 计算 球 背景色
         ballColor(item, index = 0) {
 		        if (!Array.isArray(item.code)) {
@@ -1286,6 +1294,7 @@ export default {
                 }
 		        }
         },
+				
         // 进入离开的布局
 				enterMain () {
             let [

@@ -57,8 +57,11 @@ const index =  new Vuex.Store({
         // 全部彩种
         lotteryAll: {},
         // 彩种全部期数
+
         issueInfo: [],
-        // 历史开奖记录
+
+        // 切换 官方和娱乐城 玩法
+        chengePlay: 'gf'
     },
     mutations: {
         // 用户配置
@@ -87,7 +90,7 @@ const index =  new Vuex.Store({
 
         // 上一奖期
         beforeIssue (state, issue) {
-            state.beforeIssue = issue;
+            state.beforeIssue = issue
         },
 
         // 当前玩法
@@ -97,11 +100,11 @@ const index =  new Vuex.Store({
 
         // 当前选中订单数据
         currentOrderState (state, order) {
-            state.currentOrderState = order;
+            state.currentOrderState = order
         },
         // 总花费
         totalCost (state, cost) {
-            state.totalCost = cost;
+            state.totalCost = cost
         },
 
         // 当前彩种所有玩法
@@ -154,6 +157,11 @@ const index =  new Vuex.Store({
         // 玩法切换时
         methodsTab (state) {
             state.bet.methodsTab += 1
+        },
+
+        // 切换 官方和娱乐城 玩法
+        chengePlay (state, data) {
+            state.chengePlay = data
         }
     },
     actions: {
@@ -161,6 +169,86 @@ const index =  new Vuex.Store({
         lotteryAll ({ commit }) {
             API.getLotteryInfo().then(res => {
                 if (res.isSuccess) {
+                    res.data.pcdd = {
+                        defaultGroup: 'PCDD',
+                        defaultMethod: 'ZH',
+                        lottery: {
+                            auto_open: 0,
+                            cn_name: "PC蛋蛋",
+                            code_length: 5,
+                            created_at: null,
+                            day_issue: 59,
+                            en_name: "pcdd",
+                            id: 1,
+                            is_fast: 1,
+                            issue_format: "ymd|N3",
+                            issue_type: "day",
+                            max_prize_group: 1990,
+                            max_times: 1000,
+                            max_trace_number: 59,
+                            min_prize_group: 1700,
+                            min_times: 1,
+                            positions: "w,q,b,s,g",
+                            series_id: "pcdd",
+                            status: 1,
+                            updated_at: null,
+                            valid_code: "0,1,2,3,4,5,6,7,8,9",
+                            valid_modes: {
+                                '1': { title: "元", val: 1 },
+                                '2': { title: "角", val: .1 },
+                                '3': { title: "分", val: .01 }
+                            }
+                        },
+                        methodConfig: [
+                            {
+                                name: '整合',
+                                rows: [
+                                    { methods: [{ method_id: 'ZH', method_name: '整合' }], name: '整合', sign: 'zhenghe'}
+                                ],
+                                sign: 'ZH'
+                            }
+                        ]
+                    }
+                    res.data.ylc = {
+                        defaultGroup: 'ylc',
+                        defaultMethod: 'ZH',
+                        lottery: {
+                            auto_open: 0,
+                            cn_name: "娱乐城",
+                            code_length: 5,
+                            created_at: null,
+                            day_issue: 59,
+                            en_name: "ylc",
+                            id: 1,
+                            is_fast: 1,
+                            issue_format: "ymd|N3",
+                            issue_type: "day",
+                            max_prize_group: 1990,
+                            max_times: 1000,
+                            max_trace_number: 59,
+                            min_prize_group: 1700,
+                            min_times: 1,
+                            positions: "w,q,b,s,g",
+                            series_id: "pcdd",
+                            status: 1,
+                            updated_at: null,
+                            valid_code: "0,1,2,3,4,5,6,7,8,9",
+                            valid_modes: {
+                                '1': { title: "元", val: 1 },
+                                '2': { title: "角", val: .1 },
+                                '3': { title: "分", val: .01 }
+                            }
+                        },
+                        methodConfig: [
+                            {
+                                name: '整合',
+                                rows: [
+                                    { methods: [{ method_id: 'ZH', method_name: '整合' }], name: '整合', sign: 'zhenghe'}
+                                ],
+                                sign: 'ZH'
+                            }
+                        ]
+                    }
                   commit('lotteryAll', res.data)
                 }
             })
