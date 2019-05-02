@@ -5,7 +5,7 @@
         <game-issue></game-issue>
         
         
-        <section v-if="currentLottery.en_name !== 'pcdd' && chengePlay === 'gf'" class="w" style="padding-top:25px;">
+        <section v-if="currentLottery.en_name !== 'bjxy28' && chengePlay === 'gf'" class="w" style="padding-top:25px;">
             <section class="main-center">
                 <game-method></game-method>
             </section>
@@ -39,7 +39,7 @@
         </section>
         
         
-        <GameYlc v-if="currentLottery.en_name === 'pcdd' || chengePlay === 'ylc'"></GameYlc>
+        <GameYlc v-if="currentLottery.en_name === 'bjxy28' || chengePlay === 'ylc'"></GameYlc>
     </section>
 </template>
 <script>
@@ -73,7 +73,7 @@ export default {
     },
     watch: {
         'currentLottery' () {
-            this.$store.dispatch('issueHistory')
+            // this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
             this.mainShow = true
         },
@@ -86,7 +86,7 @@ export default {
     created () {
         // 页面刷新时不执行
         if (Object.keys(this.lotteryAll).length !== 0) {
-            this.$store.dispatch('issueHistory')
+            // this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
             this.mainShow = true
         }
