@@ -60,7 +60,10 @@ const pcBoCodesTpl      = ['红波', '蓝波', '绿波']
 const pcYlcCodesTpl = ['大', '小', '单', '双', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 const pcLmpCodesTpl = ['大', '小', '单', '双']
 const pcLhdCodesTpl = {
-    'tenThousand': ''
+    'w': ['wq', 'wb', 'ws', 'wg'],
+    'q': ['qb', 'qs', 'qg'],
+    'b': ['bs', 'bg'],
+    's': ['sg']
 }
 const pcQwzyCodesTpl = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 

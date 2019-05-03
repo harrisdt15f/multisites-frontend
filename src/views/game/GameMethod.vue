@@ -94,7 +94,15 @@ export default {
         // 如果路由有变化，会再次执行该方法
         'chengeYlcPlays' (newVal) {
             let lottery = this.lotteryAll[this.currentLottery.en_name]
-            this.$store.commit('allMethods', lottery.methodConfig2)
+		        if (newVal.name === 'official') {
+		            
+                this.$store.commit('allMethods', lottery.methodConfig)
+				        
+		        } else if (newVal.name === 'casino') {
+		            
+                this.$store.commit('allMethods', lottery.methodConfig2)
+				        
+            }
             this.selectGroup(this.defaultGroup, newVal.index)
         },
         'currentLottery': {

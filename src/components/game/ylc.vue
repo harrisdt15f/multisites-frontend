@@ -66,268 +66,95 @@
 					
 <!--龙虎斗-->
 					
-					<section v-if="currentMethod.type === 'ylc' && currentMethod.method === 'LHD'" class="tc">
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
+					<section class="tc" v-if="currentMethod.type === 'ylc' && currentMethod.method === 'LHD'">
+						<section class="dinv ylc-lhd-list"  v-for="(list, index) in pcdd.allCodeList.w" :key="index">
+							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
+								<li class="ylc-lhd-list-q"
+								    @click="listChecked(item)"
+								    :class="{active: item.flag}"
+								    v-for="(item, iIndex) in list.code"
+								    :key="iIndex">
+									<span class="ylc-lhd-list-q-y"
+									      :class="{
+									      'ylc-lhd-list-q-y-red': item.name === '龙',
+									      'ylc-lhd-list-q-y-green': item.name === '和',
+									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      }"
+									>{{item.name}}</span>
+									<span class="red">{{item.odds}}</span>
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
 						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
+						
+						<section class="dinv ylc-lhd-list"  v-for="list in pcdd.allCodeList.q">
+							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
+								<li class="ylc-lhd-list-q"
+								    @click="listChecked(item)"
+								    :class="{active: item.flag}"
+								    v-for="(item, iIndex) in list.code"
+								    :key="iIndex">
+									<span class="ylc-lhd-list-q-y"
+									      :class="{
+									      'ylc-lhd-list-q-y-red': item.name === '龙',
+									      'ylc-lhd-list-q-y-green': item.name === '和',
+									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      }"
+									>{{item.name}}</span>
+									<span class="red">{{item.odds}}</span>
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
 						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
+						
+						<br v-if="pcdd.allCodeList.b">
+						<section class="dinv ylc-lhd-list"  v-for="list in pcdd.allCodeList.b">
+							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
+								<li class="ylc-lhd-list-q"
+								    @click="listChecked(item)"
+								    :class="{active: item.flag}"
+								    v-for="(item, iIndex) in list.code"
+								    :key="iIndex">
+									<span class="ylc-lhd-list-q-y"
+									      :class="{
+									      'ylc-lhd-list-q-y-red': item.name === '龙',
+									      'ylc-lhd-list-q-y-green': item.name === '和',
+									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      }"
+									>{{item.name}}</span>
+									<span class="red">{{item.odds}}</span>
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
 						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
+						
+						<br v-if="pcdd.allCodeList.s">
+						<section class="dinv ylc-lhd-list"  v-for="list in pcdd.allCodeList.s">
+							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-							</ul>
-						</section>
-						<section class="dinv ylc-lhd-list">
-							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
-							<ul class="fw">
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
-								</li>
-								<li class="ylc-lhd-list-q">
-									<span class="ylc-lhd-list-q-y">龙</span>
-									<span class="red">2.0688</span>
-									<input type="text" class="ylc-bet-list-money">
+								<li class="ylc-lhd-list-q"
+								    @click="listChecked(item)"
+								    :class="{active: item.flag}"
+								    v-for="(item, iIndex) in list.code"
+								    :key="iIndex">
+									<span class="ylc-lhd-list-q-y"
+									      :class="{
+									      'ylc-lhd-list-q-y-red': item.name === '龙',
+									      'ylc-lhd-list-q-y-green': item.name === '和',
+									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      }"
+									>{{item.name}}</span>
+									<span class="red">{{item.odds}}</span>
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
 						</section>
 					</section>
+					
+					
 					
 <!--第一球 到 第五球-->
 					
@@ -365,7 +192,6 @@
 								</section>
 							</li>
 						</ul>
-						
 					</section>
 					
 					
@@ -716,12 +542,34 @@ export default {
         // 快选输入金钱时
         'currentOrder.money': {
             handler (newVal) {
+                let [
+                    codeList = this.pcdd.allCodeList
+                ] = []
                 if (isNaN(newVal)) {
                     newVal = 0
                 }
-                for (let i = 0; i < this.pcdd.allCodeList.length; i++) {
-                    if (this.pcdd.allCodeList[i].flag) {
-                        this.pcdd.allCodeList[i].money = newVal
+                if (this.currentMethod.method === 'LHD') {
+                    for (let k in codeList) {
+
+                        for (let i = 0; i < codeList[k].length; i++) {
+
+                            for (let j = 0; j < codeList[k][i].code.length; j++) {
+
+                                if (codeList[k][i].code[j].flag) {
+
+                                    codeList[k][i].code[j].money = newVal
+                                }
+                            }
+                        }
+                    }
+
+                    return
+                }
+                
+                
+                for (let i = 0; i < codeList.length; i++) {
+                    if (codeList[i].flag) {
+                        codeList[i].money = newVal
                     }
                 }
                 for (let i = 0; i < this.pcdd.allBtnList.length; i++) {
@@ -758,6 +606,34 @@ export default {
         // 金钱发生变化时
         'pcdd.allCodeList': {
             handler (newVal) {
+		            if (this.currentMethod.method === 'LHD') {
+		                for (let k in newVal) {
+		                    
+                        for (let i = 0; i < newVal[k].length; i++) {
+                            
+                            for (let j = 0; j < newVal[k][i].code.length; j++) {
+                                
+                                if (isNaN(newVal[k][i].code[j].money)) {
+                                    
+                                    newVal[k][i].code[j].money = 0
+		                                
+                                } else if (newVal[k][i].code[j].money) {
+                                    
+                                    if (Number(newVal[k][i].code[j].money) < 1) {
+                                        
+                                        newVal[k][i].code[j].money = 0
+		                                    
+                                    } if (Number(newVal[k][i].code[j].money) > 1000000) {
+                                        
+                                        newVal[k][i].code[j].money = 1000000
+                                    }
+                                }
+                            }
+                        }
+		                }
+		                
+		                return
+		            }
                 for (let i = 0; i < newVal.length; i++) {
                     if (isNaN(newVal[i].money)) {
                         newVal[i].money = 0
@@ -774,8 +650,6 @@ export default {
         }
 		},
 		created () {
-				console.log(this.allMethods)
-        console.log(this.currentMethod)
 				
 				// pc蛋蛋整合列表
 				this.pcddAllList()
@@ -808,11 +682,6 @@ export default {
             }
 		        this.$store.commit('chengeYlcPlays', json)
             this.ylcListOn = item.sign
-        },
-        
-        // 清空订单状态
-        chengePlay () {
-            this.$store.commit('chengePlay', 'ylc')
         },
 				
         //取消提交
@@ -1098,7 +967,9 @@ export default {
                         }
                         temp.push(json)
 				                
-		                } else if (all[i].sign === 'DEQ') {
+		                }
+		                
+		                else if (all[i].sign === 'DEQ') {
 
                         let json = {}
                         json.sign = all[i].sign
@@ -1129,7 +1000,9 @@ export default {
                         }
                         temp.push(json)
 				                
-		                } else if (all[i].sign === 'DSQ') {
+		                }
+		                
+		                else if (all[i].sign === 'DSQ') {
 
                         let json = {}
                         json.sign = all[i].sign
@@ -1160,7 +1033,9 @@ export default {
                         }
                         temp.push(json)
 				                
-                    } else if (all[i].sign === 'DSIQ') {
+                    }
+		                
+		                else if (all[i].sign === 'DSIQ') {
 
                         let json = {}
                         json.sign = all[i].sign
@@ -1191,7 +1066,9 @@ export default {
                         }
                         temp.push(json)
 				                
-                    } else if (all[i].sign === 'DWQ') {
+                    }
+		                
+		                else if (all[i].sign === 'DWQ') {
 
                         let json = {}
                         json.sign = all[i].sign
@@ -1222,7 +1099,9 @@ export default {
                         }
                         temp.push(json)
 				                
-                    } else if (all[i].sign === 'LHD') {
+                    }
+		                
+		                else if (all[i].sign === 'LHD') {
 		                  
 				                this.lhdisShow = true
 
@@ -1299,8 +1178,126 @@ export default {
                 this.pcdd.allCodeList = allCodeList
 						}
             
+            // 龙虎斗
+            else if (this.currentMethod.method === 'LHD') {
+                let [
+                    temp = {
+                    w: [],
+		                q: [],
+		                b: [],
+		                s: []
+                    }
+                ] = []
+                
+                
+                for (let i = 0; i < all.length; i++) {
+                    if (all[i].sign === 'LHD') {
+                        
+                        for (let key in list) {
+                            
+                            for (let tempk in temp) {
+                                
+                                if (key === tempk) {
+                                    
+                                    for (let i = 0; i < list[key].length; i++) {
+                                        let json = {}
+                                        switch (list[key][i]) {
+		                                        case 'wq':
+                                                json.name = '万千 第一球 vs 第二球'
+                                                json.code = [
+		                                                {name: '龙', odds: 2.8, flag: false, money: 0},
+		                                                {name: '和', odds: 2.8, flag: false, money: 0},
+		                                                {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+		                                            break
+                                            case 'wb':
+                                                json.name = '万百 第一球 vs 第三球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'ws':
+                                                json.name = '万十 第一球 vs 第四球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'wg':
+                                                json.name = '万个 第一球 vs 第五球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'qb':
+                                                json.name = '千百 第二球 vs 第三球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'qs':
+                                                json.name = '千十 第二球 vs 第四球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'qg':
+                                                json.name = '千个 第二球 vs 第五球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'bs':
+                                                json.name = '百十 第三球 vs 第四球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'bg':
+                                                json.name = '百个 第三球 vs 第五球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                            case 'sg':
+                                                json.name = '十个 第四球 vs 第五球'
+                                                json.code = [
+                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {name: '和', odds: 2.8, flag: false, money: 0},
+                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                ]
+                                                break
+                                        }
+                                        json.sign = list[key][i]
+                                        temp[tempk].push(json)
+		                                    
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                this.pcdd.allCodeList = temp
+            }
+								
             // 全五中一
 						else if (this.currentMethod.method === 'QWZY') {
+						    
                 for (let i = 0; i < all.length; i++) {
                     if (all[i].sign === 'QWZY') {
                         for (let i = 0; i < list.length; i++) {

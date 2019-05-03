@@ -1661,9 +1661,10 @@ body {
 	color:#3b3c47;
 }
 .ylc-kx{
+	float:right;
+	margin-right:100px;
 	font-size:12px;
 	color:#fff;
-	float:right;
 }
 .ylc-kx:before{
 	content:'';
@@ -2149,6 +2150,7 @@ body {
 	padding:15px 0 13px;
 	width:33.33%;
 	font-size:12px;
+	cursor: pointer;
 }
 .ylc-lhd-list-q-y{
 	display:block;
@@ -2229,7 +2231,7 @@ body {
 }
 .bet-plays{
 	position:absolute;
-	right:0;
+	right:10px;
 	top:8px;
 	border-radius:5px;
 	width:100px;
@@ -2290,6 +2292,9 @@ body {
 	padding:5px;
 }
 
+.tb{
+	border-width:1px;
+}
 .ntb{
 	border-top:none;
 }
