@@ -50,15 +50,15 @@ const lhcZsCodesTpl = ['大', '小', '单', '双', '大单', '大双', '小单',
 /*lhc 六合彩 end*/
 
 /* === PC蛋蛋 === */
-const pcTmCodesTpl      = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
-const pcDxdsCodesTpl    = ['大', '小', '单', '双', '大单', '大双', '小单', '小双', '极大', '极小'];
-const a                 = ['b', 's', 'o', 'e', 'bo', 'be', 'so', 'se', 'sb', 'ss'];
+const pcTmCodesTpl      = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+const pcDxdsCodesTpl    = ['大', '小', '单', '双', '大单', '大双', '小单', '小双', '极大', '极小', '红波', '蓝波', '绿波', '豹子']
+const a                 = ['b', 's', 'o', 'e', 'bo', 'be', 'so', 'se', 'sb', 'ss']
 
-const pcBZCodesTpl      = ['豹子'];
-const b                 = ['bz'];
+const pcBZCodesTpl      = ['豹子']
+const b                 = ['bz']
 
-const pcBoCodesTpl      = ['红波', '蓝波', '绿波'];
-const c                 = ['red', 'blue', 'green'];
+const pcBoCodesTpl      = ['红波', '蓝波', '绿波']
+const c                 = ['red', 'blue', 'green']
 
 export default {
     'ssc': {
@@ -104,7 +104,6 @@ export default {
             },
             'buttons': digitalPosTpl
         },
-
         'WXZU120': {
             'name': '组选120',
             'method': 'WXZU120',
@@ -3650,7 +3649,7 @@ export default {
             'layout': {
                 'codes': pcTmCodesTpl
             },
-            'buttons': []
+            'buttons': pcDxdsCodesTpl
         },
         'PCDDDXDS': {
             'name': '整合',

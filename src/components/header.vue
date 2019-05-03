@@ -158,24 +158,6 @@ export default {
     lotteryList () {
       this.Api.getLotteryList().then((res) => {
         if (res.isSuccess) {
-          // res.data.data.push({
-          //   list: [
-          //     {
-          //       day_issue: 59,
-          //       desc: "当天 <span>00</span> 点至 <span>23</span> 点   当日共有 <span>59</span> 期",
-          //       id: "pcdd",
-          //       max_prize_group: 1990,
-          //       max_times: 1000,
-          //       max_trace_number: 59,
-          //       min_prize_group: 1700,
-          //       min_times: 1,
-          //       name: "加拿大28",
-          //       valid_modes: "1,2,3"
-          //     }
-          //   ],
-          //   name: 'PC蛋蛋',
-          //   sign: 'pcdd'
-          // })
           this.lotteryLists = res.data.data
         }
       })

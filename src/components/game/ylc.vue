@@ -4,10 +4,17 @@
 		<nav class="ylc-nav">
 			<a href="javascript:;"
 			   class="ylc-list"
+			   v-if="currentLottery.series_id !== 'pcdd'"
 			   :class="{on: ylcListOn === index }"
 			   @click="ylcListOn = index"
 			   v-for="(item, index) in playList" :key="index"
 			>{{item.name}}</a>
+			<a href="javascript:;"
+			   class="ylc-list on"
+			   v-if="currentLottery.series_id === 'pcdd'"
+			   >
+				整合
+			</a>
 			<a href="javascript:;" class="ylc-kx" @click="kxInfo.show = true">快选金额</a>
 		</nav>
 		
@@ -413,7 +420,7 @@
 									<section class="w33 fl" @click="listChecked(item)">
 										<span class="ylc-bet-list-num" :class="pcddAllIcon(item)">{{item.code}}</span>
 									</section>
-									<span class="fl w33 red ylc-bet-list-odds" @click="listChecked(item)">{{item.odds}}</span>
+									<span class="fl w33 red ylc-bet-list-odds" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
 									<section class="w33 fl">
 										<input type="text" class="ylc-bet-list-money" v-model="item.money">
 									</section>
@@ -620,7 +627,6 @@
 				<li class="ylc-bet-title">单注金额</li>
 			</ul>
 			<ul class="fw ylc-bet-contents">
-				<!--正特 特马-->
 				<li class="ylc-bet-content"
 				    v-for="(item, index) in currentOrder.list"
 				    :key="index"
@@ -664,7 +670,8 @@
 <script>
 import { mapState } from 'vuex'
 import methods from '../../lib/config/method'
-import Utils from "../../lib/utils/utils";
+import prizes from '../../lib/config/prizes'
+import Utils from "../../lib/utils/utils"
 export default {
     name: 'ylc',
 		data () {
@@ -723,7 +730,8 @@ export default {
             'allMethods',
             'currentLottery',
             'currentMethod',
-		        'currentIssue'
+		        'currentIssue',
+		        'account'
         ]),
 		},
 		watch: {
@@ -737,6 +745,13 @@ export default {
                 for (let i = 0; i < this.pcdd.allCodeList.length; i++) {
                     if (this.pcdd.allCodeList[i].flag) {
                         this.pcdd.allCodeList[i].money = newVal
+                    }
+                }
+                for (let i = 0; i < this.pcdd.allBtnList.length; i++) {
+                    for (let j = 0; j < this.pcdd.allBtnList[i].length; j++) {
+                        if (this.pcdd.allBtnList[i][j].flag) {
+                            this.pcdd.allBtnList[i][j].money = newVal
+                        }
                     }
                 }
             },
@@ -758,9 +773,6 @@ export default {
                             }
                         }
                     }
-                }
-                for (let i = 0; i < newVal.length; i++) {
-                
                 }
             },
             deep: true
@@ -786,8 +798,10 @@ export default {
 		},
 		created () {
         
+       
         // 更新当前玩法
-        let methodId = this.allMethods[0]['rows'][0]['methods'][0]['method_id']
+        // let methodId = this.allMethods[0]['rows'][0]['methods'][0]['method_id']
+        let methodId = this.allMethods[0].sign
         this.$store.commit('currentMethod', methods[this.currentLottery.series_id][methodId])
 				this.playList = methods[this.currentLottery.series_id]
 				console.log(this.currentMethod)
@@ -864,16 +878,63 @@ export default {
                 issus = {},
                 order = []
             ] = []
+						
             for (let i = 0; i < list.length; i++) {
+                if (isNaN(list[i].code)) {
+		              switch (list[i].code) {
+				              case '大':
+                          list[i].upload = 'b'
+				                  break
+                      case '小':
+                          list[i].upload = 's'
+                          break
+                      case '单':
+                          list[i].upload = 'o'
+                          break
+                      case '双':
+                          list[i].upload = 'e'
+                          break
+                      case '大单':
+                          list[i].upload = 'bo'
+                          break
+                      case '大双':
+                          list[i].upload = 'be'
+                          break
+                      case '小单':
+                          list[i].upload = 'so'
+                          break
+                      case '小双':
+                          list[i].upload = 'se'
+                          break
+                      case '极大':
+                          list[i].upload = 'sb'
+                          break
+                      case '极小':
+                          list[i].upload = 'ss'
+                          break
+                      case '豹子':
+                          list[i].upload = 'b'
+                          break
+                      case '红波':
+                          list[i].upload = 'red'
+                          break
+                      case '蓝波':
+                          list[i].upload = 'blue'
+                          break
+                      case '绿波':
+                          list[i].upload = 'green'
+                          break
+		              }
+                }
 		            let json = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
-                    codes: String(list[i].code),
+                    codes: isNaN(list[i].code) ? list[i].upload : list[i].code,
                     count: this.currentOrder.list.length,
                     times: 1,
                     cost: this.currentOrder.betMoney,
-                    mode: this.currentOrder.currentMode,
-                    prize_group: '',
+                    mode: 1,
+                    prize_group: 1950,
                     price: 2
 		            }
 		            order.push(json)
@@ -964,26 +1025,40 @@ export default {
 				pcddAllList () {
 				    let [
                 list = this.currentMethod.layout.codes,
-						    tempList = []
+						    tempList = [],
+						    temList = [],
+						    TM = prizes[this.currentLottery.series_id].TM
 				    ] = []
             for (let i = 0; i < Math.ceil(list.length / 4); i++) {
                 tempList.push([])
             }
+						
             // 处理数据
             for (let i = 0; i < list.length; i++) {
                 let json = {}
                 json.code = list[i]
 		            json.money = 0
-		            json.odds = 27.2222
 		            json.flag = false
                 tempList[i % Math.ceil(list.length / 4)].push(json)
             }
             for (let i = 0; i < tempList.length; i++) {
-                this.pcdd.allCodeList = this.pcdd.allCodeList.concat(tempList[i])
+                temList = temList.concat(tempList[i])
             }
+
+            for (let key in TM) {
+                for (let i = 0; i < temList.length; i++) {
+                    if (temList[i].code === Number(key)) {
+                        temList[i].odds = TM[key].prize / 2
+                    }
+                }
+            }
+            // 赔率未计算
+            // console.log(this.account.prize_group)
+						// console.log(temList)
+            this.pcdd.allCodeList = temList
 				},
 				
-				// pc蛋蛋 按钮 大小单双类
+				// pc蛋蛋 大小单双类
 				pcddAllbtn () {
             let [
                 list = this.currentMethod.buttons,
@@ -999,7 +1074,7 @@ export default {
                     json.flag = false
                     json.money = 0
                     json.odds = 27.2222
-                    if (this.allMethods[j].name === '大小单双') {
+                    if (this.allMethods[j].sign === 'DXDS') {
                         if (list[i] === '大' || list[i] === '小' || list[i] === '单' || list[i] === '双') {
                             tempList[0].push(json)
                         }
@@ -1010,7 +1085,7 @@ export default {
                             tempList[2].push(json)
                         }
                     }
-                    if (this.allMethods[j].name === '波') {
+                    if (this.allMethods[j].sign === 'BO') {
                         if (list[i] === '红波' || list[i] === '蓝波' || list[i] === '绿波') {
                             if (list[i] === '红波') {
                                 json.class = 'ylc-red'
@@ -1022,7 +1097,7 @@ export default {
                             tempList[3].push(json)
                         }
                     }
-                    if (this.allMethods[j].name === '豹子') {
+                    if (this.allMethods[j].sign === 'BZ') {
                         if (list[i] === '豹子') {
                             tempList[3].push(json)
                         }
