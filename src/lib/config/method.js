@@ -1745,277 +1745,111 @@ export default {
             }
         },
         'casino': {
-            'CO_ZX_W': {
+            'ZH': {
+                'name': '整合',
+                'method': 'ZH',
+                'desc': '',
+                'help': '',
+                'example': '',
+                'type': 'ylc',
+                'layout': {
+                    'codes': pcYlcCodesTpl
+                },
+                'buttons': []
+            },
+            'LMP': {
+                'name': '两面盘',
+                'method': 'LMP',
+                'desc': '',
+                'help': '',
+                'example': '',
+                'type': 'ylc',
+                'layout': {
+                    'codes': pcLmpCodesTpl
+                },
+                'buttons': []
+            },
+            'DYQ': {
                 'name': '第一球',
-                'method': 'CO_ZX_W',
+                'method': 'DYQ',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcYlcCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZX_W_DXDS': {
-                'name': '第一球大小单双',
-                'method': 'CO_ZX_W_DXDS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'type': 'ylc',
-                'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_ZX_Q': {
+            'DEQ': {
                 'name': '第二球',
-                'method': 'CO_ZX_Q',
+                'method': 'DEQ',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcYlcCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZX_Q_DXDS': {
-                'name': '第二球大小单双',
-                'method': 'CO_ZX_Q_DXDS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'type': 'ylc',
-                'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_ZX_B': {
+            'DSQ': {
                 'name': '第三球',
-                'method': 'CO_ZX_B',
+                'method': 'DSQ',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcYlcCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZX_B_DXDS': {
-                'name': '第三球大小单双',
-                'method': 'CO_ZX_B_DXDS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'type': 'ylc',
-                'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_ZX_S': {
+            'DSIQ': {
                 'name': '第四球',
-                'method': 'CO_ZX_S',
+                'method': 'DSIQ',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcYlcCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZX_S_DXDS': {
-                'name': '第四球大小单双',
-                'method': 'CO_ZX_S_DXDS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'type': 'ylc',
-                'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_ZX_G': {
+            'DWQ': {
                 'name': '第五球',
-                'method': 'CO_ZX_G',
+                'method': 'DWQ',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcYlcCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZX_G_DXDS': {
-                'name': '第五球大小单双',
-                'method': 'CO_ZX_G_DXDS',
+            'LHD': {
+                'name': '龙虎斗',
+                'method': 'LHD',
                 'desc': '',
                 'help': '',
                 'example': '',
                 'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
+                    'codes': pcLhdCodesTpl
                 },
                 'buttons': []
             },
-
-            'CO_ZHDXDS': {
-                'name': '总和大小单双',
-                'method': 'CO_ZHDXDS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'type': 'ylc',
-                'layout': {
-                    'codes': pcCasinoDxdsCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHWQ': {
-                'name': '龙虎万千',
-                'method': 'CO_LHWQ',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHWB': {
-                'name': '龙虎万百',
-                'method': 'CO_LHWB',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHWS': {
-                'name': '龙虎万十',
-                'method': 'CO_LHWS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHWG': {
-                'name': '龙虎万个',
-                'method': 'CO_LHWG',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHQB': {
-                'name': '龙虎千百',
-                'method': 'CO_LHQB',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHQS': {
-                'name': '龙虎千十',
-                'method': 'CO_LHQS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHQG': {
-                'name': '龙虎千个',
-                'method': 'CO_LHQG',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHBS': {
-                'name': '龙虎百十',
-                'method': 'CO_LHBS',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHBG': {
-                'name': '龙虎百个',
-                'method': 'CO_LHBG',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_LHSG': {
-                'name': '龙虎十个',
-                'method': 'CO_LHSG',
-                'desc': '',
-                'help': '',
-                'example': '',
-                'layout': {
-                    'codes': pcCasinoLhhCodesTpl
-                },
-                'buttons': []
-            },
-
-            'CO_QWZY': {
+            'QWZY': {
                 'name': '全五中一',
-                'method': 'CO_QWZY',
+                'method': 'QWZY',
                 'desc': '',
                 'help': '',
                 'example': '',
+                'type': 'ylc',
                 'layout': {
-                    'codes': pcCasinoZX1CodesTpl
+                    'codes': pcQwzyCodesTpl
                 },
                 'buttons': []
             },
