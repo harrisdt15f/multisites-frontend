@@ -1,14 +1,19 @@
 <template>
 	<section class="w fw ylc-main">
-<!--导航-->
+	
+	
+<!--娱乐城导航-->
 		<nav class="ylc-nav">
 			<a href="javascript:;"
 			   class="ylc-list"
 			   v-if="currentLottery.series_id !== 'pcdd'"
-			   :class="{on: ylcListOn === index }"
-			   @click="ylcListOn = index"
-			   v-for="(item, index) in playList" :key="index"
+			   :class="{on: ylcListOn === item.sign}"
+			   @click="checkedPlay(item, index)"
+			   v-for="(item, index) in allMethods" :key="index"
 			>{{item.name}}</a>
+			
+			
+<!--pc蛋蛋导航-->
 			<a href="javascript:;"
 			   class="ylc-list on"
 			   v-if="currentLottery.series_id === 'pcdd'"
@@ -16,129 +21,52 @@
 				整合
 			</a>
 			<a href="javascript:;" class="ylc-kx" @click="kxInfo.show = true">快选金额</a>
+			<section class="bet-plays">
+				<div class="bet-play">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
+			</section>
 		</nav>
 		
 <!--投注区-->
 		<section class="ylc-content">
 			<section class="ylc-content-left">
 				<section class="fw ylc-content-top">
-					<template v-if="pcdds">
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-						<section class="fl fw w16">
-							<p class="ylc-title w100">第一球</p>
-							<ul class="ylc-title w100 ntb">
-								<li class="ylc-title-list">号码</li>
-								<li class="ylc-title-list">赔率</li>
-								<li class="ylc-title-list">金额</li>
-							</ul>
-							<ul class="ylc-bet w100">
-								<li class="ylc-bet-list w100">
-									<section class="w33 fl">
-										<span class="ylc-bet-list-num">1</span>
-									</section>
-									<span class="fl w33 red ylc-bet-list-odds">9.0000</span>
-									<section class="w33 fl">
-										<input type="text" class="ylc-bet-list-money">
-									</section>
-								</li>
-							</ul>
-						</section>
-					</template>
-					<section v-if="pcdds" class="tc">
+				
+<!--娱乐城-->
+					<section v-if="
+							currentMethod.type === 'ylc' &&
+							currentMethod.method === 'ZH' ||
+							currentMethod.method === 'LMP'"
+			        class="fl fw w16"
+			        v-for="(list, index) in pcdd.allCodeList"
+			        :key="index">
+						<p class="ylc-title w100">{{list.name}}</p>
+						<ul class="ylc-title w100 ntb">
+							<li class="ylc-title-list">号码</li>
+							<li class="ylc-title-list">赔率</li>
+							<li class="ylc-title-list">金额</li>
+						</ul>
+						<ul class="ylc-bet w100">
+							<li class="ylc-bet-list ylc-c-bet-list w100"
+							    :class="{active: item.flag}"
+							    @click="listChecked(item)"
+							    v-for="(item, lLndex) in list.code"
+							    :key="lLndex"
+							>
+								<section class="w33 fl">
+									<span class="ylc-bet-list-num" :class="{'ylc-bet-list-num-number': !isNaN(item.code)}">{{item.code}}</span>
+								</section>
+								<span class="fl w33 red ylc-bet-list-odds">{{Utils.toFixed(String(item.odds), 4)}}</span>
+								<section class="w33 fl">
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
+								</section>
+							</li>
+							<li class="ylc-bet-list ylc-c-bet-list w100" v-if="currentMethod.method === 'ZH'" v-for="cc in (14 - list.code.length)"></li>
+						</ul>
+					</section>
+					
+<!--龙虎斗-->
+					
+					<section v-if="currentMethod.type === 'ylc' && currentMethod.method === 'LHD'" class="tc">
 						<section class="dinv ylc-lhd-list">
 							<h3 class="ylc-lhd-list-title">万千 第一球 vs 第二球</h3>
 							<ul class="fw">
@@ -401,6 +329,47 @@
 						</section>
 					</section>
 					
+<!--第一球 到 第五球-->
+					
+					<section class="fw"
+					         v-if="
+					         currentMethod.type === 'ylc' &&
+					         currentMethod.method === 'DYQ' ||
+					         currentMethod.method === 'DEQ' ||
+					         currentMethod.method === 'DSQ' ||
+					         currentMethod.method === 'DSIQ' ||
+					         currentMethod.method === 'DWQ' ||
+					         currentMethod.method === 'QWZY'
+                 ">
+						<section class="fw">
+							<ul class="fw ylc-title w20"  v-for="c in 5">
+								<li class="ylc-title-list">号码</li>
+								<li class="ylc-title-list">赔率</li>
+								<li class="ylc-title-list">金额</li>
+							</ul>
+						</section>
+						<ul class="ylc-bet w100">
+							<li class="ylc-bet-list ylc-c-bet-list w20 fl nrb"
+							    style="overflow: initial;"
+							    :class="{active: item.flag, 'clear': item.code === '总大'}"
+							    @click="listChecked(item)"
+							    v-for="(item, index) in pcdd.allCodeList"
+							    :key="index"
+							>
+								<section class="w33 fl">
+									<span class="ylc-bet-list-num" :class="{'ylc-bet-list-num-number': !isNaN(item.code)}">{{item.code}}</span>
+								</section>
+								<span class="fl w33 red ylc-bet-list-odds">{{Utils.toFixed(String(item.odds), 4)}}</span>
+								<section class="w33 fl">
+									<input type="text" class="ylc-bet-list-money" v-model="item.money">
+								</section>
+							</li>
+						</ul>
+						
+					</section>
+					
+					
+					
 <!--pc蛋蛋-->
 					<template v-if="currentMethod.type === 'pcdd'">
 						<section class="fw">
@@ -580,7 +549,7 @@
 		</section>
 		
 		
-<!--		快选金额设置-->
+<!--快选金额设置-->
 		<section class="ylc-kx-warp" v-if="kxInfo.show">
 			<section class="ylc-kx-box">
 				<section class="ylc-kx-info-header">快选金额</section>
@@ -676,7 +645,7 @@ export default {
     name: 'ylc',
 		data () {
         return {
-            
+		        
             // 娱乐城 和 pc蛋蛋
 		        ylc: true,
 		        pcdds: false,
@@ -702,10 +671,9 @@ export default {
                 violet2: 200,
                 drakBlue2: 500
             },
-		        playList: null,
 		        
 		        // 导航 状态
-            ylcListOn: 'T0',
+            ylcListOn: 'ZH',
             ylcRightTab: {
                 show: 0
             },
@@ -715,6 +683,9 @@ export default {
                 allCodeList: [],
 		            allBtnList: []
             },
+		        
+		        // 是否开启龙虎斗
+		        lhdisShow: false,
 		        
 		        // 当前订单
             currentOrder: {
@@ -731,10 +702,16 @@ export default {
             'currentLottery',
             'currentMethod',
 		        'currentIssue',
-		        'account'
+		        'account',
+		        'chengeYlcPlays'
         ]),
 		},
 		watch: {
+        
+        // 切换 娱乐城彩种时
+        'currentMethod' () {
+		        this.pcddAllList()
+        },
         
         // 快选输入金钱时
         'currentOrder.money': {
@@ -797,14 +774,8 @@ export default {
         }
 		},
 		created () {
-        
-       
-        // 更新当前玩法
-        // let methodId = this.allMethods[0]['rows'][0]['methods'][0]['method_id']
-        let methodId = this.allMethods[0].sign
-        this.$store.commit('currentMethod', methods[this.currentLottery.series_id][methodId])
-				this.playList = methods[this.currentLottery.series_id]
-				console.log(this.currentMethod)
+				console.log(this.allMethods)
+        console.log(this.currentMethod)
 				
 				// pc蛋蛋整合列表
 				this.pcddAllList()
@@ -819,6 +790,25 @@ export default {
 				}
 		},
 		methods: {
+
+        //切换娱乐城玩法
+        chengePlay () {
+            let json = {
+                name: 'official',
+                index: 0
+            }
+            this.$store.commit('chengeYlcPlays', json)
+        },
+        
+        // 切换玩法
+        checkedPlay (item, index) {
+            let json = {
+                name: 'casino',
+		            index: index
+            }
+		        this.$store.commit('chengeYlcPlays', json)
+            this.ylcListOn = item.sign
+        },
         
         // 清空订单状态
         chengePlay () {
@@ -1021,41 +1011,309 @@ export default {
             }
         },
         
-        // pc蛋蛋整合列表
+        // pc蛋蛋 娱乐城 列表
 				pcddAllList () {
-				    let [
+            let [
                 list = this.currentMethod.layout.codes,
-						    tempList = [],
-						    temList = [],
-						    TM = prizes[this.currentLottery.series_id].TM
-				    ] = []
-            for (let i = 0; i < Math.ceil(list.length / 4); i++) {
-                tempList.push([])
-            }
-						
-            // 处理数据
-            for (let i = 0; i < list.length; i++) {
-                let json = {}
-                json.code = list[i]
-		            json.money = 0
-		            json.flag = false
-                tempList[i % Math.ceil(list.length / 4)].push(json)
-            }
-            for (let i = 0; i < tempList.length; i++) {
-                temList = temList.concat(tempList[i])
-            }
+                all = this.allMethods
+            ] = []
 
-            for (let key in TM) {
-                for (let i = 0; i < temList.length; i++) {
-                    if (temList[i].code === Number(key)) {
-                        temList[i].odds = TM[key].prize / 2
+            this.pcdd.allCodeList = []
+						
+						// pc蛋蛋
+						if (this.currentMethod.type === 'pcdd') {
+                let [
+                    tempList = [],
+                    temList = [],
+                    TM = prizes[this.currentLottery.series_id].TM
+                ] = []
+                for (let i = 0; i < Math.ceil(list.length / 4); i++) {
+                    tempList.push([])
+                }
+
+                // 处理数据
+                for (let i = 0; i < list.length; i++) {
+                    let json = {}
+                    json.code = list[i]
+                    json.money = 0
+                    json.flag = false
+                    json.odds = 80.0000
+                    tempList[i % Math.ceil(list.length / 4)].push(json)
+                }
+                for (let i = 0; i < tempList.length; i++) {
+                    temList = temList.concat(tempList[i])
+                }
+
+                // for (let key in TM) {
+                //     for (let i = 0; i < temList.length; i++) {
+                //         if (temList[i].code === Number(key)) {
+                //             temList[i].odds = TM[key].prize
+                //         }
+                //     }
+                // }
+                // 赔率未计算
+                // console.log(this.account.prize_group)
+                // console.log(temList)
+                this.pcdd.allCodeList = temList
+						}
+
+            // 娱乐城 整合 和 两面盘列表
+						else if (
+						    this.currentMethod.method === 'ZH' ||
+								this.currentMethod.method === 'LMP'
+						) {
+						    let [
+								    temp = [],
+								    casino = methods[this.currentLottery.series_id].casino
+						    ] = []
+                for (let i = 0; i < all.length; i++) {
+		                if (all[i].sign === 'DYQ') {
+		                    
+		                    let json = {}
+		                    json.sign = all[i].sign
+		                    json.name = '第一球'
+                        json.code = []
+                        for (let j = 0; j < casino.DYQ.layout.codes.length; j++) {
+                            
+                            // 两面盘
+                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DYQ.layout.codes[j])) {
+                                let codeJson = {}
+                                codeJson.code = casino.DYQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+		                            
+                            }
+                            // 整合
+                            else if (this.currentMethod.method === 'ZH') {
+                                let codeJson = {}
+                                codeJson.code = casino.DYQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+                              
+                            }
+                        }
+                        temp.push(json)
+				                
+		                } else if (all[i].sign === 'DEQ') {
+
+                        let json = {}
+                        json.sign = all[i].sign
+                        json.name = '第二球'
+                        json.code = []
+                        for (let j = 0; j < casino.DEQ.layout.codes.length; j++) {
+		                        
+                            // 两面盘
+                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DEQ.layout.codes[j])) {
+                                let codeJson = {}
+                                codeJson.code = casino.DEQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                            // 整合
+                            else if (this.currentMethod.method === 'ZH') {
+                                let codeJson = {}
+                                codeJson.code = casino.DEQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                        }
+                        temp.push(json)
+				                
+		                } else if (all[i].sign === 'DSQ') {
+
+                        let json = {}
+                        json.sign = all[i].sign
+                        json.name = '第三球'
+                        json.code = []
+                        for (let j = 0; j < casino.DSQ.layout.codes.length; j++) {
+                            
+                            // 两面盘
+                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DSQ.layout.codes[j])) {
+                                let codeJson = {}
+                                codeJson.code = casino.DSQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                            // 整合
+                            else if (this.currentMethod.method === 'ZH') {
+                                let codeJson = {}
+                                codeJson.code = casino.DSQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                        }
+                        temp.push(json)
+				                
+                    } else if (all[i].sign === 'DSIQ') {
+
+                        let json = {}
+                        json.sign = all[i].sign
+                        json.name = '第四球'
+                        json.code = []
+                        for (let j = 0; j < casino.DSIQ.layout.codes.length; j++) {
+
+                            // 两面盘
+                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DSIQ.layout.codes[j])) {
+                                let codeJson = {}
+                                codeJson.code = casino.DSIQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                            // 整合
+                            else if (this.currentMethod.method === 'ZH') {
+                                let codeJson = {}
+                                codeJson.code = casino.DSIQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                        }
+                        temp.push(json)
+				                
+                    } else if (all[i].sign === 'DWQ') {
+
+                        let json = {}
+                        json.sign = all[i].sign
+                        json.name = '第五球'
+                        json.code = []
+                        for (let j = 0; j < casino.DWQ.layout.codes.length; j++) {
+
+                            // 两面盘
+                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DWQ.layout.codes[j])) {
+                                let codeJson = {}
+                                codeJson.code = casino.DWQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                            // 整合
+                            else if (this.currentMethod.method === 'ZH') {
+                                let codeJson = {}
+                                codeJson.code = casino.DWQ.layout.codes[j]
+                                codeJson.money = 0
+                                codeJson.flag = false
+                                codeJson.odds = 80.0000
+                                json.code.push(codeJson)
+
+                            }
+                        }
+                        temp.push(json)
+				                
+                    } else if (all[i].sign === 'LHD') {
+		                  
+				                this.lhdisShow = true
+
+                    }
+								}
+								
+								// 球数总和 和 龙虎斗
+                let json = {}
+                json.sign = 'all'
+                json.name = '总和'
+								if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
+								    
+                    json.code = [
+                        { code: '总大', money: 0, flag: false, odds: 80},
+                        { code: '总小', money: 0, flag: false, odds: 80},
+                        { code: '总单', money: 0, flag: false, odds: 80},
+                        { code: '总双', money: 0, flag: false, odds: 80}
+                    ]
+								}
+								if (this.lhdisShow && this.currentMethod.method !== 'LMP') {
+                    json.code = [
+                        { code: '总大', money: 0, flag: false, odds: 80},
+                        { code: '总小', money: 0, flag: false, odds: 80},
+                        { code: '总单', money: 0, flag: false, odds: 80},
+                        { code: '总双', money: 0, flag: false, odds: 80},
+                        { code: '龙', money: 0, flag: false, odds: 80},
+                        { code: '和', money: 0, flag: false, odds: 80},
+                        { code: '虎', money: 0, flag: false, odds: 80}
+                    ]
+                  
+								}
+                temp.push(json)
+                this.pcdd.allCodeList = temp
+						}
+						
+						
+						// 第一球到 第五球
+            else if (
+                this.currentMethod.method === 'DYQ' ||
+								this.currentMethod.method === 'DEQ' ||
+								this.currentMethod.method === 'DSQ' ||
+								this.currentMethod.method === 'DSIQ' ||
+								this.currentMethod.method === 'DWQ'
+						) {
+
+                let [
+                    tempList = [],
+		                temp = [],
+		                tempa = [],
+                    allCodeList = []
+                ] = []
+
+                for (let i = 0; i < list.length; i++) {
+                    if (i < 4) {
+                        temp.push(list[i])
+                    } else {
+                        tempa.push(list[i])
                     }
                 }
-            }
-            // 赔率未计算
-            // console.log(this.account.prize_group)
-						// console.log(temList)
-            this.pcdd.allCodeList = temList
+                tempList = tempList.concat(tempa, temp)
+                for (let i = 0; i < tempList.length; i++) {
+                    let json = {}
+                    json.code = tempList[i]
+                    json.money = 0
+                    json.flag = false
+                    json.odds = 80.0000
+                    allCodeList.push(json)
+               
+                }
+                allCodeList.push({ code: '总大', money: 0, flag: false, odds: 80})
+                allCodeList.push({ code: '总小', money: 0, flag: false, odds: 80})
+                allCodeList.push({ code: '总单', money: 0, flag: false, odds: 80})
+                allCodeList.push({ code: '总双', money: 0, flag: false, odds: 80})
+                this.pcdd.allCodeList = allCodeList
+						}
+            
+            // 全五中一
+						else if (this.currentMethod.method === 'QWZY') {
+                for (let i = 0; i < all.length; i++) {
+                    if (all[i].sign === 'QWZY') {
+                        for (let i = 0; i < list.length; i++) {
+                            let json = {}
+                            json.code = list[i]
+                            json.money = 0
+                            json.flag = false
+                            json.odds = 80.0000
+                            this.pcdd.allCodeList.push(json)
+                        }
+                    }
+                }
+						}
 				},
 				
 				// pc蛋蛋 大小单双类

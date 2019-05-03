@@ -61,7 +61,10 @@ const index =  new Vuex.Store({
         issueInfo: [],
 
         // 切换 官方和娱乐城 玩法
-        chengePlay: 'gf'
+        chengeYlcPlays: {
+            name: 'official',
+            index: 0
+        }
     },
     mutations: {
         // 用户配置
@@ -160,8 +163,8 @@ const index =  new Vuex.Store({
         },
 
         // 切换 官方和娱乐城 玩法
-        chengePlay (state, data) {
-            state.chengePlay = data
+        chengeYlcPlays (state, data) {
+            state.chengeYlcPlays = data
         }
     },
     actions: {

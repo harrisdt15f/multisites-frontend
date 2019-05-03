@@ -1635,6 +1635,7 @@ body {
 	color:#666;
 }
 .ylc-nav{
+	position:relative;
 	padding: 0 25px;
 	vertical-align: middle;
 	height: 43px;
@@ -1969,11 +1970,18 @@ body {
 .ylc-bet-list-num{
 	display:inline-block;
 	margin:0 auto;
-	width:25px;
-	height:25px;
-	line-height:23px;
+	width:26px;
+	height:26px;
+	line-height:26px;
 	background-size:100%;
-	font-size:12px;
+	font-size:13px;
+
+}
+.ylc-bet-list-num-number {
+	border-radius:50%;
+	border: 1px solid #D4D4D4;
+	line-height:27px;
+	background: #f7f7f7;
 }
 .ylc-bet-list-gray{
 	background:url(../images/methods/ylc-gray.svg) no-repeat;
@@ -2174,7 +2182,9 @@ body {
 	background-color: #e6f4ff;
 }
 .ylc-bet-line .ylc-bet-list:hover,
-.ylc-bet-line .ylc-bet-list.active{
+.ylc-bet-line .ylc-bet-list.active,
+.ylc-c-bet-list:hover .ylc-bet-list-num,
+.ylc-c-bet-list.active .ylc-bet-list-num{
 	color: #fb1010;
 }
 .ylc-lhd-list-q:hover .ylc-lhd-list-q-y,
@@ -2182,7 +2192,12 @@ body {
 	color:#fff;
 	background:#fe0c0c;
 }
-
+.ylc-c-bet-list:hover .ylc-bet-list-num-number,
+.ylc-c-bet-list.active .ylc-bet-list-num-number{
+	color:#fff;
+	background:#fe0c0c;
+	border-color:#fe0c0c;
+}
 
 /*娱乐城投注弹窗*/
 .ylc-bet-title{

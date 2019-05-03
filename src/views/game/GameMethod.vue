@@ -1,39 +1,70 @@
 <template>
 	<section class="fw">
-		<template v-if="chengePlay !== 'ylc'">
-			<div class="bet-type-crow">
-				<ul>
-					<li class="bet-type-crow-li" v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
-						<span class="bet-type-crow-name">{{_group.name}}</span>
-						<span class="bet-type-group-name"></span>
-					</li>
-				</ul>
-				<div v-if="currentLottery.hasrx" class="bet-type-optional"><span></span></div>
-				<section class="bet-plays">
-					<div class="bet-play">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
-				</section>
-			</div>
-			<div  class="bet-type-group" v-if="selectedGroup">
-				<div class="bet-type-group-list"  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']" :key="_rowIndex">
-					<template v-if="row.methods.length > 1">
-						<div class="group-name">{{row.name}}</div>
-						<ul>
-							<li class="bet-type-group-list-li" v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
-								{{method.method_name}}
-							</li>
-						</ul>
-					</template>
+		<section v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w" style="padding-top:25px;">
+			<section class="main-center">
+				<div class="bet-type-crow">
+					<ul>
+						<li class="bet-type-crow-li" v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
+							<span class="bet-type-crow-name">{{_group.name}}</span>
+							<span class="bet-type-group-name"></span>
+						</li>
+					</ul>
+					<div v-if="currentLottery.hasrx" class="bet-type-optional"><span></span></div>
+					<section class="bet-plays">
+						<div class="bet-play">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
+					</section>
 				</div>
-			</div>
-			<game-select></game-select>
-			<game-order></game-order>
-		</template>
+				<div  class="bet-type-group" v-if="selectedGroup">
+					<div class="bet-type-group-list"  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']" :key="_rowIndex">
+						<template v-if="row.methods.length > 1">
+							<div class="group-name">{{row.name}}</div>
+							<ul>
+								<li class="bet-type-group-list-li" v-for="(method, mkey) in row.methods" :key="mkey" v-bind:class="{'on':method.method_id === selectedMethodId}" @click="selectMethod(method.method_id)">
+									{{method.method_name}}
+								</li>
+							</ul>
+						</template>
+					</div>
+				</div>
+				<game-select></game-select>
+				<game-order></game-order>
+			</section>
+			<section class="main-right">
+				<section class="list-historys">
+					<section class="record">历史开奖记录</section>
+					<table width="100%" class="bet-table-trend">
+						<thead>
+						<tr>
+							<th class="th">奖期</th>
+							<th class="th">开奖</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr :class="{first: index === bet.issueHistory.length - 1}" v-for="(item, index) in bet.issueHistory" :key="index">
+							<td class="td">{{item.issue_no}} 期</td>
+							<td class="td balls">
+								<i
+												class="i"
+												:class="{curr: numIndex < item.code.split(',').length - 2}"
+												v-for="(num, numIndex) in item.code.split(',')"
+												:key="numIndex"
+								>{{num}}</i>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<section class="cur more">查看完整走势</section>
+				</section>
+			</section>
+		</section>
+		<GameYlc v-if="chengeYlcPlays.name === 'casino'"></GameYlc>
 	</section>
 </template>
 <script>
 import methods from '../../lib/config/method'
 import GameSelect from './GameSelect'
 import GameOrder from './GameOrder'
+import GameYlc from '../../components/game/ylc'
 import { mapState } from 'vuex'
 
 export default {
@@ -44,7 +75,10 @@ export default {
           'currentLottery',
           'allMethods',
           'defaultGroup',
-          'defaultMethod'
+          'defaultMethod',
+		      'currentMethod',
+		      'bet',
+		      'chengeYlcPlays'
       ])
     },
    
@@ -58,6 +92,11 @@ export default {
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
+        'chengeYlcPlays' (newVal) {
+            let lottery = this.lotteryAll[this.currentLottery.en_name]
+            this.$store.commit('allMethods', lottery.methodConfig2)
+            this.selectGroup(this.defaultGroup, newVal.index)
+        },
         'currentLottery': {
             handler() {
                 this.selectGroup(this.defaultGroup, 0)
@@ -72,12 +111,13 @@ export default {
 		},
     methods: {
         
-        //切换玩法
+        //切换娱乐城玩法
 		    chengePlay () {
-            // this.$router.push('/bet/ylc')
-            // this.$store.commit('issueDesc', lottery.desc)
-            // this.$store.commit('currentLottery', this.lotteryAll[lottery.id].lottery)
-            this.$store.commit('chengePlay', 'ylc')
+            let json = {
+                name: 'casino',
+                index: 0
+            }
+            this.$store.commit('chengeYlcPlays', json)
 		    },
        
 	      // 选中玩法组
@@ -92,8 +132,15 @@ export default {
 	
 	      // 选中玩法
 	      selectMethod(methodId) {
-		        console.log(methodId)
-	          this.$store.commit('currentMethod', methods[this.currentLottery.series_id][methodId])
+		        let [
+                play = null
+		        ] = []
+		        if (this.chengeYlcPlays.name === 'official') {
+		            play = methods[this.currentLottery.series_id].official[methodId]
+		        } else {
+                play = methods[this.currentLottery.series_id].casino[methodId]
+		        }
+	          this.$store.commit('currentMethod', play)
 	          this.selectedMethodId = methodId
 	          this.$store.commit('methodsTab')
 	      }
@@ -101,6 +148,7 @@ export default {
 		components: {
         GameOrder,
         GameSelect,
+        GameYlc
 		}
 }
 </script>
