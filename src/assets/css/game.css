@@ -152,6 +152,12 @@ body {
 	clear: both;
 }
 /*玩法类型*/
+.bet-type-crows{
+	max-width:750px;
+	overflow:hidden;
+	overflow-x:auto;
+	height: 42px;
+}
 .bet-type-crow {
 	position: relative;
 	text-align: left;
@@ -163,9 +169,7 @@ body {
 }
 .bet-type-crow li {
 	height: 42px;
-	min-width: 62px;
-	padding: 0 2px;
-	margin-right: 6px;
+	padding: 0 10px;
 	text-align: center;
 	cursor: pointer;
 	line-height: 42px;
@@ -173,7 +177,6 @@ body {
 .bet-type-crow li:hover { color: #f6543b; }
 .bet-type-crow li.on {
 	height: 42px;
-	padding: 0;
 	background: #fff;
 	color: #f6543b;
 }
@@ -1634,7 +1637,7 @@ body {
 	background:#fff;
 	color:#666;
 }
-.ylc-nav{
+.ylc-navs{
 	position:relative;
 	padding: 0 25px;
 	vertical-align: middle;
@@ -1643,6 +1646,10 @@ body {
 	background:#575770;
 	border-radius: 5px 5px 0 0;
 	border: 1px solid #D4D4D4;
+}
+.ylc-nav-box{
+	max-width:960px;
+	overflow: auto;
 }
 .ylc-list{
 	float:left;
@@ -1661,10 +1668,11 @@ body {
 	color:#3b3c47;
 }
 .ylc-kx{
-	float:right;
-	margin-right:100px;
+	float:left;
+	margin-right:10px;
 	font-size:12px;
 	color:#fff;
+	line-height: 26px;
 }
 .ylc-kx:before{
 	content:'';
@@ -1903,12 +1911,11 @@ body {
 	box-shadow: 0 1px 4px red;
 }
 .ylc-content{
-	padding:10px 13px;
+	padding:10px 9px;
 	background:#fff;
 }
 .ylc-content-top{
 	border:1px solid #D4D4D4;
-	border-top:none;
 }
 .ylc-title,
 .ylc-bet{
@@ -1917,9 +1924,7 @@ body {
 	height:34px;
 	line-height:34px;
 	text-align:center;
-	border-top:1px solid #D4D4D4;
-	border-bottom:1px solid #D4D4D4;
-	border-right:1px dashed #D4D4D4;
+	/*border-right:1px dashed #D4D4D4;*/
 	background:#f9f9f9;
 	box-sizing: border-box;
 }
@@ -1947,10 +1952,22 @@ body {
 	bottom: auto;
 	width:0;
 	background:none;
-	border-right:1px dashed #D4D4D4;
+	/*border-right:1px dashed #D4D4D4;*/
 }
 .ylc-title-list.nrb:before{
 	content:none;
+}
+.ylc-content-top-ylc .ylc-title-list{
+	width:35.999%;
+}
+.ylc-content-top-ylc .ylc-title-list:nth-of-type(1){
+	width:28%;
+}
+.ylc-content-top-ylc .ylc-bet-list .w33{
+	width:35.999% !important;
+}
+.ylc-content-top-ylc .ylc-bet-list .w33:nth-of-type(1){
+	width:28% !important;
 }
 
 .ylc-bet{
@@ -1962,7 +1979,7 @@ body {
 .ylc-bet-list{
 	float:left;
 	height:42px;
-	border-right:1px dashed #D4D4D4;
+	/*border-right:1px dashed #D4D4D4;*/
 	overflow:hidden;
 	box-sizing: border-box;
 	line-height:42px;
@@ -1998,6 +2015,9 @@ body {
 }
 .ylc-bet-list-odds{
 	font-size:12px;
+	text-overflow:Ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
 }
 .ylc-bet-list-money{
 	margin: 0 auto;
@@ -2010,9 +2030,13 @@ body {
 	border-radius: 15px;
 	font-size: 12px;
 }
+.ylc-content-line{
+	border-right:1px dashed #D4D4D4;
+	box-sizing: border-box;
+}
 .ylc-content-left{
 	float:left;
-	width:930px;
+	width:941px;
 }
 .ylc-content-left-ylc{
 	width:929px;
@@ -2124,7 +2148,7 @@ body {
 	padding-right:5px;
 }
 .w16 .ylc-bet-list-money{
-	width:45px;
+	width:52px;
 }
 
 
@@ -2232,22 +2256,31 @@ body {
 .bet-plays{
 	position:absolute;
 	right:10px;
-	top:8px;
+	top:10px;
 	border-radius:5px;
-	width:100px;
 	overflow:hidden;
 }
 .bet-play{
 	float:left;
-	width:50px;
+	width:60px;
 	height:25px;
 	line-height:25px;
 	text-align:center;
 	color:#fff;
 	background:#9e9a9a;
+	cursor: pointer;
 }
-
-
+.bet-play.active{
+	background:#e91b38;
+}
+.bet-play:nth-of-type(1) {
+	border-radius: 5px 0 0 5px;
+}
+.ylc-dwq .ylc-bet-list{
+	height:52px;
+	line-height:52px;
+	border-bottom:1px solid #D4D4D4;
+}
 
 .ylc-submit /deep/ .el-dialog__footer{
 	padding: 10px 20px 15px;
@@ -2302,5 +2335,5 @@ body {
 	border-right:none;
 }
 .nbb{
-	border-bottom:none;
+	border-bottom:none !important;
 }

@@ -3,15 +3,17 @@
 		<section v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w" style="padding-top:25px;">
 			<section class="main-center">
 				<div class="bet-type-crow">
-					<ul>
-						<li class="bet-type-crow-li" v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
-							<span class="bet-type-crow-name">{{_group.name}}</span>
-							<span class="bet-type-group-name"></span>
-						</li>
-					</ul>
-					<div v-if="currentLottery.hasrx" class="bet-type-optional"><span></span></div>
-					<section class="bet-plays">
-						<div class="bet-play">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
+					<section class="bet-type-crows">
+						<ul>
+							<li class="bet-type-crow-li" v-for="(_group, _index) in allMethods" :key="_index"  @click="selectGroup(_group.sign, _index)" v-bind:class="{'on':_group.sign === selectedGroup}">
+								<span class="bet-type-crow-name">{{_group.name}}</span>
+								<span class="bet-type-group-name"></span>
+							</li>
+						</ul>
+						<div v-if="currentLottery.hasrx" class="bet-type-optional"><span></span></div>
+					</section>
+					<section class="bet-plays" v-if="currentLottery.series_id === 'ssc'">
+						<div class="bet-play active">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
 					</section>
 				</div>
 				<div  class="bet-type-group" v-if="selectedGroup">
@@ -91,7 +93,8 @@ export default {
       }
     },
     watch: {
-        // 如果路由有变化，会再次执行该方法
+        
+        // 官方彩 和 娱乐城的切换
         'chengeYlcPlays' (newVal) {
             let lottery = this.lotteryAll[this.currentLottery.en_name]
 		        if (newVal.name === 'official') {
@@ -105,8 +108,16 @@ export default {
             }
             this.selectGroup(this.defaultGroup, newVal.index)
         },
+		    
+		    // 当前彩种变更时
         'currentLottery': {
-            handler() {
+            handler(newVal) {
+                let json = {
+                    name: 'official',
+                    index: 0
+                }
+                this.$store.commit('chengeYlcPlays', json)
+                
                 this.selectGroup(this.defaultGroup, 0)
                 this.selectMethod(this.defaultMethod)
             },
