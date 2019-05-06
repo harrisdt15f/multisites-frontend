@@ -1852,7 +1852,7 @@ export default {
                     'codes': pcQwzyCodesTpl
                 },
                 'buttons': []
-            },
+            }
         }
     },
     'k3': {

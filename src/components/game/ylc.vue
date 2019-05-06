@@ -3,33 +3,39 @@
 	
 	
 <!--娱乐城导航-->
-		<nav class="ylc-nav">
-			<a href="javascript:;"
-			   class="ylc-list"
-			   v-if="currentLottery.series_id !== 'pcdd'"
-			   :class="{on: ylcListOn === item.sign}"
-			   @click="checkedPlay(item, index)"
-			   v-for="(item, index) in allMethods" :key="index"
-			>{{item.name}}</a>
-			
-			
-<!--pc蛋蛋导航-->
-			<a href="javascript:;"
-			   class="ylc-list on"
-			   v-if="currentLottery.series_id === 'pcdd'"
-			   >
-				整合
-			</a>
-			<a href="javascript:;" class="ylc-kx" @click="kxInfo.show = true">快选金额</a>
-			<section class="bet-plays">
-				<div class="bet-play">官方</div><div class="bet-play" @click="chengePlay()">娱乐城</div>
+		<section class="ylc-navs">
+			<section class="ylc-nav-box">
+				<nav class="ylc-nav" ref="ylcNav">
+					<a href="javascript:;"
+					   class="ylc-list"
+					   ref="ylclist"
+					   v-if="currentLottery.series_id !== 'pcdd'"
+					   :class="{on: ylcListOn === item.sign}"
+					   @click="checkedPlay(item, index)"
+					   v-for="(item, index) in allMethods" :key="index"
+					>{{item.name}}</a>
+					
+					
+					<!--pc蛋蛋导航-->
+					<a href="javascript:;"
+					   class="ylc-list on"
+					   ref="ylclist"
+					   v-if="currentLottery.series_id === 'pcdd'">
+						整合
+					</a>
+				</nav>
 			</section>
-		</nav>
+			<section class="bet-plays">
+				<a href="javascript:;" class="ylc-kx" @click="kxInfo.show = true">快选金额</a>
+				<div class="bet-play"  @click="chengePlay()">官方</div><div class="bet-play active">娱乐城</div>
+			</section>
+		</section>
 		
 <!--投注区-->
-		<section class="ylc-content">
+		<section class="fw ylc-content">
 			<section class="ylc-content-left">
-				<section class="fw ylc-content-top">
+				<section class="fw ylc-content-top"
+				         :class="{'ylc-content-top-ylc': currentMethod.type === 'ylc'}">
 				
 <!--娱乐城-->
 					<section v-if="
@@ -37,6 +43,7 @@
 							currentMethod.method === 'ZH' ||
 							currentMethod.method === 'LMP'"
 			        class="fl fw w16"
+					    :class="{'ylc-content-line': index !== pcdd.allCodeList.length - 1}"
 			        v-for="(list, index) in pcdd.allCodeList"
 			        :key="index">
 						<p class="ylc-title w100">{{list.name}}</p>
@@ -48,14 +55,15 @@
 						<ul class="ylc-bet w100">
 							<li class="ylc-bet-list ylc-c-bet-list w100"
 							    :class="{active: item.flag}"
-							    @click="listChecked(item)"
 							    v-for="(item, lLndex) in list.code"
 							    :key="lLndex"
 							>
-								<section class="w33 fl">
+								<section class="w33 fl" @click="listChecked(item)">
 									<span class="ylc-bet-list-num" :class="{'ylc-bet-list-num-number': !isNaN(item.code)}">{{item.code}}</span>
 								</section>
-								<span class="fl w33 red ylc-bet-list-odds">{{Utils.toFixed(String(item.odds), 4)}}</span>
+								<span class="fl red ylc-bet-list-odds" style="width:35.999%;" @click="listChecked(item)">
+									{{Utils.toFixed(String(item.odds), 4)}}
+								</span>
 								<section class="w33 fl">
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</section>
@@ -67,22 +75,23 @@
 <!--龙虎斗-->
 					
 					<section class="tc" v-if="currentMethod.type === 'ylc' && currentMethod.method === 'LHD'">
+						
 						<section class="dinv ylc-lhd-list"  v-for="(list, index) in pcdd.allCodeList.w" :key="index">
 							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
 								<li class="ylc-lhd-list-q"
-								    @click="listChecked(item)"
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
 									<span class="ylc-lhd-list-q-y"
+									      @click="listChecked(item)"
 									      :class="{
-									      'ylc-lhd-list-q-y-red': item.name === '龙',
-									      'ylc-lhd-list-q-y-green': item.name === '和',
-									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      'ylc-lhd-list-q-y-red': item.code === '龙',
+									      'ylc-lhd-list-q-y-green': item.code === '和',
+									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.name}}</span>
-									<span class="red">{{item.odds}}</span>
+									>{{item.code}}</span>
+									<span class="red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -92,18 +101,18 @@
 							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
 								<li class="ylc-lhd-list-q"
-								    @click="listChecked(item)"
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
 									<span class="ylc-lhd-list-q-y"
+									      @click="listChecked(item)"
 									      :class="{
-									      'ylc-lhd-list-q-y-red': item.name === '龙',
-									      'ylc-lhd-list-q-y-green': item.name === '和',
-									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      'ylc-lhd-list-q-y-red': item.code === '龙',
+									      'ylc-lhd-list-q-y-green': item.code === '和',
+									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.name}}</span>
-									<span class="red">{{item.odds}}</span>
+									>{{item.code}}</span>
+									<span class="red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -114,18 +123,18 @@
 							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
 								<li class="ylc-lhd-list-q"
-								    @click="listChecked(item)"
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
 									<span class="ylc-lhd-list-q-y"
+									      @click="listChecked(item)"
 									      :class="{
-									      'ylc-lhd-list-q-y-red': item.name === '龙',
-									      'ylc-lhd-list-q-y-green': item.name === '和',
-									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      'ylc-lhd-list-q-y-red': item.code === '龙',
+									      'ylc-lhd-list-q-y-green': item.code === '和',
+									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.name}}</span>
-									<span class="red">{{item.odds}}</span>
+									>{{item.code}}</span>
+									<span class="red"	@click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -136,18 +145,18 @@
 							<h3 class="ylc-lhd-list-title">{{list.name}}</h3>
 							<ul class="fw">
 								<li class="ylc-lhd-list-q"
-								    @click="listChecked(item)"
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
 									<span class="ylc-lhd-list-q-y"
+									      @click="listChecked(item)"
 									      :class="{
-									      'ylc-lhd-list-q-y-red': item.name === '龙',
-									      'ylc-lhd-list-q-y-green': item.name === '和',
-									      'ylc-lhd-list-q-y-blue': item.name === '虎'
+									      'ylc-lhd-list-q-y-red': item.code === '龙',
+									      'ylc-lhd-list-q-y-green': item.code === '和',
+									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.name}}</span>
-									<span class="red">{{item.odds}}</span>
+									>{{item.code}}</span>
+									<span class="red"	@click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -158,7 +167,7 @@
 					
 <!--第一球 到 第五球-->
 					
-					<section class="fw"
+					<section class="fw ylc-dwq"
 					         v-if="
 					         currentMethod.type === 'ylc' &&
 					         currentMethod.method === 'DYQ' ||
@@ -178,15 +187,14 @@
 						<ul class="ylc-bet w100">
 							<li class="ylc-bet-list ylc-c-bet-list w20 fl nrb"
 							    style="overflow: initial;"
-							    :class="{active: item.flag, 'clear': item.code === '总大'}"
-							    @click="listChecked(item)"
+							    :class="{active: item.flag, 'clear': item.code === '总大', nbb: index >= pcdd.allCodeList.length - 5}"
 							    v-for="(item, index) in pcdd.allCodeList"
 							    :key="index"
 							>
-								<section class="w33 fl">
+								<section class="w33 fl" @click="listChecked(item)">
 									<span class="ylc-bet-list-num" :class="{'ylc-bet-list-num-number': !isNaN(item.code)}">{{item.code}}</span>
 								</section>
-								<span class="fl w33 red ylc-bet-list-odds">{{Utils.toFixed(String(item.odds), 4)}}</span>
+								<span class="fl red ylc-bet-list-odds" style="width:35.999%;" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
 								<section class="w33 fl">
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</section>
@@ -426,7 +434,7 @@
 				    v-for="(item, index) in currentOrder.list"
 				    :key="index"
 				>
-					<p class="ylc-bet-content-l">合值 <span class="red">@{{item.code}}</span></p>
+					<p class="ylc-bet-content-l">{{item.name}} <span class="red">@{{item.code}}</span></p>
 					<p class="ylc-bet-content-c">{{item.odds}}</p>
 					<p class="ylc-bet-content-r">{{Utils.toFixed(String(item.money))}}</p>
 				</li>
@@ -472,10 +480,6 @@ export default {
 		data () {
         return {
 		        
-            // 娱乐城 和 pc蛋蛋
-		        ylc: true,
-		        pcdds: false,
-		        
 		        bq: {
                 gray: [0, 13, 14, 27],
                 green: [1, 4, 7, 10, 16, 19, 22, 25],
@@ -509,9 +513,6 @@ export default {
                 allCodeList: [],
 		            allBtnList: []
             },
-		        
-		        // 是否开启龙虎斗
-		        lhdisShow: false,
 		        
 		        // 当前订单
             currentOrder: {
@@ -548,6 +549,8 @@ export default {
                 if (isNaN(newVal)) {
                     newVal = 0
                 }
+
+                // 娱乐城龙虎斗
                 if (this.currentMethod.method === 'LHD') {
                     for (let k in codeList) {
 
@@ -565,7 +568,22 @@ export default {
 
                     return
                 }
-                
+
+                // 娱乐城整合
+                if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
+
+                    for (let i = 0; i < codeList.length; i++) {
+
+                        for (let j = 0; j < codeList[i].code.length; j++) {
+
+                            if (codeList[i].code[j].flag) {
+                                codeList[i].code[j].money = newVal
+                            }
+
+                        }
+                    }
+                    return
+                }
                 
                 for (let i = 0; i < codeList.length; i++) {
                     if (codeList[i].flag) {
@@ -606,6 +624,9 @@ export default {
         // 金钱发生变化时
         'pcdd.allCodeList': {
             handler (newVal) {
+                
+                
+                // 娱乐城龙虎斗
 		            if (this.currentMethod.method === 'LHD') {
 		                for (let k in newVal) {
 		                    
@@ -634,6 +655,29 @@ export default {
 		                
 		                return
 		            }
+
+		            
+		            // 娱乐城整合
+                if (this.currentMethod.method === 'ZH') {
+                    
+                    for (let i = 0; i < newVal.length; i++) {
+                        
+                        for (let j = 0; j < newVal[i].code.length; j++) {
+
+                            if (isNaN(newVal[i].code[j].money)) {
+                                newVal[i].code[j].money = 0
+                            } else if (newVal[i].code[j].money) {
+                                if (Number(newVal[i].code[j].money) < 1) {
+                                    newVal[i].code[j].money = 0
+                                } if (Number(newVal[i].code[j].money) > 1000000) {
+                                    newVal[i].code[j].money = 1000000
+                                }
+                            }
+                            
+                        }
+                    }
+                    return
+                }
                 for (let i = 0; i < newVal.length; i++) {
                     if (isNaN(newVal[i].money)) {
                         newVal[i].money = 0
@@ -663,9 +707,19 @@ export default {
             this.kxInfo = kxInfo.data
 				}
 		},
+		 mounted () {
+        let [
+            ylcList = this.$refs.ylclist,
+		        width = 0
+        ] = []
+         for (let i = 0; i < ylcList.length; i++) {
+		         width += ylcList[i].clientWidth
+         }
+         this.$refs.ylcNav.style.width = width + 'px'
+		 },
 		methods: {
 
-        //切换娱乐城玩法
+        // 切换 官方 和 娱乐城 玩法
         chengePlay () {
             let json = {
                 name: 'official',
@@ -673,8 +727,8 @@ export default {
             }
             this.$store.commit('chengeYlcPlays', json)
         },
-        
-        // 切换玩法
+				
+        //切换娱乐城 小玩法
         checkedPlay (item, index) {
             let json = {
                 name: 'casino',
@@ -698,32 +752,106 @@ export default {
 		            money = 0
             ] = []
             this.currentOrder.betMoney = 0
-            for (let i = 0; i < allCodeList.length; i++) {
-                if (allCodeList[i].flag) {
-                    if (Number(allCodeList[i].money) <= 0) {
-                        this.$alert('你还未投注 或 投注错误', '提示', {
-                            confirmButtonText: '确定'
-                        })
-                        return false
+						
+            // 娱乐城整合
+            if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
+
+                for (let i = 0; i < allCodeList.length; i++) {
+                    for (let j = 0; j < allCodeList[i].code.length; j++) {
+                        if (allCodeList[i].code[j].flag) {
+
+                            if (Number(allCodeList[i].code[j].money) <= 0) {
+                                this.$alert('你还未投注 或 投注错误', '提示', {
+                                    confirmButtonText: '确定'
+                                })
+                                return false
+                            }
+                            money += Number(allCodeList[i].code[j].money)
+                            allCodeList[i].code[j].type = allCodeList[i].sign
+                            allCodeList[i].code[j].name = allCodeList[i].name
+                            list.push(allCodeList[i].code[j])
+		                        
+                        }
                     }
-                    money += Number(allCodeList[i].money)
-                    list.push(allCodeList[i])
                 }
             }
-            for (let i = 0; i < allBtnList.length; i++) {
-                for (let j = 0; j < allBtnList[i].length; j++) {
-                    if (allBtnList[i][j].flag) {
-                        if (Number(allBtnList[i][j].money) <= 0) {
+
+            // 娱乐城龙虎斗
+            else if (this.currentMethod.method === 'LHD') {
+                
+                for (let k in allCodeList) {
+
+                    for (let i = 0; i < allCodeList[k].length; i++) {
+
+                        for (let j = 0; j < allCodeList[k][i].code.length; j++) {
+
+
+                            if (Number(allCodeList[k][i].code[j].flag)) {
+
+                                if (Number(allCodeList[k][i].code[j].money) <= 0) {
+                                    this.$alert('你还未投注 或 投注错误', '提示', {
+                                        confirmButtonText: '确定'
+                                    })
+                                    return false
+                                }
+                                money += Number(allCodeList[k][i].code[j].money)
+                                allCodeList[k][i].code[j].type = allCodeList[k][i].sign
+                                allCodeList[k][i].code[j].name = allCodeList[k][i].name.substr(0, 2)
+                                list.push(allCodeList[k][i].code[j])
+		                            
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            else {
+		            
+                let [
+                    name = ''
+                ] = []
+		            
+                for (let i = 0; i < this.allMethods.length; i++) {
+                    if (this.allMethods[i].sign === this.currentMethod.method) {
+                        name = this.allMethods[i].name
+                    }
+                }
+                
+                for (let i = 0; i < allCodeList.length; i++) {
+                    
+                    if (allCodeList[i].flag) {
+                        if (Number(allCodeList[i].money) <= 0) {
                             this.$alert('你还未投注 或 投注错误', '提示', {
                                 confirmButtonText: '确定'
                             })
                             return false
                         }
-                        money += allBtnList[i][j].money
-                        list.push(allBtnList[i][j])
+                        money += Number(allCodeList[i].money)
+                        allCodeList[i].name = name
+                        list.push(allCodeList[i])
+                    }
+                }
+                
+                
+                // PC 蛋蛋 大小 类
+                for (let i = 0; i < allBtnList.length; i++) {
+                    for (let j = 0; j < allBtnList[i].length; j++) {
+                        if (allBtnList[i][j].flag) {
+                            if (Number(allBtnList[i][j].money) <= 0) {
+                                this.$alert('你还未投注 或 投注错误', '提示', {
+                                    confirmButtonText: '确定'
+                                })
+                                return false
+                            }
+                            money += Number(allBtnList[i][j].money)
+                            allBtnList[i][j].name = name
+                            list.push(allBtnList[i][j])
+                        }
                     }
                 }
             }
+            
             this.currentOrder.list = list
             this.currentOrder.betMoney = money
             this.submitDialog = true
@@ -788,23 +916,26 @@ export default {
 		            let json = {
                     method_id: this.currentMethod.method,
                     method_name: this.currentMethod.name,
-                    codes: isNaN(list[i].code) ? list[i].upload : list[i].code,
+                    codes: isNaN(list[i].code) ? list[i].upload : list[i].code + '',
                     count: this.currentOrder.list.length,
                     times: 1,
                     cost: this.currentOrder.betMoney,
                     mode: 1,
-                    prize_group: 1950,
+                    prize_group: this.account.prize_group,
                     price: 2
 		            }
 		            order.push(json)
             }
+            
             issus[currentIssus] = true
+						
             if (parseInt(this.currentOrder.betMoney) <= 0 || this.currentOrder.list.length === 0) {
                 this.$alert('你还未投注 或 投注错误', '提示', {
                     confirmButtonText: '确定'
                 })
                 return false
             }
+            
             this.Api.bet(this.currentLottery.en_name, issus, order, this.currentOrder.betMoney).then((res) => {
                 if (res.isSuccess) {
                     this.$alert('投注成功, 您可以通过”游戏记录“查询您的投注记录！', '提示', {
@@ -936,6 +1067,7 @@ export default {
 								    casino = methods[this.currentLottery.series_id].casino
 						    ] = []
                 for (let i = 0; i < all.length; i++) {
+                  
 		                if (all[i].sign === 'DYQ') {
 		                    
 		                    let json = {}
@@ -1100,39 +1232,18 @@ export default {
                         temp.push(json)
 				                
                     }
-		                
-		                else if (all[i].sign === 'LHD') {
-		                  
-				                this.lhdisShow = true
-
-                    }
 								}
 								
-								// 球数总和 和 龙虎斗
+								// 球数总和
                 let json = {}
                 json.sign = 'all'
                 json.name = '总和'
-								if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
-								    
-                    json.code = [
-                        { code: '总大', money: 0, flag: false, odds: 80},
-                        { code: '总小', money: 0, flag: false, odds: 80},
-                        { code: '总单', money: 0, flag: false, odds: 80},
-                        { code: '总双', money: 0, flag: false, odds: 80}
-                    ]
-								}
-								if (this.lhdisShow && this.currentMethod.method !== 'LMP') {
-                    json.code = [
-                        { code: '总大', money: 0, flag: false, odds: 80},
-                        { code: '总小', money: 0, flag: false, odds: 80},
-                        { code: '总单', money: 0, flag: false, odds: 80},
-                        { code: '总双', money: 0, flag: false, odds: 80},
-                        { code: '龙', money: 0, flag: false, odds: 80},
-                        { code: '和', money: 0, flag: false, odds: 80},
-                        { code: '虎', money: 0, flag: false, odds: 80}
-                    ]
-                  
-								}
+                json.code = [
+                    { code: '总大', money: 0, flag: false, odds: 80},
+                    { code: '总小', money: 0, flag: false, odds: 80},
+                    { code: '总单', money: 0, flag: false, odds: 80},
+                    { code: '总双', money: 0, flag: false, odds: 80}
+                ]
                 temp.push(json)
                 this.pcdd.allCodeList = temp
 						}
@@ -1171,10 +1282,6 @@ export default {
                     allCodeList.push(json)
                
                 }
-                allCodeList.push({ code: '总大', money: 0, flag: false, odds: 80})
-                allCodeList.push({ code: '总小', money: 0, flag: false, odds: 80})
-                allCodeList.push({ code: '总单', money: 0, flag: false, odds: 80})
-                allCodeList.push({ code: '总双', money: 0, flag: false, odds: 80})
                 this.pcdd.allCodeList = allCodeList
 						}
             
@@ -1205,81 +1312,81 @@ export default {
 		                                        case 'wq':
                                                 json.name = '万千 第一球 vs 第二球'
                                                 json.code = [
-		                                                {name: '龙', odds: 2.8, flag: false, money: 0},
-		                                                {name: '和', odds: 2.8, flag: false, money: 0},
-		                                                {name: '虎', odds: 2.8, flag: false, money: 0}
+		                                                {code: '龙', odds: 2.8, flag: false, money: 0},
+		                                                {code: '和', odds: 2.8, flag: false, money: 0},
+		                                                {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
 		                                            break
                                             case 'wb':
                                                 json.name = '万百 第一球 vs 第三球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'ws':
                                                 json.name = '万十 第一球 vs 第四球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'wg':
                                                 json.name = '万个 第一球 vs 第五球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'qb':
                                                 json.name = '千百 第二球 vs 第三球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'qs':
                                                 json.name = '千十 第二球 vs 第四球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'qg':
                                                 json.name = '千个 第二球 vs 第五球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'bs':
                                                 json.name = '百十 第三球 vs 第四球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'bg':
                                                 json.name = '百个 第三球 vs 第五球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                             case 'sg':
                                                 json.name = '十个 第四球 vs 第五球'
                                                 json.code = [
-                                                    {name: '龙', odds: 2.8, flag: false, money: 0},
-                                                    {name: '和', odds: 2.8, flag: false, money: 0},
-                                                    {name: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
                                                 break
                                         }

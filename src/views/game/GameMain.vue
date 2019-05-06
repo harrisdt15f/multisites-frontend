@@ -27,8 +27,8 @@ export default {
     },
     data() {
         return {
-            mainShow: false,
-            historyIssueList: []
+          mainShow: false,
+          historyIssueList: []
         }
     },
     computed: {
@@ -40,7 +40,7 @@ export default {
     },
     watch: {
         'currentLottery' () {
-            // this.$store.dispatch('issueHistory')
+            this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
             this.mainShow = true
         },
@@ -53,7 +53,7 @@ export default {
     created () {
         // 页面刷新时不执行
         if (Object.keys(this.lotteryAll).length !== 0) {
-            // this.$store.dispatch('issueHistory')
+            this.$store.dispatch('issueHistory')
             this.getLotteryInfo()
             this.mainShow = true
         }
