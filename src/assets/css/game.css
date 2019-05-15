@@ -2169,9 +2169,12 @@ body {
 	background: #f3f3f3;
 	font-size:15px;
 }
+.ylc-lhd-list-q-box{
+	padding-top:15px;
+}
 .ylc-lhd-list-q{
 	float:left;
-	padding:15px 0 13px;
+	padding-bottom:13px;
 	width:33.33%;
 	font-size:12px;
 	cursor: pointer;

@@ -102,8 +102,8 @@ export default {
   },
   mounted () {
     let navMenus = document.getElementsByClassName('nav-menu-box')
-    for (let i = 0; i < navMenus.length; i++) {
-      this.Animation.screenWidth(navMenus[i])
+    for (const k of navMenus) {
+      this.Animation.screenWidth(k)
     }
     // head 滚动公告
     this.Animation.notice('head-meque', 'head-meque_text', -1)

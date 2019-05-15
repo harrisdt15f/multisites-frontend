@@ -111,7 +111,7 @@ export default {
 		    
 		    // 当前彩种变更时
         'currentLottery': {
-            handler(newVal) {
+            handler() {
                 let json = {
                     name: 'official',
                     index: 0

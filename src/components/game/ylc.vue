@@ -83,15 +83,16 @@
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
-									<span class="ylc-lhd-list-q-y"
-									      @click="listChecked(item)"
-									      :class="{
+										<section class="ylc-lhd-list-q-box" @click="listChecked(item)">
+												<span class="ylc-lhd-list-q-y"
+												      :class="{
 									      'ylc-lhd-list-q-y-red': item.code === '龙',
 									      'ylc-lhd-list-q-y-green': item.code === '和',
 									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.code}}</span>
-									<span class="red" @click="listChecked(item)">{{item.odds}}</span>
+												>{{item.code}}</span>
+										</section>
+										<span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -104,15 +105,16 @@
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
-									<span class="ylc-lhd-list-q-y"
-									      @click="listChecked(item)"
-									      :class="{
+										<section class="ylc-lhd-list-q-box" @click="listChecked(item)">
+												<span class="ylc-lhd-list-q-y"
+												      :class="{
 									      'ylc-lhd-list-q-y-red': item.code === '龙',
 									      'ylc-lhd-list-q-y-green': item.code === '和',
 									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.code}}</span>
-									<span class="red" @click="listChecked(item)">{{item.odds}}</span>
+												>{{item.code}}</span>
+										</section>
+										<span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -126,15 +128,16 @@
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
-									<span class="ylc-lhd-list-q-y"
-									      @click="listChecked(item)"
-									      :class="{
+										<section class="ylc-lhd-list-q-box" @click="listChecked(item)">
+												<span class="ylc-lhd-list-q-y"
+												      :class="{
 									      'ylc-lhd-list-q-y-red': item.code === '龙',
 									      'ylc-lhd-list-q-y-green': item.code === '和',
 									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.code}}</span>
-									<span class="red"	@click="listChecked(item)">{{item.odds}}</span>
+												>{{item.code}}</span>
+										</section>
+										<span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -148,15 +151,16 @@
 								    :class="{active: item.flag}"
 								    v-for="(item, iIndex) in list.code"
 								    :key="iIndex">
-									<span class="ylc-lhd-list-q-y"
-									      @click="listChecked(item)"
-									      :class="{
+										<section class="ylc-lhd-list-q-box" @click="listChecked(item)">
+												<span class="ylc-lhd-list-q-y"
+												      :class="{
 									      'ylc-lhd-list-q-y-red': item.code === '龙',
 									      'ylc-lhd-list-q-y-green': item.code === '和',
 									      'ylc-lhd-list-q-y-blue': item.code === '虎'
 									      }"
-									>{{item.code}}</span>
-									<span class="red"	@click="listChecked(item)">{{item.odds}}</span>
+												>{{item.code}}</span>
+										</section>
+										<span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
 									<input type="text" class="ylc-bet-list-money" v-model="item.money">
 								</li>
 							</ul>
@@ -549,19 +553,19 @@ export default {
                 if (isNaN(newVal)) {
                     newVal = 0
                 }
-
                 // 娱乐城龙虎斗
                 if (this.currentMethod.method === 'LHD') {
-                    for (let k in codeList) {
-
-                        for (let i = 0; i < codeList[k].length; i++) {
-
-                            for (let j = 0; j < codeList[k][i].code.length; j++) {
-
-                                if (codeList[k][i].code[j].flag) {
-
-                                    codeList[k][i].code[j].money = newVal
+                    
+                    for (const k of Object.keys(codeList)) {
+                        
+                        for (const i of codeList[k]) {
+                            
+                            for (const j of i.code) {
+                                
+                                if (j.flag) {
+                                    j.money = newVal
                                 }
+                                
                             }
                         }
                     }
@@ -572,28 +576,30 @@ export default {
                 // 娱乐城整合
                 if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
 
-                    for (let i = 0; i < codeList.length; i++) {
+                    for (const k of codeList) {
 
-                        for (let j = 0; j < codeList[i].code.length; j++) {
+                            for (const i of k.code) {
 
-                            if (codeList[i].code[j].flag) {
-                                codeList[i].code[j].money = newVal
-                            }
+	                            if (i.flag) {
+	                                i.money = newVal
+	                            }
 
                         }
                     }
                     return
                 }
-                
-                for (let i = 0; i < codeList.length; i++) {
-                    if (codeList[i].flag) {
-                        codeList[i].money = newVal
+
+                for (const k of codeList) {
+                    if (k.flag) {
+                        k.money = newVal
                     }
                 }
-                for (let i = 0; i < this.pcdd.allBtnList.length; i++) {
-                    for (let j = 0; j < this.pcdd.allBtnList[i].length; j++) {
-                        if (this.pcdd.allBtnList[i][j].flag) {
-                            this.pcdd.allBtnList[i][j].money = newVal
+                
+                for (const k of this.pcdd.allBtnList) {
+                    
+                    for (const i of k) {
+                        if (i.flag) {
+                            i.money = newVal
                         }
                     }
                 }
@@ -604,18 +610,28 @@ export default {
         // 金钱发生变化时
         'pcdd.allBtnList': {
             handler (newVal) {
-                for (let i = 0; i < newVal.length; i++) {
-                    for (let j = 0; j < newVal[i].length; j++) {
-                        if (isNaN(newVal[i][j].money)) {
-                            newVal[i][j].money = 0
-                        } else if (newVal[i][j].money) {
-                            if (Number(newVal[i].money) < 1) {
-                                newVal[i][j].money = 0
-                            } if (Number(newVal[i][j].money) > 1000000) {
-                                newVal[i][j].money = 1000000
+                for (const k of newVal) {
+                    
+                    for (const i of k) {
+                        
+                        if (isNaN(i.money)) {
+                            
+                            i.money = 0
+		                        
+                        } else if (i.money) {
+                            
+                            if (Number(i.money) < 1) {
+                                
+                                i.money = 0
+		                            
+                            } if (Number(i.money) > 1000000) {
+                                
+                                i.money = 1000000
+				                        
                             }
                         }
                     }
+                
                 }
             },
             deep: true
@@ -628,30 +644,31 @@ export default {
                 
                 // 娱乐城龙虎斗
 		            if (this.currentMethod.method === 'LHD') {
-		                for (let k in newVal) {
-		                    
-                        for (let i = 0; i < newVal[k].length; i++) {
-                            
-                            for (let j = 0; j < newVal[k][i].code.length; j++) {
-                                
-                                if (isNaN(newVal[k][i].code[j].money)) {
-                                    
-                                    newVal[k][i].code[j].money = 0
-		                                
-                                } else if (newVal[k][i].code[j].money) {
-                                    
-                                    if (Number(newVal[k][i].code[j].money) < 1) {
-                                        
-                                        newVal[k][i].code[j].money = 0
-		                                    
-                                    } if (Number(newVal[k][i].code[j].money) > 1000000) {
-                                        
-                                        newVal[k][i].code[j].money = 1000000
+                    for (const k of Object.keys(newVal)) {
+
+                        for (const i of newVal[k]) {
+
+                            for (const j of i.code) {
+
+                                if (isNaN(j.money)) {
+
+                                    j.money = 0
+
+                                } else if (j.money) {
+
+                                    if (Number(j.money) < 1) {
+
+                                        j.money = 0
+
+                                    } if (Number(j.money) > 1000000) {
+
+                                        j.money = 1000000
                                     }
                                 }
+
                             }
                         }
-		                }
+                    }
 		                
 		                return
 		            }
@@ -659,35 +676,53 @@ export default {
 		            
 		            // 娱乐城整合
                 if (this.currentMethod.method === 'ZH') {
-                    
-                    for (let i = 0; i < newVal.length; i++) {
-                        
-                        for (let j = 0; j < newVal[i].code.length; j++) {
 
-                            if (isNaN(newVal[i].code[j].money)) {
-                                newVal[i].code[j].money = 0
-                            } else if (newVal[i].code[j].money) {
-                                if (Number(newVal[i].code[j].money) < 1) {
-                                    newVal[i].code[j].money = 0
-                                } if (Number(newVal[i].code[j].money) > 1000000) {
-                                    newVal[i].code[j].money = 1000000
+                    for (const k of newVal) {
+
+                        for (const i of k.code) {
+
+                            if (isNaN(i.money)) {
+                                
+                                i.money = 0
+		                            
+                            } else if (i.money) {
+                                
+                                if (Number(i.money) < 1) {
+                                    
+                                    i.money = 0
+		                                
+                                } if (Number(i.money) > 1000000) {
+                                    
+                                    i.money = 1000000
                                 }
                             }
                             
                         }
+                        
                     }
+                    
                     return
                 }
-                for (let i = 0; i < newVal.length; i++) {
-                    if (isNaN(newVal[i].money)) {
-                        newVal[i].money = 0
-                    } else if (newVal[i].money) {
-                        if (Number(newVal[i].money) < 1) {
-                            newVal[i].money = 0
-                        } if (Number(newVal[i].money) > 1000000) {
-                            newVal[i].money = 1000000
+
+                for (const k of newVal) {
+
+                    if (isNaN(k.money)) {
+                        
+                        k.money = 0
+		                    
+                    } else if (k.money) {
+                        
+                        if (Number(k.money) < 1) {
+                            
+                            k.money = 0
+		                        
+                        } if (Number(k.money) > 1000000) {
+                            
+                            k.money = 1000000
+				                    
                         }
                     }
+                    
                 }
             },
             deep: true
@@ -712,9 +747,11 @@ export default {
             ylcList = this.$refs.ylclist,
 		        width = 0
         ] = []
-         for (let i = 0; i < ylcList.length; i++) {
-		         width += ylcList[i].clientWidth
+
+         for (const k of ylcList) {
+             width += k.clientWidth
          }
+				 
          this.$refs.ylcNav.style.width = width + 'px'
 		 },
 		methods: {
@@ -755,54 +792,61 @@ export default {
 						
             // 娱乐城整合
             if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
+		            
+                for (const k of allCodeList) {
 
-                for (let i = 0; i < allCodeList.length; i++) {
-                    for (let j = 0; j < allCodeList[i].code.length; j++) {
-                        if (allCodeList[i].code[j].flag) {
+                    for (const i of k.code) {
 
-                            if (Number(allCodeList[i].code[j].money) <= 0) {
+                        if (i.flag) {
+
+                            if (Number(i.money) <= 0) {
                                 this.$alert('你还未投注 或 投注错误', '提示', {
                                     confirmButtonText: '确定'
                                 })
                                 return false
                             }
-                            money += Number(allCodeList[i].code[j].money)
-                            allCodeList[i].code[j].type = allCodeList[i].sign
-                            allCodeList[i].code[j].name = allCodeList[i].name
-                            list.push(allCodeList[i].code[j])
-		                        
+                            money += Number(i.money)
+                            i.type = k.sign
+                            i.name = k.name
+                            list.push(i)
+
                         }
+
                     }
+
                 }
             }
 
             // 娱乐城龙虎斗
             else if (this.currentMethod.method === 'LHD') {
                 
-                for (let k in allCodeList) {
+                for (const k of Object.keys(allCodeList)) {
 
-                    for (let i = 0; i < allCodeList[k].length; i++) {
+                    for (const i of allCodeList[k]) {
 
-                        for (let j = 0; j < allCodeList[k][i].code.length; j++) {
+                        for (const j of i.code) {
 
+                            if (Number(j.flag)) {
 
-                            if (Number(allCodeList[k][i].code[j].flag)) {
-
-                                if (Number(allCodeList[k][i].code[j].money) <= 0) {
+                                if (Number(j.money) <= 0) {
                                     this.$alert('你还未投注 或 投注错误', '提示', {
                                         confirmButtonText: '确定'
                                     })
                                     return false
                                 }
-                                money += Number(allCodeList[k][i].code[j].money)
-                                allCodeList[k][i].code[j].type = allCodeList[k][i].sign
-                                allCodeList[k][i].code[j].name = allCodeList[k][i].name.substr(0, 2)
-                                list.push(allCodeList[k][i].code[j])
-		                            
+                                money += Number(j.money)
+                                j.type = i.sign
+                                j.name = i.name.substr(0, 2)
+                                list.push(j)
+
                             }
+
                         }
+
                     }
+
                 }
+                
             }
             
             
@@ -811,45 +855,61 @@ export default {
                 let [
                     name = ''
                 ] = []
-		            
-                for (let i = 0; i < this.allMethods.length; i++) {
-                    if (this.allMethods[i].sign === this.currentMethod.method) {
-                        name = this.allMethods[i].name
+
+
+                for (const k of this.allMethods) {
+
+                    if (k.sign === this.currentMethod.method) {
+                        name = k.name
                     }
+
                 }
-                
-                for (let i = 0; i < allCodeList.length; i++) {
-                    
-                    if (allCodeList[i].flag) {
-                        if (Number(allCodeList[i].money) <= 0) {
+
+                for (const k of allCodeList) {
+
+                    if (k.flag) {
+                        if (+k.money <= 0) {
                             this.$alert('你还未投注 或 投注错误', '提示', {
                                 confirmButtonText: '确定'
                             })
                             return false
                         }
-                        money += Number(allCodeList[i].money)
-                        allCodeList[i].name = name
-                        list.push(allCodeList[i])
+                        money += +k.money
+                        k.name = name
+                        list.push(k)
                     }
+
                 }
                 
                 
                 // PC 蛋蛋 大小 类
-                for (let i = 0; i < allBtnList.length; i++) {
-                    for (let j = 0; j < allBtnList[i].length; j++) {
-                        if (allBtnList[i][j].flag) {
-                            if (Number(allBtnList[i][j].money) <= 0) {
+
+                for (const k of allBtnList) {
+
+                    for (const i of k) {
+
+                        if (i.flag) {
+                            if (+i.money <= 0) {
                                 this.$alert('你还未投注 或 投注错误', '提示', {
                                     confirmButtonText: '确定'
                                 })
                                 return false
                             }
-                            money += Number(allBtnList[i][j].money)
-                            allBtnList[i][j].name = name
-                            list.push(allBtnList[i][j])
+                            money += +i.money
+                            i.name = name
+                            list.push(i)
                         }
+
                     }
+
                 }
+            }
+            
+            if (list.length < 1) {
+                this.$alert('你还未投注 或 投注错误', '提示', {
+                    confirmButtonText: '确定'
+                })
+                return
             }
             
             this.currentOrder.list = list
@@ -970,17 +1030,45 @@ export default {
                 allBtnList = this.pcdd.allBtnList
             ] = []
             this.currentOrder.money = Number(item) + Number(this.currentOrder.money)
-            for (let i = 0; i < allCodeList.length; i++) {
-                if (allCodeList[i].flag) {
-                    allCodeList[i].money = this.currentOrder.money
-                }
-            }
-            for (let i = 0; i < allBtnList.length; i++) {
-                for (let j = 0; j < allBtnList[i].length; j++) {
-                    if (allBtnList[i][j].flag) {
-                        allBtnList[i][j].money = this.currentOrder.money
+
+
+            // 娱乐城龙虎斗
+            if (this.currentMethod.method === 'LHD') {
+                for (const k of Object.keys(allCodeList)) {
+
+                    for (const i of allCodeList[k]) {
+
+                        for (const j of i.code) {
+
+                            if (j.flag) {
+                                j.money = this.currentOrder.money
+                            }
+
+                        }
                     }
                 }
+
+                return
+            }
+            
+            for (const k of allCodeList) {
+
+                if (k.flag) {
+                    k.money = this.currentOrder.money
+                }
+
+            }
+
+            for (const k of allBtnList) {
+
+                for (const i of k) {
+
+                    if (i.flag) {
+                        i.money = this.currentOrder.money
+                    }
+
+                }
+
             }
         },
 				
@@ -1011,7 +1099,7 @@ export default {
             }
         },
         
-        // pc蛋蛋 娱乐城 列表
+        // pc蛋蛋 娱乐城 渲染列表
 				pcddAllList () {
             let [
                 list = this.currentMethod.layout.codes,
@@ -1032,18 +1120,22 @@ export default {
                 }
 
                 // 处理数据
-                for (let i = 0; i < list.length; i++) {
+                for (const k of Object.keys(list)) {
+
                     let json = {}
-                    json.code = list[i]
+                    json.code = list[k]
                     json.money = 0
                     json.flag = false
                     json.odds = 80.0000
-                    tempList[i % Math.ceil(list.length / 4)].push(json)
-                }
-                for (let i = 0; i < tempList.length; i++) {
-                    temList = temList.concat(tempList[i])
+                    tempList[Number(k) % Math.ceil(list.length / 4)].push(json)
+
                 }
 
+                for (const k of tempList) {
+
+                    temList = temList.concat(k)
+
+                }
                 // for (let key in TM) {
                 //     for (let i = 0; i < temList.length; i++) {
                 //         if (temList[i].code === Number(key)) {
@@ -1066,53 +1158,58 @@ export default {
 								    temp = [],
 								    casino = methods[this.currentLottery.series_id].casino
 						    ] = []
-                for (let i = 0; i < all.length; i++) {
-                  
-		                if (all[i].sign === 'DYQ') {
-		                    
-		                    let json = {}
-		                    json.sign = all[i].sign
-		                    json.name = '第一球'
+
+
+                for (const k of all) {
+
+                    if (k.sign === 'DYQ') {
+
+                        let json = {}
+                        json.sign = k.sign
+                        json.name = '第一球'
                         json.code = []
-                        for (let j = 0; j < casino.DYQ.layout.codes.length; j++) {
+                        for (const i of casino.DYQ.layout.codes) {
                             
                             // 两面盘
-                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DYQ.layout.codes[j])) {
+                            if (this.currentMethod.method === 'LMP' && isNaN(i)) {
+
                                 let codeJson = {}
-                                codeJson.code = casino.DYQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
-		                            
+                                
                             }
                             // 整合
                             else if (this.currentMethod.method === 'ZH') {
                                 let codeJson = {}
-                                codeJson.code = casino.DYQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
-                              
+
                             }
+                            
                         }
+                        
                         temp.push(json)
-				                
-		                }
-		                
-		                else if (all[i].sign === 'DEQ') {
+                    }
+                    
+                    else if (k.sign === 'DEQ') {
 
                         let json = {}
-                        json.sign = all[i].sign
+                        json.sign = k.sign
                         json.name = '第二球'
                         json.code = []
-                        for (let j = 0; j < casino.DEQ.layout.codes.length; j++) {
-		                        
+                        for (const i of casino.DEQ.layout.codes) {
+
                             // 两面盘
-                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DEQ.layout.codes[j])) {
+                            if (this.currentMethod.method === 'LMP' && isNaN(i)) {
+
                                 let codeJson = {}
-                                codeJson.code = casino.DEQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
@@ -1122,30 +1219,32 @@ export default {
                             // 整合
                             else if (this.currentMethod.method === 'ZH') {
                                 let codeJson = {}
-                                codeJson.code = casino.DEQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
 
                             }
+
                         }
+
                         temp.push(json)
-				                
-		                }
-		                
-		                else if (all[i].sign === 'DSQ') {
+                    }
+
+                    else if (k.sign === 'DSQ') {
 
                         let json = {}
-                        json.sign = all[i].sign
+                        json.sign = k.sign
                         json.name = '第三球'
                         json.code = []
-                        for (let j = 0; j < casino.DSQ.layout.codes.length; j++) {
-                            
+                        for (const i of casino.DSQ.layout.codes) {
+
                             // 两面盘
-                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DSQ.layout.codes[j])) {
+                            if (this.currentMethod.method === 'LMP' && isNaN(i)) {
+
                                 let codeJson = {}
-                                codeJson.code = casino.DSQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
@@ -1155,30 +1254,32 @@ export default {
                             // 整合
                             else if (this.currentMethod.method === 'ZH') {
                                 let codeJson = {}
-                                codeJson.code = casino.DSQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
 
                             }
+
                         }
+
                         temp.push(json)
-				                
                     }
-		                
-		                else if (all[i].sign === 'DSIQ') {
+
+                    else if (k.sign === 'DSIQ') {
 
                         let json = {}
-                        json.sign = all[i].sign
+                        json.sign = k.sign
                         json.name = '第四球'
                         json.code = []
-                        for (let j = 0; j < casino.DSIQ.layout.codes.length; j++) {
+                        for (const i of casino.DSIQ.layout.codes) {
 
                             // 两面盘
-                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DSIQ.layout.codes[j])) {
+                            if (this.currentMethod.method === 'LMP' && isNaN(i)) {
+
                                 let codeJson = {}
-                                codeJson.code = casino.DSIQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
@@ -1188,30 +1289,32 @@ export default {
                             // 整合
                             else if (this.currentMethod.method === 'ZH') {
                                 let codeJson = {}
-                                codeJson.code = casino.DSIQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
 
                             }
+
                         }
+
                         temp.push(json)
-				                
                     }
-		                
-		                else if (all[i].sign === 'DWQ') {
+
+                    else if (k.sign === 'DWQ') {
 
                         let json = {}
-                        json.sign = all[i].sign
+                        json.sign = k.sign
                         json.name = '第五球'
                         json.code = []
-                        for (let j = 0; j < casino.DWQ.layout.codes.length; j++) {
+                        for (const i of casino.DWQ.layout.codes) {
 
                             // 两面盘
-                            if (this.currentMethod.method === 'LMP' && isNaN(casino.DWQ.layout.codes[j])) {
+                            if (this.currentMethod.method === 'LMP' && isNaN(i)) {
+
                                 let codeJson = {}
-                                codeJson.code = casino.DWQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
@@ -1221,18 +1324,20 @@ export default {
                             // 整合
                             else if (this.currentMethod.method === 'ZH') {
                                 let codeJson = {}
-                                codeJson.code = casino.DWQ.layout.codes[j]
+                                codeJson.code = i
                                 codeJson.money = 0
                                 codeJson.flag = false
                                 codeJson.odds = 80.0000
                                 json.code.push(codeJson)
 
                             }
+
                         }
+
                         temp.push(json)
-				                
                     }
-								}
+
+                }
 								
 								// 球数总和
                 let json = {}
@@ -1265,23 +1370,30 @@ export default {
                     allCodeList = []
                 ] = []
 
-                for (let i = 0; i < list.length; i++) {
-                    if (i < 4) {
-                        temp.push(list[i])
+
+                for (const k of Object.keys(list)) {
+		                
+                    if (+k < 4) {
+                        temp.push(list[k])
                     } else {
-                        tempa.push(list[i])
+                        tempa.push(list[k])
                     }
+
                 }
+          
                 tempList = tempList.concat(tempa, temp)
-                for (let i = 0; i < tempList.length; i++) {
+
+                for (const k of tempList) {
+
                     let json = {}
-                    json.code = tempList[i]
+                    json.code = k
                     json.money = 0
                     json.flag = false
                     json.odds = 80.0000
                     allCodeList.push(json)
-               
+
                 }
+                
                 this.pcdd.allCodeList = allCodeList
 						}
             
@@ -1295,28 +1407,29 @@ export default {
 		                s: []
                     }
                 ] = []
-                
-                
-                for (let i = 0; i < all.length; i++) {
-                    if (all[i].sign === 'LHD') {
-                        
-                        for (let key in list) {
+
+
+                for (const k of all) {
+                    if (k.sign === 'LHD') {
+		                    
+                        for (const i of Object.keys(list)) {
                             
-                            for (let tempk in temp) {
+                            for (const j of Object.keys(temp)) {
                                 
-                                if (key === tempk) {
-                                    
-                                    for (let i = 0; i < list[key].length; i++) {
+                                if (i === j) {
+		                                
+                                    for (const m of list[i]) {
+		                                    
                                         let json = {}
-                                        switch (list[key][i]) {
-		                                        case 'wq':
+                                        switch (m) {
+                                            case 'wq':
                                                 json.name = '万千 第一球 vs 第二球'
                                                 json.code = [
-		                                                {code: '龙', odds: 2.8, flag: false, money: 0},
-		                                                {code: '和', odds: 2.8, flag: false, money: 0},
-		                                                {code: '虎', odds: 2.8, flag: false, money: 0}
+                                                    {code: '龙', odds: 2.8, flag: false, money: 0},
+                                                    {code: '和', odds: 2.8, flag: false, money: 0},
+                                                    {code: '虎', odds: 2.8, flag: false, money: 0}
                                                 ]
-		                                            break
+                                                break
                                             case 'wb':
                                                 json.name = '万百 第一球 vs 第三球'
                                                 json.code = [
@@ -1390,81 +1503,118 @@ export default {
                                                 ]
                                                 break
                                         }
-                                        json.sign = list[key][i]
-                                        temp[tempk].push(json)
-		                                    
+                                        json.sign = m
+                                        temp[j].push(json)
+
                                     }
+                                    
                                 }
+
                             }
+
                         }
+                    
                     }
+
                 }
                 this.pcdd.allCodeList = temp
             }
 								
             // 全五中一
 						else if (this.currentMethod.method === 'QWZY') {
-						    
-                for (let i = 0; i < all.length; i++) {
-                    if (all[i].sign === 'QWZY') {
-                        for (let i = 0; i < list.length; i++) {
+								
+                for (const k of all) {
+
+                    if (k.sign === 'QWZY') {
+
+                        for (const i of list) {
+
                             let json = {}
-                            json.code = list[i]
+                            json.code = i
                             json.money = 0
                             json.flag = false
                             json.odds = 80.0000
                             this.pcdd.allCodeList.push(json)
+
                         }
                     }
+
                 }
+                
 						}
 				},
 				
 				// pc蛋蛋 大小单双类
 				pcddAllbtn () {
+            
             let [
                 list = this.currentMethod.buttons,
                 tempList = []
             ] = []
+						
             for (let i = 0; i < Math.ceil(list.length / 4); i++) {
                 tempList.push([])
             }
-            for (let j = 0; j < this.allMethods.length; j++) {
-                for (let i = 0; i < list.length; i++) {
+
+            for (const k of this.allMethods) {
+
+                for (const i of list) {
                     let json = {}
-                    json.code = list[i]
+                    json.code = i
                     json.flag = false
                     json.money = 0
                     json.odds = 27.2222
-                    if (this.allMethods[j].sign === 'DXDS') {
-                        if (list[i] === '大' || list[i] === '小' || list[i] === '单' || list[i] === '双') {
+
+                    if (k.sign === 'DXDS') {
+                        
+                        if (i === '大' || i === '小' || i === '单' || i === '双') {
+                            
                             tempList[0].push(json)
+		                        
                         }
-                        if (list[i] === '大单' || list[i] === '大双' || list[i] === '小单' || list[i] === '小双') {
+                        if (i === '大单' || i === '大双' || i === '小单' || i === '小双') {
+                            
                             tempList[1].push(json)
+		                        
                         }
-                        if (list[i] === '极大' || list[i] === '极小') {
+                        if (i === '极大' || i === '极小') {
+                            
                             tempList[2].push(json)
+		                        
                         }
                     }
-                    if (this.allMethods[j].sign === 'BO') {
-                        if (list[i] === '红波' || list[i] === '蓝波' || list[i] === '绿波') {
-                            if (list[i] === '红波') {
+                    
+                    if (k.sign === 'BO') {
+                        
+                        if (i === '红波' || i === '蓝波' || i === '绿波') {
+                            
+                            if (i === '红波') {
+                                
                                 json.class = 'ylc-red'
-                            } else if (list[i] === '蓝波') {
+		                            
+                            } else if (i === '蓝波') {
+                                
                                 json.class = 'ylc-blue'
-                            } else if (list[i] === '绿波') {
+		                            
+                            } else if (i === '绿波') {
+                                
                                 json.class = 'ylc-green'
+		                            
                             }
+                            
                             tempList[3].push(json)
                         }
                     }
-                    if (this.allMethods[j].sign === 'BZ') {
-                        if (list[i] === '豹子') {
+                    if (k.sign === 'BZ') {
+                        
+                        if (i === '豹子') {
+                            
                             tempList[3].push(json)
+		                        
                         }
                     }
                 }
+
             }
             this.pcdd.allBtnList = tempList
 				},
@@ -1472,27 +1622,82 @@ export default {
         // pc蛋蛋整合  号码背景图
 				pcddAllIcon (item) {
 						if (this.bq.gray.includes(item.code)) {
+						    
 						    return 'ylc-bet-list-gray'
+								
 						} else if (this.bq.green.includes(item.code)) {
+						    
                 return 'ylc-bet-list-green'
+								
             } else if (this.bq.blue.includes(item.code)) {
+						    
                 return 'ylc-bet-list-blue'
+								
             } else if (this.bq.red.includes(item.code)) {
+						    
                 return 'ylc-bet-list-red'
+								
             }
         },
         
         // 底部清除选号
 				clearCode () {
-            for (let i = 0; i < this.pcdd.allCodeList.length; i++) {
-                this.pcdd.allCodeList[i].flag = false
-                this.pcdd.allCodeList[i].money = 0
-            }
-            for (let i = 0; i < this.pcdd.allBtnList.length; i++) {
-                for (let j = 0; j < this.pcdd.allBtnList[i].length; j++) {
-                    this.pcdd.allBtnList[i][j].flag = false
-                    this.pcdd.allBtnList[i][j].money = 0
+						
+            let [
+                codeList = this.pcdd.allCodeList
+            ] = []
+            
+            // 娱乐城龙虎斗
+            if (this.currentMethod.method === 'LHD') {
+
+                for (const k of Object.keys(codeList)) {
+
+                    for (const i of codeList[k]) {
+
+                        for (const j of i.code) {
+
+                            j.flag = false
+                            j.money = 0
+
+                        }
+                    }
                 }
+
+                return
+            }
+
+            // 娱乐城整合
+            if (this.currentMethod.method === 'ZH' || this.currentMethod.method === 'LMP') {
+
+                for (const k of codeList) {
+
+                    for (const i of k.code) {
+
+                        i.flag = false
+                        i.money = 0
+
+                    }
+                }
+                return
+            }
+            
+            for (const k of codeList) {
+
+                k.flag = false
+                k.money = 0
+
+            }
+
+
+            for (const k of this.pcdd.allBtnList) {
+
+                for (const i of k) {
+
+                    i.flag = false
+                    i.money = 0
+
+                }
+
             }
 				}
 		}

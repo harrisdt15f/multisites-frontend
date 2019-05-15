@@ -605,7 +605,7 @@ export default {
                     for (let j = 0; j < layout.length; j++) {
                         const number = layout[j]
                         if (this.chooseNumber[i][j]) {
-                            col.push(number);
+                            col.push(number)
                         }
                     }
                     codes.push(col.join('&'))
@@ -689,49 +689,48 @@ export default {
         // 清理重复项 和 错误项
         inputClearRepeatOrder() {
             let [
-                tmp = (this.inputCodes || '').split(',').map((item) => {
+                tmp = new Set((this.inputCodes || '').split(',').map((item) => {
                     return this.Utils.trim(item)
-                }),
-                deleteArr = []
+                }))
             ] = []
             
             // 任选单式
             if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
-                for (let j = 0; j < tmp.length; j++) {
-                    let tempj = tmp[j].split(' ')
-                    for (let i = 0; i < tempj.length; i++) {
+                
+                for (const k of tmp) {
+                    
+                    let temp = k.split(' ')
+                    for (const i of temp) {
+                        
                         if (
-                            tempj.length !== this.currentMethod.b64 ||
-                            parseInt(tempj[i]) > 11 ||
-                            parseInt(tempj[i]) < 0 ||
-                            tempj[i].length !== this.currentMethod.number ||
-                            isNaN(tempj[i])
+                            isNaN(i) ||
+                            parseInt(i) > 11 ||
+                            parseInt(i) < 0 ||
+                            i.length !== this.currentMethod.number ||
+                            temp.length !== this.currentMethod.b64
                         ) {
-                            deleteArr.push(tmp[j])
+                            tmp.delete(k)
                         }
                     }
-                }
-                for (let i = 0; i < deleteArr.length; i++) {
-                    for (let j = 0; j < tmp.length; j++) {
-                        if(deleteArr[i] === tmp[j]) {
-                            tmp.splice(j, 1)
-                        }
-                    }
-                }
-            } else {
-                for (let i = tmp.length; i >= 0; i --) {
-                    // 去除非数字项
-                    if (isNaN(tmp[i])) {
-                        tmp.splice(i, 1)
-                    }
-                    // 去除 小于 或者 大于规定长度
-                    if (this.currentMethod && String(tmp[i]).length < this.currentMethod.b64 || String(tmp[i]).length > this.currentMethod.b64) {
-                        tmp.splice(i, 1)
-                    }
+
                 }
             }
-            let temp = Array.from(new Set(tmp))
-            this.inputCodes = temp.join(',')
+            
+            else {
+    
+                for (const i of tmp) {
+                    // 去除非数字项
+                    if (isNaN(i)) {
+                        tmp.delete(i)
+                    }
+                    // 去除 小于 或者 大于规定长度
+                    if (this.currentMethod && String(i).length < this.currentMethod.b64 || String(i).length > this.currentMethod.b64) {
+                        tmp.delete(i)
+                    }
+        
+                }
+            }
+            this.inputCodes = [...tmp].join(',')
             
             if (!this.inputCodes) {
                 this.inputCodesSingle = 0

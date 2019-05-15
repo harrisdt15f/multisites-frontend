@@ -152,12 +152,18 @@ export default {
               data = res.data.data,
               sign = this.$route.params.lotterySign
             ] = []
-            for (let i = 0; i < data.length; i++) {
-              for (let j = 0; j < data[i].list.length; j++) {
-                if (data[i].list[j].id === sign) {
-                  this.descs = data[i].list[j].desc
+  
+            for (const k of data) {
+  
+              for (const i of k.list) {
+  
+                if (i.id === sign) {
+                  
+                  this.descs = i.desc
                 }
+    
               }
+    
             }
           }
         })
