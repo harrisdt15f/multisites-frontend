@@ -114,18 +114,23 @@ export default {
       switch (sign) {
         case 'ssc':
           return 'nav-menu-icon1'
+          // eslint-disable-next-line no-unreachable
           break
         case 'lotto':
           return 'nav-menu-icon2'
+          // eslint-disable-next-line no-unreachable
           break
         case 'k3':
           return 'nav-menu-icon3'
+          // eslint-disable-next-line no-unreachable
           break
         case 'pk10':
           return 'nav-menu-icon5'
+          // eslint-disable-next-line no-unreachable
           break
         case 'lhc':
           return 'nav-menu-icon4'
+          // eslint-disable-next-line no-unreachable
           break
       }
     },

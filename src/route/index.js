@@ -18,7 +18,7 @@ const router = new Router({
         { path: '/', redirect: '/home'},
         { path: '/login', name: 'login', component: Login},
         { path: '/register', name: 'register', component: Register },
-        { path: '/home', name: 'home', component: Home,
+        { path: '/home', component: Home,
             children: [
                 { path: '', name: 'index-closed1', component: Index},
                 { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true },
