@@ -18,4 +18,4 @@ const index = new Vuex.Store({
   plugins: [createPersistedState({ storage: window.sessionStorage })]
 })
 
-export default index;
+export default index

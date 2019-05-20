@@ -70,7 +70,7 @@ export default {
             this.Utils.storage.set('rememberPassword', rememberPassword)
           } else {
             let rememberPassword = this.Utils.storage.get('rememberPassword')
-            if (rememberPassword) {
+            if (rememberPassword) { 
               this.Utils.storage.remove('rememberPassword')
             }
           }
