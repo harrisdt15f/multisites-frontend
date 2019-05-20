@@ -859,7 +859,7 @@ export default {
         [this.oneKeyList],
         this.orderList.cost
       ).then(res => {
-        if (res.isSuccess) {
+        if (res.success) {
           this.oneKeyList = {};
           this.$alert(
             "投注成功, 您可以通过”游戏记录“查询您的投注记录！",
@@ -878,7 +878,7 @@ export default {
           this.$store.dispatch("betHistory");
           // 刷新余额
           this.Api.getBalance().then(res => {
-            if (res.isSuccess) {
+            if (res.success) {
               let account = this.Utils.storage.get("current-user");
               if (account && account.data) {
                 account.data.balance = res.data.balance;

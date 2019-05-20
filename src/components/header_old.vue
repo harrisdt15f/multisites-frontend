@@ -194,7 +194,7 @@ export default {
     // 刷新用户余额
     refresh () {
       this.Api.getBalance().then((res) => {
-        if (res.isSuccess) {
+        if (res.success) {
           let account = this.Utils.storage.get('current-user')
           if (account && account.data) {
             account.data.balance = res.data.balance
@@ -219,7 +219,7 @@ export default {
     lotteryList () {
       // 获取 导航 彩票游戏 全部彩种
       this.Api.getLotteryList().then((res) => {
-        if (res.isSuccess) {
+        if (res.success) {
           this.lotteryLists = res.data.data
         }
       })

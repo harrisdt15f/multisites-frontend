@@ -1,10 +1,7 @@
 <template>
   <div class="home">
     <Header></Header>
-    <router-view></router-view>
-<!--    <el-main>-->
-<!--      <ProductList/>-->
-<!--    </el-main>-->
+    <router-view :key="$route.fullPath"></router-view>
     <Footer></Footer>
   </div>
 </template>

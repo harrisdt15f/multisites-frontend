@@ -92,12 +92,12 @@ import methods from "../../lib/config/method";
 import GameSelect from "./GameSelect";
 import GameOrder from "./GameOrder";
 import GameYlc from "../../components/game/ylc";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "game-method",
   computed: {
-    ...mapState([
+    ...mapGetters([
       "lotteryAll",
       "currentLottery",
       "allMethods",
@@ -128,7 +128,6 @@ export default {
       }
       this.selectGroup(this.defaultGroup, newVal.index);
     },
-
     // 当前彩种变更时
     currentLottery: {
       handler() {

@@ -162,7 +162,7 @@ export default {
     // 获取 导航 彩票游戏 全部彩种
     lotteryList () {
       this.Api.getLotteryList().then((res) => {
-        if (res.isSuccess) {
+        if (res.success) {
           this.lotteryLists = res.data.data
         }
       })
