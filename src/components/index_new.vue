@@ -228,44 +228,8 @@ export default {
         { src: require("../assets/images/index/banner2.jpg") },
         { src: require("../assets/images/index/banner3.jpg") }
       ],
-      hotLottery: {
-        list: [
-          {
-            bg: require("../assets/images/index/lottery1.jpg"),
-            name: require("../assets/images/index/lotter-name1.png"),
-            btn: require("../assets/images/index/lottery-btn1.png"),
-            desc: "<span>20</span> 分钟 / 期 全天共 <span>1</span> 期"
-          },
-          {
-            bg: require("../assets/images/index/lottery2.jpg"),
-            name: require("../assets/images/index/lotter-name1.png"),
-            btn: require("../assets/images/index/lottery-btn2.png"),
-            desc: "<span>20</span> 分钟 / 期 全天共 <span>1</span> 期"
-          },
-          {
-            bg: require("../assets/images/index/lottery3.jpg"),
-            name: require("../assets/images/index/lotter-name1.png"),
-            btn: require("../assets/images/index/lottery-btn3.png"),
-            desc: "<span>20</span> 分钟 / 期 全天共 <span>1</span> 期"
-          },
-          {
-            bg: require("../assets/images/index/lottery4.jpg"),
-            name: require("../assets/images/index/lotter-name1.png"),
-            btn: require("../assets/images/index/lottery-btn4.png"),
-            desc: "<span>20</span> 分钟 / 期 全天共 <span>1</span> 期"
-          }
-        ]
-      },
       bet: {
         multiple: 1
-      },
-      games: {
-        list: [
-          { src: require("../assets/images/index/game1.png"), show: false },
-          { src: require("../assets/images/index/game2.png"), show: false },
-          { src: require("../assets/images/index/game3.png"), show: false },
-          { src: require("../assets/images/index/game4.png"), show: false }
-        ]
       }
     };
   },

@@ -1,5 +1,5 @@
 let animation = {
-    // 中奖排行榜notice('meque', 'meque_text', -1)
+    // 中奖排行榜ranking('meque', 'meque_text', -1)
     ranking (meques, text, speed) {
         let [
             mequeText = document.getElementById(text),
