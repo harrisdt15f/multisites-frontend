@@ -4,7 +4,7 @@
       <section class="fw foot-head">
         <section class="logo">
           <!-- <img src="../assets/images/index/banner1.jpg" alt="footerlogo" title="footerlogo" class="footerlogo dinv"> -->
-          LOGO 
+          LOGO
           包网彩票
         </section>
         <section class="foot-nums">

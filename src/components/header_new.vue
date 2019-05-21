@@ -1,94 +1,91 @@
 <template>
   <div class="header-wrapper">
-    <header class="header">
-      <div class="container">
-        <h1 class="logo">LOGO</h1>
-        <div class="top">
-          <section class="head-notice">
-            <i class="fa fa-volume-up ft21 head-notice-img"></i>
-            <section class="head-meque">
-              <marquee
-                class="resultMarquee"
-                behavior="scroll"
-                scrollamount="3"
-                direction="left"
-              >中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！</marquee>
+    <header class="container">
+      <h1 class="logo">LOGO</h1>
+      <div class="top">
+        <section class="head-notice">
+          <i class="fa fa-volume-up ft21 head-notice-img"></i>
+          <section class="head-meque">
+            <marquee
+                    class="resultMarquee"
+                    behavior="scroll"
+                    scrollamount="3"
+                    direction="left"
+            >中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！</marquee>
+          </section>
+        </section>
+        <ul class="head-users fr ft0">
+          <li class="head-user head-user-name wzfw">
+            <img src="../assets/images/header/vip5.png" alt="vip" title="vip" class="head-vip">
+            {{userDetail.username}}
+          </li>
+          <span class="line">|</span>
+          <li class="head-user" style="cursor: default">
+            余额:
+            {{Utils.toFixed(this.userDetail.balance)}}
+            <!--               <i class="fa fa-refresh cur" @click="refresh()"></i>-->
+          </li>
+          <li class="head-user">充值</li>
+          <li class="head-user">退款</li>
+          <li class="head-user">会员中心</li>
+          <li class="head-user">额度转换</li>
+          <li class="head-user" ref="logout" @click="logout()">退出</li>
+          <li class="head-user head-user-server">
+            <img
+                    style="display:inline; vertical-align:middle"
+                    src="../assets/images/new/header/lxkf.png"
+            > 联系客服
+          </li>
+        </ul>
+      </div>
+      <div class="bottom">
+        <nav class="fr">
+          <section class="nav">
+            <router-link tag="a" to="/home" href="javascript:;" class="nav-title">首页</router-link>
+          </section>
+          <section class="nav">
+            <router-link tag="a" to="/bet" href="javascript:;" class="nav-title">彩票游戏</router-link>
+            <section ref="lotterListShow" class="nav-menu-box">
+              <el-row :gutter="30">
+                <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
+                  <div class="nav-menu-title">{{lottery.name}}</div>
+                  <el-row :gutter="4" class="nav-menus">
+                    <el-col
+                            :span="8"
+                            class="nav-menu"
+                            v-for="(item, itemIndex) in lottery.list"
+                            :key="itemIndex"
+                    >
+                      <router-link
+                              :to="`/bet/${item.id}`"
+                              class="span wzfw"
+                              tag="a"
+                      >{{item.name}}</router-link>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
             </section>
           </section>
-          <ul class="head-users fr ft0">
-            <li class="head-user head-user-name wzfw">
-              <img src="../assets/images/header/vip5.png" alt="vip" title="vip" class="head-vip">
-              {{userDetail.username}}
-            </li>
-            <span class="line">|</span>
-            <li class="head-user" style="cursor: default">
-              余额:
-              {{Utils.toFixed(this.userDetail.balance)}}
-              <!-- <i class="fa fa-refresh cur" @click="refresh()"></i> -->
-            </li>
-            <li class="head-user">充值</li>
-            <li class="head-user">退款</li>
-            <li class="head-user">会员中心</li>
-            <li class="head-user">额度转换</li>
-            <li class="head-user" ref="logout" @click="logout()">退出</li>
-            <li class="head-user head-user-server">
-              <img
-                style="display:inline; vertical-align:middle"
-                src="../assets/images/new/header/lxkf.png"
-              > 联系客服
-            </li>
-          </ul>
-        </div>
-        <div class="bottom">
-          <nav class="fr">
-            <section class="nav">
-              <router-link tag="a" to="/home" href="javascript:;" class="nav-title">首页</router-link>
-            </section>
-            <section class="nav">
-              <router-link tag="a" to="/bet" href="javascript:;" class="nav-title">彩票游戏</router-link>
-              <section ref="lotterListShow" class="nav-menu-box">
-                <el-row :gutter="30">
-                  <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
-                    <div>
-                      <div class="nav-menu-title">{{lottery.name}}</div>
-                      <el-row :gutter="4" class="nav-menus">
-                        <el-col
-                          :span="8"
-                          class="nav-menu"
-                          v-for="(item, itemIndex) in lottery.list"
-                          :key="itemIndex"
-                        >
-                          <router-link
-                            :to="`/bet/${item.id}`"
-                            class="span wzfw"
-                            tag="a"
-                          >{{item.name}}</router-link>
-                        </el-col>
-                      </el-row>
-                    </div>
-                  </el-col>
-                </el-row>
-              </section>
-            </section>
-            <section class="nav">
-              <a href="javascript:;" class="nav-title">体育竞技</a>
-            </section>
-            <section class="nav">
-              <a href="javascript:;" class="nav-title">电子娱乐</a>
-            </section>
-            <section class="nav">
-              <a href="javascript:;" class="nav-title">投注记录</a>
-            </section>
-            <section class="nav">
-              <a href="javascript:;" class="nav-title">资金管理</a>
-            </section>
-            <section class="nav">
-              <a href="javascript:;" class="nav-title">代理中心</a>
-            </section>
-          </nav>
-        </div>
+          <section class="nav">
+            <a href="javascript:;" class="nav-title">体育竞技</a>
+          </section>
+          <section class="nav">
+            <a href="javascript:;" class="nav-title">电子娱乐</a>
+          </section>
+          <section class="nav">
+            <a href="javascript:;" class="nav-title">投注记录</a>
+          </section>
+          <section class="nav">
+            <a href="javascript:;" class="nav-title">资金管理</a>
+          </section>
+          <section class="nav">
+            <a href="javascript:;" class="nav-title">代理中心</a>
+          </section>
+        </nav>
       </div>
     </header>
+    
   </div>
 </template>
 
@@ -105,31 +102,6 @@ export default {
     this.lotteryList();
   },
   methods: {
-    // 计算导航图标
-    menusName(sign) {
-      switch (sign) {
-        case "ssc":
-          return "nav-menu-icon1";
-          // eslint-disable-next-line no-unreachable
-          break;
-        case "lotto":
-          return "nav-menu-icon2";
-          // eslint-disable-next-line no-unreachable
-          break;
-        case "k3":
-          return "nav-menu-icon3";
-          // eslint-disable-next-line no-unreachable
-          break;
-        case "pk10":
-          return "nav-menu-icon5";
-          // eslint-disable-next-line no-unreachable
-          break;
-        case "lhc":
-          return "nav-menu-icon4";
-          // eslint-disable-next-line no-unreachable
-          break;
-      }
-    },
     // 刷新用户余额
     refresh() {
       this.Api.getBalance().then(res => {
