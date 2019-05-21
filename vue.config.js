@@ -1,3 +1,9 @@
+const path = require('path')
+
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
+
 module.exports = {
     // Project deployment base
     // By default we assume your app will be deployed at the root of a domain,
@@ -40,20 +46,26 @@ module.exports = {
     // tweak internal webpack configuration.
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
     chainWebpack: () => {},
-    configureWebpack: () => {},
+    configureWebpack: {
+      resolve: {
+        alias: {
+          '@': resolve('src')
+        }
+      }
+    },
   
     // CSS related options
     css: {
       // extract CSS in components into a single CSS file (only in production)
       // can also be an object of options to pass to extract-text-webpack-plugin
-      extract: true,
+      extract: process.env.NODE_ENV === 'production',
   
       // Enable CSS modules for all css / pre-processor files.
       // This option does not affect *.vue files.
       // modules: false,
   
       // enable CSS source maps?
-      sourceMap: false,
+      sourceMap: process.env.NODE_ENV === 'development',
   
       // pass custom options to pre-processor loaders. e.g. to pass options to
       // sass-loader, use { sass: { ... } }

@@ -36,7 +36,7 @@
           <section class="nav" :class="{on: $route.path === '/home'}">
             <router-link tag="a" to="/home" href="javascript:;"  class="nav-title">首页</router-link>
           </section>
-          <section class="nav">
+          <!-- <section class="nav">
             <a href="javascript:;" class="nav-title">彩票游戏</a>
             <section class="tc nav-menu-box">
               <ul class="nav-menus" v-for="(lottery, index) in lotteryLists" :key="index">
@@ -45,12 +45,11 @@
                 <li class="nav-menu cur"
                     v-for="(item, itemIndex) in lottery.list"
                     :key="itemIndex"
-                    @click="goLottery(item)"
-                >
+                    @click="goLottery(item)">
                   {{item.name}}
                 </li>
               </ul>
-            </section>
+            </section> -->
           </section>
           <section class="nav">
             <a href="javascript:;" class="nav-title">体育竞技</a>
@@ -114,34 +113,25 @@ export default {
       switch (sign) {
         case 'ssc':
           return 'nav-menu-icon1'
+          // eslint-disable-next-line no-unreachable
           break
         case 'lotto':
           return 'nav-menu-icon2'
+          // eslint-disable-next-line no-unreachable
           break
         case 'k3':
           return 'nav-menu-icon3'
+          // eslint-disable-next-line no-unreachable
           break
         case 'pk10':
           return 'nav-menu-icon5'
+          // eslint-disable-next-line no-unreachable
           break
         case 'lhc':
           return 'nav-menu-icon4'
+          // eslint-disable-next-line no-unreachable
           break
       }
-    },
-    // 刷新用户余额
-    refresh () {
-      this.Api.getBalance().then((res) => {
-        if (res.isSuccess) {
-          let account = this.Utils.storage.get('current-user')
-          if (account && account.data) {
-            account.data.balance = res.data.balance
-            account.data.frozen = res.data.frozen
-            this.$store.commit('account', account.data)
-            this.Utils.storage.set('current-user', account.data)
-          }
-        }
-      })
     },
     // 去投注页
     goLottery (lottery) {
@@ -157,7 +147,7 @@ export default {
     // 获取 导航 彩票游戏 全部彩种
     lotteryList () {
       this.Api.getLotteryList().then((res) => {
-        if (res.isSuccess) {
+        if (res.success) {
           this.lotteryLists = res.data.data
         }
       })

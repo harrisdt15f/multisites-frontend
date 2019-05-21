@@ -12,7 +12,7 @@
           <el-checkbox v-model="isRemember.checked"></el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('userForm')">登陆</el-button>
+          <el-button :loading="loading" type="primary" @click="submitForm('userForm')">登陆</el-button>
           <el-button @click="resetForm('userForm')">重置</el-button>&nbsp;&nbsp;
           <a class="btn btn-default">
             <router-link to="/register">没有账户？去注册</router-link>
@@ -31,6 +31,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: false,
       user: { username: '', password: '', confirm_password: '' },
       userRules: {
         username: [
@@ -57,9 +58,10 @@ export default {
   },
   methods: {
     login() {
-      this.Api.login(this.user.username, this.user.password).then( response => {
-        if (response && response.isSuccess) {
-          // 记住密码
+      this.loading = true
+      this.$store.dispatch('login', {username: this.user.username, password: this.user.password})
+        .then(() => {
+          this.loading = false
           if (this.isRemember.checked) {
             let rememberPassword = {
               account: this.user.username,
@@ -68,15 +70,14 @@ export default {
             this.Utils.storage.set('rememberPassword', rememberPassword)
           } else {
             let rememberPassword = this.Utils.storage.get('rememberPassword')
-            if (rememberPassword) {
+            if (rememberPassword) { 
               this.Utils.storage.remove('rememberPassword')
             }
           }
-          localStorage.setItem('X-Authorization-Token', response.data.token)
-          this.Utils.storage.set('current-user', response.data)
-          this.$router.push('/home');
-        }
-      })
+          this.$router.push('/home')
+        }).catch(() => {
+          this.loading = false
+        })
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {

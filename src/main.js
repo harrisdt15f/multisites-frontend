@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './route'
 import index from './store'
-import { API } from './API'
+import { API } from './api'
 import Utils from './lib/utils/utils'
 import animation from './lib/animation/animation'
 import _ from 'lodash'
@@ -18,6 +18,7 @@ Vue.prototype.Api = API
 Vue.prototype.Utils = Utils
 Vue.prototype.Animation = animation
 Vue.prototype._ = _
+
 new Vue({
     router,
     store: index,

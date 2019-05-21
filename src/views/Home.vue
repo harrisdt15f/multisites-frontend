@@ -1,23 +1,18 @@
 <template>
   <div class="home">
     <Header></Header>
-    <router-view></router-view>
-<!--    <el-main>-->
-<!--      <ProductList/>-->
-<!--    </el-main>-->
+    <router-view :key="$route.fullPath"></router-view>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import GameMain from './../views/game/GameMain'
-import Header from '../components/header'
-import Footer from '../components/footer'
+import Header from '../components/header_new'
+import Footer from '../components/footer_new'
 
 export default {
   name: 'Home',
   components: {
-    GameMain,
     Header,
     Footer
   }

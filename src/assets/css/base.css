@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body,html,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,textarea,p,th,td{margin:0;padding:0;}
 table {border-collapse:collapse;border-spacing:0;}
-body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;background:#f7f7f7;}
+body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;background:#f7f7f7;     font-family: DIN, "Helvetica Neue", Helvetica, Arial, "Lantinghei SC", "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;}
 ol,ul{list-style:none;}
 a{text-decoration:none;}
 img{border:none;display:block;}
@@ -10,7 +10,7 @@ input,textarea{outline:none;border:0;}
 a,input,select, textarea, a:active, a:hover {outline: none;}
 a{color: #454545;}
 i{font-style:normal;}
-select, input {box-sizing: border-box;}
+select, input {-webkit-box-sizing: border-box;box-sizing: border-box;}
 .clear {
 	clear: both;
 }
@@ -71,8 +71,5 @@ select, input {box-sizing: border-box;}
 }
 a, button {
 	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }

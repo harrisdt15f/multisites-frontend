@@ -1,44 +1,72 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Utils  from '../lib/utils/utils'
+import { getToken } from '@/utils/auth'
+import store from '@/store'
+import { Message } from 'element-ui'
 
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
 import Home from '../views/Home'
 import GameMain from '../views/game/GameMain'
-import Index from '../components/index-closed1'
+import Index from '../components/index_new'
 import Ylc from '../components/game/ylc'
 
 Vue.use(Router)
 
 const router = new Router({
-    mode: 'history',
-    routes: [
-        { path: '/', redirect: '/home'},
-        { path: '/login', name: 'login', component: Login},
-        { path: '/register', name: 'register', component: Register },
-        { path: '/home', name: 'home', component: Home,
-            children: [
-                { path: '', name: 'index-closed1', component: Index},
-                { path: '/bet/:lotterySign', name: 'bet', component: GameMain, props: true },
-                { path: 'ylc', name: 'ylc', component: Ylc, props: true },
-            ]
+  mode: 'history',
+  routes: [
+    { path: '/', redirect: '/home' },
+    { path: '/login', name: 'login', component: Login },
+    { path: '/register', name: 'register', component: Register },
+    {
+      path: '/home',
+      component: Home,
+      children: [
+        { path: '', name: 'index', component: Index },
+        {
+          path: '/bet/:lotterySign',
+          name: 'bet',
+          component: GameMain,
+          props: true
         },
-        { path: '*', redirect: '/home'}
-    ]
-});
-
+        { path: 'ylc', name: 'ylc', component: Ylc, props: true }
+      ]
+    },
+    { path: '*', redirect: '/home' }
+  ]
+})
 
 router.beforeEach((to, from, next) => {
-    // redirect to login page if not logged in and trying to access a restricted page
-    const publicPageNames = ['login', 'register','about']
-    const authRequired = !publicPageNames.includes(to.name)
-    const currentUser = Utils.storage.get('current-user')
-    if (authRequired && (!currentUser || currentUser.data.user_id <= 0)) {
-        // return next('/login')
+  const hasToken = getToken()
+  if (hasToken) {
+    if (to.path === '/login') {
+      next({ path: '/' })
+    } else{
+      if (store.getters.userDetail && store.getters.userDetail.user_id > 0) {
+        next()
+      }else {
+        store.dispatch('getUserDetail').then(res => {
+          const {success} = res
+          if (success) {
+            next({ ...to, replace: true })
+          }
+        }).catch(error => {
+          Message.error(error || '请求出错！')
+          next({path: '/login'})
+        })
+      }
+		}
+  } else {
+    const whiteList =  ['/login', '/register','/about']
+    if (whiteList.indexOf(to.path) !== -1) {
+      // in the free login whitelist, go directly
+      next()
+    } else {
+      return next({path: '/login'})
     }
-    next()
-});
+	}
+})
 
 export default router
