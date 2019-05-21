@@ -225,8 +225,6 @@ export default {
     return {
       banner: [
         { src: require("../assets/images/index/banner1.jpg") },
-        { src: require("../assets/images/index/banner2.jpg") },
-        { src: require("../assets/images/index/banner3.jpg") }
       ],
       bet: {
         multiple: 1
@@ -287,7 +285,7 @@ export default {
       width: 100%;
     }
     .el-carousel__container {
-      height: 585px;
+      height: 580px;
     }
     .el-carousel__arrow--left {
       left: 0;
