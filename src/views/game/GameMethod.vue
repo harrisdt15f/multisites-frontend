@@ -3,8 +3,7 @@
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'"
       class="w"
-      style="padding-top:25px;"
-    >
+      style="padding-top:25px;">
       <section class="main-center">
         <div class="bet-type-crow">
           <section class="bet-type-crows">
@@ -14,8 +13,7 @@
                 v-for="(_group, _index) in allMethods"
                 :key="_index"
                 @click="selectGroup(_group.sign, _index)"
-                v-bind:class="{'on':_group.sign === selectedGroup}"
-              >
+                v-bind:class="{'on':_group.sign === selectedGroup}">
                 <span class="bet-type-crow-name">{{_group.name}}</span>
                 <span class="bet-type-group-name"></span>
               </li>
@@ -33,8 +31,7 @@
           <div
             class="bet-type-group-list"
             v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
-            :key="_rowIndex"
-          >
+            :key="_rowIndex">
             <template v-if="row.methods.length > 1">
               <div class="group-name">{{row.name}}</div>
               <ul>
@@ -66,8 +63,7 @@
               <tr
                 :class="{first: index === bet.issueHistory.length - 1}"
                 v-for="(item, index) in bet.issueHistory"
-                :key="index"
-              >
+                :key="index">
                 <td class="td">{{item.issue_no}} 期</td>
                 <td class="td balls">
                   <i
@@ -127,20 +123,6 @@ export default {
         this.$store.commit("allMethods", lottery.methodConfig2);
       }
       this.selectGroup(this.defaultGroup, newVal.index);
-    },
-    // 当前彩种变更时
-    currentLottery: {
-      handler() {
-        let json = {
-          name: "official",
-          index: 0
-        };
-        this.$store.commit("chengeYlcPlays", json);
-
-        this.selectGroup(this.defaultGroup, 0);
-        this.selectMethod(this.defaultMethod);
-      },
-      deep: true
     }
   },
   created() {
@@ -156,19 +138,18 @@ export default {
       };
       this.$store.commit("chengeYlcPlays", json);
     },
-
     // 选中玩法组
     selectGroup(groupSign, _index = 0) {
       this.selectedGroup = groupSign;
       this.selectedGroupIndex = _index;
       this.selectedMethodId = "";
       this.$store.commit("currentMethod", {});
+      
       this.selectMethod(
         this.allMethods[_index]["rows"][0]["methods"][0]["method_id"]
       );
       this.$store.commit("methodsTab");
     },
-
     // 选中玩法
     selectMethod(methodId) {
       let [play = null] = [];

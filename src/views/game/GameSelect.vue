@@ -25,8 +25,7 @@
       <div
         class="main-ball-list"
         v-for="(_number, _tabName, yIndex) in currentMethod.layout"
-        :key="yIndex"
-      >
+        :key="yIndex">
         <div class="ball-list-name">{{_tabName}}</div>
         <ul class="main-ball-content">
           <li
@@ -34,8 +33,7 @@
             v-for="(_code, xIndex) in _number"
             :key="xIndex"
             :class="{'ball-on': chooseNumber[yIndex][xIndex]}"
-            @click="selectCode(yIndex, xIndex)"
-          >
+            @click="selectCode(yIndex, xIndex)">
             <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
           </li>
         </ul>
@@ -45,8 +43,7 @@
             v-for="(_btnText, bIndex) in  currentMethod.buttons"
             :key="bIndex"
             :class="{'ball-on': chooseButton[yIndex][bIndex] }"
-            @click="selectButton(yIndex, bIndex)"
-          >
+            @click="selectButton(yIndex, bIndex)">
             <a href="javascript:;" class="ball" :x="bIndex" :y="yIndex">{{_btnText}}</a>
           </li>
         </ul>
@@ -58,18 +55,14 @@
       v-else-if="currentMethod.type === 'k3'"
       class="ball-k3"
       v-for="(_number, _tabName, yIndex) in currentMethod.layout"
-      :key="yIndex"
-    >
+      :key="yIndex">
       <ul
         class="k3-dxds-lists k3-sbth-lists"
-        v-if="
-                currentMethod.method !== 'KSHZDXDS' &&
-                currentMethod.method !== 'KSHZ'"
+        v-if="currentMethod.method !== 'KSHZDXDS' &&ncurrentMethod.method !== 'KSHZ'"
         :class="{
-                'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
-                'k3-ebth-lists': currentMethod.method === 'EBTH',
-                'k3-dtys-lists': currentMethod.method === 'DTYS'
-                }"
+          'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
+          'k3-ebth-lists': currentMethod.method === 'EBTH',
+          'k3-dtys-lists': currentMethod.method === 'DTYS'}"
       >
         <li
           class="k3-dxds-list"
@@ -184,7 +177,7 @@
   </section>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 import algorithm from "../../lib/algorithm";
 import pako from "pako/index.js";
 
@@ -227,7 +220,7 @@ export default {
     };
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
       "userConfig",
       "orderList",
       "totalCost",
@@ -875,7 +868,7 @@ export default {
           this.currentOrder.currentCount = 0;
           this.currentOrder.currentTimes = 1;
           // 获取我的投注 我的追号记录
-          this.$store.dispatch("betHistory");
+          // this.$store.dispatch("betHistory");
           // 刷新余额
           this.Api.getBalance().then(res => {
             if (res.success) {

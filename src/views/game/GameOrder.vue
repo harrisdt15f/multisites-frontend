@@ -330,7 +330,7 @@
   </section>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "game-order",
   data() {
@@ -375,7 +375,7 @@ export default {
     };
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
       "lotteryAll",
       "orderList",
       "currentOrderState",
@@ -474,7 +474,7 @@ export default {
   },
   created() {
     // 获取我的投注 我的追号记录
-    this.$store.dispatch("betHistory");
+    // this.$store.dispatch("betHistory");
     this.chase.maxIssue = this.lotteryAll[
       this.currentLottery.en_name
     ].lottery.max_trace_number;
@@ -701,7 +701,7 @@ export default {
               }
             );
             // 获取我的投注 我的追号记录
-            this.$store.dispatch("betHistory");
+            // this.$store.dispatch("betHistory");
             // 刷新余额
             this.Api.getBalance().then(res => {
               if (res.success) {

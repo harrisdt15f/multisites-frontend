@@ -3,39 +3,162 @@
     <section class="game-header-l">
       <section class="game-header-w">
         <section class="game-header-s">
-          <h2 class="logo-lottery">
-            {{currentLottery.cn_name}}
-          </h2>
+          <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
         <section class="game-lottery">
-          <section class="win-issue">
-            <span class="music open"></span>
-            <br>
-            第 {{notice.issue ? notice.issue : currentIssue.issue_no}} 期
-          </section>
-          <section class="deadline">投注截止： {{ time }}</section>
-          <section class="c333 lottery-text">
-            <span class="red">上期开奖号码</span>
-            第 {{lastIssue.issue_no}} 期
-            <span class="official-win">官方开奖</span>
-          </section>
-          <section class="tc lottery-number">
-            <em class="num" v-for="(item, index) in lastIssue.open_code" :key="index">
-              <span class="num-bg">{{item}}</span>
-            </em>
-          </section>
-          <section class="lottery-tip">
-            提示：
-            <em class="desc" v-html="descs"></em>
-          </section>
+          <div class="deadline">
+            <div class="deadline-text">
+              第
+              <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}} 190516040</strong>期
+              <br>投注截止
+            </div>
+            <div class="deadline-number">
+              <em class="min-left">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">0</span>
+                </span>
+              </em>
+              <em class="min-right">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">0</span>
+                </span>
+              </em>
+              <span class="space1">:</span>
+
+              <em class="min-left">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">1</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">1</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">1</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">1</span>
+                </span>
+              </em>
+              <em class="min-right">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">8</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">8</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">8</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">8</span>
+                </span>
+              </em>
+              <span class="space1">:</span>
+              <em class="sec-left">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">0</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">0</span>
+                </span>
+              </em>
+              <em class="sec-right min-left-anim">
+                <b class="deadline-number-mask"></b>
+                <span class="deadline-num deadline-num-next-t">
+                  <span class="inner">6</span>
+                </span>
+                <span class="deadline-num deadline-num-next-b">
+                  <span class="inner">6</span>
+                </span>
+                <span class="deadline-num deadline-num-t">
+                  <span class="inner">7</span>
+                </span>
+                <span class="deadline-num deadline-num-b">
+                  <span class="inner">7</span>
+                </span>
+              </em>
+            </div>
+          </div>
+          <div class="game-lottery">
+            <div class="deadline">
+              <div class="deadline-text">
+                第
+                <strong>
+                  <template>{{lastIssue.issue_no}}</template>
+                </strong>期
+                <br>开奖号码
+              </div>
+            </div>
+            <div class="lottery-number">
+              <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em>
+              <div v-if="lastIssue.issue_no === '---------'" class="lottery-animate">
+                <span>开</span>
+                <span>奖</span>
+                <span>中</span>
+                <span>...</span>
+              </div>
+            </div>
+            <!-- <section class="c333 lottery-text">
+                <span class="red">上期开奖号码</span>
+                第 {{lastIssue.issue_no}} 期
+                <span class="official-win">官方开奖</span>
+              </section>
+              <section class="tc lottery-number">
+                <em class="num" v-for="(item, index) in lastIssue.open_code" :key="index">
+                  <span class="num-bg">{{item}}</span>
+                </em>
+              </section>
+              <section class="lottery-tip">
+                提示：
+                <em class="desc" v-html="descs"></em>
+            </section>-->
+          </div>
+          <!-- <section class="deadline">投注截止： {{ time }}</section> -->
         </section>
         <section class="trend-info">
-          <span class="trend">开奖趋势</span>
-          <span class="trend info">开奖说明</span>
+          <span class="trend">
+            <i class="fa fa-line-chart" aria-hidden="true"></i>
+            <br>
+            开奖趋势
+          </span>
+          <span class="trend info">
+            <i class="fa fa-trophy" aria-hidden="true"></i>
+            <br>
+            开奖说明
+          </span>
         </section>
       </section>
     </section>
-    <section class="msg-notice-bg" v-if="notice.show">
+    <!-- <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
         <br>
@@ -43,11 +166,12 @@
         <br>
         <strong>请留意期号变化({{notice.time}})</strong>
       </section>
-    </section>
+    </section>-->
   </section>
 </template>
 <script>
 import { mapGetters } from "vuex";
+``;
 export default {
   name: "game-issue",
   computed: {
@@ -62,7 +186,10 @@ export default {
       lotteryNotice: [],
       scrollNotice: [],
       currentIssue: {},
-      lastIssue: {},
+      lastIssue: {
+        issue_no: "---------",
+        open_code: ["-", "-", "-", "-", "-"]
+      },
       issueNum: 0,
       time: null,
       currentIssueTimer: null,
@@ -74,11 +201,11 @@ export default {
     };
   },
   mounted() {
-    this.getIssue()
-    this.getLottery()
+    this.getIssue();
+    this.getLottery();
     // 滚动公告
-    this.getNoticeList();
-    this.Animation.notice("meque", "meque_text", -1);
+    // this.getNoticeList();
+    // this.Animation.notice("meque", "meque_text", -1);
   },
   methods: {
     // 获取提示语
@@ -111,12 +238,10 @@ export default {
     },
     // 获取开奖结果
     getLottery() {
-      this.Api.getOpenAward(this.lotterySign).then(res => {
+      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.currentIssue = res.data.currentIssue;
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-            ","
-          );
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(",");
           this.lastIssue = res.data.lastIssue;
           let [timer = null] = [];
           timer = setInterval(() => {
@@ -136,7 +261,7 @@ export default {
     },
     // 当前所在奖期
     getIssue() {
-      this.Api.getOpenAward(this.lotterySign).then(res => {
+      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit("issueInfo", res.data.issueInfo);
           this.issueNum = 0;
@@ -176,3 +301,175 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.game-lottery {
+  line-height: 1.15;
+  .deadline {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    _display: unset;
+    box-shadow: unset;
+    border-radius: unset;
+    float: left;
+    padding-left: 30px;
+    .deadline-number-mask {
+      position: absolute;
+      left: 0;
+      width: 24px;
+      height: 17px;
+      border-bottom: none;
+      border-radius: 3px 3px 0 0;
+      z-index: 60;
+    }
+    .deadline-text {
+      float: left;
+      margin: 26px 10px 0 0;
+      width: 128px;
+      font-weight: normal;
+      letter-spacing: 0px;
+      color: #4f4948;
+      font-size: 14px;
+      text-align: end;
+      font-family: inherit;
+      strong {
+        font-size: 16px;
+        color: #4f4948;
+        font-weight: normal;
+        margin: 0 3px;
+        display: inline-block;
+      }
+    }
+    .deadline-number {
+      float: left;
+      margin-left: 0;
+      margin-top: 28px;
+      font-size: 34px;
+      .deadline-num {
+        line-height: 36px;
+        font-family: microsoft yahei;
+        font-size: 32px;
+        font-weight: 100;
+        color: #e2e2e2;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 24px;
+        height: 34px;
+        overflow: hidden;
+        text-indent: 10px;
+        box-shadow: none;
+        text-shadow: none;
+      }
+      em {
+        text-align: center;
+        position: relative;
+        width: 24px;
+        height: 34px;
+        margin-right: 2px;
+        border-width: 1px;
+        border-style: solid;
+        background-image: none;
+        background-color: #000;
+        border-radius: 3px;
+        box-shadow: none;
+        border: 0;
+        color: #e2e2e2;
+      }
+      .inner {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: -6px;
+        font-family: Hei;
+      }
+      .deadline-num-next-t {
+        height: 17px;
+        overflow: hidden;
+        background-image: none;
+        background-color: #000;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 0;
+      }
+      .deadline-num-next-b {
+        height: 17px;
+        overflow: hidden;
+        top: 18px;
+        z-index: 50;
+        background-image: none;
+        background-color: #333;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border: 0;
+        transform: rotateX(-90deg);
+        transform-origin: left top 0;
+        .inner {
+          position: absolute;
+          background: none;
+          top: -18px;
+        }
+      }
+      .deadline-num-t {
+        height: 17px;
+        top: 0;
+        z-index: 50;
+        background-image: none;
+        background-color: #000;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border: 0;
+        transform: rotateX(0deg);
+        transform-origin: left bottom 0;
+      }
+      .deadline-num-b {
+        height: 17px;
+        top: 18px;
+        background-image: none;
+        background-color: #000;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border: 0;
+      }
+    }
+  }
+}
+.deadline-number .deadline-num-b .inner {
+  top: -18px;
+}
+.deadline-number em,
+.deadline-number span.space1 {
+  font-weight: 700;
+  float: left;
+  width: 10px;
+  height: 34px;
+  color: #000;
+  padding-left: -2px;
+  text-indent: unset;
+  line-height: 25px;
+}
+.lottery-number {
+  float: left;
+  margin-left: 12px;
+  margin-top: 8px;
+  em {
+    float: left;
+    width: 50px;
+    height: 51px;
+    color: #57576b;
+    font-size: 32px;
+    text-align: center;
+    background: url("../../assets/images/lottery/pic_ball.png") no-repeat;
+    font-size: 26px;
+    color: black;
+    margin-right: 5px;
+    line-height: 50px;
+    text-align: center;
+    font-family: inherit;
+  }
+}
+.lottery-animate {
+  font-size: 12px;
+  color: #57576b;
+}
+</style>

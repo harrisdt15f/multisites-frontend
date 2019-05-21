@@ -268,6 +268,7 @@ export default {
         min-width: 350px;
         min-height: 200px;
         position: absolute;
+        top: 52px;
         left: 572px;
         background: #36302e;
         display: none;

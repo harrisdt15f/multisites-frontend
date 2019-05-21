@@ -184,7 +184,7 @@ const actions = {
     })
   },
   // 历史开奖记录
-  issueHistory({ commit, state }) {
+  issueHistory({ commit, state}) {
     API.getIssueHistory(state.currentLottery.en_name).then(data => {
       if (data.success) {
         commit('issueHistory', data.data)
