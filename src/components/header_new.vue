@@ -1,17 +1,21 @@
 <template>
   <div class="header-wrapper">
     <header class="container">
-      <h1 class="logo">LOGO</h1>
+      <h1 class="logo">
+        <!-- <img :src="logoSrc" alt="logo"> -->
+        LOGO
+      </h1>
       <div class="top">
         <section class="head-notice">
           <i class="fa fa-volume-up ft21 head-notice-img"></i>
           <section class="head-meque">
-            <marquee
-                    class="resultMarquee"
-                    behavior="scroll"
-                    scrollamount="3"
-                    direction="left"
-            >中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！</marquee>
+            <section
+              class="resultMarquee"
+              id="head-meque">
+              <p id="head-meque_text">
+                 中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+              </p>
+            </section>
           </section>
         </section>
         <ul class="head-users fr ft0">
@@ -95,11 +99,13 @@ import { removeToken } from "@/utils/auth";
 export default {
   name: "Header",
   computed: {
-    ...mapGetters(["userDetail", "currentLottery", "lotteryAll", "lotteryLists"])
+    ...mapGetters(["userDetail", "lotteryLists", "logoSrc"])
   },
   mounted() {
     this.$store.dispatch("lotteryAll");
     this.lotteryList();
+    // head 滚动公告
+    this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
   methods: {
     // 刷新用户余额
@@ -306,6 +312,21 @@ export default {
       }
     }
   }
+}
+#head-meque {
+  position: relative;
+  left:6px;
+  width: 352px;
+  height:34px;
+  overflow: hidden;
+}
+#head-meque_text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  color:#f1f1f1;
 }
 </style>
 

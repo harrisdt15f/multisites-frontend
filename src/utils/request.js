@@ -38,25 +38,12 @@ service.interceptors.response.use(
     }
   },
   error => {
-    if (
-      (error.response &&
-        error.response.status &&
-        error.response.status === 401) ||
-        error.response.status === 402 ||
-        error.response.status === 403 ||
-        error.response.status === 422
-    ) {
-      removeToken()
-      Message({
-        message: error.message,
-        type: 'error',
-        duration: 5 * 1000
-      })
-      router.push('login')
-      return Promise.reject(error)
-    } else {
-      return Promise.reject(error)
-    }
+    Message({
+      message: error.message,
+      type: 'error',
+      duration: 5 * 1000
+    })
+    return Promise.reject(error)
   }
 )
 

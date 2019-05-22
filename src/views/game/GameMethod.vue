@@ -2,8 +2,7 @@
   <section class="fw">
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'"
-      class="w"
-      style="padding-top:25px;">
+      class="w">
       <section class="main-center">
         <div class="bet-type-crow">
           <section class="bet-type-crows">
@@ -82,9 +81,9 @@
     </section>
     <GameYlc v-if="chengeYlcPlays.name === 'casino'"></GameYlc>
   </section>
-</template>
+</template> 
 <script>
-import methods from "../../lib/config/method";
+import methods from '../../lib/config/method'
 import GameSelect from "./GameSelect";
 import GameOrder from "./GameOrder";
 import GameYlc from "../../components/game/ylc";
@@ -116,7 +115,7 @@ export default {
   watch: {
     // 官方彩 和 娱乐城的切换
     chengeYlcPlays(newVal) {
-      let lottery = this.lotteryAll[this.currentLottery.en_name];
+      let lottery = this.lotteryAll[this.currentLottery.en_name]
       if (newVal.name === "official") {
         this.$store.commit("allMethods", lottery.methodConfig);
       } else if (newVal.name === "casino") {
@@ -144,7 +143,6 @@ export default {
       this.selectedGroupIndex = _index;
       this.selectedMethodId = "";
       this.$store.commit("currentMethod", {});
-      
       this.selectMethod(
         this.allMethods[_index]["rows"][0]["methods"][0]["method_id"]
       );

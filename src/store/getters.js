@@ -1,6 +1,12 @@
 const getters = {
+  // 登录
   token: state => state.user.token,
   userDetail: state => state.user.userDetail,
+  // 网站
+  banner: state => state.site.banner,
+  qrSrc: state => state.site.qrSrc,
+  logoSrc: state => state.site.logoSrc,
+  // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,
   bet: state => state.lottery.bet,

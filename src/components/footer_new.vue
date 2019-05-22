@@ -1,5 +1,5 @@
 <template>
-  <footer class="fw">
+  <footer class="footer fw">
     <section class="w">
       <section class="fw foot-head">
         <section class="logo">
@@ -33,11 +33,11 @@
         <div class="fr">
           <div class="time-box">
             <div class="time-box-title">存款 到账平均时间</div>
-            <span class="time-box-desc"><i></i> <span>10</span>秒</span>
+            <span class="time-box-desc"><i class="i"></i> <span class="span">10</span>秒</span>
           </div>
           <div class="time-box">
             <div class="time-box-title">取款 到账平均时间</div>
-            <div class="time-box-desc"><i class="withdrawal"></i> <span>50</span>秒</div>
+            <div class="time-box-desc"><i class="withdrawal i"></i> <span class="span">50</span>秒</div>
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  footer {
+  .footer {
     background:#403a38;
     width: 100%;
   }
@@ -139,7 +139,7 @@ export default {
     margin-top: 20px;
     .time-box-desc{
       color: #d1c2b7;
-      i{
+      .i{
         display: inline-block;
         border-radius: 5px;
         width: 250px;
@@ -149,7 +149,7 @@ export default {
           background: linear-gradient(90deg, #905ae0, #5449aa);
         }
       }
-     span{
+     .span{
        font-size: 25px;
        font-weight: bold;
        margin-left: 8px;

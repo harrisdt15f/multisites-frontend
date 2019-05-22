@@ -5,7 +5,7 @@
         <section class="game-header-s">
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
-        <section class="game-lottery">
+        <section class="game-lotterys">
           <div class="deadline">
             <div class="deadline-text">
               第
@@ -147,13 +147,11 @@
         <section class="trend-info">
           <span class="trend">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
-            <br>
-            开奖趋势
+            <br>开奖趋势
           </span>
           <span class="trend info">
             <i class="fa fa-trophy" aria-hidden="true"></i>
-            <br>
-            开奖说明
+            <br>开奖说明
           </span>
         </section>
       </section>
@@ -171,7 +169,6 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-``;
 export default {
   name: "game-issue",
   computed: {
@@ -241,7 +238,9 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.currentIssue = res.data.currentIssue;
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(",");
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+            ","
+          );
           this.lastIssue = res.data.lastIssue;
           let [timer = null] = [];
           timer = setInterval(() => {
@@ -302,17 +301,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.game-lottery {
+.game-lotterys {
+  float: left;
+  width: 810px;
   line-height: 1.15;
+  display: flex;
+  justify-content: space-around;
+  .game-lottery {
+    margin-left: 15px;
+    flex: 1;
+    line-height: 1.15;
+  }
   .deadline {
     padding: 0;
     margin: 0;
+    margin-left: 30px;
     background-color: transparent;
     _display: unset;
     box-shadow: unset;
     border-radius: unset;
-    float: left;
-    padding-left: 30px;
     .deadline-number-mask {
       position: absolute;
       left: 0;
@@ -449,7 +456,6 @@ export default {
   line-height: 25px;
 }
 .lottery-number {
-  float: left;
   margin-left: 12px;
   margin-top: 8px;
   em {

@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 
+import Site from './site';
 import User from './user'
 import Lottery from './lottery'
 
@@ -23,6 +24,7 @@ export const API = {
         })
     },
     /**  ============================== 接口 =============================== **/
+    ...Site,
     ...User,
     ...Lottery
 }

@@ -3,7 +3,11 @@
     <div class="carousel-img">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in banner" :key="item.src">
-          <a class="carousel-src" href="javascript:;" :style="`background-image: url(${item.src})`"></a>
+          <a 
+            class="carousel-src" 
+            href="javascript:;" 
+            :style="`background-image: url(${item.pic_path})`">
+          </a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -79,7 +83,7 @@
           <el-col :span="8">
             <div class="box-qr">
               <div class="qr">
-                <img src="../assets/images/new/index/qr.jpg">
+                <img :src="qrSrc">
               </div>
             </div>
             <div class="box-report">
@@ -121,7 +125,7 @@
                   </div>
                   <div class="num">
                     <ul class="num-list">
-                      <li v-for="item in 10" :key="item">{{item-1}}</li>
+                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
                     </ul>
                     <div class="desc">
                       <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
@@ -147,7 +151,7 @@
                   </div>
                   <div class="num">
                     <ul class="num-list">
-                      <li v-for="item in 10" :key="item">{{item-1}}</li>
+                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
                     </ul>
                     <div class="desc">
                       <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
@@ -173,7 +177,7 @@
                   </div>
                   <div class="num">
                     <ul class="num-list">
-                      <li v-for="item in 10" :key="item">{{item-1}}</li>
+                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
                     </ul>
                     <div class="desc">
                       <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
@@ -219,45 +223,22 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "index",
   data() {
     return {
-      banner: [
-        { src: require("../assets/images/index/banner1.jpg") },
-      ],
       bet: {
         multiple: 1
       }
     };
   },
+  computed: {
+    ...mapGetters(['banner', 'qrSrc'])
+  },
   mounted() {
     this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1);
   },
-  methods: {
-    // 四个游戏移入
-    gameEnter(item) {
-      item.show = true;
-    },
-    // 四个游戏移出
-    gameLeave(item) {
-      item.show = false;
-    },
-    // 热门彩种立即投注 减
-    multiplesReduce() {
-      if (this.bet.multiple <= 1) {
-        return;
-      }
-      this.bet.multiple--;
-    },
-    // 热门彩种立即投注 加
-    multiplesAdd() {
-      if (this.bet.multiple > 1000) {
-        return;
-      }
-      this.bet.multiple++;
-    }
-  }
 };
 </script>
 
@@ -557,7 +538,7 @@ export default {
         width: 342px;
         margin: 0 auto;
         padding: 14px 0;
-        li {
+        .num-list-item {
           font-size: 12px;
           width: 24px;
           height: 24px;

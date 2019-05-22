@@ -655,11 +655,6 @@ export default {
     ])
   },
   watch: {
-    // 切换 娱乐城彩种时
-    currentMethod() {
-      this.pcddAllList();
-    },
-
     // 快选输入金钱时
     "currentOrder.money": {
       handler(newVal) {
@@ -1148,7 +1143,7 @@ export default {
       let [list = this.currentMethod.layout.codes, all = this.allMethods] = [];
 
       this.pcdd.allCodeList = [];
-
+      
       // pc蛋蛋
       if (this.currentMethod.type === "pcdd") {
         let [

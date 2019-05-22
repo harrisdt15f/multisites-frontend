@@ -1,6 +1,9 @@
 body {
 	background: #f1f1f1;
 }
+.game-mian{
+  padding-bottom: 36px
+}
 .main-right {
 	float: right;
 	width: 300px;
@@ -1154,8 +1157,10 @@ body {
 
 .logo-lottery {
 	float: left;
+	width: 170px;
+	line-height: 91px;
+	text-align: center;
 	box-sizing: border-box;
-	padding: 0 35px;
 	font-family: inherit;
 	margin: 0;
 }

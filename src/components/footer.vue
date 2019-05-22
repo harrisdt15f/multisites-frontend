@@ -19,8 +19,7 @@
       <ul class="fw">
         <li class="cooperate-list"
             v-for="(item, index) in cooperateList" :key="index"
-            :style="{background:item.src}"
-        >
+            :style="{background:item.src}">
         </li>
       </ul>
       <section class="desc">
