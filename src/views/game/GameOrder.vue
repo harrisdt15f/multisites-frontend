@@ -1,145 +1,107 @@
 <template>
   <section class="main-bottom">
     <section class="main-bottom-con" v-if="currentMethod.type !== 'lhc'">
-      <!--            <section class="tabs-box-menu m-B">-->
-      <!--                <section class="tabs-r-txt" id="project-bar">-->
-      <!--                    <p>当前总共<strong class="txt-red" id="project-num">{{totals.number}}</strong>注，-->
-      <!--                        我要翻 <input type="text" placeholder="1" class="ipt ipt-muliple" id="project-times" v-model="totalSub.double"/>-->
-      <!--                        倍，共<strong class="txt-red" id="project-cost"> {{totalSub.double > 1 ? totalSub.money : totals.money}} </strong>元。</p>-->
-      <!--                </section>-->
-      <!--                <ul class="tabs-ul">-->
-      <!--                    <li><a href="javascript:;" id="project-current">当前投注</a></li>-->
-      <!--                </ul>-->
-      <!--            </section>-->
       <section class="bet-count-confirm">
-        <section class="bet-msg-pick-bd">
-          <section class="bet-pick-box">
-            <a
-              href="javascript:;"
-              class="txt-clean"
-              id="project-empty"
-              @click="clearOrderList()"
-            >清空选号</a>
-            <section class="iptbox bet-pick-ipt-box">
-              <table width="100%">
-                <thead>
-                  <tr>
-                    <th>
-                      <i>玩法</i>
-                    </th>
-                    <th>
-                      <i>号码</i>
-                    </th>
-                    <th>
-                      <i>注数</i>
-                    </th>
-                    <th>
-                      <i>倍数</i>
-                    </th>
-                    <th>
-                      <i>模式</i>
-                    </th>
-                    <th>
-                      <i>总额(元)</i>
-                    </th>
-                    <th>
-                      <i>操作</i>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody id="project-data">
-                  <tr v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
-                    <td>
-                      <i>{{order.method_name}}</i>
-                    </td>
-                    <td>
-                      <i>{{order.codes}}</i>
-                    </td>
-                    <td>
-                      <i>{{order.count}}</i>
-                    </td>
-                    <td>
-                      <i>{{order.times}}</i>
-                    </td>
-                    <td>
-                      <i>{{order.mode}}</i>
-                    </td>
-                    <td>
-                      <i>{{Utils.toFixed(String(order.cost))}}</i>
-                    </td>
-                    <td width="5">
-                      <i>
-                        <a
-                          href="javascript:;"
-                          class="del"
-                          @click="deleteOrderList(order, _orderIndex)"
-                        >删除</a>
-                      </i>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </section>
+        <section class="play-footer clearfix">
+          <section class="panel-section">
+            <div class="pannel-title">
+              <a
+                href="javascript:;"
+                class="btn close"
+                id="project-empty"
+                @click="clearOrderList()">清空</a>
+              购彩篮
+            </div>
+            <div class="panel-select-title clearfix">
+							<span class="name">玩法</span>
+							<span class="number">号码</span>
+							<span class="bet">注</span>
+							<span class="multiple">倍</span>
+							<span class="price">金额</span>
+							<span class="operation">操作</span>
+					</div>
+            <div class="panel-order-list-cont">
+              <ul class="order-container">
+                <li v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
+                  <span class="name">
+                    {{order.method_name}}
+                  </span>
+                  <span class="number">
+                    {{order.codes}}
+                  </span>
+                  <span class="bet">{{order.count}}</span>
+                  <span class="multiple">{{order.times}}</span>
+                  <span class="price">{{Utils.toFixed(String(order.cost))}}</span>
+                  <a @click="deleteOrderList(order, _orderIndex)" href="javascript:void(0);" title="删除" class="delete"></a>
+                </li>
+              </ul>
+            </div>
           </section>
-          <section class="tc chase">
-            <section class="pr chase-title">
-              追号设置
-              <el-button size="mini" class="chase-clear" @click="clearChase()">清除追号计划并关闭窗口</el-button>
-            </section>
+          <section class="panel-trace">
             <ul class="fw chase-tabs">
-              <!--                            <li class="chase-tab" :class="{active: chaseTab === 0}" @click="chaseTabHan(0)">利润</li>-->
-              <li class="chase-tab" :class="{active: chaseTab === 1}" @click="chaseTabHan(1)">同倍</li>
-              <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍</li>
+              <li class="chase-tab" :class="{active: chaseTab === 1}" @click="chaseTabHan(1)">同倍追号</li>
+              <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍追号</li>
             </ul>
             <ul class="fw tab-cons">
               <li class="tab-con" v-if="chaseTab === 1">
                 <section class="tab-inputs">
-                  起始倍数:
-                  <input
-                    type="text"
-                    v-model="chase.sameNum"
-                    :placeholder="chase.sameNum"
-                    class="tab-input"
-                  >倍 追号期数
-                  <input
+                  <label class="param">
+                    起始倍数:
+                    <input
+                      type="text"
+                      v-model="chase.sameNum"
+                      :placeholder="chase.sameNum"
+                      class="tab-input">倍
+                  </label>
+                  <label class="param">
+                    追号期数
+                    <input
                     type="text"
                     v-model="chase.sameIssue"
                     :placeholder="chase.sameIssue"
-                    class="tab-input"
-                  >
+                    class="tab-input">
+                  </label>
+                  
+                  <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
                 </section>
-                <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
               </li>
               <li class="tab-con" v-if="chaseTab === 2">
                 <section class="tab-inputs">
+                  <label class="param">
                   起始倍数:
-                  <input
-                    type="text"
-                    v-model="chase.doubleNum"
-                    disabled
-                    :placeholder="chase.doubleNum"
-                    class="tab-input"
-                  >隔
-                  <input
-                    type="text"
-                    v-model="chase.doubleG"
-                    :placeholder="chase.doubleG"
-                    class="tab-input"
-                  >期 倍x
-                  <input
-                    type="text"
-                    v-model="chase.doubleB"
-                    :placeholder="chase.doubleB"
-                    class="tab-input"
-                  > 期数:
-                  <input
-                    type="text"
-                    v-model="chase.doubleIssue"
-                    :placeholder="chase.doubleIssue"
-                    class="tab-input"
-                  >
+                    <input
+                      type="text"
+                      v-model="chase.doubleNum"
+                      disabled
+                      :placeholder="chase.doubleNum"
+                      class="tab-input">
+                  </label>
+                  <label class="param">
+                    隔
+                    <input
+                      type="text"
+                      v-model="chase.doubleG"
+                      :placeholder="chase.doubleG"
+                      class="tab-input">
+                  </label>
+                  <label class="param">
+                    期 倍x
+                    <input
+                      type="text"
+                      v-model="chase.doubleB"
+                      :placeholder="chase.doubleB"
+                      class="tab-input">
+                  </label>
+                  <label class="param">
+                    期数:
+                    <input
+                      type="text"
+                      v-model="chase.doubleIssue"
+                      :placeholder="chase.doubleIssue"
+                      class="tab-input">
+                  </label>
+                  <el-button size="small" @click="chaseDoubleSubmit()">生成追号计划</el-button>
                 </section>
-                <el-button size="small" @click="chaseDoubleSubmit()">生成追号计划</el-button>
               </li>
             </ul>
           </section>
@@ -238,16 +200,24 @@
         </table>
       </section>
       <section class="bet-future-set">
-        总金额
-        <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
-        <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
-        <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
+        <div class="bmn-confirm-title">
+          <div class="bmn-confir-icon"><img src="../../assets/images/lottery/icon_money.png"></div>
+          确认投注信息
+        </div>
+        <span class="bmn-confirm-text">
+          总金额
+          <span style="font-size: 22px;">
+            <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
+            <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
+            <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
+          </span>
+        </span>
+        
         <a
           href="javascript:;"
           class="btn main-btn-confirm"
           id="project-submit"
-          @click="submitBet()"
-        >
+          @click="submitBet()">
           <i class="fa fa-check-circle ft20"></i>确认投注
         </a>
       </section>

@@ -28,7 +28,7 @@ const actions = {
         const { data, success } = response
         if (success) {
           commit('SET_TOKEN', data.access_token)
-          setToken(data.access_token)
+          setToken(data.access_token, data.expires_at)
           resolve()
         } else {
           reject()

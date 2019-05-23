@@ -19,13 +19,16 @@ export default {
     Footer
   },
   created() {
-    this.initData();
+    this.initData()
   },
   methods: {
-    ...mapActions(["getBanner", "getQrcode"]),
+    ...mapActions(["getBanner", "getQrcode", "getNotice", "getPopularLotteries1", "getPopularLotteries2"]),
     initData() {
-      this.getBanner();
-      this.getQrcode();
+      this.getBanner()
+      this.getQrcode()
+      this.getNotice()
+      this.getPopularLotteries1()
+      this.getPopularLotteries2()
     }
   }
 };

@@ -80,6 +80,7 @@ export default {
     border-bottom:1px dashed #5e6571;
   }
   .logo{
+    cursor: pointer;
     float:left;
     margin-right:14px;
     color:#fff;

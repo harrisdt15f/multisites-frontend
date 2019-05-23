@@ -1,10 +1,7 @@
 <template>
   <div class="header-wrapper">
     <header class="container">
-      <h1 class="logo">
-        <!-- <img :src="logoSrc" alt="logo"> -->
-        LOGO
-      </h1>
+        <router-link class="logo" tag="h1" to="/home" >LOGO</router-link>
       <div class="top">
         <section class="head-notice">
           <i class="fa fa-volume-up ft21 head-notice-img"></i>
@@ -26,8 +23,7 @@
           <span class="line">|</span>
           <li class="head-user" style="cursor: default">
             余额:
-            {{Utils.toFixed(this.userDetail.balance)}}
-            <!--               <i class="fa fa-refresh cur" @click="refresh()"></i>-->
+            {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
           </li>
           <li class="head-user">充值</li>
           <li class="head-user">退款</li>
@@ -168,6 +164,7 @@ export default {
     position: relative;
   }
   .logo {
+    cursor: pointer;
     position: absolute;
     left: 0;
     top: 0;

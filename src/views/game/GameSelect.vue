@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section style="border-right: 1px solid #eaeaea;">
     <div class="main-play-introduce ft12">
       {{currentMethod.desc}}
       <a href="javascript:;" class="ico-why">
@@ -62,15 +62,13 @@
         :class="{
           'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
           'k3-ebth-lists': currentMethod.method === 'EBTH',
-          'k3-dtys-lists': currentMethod.method === 'DTYS'}"
-      >
+          'k3-dtys-lists': currentMethod.method === 'DTYS'}">
         <li
           class="k3-dxds-list"
           v-for="(_code, xIndex) in _number"
           :key="xIndex"
           @click="selectCode(yIndex, xIndex)"
-          :class="{'active': chooseNumber[yIndex][xIndex]}"
-        >
+          :class="{'active': chooseNumber[yIndex][xIndex]}">
           <a
             href="javascript:;"
             class="k3-sbth-dxds-lk"
@@ -78,8 +76,7 @@
             :x="xIndex"
             :y="yIndex"
             v-for="(_code_sub, index) in String(_code).split('')"
-            :key="index"
-          ></a>
+            :key="index"></a>
         </li>
       </ul>
 
@@ -89,15 +86,13 @@
           class="k3-dxds-list"
           v-for="(_code, xIndex) in _number"
           :key="xIndex"
-          @click="selectCode(yIndex, xIndex)"
-        >
+          @click="selectCode(yIndex, xIndex)">
           <a
             href="javascript:;"
             class="k3-dxds-lk"
             :class="{'active': chooseNumber[yIndex][xIndex]}"
             :x="xIndex"
-            :y="yIndex"
-          >{{_code}}</a>
+            :y="yIndex">{{_code}}</a>
         </li>
       </ul>
     </section>
@@ -125,28 +120,14 @@
             @focus="inputAreaFocus()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
-            v-model="inputCodes"
-          ></textarea>
+            v-model="inputCodes"></textarea>
         </div>
       </div>
     </div>
 
-    <div class="bet-statistics w100" v-if="currentMethod.type !== 'lhc'">
+    <div class="bet-statistics" v-if="currentMethod.type !== 'lhc'">
       <div class="main-column-1 fl">
-        <div class="bet-choose-total">
-          共 {{currentOrder.currentCount}} 注，
-          <input
-            type="button"
-            value="-"
-            class="bet-choose-ipt"
-            @click="timeReduce()"
-          >
-          <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes">
-          <input type="button" value="+" class="bet-choose-ipt" @click="timeAdd()">
-          倍
-        </div>
         <div class="bet-play-mode fw">
-          模式：
           <a
             v-for="(mode, modeIndex) in currentLottery.valid_modes"
             href="javascript:;"
@@ -156,18 +137,22 @@
             :v="modeIndex"
           >{{mode.title}}</a>
         </div>
-        <el-slider
-          class="bet-rebate-mode"
-          v-model="currentOrder.currentGroup"
-          v-bind:min="1700"
-          v-bind:max="1980"
-        ></el-slider>
+        <div class="bet-choose-total">
+          <input
+            type="button"
+            value="-"
+            class="bet-choose-ipt"
+            @click="timeReduce()">
+          <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes">
+          <input type="button" value="+" class="bet-choose-ipt" @click="timeAdd()">
+          <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span> 
+        </div>
+        <div class="bet-choose-total" style="margin-left: 20px;line-height: 35px;font-size: 14px;color: #222222;">
+          已选 <span style="color:#ff7200;font-size: 20px;">{{currentOrder.currentCount}}</span> 注，
+          共<strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
+        </div>
       </div>
       <div class="bet-add-box fr">
-        <strong
-          class="bet-total-money"
-          id="cost"
-        >{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
         <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">一键投注</a>
         <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
           <i class="fa fa-download ft20"></i>添加选号

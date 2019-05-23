@@ -26,4 +26,8 @@ export default {
   getLogo() {
     return this.get('/homepage/logo').then(response =>  response)
   },
+  //公告API
+  getNotice() {
+    return this.get('/homepage/notice').then(response =>  response)
+  }
 }

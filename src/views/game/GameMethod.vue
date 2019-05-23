@@ -1,8 +1,7 @@
 <template>
   <section class="fw">
     <section
-      v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'"
-      class="w">
+      v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w">
       <section class="main-center">
         <div class="bet-type-crow">
           <section class="bet-type-crows">
@@ -26,64 +25,68 @@
             <div class="bet-play" @click="chengePlay()">娱乐城</div>
           </section>
         </div>
-        <div class="bet-type-group" v-if="selectedGroup">
-          <div
-            class="bet-type-group-list"
-            v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
-            :key="_rowIndex">
-            <template v-if="row.methods.length > 1">
-              <div class="group-name">{{row.name}}</div>
-              <ul>
-                <li
-                  class="bet-type-group-list-li"
-                  v-for="(method, mkey) in row.methods"
-                  :key="mkey"
-                  v-bind:class="{'on':method.method_id === selectedMethodId}"
-                  @click="selectMethod(method.method_id)"
-                >{{method.method_name}}</li>
-              </ul>
-            </template>
+        <div class="main-center-wrap">
+          <div class="main-left">
+            <div class="bet-type-group" v-if="selectedGroup">
+              <div
+                class="bet-type-group-list"
+                v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
+                :key="_rowIndex">
+                <template v-if="row.methods.length > 1">
+                  <div class="group-name">{{row.name}}</div>
+                  <ul>
+                    <li
+                      class="bet-type-group-list-li"
+                      v-for="(method, mkey) in row.methods"
+                      :key="mkey"
+                      v-bind:class="{'on':method.method_id === selectedMethodId}"
+                      @click="selectMethod(method.method_id)"
+                    >{{method.method_name}}</li>
+                  </ul>
+                </template>
+              </div>
+            </div>
+            <game-select></game-select>
           </div>
+          <section class="main-right">
+            <section class="list-historys">
+              <section class="record"></section>
+              <table width="100%" class="bet-table-trend">
+                <thead>
+                  <tr>
+                    <th class="th">奖期</th>
+                    <th class="th">开奖</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    :class="{first: index === 0}"
+                    v-for="(item, index) in bet.issueHistory"
+                    :key="index">
+                    <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
+                    <td class="td">
+                      <span class="balls">
+                        <i
+                          class="i curr"
+                          v-for="(num, numIndex) in item.code.split(',')"
+                          :key="numIndex">{{num}}</i>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <section class="cur more">查看完整走势</section>
+            </section>
+          </section>
         </div>
-        <game-select></game-select>
         <game-order></game-order>
-      </section>
-      <section class="main-right">
-        <section class="list-historys">
-          <section class="record">历史开奖记录</section>
-          <table width="100%" class="bet-table-trend">
-            <thead>
-              <tr>
-                <th class="th">奖期</th>
-                <th class="th">开奖</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                :class="{first: index === bet.issueHistory.length - 1}"
-                v-for="(item, index) in bet.issueHistory"
-                :key="index">
-                <td class="td">{{item.issue_no}} 期</td>
-                <td class="td balls">
-                  <i
-                    class="i"
-                    :class="{curr: numIndex < item.code.split(',').length - 2}"
-                    v-for="(num, numIndex) in item.code.split(',')"
-                    :key="numIndex"
-                  >{{num}}</i>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <section class="cur more">查看完整走势</section>
-        </section>
       </section>
     </section>
     <GameYlc v-if="chengeYlcPlays.name === 'casino'"></GameYlc>
   </section>
 </template> 
 <script>
-import methods from '../../lib/config/method'
+import methods from "../../lib/config/method";
 import GameSelect from "./GameSelect";
 import GameOrder from "./GameOrder";
 import GameYlc from "../../components/game/ylc";
@@ -115,7 +118,7 @@ export default {
   watch: {
     // 官方彩 和 娱乐城的切换
     chengeYlcPlays(newVal) {
-      let lottery = this.lotteryAll[this.currentLottery.en_name]
+      let lottery = this.lotteryAll[this.currentLottery.en_name];
       if (newVal.name === "official") {
         this.$store.commit("allMethods", lottery.methodConfig);
       } else if (newVal.name === "casino") {
@@ -168,3 +171,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>
