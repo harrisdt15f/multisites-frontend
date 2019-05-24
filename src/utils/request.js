@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils/auth'
-import router from 'vue-router'
+import { nextTick } from 'q';
 
 // create an axios instance
 const service = axios.create({
@@ -15,7 +15,7 @@ service.interceptors.request.use(
   config => {
     if (store.getters.token) {
       config.headers.Authorization = 'Bearer ' + getToken()
-    }
+    } 
     return config
   },
   error => {
@@ -27,15 +27,26 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (res && res.success) {
-      return res
-    } else if (res && res.message) {
+    if (res && !res.success && res.message) {
       let message = res.message
-      MessageBox(message, '提示', {
-        confirmButtonText: '确定'
-      })
-      return []
+      if (res.code == 0) {
+        MessageBox(message, '提示', {
+          confirmButtonText: '确定'
+        }).then(() => {
+          removeToken();
+          window.sessionStorage.clear()
+          nextTick(() => {
+            window.location.replace('/login')
+            return false
+          })
+        })
+      } else {
+        MessageBox(message, '提示', {
+          confirmButtonText: '确定'
+        })
+      }
     }
+    return res
   },
   error => {
     Message({

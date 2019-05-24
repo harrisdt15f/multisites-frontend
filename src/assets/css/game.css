@@ -149,7 +149,7 @@ body {
   width: 22px;
   font-size: 18px;
   line-height: 18px;
-  margin: 6.5px 3px;
+  margin: 6.5px 5px;
 }
 .bet-table-trend .first .balls i {
   width: 26px;
@@ -179,6 +179,7 @@ body {
   display: inline-block;
   cursor: pointer;
   margin-top: 18px;
+  margin-bottom: 18px;
   text-align: center;
   font-size: 16px;
   line-height: 45px;
@@ -636,7 +637,13 @@ body {
   vertical-align: middle;
   display: inline-block;
   padding: 0 0 0 15px;
+  box-sizing: border-box;
 }
+
+.main-ball-control.series {
+  margin: 5px 0 5px 75px;
+}
+
 .main-ball-control-li .ball {
   transition: none;
   box-sizing: border-box;
@@ -659,7 +666,7 @@ body {
   text-align: center;
   font-size: 14px;
   color: #222222;
-  box-sizing: border-box;
+  
 }
 .main-ball-control-li .ball:hover {
   background-image: none;
@@ -672,7 +679,6 @@ body {
 .main-ball-control-li.ball-on .ball {
   background-image: url('../images/lottery/cnbtn_bg.png');
   background-position: center;
-  border: 0;
   box-shadow: none;
   position: relative;
   color: #000;
@@ -685,14 +691,9 @@ body {
   top: 56px;
 }
 /*单式投注区------------------------------------------------------------*/
-.main-single-entry {
-  padding: 15px;
-}
+
 .main-balls-import {
-  position: relative;
-  padding-left: 200px;
-  height: 36px;
-  text-align: right;
+ width: 100%;
 }
 .ico-import {
   width: 20px;
@@ -721,21 +722,22 @@ body {
   background-color: #f34f36;
 }
 .balls-import-box {
-  height: 70px;
-  padding: 5px 10px;
+  width: 620px;
+  height: 150px;
+  padding: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #CACACA;
+  background: #F9F9F9;
   margin-top: 10px;
-  background-color: #545454;
-  border: 1px solid #676767;
-  border-radius: 5px;
 }
 .balls-import-txt {
-  width: 100%;
-  height: 70px;
-  background: none;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  overflow-y: auto;
+  width: 608px;
+  height: 138px;
+  border: 1px solid #CCC;
+  background: #FFF;
+  padding: 5px;
+  outline: none;
+  line-height: 150%;
 }
 /*任选选项*/
 .main-optional-txt {
@@ -1774,9 +1776,14 @@ body {
   background-image: linear-gradient(0deg, #e7e7e7 100%, #e7e7e7 100%);
 }
 .btn-ball-import {
-  position: absolute;
-  left: 0;
+  display: inline-block;
+  cursor: pointer;
+  background-color: #5F442E;
+  line-height: 30px;
+  padding: 0 30px;
   color: #fff;
+  font-size: 12px;
+  border-radius: 2px;
 }
 
 .lhc-end {
@@ -2856,4 +2863,28 @@ body {
 .bmn-confirm-text {
   display: inline-block;
   vertical-align: -5px;
+  margin-right: 15px;
+}
+.panel-btn-a{
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  height: 28px;
+  border: none;
+  line-height: 28px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 12px;
+  color: #FFF;
+  cursor: pointer;
+  border-radius: 2px;
+  outline: none;
+  font-family: microsoft yahei;
+  background-color: #5F442E;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  margin-right: 10px;
+  padding: 1px 10px;
+}
+.main-single-entry{
+  padding: 15px 20px;
 }

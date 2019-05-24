@@ -3,8 +3,7 @@
     <!--正特 特马-->
     <section
       v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1"
-      class="fl"
-    >
+      class="fl">
       <ul class="fw ball-titles BB-titles">
         <li class="ball-title">号码</li>
         <li class="ball-title">金额</li>
@@ -40,26 +39,25 @@
             <li class="ball-title">金额</li>
           </ul>
           <ul class="fw lhc-tm-lists">
-            <template v-if="index < 9">
-              <li
-                class="lhc-tm-list"
-                :class="{on: item.flag}"
-                v-for="(item, index) in newCodes"
-                :key="index"
-              >
-                <span class="lhc-bb-ball-name">{{item.name}}</span>
-                <span class="lhc-bb-ball-name">x 6.17</span>
-                <ul class="fw lhc-bb-balls">
-                  <li
-                    class="lhc-bb-ball ft14"
-                    :class="ballColor(item)"
-                    v-for="(cd, cdIndex) in item.code"
-                    :key="cdIndex"
-                  >{{cd}}</li>
-                </ul>
-                <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
-              </li>
-            </template>
+            <li
+              class="lhc-tm-list"
+              :class="{on: item.flag}"
+              v-if="index < 9"
+              v-for="(item, index) in newCodes"
+              :key="index"
+            >
+              <span class="lhc-bb-ball-name">{{item.name}}</span>
+              <span class="lhc-bb-ball-name">x 6.17</span>
+              <ul class="fw lhc-bb-balls">
+                <li
+                  class="lhc-bb-ball ft14"
+                  :class="ballColor(item)"
+                  v-for="(cd, cdIndex) in item.code"
+                  :key="cdIndex"
+                >{{cd}}</li>
+              </ul>
+              <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
+            </li>
           </ul>
         </section>
         <section class="fw fl lhc-bb ft0">
@@ -68,26 +66,25 @@
             <li class="ball-title">金额</li>
           </ul>
           <ul class="fw lhc-tm-lists">
-            <template v-if="index > 8">
-              <li
-                class="lhc-tm-list"
-                :class="{on: item.flag}"
-                v-for="(item, index) in newCodes"
-                :key="index"
-              >
-                <span class="lhc-bb-ball-name">{{item.name}}</span>
-                <span class="lhc-bb-ball-name">x 6.17</span>
-                <ul class="fw lhc-bb-balls">
-                  <li
-                    class="lhc-bb-ball ft14"
-                    :class="ballColor(item)"
-                    v-for="(cd, cdIndex) in item.code"
-                    :key="cdIndex"
-                  >{{cd}}</li>
-                </ul>
-                <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
-              </li>
-            </template>
+            <li
+              class="lhc-tm-list"
+              :class="{on: item.flag}"
+              v-if="index > 8"
+              v-for="(item, index) in newCodes"
+              :key="index"
+            >
+              <span class="lhc-bb-ball-name">{{item.name}}</span>
+              <span class="lhc-bb-ball-name">x 6.17</span>
+              <ul class="fw lhc-bb-balls">
+                <li
+                  class="lhc-bb-ball ft14"
+                  :class="ballColor(item)"
+                  v-for="(cd, cdIndex) in item.code"
+                  :key="cdIndex"
+                >{{cd}}</li>
+              </ul>
+              <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
+            </li>
           </ul>
         </section>
       </section>
@@ -282,8 +279,8 @@
             <li
               class="play"
               :class="{
-								red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
-								on: item.flag}"
+              red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
+              on: item.flag}"
               v-for="(item, index) in plays"
               :key="index"
               @click="selectNumber(item)"
@@ -306,9 +303,9 @@
             <li
               class="play"
               :class="{
-								red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
-								on: item.flag,
-								w50: index === plays.length -1 || index === plays.length - 2}"
+              red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
+              on: item.flag,
+              w50: index === plays.length -1 || index === plays.length - 2}"
               v-for="(item, index) in plays"
               :key="index"
               @click="selectNumber(item)"
@@ -333,8 +330,7 @@
               :class="{on: item.flag}"
               v-for="(item, index) in plays"
               :key="index"
-              @click="selectNumber(item)"
-            >{{item.code}}</li>
+              @click="selectNumber(item)">{{item.code}}</li>
           </ul>
           <ul class="fw plays lhc-silde-playsFive">
             <li
@@ -375,7 +371,11 @@
       </section>
       <ul class="fw bet-lists">
         <!--正特 特马-->
-        <template v-if=" currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1">
+        <template
+          v-if="
+          currentMethod.method === 'TM' ||
+          currentMethod.method.indexOf('ZT') > -1"
+        >
           <li
             class="bet-list"
             v-for="(item, index) in currentOrder.list"
@@ -386,11 +386,10 @@
         <!--半波 生肖 尾数 总分-->
         <template
           v-if="
-			currentMethod.method === 'BB' ||
-			currentMethod.method === 'SX' ||
-			currentMethod.method === 'WX' ||
-			currentMethod.method === 'ZF'"
-        >
+          currentMethod.method === 'BB' ||
+          currentMethod.method === 'SX' ||
+          currentMethod.method === 'WX' ||
+          currentMethod.method === 'ZF'">
           <li
             class="bet-list"
             v-for="(item, index) in currentOrder.list"
@@ -419,8 +418,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import method from "../../lib/config/method";
+import { mapGetters } from "vuex";
 export default {
   name: "lhc",
   data() {
@@ -458,23 +456,21 @@ export default {
     };
   },
   computed: {
-    ...mapState(["currentMethod", "bet", "currentLottery"])
+    ...mapGetters(["currentMethod", "bet", "currentLottery"])
   },
   watch: {
     currentMethod(newVal) {
       // 将号码顺序转换 和 初始渲染数据处理
       let [silde = document.getElementsByClassName("silde")[0]] = [];
       if (newVal.method === "ZF" || newVal.method === "BZ") {
-        let [
-          mainCenter = document.getElementsByClassName("main-center")[0]
-        ] = [];
+        let [mainCenter = document.getElementsByClassName("main-left")[0]] = [];
         mainCenter.style.width = "100%";
         silde.style.display = "none";
-      } else if (newVal.method.indexOf("ZT") > -1 || newVal.method === "BB") {
-        silde.style.top = "-147px";
+      } else if (newVal.method.indexOf("ZT") > -1) {
+        silde.style.top = "-140px";
       } else {
         silde.style.display = "block";
-        silde.style.top = "-119px";
+        silde.style.top = "-73px";
         this.enterMain();
       }
       this.ballSort();
@@ -1310,32 +1306,23 @@ export default {
         }
       }
     },
-
     // 进入离开的布局
     enterMain() {
       let [
         mainRight = document.getElementsByClassName("main-right")[0],
-        gameHeaderL = document.getElementsByClassName("game-header-l")[0],
-        gameHeaderR = document.getElementsByClassName("game-header-r")[0],
-        mainCenter = document.getElementsByClassName("main-center")[0]
+        mainCenter = document.getElementsByClassName("main-left")[0]
       ] = [];
       mainRight.style.display = "none";
       mainCenter.style.width = "990px";
-      gameHeaderL.style.width = "990px";
-      gameHeaderR.style.width = "200px";
     },
     leaveMain() {
       let [
         mainRight = document.getElementsByClassName("main-right")[0],
-        gameHeaderL = document.getElementsByClassName("game-header-l")[0],
-        gameHeaderR = document.getElementsByClassName("game-header-r")[0],
-        mainCenter = document.getElementsByClassName("main-center")[0]
+        mainCenter = document.getElementsByClassName("main-left")[0]
       ] = [];
       if (mainRight) {
         mainRight.style.display = "block";
-        mainCenter.style.width = "890px";
-        gameHeaderL.style.width = "890px";
-        gameHeaderR.style.width = "300px";
+        mainCenter.style.width = "885px";
       }
     }
   },
@@ -1352,7 +1339,7 @@ export default {
 /*	右侧*/
 .silde {
   position: absolute;
-  top: -119px;
+  top: -73px;
   right: -210px;
   padding: 20px 8px;
   width: 184px;
@@ -1487,9 +1474,6 @@ export default {
   width: 95px;
   text-align: center;
   font-size: 14px;
-}
-.ball-title:nth-of-type(1) {
-  /*padding-left:10px;*/
 }
 .BB-titles .ball-title {
   width: 9.8%;

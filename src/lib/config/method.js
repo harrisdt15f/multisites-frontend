@@ -382,7 +382,6 @@ export default {
         },
         buttons: digitalPosTpl
       },
-
       WXZU120: {
         name: '组选120',
         method: 'WXZU120',

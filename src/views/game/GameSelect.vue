@@ -37,7 +37,7 @@
             <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
           </li>
         </ul>
-        <ul class="main-ball-control">
+        <ul class="main-ball-control" :class="{'series' : series === 'lotto'}">
           <li
             class="main-ball-control-li"
             v-for="(_btnText, bIndex) in  currentMethod.buttons"
@@ -58,7 +58,7 @@
       :key="yIndex">
       <ul
         class="k3-dxds-lists k3-sbth-lists"
-        v-if="currentMethod.method !== 'KSHZDXDS' &&ncurrentMethod.method !== 'KSHZ'"
+        v-if="currentMethod.method !== 'KSHZDXDS' && currentMethod.method !== 'KSHZ'"
         :class="{
           'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
           'k3-ebth-lists': currentMethod.method === 'EBTH',
@@ -105,14 +105,6 @@
       <div class="main-single-entry">
         <div class="main-balls-import">
           <div class="btn btn-blue btn-ball-import">导入注单</div>
-          <div class="btn-tab-list import-clean-list">
-            <a
-              href="javascript:;"
-              class="btn-tab btn-red optimize"
-              @click="inputClearRepeatOrder()"
-            >清理重复和错误号码</a>
-            <a href="javascript:;" class="btn-tab btn-red optimize" @click="inputClearOrder()">清空选号</a>
-          </div>
         </div>
         <div class="balls-import-box">
           <textarea
@@ -121,6 +113,14 @@
             @blur="inputAreaBlur()"
             class="balls-import-txt"
             v-model="inputCodes"></textarea>
+        </div>
+        <div class="btn-tab-list import-clean-list">
+          <a
+            href="javascript:;"
+            class="panel-btn-a"
+            @click="inputClearRepeatOrder()"
+          >清理重复和错误号码</a>
+          <a href="javascript:;" class="panel-btn-a" @click="inputClearOrder()">清空选号</a>
         </div>
       </div>
     </div>
@@ -201,7 +201,8 @@ export default {
       },
       // 一键投注
       oneKeyList: {},
-      dsTimer: null
+      dsTimer: null,
+      series: ''
     };
   },
   computed: {
@@ -260,6 +261,7 @@ export default {
   },
   created() {
     this.inputAreaInit();
+    this.series = this.currentLottery && this.currentLottery.series_id
   },
   methods: {
     // 投注成功 清除选中的按钮
