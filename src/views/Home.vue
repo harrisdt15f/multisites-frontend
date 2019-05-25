@@ -22,13 +22,21 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(["getBanner", "getQrcode", "getNotice", "getPopularLotteries1", "getPopularLotteries2"]),
+    ...mapActions(["getBanner", "getActivity", "getLogo", "getQrcode", "getNotice", "getPopularLotteries1", "getPopularLotteries2"]),
     initData() {
-      this.getBanner()
-      this.getQrcode()
-      this.getNotice()
-      this.getPopularLotteries1()
-      this.getPopularLotteries2()
+      this.Api.showHomepageModel().then(({success, data}) => {
+        if (success && data) {
+          data['logo'] ? this.getLogo() : null
+          data['banner'] ? this.getBanner() : null
+          data['qr.code'] ? this.getQrcode() : null
+          data['customer.service'] ? '' : null
+          data['winning.ranking'] ? '' : null
+          data['notice'] ? this.getNotice() : null
+          data['popularLotteries.one'] ? this.getPopularLotteries1() : null
+          data['popularLotteries.two'] ? this.getPopularLotteries2() : null
+          data['activity'] ? this.getActivity() : null
+        }
+      })
     }
   }
 };

@@ -619,6 +619,25 @@ body {
   border: 1px solid #ff8e33;
 }
 
+.main-ball-content-li .ball.ball-number-long{
+  box-sizing: content-box;
+  font-size: 16px;
+  border-radius: 25px;
+  height: 35px;
+  line-height: 35px;
+  border: 1px solid #b7b7b7;
+  padding: 0 10px;
+  margin: 0 5px;
+  width: auto;
+}
+
+.main-ball-content-li .ball.ball-number-long:hover{
+  color: #ff7200;
+  background-color: #fff6ea;
+  box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
+  border: 1px solid #ff8e33;
+}
+
 .main-ball-content-li.ball-on .ball {
   box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
     inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
@@ -627,6 +646,12 @@ body {
   color: black;
   border: 1px solid transparent;
 }
+
+.main-ball-content-li.ball-on .ball.ball-number-long{
+  background-image: linear-gradient(0deg, #ffaf39 0%, #ff9800 23%, #ffb549 100%), linear-gradient(#ff9400, #ff9400);
+  background-blend-mode: normal, normal;
+}
+
 /*冷热遗漏显示*/
 .main-ball-control-li i {
   font-size: 12px;
@@ -1761,6 +1786,7 @@ body {
 }
 
 .list-full-history .row-more {
+  cursor: pointer;
   margin: 20px auto 0;
   padding: 5px 20px;
   width: 145px;

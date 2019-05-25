@@ -1,45 +1,30 @@
 <template>
   <div class="new-index">
-    <div class="carousel-img">
+    <div class="carousel-img" v-if="banner.length">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in banner" :key="item.src">
-          <a 
-            class="carousel-src" 
-            href="javascript:;" 
-            :style="`background-image: url(${item.pic_path})`">
-          </a>
+          <a
+            class="carousel-src"
+            :href="item.redirect_url"
+            :style="`background-image: url(${item.pic_path})`"
+          ></a>
         </el-carousel-item>
       </el-carousel>
     </div>
     <div class="container">
-      <ul class="lotter-list ft0">
-        <li class="lotter-list-item item1">
+      <ul class="lotter-list ft0" v-if="popularLotteries1 && popularLotteries1.length">
+        <li
+          class="lotter-list-item"
+          :class="`item${index + 1}`"
+          v-for="(item, index) in popularLotteries1"
+          :key="index"
+        >
           <p class="lotter-list-item-text">
-            <span class="gold">20</span>分钟/期 全天共
-            <span class="gold">1</span>期
+            <span class="gold">20</span>分钟/期
+            全天共
+            <span class="gold">{{item.day_issue}}</span>期
           </p>
-          <div class="lotter-list-item-btn"></div>
-        </li>
-        <li class="lotter-list-item item2">
-          <p class="lotter-list-item-text">
-            <span class="gold">20</span>分钟/期 全天共
-            <span class="gold">1</span>期
-          </p>
-          <div class="lotter-list-item-btn"></div>
-        </li>
-        <li class="lotter-list-item item3">
-          <p class="lotter-list-item-text">
-            <span class="gold">20</span>分钟/期 全天共
-            <span class="gold">1</span>期
-          </p>
-          <div class="lotter-list-item-btn"></div>
-        </li>
-        <li class="lotter-list-item item4">
-          <p class="lotter-list-item-text">
-            <span class="gold">20</span>分钟/期 全天共
-            <span class="gold">1</span>期
-          </p>
-          <div class="lotter-list-item-btn"></div>
+          <div @click="goToBet(item.en_name)" class="lotter-list-item-btn"></div>
         </li>
       </ul>
       <div class="center">
@@ -87,21 +72,9 @@
               </div>
             </div>
             <div class="box-report">
-              <ul class="report-list">
-                <li class="report-list-item">
-                  <a class="wzfw" href>[彩云追星]七星彩第19033期分析:七位胆码4956七位胆码4956七位胆码4956七位胆码4956</a>
-                </li>
-                <li class="report-list-item">
-                  <a class="wzfw" href>[彩云追星]七星彩第19033期分析:七位胆码4956七位胆码4956七位胆码4956七位胆码4956</a>
-                </li>
-                <li class="report-list-item">
-                  <a class="wzfw" href>[彩云追星]七星彩第19033期分析:七位胆码4956七位胆码4956七位胆码4956七位胆码4956</a>
-                </li>
-                <li class="report-list-item">
-                  <a class="wzfw" href>[彩云追星]七星彩第19033期分析:七位胆码4956七位胆码4956七位胆码4956七位胆码4956</a>
-                </li>
-                <li class="report-list-item">
-                  <a class="wzfw" href>[彩云追星]七星彩第19033期分析:七位胆码4956七位胆码4956七位胆码4956七位胆码4956</a>
+              <ul class="report-list" v-if="notice && notice.length">
+                <li class="report-list-item" v-for="(item, index) in notice" :key="index">
+                  <a class="wzfw" href>{{item.title}}</a>
                 </li>
                 <div class="btn">
                   <a href="javascript:;">
@@ -115,84 +88,34 @@
           <el-col :span="10">
             <div class="hot-box">
               <div class="hot-box-wrap">
-                <div class="hot-box-item">
-                  <div class="title">
-                    <div class="fl">
-                      重庆时时彩
-                      <span class="blood">20190308</span>
+                <template v-if="popularLotteries2 && Object.keys(popularLotteries2).length">
+                  <div class="hot-box-item" v-for="(item, index) in popularLotteries2" :key="index">
+                    <div class="title">
+                      <div class="fl">
+                        {{item}}
+                        <span class="blood">20190308</span>
+                      </div>
+                      <div class="fr">12.1245截止</div>
                     </div>
-                    <div class="fr">12.1245截止</div>
-                  </div>
-                  <div class="num">
-                    <ul class="num-list">
-                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
-                    </ul>
-                    <div class="desc">
-                      <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
-                      <span class="blood">1</span> 元
+                    <div class="num">
+                      <ul class="num-list">
+                        <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
+                      </ul>
+                      <div class="desc">
+                        <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
+                        <span class="blood">1</span> 元
+                      </div>
                     </div>
-                  </div>
-                  <div class="btn-group">
-                    <a href="javascript:;" class="btn-item">
-                      <i class="fa fa-refresh" aria-hidden="true"></i>
-                      换一注
-                    </a>
-                    <a href="javascript:;" class="btn-item">手动选号</a>
-                    <a href="javascript:;" class="btn-item on">立即投注</a>
-                  </div>
-                </div>
-                <div class="hot-box-item">
-                  <div class="title">
-                    <div class="fl">
-                      重庆时时彩
-                      <span class="blood">20190308</span>
-                    </div>
-                    <div class="fr">12.1245截止</div>
-                  </div>
-                  <div class="num">
-                    <ul class="num-list">
-                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
-                    </ul>
-                    <div class="desc">
-                      <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
-                      <span class="blood">1</span> 元
+                    <div class="btn-group">
+                      <a href="javascript:;" class="btn-item">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                        换一注
+                      </a>
+                      <a href="javascript:;" class="btn-item">手动选号</a>
+                      <a href="javascript:;" class="btn-item on">立即投注</a>
                     </div>
                   </div>
-                  <div class="btn-group">
-                    <a href="javascript:;" class="btn-item">
-                      <i class="fa fa-refresh" aria-hidden="true"></i>
-                      换一注
-                    </a>
-                    <a href="javascript:;" class="btn-item">手动选号</a>
-                    <a href="javascript:;" class="btn-item on">立即投注</a>
-                  </div>
-                </div>
-                <div class="hot-box-item">
-                  <div class="title">
-                    <div class="fl">
-                      重庆时时彩
-                      <span class="blood">20190308</span>
-                    </div>
-                    <div class="fr">12.1245截止</div>
-                  </div>
-                  <div class="num">
-                    <ul class="num-list">
-                      <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
-                    </ul>
-                    <div class="desc">
-                      <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
-                      <span class="blood">1</span> 元
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <a href="javascript:;" class="btn-item">
-                      <i class="fa fa-refresh" aria-hidden="true"></i>
-                      换一注
-                    </a>
-                    <a href="javascript:;" class="btn-item">手动选号</a>
-                    <a href="javascript:;" class="btn-item on">立即投注</a>
-                  </div>
-                </div>
+                </template>
               </div>
             </div>
           </el-col>
@@ -201,20 +124,16 @@
       <div class="game-list">
         <el-row>
           <el-col :span="6">
-            <div class="game-list-item item-1">
-            </div>
+            <div class="game-list-item item-1"></div>
           </el-col>
           <el-col :span="6">
-            <div class="game-list-item item-2">
-            </div>
+            <div class="game-list-item item-2"></div>
           </el-col>
           <el-col :span="6">
-            <div class="game-list-item item-3">
-            </div>
+            <div class="game-list-item item-3"></div>
           </el-col>
           <el-col :span="6">
-            <div class="game-list-item item-4">
-            </div>
+            <div class="game-list-item item-4"></div>
           </el-col>
         </el-row>
       </div>
@@ -234,11 +153,22 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['banner', 'qrSrc'])
+    ...mapGetters([
+      "banner",
+      "qrSrc",
+      "notice",
+      "popularLotteries1",
+      "popularLotteries2"
+    ])
   },
   mounted() {
     this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1);
   },
+  methods: {
+    goToBet(en_name) {
+      this.$router.push(`/bet/${en_name}`);
+    }
+  }
 };
 </script>
 
@@ -293,7 +223,7 @@ export default {
     margin: 0 auto;
     .lotter-list {
       height: 346px;
-      background: url('../assets/images/new/index/lotter_list_bg.jpg') no-repeat;
+      background: url("../assets/images/new/index/lotter_list_bg.jpg") no-repeat;
       background-size: 100% 100%;
       margin-top: 30px;
       border-radius: 5px;
@@ -315,26 +245,30 @@ export default {
     background-size: 100% 100%;
     &.item1 {
       background: url("../assets/images/new/index/lotter-list1.png") no-repeat;
-      &:hover{
-        background: url("../assets/images/new/index/lotter-list1.2.png") no-repeat;
+      &:hover {
+        background: url("../assets/images/new/index/lotter-list1.2.png")
+          no-repeat;
       }
     }
     &.item2 {
       background: url("../assets/images/new/index/lotter-list2.png") no-repeat;
-      &:hover{
-        background: url("../assets/images/new/index/lotter-list2.2.png") no-repeat;
+      &:hover {
+        background: url("../assets/images/new/index/lotter-list2.2.png")
+          no-repeat;
       }
     }
     &.item3 {
       background: url("../assets/images/new/index/lotter-list3.png") no-repeat;
-      &:hover{
-        background: url("../assets/images/new/index/lotter-list3.2.png") no-repeat;
+      &:hover {
+        background: url("../assets/images/new/index/lotter-list3.2.png")
+          no-repeat;
       }
     }
     &.item4 {
       background: url("../assets/images/new/index/lotter-list4.png") no-repeat;
-      &:hover{
-        background: url("../assets/images/new/index/lotter-list4.2.png") no-repeat;
+      &:hover {
+        background: url("../assets/images/new/index/lotter-list4.2.png")
+          no-repeat;
       }
     }
     .lotter-list-item-text {
@@ -363,28 +297,28 @@ export default {
       position: relative;
       cursor: pointer;
       background-size: 100% 100%;
-      &.item-1{
-        background-image: url('../assets/images/new/index/game-list1.png');
-        &:hover{
-          background-image: url('../assets/images/new/index/game-list1.2.png');
+      &.item-1 {
+        background-image: url("../assets/images/new/index/game-list1.png");
+        &:hover {
+          background-image: url("../assets/images/new/index/game-list1.2.png");
         }
       }
-      &.item-2{
-        background-image: url('../assets/images/new/index/game-list2.png');
-        &:hover{
-          background-image: url('../assets/images/new/index/game-list2.2.png');
+      &.item-2 {
+        background-image: url("../assets/images/new/index/game-list2.png");
+        &:hover {
+          background-image: url("../assets/images/new/index/game-list2.2.png");
         }
       }
-      &.item-3{
-        background-image: url('../assets/images/new/index/game-list3.png');
-        &:hover{
-          background-image: url('../assets/images/new/index/game-list3.2.png');
+      &.item-3 {
+        background-image: url("../assets/images/new/index/game-list3.png");
+        &:hover {
+          background-image: url("../assets/images/new/index/game-list3.2.png");
         }
       }
-      &.item-4{
-        background-image: url('../assets/images/new/index/game-list4.png');
-        &:hover{
-          background-image: url('../assets/images/new/index/game-list4.2.png');
+      &.item-4 {
+        background-image: url("../assets/images/new/index/game-list4.png");
+        &:hover {
+          background-image: url("../assets/images/new/index/game-list4.2.png");
         }
       }
     }
@@ -498,7 +432,7 @@ export default {
         a {
           display: block;
           color: #e6d2c3;
-          &:hover{
+          &:hover {
             text-decoration: underline;
           }
         }

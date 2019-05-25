@@ -6,6 +6,9 @@ const getters = {
   banner: state => state.site.banner,
   qrSrc: state => state.site.qrSrc,
   logoSrc: state => state.site.logoSrc,
+  notice: state => state.site.notice,
+  popularLotteries2: state => state.site.popularLotteries2,
+  popularLotteries1: state => state.site.popularLotteries1,
   // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,
