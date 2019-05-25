@@ -3,8 +3,7 @@
     <section class="w">
       <section class="fw foot-head">
         <section class="logo">
-          <!-- <img src="../assets/images/index/banner1.jpg" alt="footerlogo" title="footerlogo" class="footerlogo dinv"> -->
-          LOGO
+          <img :src="logoSrc" alt="footerlogo" title="footerlogo" class="footerlogo dinv">
           包网彩票
         </section>
         <section class="foot-nums">
@@ -45,8 +44,12 @@
   </footer>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: 'Foote',
+  computed: {
+    ...mapGetters(["logoSrc"])
+  },
   data () {
     return {
       linkList: [
@@ -80,12 +83,15 @@ export default {
     border-bottom:1px dashed #5e6571;
   }
   .logo{
-    cursor: pointer;
     float:left;
     margin-right:14px;
     color:#fff;
     font-size:21px;
     font-weight:bold;
+    img{
+      width: 110px;
+      height: 36px;
+    }
   }
   .foot-nums{
     float: right;

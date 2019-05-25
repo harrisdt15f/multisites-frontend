@@ -5,25 +5,35 @@ const state = {
   qrSrc: '',
   logoSrc: '',
   notice: '',
+  activity: '',
   popularLotteries1: [],
   popularLotteries2: []
 }
 
 const mutations = {
-  SET_POPULAR_LOTTERIES1: (state, token) => {
-    state.popularLotteries1 = token
+  SET_ACTIVITY: (state, data) => {
+    state.activity = data
   },
-  SET_POPULAR_LOTTERIES2: (state, token) => {
-    state.popularLotteries2 = token
+  SET_POPULAR_LOTTERIES1: (state, data) => {
+    data.forEach(val => {
+      val.pic_path = process.env.VUE_APP_API_URL + val.pic_path
+    })
+    state.popularLotteries1 = data
   },
-  SET_BANNER: (state, token) => {
-    state.banner = token
+  SET_POPULAR_LOTTERIES2: (state, data) => {
+    state.popularLotteries2 = data
+  },
+  SET_BANNER: (state, data) => {
+    data.forEach(val => {
+      val.pic_path = process.env.VUE_APP_API_URL + val.pic_path
+    })
+    state.banner = data
   },
   SET_QR_SRC(state, data) {
-    state.qrSrc = data
+    state.qrSrc = process.env.VUE_APP_API_URL + data
   },
   SET_LOGO_SRC(state, data) {
-    state.logoSrc = data
+    state.logoSrc = process.env.VUE_APP_API_URL + data
   },
   SET_NOTICE(state, data) {
     state.notice = data
@@ -59,7 +69,7 @@ const actions = {
   getNotice({ commit }){
     API.getNotice().then(({success, data}) => {
       if (success) {
-        commit('SET_NOTICE', data.value)
+        commit('SET_NOTICE', data)
       }
     })
   },
@@ -74,6 +84,13 @@ const actions = {
     API.getPopularLotteries2().then(({success, data}) => {
       if (success) {
         commit('SET_POPULAR_LOTTERIES2', data)
+      }
+    })
+  },
+  getActivity({ commit }){
+    API.getActivity().then(({success, data}) => {
+      if (success) {
+        commit('SET_ACTIVITY', data)
       }
     })
   },

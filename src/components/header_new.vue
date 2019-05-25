@@ -1,7 +1,9 @@
 <template>
   <div class="header-wrapper">
     <header class="container">
-        <router-link class="logo" tag="h1" to="/home" >LOGO</router-link>
+        <router-link class="logo" tag="h1" to="/home" >
+          <img class="logo-img" :src="logoSrc">
+        </router-link>
       <div class="top">
         <section class="head-notice">
           <i class="fa fa-volume-up ft21 head-notice-img"></i>
@@ -85,7 +87,6 @@
         </nav>
       </div>
     </header>
-    
   </div>
 </template>
 
@@ -169,11 +170,15 @@ export default {
     left: 0;
     top: 0;
     background: url("../assets/images/new/header/logo_bg.png") no-repeat;
-    line-height: 83px;
     text-align: center;
     color: #fff;
     width: 273px;
     height: 83px;
+    .logo-img{
+      margin: 20px auto 0;
+      width: 110px;
+      height: 36px;
+    }
   }
   .top {
     overflow: hidden;

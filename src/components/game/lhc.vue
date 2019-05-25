@@ -21,8 +21,7 @@
           class="lhc-tm-list"
           :class="{on: item.flag}"
           v-for="(item, index) in newCodes"
-          :key="index"
-        >
+          :key="index">
           <span class="fl lhc-tm-list-q" :class="ballColor(item)">{{item.code}}</span>
           <span class="fl multiple">x 44.10</span>
           <input type="text" v-model="item.money" maxlength="8" class="lhc-tm-list-text">
@@ -140,8 +139,7 @@
             class="lhc-tm-list"
             :class="{on: item.flag}"
             v-for="(item, index) in newCodes"
-            :key="index"
-          >
+            :key="index">
             <span class="lhc-bb-ball-name tc ft16">{{item.name}} 尾</span>
             <span class="lhc-bb-ball-name">x 6.17</span>
             <ul class="fw lhc-bb-balls">

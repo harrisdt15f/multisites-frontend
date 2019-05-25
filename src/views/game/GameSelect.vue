@@ -34,7 +34,12 @@
             :key="xIndex"
             :class="{'ball-on': chooseNumber[yIndex][xIndex]}"
             @click="selectCode(yIndex, xIndex)">
-            <a href="javascript:;" class="ball" :x="xIndex" :y="yIndex">{{_code}}</a>
+            <a 
+              href="javascript:;"
+              :class="{'ball-number-long' : currentMethod.method === 'QTS3'}"
+              class="ball" 
+              :x="xIndex" 
+              :y="yIndex">{{_code}}</a>
           </li>
         </ul>
         <ul class="main-ball-control" :class="{'series' : series === 'lotto'}">
@@ -264,11 +269,16 @@ export default {
     this.series = this.currentLottery && this.currentLottery.series_id
   },
   methods: {
-    // 投注成功 清除选中的按钮
+    // 投注成功 清除选中的数字
     clearBtn() {
       for (let j = 0; j < this.chooseNumber.length; j++) {
         for (let i = 0; i < this.chooseNumber[j].length; i++) {
           this.$set(this.chooseNumber[j], i, false);
+        }
+      }
+      for (let j = 0; j < this.chooseButton.length; j++) {
+        for (let i = 0; i < this.chooseButton[j].length; i++) {
+          this.$set(this.chooseButton[j], i, false);
         }
       }
     },

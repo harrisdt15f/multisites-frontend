@@ -6,7 +6,7 @@ import { nextTick } from 'q';
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.VUE_APP_API_URL, // url = base url + request url
+  baseURL: process.env.VUE_APP_API_URL + '/web-api', // url = base url + request url
   timeout: 1000 * 60 * 3 // request timeout
 })
 
