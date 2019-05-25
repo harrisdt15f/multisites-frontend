@@ -175,9 +175,9 @@ export default {
     width: 273px;
     height: 83px;
     .logo-img{
-      margin: 20px auto 0;
-      width: 110px;
-      height: 36px;
+      margin: 12px auto 0;
+      width: auto;
+      height: 60px;
     }
   }
   .top {

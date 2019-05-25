@@ -89,7 +89,7 @@ export default {
     font-size:21px;
     font-weight:bold;
     img{
-      width: 110px;
+      width: auto;
       height: 36px;
     }
   }
