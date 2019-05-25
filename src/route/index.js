@@ -15,6 +15,7 @@ import Ylc from '../components/game/ylc'
 Vue.use(Router)
 
 const router = new Router({
+  mode: 'history',
   routes: [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: Login },

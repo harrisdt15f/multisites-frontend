@@ -5,7 +5,7 @@
         <el-carousel-item v-for="item in banner" :key="item.src">
           <a
             class="carousel-src"
-            href="javascript:;"
+            :href="item.redirect_url"
             :style="`background-image: url(${item.pic_path})`"
           ></a>
         </el-carousel-item>
