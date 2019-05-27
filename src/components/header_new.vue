@@ -46,7 +46,10 @@
             <router-link tag="a" to="/home" href="javascript:;" class="nav-title">首页</router-link>
           </section>
           <section class="nav">
-            <router-link tag="a" to="/bet" href="javascript:;" class="nav-title">彩票游戏</router-link>
+            <router-link tag="a" to="/bet" href="javascript:;" class="nav-title">
+              全部彩种 
+              <i class="fa fa-caret-down" aria-hidden="true"></i>
+            </router-link>
             <section ref="lotterListShow" class="nav-menu-box">
               <el-row :gutter="30">
                 <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
@@ -70,16 +73,16 @@
             </section>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">体育竞技</a>
+            <a href="javascript:;" class="nav-title">棋牌游戏</a>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">电子娱乐</a>
+            <a href="javascript:;" class="nav-title">捕鱼游戏</a>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">投注记录</a>
+            <a href="javascript:;" class="nav-title">优惠活动</a>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">资金管理</a>
+            <a href="javascript:;" class="nav-title">走势图表</a>
           </section>
           <section class="nav">
             <a href="javascript:;" class="nav-title">代理中心</a>
@@ -294,6 +297,10 @@ export default {
         }
       }
       .nav-title {
+        .fa{
+          font-size: 14px;
+          margin-left: 2px;
+        }
         display: block;
         height: 53px;
         line-height: 53px;

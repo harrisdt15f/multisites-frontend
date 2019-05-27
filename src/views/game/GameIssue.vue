@@ -266,7 +266,7 @@ export default {
           this.issueNum = 0;
           // this.issueInfo = res.data.issueInfo
           // 开始倒计时
-          this.times();
+          // this.times();
         }
       });
     },

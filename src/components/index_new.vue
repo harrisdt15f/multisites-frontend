@@ -1,6 +1,6 @@
 <template>
   <div class="new-index">
-    <div class="carousel-img" v-if="banner.length">
+    <div class="carousel-img" v-if="banner && banner.length">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in banner" :key="item.src">
           <a
@@ -67,7 +67,7 @@
           </el-col>
           <el-col :span="8">
             <div class="box-qr">
-              <div class="qr">
+              <div class="qr" v-if="qrSrc">
                 <img :src="qrSrc">
               </div>
             </div>
@@ -88,22 +88,28 @@
           <el-col :span="10">
             <div class="hot-box">
               <div class="hot-box-wrap">
-                <template v-if="popularLotteries2 && Object.keys(popularLotteries2).length">
-                  <div class="hot-box-item" v-for="(item, index) in popularLotteries2" :key="index">
+                <template>
+                  <div class="hot-box-item" v-for="(item, index) in lotteriesList" :key="index">
                     <div class="title">
                       <div class="fl">
-                        {{item}}
-                        <span class="blood">20190308</span>
+                        {{item.name}}
+                        <span style="color:#fb9f46;">20190308</span>
                       </div>
                       <div class="fr">12.1245截止</div>
                     </div>
                     <div class="num">
                       <ul class="num-list">
-                        <li class="num-list-item" v-for="item in 10" :key="item">{{item-1}}</li>
+                        <li
+                          class="num-list-item"
+                          @click.stop="handleCilckNum(items)"
+                          :class="{on : items.sign}"
+                          v-for="items in item.code"
+                          :key="items.num"
+                        >{{items.num}}</li>
                       </ul>
                       <div class="desc">
                         <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
-                        <span class="blood">1</span> 元
+                        <span style="color:#fff">1</span> 元
                       </div>
                     </div>
                     <div class="btn-group">
@@ -138,6 +144,11 @@
         </el-row>
       </div>
     </div>
+    <!-- 悬浮 -->
+    <div class="float-layer" ref="floatLayer">
+      <a href class="online-server"></a>
+      <a href class="promotions"></a>
+    </div>
   </div>
 </template>
 
@@ -147,9 +158,8 @@ export default {
   name: "index",
   data() {
     return {
-      bet: {
-        multiple: 1
-      }
+      debounce: null, 
+      lotteriesList: []
     };
   },
   computed: {
@@ -161,13 +171,62 @@ export default {
       "popularLotteries2"
     ])
   },
+  watch: {
+    popularLotteries2:{
+      handler(val) {
+       const list = Object.keys(val).map(v => {
+          return {
+            name: val[v],
+            id: v,
+            code: [
+              { num: 0, sign: false },
+              { num: 1, sign: false },
+              { num: 2, sign: false },
+              { num: 3, sign: false },
+              { num: 4, sign: false },
+              { num: 5, sign: false },
+              { num: 6, sign: false },
+              { num: 7, sign: false },
+              { num: 8, sign: false },
+              { num: 9, sign: false }
+            ]
+          };
+        });
+       this.lotteriesList = list
+      },
+      immediate: true
+    }
+  },
   mounted() {
     this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1);
+    this.debounce = this._.debounce(this.handleScroll, 150);
+    window.addEventListener("scroll", this.debounce);
   },
+  activated() {},
   methods: {
     goToBet(en_name) {
       this.$router.push(`/bet/${en_name}`);
+    },
+    handleScroll() {
+      const scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      const floatLayer = this.$refs.floatLayer;
+      if (scrollTop > 400) {
+        floatLayer.style.top = "26%";
+      } else if (scrollTop < 1790) {
+        floatLayer.style.top = "60%";
+      } else {
+        floatLayer.style.top = "50%";
+      }
+    },
+    handleCilckNum(items){
+      this.$set(items, 'sign', !items.sign)
     }
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.debounce);
   }
 };
 </script>
@@ -481,12 +540,16 @@ export default {
           color: #fff;
           line-height: 24px;
           border-radius: 50%;
-          background: #fb9f46;
+          background: #6a4c54;
+          &.on {
+            background: #fb9f46;
+          }
         }
       }
       .desc {
         text-align: center;
         padding-bottom: 8px;
+        color: #000;
       }
     }
     .btn-group {
@@ -539,9 +602,33 @@ export default {
         border: 0;
         width: 24px;
         color: #fff;
-        background: #c51313;
+        background: #6a4c54;
       }
     }
+  }
+}
+.float-layer {
+  width: 197px;
+  height: 468px;
+  background: url("../assets/images/new/index/float_layer_bg.png") no-repeat;
+  position: fixed;
+  background-size: contain;
+  z-index: 300;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  transition: all 0.3s;
+  .online-server {
+    position: absolute;
+    width: 100%;
+    top: 190px;
+    height: 44px;
+  }
+  .promotions {
+    position: absolute;
+    width: 100%;
+    bottom: 18px;
+    height: 44px;
   }
 }
 </style>
