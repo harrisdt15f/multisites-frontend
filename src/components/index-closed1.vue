@@ -217,78 +217,78 @@ export default {
           { src: require("../assets/images/index/game4.png"), show: false }
         ]
       }
-    };
+    }
   },
   mounted() {
-    clearInterval(this.banner.timer);
-    this.setBannerTimer();
-    this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1);
+    clearInterval(this.banner.timer)
+    this.setBannerTimer()
+    this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1)
   },
   watch: {
     "bet.multiple"(newVal) {
       if (newVal <= 1) {
-        this.bet.multiple = 1;
+        this.bet.multiple = 1
       } else if (newVal > 1000) {
-        this.bet.multiple = 1000;
+        this.bet.multiple = 1000
       }
     }
   },
   methods: {
     // 清除轮播
     cleatBannerTimer() {
-      clearInterval(this.banner.timer);
+      clearInterval(this.banner.timer)
     },
     // 恢复轮播
     setBannerTimer() {
       if (this.banner.img.length > 1) {
         this.banner.timer = setInterval(() => {
-          this.slide();
-        }, 3000);
+          this.slide()
+        }, 3000)
       }
     },
     // 轮播淡入淡出
     slide() {
       if (this.banner.num === this.banner.img.length) {
-        this.banner.num = 0;
+        this.banner.num = 0
       }
       for (let i = 0; i < this.banner.img.length; i++) {
-        this.banner.img[i].opacity = 0;
+        this.banner.img[i].opacity = 0
       }
-      this.banner.img[this.banner.num].opacity = 1;
-      this.banner.num++;
+      this.banner.img[this.banner.num].opacity = 1
+      this.banner.num++
     },
     // 轮播按钮点击
     slideChenge(index) {
-      this.banner.num = index;
-      this.slide();
+      this.banner.num = index
+      this.slide()
     },
     // 四个游戏移入
     gameEnter(item) {
-      item.show = true;
+      item.show = true
     },
     // 四个游戏移出
     gameLeave(item) {
-      item.show = false;
+      item.show = false
     },
     // 热门彩种立即投注 减
     multiplesReduce() {
       if (this.bet.multiple <= 1) {
-        return;
+        return
       }
-      this.bet.multiple--;
+      this.bet.multiple--
     },
     // 热门彩种立即投注 加
     multiplesAdd() {
       if (this.bet.multiple > 1000) {
-        return;
+        return
       }
-      this.bet.multiple++;
+      this.bet.multiple++
     }
   },
   destroyed() {
-    this.cleatBannerTimer();
+    this.cleatBannerTimer()
   }
-};
+}
 </script>
 
 <style scoped>

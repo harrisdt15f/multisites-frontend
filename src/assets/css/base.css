@@ -1,4 +1,7 @@
 @charset "UTF-8";
+html, body{
+	height: 100%;
+}
 body,html,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,textarea,p,th,td{margin:0;padding:0;}
 table {border-collapse:collapse;border-spacing:0;}
 body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;background:#f7f7f7;     font-family: DIN, "Helvetica Neue", Helvetica, Arial, "Lantinghei SC", "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;}

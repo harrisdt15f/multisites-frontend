@@ -56,11 +56,10 @@
                   <div class="nav-menu-title">{{lottery.name}}</div>
                   <el-row :gutter="4" class="nav-menus">
                     <el-col
-                            :span="8"
-                            class="nav-menu"
-                            v-for="(item, itemIndex) in lottery.list"
-                            :key="itemIndex"
-                    >
+                      :span="8"
+                      class="nav-menu"
+                      v-for="(item, itemIndex) in lottery.list"
+                      :key="itemIndex">
                       <router-link
                               :to="`/bet/${item.id}`"
                               class="span wzfw"
@@ -243,15 +242,15 @@ export default {
     }
   }
   .bottom {
-    // overflow: hidden;
     position: relative;
     .nav {
       display: inline-block;
+      box-sizing: border-box;
       .nav-menu-box {
         min-width: 350px;
         min-height: 200px;
         position: absolute;
-        top: 52px;
+        top: 53px;
         left: 572px;
         background: #36302e;
         display: none;

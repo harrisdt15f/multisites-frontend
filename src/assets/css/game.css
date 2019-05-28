@@ -297,7 +297,6 @@ body {
   height: 50px;
   background-color: #fffbf4;
   border-bottom: 1px solid #ded2c1;
-  padding-left: 1px;
 }
 .bet-type-crow ul {
   height: 50px;
@@ -1646,9 +1645,8 @@ body {
   border: none;
   border-right: 1px solid #e4e0d8;
   cursor: pointer;
-  padding: 0 20px;
   font-size: 16px;
-  padding: 16px 0;
+  padding: 16px 20px 33px;
   color: #555555;
   line-height: 16px;
   border-left: none;

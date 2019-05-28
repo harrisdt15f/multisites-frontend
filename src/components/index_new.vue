@@ -101,24 +101,30 @@
                       <ul class="num-list">
                         <li
                           class="num-list-item"
-                          @click.stop="handleCilckNum(items)"
                           :class="{on : items.sign}"
                           v-for="items in item.code"
                           :key="items.num"
                         >{{items.num}}</li>
                       </ul>
                       <div class="desc">
-                        <el-input-number class="custom-input-number" :min="1" :max="10"></el-input-number>倍，共
-                        <span style="color:#fff">1</span> 元
+                        <el-input-number
+                          v-model="item.multiple"
+                          class="custom-input-number"
+                          @change="handleChangeMultiple(item)"
+                          :min="1"
+                          :max="10"
+                        ></el-input-number>倍，
+                        共
+                        <span style="color:#fff">{{item.totalCost}}</span> 元
                       </div>
                     </div>
                     <div class="btn-group">
-                      <a href="javascript:;" class="btn-item">
+                      <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                         换一注
                       </a>
-                      <a href="javascript:;" class="btn-item">手动选号</a>
-                      <a href="javascript:;" class="btn-item on">立即投注</a>
+                      <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
+                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item on">立即投注</a>
                     </div>
                   </div>
                 </template>
@@ -153,82 +159,102 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "index",
+  name: 'index',
   data() {
     return {
-      debounce: null, 
+      debounce: null,
       lotteriesList: []
-    };
+    }
   },
   computed: {
     ...mapGetters([
-      "banner",
-      "qrSrc",
-      "notice",
-      "popularLotteries1",
-      "popularLotteries2"
+      'banner',
+      'qrSrc',
+      'notice',
+      'popularLotteries1',
+      'popularLotteries2'
     ])
   },
   watch: {
-    popularLotteries2:{
+    popularLotteries2: {
       handler(val) {
-       const list = Object.keys(val).map(v => {
+        const list = Object.keys(val).map(v => {
           return {
             name: val[v],
             id: v,
+            multiple: 1,
             code: [
-              { num: 0, sign: false },
+              { num: 0, sign: true },
               { num: 1, sign: false },
-              { num: 2, sign: false },
-              { num: 3, sign: false },
-              { num: 4, sign: false },
+              { num: 2, sign: true },
+              { num: 3, sign: true },
+              { num: 4, sign: true },
               { num: 5, sign: false },
               { num: 6, sign: false },
               { num: 7, sign: false },
-              { num: 8, sign: false },
+              { num: 8, sign: true },
               { num: 9, sign: false }
-            ]
-          };
-        });
-       this.lotteriesList = list
+            ],
+            totalCost: 2
+          }
+        })
+        this.lotteriesList = list
       },
       immediate: true
     }
   },
   mounted() {
-    this.Animation.ranking("lottery-wins-boxs", "lottery-wins-lists", -1);
-    this.debounce = this._.debounce(this.handleScroll, 150);
-    window.addEventListener("scroll", this.debounce);
+    this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+    this.debounce = this._.debounce(this.handleScroll, 150)
+    window.addEventListener('scroll', this.debounce)
   },
-  activated() {},
   methods: {
     goToBet(en_name) {
-      this.$router.push(`/bet/${en_name}`);
+      this.$router.push(`/bet/${en_name}`)
     },
     handleScroll() {
       const scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
-      const floatLayer = this.$refs.floatLayer;
+        document.body.scrollTop
+      const floatLayer = this.$refs.floatLayer
       if (scrollTop > 400) {
-        floatLayer.style.top = "26%";
+        floatLayer.style.top = '26%'
       } else if (scrollTop < 1790) {
-        floatLayer.style.top = "60%";
+        floatLayer.style.top = '60%'
       } else {
-        floatLayer.style.top = "50%";
+        floatLayer.style.top = '50%'
       }
     },
-    handleCilckNum(items){
+    handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
+    },
+    handleRandomNum(code) {
+      const num = []
+      while (num.length < 5) {
+        const ranNum = Math.floor(Math.random() * 10)
+        !num.includes(ranNum) ? num.push(ranNum) : null
+      }
+      code.forEach(v => {
+        this.$set(v, 'sign', num.includes(v.num))
+      })
+    },
+    handleChangeMultiple(item) {
+      this.$set(item, 'totalCost', item.multiple * 2)
+    },
+    immediateBet(item) {
+      const code = []
+      item.code.forEach(v => {
+        v.sign ? code.push(v.num) : null
+      })
     }
   },
   destroyed() {
-    window.removeEventListener("scroll", this.debounce);
+    window.removeEventListener('scroll', this.debounce)
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -536,7 +562,6 @@ export default {
           width: 24px;
           height: 24px;
           text-align: center;
-          cursor: pointer;
           color: #fff;
           line-height: 24px;
           border-radius: 50%;
@@ -560,7 +585,7 @@ export default {
         box-sizing: border-box;
         width: 142px;
         height: 30px;
-        background: #e2bc87;
+        background: linear-gradient(to left, #a78363, #ebc48c);
         line-height: 30px;
         text-align: center;
         color: #000000;

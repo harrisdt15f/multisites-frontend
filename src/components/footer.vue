@@ -56,6 +56,8 @@ export default {
 <style scoped>
   footer {
     margin-top:35px;
+    height: 298px;
+    overflow: hidden;
     background:#353c47;
   }
   .foot-head{

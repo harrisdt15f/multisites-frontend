@@ -7,13 +7,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
-import Header from "../components/header_new";
-import Footer from "../components/footer_new";
+import Header from '../components/header_new'
+import Footer from '../components/footer_new'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     Header,
     Footer
@@ -22,7 +22,7 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(["getBanner", "getActivity", "getLogo", "getQrcode", "getNotice", "getPopularLotteries1", "getPopularLotteries2"]),
+    ...mapActions(['getBanner', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
     initData() {
       this.Api.showHomepageModel().then(({success, data}) => {
         if (success && data) {
@@ -39,5 +39,5 @@ export default {
       })
     }
   }
-};
+}
 </script>

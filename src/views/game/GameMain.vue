@@ -39,10 +39,10 @@ export default {
   methods: {
     getLotteryInfo() {
       const lottery = this.lotteryAll[this.lotterySign];
-      this.$store.commit("currentLottery", lottery.lottery);
-      this.$store.commit("defaultGroup", lottery.defaultGroup);
-      this.$store.commit("defaultMethod", lottery.defaultMethod);
-      this.$store.commit("allMethods", lottery.methodConfig);
+      this.$store.commit("currentLottery",lottery.lottery);
+      this.$store.commit("defaultGroup",lottery.defaultGroup);
+      this.$store.commit("defaultMethod",lottery.defaultMethod);
+      this.$store.commit("allMethods",lottery.methodConfig);
       this.$store.dispatch("issueHistory");
     }
   }

@@ -3,7 +3,7 @@
     <section class="w">
       <section class="fw foot-head">
         <section class="logo">
-          <img :src="logoSrc" alt="footerlogo" title="footerlogo" class="footerlogo dinv">
+          <img :src="logoSrc" class="footerlogo dinv">
           包网彩票
         </section>
         <section class="foot-nums">
@@ -44,11 +44,11 @@
   </footer>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
   name: 'Foote',
   computed: {
-    ...mapGetters(["logoSrc"])
+    ...mapGetters(['logoSrc'])
   },
   data () {
     return {
@@ -75,6 +75,7 @@ export default {
 <style lang="scss" scoped>
   .footer {
     background:#403a38;
+    height: 298px;
     width: 100%;
   }
   .foot-head{
