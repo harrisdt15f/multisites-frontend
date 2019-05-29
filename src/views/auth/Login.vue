@@ -40,6 +40,7 @@
             <el-form-item>
               <el-button class="login-btn" :loading="loading" type="primary" @click="submitForm('userForm')">登陆</el-button>
             </el-form-item>
+            <p class="fw r-forget"><a class="fr cur r-forget-link">忘记密码</a></p>
           </el-form>
           <ul class="r-bottom">
             <li class="btn r-bottom-list">
@@ -219,6 +220,13 @@ export default {
       .r-bottom-line{
         padding-left:5px;
         color:#d3a977;
+      }
+      .r-forget{
+        margin: -10px 4px 7px 0;
+        font-size: 13px;
+      }
+      .r-forget-link:hover{
+        text-decoration: underline;
       }
     }
   }
