@@ -2,7 +2,9 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils/auth'
-import { nextTick } from 'q';
+import { nextTick } from 'q'
+
+import router from '@/route'
 
 // create an axios instance
 const service = axios.create({
@@ -23,23 +25,26 @@ service.interceptors.request.use(
   }
 )
 
+let sign = 0
 // response interceptor
 service.interceptors.response.use(
   response => {
     const res = response.data
     if (res && !res.success && res.message) {
       let message = res.message
-      if (res.code == 0) {
-        MessageBox(message, '提示', {
-          confirmButtonText: '确定'
-        }).then(() => {
-          removeToken();
-          window.sessionStorage.clear()
-          nextTick(() => {
-            window.location.replace('/login')
-            return false
+      if (res.code == 0) {  
+        sign+=1
+        if (sign === 1) {
+          MessageBox(message, '提示', {
+            confirmButtonText: '确定',
+          }).then(() => {
+            removeToken()
+            window.sessionStorage.clear()
+            nextTick(() => {
+              router.push('/login')
+            })
           })
-        })
+        }
       } else {
         MessageBox(message, '提示', {
           confirmButtonText: '确定'

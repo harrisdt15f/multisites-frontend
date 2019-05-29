@@ -7,10 +7,14 @@ const state = {
   notice: '',
   activity: '',
   popularLotteries1: [],
-  popularLotteries2: []
+  popularLotteries2: [],
+  showBanner: false
 }
 
 const mutations = {
+  SET_SHOW_BANNER: (state, data) => {
+    state.showBanner = data
+  },
   SET_ACTIVITY: (state, data) => {
     state.activity = data
   },
@@ -43,6 +47,7 @@ const mutations = {
 const actions = {
   //获取banner
   getBanner({ commit }){
+    commit('SET_SHOW_BANNER', true)
     API.getBanner().then(({success, data}) => {
       if (success) {
         commit('SET_BANNER', data)

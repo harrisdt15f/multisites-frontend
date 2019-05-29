@@ -8,49 +8,48 @@
         <div class="r">
           <div class="r-t">
             <div class="title">
-            <div class="title-l">
-              LOGO
+              <div class="title-l">LOGO</div>
+              <div class="title-r">欢迎登录</div>
             </div>
-            <div class="title-r">
-              欢迎登录
-            </div>
-          </div>
-          <el-form class="user-form" :model="user" :rules="userRules" ref="userForm" >
-            <el-form-item prop="username">
-              <el-input placeholder="用户名" v-model="user.username" type="text" required clearable>
-                <template slot="prepend">
-                  <i class="el-icon-user-solid"></i>
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input
-                placeholder="密码"
-                v-model="user.password"
-                type="password"
-                required
-                clearable>
-              <template slot="prepend">
-                  <i class="el-icon-lock"></i>
-                </template>
-              </el-input>
-            </el-form-item>
-            <!-- <el-form-item  label="是否记住密码">
+            <el-form class="user-form" :model="user" :rules="userRules" ref="userForm">
+              <el-form-item prop="username">
+                <el-input placeholder="用户名" v-model="user.username" type="text" required clearable>
+                  <template slot="prepend">
+                    <i class="el-icon-user-solid"></i>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input
+                  placeholder="密码"
+                  v-model="user.password"
+                  type="password"
+                  required
+                  clearable
+                >
+                  <template slot="prepend">
+                    <i class="el-icon-lock"></i>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <!-- <el-form-item  label="是否记住密码">
                 <el-checkbox v-model="isRemember.checked"></el-checkbox>
-            </el-form-item>-->
-            <div class="forget">
-              <a href="javascript:;" class="forget-pwd">忘记密码</a>
-            </div>
-            <el-form-item>
-              <el-button class="login-btn" :loading="loading" type="primary" @click="submitForm('userForm')">登陆</el-button>
-              <!-- <a class="btn btn-default">
-                <router-link to="/register">没有账户？去注册</router-link>
-              </a> -->
-            </el-form-item>
-          </el-form>
+              </el-form-item>-->
+              <div class="forget">
+                <a href="javascript:;" class="forget-pwd">忘记密码</a>
+              </div>
+              <el-form-item>
+                <el-button
+                  class="login-btn"
+                  :loading="loading"
+                  type="primary"
+                  @click="submitForm('userForm')"
+                >登陆</el-button>
+              </el-form-item>
+            </el-form>
           </div>
           <div class="r-b">
-            <a href="">免费试玩</a> 
+            <a href>免费试玩</a>
             <span style="margin:0 10px; color:#b98f59;">|</span>
             <router-link class="register" to="/register">
               <i class="fa fa-angle-right"></i>
@@ -145,98 +144,150 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login{
-  width: 100%;
-  height: 100%;
-}
-.main {
+.login {
+  position: relative;
+  box-sizing: border-box;
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -298px; /* the bottom margin is the negative value of the footer's height */
+  padding-bottom: 298px;
   background: url("../../assets/images/login_bg.jpg") no-repeat center center;
   background-size: cover;
-  .main-container {
-    width: 1200px;
-    height: 450;
-    margin: 0 auto;
-    overflow: hidden;
-    .l {
-      float: left;
-      width: 780px;
+  .main {
+    padding: 1px;
+    .main-container {
+      width: 1200px;
       height: 450px;
-    }
-    .r {
-      float: right;
-      height: 450px;
-      width: 420px;
+      margin: 142px auto;
       overflow: hidden;
-      box-sizing: border-box;
-      background: #fff;
-      position: relative;
-      .r-t{
-        padding: 30px 30px 0 30px;
-        .title{
-          overflow: hidden;
-          height: auto;
-          margin: 10px 0;
-          font-weight: bold;
-          .title-l{
-            float: left;
-            color: #d0b085;
-            font-size: 42px;
-            line-height: 1.5;
+      .l {
+        float: left;
+        width: 780px;
+        height: 450px;
+      }
+      .r {
+        position: relative;
+        float: right;
+        height: 450px;
+        width: 420px;
+        overflow: hidden;
+        box-sizing: border-box;
+        background: #fff;
+        position: relative;
+        .r-t {
+          padding: 30px 30px 0 30px;
+          .title {
+            overflow: hidden;
+            height: auto;
+            margin: 10px 0;
+            font-weight: bold;
+            .title-l {
+              float: left;
+              color: #d0b085;
+              font-size: 42px;
+              line-height: 1.5;
+            }
+            .title-r {
+              float: right;
+              font-size: 20px;
+              vertical-align: bottom;
+              margin-top: 20px;
+            }
           }
-          .title-r{
-            float: right;
-            font-size: 20px;
-            vertical-align: bottom;
-            margin-top: 20px;
+        }
+        .r-b {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 70px;
+          padding: 0 30px;
+          box-sizing: border-box;
+          font-size: 16px;
+          background: #f3eadd;
+          text-align: right;
+          line-height: 70px;
+          .register {
+            color: #b98f59;
+            i {
+              display: inline-block;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              text-align: center;
+              line-height: 20px;
+              background: #b98f59;
+              color: #fff;
+            }
           }
+        }
+        .r-bottom {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: calc(100% - 56px);
+          padding: 0 28px;
+          height: 55px;
+          line-height: 55px;
+          text-align: right;
+          background: #f6eadc;
+        }
+        .r-bottom-list {
+          display: inline-block;
+          padding: 0 5px;
+          color: #d3a977;
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+        .r-bottom-list:hover {
+          color: #403a38;
+        }
+        .r-bottom-list-icon {
+          display: inline-block;
+          margin-right: 2px;
+          width: 17px;
+          height: 17px;
+          line-height: 16px;
+          text-align: center;
+          background: #d3a977;
+          color: #fff;
+          border-radius: 50%;
+          text-indent: 1px;
+        }
+        .r-bottom-line {
+          padding-left: 5px;
+          color: #d3a977;
         }
       }
-      .r-b{
-        width: 100%;
-        height: 70px;
-        padding: 0 30px;
-        box-sizing: border-box;
-        font-size: 16px;
-        background: #f3eadd;
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        text-align: right;
-        line-height: 70px;
-        .register{
-          color: #b98f59;
-          i{
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 20px;
-            background: #b98f59;
-            color: #fff;
-          }
-        }
+      .r-forget{
+        margin: -10px 4px 7px 0;
+        font-size: 13px;
+      }
+      .r-forget-link:hover{
+        text-decoration: underline;
       }
     }
   }
+  .login-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 298px;
+  }
 }
-.user-form{
+
+.user-form {
   /deep/ {
-    .el-form-item__content{
+    .el-form-item__content {
       line-height: 48px;
-      .el-input-group{
+      .el-input-group {
         line-height: 48px;
       }
-      .el-input__inner{
+      .el-input__inner {
         height: 48px;
         line-height: 48px;
       }
     }
-    .el-input-group__prepend{
+    .el-input-group__prepend {
       box-sizing: border-box;
       padding: 0;
       border: 0;
@@ -244,30 +295,30 @@ export default {
       text-align: center;
       border-radius: 0;
       background: #f3eadd;
-      i{
+      i {
         color: #ccaa7d;
         font-size: 18px;
       }
     }
-    .login-btn{
+    .login-btn {
       border-radius: 0;
       width: 100%;
       background-color: #d0b085;
       border-color: #d0b085;
-      &:hover{
-        background-color: lighten(#d0b085, 2%);;
-        border-color: lighten(#d0b085, 2%);;
+      &:hover {
+        background-color: lighten(#d0b085, 2%);
+        border-color: lighten(#d0b085, 2%);
       }
     }
   }
 }
-.forget{
+.forget {
   text-align: right;
   margin-top: -7px;
   margin-bottom: 10px;
-  .forget-pwd{
+  .forget-pwd {
     color: #000;
-    &:hover{
+    &:hover {
       text-decoration: underline;
     }
   }

@@ -1,12 +1,13 @@
 <template>
   <div class="new-index">
-    <div class="carousel-img" v-if="banner && banner.length">
+    <div class="carousel-img" v-if="showBanner">
       <el-carousel :interval="5000" arrow="always">
         <el-carousel-item v-for="item in banner" :key="item.src">
           <a
             class="carousel-src"
-            :href="item.redirect_url"
-            :style="`background-image: url(${item.pic_path})`"
+            href="javascript:;"
+            @click="goToBannerUrl(item.redirect_url)"
+            :style="`background: url(${item.pic_path}) no-repeat center center`"
           ></a>
         </el-carousel-item>
       </el-carousel>
@@ -17,8 +18,7 @@
           class="lotter-list-item"
           :class="`item${index + 1}`"
           v-for="(item, index) in popularLotteries1"
-          :key="index"
-        >
+          :key="index">
           <p class="lotter-list-item-text">
             <span class="gold">20</span>分钟/期
             全天共
@@ -124,7 +124,7 @@
                         换一注
                       </a>
                       <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
-                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item on">立即投注</a>
+                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                     </div>
                   </div>
                 </template>
@@ -174,7 +174,8 @@ export default {
       'qrSrc',
       'notice',
       'popularLotteries1',
-      'popularLotteries2'
+      'popularLotteries2',
+      'showBanner'
     ])
   },
   watch: {
@@ -231,7 +232,7 @@ export default {
     handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
     },
-    handleRandomNum(code) {
+    handleRandomNum(code) { 
       const num = []
       while (num.length < 5) {
         const ranNum = Math.floor(Math.random() * 10)
@@ -249,6 +250,9 @@ export default {
       item.code.forEach(v => {
         v.sign ? code.push(v.num) : null
       })
+    },
+    goToBannerUrl(url){
+      this.$router.push(url)
     }
   },
   destroyed() {
@@ -272,9 +276,9 @@ export default {
     height: 100%;
     width: 100%;
     display: block;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: cover;*/
   }
   /deep/ {
     .el-carousel--horizontal {
@@ -594,11 +598,16 @@ export default {
           font-size: 16px;
           vertical-align: middle;
         }
-        &.on {
-          background: transparent;
-          border: 1px solid #dd891c;
-          color: #ffaa31;
-        }
+      }
+      .bet {
+        background: #dd891c;
+        border: 1px solid #dd891c;
+        color: #fff;
+      }
+      .bet:hover {
+        background: transparent;
+        border: 1px solid #dd891c;
+        color: #ffaa31;
       }
     }
   }
