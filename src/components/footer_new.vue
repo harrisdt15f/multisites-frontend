@@ -3,8 +3,7 @@
     <section class="w">
       <section class="fw foot-head">
         <section class="logo">
-          <img :src="logoSrc" class="footerlogo dinv">
-          包网彩票
+          <img :src="logoSrc ? logoSrc : require('../assets/images/new/logo.png')" class="footerlogo dinv">
         </section>
         <section class="foot-nums">
           <p class="foot-nums-p dinv"> ¥ <strong class="st">26,686,686</strong> 今日已实现兑奖</p>
@@ -100,7 +99,7 @@ export default {
     color:#7d6f65;
   }
   .foot-nums .st {
-    color:#fff;
+    color:#d2c1b7;
     font-size:35px;
   }
   .foot-nums-p:nth-of-type(1){

@@ -39,11 +39,18 @@
             </el-form-item>-->
             <el-form-item>
               <el-button class="login-btn" :loading="loading" type="primary" @click="submitForm('userForm')">登陆</el-button>
-              <!-- <a class="btn btn-default">
-                <router-link to="/register">没有账户？去注册</router-link>
-              </a> -->
             </el-form-item>
           </el-form>
+          <ul class="r-bottom">
+            <li class="btn r-bottom-list">
+              联系客服
+              <span class="r-bottom-line">|</span>
+            </li>
+            <li class="btn r-bottom-list cur r-bottom-register">
+              <span class="r-bottom-list-icon"><i class="fa fa-angle-right"></i></span>
+              立即注册
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -135,12 +142,12 @@ export default {
 .main {
   height: 100%;
   width: 100%;
-  background: url("../../assets/images/login_bg.jpg") no-repeat center center;
+  background: url("../../assets/images/login_bg.jpg") no-repeat center 96px #fefaf3;
   background-size: cover;
   padding: 142px 0;
   .main-container {
     width: 1200px;
-    height: 450;
+    height: 450px;
     margin: 0 auto;
     overflow: hidden;
     .l {
@@ -149,6 +156,7 @@ export default {
       height: 450px;
     }
     .r {
+      position:relative;
       float: right;
       height: 450px;
       width: 420px;
@@ -172,7 +180,45 @@ export default {
           font-size: 20px;
           vertical-align: bottom;
           margin-top: 20px;
+          font-weight: 600;
         }
+      }
+      .r-bottom{
+        position:absolute;
+        bottom:0;
+        left:0;
+        width:calc(100% - 56px);
+        padding:0 28px;
+        height:55px;
+        line-height:55px;
+        text-align: right;
+        background:#f6eadc;
+      }
+      .r-bottom-list{
+        display:inline-block;
+        padding:0 5px;
+        color:#d3a977;
+        cursor: pointer;
+        transition:all .3s;
+      }
+      .r-bottom-list:hover{
+        color:#403a38;
+      }
+      .r-bottom-list-icon{
+        display:inline-block;
+        margin-right:2px;
+        width:17px;
+        height:17px;
+        line-height:16px;
+        text-align:center;
+        background:#d3a977;
+        color:#fff;
+        border-radius:50%;
+        text-indent:1px;
+      }
+      .r-bottom-line{
+        padding-left:5px;
+        color:#d3a977;
       }
     }
   }

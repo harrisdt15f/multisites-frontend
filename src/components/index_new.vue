@@ -6,7 +6,7 @@
           <a
             class="carousel-src"
             :href="item.redirect_url"
-            :style="`background-image: url(${item.pic_path})`"
+            :style="`background: url(${item.pic_path}) no-repeat center center`"
           ></a>
         </el-carousel-item>
       </el-carousel>
@@ -124,7 +124,7 @@
                         换一注
                       </a>
                       <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
-                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item on">立即投注</a>
+                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                     </div>
                   </div>
                 </template>
@@ -272,9 +272,9 @@ export default {
     height: 100%;
     width: 100%;
     display: block;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
+    /*background-repeat: no-repeat;*/
+    /*background-position: center center;*/
+    /*background-size: cover;*/
   }
   /deep/ {
     .el-carousel--horizontal {
@@ -594,11 +594,16 @@ export default {
           font-size: 16px;
           vertical-align: middle;
         }
-        &.on {
-          background: transparent;
-          border: 1px solid #dd891c;
-          color: #ffaa31;
-        }
+      }
+      .bet {
+        background: #dd891c;
+        border: 1px solid #dd891c;
+        color: #fff;
+      }
+      .bet:hover {
+        background: transparent;
+        border: 1px solid #dd891c;
+        color: #ffaa31;
       }
     }
   }
