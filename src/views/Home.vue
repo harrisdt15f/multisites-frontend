@@ -26,7 +26,7 @@ export default {
     initData() {
       this.Api.showHomepageModel().then(({success, data}) => {
         if (success && data) {
-          data['logo'] ? this.getLogo() : null
+          data['logo'] ? this.getLogo() : this.$store.commit('SET_SHOW_BANNER', false)
           data['banner'] ? this.getBanner() : null
           data['qr.code'] ? this.getQrcode() : null
           data['customer.service'] ? '' : null

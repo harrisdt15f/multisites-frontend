@@ -3,11 +3,11 @@
 </template>
 <script>
 export default {
-  name: "app",
+  name: 'app',
   data() {
-    return {};
+    return {}
   }
-};
+}
 </script>
 <style>
 @import "./assets/css/base.css";

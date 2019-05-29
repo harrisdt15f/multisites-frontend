@@ -93,16 +93,16 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { removeToken } from "@/utils/auth";
+import { mapGetters } from 'vuex'
+import { removeToken } from '@/utils/auth'
 export default {
-  name: "Header",
+  name: 'Header',
   computed: {
-    ...mapGetters(["userDetail", "lotteryLists", "logoSrc"])
+    ...mapGetters(['userDetail', 'lotteryLists', 'logoSrc'])
   },
   mounted() {
-    this.$store.dispatch("lotteryAll");
-    this.lotteryList();
+    this.$store.dispatch('lotteryAll')
+    this.lotteryList()
     // head 滚动公告
     this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
@@ -111,49 +111,49 @@ export default {
     refresh() {
       this.Api.getBalance().then(res => {
         if (res.success) {
-          let account = this.Utils.storage.get("current-user");
+          let account = this.Utils.storage.get('current-user')
           if (account && account.data) {
-            account.data.balance = res.data.balance;
-            account.data.frozen = res.data.frozen;
-            this.$store.commit("account", account.data);
-            this.Utils.storage.set("current-user", account.data);
+            account.data.balance = res.data.balance
+            account.data.frozen = res.data.frozen
+            this.$store.commit('account', account.data)
+            this.Utils.storage.set('current-user', account.data)
           }
         }
-      });
+      })
     },
     // 退出登录
     logout() {
       this.Api.logout().then(res => {
-        const { success } = res;
+        const { success } = res
         if (success) {
           this.$message({ message: '退出成功！', type: 'success' })
-          this.$store.commit("SET_TOKEN", "");
-          this.$store.commit("SET_USER_DETAIL", {});
-          removeToken();
+          this.$store.commit('SET_TOKEN', '')
+          this.$store.commit('SET_USER_DETAIL', {})
+          removeToken()
           window.sessionStorage.clear()
           this.$nextTick(() => {
-            this.$router.push("/login")
+            this.$router.push('/login')
           })
         }
-      });
+      })
     },
     // 获取 导航 彩票游戏 全部彩种
     lotteryList() {
       const loading = this.$loading({
         target: this.$refs.lotterListShow,
-        text: "拼命加载中",
-        spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
-      });
+        text: '拼命加载中',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       this.Api.getLotteryList().then(res => {
-        loading.close();
+        loading.close()
         if (res.success) {
           this.$store.commit('SET_LOTTERY_LISTS', res.data)
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

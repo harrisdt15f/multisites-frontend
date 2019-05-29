@@ -2134,9 +2134,6 @@ body {
 }
 
 .ylc-kx-footer {
-  position: fixed;
-  bottom: 0;
-  z-index: 99;
   height: 80px;
   border-radius: 5px 5px 0 0;
   background: #f9f9f9;
@@ -2596,7 +2593,7 @@ body {
   position: absolute;
   right: 10px;
   top: 13px;
-  border-radius: 5px;
+  border-radius: 3px;
   overflow: hidden;
 }
 .bet-play {
@@ -2605,20 +2602,23 @@ body {
   height: 25px;
   line-height: 25px;
   text-align: center;
-  color: #fff;
-  background: #9e9a9a;
+  font-size: 13px;
+  color: #000;
+  background: #d4d4d4;
   cursor: pointer;
+  border: 1px solid #e6d7c0;
 }
 .bet-play.active {
-  background: #e91b38;
+  background: #fff2e2;
+  color: #ef3f00;
 }
 .bet-play:nth-of-type(1) {
-  border-radius: 5px 0 0 5px;
+  border-radius: 3px 0 0 3px;
 }
 .ylc-dwq .ylc-bet-list {
   height: 52px;
   line-height: 52px;
-  border-bottom: 1px solid #d4d4d4;
+  border-bottom: 1px solid #e6d7c0;
 }
 
 .ylc-submit /deep/ .el-dialog__footer {

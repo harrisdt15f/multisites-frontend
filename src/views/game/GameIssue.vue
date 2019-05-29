@@ -168,38 +168,38 @@
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "game-issue",
+  name: 'game-issue',
   computed: {
-    ...mapGetters(["currentLottery", "lotteryAll", "issueInfo", "bet"])
+    ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet'])
   },
   props: {
     lotterySign: String
   },
   data() {
     return {
-      descs: "",
+      descs: '',
       lotteryNotice: [],
       scrollNotice: [],
       currentIssue: {},
       lastIssue: {
-        issue_no: "---------",
-        open_code: ["-", "-", "-", "-", "-"]
+        issue_no: '---------',
+        open_code: ['-', '-', '-', '-', '-']
       },
       issueNum: 0,
       time: null,
       currentIssueTimer: null,
       notice: {
-        issue: "",
+        issue: '',
         time: 3,
         show: false
       }
-    };
+    }
   },
   mounted() {
-    this.getIssue();
-    this.getLottery();
+    this.getIssue()
+    this.getLottery()
     // 滚动公告
     // this.getNoticeList();
     // this.Animation.notice("meque", "meque_text", -1);
@@ -212,93 +212,93 @@ export default {
           let [
             data = res.data.data,
             sign = this.$route.params.lotterySign
-          ] = [];
+          ] = []
 
           for (const k of data) {
             for (const i of k.list) {
               if (i.id === sign) {
-                this.descs = i.desc;
+                this.descs = i.desc
               }
             }
           }
         }
-      });
+      })
     },
     // 获取公告列表  彩种右侧公告 和 彩种滚动公告
     getNoticeList() {
       this.Api.getNoticeList().then(res => {
         if (res.success) {
-          this.lotteryNotice = res.data.list;
-          this.scrollNotice = res.data.roll;
+          this.lotteryNotice = res.data.list
+          this.scrollNotice = res.data.roll
         }
-      });
+      })
     },
     // 获取开奖结果
     getLottery() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
-          this.currentIssue = res.data.currentIssue;
+          this.currentIssue = res.data.currentIssue
           res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-            ","
-          );
-          this.lastIssue = res.data.lastIssue;
-          let [timer = null] = [];
+            ','
+          )
+          this.lastIssue = res.data.lastIssue
+          let [timer = null] = []
           timer = setInterval(() => {
             let [
               currTime = res.data.currentIssue.open_time,
               nowTime = new Date().getTime() / 1000
-            ] = [];
+            ] = []
             if (currTime - parseInt(nowTime) === 0) {
-              clearInterval(timer);
+              clearInterval(timer)
               // 更新历史开奖记录
-              this.$store.dispatch("issueHistory");
-              this.getLottery();
+              this.$store.dispatch('issueHistory')
+              this.getLottery()
             }
-          }, 1000);
+          }, 1000)
         }
-      });
+      })
     },
     // 当前所在奖期
     getIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
-          this.$store.commit("issueInfo", res.data.issueInfo);
-          this.issueNum = 0;
+          this.$store.commit('issueInfo', res.data.issueInfo)
+          this.issueNum = 0
           // this.issueInfo = res.data.issueInfo
           // 开始倒计时
           // this.times();
         }
-      });
+      })
     },
     times() {
       // 当前 奖期倒计时
-      let [time = 0] = [];
+      let [time = 0] = []
       time =
-        this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000;
-      let hour = 0;
-      let minute = 0;
-      let second = time;
-      this.notice.issue = this.issueInfo[this.issueNum].issue_no;
-      this.$store.commit("currentIssue", this.issueInfo[this.issueNum]);
+        this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
+      let hour = 0
+      let minute = 0
+      let second = time
+      this.notice.issue = this.issueInfo[this.issueNum].issue_no
+      this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
       this.currentIssueTimer = setInterval(() => {
         // 计算 倒计时
-        time -= 1;
+        time -= 1
         if (time >= 0) {
-          this.time = this.Utils.formatSeconds(time);
+          this.time = this.Utils.formatSeconds(time)
         } else {
-          clearInterval(this.currentIssueTimer);
-          this.issueNum += 1;
-          this.$store.commit("currentIssue", this.issueInfo[this.issueNum]);
-          this.notice.show = true;
-          this.times();
+          clearInterval(this.currentIssueTimer)
+          this.issueNum += 1
+          this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+          this.notice.show = true
+          this.times()
           if (this.issueNum === this.issueInfo.length) {
-            this.getIssue();
+            this.getIssue()
           }
         }
-      }, 1000);
+      }, 1000)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .game-lotterys {

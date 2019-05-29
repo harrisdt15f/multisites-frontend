@@ -86,82 +86,82 @@
   </section>
 </template> 
 <script>
-import methods from "../../lib/config/method";
-import GameSelect from "./GameSelect";
-import GameOrder from "./GameOrder";
-import GameYlc from "../../components/game/ylc";
-import { mapGetters } from "vuex";
+import methods from '../../lib/config/method'
+import GameSelect from './GameSelect'
+import GameOrder from './GameOrder'
+import GameYlc from '../../components/game/ylc'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "game-method",
+  name: 'game-method',
   computed: {
     ...mapGetters([
-      "lotteryAll",
-      "currentLottery",
-      "allMethods",
-      "defaultGroup",
-      "defaultMethod",
-      "currentMethod",
-      "bet",
-      "chengeYlcPlays"
+      'lotteryAll',
+      'currentLottery',
+      'allMethods',
+      'defaultGroup',
+      'defaultMethod',
+      'currentMethod',
+      'bet',
+      'chengeYlcPlays'
     ])
   },
 
   data() {
     return {
       loading: false,
-      selectedGroup: "",
-      selectedGroupIndex: "",
-      selectedMethodId: ""
-    };
+      selectedGroup: '',
+      selectedGroupIndex: '',
+      selectedMethodId: ''
+    }
   },
   watch: {
     // 官方彩 和 娱乐城的切换
     chengeYlcPlays(newVal) {
-      let lottery = this.lotteryAll[this.currentLottery.en_name];
-      if (newVal.name === "official") {
-        this.$store.commit("allMethods", lottery.methodConfig);
-      } else if (newVal.name === "casino") {
-        this.$store.commit("allMethods", lottery.methodConfig2);
+      let lottery = this.lotteryAll[this.currentLottery.en_name]
+      if (newVal.name === 'official') {
+        this.$store.commit('allMethods', lottery.methodConfig)
+      } else if (newVal.name === 'casino') {
+        this.$store.commit('allMethods', lottery.methodConfig2)
       }
-      this.selectGroup(this.defaultGroup, newVal.index);
+      this.selectGroup(this.defaultGroup, newVal.index)
     }
   },
   created() {
-    this.selectGroup(this.defaultGroup);
-    this.selectMethod(this.defaultMethod);
+    this.selectGroup(this.defaultGroup)
+    this.selectMethod(this.defaultMethod)
   },
   methods: {
     //切换娱乐城玩法
     chengePlay() {
       let json = {
-        name: "casino",
+        name: 'casino',
         index: 0
-      };
-      this.$store.commit("chengeYlcPlays", json);
+      }
+      this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
     selectGroup(groupSign, _index = 0) {
-      this.selectedGroup = groupSign;
-      this.selectedGroupIndex = _index;
-      this.selectedMethodId = "";
-      this.$store.commit("currentMethod", {});
+      this.selectedGroup = groupSign
+      this.selectedGroupIndex = _index
+      this.selectedMethodId = ''
+      this.$store.commit('currentMethod', {})
       this.selectMethod(
-        this.allMethods[_index]["rows"][0]["methods"][0]["method_id"]
-      );
-      this.$store.commit("methodsTab");
+        this.allMethods[_index]['rows'][0]['methods'][0]['method_id']
+      )
+      this.$store.commit('methodsTab')
     },
     // 选中玩法
     selectMethod(methodId) {
-      let [play = null] = [];
-      if (this.chengeYlcPlays.name === "official") {
-        play = methods[this.currentLottery.series_id].official[methodId];
+      let [play = null] = []
+      if (this.chengeYlcPlays.name === 'official') {
+        play = methods[this.currentLottery.series_id].official[methodId]
       } else {
-        play = methods[this.currentLottery.series_id].casino[methodId];
+        play = methods[this.currentLottery.series_id].casino[methodId]
       }
-      this.$store.commit("currentMethod", play);
-      this.selectedMethodId = methodId;
-      this.$store.commit("methodsTab");
+      this.$store.commit('currentMethod', play)
+      this.selectedMethodId = methodId
+      this.$store.commit('methodsTab')
     }
   },
   components: {
@@ -169,7 +169,7 @@ export default {
     GameSelect,
     GameYlc
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
