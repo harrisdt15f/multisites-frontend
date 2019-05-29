@@ -264,6 +264,50 @@ export default {
       .r-forget-link:hover{
         text-decoration: underline;
       }
+      .r-bottom{
+        position:absolute;
+        bottom:0;
+        left:0;
+        width:calc(100% - 56px);
+        padding:0 28px;
+        height:55px;
+        line-height:55px;
+        text-align: right;
+        background:#f6eadc;
+      }
+      .r-bottom-list{
+        display:inline-block;
+        padding:0 5px;
+        color:#d3a977;
+        cursor: pointer;
+        transition:all .3s;
+      }
+      .r-bottom-list:hover{
+        color:#403a38;
+      }
+      .r-bottom-list-icon{
+        display:inline-block;
+        margin-right:2px;
+        width:17px;
+        height:17px;
+        line-height:16px;
+        text-align:center;
+        background:#d3a977;
+        color:#fff;
+        border-radius:50%;
+        text-indent:1px;
+      }
+      .r-bottom-line{
+        padding-left:5px;
+        color:#d3a977;
+      }
+      .r-forget{
+        margin: -10px 4px 7px 0;
+        font-size: 13px;
+      }
+      .r-forget-link:hover{
+        text-decoration: underline;
+      }
     }
   }
   .login-footer {
