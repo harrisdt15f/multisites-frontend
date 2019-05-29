@@ -287,20 +287,12 @@ export default {
     PKQD4: { total: 10, prize: 18, count: 1 },
     PKQD4_S: { total: 10, prize: 18, count: 1 },
 
-<<<<<<< HEAD
-    PKQZX4: { total: 5040, prize: 1296, count: 1 },
-    PKQZX4_S: { total: 5040, prize: 1296, count: 1 },
-
-    PKQD5: { total: 10, prize: 18, count: 1 },
-    PKQD5_S: { total: 10, prize: 18, count: 1 },
-=======
         'PKQZX4': {'total': 5040, 'prize': 9072, 'count': 1},
         'PKQZX4_S': {'total': 5040, 'prize': 1296, 'count': 1},
 
         'PKQD5': {'total': 10, 'prize': 18, 'count': 1},
         'PKQD5_S': {'total': 10, 'prize': 18, 'count': 1},
         'PKQZX5': {'total': 10, 'prize': 54432.01, 'count': 1},
->>>>>>> 975285ec81c1b4922d0be5eb1efd08e3108dad75
 
     PKDWD: { total: 10, prize: 18, count: 1 }
   },
@@ -353,12 +345,6 @@ export default {
 
     BAOZI: { total: 1000, prize: 180, count: 10 },
 
-<<<<<<< HEAD
-    RED_B: { total: 1000, prize: 4.5974, count: 332 },
-    BLUE_B: { total: 1000, prize: 5.916, count: 258 },
-    GREEN_B: { total: 1000, prize: 5.916, count: 258 }
-  }
-=======
         'RED_B': {'total': 1000, 'prize': 4.5974, 'count': 332},
         'BLUE_B': {'total': 1000, 'prize': 5.9160, 'count': 258},
         'GREEN_B': {'total': 1000, 'prize': 5.9160, 'count': 258},
@@ -379,5 +365,4 @@ export default {
       'Q2DXDS': {'prize': 7.08},
       'H2DXDS': {'prize': 7.08},
     }
->>>>>>> 975285ec81c1b4922d0be5eb1efd08e3108dad75
 }
