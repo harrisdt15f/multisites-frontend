@@ -6,7 +6,8 @@
           <img src="../../assets/images/login_bg_l.jpg" width="100%" height="100%">
         </div>
         <div class="r">
-          <div class="title">
+          <div class="r-t">
+            <div class="title">
             <div class="title-l">
               LOGO
             </div>
@@ -37,6 +38,9 @@
             <!-- <el-form-item  label="是否记住密码">
                 <el-checkbox v-model="isRemember.checked"></el-checkbox>
             </el-form-item>-->
+            <div class="forget">
+              <a href="javascript:;" class="forget-pwd">忘记密码</a>
+            </div>
             <el-form-item>
               <el-button class="login-btn" :loading="loading" type="primary" @click="submitForm('userForm')">登陆</el-button>
               <!-- <a class="btn btn-default">
@@ -44,10 +48,19 @@
               </a> -->
             </el-form-item>
           </el-form>
+          </div>
+          <div class="r-b">
+            <a href="">免费试玩</a> 
+            <span style="margin:0 10px; color:#b98f59;">|</span>
+            <router-link class="register" to="/register">
+              <i class="fa fa-angle-right"></i>
+              立即注册
+            </router-link>
+          </div>
         </div>
       </div>
     </section>
-    <Footer></Footer>
+    <Footer class="login-footer"></Footer>
   </section>
 </template>
 
@@ -132,12 +145,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  height: 100%;
+.login{
   width: 100%;
+  height: 100%;
+}
+.main {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -298px; /* the bottom margin is the negative value of the footer's height */
   background: url("../../assets/images/login_bg.jpg") no-repeat center center;
   background-size: cover;
-  padding: 142px 0;
   .main-container {
     width: 1200px;
     height: 450;
@@ -154,24 +172,53 @@ export default {
       width: 420px;
       overflow: hidden;
       box-sizing: border-box;
-      padding: 30px;
       background: #fff;
-      .title{
-        overflow: hidden;
-        height: auto;
-        margin: 10px 0;
-        font-weight: bold;
-        .title-l{
-          float: left;
-          color: #d0b085;
-          font-size: 42px;
-          line-height: 1.5;
+      position: relative;
+      .r-t{
+        padding: 30px 30px 0 30px;
+        .title{
+          overflow: hidden;
+          height: auto;
+          margin: 10px 0;
+          font-weight: bold;
+          .title-l{
+            float: left;
+            color: #d0b085;
+            font-size: 42px;
+            line-height: 1.5;
+          }
+          .title-r{
+            float: right;
+            font-size: 20px;
+            vertical-align: bottom;
+            margin-top: 20px;
+          }
         }
-        .title-r{
-          float: right;
-          font-size: 20px;
-          vertical-align: bottom;
-          margin-top: 20px;
+      }
+      .r-b{
+        width: 100%;
+        height: 70px;
+        padding: 0 30px;
+        box-sizing: border-box;
+        font-size: 16px;
+        background: #f3eadd;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        text-align: right;
+        line-height: 70px;
+        .register{
+          color: #b98f59;
+          i{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            background: #b98f59;
+            color: #fff;
+          }
         }
       }
     }
@@ -205,12 +252,23 @@ export default {
     .login-btn{
       border-radius: 0;
       width: 100%;
-      background-color: #dec4a4;
-      border-color: #dec4a4;
+      background-color: #d0b085;
+      border-color: #d0b085;
       &:hover{
-        background-color: #d6af7f;
-        border-color: #d6af7f;
+        background-color: lighten(#d0b085, 2%);;
+        border-color: lighten(#d0b085, 2%);;
       }
+    }
+  }
+}
+.forget{
+  text-align: right;
+  margin-top: -7px;
+  margin-bottom: 10px;
+  .forget-pwd{
+    color: #000;
+    &:hover{
+      text-decoration: underline;
     }
   }
 }
