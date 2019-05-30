@@ -28,22 +28,25 @@
         <div class="main-center-wrap">
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup">
-              <div
-                class="bet-type-group-list"
-                v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
-                :key="_rowIndex">
-                <template v-if="row.methods.length > 1">
-                  <div class="group-name">{{row.name}}</div>
-                  <ul>
-                    <li
-                      class="bet-type-group-list-li"
-                      v-for="(method, mkey) in row.methods"
-                      :key="mkey"
-                      v-bind:class="{'on':method.method_id === selectedMethodId}"
-                      @click="selectMethod(method.method_id)"
-                    >{{method.method_name}}</li>
-                  </ul>
-                </template>
+              <div class="bet-type-group-warp">
+                <div class="method-current-prize">单注奖金: <span style="color:#FF5656;">8.31</span>元 </div>
+                <div
+                  class="bet-type-group-list"
+                  v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
+                  :key="_rowIndex">
+                  <template v-if="row.methods.length > 1">
+                    <div class="group-name">{{row.name}}</div>
+                    <ul>
+                      <li
+                        class="bet-type-group-list-li"
+                        v-for="(method, mkey) in row.methods"
+                        :key="mkey"
+                        v-bind:class="{'on':method.method_id === selectedMethodId}"
+                        @click="selectMethod(method.method_id)"
+                      >{{method.method_name}}</li>
+                    </ul>
+                  </template>
+                </div>
               </div>
             </div>
             <game-select></game-select>
@@ -173,5 +176,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.bet-type-group-warp{
+  position: relative;
+  padding-top: 20px;
+  min-height: 25px;
+}
+.method-current-prize{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 14px;
+  box-sizing: border-box;
+  text-align: right;
+  width: 100%;
+}
+.bet-type-group-list:first-child{
+  padding-top:20px;
+}
 </style>

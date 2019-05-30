@@ -7,8 +7,7 @@
             class="carousel-src"
             href="javascript:;"
             @click="goToBannerUrl(item.redirect_url)"
-            :style="`background: url(${item.pic_path}) no-repeat center center`"
-          ></a>
+            :style="`background: url(${item.pic_path}) no-repeat center center`"></a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -16,8 +15,8 @@
       <ul class="lotter-list ft0" v-if="popularLotteries1 && popularLotteries1.length">
         <li
           class="lotter-list-item"
-          :class="`item${index + 1}`"
           v-for="(item, index) in popularLotteries1"
+          :style="`background: url(${item.pic_path}) no-repeat center center`"
           :key="index">
           <p class="lotter-list-item-text">
             <span class="gold">20</span>分钟/期
@@ -332,33 +331,8 @@ export default {
     letter-spacing: 2px;
     box-sizing: border-box;
     background-size: 100% 100%;
-    &.item1 {
-      background: url("../assets/images/new/index/lotter-list1.png") no-repeat;
-      &:hover {
-        background: url("../assets/images/new/index/lotter-list1.2.png")
-          no-repeat;
-      }
-    }
-    &.item2 {
-      background: url("../assets/images/new/index/lotter-list2.png") no-repeat;
-      &:hover {
-        background: url("../assets/images/new/index/lotter-list2.2.png")
-          no-repeat;
-      }
-    }
-    &.item3 {
-      background: url("../assets/images/new/index/lotter-list3.png") no-repeat;
-      &:hover {
-        background: url("../assets/images/new/index/lotter-list3.2.png")
-          no-repeat;
-      }
-    }
-    &.item4 {
-      background: url("../assets/images/new/index/lotter-list4.png") no-repeat;
-      &:hover {
-        background: url("../assets/images/new/index/lotter-list4.2.png")
-          no-repeat;
-      }
+    &:hover{
+      
     }
     .lotter-list-item-text {
       position: absolute;

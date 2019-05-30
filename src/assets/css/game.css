@@ -375,7 +375,6 @@ body {
 /*直选组选类型*/
 .bet-type-group {
   height: auto;
-  padding: 20px 20px 10px;
   background: #fff;
   font-size: 12px;
   overflow: hidden;
@@ -383,13 +382,16 @@ body {
   border-bottom: 1px solid #eaeaea;
 }
 .bet-type-group-list {
+  padding: 0 120px 0 20px;
   margin-bottom: 5px;
   position: relative;
+  display: flex;
   text-align: left;
   overflow: hidden;
   clear: both;
 }
 .bet-type-group-list .group-name {
+  flex: 0 1 auto;
   float: left;
   margin-right: 18px;
   line-height: 28px;
@@ -397,8 +399,7 @@ body {
   font-size: 14px;
 }
 .bet-type-group-list ul {
-  width: 750px;
-  float: left;
+  flex: 1;
 }
 .bet-type-group-list li {
   padding: 1px 10px;
@@ -646,9 +647,10 @@ body {
   border: 1px solid transparent;
 }
 
-.main-ball-content-li.ball-on .ball.ball-number-long{
+.main-ball-content-li.ball-on .ball.ball-number-long, .main-ball-content-li.ball-on .ball.ball-number-long:hover{
   background-image: linear-gradient(0deg, #ffaf39 0%, #ff9800 23%, #ffb549 100%), linear-gradient(#ff9400, #ff9400);
   background-blend-mode: normal, normal;
+  color: black;
 }
 
 /*冷热遗漏显示*/
@@ -900,7 +902,7 @@ body {
   text-align: center;
 }
 .main-btn-fastadd {
-  margin: 0 8px;
+  margin: 0 15px;
   background-color: #ff6a21;
 }
 .main-btn-fastadd:hover {
@@ -2911,4 +2913,16 @@ body {
 }
 .main-single-entry{
   padding: 15px 20px;
+}
+.bet-rebate-cont{
+  padding: 20px 20px 0;
+  text-align: right;
+}
+.submit-btn{
+  text-align: right;
+  padding: 0px 20px 20px;
+}
+
+.popper-class{
+  margin-top: 5px !important;
 }
