@@ -38,7 +38,7 @@
             </div>
           </section>
           <section class="panel-trace">
-            <ul class="fw chase-tabs">
+            <ul class="chase-tabs">
               <li class="chase-tab" :class="{active: chaseTab === 1}" @click="chaseTabHan(1)">同倍追号</li>
               <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍追号</li>
             </ul>
@@ -61,7 +61,6 @@
                     :placeholder="chase.sameIssue"
                     class="tab-input">
                   </label>
-                  
                   <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
                 </section>
               </li>
@@ -300,9 +299,9 @@
   </section>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "game-order",
+  name: 'game-order',
   data() {
     return {
       total: {
@@ -342,102 +341,102 @@ export default {
       betHistory: {
         tab: 0
       }
-    };
+    }
   },
   computed: {
     ...mapGetters([
-      "lotteryAll",
-      "orderList",
-      "currentOrderState",
-      "totalCost",
-      "currentLottery",
-      "currentMethod",
-      "bet",
-      "currentIssue",
-      "issueInfo"
+      'lotteryAll',
+      'orderList',
+      'currentOrderState',
+      'totalCost',
+      'currentLottery',
+      'currentMethod',
+      'bet',
+      'currentIssue',
+      'issueInfo'
     ]),
     // 翻倍
     totals() {
       this.total = {
         number: 0,
         money: 0
-      };
+      }
       for (let i = 0; i < this.orderList.length; i++) {
-        this.total.number += this.orderList[i].count;
-        this.total.money += this.orderList[i].cost;
+        this.total.number += this.orderList[i].count
+        this.total.money += this.orderList[i].cost
       }
       this.totalSub.money =
-        parseInt(this.totalSub.double) * Number(this.total.money);
-      return this.total;
+        parseInt(this.totalSub.double) * Number(this.total.money)
+      return this.total
     }
   },
   watch: {
-    "chase.doubleData": {
+    'chase.doubleData': {
       handler(newVal) {
         // 检查同倍追号所有多选框是否选中
         let checked = newVal.every(item => {
-          return item.checked;
-        });
-        this.chase.doubleChecked = !!checked;
+          return item.checked
+        })
+        this.chase.doubleChecked = !!checked
         for (let i = 0; i < newVal.length; i++) {
           if (Number(newVal[i].multiple) <= 0) {
-            newVal[i].checked = false;
+            newVal[i].checked = false
           }
         }
         // 总金额
-        let doubleAll = 0;
+        let doubleAll = 0
         for (let i = 0; i < newVal.length; i++) {
           if (newVal[i].checked) {
-            doubleAll += Number(newVal[i].multiple);
+            doubleAll += Number(newVal[i].multiple)
           }
         }
-        this.chase.doubleMoneyAll = doubleAll * this.chase.doubleMoney;
+        this.chase.doubleMoneyAll = doubleAll * this.chase.doubleMoney
       },
       deep: true
     },
-    "chase.sameData": {
+    'chase.sameData': {
       handler(newVal) {
         // 检查同倍追号所有多选框是否选中
         let checked = newVal.every(item => {
-          return item.checked;
-        });
-        this.chase.sameChecked = !!checked;
+          return item.checked
+        })
+        this.chase.sameChecked = !!checked
         for (let i = 0; i < newVal.length; i++) {
           if (Number(newVal[i].multiple) <= 0) {
-            newVal[i].checked = false;
+            newVal[i].checked = false
           }
         }
         // 总金额
-        let doubleAll = 0;
+        let doubleAll = 0
         for (let i = 0; i < newVal.length; i++) {
           if (newVal[i].checked) {
-            doubleAll += Number(newVal[i].multiple);
+            doubleAll += Number(newVal[i].multiple)
           }
         }
-        this.chase.sameMoneyAll = doubleAll * this.chase.sameMoney;
+        this.chase.sameMoneyAll = doubleAll * this.chase.sameMoney
       },
       deep: true
     },
-    "chase.rateIssue"(newVal) {
+    'chase.rateIssue'(newVal) {
       if (Number(newVal) > this.chase.maxIssue) {
-        this.chase.rateIssue = this.chase.maxIssue;
+        this.chase.rateIssue = this.chase.maxIssue
       }
     },
-    "chase.sameIssue"(newVal) {
+    'chase.sameIssue'(newVal) {
       if (Number(newVal) > this.chase.maxIssue) {
-        this.chase.sameIssue = this.chase.maxIssue;
+        this.chase.sameIssue = this.chase.maxIssue
       }
     },
-    "chase.doubleIssue"(newVal) {
+    'chase.doubleIssue'(newVal) {
       if (Number(newVal) > this.chase.maxIssue) {
-        this.chase.doubleIssue = this.chase.maxIssue;
+        this.chase.doubleIssue = this.chase.maxIssue
       }
     },
-    "totalSub.double": {
+    'totalSub.double': {
       handler() {
         // 计算翻倍后的金额
         this.totalSub.money =
-          parseInt(this.totalSub.double) * Number(this.total.money);
+          parseInt(this.totalSub.double) * Number(this.total.money)
       },
       deep: true
     }
@@ -447,52 +446,52 @@ export default {
     // this.$store.dispatch("betHistory");
     this.chase.maxIssue = this.lotteryAll[
       this.currentLottery.en_name
-    ].lottery.max_trace_number;
+    ].lottery.max_trace_number
   },
   methods: {
     // 清除追号 关闭窗口
     clearChase() {
-      this.chase.sameCon = false;
-      this.chase.sameData = [];
-      this.chase.doubleCon = false;
-      this.chase.doubleData = [];
+      this.chase.sameCon = false
+      this.chase.sameData = []
+      this.chase.doubleCon = false
+      this.chase.doubleData = []
     },
     // 翻倍追号当全部选中
     doubleCheckedAll() {
-      this.chase.doubleChecked = !this.chase.doubleChecked;
-      let list = this.chase.doubleData;
+      this.chase.doubleChecked = !this.chase.doubleChecked
+      let list = this.chase.doubleData
       if (this.chase.doubleChecked) {
         for (let i = 0; i < list.length; i++) {
-          list[i].checked = true;
+          list[i].checked = true
         }
       } else {
         for (let i = 0; i < list.length; i++) {
-          list[i].checked = false;
+          list[i].checked = false
         }
       }
     },
     // 生成翻倍追号
     chaseDoubleSubmit() {
       if (this.orderList.length === 0) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
       }
-      this.chase.doubleCon = true;
-      this.chase.sameCon = false;
-      this.chase.doubleData = [];
-      this.chase.doubleChecked = true;
-      this.chase.doubleMoneyAll = 0;
-      this.chase.doubleMoney = 0;
+      this.chase.doubleCon = true
+      this.chase.sameCon = false
+      this.chase.doubleData = []
+      this.chase.doubleChecked = true
+      this.chase.doubleMoneyAll = 0
+      this.chase.doubleMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
-        this.chase.doubleMoney += this.orderList[i].cost;
+        this.chase.doubleMoney += this.orderList[i].cost
       }
       // 找出当前期 以及当前期 后面当期数
-      let [sameIssue = this.chase.doubleIssue] = [];
+      let [sameIssue = this.chase.doubleIssue] = []
       let list = this.issueInfo.filter(item => {
-        return Number(item.issue_no) >= Number(this.currentIssue.issue_no);
-      });
+        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+      })
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -500,72 +499,72 @@ export default {
       ) {
         this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
           if (res.success) {
-            this.$store.commit("issueInfo", res.data.issueInfo);
-            this.chaseSameSubmit();
+            this.$store.commit('issueInfo', res.data.issueInfo)
+            this.chaseSameSubmit()
           }
-        });
+        })
       }
       // 追号添加数据
       for (let i = 0; i < list.length; i++) {
         if (i < sameIssue) {
           list[i].time = this.Utils.formatTime(
             list[i].open_time * 1000,
-            "YYYY-MM-DD HH:MM:SS"
-          );
-          this.chase.doubleData.push(list[i]);
-          this.$set(this.chase.doubleData[i], "checked", true);
+            'YYYY-MM-DD HH:MM:SS'
+          )
+          this.chase.doubleData.push(list[i])
+          this.$set(this.chase.doubleData[i], 'checked', true)
           if (i === 0) {
             this.$set(
               this.chase.doubleData[0],
-              "multiple",
+              'multiple',
               this.chase.doubleNum
-            );
+            )
           } else {
             this.$set(
               this.chase.doubleData[i],
-              "multiple",
+              'multiple',
               Math.pow(this.chase.doubleB, parseInt(i / this.chase.doubleG))
-            );
+            )
           }
         }
       }
     },
     // 同倍追号当全部选中
     sameCheckedAll() {
-      this.chase.sameChecked = !this.chase.sameChecked;
-      let list = this.chase.sameData;
+      this.chase.sameChecked = !this.chase.sameChecked
+      let list = this.chase.sameData
       if (this.chase.sameChecked) {
         for (let i = 0; i < list.length; i++) {
-          list[i].checked = true;
+          list[i].checked = true
         }
       } else {
         for (let i = 0; i < list.length; i++) {
-          list[i].checked = false;
+          list[i].checked = false
         }
       }
     },
     // 生成同倍追号
     chaseSameSubmit() {
       if (this.orderList.length === 0) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
       }
-      this.chase.sameCon = true;
-      this.chase.doubleCon = false;
-      this.chase.sameData = [];
-      this.chase.sameChecked = true;
-      this.chase.sameMoneyAll = 0;
-      this.chase.sameMoney = 0;
+      this.chase.sameCon = true
+      this.chase.doubleCon = false
+      this.chase.sameData = []
+      this.chase.sameChecked = true
+      this.chase.sameMoneyAll = 0
+      this.chase.sameMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
-        this.chase.sameMoney += this.orderList[i].cost;
+        this.chase.sameMoney += this.orderList[i].cost
       }
       // 找出当前期 以及当前期 后面当期数
-      let [sameIssue = this.chase.sameIssue] = [];
+      let [sameIssue = this.chase.sameIssue] = []
       let list = this.issueInfo.filter(item => {
-        return Number(item.issue_no) >= Number(this.currentIssue.issue_no);
-      });
+        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+      })
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -573,152 +572,152 @@ export default {
       ) {
         this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
           if (res.success) {
-            this.$store.commit("issueInfo", res.data.issueInfo);
-            this.chaseSameSubmit();
+            this.$store.commit('issueInfo', res.data.issueInfo)
+            this.chaseSameSubmit()
           }
-        });
+        })
       }
       // 追号添加数据
       for (let i = 0; i < list.length; i++) {
         if (i < sameIssue) {
-          this.chase.sameData.push(list[i]);
+          this.chase.sameData.push(list[i])
           list[i].time = this.Utils.formatTime(
             list[i].open_time * 1000,
-            "YYYY-MM-DD HH:MM:SS"
-          );
-          this.$set(this.chase.sameData[i], "checked", true);
-          this.$set(this.chase.sameData[i], "multiple", this.chase.sameNum);
+            'YYYY-MM-DD HH:MM:SS'
+          )
+          this.$set(this.chase.sameData[i], 'checked', true)
+          this.$set(this.chase.sameData[i], 'multiple', this.chase.sameNum)
         }
       }
     },
     // 追号tab 切换
     chaseTabHan(val) {
-      this.chaseTab = val;
+      this.chaseTab = val
       if (val === 1) {
         if (this.chase.sameData.length > 0) {
-          this.chase.sameCon = true;
-          this.chase.doubleCon = false;
+          this.chase.sameCon = true
+          this.chase.doubleCon = false
         } else {
-          this.chase.sameCon = false;
-          this.chase.doubleCon = false;
+          this.chase.sameCon = false
+          this.chase.doubleCon = false
         }
       } else if (val === 2) {
         if (this.chase.doubleData.length > 0) {
-          this.chase.sameCon = false;
-          this.chase.doubleCon = true;
+          this.chase.sameCon = false
+          this.chase.doubleCon = true
         } else {
-          this.chase.sameCon = false;
-          this.chase.doubleCon = false;
+          this.chase.sameCon = false
+          this.chase.doubleCon = false
         }
       }
     },
     // 确定投注
     submitBet() {
       if (this.bet.doubleBeforeOrder.length === 0) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
       }
       let [
         currentIssus = this.currentIssue.issue_no,
         issus = {},
         money = 0,
         chaseData = []
-      ] = [];
+      ] = []
       if (this.chase.sameCon) {
         // 如果打开同倍追奖
-        chaseData = this.chase.sameData;
+        chaseData = this.chase.sameData
         for (let i = 0; i < chaseData.length; i++) {
-          issus[chaseData[i].issue_no] = true;
+          issus[chaseData[i].issue_no] = true
         }
-        money = this.chase.sameMoneyAll;
+        money = this.chase.sameMoneyAll
       } else if (this.chase.doubleCon) {
         // 如果打开翻倍
-        chaseData = this.chase.doubleData;
+        chaseData = this.chase.doubleData
         for (let i = 0; i < chaseData.length; i++) {
-          issus[chaseData[i].issue_no] = true;
+          issus[chaseData[i].issue_no] = true
         }
-        money = this.chase.doubleMoneyAll;
+        money = this.chase.doubleMoneyAll
       } else {
         // 同倍和翻倍追奖 都没有打开
-        issus[currentIssus] = true;
+        issus[currentIssus] = true
         money =
-          this.totalSub.double > 1 ? this.totalSub.money : this.totals.money;
+          this.totalSub.double > 1 ? this.totalSub.money : this.totals.money
       }
       // 计算翻倍后的 金额 和倍数
-      let [list = JSON.parse(this.bet.doubleBeforeOrder)] = [];
+      let [list = JSON.parse(this.bet.doubleBeforeOrder)] = []
       if (list.length === 0) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
       }
       for (let i = 0; i < list.length; i++) {
-        list[i].cost = Number(list[i].cost) * Number(this.totalSub.double);
-        list[i].count = Number(list[i].count) * Number(this.totalSub.double);
+        list[i].cost = Number(list[i].cost) * Number(this.totalSub.double)
+        list[i].count = Number(list[i].count) * Number(this.totalSub.double)
       }
       this.Api.bet(this.currentLottery.en_name, issus, list, money).then(
         res => {
           if (res.success) {
-            this.$store.commit("orderList", []);
-            this.bet.doubleBeforeOrder = JSON.stringify([]);
+            this.$store.commit('orderList', [])
+            this.bet.doubleBeforeOrder = JSON.stringify([])
             this.$alert(
-              "投注成功, 您可以通过”游戏记录“查询您的投注记录！",
-              "提示",
+              '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+              '提示',
               {
-                confirmButtonText: "确定"
+                confirmButtonText: '确定'
               }
-            );
+            )
             // 获取我的投注 我的追号记录
             // this.$store.dispatch("betHistory");
             // 刷新余额
             this.Api.getBalance().then(res => {
               if (res.success) {
-                let account = this.Utils.storage.get("current-user");
+                let account = this.Utils.storage.get('current-user')
                 if (account && account.data) {
-                  account.data.balance = res.data.balance;
-                  account.data.frozen = res.data.frozen;
-                  this.$store.commit("account", account.data);
-                  this.Utils.storage.set("current-user", account.data);
+                  account.data.balance = res.data.balance
+                  account.data.frozen = res.data.frozen
+                  this.$store.commit('account', account.data)
+                  this.Utils.storage.set('current-user', account.data)
                 }
               }
-            });
+            })
           }
         }
-      );
+      )
     },
     // 删除当前投注
     deleteOrderList(item, index) {
-      this.orderList.splice(index, 1);
-      this.bet.doubleBeforeOrder = JSON.stringify(this.orderList);
-      this.totalSub.money -= Number(item.cost) * Number(this.totalSub.double);
+      this.orderList.splice(index, 1)
+      this.bet.doubleBeforeOrder = JSON.stringify(this.orderList)
+      this.totalSub.money -= Number(item.cost) * Number(this.totalSub.double)
       if (this.orderList.length === 0) {
         this.total = {
           number: 0,
           money: 0
-        };
+        }
         this.totalSub = {
           number: 0,
           double: 1,
           money: 0
-        };
+        }
       }
     },
     // 清空当前投注
     clearOrderList() {
-      this.$store.commit("orderList", []);
-      this.bet.doubleBeforeOrder = JSON.stringify([]);
+      this.$store.commit('orderList', [])
+      this.bet.doubleBeforeOrder = JSON.stringify([])
       this.total = {
         number: 0,
         money: 0
-      };
+      }
       this.totalSub = {
         number: 0,
         double: 1,
         money: 0
-      };
+      }
     }
   }
-};
+}
 </script>

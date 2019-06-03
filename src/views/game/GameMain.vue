@@ -1,7 +1,7 @@
 <template>
   <section class="game-mian" v-if="mainShow">
     <!--开奖区-->
-    <game-issue></game-issue>
+    <game-issue :lotterySign="lotterySign"></game-issue>
 
     <game-method></game-method>
 
