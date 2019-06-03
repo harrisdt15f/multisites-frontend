@@ -476,7 +476,7 @@ body {
 /*玩法介绍 、冷热遗漏*/
 .main-play-introduce {
   position: relative;
-  padding: 5px 100px 4px 12px;
+  padding: 5px 100px 4px 20px;
   line-height: 28px;
   text-align: left;
   background: #fff;
@@ -1728,7 +1728,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
 }
 .list-full-history ul {
-  overflow: hidden;
   height: 49px;
   border-bottom: 1px solid #e3d3bc;
   border-radius: 5px 5px 0 0;
@@ -2679,7 +2678,6 @@ body {
 }
 
 .main-center-wrap {
-  overflow: hidden;
   background: #fff;
   margin-bottom: 10px;
 }

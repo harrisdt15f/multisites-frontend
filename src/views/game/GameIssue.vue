@@ -145,10 +145,10 @@
           <!-- <section class="deadline">投注截止： {{ time }}</section> -->
         </section>
         <section class="trend-info">
-          <span class="trend">
+          <router-link class="trend" tag="span" to="/user-trends" >
             <i class="fa fa-line-chart" aria-hidden="true"></i>
             <br>开奖趋势
-          </span>
+          </router-link>
           <span class="trend info">
             <i class="fa fa-trophy" aria-hidden="true"></i>
             <br>开奖说明
@@ -275,9 +275,9 @@ export default {
       let [time = 0] = []
       time =
         this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
-      let hour = 0
-      let minute = 0
-      let second = time
+      // let hour = 0
+      // let minute = 0
+      // let second = time
       this.notice.issue = this.issueInfo[this.issueNum].issue_no
       this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
       this.currentIssueTimer = setInterval(() => {

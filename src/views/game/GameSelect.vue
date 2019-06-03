@@ -263,7 +263,7 @@ export default {
       this.inputCodes = '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
     },
     // 号码被清空时 清空注单
-    'currentOrder.currentCost'(newVal) {},
+    // 'currentOrder.currentCost'(newVal) {},
     orderList(newVal) {
       if (newVal.length === 0) {
         this.clearBtn()
@@ -449,7 +449,6 @@ export default {
         this.inputCodes = ''
       }
     },
-
     // 计算注数
     calculate() {
       if (

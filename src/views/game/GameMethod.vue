@@ -25,7 +25,7 @@
             <div class="bet-play" @click="chengePlay()">娱乐城</div>
           </section>
         </div>
-        <div class="main-center-wrap">
+        <div class="main-center-wrap clearfix">
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup">
               <div class="bet-type-group-warp">
@@ -78,7 +78,9 @@
                   </tr>
                 </tbody>
               </table>
-              <section class="cur more">查看完整走势</section>
+              <router-link class="cur more" tag="section" to="/user-trends" >
+                查看完整走势
+              </router-link>
             </section>
           </section>
         </div>

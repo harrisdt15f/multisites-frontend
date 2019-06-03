@@ -11,6 +11,7 @@ import Home from '../views/Home'
 import GameMain from '../views/game/GameMain'
 import Index from '../components/index_new'
 import Ylc from '../components/game/ylc'
+import UserTrends from '../views/user-trends'
 
 Vue.use(Router)
 
@@ -31,7 +32,12 @@ const router = new Router({
           component: GameMain,
           props: true
         },
-        { path: 'ylc', name: 'ylc', component: Ylc, props: true }
+        { path: 'ylc', name: 'ylc', component: Ylc, props: true },
+        {
+          path: '/user-trends',
+          name: 'user-trends',
+          component: UserTrends
+        },
       ]
     },
     { path: '*', redirect: '/home' }
