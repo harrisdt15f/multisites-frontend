@@ -6,10 +6,10 @@
         ?
         <div class="tooltip1" v-html="currentMethod.help"></div>
       </a>
-      <a href="javascript:;" class="ico-case" v-if="currentMethod && currentMethod.example">
-        例
-        <div class="tooltip1" v-html="currentMethod.example"></div>
-      </a>
+<!--      <a href="javascript:;" class="ico-case" v-if="currentMethod && currentMethod.example">-->
+<!--        例-->
+<!--        <div class="tooltip1" v-html="currentMethod.example"></div>-->
+<!--      </a>-->
       <div class="lhc-end ab" v-if="currentMethod.type === 'lhc'">
         <el-tooltip content="1800 - 0.00%" placement="bottom">
           <input type="button" class="input high curr" value="A面">
@@ -276,7 +276,8 @@ export default {
     },
     // 如果路由有变化，会再次执行该方法
     currentMethod: {
-      handler() {
+      handler(newVal) {
+        console.log(newVal)
         this.initChoose()
       },
       deep: true
@@ -572,6 +573,7 @@ export default {
     selectButton(y, b) {
       this.cleanChooseButton(y)
       this.cleanChooseNumber(y)
+  
       this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
       
       let rowData = this.chooseNumber[y]
@@ -613,8 +615,13 @@ export default {
               }
             }
             break
+          case '清':
+            this.chooseButton[y][b] = false
+            break
         }
-      } else {
+      }
+      
+      else {
         switch (this.currentMethod.buttons[b]) {
           case '全':
             for (let i = 0; i < rowData.length; i++) {
@@ -648,6 +655,9 @@ export default {
                 this.chooseNumber[y][i] = true
               }
             }
+            break
+          case '清':
+            this.chooseButton[y][b] = false
             break
         }
       }

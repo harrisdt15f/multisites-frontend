@@ -285,12 +285,24 @@ export default {
         return cc.calculateByPosition(data, method, state);
     },
     // 三星 组3 和值
+    // ZZUHZ(method, state) {
+    //     console.log(1232323)
+    //     return this.ZZUHZ(method, state);
+    // },
     ZZUHZ(method, state) {
-        return this.ZZUHZ(method, state);
+        let data;
+        data = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1];
+        return cc.calculateByPosition(data, method, state);
     },
     // 三星 组3 和值
+    // HZUHZ(method, state) {
+    //     return this.HZUHZ(method, state);
+    // },
+    // 三星 组3 和值
     HZUHZ(method, state) {
-        return this.HZUHZ(method, state);
+        let data;
+        data = [1, 2, 2, 4, 5, 6, 8, 10, 11, 13, 14, 14, 15, 15, 14, 14, 13, 11, 10, 8, 6, 5, 4, 2, 2, 1];
+        return cc.calculateByPosition(data, method, state);
     },
     // 三星 组三 包胆
     QZU3BD(method, state) {
@@ -809,6 +821,25 @@ export default {
     },
 
     LTDWD(method, state) {
+        let n1, n2, n3, ref;
+        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2];
+        return n1 + n2 + n3;
+    },
+
+    // 11选5定位胆1
+    LTDWD_1(method, state) {
+        let n1, n2, n3, ref;
+        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2];
+        return n1 + n2 + n3;
+    },
+    // 11选5定位胆2
+    LTDWD_2(method, state) {
+        let n1, n2, n3, ref;
+        ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2];
+        return n1 + n2 + n3;
+    },
+    // 11选5定位胆3
+    LTDWD_3(method, state) {
         let n1, n2, n3, ref;
         ref = cc.calculateN(method, state), n1 = ref[0], n2 = ref[1], n3 = ref[2];
         return n1 + n2 + n3;
