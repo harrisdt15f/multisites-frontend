@@ -19,7 +19,7 @@
         </section>
         <ul class="head-users fr ft0">
           <li class="head-user head-user-name wzfw">
-            <img src="../assets/images/header/vip5.png" alt="vip" title="vip" class="head-vip">
+            <img src="../assets/images/new/header/vip5.png" alt="vip" title="vip" class="head-vip">
             {{userDetail.username}}
           </li>
           <span class="line">|</span>

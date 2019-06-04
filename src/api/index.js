@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-import Site from './site';
+import Site from './site'
 import User from './user'
 import Lottery from './lottery'
 
