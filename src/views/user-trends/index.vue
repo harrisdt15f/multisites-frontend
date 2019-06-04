@@ -14,6 +14,14 @@
               :value="item.value"
             ></el-option>
           </el-select>
+          <el-select v-model="value" placeholder="请选择" style="margin-left:15px">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
@@ -107,7 +115,12 @@ export default {
   width: 1240px;
   margin: 0 auto;
   .trend-header {
-    margin-top: 22px;
+    margin-top: 15px;
+    /deep/ {
+      .el-form-item{
+        margin-bottom: 15px;
+      }
+    }
   }
 }
 .trend-main {

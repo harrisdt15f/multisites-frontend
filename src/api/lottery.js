@@ -54,7 +54,7 @@ export default {
       trace_win_stop: trace_win_stop,
       total_cost: total_cost
     }
-    return this.post(this.url.bet, data).then(response => response)
+    return this.post('/lotteries/bet', data).then(response => response)
   },
   /*
    * 获取用户余额

@@ -1443,7 +1443,7 @@ body {
 }
 
 .win-issue .music.close {
-  background: url(../../assets/images/home/open.png) center center no-repeat;
+  /* background: url(../../assets/images/home/open.png) center center no-repeat; */
   -webkit-filter: grayscale(100%);
   -moz-filter: grayscale(100%);
   -o-filter: grayscale(100%);
@@ -1451,7 +1451,7 @@ body {
 }
 
 .win-issue .music.open {
-  background: url(../../assets/images/home/open.png) center center no-repeat;
+  /* background: url(../../assets/images/home/open.png) center center no-repeat; */
 }
 
 .deadline {
