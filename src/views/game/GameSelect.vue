@@ -293,13 +293,7 @@ export default {
     },
     // 如果路由有变化，会再次执行该方法
     currentMethod: {
-<<<<<<< HEAD
-      handler(newVal) {
-        console.log(this.currentLottery)
-        console.log(newVal)
-=======
       handler() {
->>>>>>> 1966ee0cbd5005b16cb4e83f1100c3f79c9aecd7
         this.initChoose()
       },
       deep: true
