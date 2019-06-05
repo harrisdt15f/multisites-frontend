@@ -134,7 +134,7 @@ export default {
   },
   created() {
     this.selectGroup(this.defaultGroup)
-    this.selectMethod(this.defaultMethod)
+    // this.selectMethod(this.defaultMethod)
   },
   methods: {
     //切换娱乐城玩法

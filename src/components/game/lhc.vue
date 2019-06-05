@@ -464,11 +464,8 @@ export default {
         let [mainCenter = document.getElementsByClassName("main-left")[0]] = [];
         mainCenter.style.width = "100%";
         silde.style.display = "none";
-      } else if (newVal.method.indexOf("ZT") > -1) {
-        silde.style.top = "-140px";
       } else {
         silde.style.display = "block";
-        silde.style.top = "-73px";
         this.enterMain();
       }
       this.ballSort();

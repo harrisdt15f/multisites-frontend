@@ -26,7 +26,11 @@
         v-for="(_number, _tabName, yIndex) in currentMethod.layout"
         :key="yIndex">
         <div class="ball-list-name">{{_tabName}}</div>
-        <ul class="main-ball-content">
+        
+        
+<!--        选号区域  非龙虎选号-->
+        <ul class="main-ball-content"
+            v-if="currentMethod.method.indexOf('LH') < 0">
           <li
             class="main-ball-content-li"
             v-for="(_code, xIndex) in _number"
@@ -46,6 +50,28 @@
               :y="yIndex">{{_code}}</a>
           </li>
         </ul>
+        
+<!--        龙虎选号-->
+        <ul
+            v-if="
+            currentLottery.series_id === 'ssc' &&
+            currentMethod.method.indexOf('LH') > -1">
+          <li
+            class="main-ball-content-lh"
+            v-for="(_code, xIndex) in _number"
+            :key="xIndex"
+            :class="{
+            'ball-on': chooseNumber[yIndex][xIndex],
+            'main-ball-content-lh-tiger': _code === '虎',
+            'main-ball-content-lh-he': _code === '和',
+            'active': chooseNumber[yIndex][xIndex]}"
+            @click="selectCode(yIndex, xIndex)">
+          </li>
+          
+        </ul>
+        
+        
+<!--       辅助选号按钮-->
         <ul class="main-ball-control"
             v-if="currentMethod.buttons.length > 0"
             :class="{'series' : series === 'lotto'}">
@@ -182,7 +208,7 @@
         </el-select>
       </div>
     </div>
-    <div class="submit-btn">
+    <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
       <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">一键投注</a>
         <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
           <i class="fa fa-download ft20"></i> 添加选号
