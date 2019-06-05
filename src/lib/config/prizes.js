@@ -143,8 +143,8 @@ export default {
     },
     'lotto': {
 
-        'LTQ3ZX3': {'total': 165, 'prize': 1780, 'count': 1},
-        'LTQ3ZX3_S': {'total': 165, 'prize': 1780, 'count': 1},
+        'LTQ3ZX3': {'total': 990, 'prize': 1780, 'count': 1},
+        'LTQ3ZX3_S': {'total': 990, 'prize': 1780, 'count': 1},
         'LTQ3ZU3': {'total': 165, 'prize': 296.67, 'count': 1},
         'LTQ3ZU3_S': {'total': 165, 'prize': 296.67, 'count': 1},
         'LTQ3ZU3DT': {'total': 165, 'prize': 296.67, 'count': 1},
@@ -155,7 +155,7 @@ export default {
         'LTQ2DTZU2': {'total': 165, 'prize': 98.89, 'count': 1},
         'LTBDW': {'total': 11, 'prize': 6.59, 'count': 3},
         'LTDWD': {'total': 11, 'prize': 19.8, 'count': 1},
-        'LTDDS': {'total': 462, 'prize': [830.67, 138.00, 27.00, 11.00, 5.50, 4,10], 'count': [1, 6, 30, 75, 150, 200]},
+        'LTDDS': {'total': 462, 'prize': [830.67, 138.00, 27.00, 11.00, 5.50, 4.10], 'count': [1, 6, 30, 75, 150, 200]},
         'LTCZW': {'total': 462, 'prize': [29.67, 12.30, 9.20, 8.31], 'count': [28, 63, 90, 100]},
 
         'LTZX3':    {'total': 990,  'prize': 1782,  'count': 1},

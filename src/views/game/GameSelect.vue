@@ -197,15 +197,9 @@
         </div>
       </div>
       <div class="bet-add-box fr">
-         返点
-        <el-select v-model="prize" popper-class="popper-class" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+        奖金:
+        <el-slider v-model="lottery.countPrize"  :min="prizes.min" :max="prizes.max"></el-slider>
+        {{lottery.countPrize}} / {{prizes.max}}
       </div>
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
@@ -217,7 +211,7 @@
   </section>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import algorithm from '../../lib/algorithm'
 import pako from 'pako/index.js'
 
@@ -258,20 +252,20 @@ export default {
       oneKeyList: {},
       dsTimer: null,
       series: '',
-      prize: '1800 - 0.00%',
-      options: [{
-          value: '0',
-          label: '1800 - 0.00%'
-        }, {
-          value: '1',
-          label: '1956 - 0.00%'
-        }],
+      // 奖金计算
+      prizes: {
+        min: 1800,
+        max: 2000,
+      }
     }
   },
   components: {
     Lhc
   },
   computed: {
+    ...mapState([
+      'lottery'
+    ]),
     ...mapGetters([
       'userConfig',
       'orderList',
@@ -281,7 +275,8 @@ export default {
       'currentLotterySign',
       'bet',
       'currentIssue',
-      'allMethods'
+      'allMethods',
+      'userDetail'
     ]),
 
     // 模式配置
@@ -317,7 +312,7 @@ export default {
         this.clearBtn()
       }
     },
-    // 如果路由有变化，会再次执行该方法
+    // 更新玩法时
     currentMethod: {
       handler() {
         this.initChoose()
@@ -326,6 +321,10 @@ export default {
     }
   },
   created() {
+    
+    // 当前奖金组
+    this.lottery.countPrize = this.userDetail.prize_group
+    
     this.inputAreaInit()
     this.series = this.currentLottery && this.currentLottery.series_id
   },
@@ -971,15 +970,14 @@ export default {
 
 <style lang="scss" scoped>
 .bet-add-box{
+  right:15px;
+  font-size: 14px;
   /deep/{
-    .el-select{
-      margin-left: 5px;
-    }
-    .el-input__inner{
-      width: 125px;
-      height: 33px;
-      line-height: 33px;
-      font-size: 12px;
+    .el-slider{
+      margin: 0 20px;
+      display: inline-block;
+      vertical-align: middle;
+      width: 100px;
     }
     
   }

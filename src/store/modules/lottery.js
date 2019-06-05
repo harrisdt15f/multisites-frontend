@@ -55,6 +55,8 @@ const state = {
     name: 'official',
     index: 0
   },
+  // 拖动后的奖金组
+  countPrize: 0,
 
   lotteryLists: [],
 }

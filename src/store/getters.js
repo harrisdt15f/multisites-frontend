@@ -26,7 +26,8 @@ const getters = {
   currentIssue: state => state.lottery.currentIssue,
   userConfig: state => state.lottery.userConfig,
   currentLotterySign: state => state.lottery.currentLotterySign,
-  lotteryLists: state => state.lottery.lotteryLists,  
+  lotteryLists: state => state.lottery.lotteryLists,
+  countPrize: state => state.lottery.countPrize,
 }
 
 export default getters

@@ -27,9 +27,27 @@
         </div>
         <div class="main-center-wrap clearfix">
           <div class="main-left">
-            <div class="bet-type-group" v-if="selectedGroup">
+            <div class="bet-type-group" v-if="selectedGroup" :style="{height: typeGroup}">
               <div class="bet-type-group-warp">
-                <div class="method-current-prize">单注奖金: <span style="color:#FF5656;">8.31</span>元 </div>
+                <div class="method-current-prize">
+                  
+                  <template v-if="!Array.isArray(countPrizes())">
+                    单注奖金: <span style="color:#FF5656;">{{countPrizes()}}</span> 元
+                  </template>
+                  
+                  <template v-else>
+                    奖级详情:
+                    <el-select v-model="prizeSelect" :placeholder="prizeSelect">
+                      <el-option
+                              v-for="(item, index) in countPrizes()"
+                              :key="index"
+                              :label="item.label"
+                              :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </template>
+                 
+                </div>
                 <div
                   class="bet-type-group-list"
                   v-for="(row, _rowIndex) in allMethods[selectedGroupIndex]['rows']"
@@ -92,14 +110,18 @@
 </template> 
 <script>
 import methods from '../../lib/config/method'
+import prizes from '../../lib/config/prizes'
 import GameSelect from './GameSelect'
 import GameOrder from './GameOrder'
 import GameYlc from '../../components/game/ylc'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'game-method',
   computed: {
+    ...mapState([
+      'lottery'
+    ]),
     ...mapGetters([
       'lotteryAll',
       'currentLottery',
@@ -108,7 +130,9 @@ export default {
       'defaultMethod',
       'currentMethod',
       'bet',
-      'chengeYlcPlays'
+      'chengeYlcPlays',
+      'userDetail',
+      'userConfig'
     ])
   },
 
@@ -117,7 +141,20 @@ export default {
       loading: false,
       selectedGroup: '',
       selectedGroupIndex: '',
-      selectedMethodId: ''
+      selectedMethodId: '',
+      typeGroup: '',
+      // 彩种id
+      gameId: [
+        [1, 2, 3, 4, 5], //ssc
+        [6, 7, 8, 9, 10, 11], //11x5
+        [12, 13, 14, 15, 16], //k3
+        [21, 22, 23], //pk10
+        [17, 18], //f3d
+        [19], //ssl
+        [20], //pl35
+        [24] //lhc
+      ],
+      prizeSelect: '一等奖'
     }
   },
   watch: {
@@ -135,8 +172,83 @@ export default {
   created() {
     this.selectGroup(this.defaultGroup)
     // this.selectMethod(this.defaultMethod)
+
   },
   methods: {
+    
+    //奖金计算
+    countPrizes () {
+      let [
+        prize = prizes[this.currentLottery.series_id][this.currentMethod.method],
+        count = 0,
+        arr = []
+      ] = []
+  
+  
+      for (const k of this.gameId) {
+  
+        for (const i of k) {
+    
+          if (this.currentLottery.id === i) {
+      
+            // 单个奖金时
+            if (!Array.isArray(prize.count)) {
+              switch (i) {
+                case 1:
+                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .000001
+                  break
+                case 17:
+                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
+                  break
+                case 20:
+                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
+                  break
+                default:
+                  count = this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .000001
+                  break
+              }
+              this.typeGroup = 'auto'
+              return this.Utils.toFixed(String(count))
+            }
+
+            // 奖金为多个奖级时  数组
+            else {
+              for (const j of Object.keys(prize.count)) {
+                let json = {}
+  
+                switch (i) {
+                  case 1:
+                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .000001
+                    break
+                  case 17:
+                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
+                    break
+                  case 20:
+                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
+                    break
+                  default:
+                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .000001
+                    break
+                }
+  
+                json.value = j
+                json.label = (+j + 1) + ' 等奖' + this.Utils.toFixed(String(count))
+  
+                arr.push(json)
+              }
+              this.typeGroup = '78px'
+              this.prizeSelect = arr[0].label
+              return arr
+            }
+          }
+        }
+      }
+      // 2÷(1÷165)×1936÷1980
+      // 重庆时时彩 1 -20
+      // 福彩3d 17 -30
+      // 排列35 20 -30
+    },
+    
     //切换娱乐城玩法
     chengePlay() {
       let json = {
@@ -187,10 +299,10 @@ export default {
   position: absolute;
   right: 20px;
   top: 20px;
+  z-index: 2;
   font-size: 14px;
   box-sizing: border-box;
   text-align: right;
-  width: 100%;
 }
 .bet-type-group-list:first-child{
   padding-top:20px;
