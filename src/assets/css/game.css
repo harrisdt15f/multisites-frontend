@@ -498,7 +498,7 @@ body {
   padding: 5px 12px;
   vertical-align: middle;
   position: absolute;
-  left: -150px;
+  left: -110px;
   bottom: 30px;
   width: 300px;
   height: auto;
@@ -551,20 +551,20 @@ body {
 }
 /*复式投注球区------------------------------------------------------------*/
 .main-ball-list {
-  padding-top: 14px;
+  padding-top:20px;
   min-height: 78px;
   margin: 0 15px;
   border-bottom: 1px solid #eeeeee;
   box-sizing: border-box;
+  overflow: hidden;
 }
 /*位数 遗漏类型*/
 .ball-list-name {
+  float:left;
   font-weight: bolder;
   color: #5f442e;
-  display: inline-block;
   width: 77px;
   text-align: center;
-  vertical-align: middle;
 }
 .ball-list-name i {
   width: 45px;
@@ -577,17 +577,16 @@ body {
 }
 /*号码数字盘*/
 .main-ball-content {
-  display: inline-block;
-  vertical-align: middle;
+  float:left;
+  max-width: 777px;
 }
 .main-ball-content-li {
   float: left;
+  margin: 0 0 18px 12px;
   text-align: center;
   vertical-align: middle;
   border-bottom: none;
   background: none;
-  margin: 0 0 5px 0;
-  margin-left: 12px;
 }
 .main-ball-content-li .ball {
   display: block;
@@ -597,7 +596,7 @@ body {
   outline: none;
   width: 38px;
   height: 38px;
-  line-height: 36px;
+  line-height: 38px;
   background-image: linear-gradient(
     0deg,
     #ffffff 2%,
@@ -608,7 +607,7 @@ body {
     inset 0px 3px 0px 0px #ffffff;
   border: 1px solid #b7b7b7;
   border-radius: 50%;
-  font-size: 28px;
+  font-size: 22px;
   position: relative;
 }
 .main-ball-content-li .ball:hover {
@@ -626,7 +625,7 @@ body {
   height: 35px;
   line-height: 35px;
   border: 1px solid #b7b7b7;
-  padding: 0 10px;
+  padding: 0 28px;
   margin: 0 5px;
   width: auto;
 }
@@ -660,8 +659,8 @@ body {
 }
 /*全大小单双清*/
 .main-ball-control {
-  vertical-align: middle;
-  display: inline-block;
+  float:left;
+  margin-top:7px;
   padding: 0 0 0 15px;
   box-sizing: border-box;
 }

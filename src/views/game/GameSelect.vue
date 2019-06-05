@@ -31,17 +31,24 @@
             class="main-ball-content-li"
             v-for="(_code, xIndex) in _number"
             :key="xIndex"
-            :class="{'ball-on': chooseNumber[yIndex][xIndex]}"
+            :class="{'ball-on': chooseNumber[yIndex][xIndex], 'active': chooseNumber[yIndex][xIndex]}"
             @click="selectCode(yIndex, xIndex)">
             <a 
               href="javascript:;"
-              :class="{'ball-number-long' : currentMethod.method === 'QTS3' || currentMethod.method === 'LTDDS'}"
+              :class="{
+                'ball-number-long' :
+                currentMethod.method === 'QTS3' ||
+                currentMethod.method === 'ZTS3' ||
+                currentMethod.method === 'HTS3' ||
+                currentMethod.method === 'LTDDS'}"
               class="ball" 
               :x="xIndex" 
               :y="yIndex">{{_code}}</a>
           </li>
         </ul>
-        <ul class="main-ball-control" :class="{'series' : series === 'lotto'}">
+        <ul class="main-ball-control"
+            v-if="currentMethod.buttons.length > 0"
+            :class="{'series' : series === 'lotto'}">
           <li
             class="main-ball-control-li"
             v-for="(_btnText, bIndex) in  currentMethod.buttons"
@@ -277,6 +284,7 @@ export default {
     // 如果路由有变化，会再次执行该方法
     currentMethod: {
       handler(newVal) {
+        console.log(this.currentLottery)
         console.log(newVal)
         this.initChoose()
       },
