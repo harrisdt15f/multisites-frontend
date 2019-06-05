@@ -974,6 +974,8 @@ export default {
   font-size: 14px;
   /deep/{
     .el-slider{
+      position: relative;
+      z-index: 0;
       margin: 0 20px;
       display: inline-block;
       vertical-align: middle;

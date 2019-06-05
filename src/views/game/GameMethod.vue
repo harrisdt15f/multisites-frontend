@@ -232,7 +232,7 @@ export default {
                 }
   
                 json.value = j
-                json.label = (+j + 1) + ' 等奖' + this.Utils.toFixed(String(count))
+                json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
   
                 arr.push(json)
               }

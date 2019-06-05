@@ -2726,6 +2726,7 @@ body {
 .panel-trace {
   float: left;
   width: 595px;
+  height:100%;
   background: #fff;
 }
 
