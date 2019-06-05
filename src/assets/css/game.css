@@ -619,15 +619,15 @@ body {
 }
 
 .main-ball-content-li .ball.ball-number-long{
+  padding: 0 26px;
+  margin: 0 5px;
+  width: auto;
+  height: 35px;
   box-sizing: content-box;
   font-size: 16px;
   border-radius: 25px;
-  height: 35px;
   line-height: 35px;
   border: 1px solid #b7b7b7;
-  padding: 0 28px;
-  margin: 0 5px;
-  width: auto;
 }
 
 .main-ball-content-li .ball.ball-number-long:hover{
@@ -651,7 +651,15 @@ body {
   background-blend-mode: normal, normal;
   color: black;
 }
+.main-ball-content-li.active,
 
+
+.ylc-kx-footer-moneys-list.active{
+  animation: k3Scale 0.3s;
+}
+.ylc-kx-footer-moneys-list.active .ylc-kx-footer-moneys-list-sp{
+  transform: scale(1);
+}
 /*冷热遗漏显示*/
 .main-ball-control-li i {
   font-size: 12px;
@@ -1973,7 +1981,6 @@ body {
 
 /*娱乐城  pc蛋蛋*/
 .ylc-main {
-  margin-top: 30px;
   background: #fff;
   color: #666;
 }
@@ -2187,7 +2194,7 @@ body {
 .ylc-kx-footer-moneys-list {
   display: inline-block;
   vertical-align: middle;
-  margin: 12px 10px 0;
+  margin: 10px 10px 0;
   width: 63px;
   height: 63px;
   line-height: 63px;
@@ -2538,12 +2545,10 @@ body {
 
 .ylc-lhd-list-q:hover,
 .ylc-lhd-list-q.active,
-.ylc-bet-list:hover,
-.ylc-bet-list.active {
+.ylc-bet-list:hover{
   background-color: #e6f4ff;
 }
 .ylc-bet-line .ylc-bet-list:hover,
-.ylc-bet-line .ylc-bet-list.active,
 .ylc-c-bet-list:hover .ylc-bet-list-num,
 .ylc-c-bet-list.active .ylc-bet-list-num {
   color: #fb1010;
@@ -2560,6 +2565,10 @@ body {
   border-color: #fe0c0c;
 }
 
+.ylc-bet-list.active{
+  background-color: #e6f4ff;
+  animation: k3Scale 0.3s;
+}
 /*娱乐城投注弹窗*/
 .ylc-bet-title {
   float: left;
@@ -2924,4 +2933,35 @@ body {
 }
 .trace-row-multiple{
   border: 1px solid #DBDBDB;
+}
+
+
+/*龙虎展示*/
+.main-ball-content-lh{
+  margin: 0 0 13px 20px;
+  float:left;
+  width: 70px;
+  height: 70px;
+  background:url(../images/methods/lh.png) no-repeat;
+  background-size:300%;
+}
+.main-ball-content-lh-tiger{
+  background:url(../images/methods/lh.png) no-repeat -69px 0;
+  background-size:300%;
+}
+.main-ball-content-lh-he{
+  background:url(../images/methods/lh.png) no-repeat -141px 0;
+  background-size:300%;
+}
+.main-ball-content-lh.active{
+  background:url(../images/methods/lh.png) no-repeat 0 -70px;
+  background-size:300%;
+}
+.main-ball-content-lh-tiger.active{
+  background:url(../images/methods/lh.png) no-repeat -69px -70px;
+  background-size:300%;
+}
+.main-ball-content-lh-he.active{
+  background:url(../images/methods/lh.png) no-repeat -141px -70px;
+  background-size:300%;
 }

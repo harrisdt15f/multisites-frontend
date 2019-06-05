@@ -47,8 +47,7 @@
             class="fl fw w16"
             :class="{'ylc-content-line': index !== pcdd.allCodeList.length - 1}"
             v-for="(list, index) in pcdd.allCodeList"
-            :key="index"
-          >
+            :key="index">
             <p class="ylc-title w100">{{list.name}}</p>
             <ul class="ylc-title w100 ntb">
               <li class="ylc-title-list">号码</li>
@@ -557,20 +556,20 @@
       <span class="dinv ylc-kx-footer-clear active" @click="clearCode()">清除选号</span>
       <section class="ylc-kx-footer-moneys">
         <span class="ylc-kx-footer-moneys-sp">快选金额</span>
-        <ul class="dinv fw">
-          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.blue2)">{{kxInfo.blue2}}</li>
-          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.red2)">{{kxInfo.red2}}</li>
+        <ul class="dinv">
+          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.blue2, $event)">{{kxInfo.blue2}}</li>
+          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.red2, $event)">{{kxInfo.red2}}</li>
           <li
             class="ylc-kx-footer-moneys-list"
-            @click="kxInfoSelect(kxInfo.green2)"
+            @click="kxInfoSelect(kxInfo.green2, $event)"
           >{{kxInfo.green2}}</li>
           <li
             class="ylc-kx-footer-moneys-list"
-            @click="kxInfoSelect(kxInfo.violet2)"
+            @click="kxInfoSelect(kxInfo.violet2, $event)"
           >{{kxInfo.violet2}}</li>
           <li
             class="ylc-kx-footer-moneys-list"
-            @click="kxInfoSelect(kxInfo.drakBlue2)"
+            @click="kxInfoSelect(kxInfo.drakBlue2, $event)"
           >{{kxInfo.drakBlue2}}</li>
         </ul>
         <span class="ylc-kx-footer-moneys-much">金额:</span>
@@ -1056,13 +1055,18 @@ export default {
     },
 
     // 快选金额选择
-    kxInfoSelect(item) {
+    kxInfoSelect(item, e) {
       let [
         allCodeList = this.pcdd.allCodeList,
         allBtnList = this.pcdd.allBtnList
       ] = []
       this.currentOrder.money = Number(item) + Number(this.currentOrder.money)
-
+      
+  
+      e.target.className += ' active'
+      setTimeout( () => {
+        e.target.className = 'ylc-kx-footer-moneys-list'
+      }, 350)
       // 娱乐城龙虎斗
       if (this.currentMethod.method === 'LHD') {
         for (const k of Object.keys(allCodeList)) {
