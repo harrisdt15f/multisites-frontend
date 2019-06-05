@@ -28,14 +28,7 @@
                   </span>
                   <span class="number">
                     {{order.codes}}
-                    <el-tooltip effect="dark" content="order.codes" placement="top">
-                      12312
-                    </el-tooltip>
                   </span>
-                  <el-tooltip placement="top">
-                    <div slot="content">多行信息<br/>第二行信息</div>
-                    <el-button>Top center</el-button>
-                  </el-tooltip>
                   <span class="bet">{{order.count}}</span>
                   <span class="multiple">{{order.times}}</span>
                   <span class="price">{{Utils.toFixed(String(order.cost))}}</span>

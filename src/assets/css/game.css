@@ -1031,7 +1031,6 @@ body {
 /*追号*/
 
 .chase-table-container {
-  border: 1px solid #dedede;
   overflow-y: auto;
 }
 .chase-table .input {
@@ -1636,7 +1635,7 @@ body {
 .chase-tab {
   text-align: center;
   float: left;
-  width: 50%;
+  width: 33.3333333%;
   height: 29px;
   line-height: 29px;
   background: #dee0e3;
@@ -1645,7 +1644,7 @@ body {
   cursor: pointer;
   background: transparent;
   border: none;
-  border-right: 1px solid #e4e0d8;
+  
   cursor: pointer;
   font-size: 16px;
   padding: 16px 20px 33px;
@@ -1653,6 +1652,9 @@ body {
   line-height: 16px;
   border-left: none;
   box-sizing: border-box;
+}
+.chase-tab + .chase-tab {
+  border-left: 1px solid #e4e0d8;
 }
 .chase-tab.active {
   color: #ff7200;
@@ -1690,9 +1692,6 @@ body {
   box-sizing: border-box;
   text-align: center;
 }
-.tab-cons {
-  padding-bottom: 17px;
-}
 .tab-input {
   margin: 0 3px;
   width: 40px;
@@ -1708,7 +1707,7 @@ body {
   font-weight: normal;
 }
 .chase-table-container {
-  padding-top: 15px;
+  padding-bottom: 10px;
   overflow: hidden;
   clear: both;
 }
@@ -2923,4 +2922,8 @@ body {
 
 .popper-class{
   margin-top: 5px !important;
+}
+
+.trace-row-multiple{
+  border: 1px solid #DBDBDB;
 }

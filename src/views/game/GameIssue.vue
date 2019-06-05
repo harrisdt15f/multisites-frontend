@@ -9,7 +9,7 @@
           <div class="deadline">
             <div class="deadline-text">
               第
-              <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}} 190516040</strong>期
+              <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}}</strong>期
               <br>投注截止
             </div>
             <div class="deadline-number">
@@ -262,40 +262,43 @@ export default {
     getIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
-          this.$store.commit('issueInfo', res.data.issueInfo)
+          const data = [
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000}
+          ]
+          this.$store.commit('issueInfo', data)
+          // this.$store.commit('issueInfo', res.data.issueInfo)
           this.issueNum = 0
-          // this.issueInfo = res.data.issueInfo
           // 开始倒计时
-          // this.times();
+          this.times()
         }
       })
     },
     times() {
       // 当前 奖期倒计时
       let [time = 0] = []
-      time =
-        this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
-      // let hour = 0
-      // let minute = 0
-      // let second = time
+      time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
       this.notice.issue = this.issueInfo[this.issueNum].issue_no
       this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      this.currentIssueTimer = setInterval(() => {
-        // 计算 倒计时
-        time -= 1
-        if (time >= 0) {
-          this.time = this.Utils.formatSeconds(time)
-        } else {
-          clearInterval(this.currentIssueTimer)
-          this.issueNum += 1
-          this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-          this.notice.show = true
-          this.times()
-          if (this.issueNum === this.issueInfo.length) {
-            this.getIssue()
-          }
-        }
-      }, 1000)
+      // this.currentIssueTimer = setInterval(() => {
+      //   // 计算 倒计时
+      //   time -= 1
+      //   if (time >= 0) {
+      //     this.time = this.Utils.formatSeconds(time)
+      //   } else {
+      //     clearInterval(this.currentIssueTimer)
+      //     this.issueNum += 1
+      //     this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+      //     this.notice.show = true
+      //     this.times()
+      //     if (this.issueNum === this.issueInfo.length) {
+      //       this.getIssue()
+      //     }
+      //   }
+      // }, 1000)
     }
   }
 }
