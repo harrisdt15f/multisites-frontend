@@ -39,10 +39,35 @@
           </section>
           <section class="panel-trace">
             <ul class="chase-tabs">
+              <li class="chase-tab" :class="{active: chaseTab === 0}" @click="chaseTabHan(0)">利润率追号</li>
               <li class="chase-tab" :class="{active: chaseTab === 1}" @click="chaseTabHan(1)">同倍追号</li>
               <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍追号</li>
             </ul>
             <ul class="fw tab-cons">
+              <div style="text-align:right"> 
+                <el-button class="tab-cons-btn" type="warning" plain size="mini" @click="clearChase">清除追号</el-button>
+              </div>
+              <li class="tab-con" v-if="chaseTab === 0">
+                <section class="tab-inputs">
+                  <label class="param">
+                    最低收益率:
+                    <input
+                      type="text"
+                      v-model="chase.rateLowNum"
+                      :placeholder="chase.rateLowNum"
+                      class="tab-input">%
+                  </label>
+                  <label class="param">
+                    追号期数
+                    <input
+                    type="text"
+                    v-model="chase.rateIssue"
+                    :placeholder="chase.rateIssue"
+                    class="tab-input">
+                  </label>
+                  <el-button size="small" @click="chaseRateSubmit()">生成追号计划</el-button>
+                </section>
+              </li>
               <li class="tab-con" v-if="chaseTab === 1">
                 <section class="tab-inputs">
                   <label class="param">
@@ -105,6 +130,60 @@
             </ul>
           </section>
         </section>
+      </section>
+      <section class="chase-table-container" v-if="chase.rateCon">
+        <table class="chase-table">
+          <tbody data-type="lirunlv">
+            <tr>
+              <th class="text-center">序号</th>
+              <th>
+                <input @click="rateCheckedAll()" v-model="chase.rateChecked" type="checkbox"> 追号期次
+              </th>
+              <th>倍数</th> 
+              <th>金额</th>
+              <th>奖金</th>
+              <th>盈利金额</th>
+              <th>盈利率</th>
+            </tr>
+            <tr v-for="(item, index) in chase.rateData" :key="index">
+              <td class="text-center">{{index + 1}}</td>
+              <td>
+                <input
+                  data-action="checkedRow"
+                  v-model="item.checked"
+                  class="trace-row-checked"
+                  type="checkbox"
+                  checked="checked"
+                >
+                <span class="trace-row-number">
+                  {{item.issue_no}}
+                  <span class="icon-period-current"></span>
+                </span>
+              </td>
+              <td>
+                <input
+                  class="trace-row-multiple"
+                  v-model="item.multiple"
+                  value="1"
+                  type="text"
+                  style="width:60px;text-align:center;"
+                >
+              </td>
+              <td>
+                <span class="trace-row-money">{{chase.rateMoney * item.multiple}}</span>
+              </td>
+              <td>
+                <span class="trace-row-userGroupMoney">/</span>
+              </td>
+              <td>
+                <span class="trace-row-userGroupMoney">/</span>
+              </td>
+              <td>
+                <span class="trace-row-userGroupMoney">/</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
       <section class="chase-table-container" v-if="chase.sameCon">
         <table class="chase-table">
@@ -206,7 +285,8 @@
         <span class="bmn-confirm-text">
           总金额
           <span style="font-size: 22px;">
-            <template v-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
+            <template v-if="chase.rateCon">{{Utils.toFixed(String(chase.rateMoneyAll))}}</template>
+            <template v-else-if="chase.sameCon">{{Utils.toFixed(String(chase.sameMoneyAll))}}</template>
             <template v-else-if="chase.doubleCon">{{Utils.toFixed(String(chase.doubleMoneyAll))}}</template>
             <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
           </span>
@@ -314,12 +394,17 @@ export default {
         money: 0
       },
       orderListSub: [],
-      chaseTab: 1,
+      chaseTab: 0,
       tableData: [],
       chase: {
         maxIssue: 0,
+        rateCon: false,
+        rateChecked: true,
+        rateMoneyAll: 0,
+        rateMoney: 0,
         rateData: [],
-        rateNum: 50,
+        rateLowNum: 50,
+        rateNum: 1,
         rateIssue: 10,
         sameData: [],
         sameCon: false,
@@ -371,6 +456,29 @@ export default {
     }
   },
   watch: {
+    'chase.rateData': {
+      handler(newVal) {
+        // 检查同倍追号所有多选框是否选中
+        let checked = newVal.every(item => {
+          return item.checked
+        })
+        this.chase.rateChecked = !!checked
+        for (let i = 0; i < newVal.length; i++) {
+          if (Number(newVal[i].multiple) <= 0) {
+            newVal[i].checked = false
+          }
+        }
+        // 总金额
+        let rateAll = 0
+        for (let i = 0; i < newVal.length; i++) {
+          if (newVal[i].checked) {
+            rateAll += Number(newVal[i].multiple)
+          }
+        }
+        this.chase.rateMoneyAll = rateAll * this.chase.rateMoney
+      },
+      deep: true
+    },
     'chase.doubleData': {
       handler(newVal) {
         // 检查同倍追号所有多选框是否选中
@@ -453,14 +561,45 @@ export default {
     clearChase() {
       this.chase.sameCon = false
       this.chase.sameData = []
+      this.chase.rateCon = false
+      this.chase.rateData = []
       this.chase.doubleCon = false
       this.chase.doubleData = []
     },
-    // 翻倍追号当全部选中
+    // 翻倍追号当全部选中fw tab-cons
     doubleCheckedAll() {
       this.chase.doubleChecked = !this.chase.doubleChecked
       let list = this.chase.doubleData
       if (this.chase.doubleChecked) {
+        for (let i = 0; i < list.length; i++) {
+          list[i].checked = true
+        }
+      } else {
+        for (let i = 0; i < list.length; i++) {
+          list[i].checked = false
+        }
+      }
+    },
+    
+    // 同倍追号当全部选中
+    sameCheckedAll() {
+      this.chase.sameChecked = !this.chase.sameChecked
+      let list = this.chase.sameData
+      if (this.chase.sameChecked) {
+        for (let i = 0; i < list.length; i++) {
+          list[i].checked = true
+        }
+      } else {
+        for (let i = 0; i < list.length; i++) {
+          list[i].checked = false
+        }
+      }
+    },
+    // 利润率追号当全部选中
+    rateCheckedAll() {
+      this.chase.rateChecked = !this.chase.rateChecked
+      let list = this.chase.rateData
+      if (this.chase.rateChecked) {
         for (let i = 0; i < list.length; i++) {
           list[i].checked = true
         }
@@ -480,6 +619,7 @@ export default {
       }
       this.chase.doubleCon = true
       this.chase.sameCon = false
+      this.chase.rateCon = false
       this.chase.doubleData = []
       this.chase.doubleChecked = true
       this.chase.doubleMoneyAll = 0
@@ -489,9 +629,9 @@ export default {
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.doubleIssue] = []
-      let list = this.issueInfo.filter(item => {
+      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
         return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-      })
+      }))))
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -529,20 +669,6 @@ export default {
         }
       }
     },
-    // 同倍追号当全部选中
-    sameCheckedAll() {
-      this.chase.sameChecked = !this.chase.sameChecked
-      let list = this.chase.sameData
-      if (this.chase.sameChecked) {
-        for (let i = 0; i < list.length; i++) {
-          list[i].checked = true
-        }
-      } else {
-        for (let i = 0; i < list.length; i++) {
-          list[i].checked = false
-        }
-      }
-    },
     // 生成同倍追号
     chaseSameSubmit() {
       if (this.orderList.length === 0) {
@@ -553,6 +679,7 @@ export default {
       }
       this.chase.sameCon = true
       this.chase.doubleCon = false
+      this.chase.rateCon = false
       this.chase.sameData = []
       this.chase.sameChecked = true
       this.chase.sameMoneyAll = 0
@@ -562,9 +689,9 @@ export default {
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.sameIssue] = []
-      let list = this.issueInfo.filter(item => {
+      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
         return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-      })
+      }))))
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -590,14 +717,75 @@ export default {
         }
       }
     },
+    // 生成利润率追号
+    chaseRateSubmit() {
+      if (this.orderList.length === 0) {
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        return
+      }
+      this.chase.rateCon = true
+      this.chase.sameCon = false
+      this.chase.doubleCon = false
+      this.chase.doubleCon = false
+      this.chase.rateData = []
+      this.chase.rateChecked = true
+      this.chase.rateMoneyAll = 0
+      this.chase.rateMoney = 0
+      for (let i = 0; i < this.orderList.length; i++) {
+        this.chase.rateMoney += this.orderList[i].cost
+      }
+      // 找出当前期 以及当前期 后面当期数
+      let [rateIssue = this.chase.rateIssue] = []
+      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
+        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+      }))))
+      // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
+      if (
+        Number(rateIssue) === Number(this.chase.maxIssue) &&
+        list.length < Number(this.chase.maxIssue)
+      ) {
+        this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
+          if (res.success) {
+            this.$store.commit('issueInfo', res.data.issueInfo)
+            this.chaseSameSubmit()
+          }
+        })
+      }
+      // 追号添加数据
+      for (let i = 0; i < list.length; i++) {
+        if (i < rateIssue) {
+          this.chase.rateData.push(list[i])
+          list[i].time = this.Utils.formatTime(
+            list[i].open_time * 1000,
+            'YYYY-MM-DD HH:MM:SS'
+          )
+          this.$set(this.chase.rateData[i], 'checked', true)
+          this.$set(this.chase.rateData[i], 'multiple', this.chase.rateNum)
+        }
+      }
+    },
     // 追号tab 切换
     chaseTabHan(val) {
       this.chaseTab = val
-      if (val === 1) {
+      if (val === 0) {
+        if (this.chase.rateData.length > 0) {
+          this.chase.rateCon = true
+          this.chase.sameCon = false
+          this.chase.doubleCon = false
+        } else {
+          this.chase.rateCon = false
+          this.chase.sameCon = false
+          this.chase.doubleCon = false
+        }
+      } else if (val === 1) {
         if (this.chase.sameData.length > 0) {
           this.chase.sameCon = true
           this.chase.doubleCon = false
+          this.chase.rateCon = false
         } else {
+          this.chase.rateCon = false
           this.chase.sameCon = false
           this.chase.doubleCon = false
         }
@@ -605,7 +793,9 @@ export default {
         if (this.chase.doubleData.length > 0) {
           this.chase.sameCon = false
           this.chase.doubleCon = true
+          this.chase.rateCon = false
         } else {
+          this.chase.rateCon = false
           this.chase.sameCon = false
           this.chase.doubleCon = false
         }
@@ -625,7 +815,13 @@ export default {
         money = 0,
         chaseData = []
       ] = []
-      if (this.chase.sameCon) {
+      if (this.chase.rateCon) {
+        chaseData = this.chase.rateData
+        for (let i = 0; i < chaseData.length; i++) {
+          issus[chaseData[i].issue_no] = true
+        }
+        money = this.chase.rateMoneyAll
+      } else if (this.chase.sameCon) {
         // 如果打开同倍追奖
         chaseData = this.chase.sameData
         for (let i = 0; i < chaseData.length; i++) {
