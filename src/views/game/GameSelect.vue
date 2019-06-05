@@ -115,7 +115,14 @@
     <div class="main-ball-box" v-else>
       <div class="main-single-entry">
         <div class="main-balls-import">
-          <div class="btn btn-blue btn-ball-import">导入注单</div>
+          <el-upload
+            action="/import/bet"
+            :show-file-list="false"
+            :before-upload="handleBeforeUpload"
+            :http-request="uploadSectionFile"
+            accept=".txt">
+            <div class="btn btn-blue btn-ball-import" >导入注单</div>
+          </el-upload>  
         </div>
         <div class="balls-import-box">
           <textarea
@@ -235,6 +242,9 @@ export default {
         }],
     }
   },
+  components: {
+    Lhc
+  },
   computed: {
     ...mapGetters([
       'userConfig',
@@ -283,9 +293,13 @@ export default {
     },
     // 如果路由有变化，会再次执行该方法
     currentMethod: {
+<<<<<<< HEAD
       handler(newVal) {
         console.log(this.currentLottery)
         console.log(newVal)
+=======
+      handler() {
+>>>>>>> 1966ee0cbd5005b16cb4e83f1100c3f79c9aecd7
         this.initChoose()
       },
       deep: true
@@ -538,7 +552,6 @@ export default {
       this.currentOrder.currentMode = +mode
       this.calculate()
     },
-
     // 选择数字
     selectCode(y, x) {
       this.cleanChooseButton(y)
@@ -576,7 +589,6 @@ export default {
       // 计算注数
       this.calculate()
     },
-
     // 选择按钮
     selectButton(y, b) {
       this.cleanChooseButton(y)
@@ -731,7 +743,6 @@ export default {
         // console.log(method)
       }
     },
-
     // 格式化号码
     formatInputCodes(code) {
       if (
@@ -801,7 +812,7 @@ export default {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
         this.inputClearRepeatOrder()
-      }, 1000)
+      }, 500)
     },
     // 单式输入框失去焦点
     inputAreaBlur() {
@@ -821,8 +832,7 @@ export default {
             return this.Utils.trim(item)
           })
         )
-      ] = []
-
+      ] = []  
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
         for (const k of tmp) {
@@ -915,10 +925,26 @@ export default {
           })
         }
       })
+    },
+    // 导入注单
+    handleBeforeUpload(file) {
+     
+    },
+    uploadSectionFile(param){
+     const _this = this,
+           fileReader = new FileReader(),
+           file       = param.file
+           
+      fileReader.readAsText(file, 'gb2312')
+      fileReader.onload = e => {
+        let fileText = e.target.result
+        if(fileText.trim() != ''){
+          _this.inputCodes = fileText
+          this.inputAreaChange()
+        }
+      }
+      return 
     }
-  },
-  components: {
-    Lhc
   }
 }
 </script>
