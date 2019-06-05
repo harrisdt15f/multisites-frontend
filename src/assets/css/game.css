@@ -1677,10 +1677,12 @@ body {
 .tab-con {
   text-align: center;
 }
-
 .tab-inputs {
-  padding: 14px 10px 14px 20px;
+  padding: 4px 10px 14px 20px;
   border-bottom: 1px solid #e5e5e5;
+}
+.tab-cons-btn{
+  margin: 14px 15px !important;
 }
 .tab-inputs .param {
   cursor: pointer;

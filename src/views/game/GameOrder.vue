@@ -44,6 +44,9 @@
               <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍追号</li>
             </ul>
             <ul class="fw tab-cons">
+              <div style="text-align:right"> 
+                <el-button class="tab-cons-btn" type="warning" plain size="mini" @click="clearChase">清除追号</el-button>
+              </div>
               <li class="tab-con" v-if="chaseTab === 0">
                 <section class="tab-inputs">
                   <label class="param">
@@ -558,10 +561,12 @@ export default {
     clearChase() {
       this.chase.sameCon = false
       this.chase.sameData = []
+      this.chase.rateCon = false
+      this.chase.rateData = []
       this.chase.doubleCon = false
       this.chase.doubleData = []
     },
-    // 翻倍追号当全部选中
+    // 翻倍追号当全部选中fw tab-cons
     doubleCheckedAll() {
       this.chase.doubleChecked = !this.chase.doubleChecked
       let list = this.chase.doubleData
