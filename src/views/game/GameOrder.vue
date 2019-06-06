@@ -173,13 +173,15 @@
                 <span class="trace-row-money">{{chase.rateMoney * item.multiple}}</span>
               </td>
               <td>
-                <span class="trace-row-userGroupMoney">/</span>
+                <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.prize))}}</span>
               </td>
               <td>
-                <span class="trace-row-userGroupMoney">/</span>
+                <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.profit))}}</span>
               </td>
               <td>
-                <span class="trace-row-userGroupMoney">/</span>
+                <span class="trace-row-userGroupMoney">
+                  {{Utils.toFixed(String(item.percentage))}}%
+                </span>
               </td>
             </tr>
           </tbody>
@@ -428,6 +430,7 @@ export default {
       }
     }
   },
+  props: ['countPrizes'],
   computed: {
     ...mapGetters([
       'lotteryAll',
@@ -552,6 +555,7 @@ export default {
   created() {
     // 获取我的投注 我的追号记录
     // this.$store.dispatch("betHistory");
+    this.clearOrderList()
     this.chase.maxIssue = this.lotteryAll[
       this.currentLottery.en_name
     ].lottery.max_trace_number
@@ -749,20 +753,68 @@ export default {
         this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
           if (res.success) {
             this.$store.commit('issueInfo', res.data.issueInfo)
-            this.chaseSameSubmit()
+            this.chaseRateSubmit()
           }
         })
       }
       // 追号添加数据
       for (let i = 0; i < list.length; i++) {
         if (i < rateIssue) {
+          const row_data = {}
           this.chase.rateData.push(list[i])
           list[i].time = this.Utils.formatTime(
             list[i].open_time * 1000,
             'YYYY-MM-DD HH:MM:SS'
           )
+          row_data.id = i + 1
+          row_data.multiple = this.chase.rateNum
+
+          row_data.value = this.chase.rateMoney * row_data.multiple
+          // 奖金
+          row_data.prize = this.countPrizes * row_data.multiple
+          //盈利金额
+          row_data.profit = (row_data.prize - row_data.value * row_data.id)
+
+          let p = row_data.profit / (row_data.value * row_data.id) * 100
+      
+          // 低于利率加倍
+          while (p < this.chase.rateLowNum) {
+            // 计算当前成本值
+            let v = 0
+            this.chase.rateData.forEach(item => {
+              if(item.value) {v += item.value}
+            })
+
+            // 限制最大倍数
+            let max_multiple = Math.floor(2000 / row_data.value)
+            if (row_data.multiple >= max_multiple) {
+              row_data.multiple = max_multiple
+              row_data.value = this.chase.rateMoney * row_data.multiple
+              row_data.prize = this.countPrizes * row_data.multiple
+              row_data.profit = (row_data.prize - row_data.value - v)
+              p = row_data.profit / (row_data.value + v) * 100
+              break
+            }
+
+            row_data.multiple += 1
+            row_data.value = this.chase.rateMoney * row_data.multiple
+            row_data.prize = this.countPrizes * row_data.multiple
+            row_data.profit = (row_data.prize - row_data.value - v)
+            p = row_data.profit / (row_data.value + v) * 100
+
+            if (p >  this.chase.rateLowNum) {
+              break
+            }
+          }
+          
+          row_data.percentage = p
+
           this.$set(this.chase.rateData[i], 'checked', true)
-          this.$set(this.chase.rateData[i], 'multiple', this.chase.rateNum)
+          this.$set(this.chase.rateData[i], 'multiple', row_data.multiple)
+          this.$set(this.chase.rateData[i], 'value', row_data.value)
+          this.$set(this.chase.rateData[i], 'prize', row_data.prize)
+          this.$set(this.chase.rateData[i], 'profit', row_data.profit)
+          this.$set(this.chase.rateData[i], 'percentage', row_data.percentage)
         }
       }
     },

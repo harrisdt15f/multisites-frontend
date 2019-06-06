@@ -27,10 +27,9 @@
         </div>
         <div class="main-center-wrap clearfix">
           <div class="main-left">
-            <div class="bet-type-group" v-if="selectedGroup" :style="{height: typeGroup}">
+            <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
               <div class="bet-type-group-warp">
                 <div class="method-current-prize">
-                  
                   <template v-if="!Array.isArray(countPrizes())">
                     单注奖金: <span style="color:#FF5656;">{{countPrizes()}}</span> 元
                   </template>
@@ -102,7 +101,7 @@
             </section>
           </section>
         </div>
-        <game-order></game-order>
+        <game-order :countPrizes="countPrizes()"></game-order>
       </section>
     </section>
     <GameYlc v-if="chengeYlcPlays.name === 'casino'"></GameYlc>

@@ -296,7 +296,7 @@ export default {
       &:hover {
         .nav-menu-box {
           display: block;
-          z-index: 999;
+          z-index: 1002;
         }
       }
       .nav-title {

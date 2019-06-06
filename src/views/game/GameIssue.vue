@@ -267,6 +267,11 @@ export default {
             {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
             {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
             {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
             {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000}
           ]
           this.$store.commit('issueInfo', data)
