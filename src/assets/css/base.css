@@ -4,7 +4,7 @@ html, body{
 }
 body,html,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,input,textarea,p,th,td{margin:0;padding:0;}
 table {border-collapse:collapse;border-spacing:0;}
-body{font-size: 14px;color: #222;line-height: 24px;overflow-x:hidden;background:#f7f7f7;     font-family: DIN, "Helvetica Neue", Helvetica, Arial, "Lantinghei SC", "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;}
+body{font-size: 14px;color: #333;line-height: 24px;overflow-x:hidden;background:#f7f7f7;     font-family: DIN, "Helvetica Neue", Helvetica, Arial, "Lantinghei SC", "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;}
 ol,ul{list-style:none;}
 a{text-decoration:none;}
 img{border:none;display:block;}
@@ -75,4 +75,33 @@ select, input {-webkit-box-sizing: border-box;box-sizing: border-box;}
 a, button {
 	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
+}
+
+
+/*下拉选择器*/
+body /deep/ .el-select .el-input__inner{
+	height:35px;
+}
+body /deep/ .el-select .el-input.is-focus .el-input__inner{
+	border-color:#ff9707;
+}
+body /deep/ .el-select .el-input__inner:focus {
+	border-color:#ff9707;
+}
+
+/*拉杆*/
+body /deep/ .el-slider{
+	position: relative;
+	z-index: 0;
+	margin: 0 20px;
+	display: inline-block;
+	vertical-align: middle;
+	width: 100px;
+}
+
+body /deep/ .el-slider__bar{
+	background-color: #ff9707;
+}
+body /deep/ .el-slider__button{
+	border-color:#ff9707;
 }

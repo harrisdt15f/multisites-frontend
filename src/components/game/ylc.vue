@@ -110,7 +110,7 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
+                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
                   <input type="text" class="ylc-bet-list-money" v-model="item.money">
                 </li>
               </ul>
@@ -135,7 +135,7 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
+                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
                   <input type="text" class="ylc-bet-list-money" v-model="item.money">
                 </li>
               </ul>
@@ -161,7 +161,7 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
+                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
                   <input type="text" class="ylc-bet-list-money" v-model="item.money">
                 </li>
               </ul>
@@ -187,7 +187,7 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{item.odds}}</span>
+                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
                   <input type="text" class="ylc-bet-list-money" v-model="item.money">
                 </li>
               </ul>
@@ -639,7 +639,9 @@ export default {
       'currentMethod',
       'currentIssue',
       'account',
-      'chengeYlcPlays'
+      'chengeYlcPlays',
+      'userConfig',
+      'userDetail'
     ])
   },
   watch: {
@@ -1136,8 +1138,11 @@ export default {
 
     // pc蛋蛋 娱乐城 渲染列表
     pcddAllList() {
-      let [list = this.currentMethod.layout.codes, all = this.allMethods] = []
-      
+      let [
+        list = this.currentMethod.layout.codes,
+        all = this.allMethods,
+        prize = prizes[this.currentLottery.series_id]['casino'][this.currentMethod.method],
+      ] = []
       this.pcdd.allCodeList = []
 
       // pc蛋蛋
@@ -1145,7 +1150,6 @@ export default {
         let [
           tempList = [],
           temList = [],
-          TM = prizes[this.currentLottery.series_id].TM
         ] = []
         for (let i = 0; i < Math.ceil(list.length / 4); i++) {
           tempList.push([])
@@ -1164,16 +1168,6 @@ export default {
         for (const k of tempList) {
           temList = temList.concat(k)
         }
-        // for (let key in TM) {
-        //     for (let i = 0; i < temList.length; i++) {
-        //         if (temList[i].code === Number(key)) {
-        //             temList[i].odds = TM[key].prize
-        //         }
-        //     }
-        // }
-        // 赔率未计算
-        // console.log(this.account.prize_group)
-        // console.log(temList)
         this.pcdd.allCodeList = temList
       }
 
@@ -1188,6 +1182,8 @@ export default {
         ] = []
 
         for (const k of all) {
+          
+          // 第一球
           if (k.sign === 'DYQ') {
             let json = {}
             json.sign = k.sign
@@ -1210,12 +1206,16 @@ export default {
                 codeJson.money = 0
                 codeJson.flag = false
                 codeJson.odds = 80.0
+                
                 json.code.push(codeJson)
               }
             }
 
             temp.push(json)
-          } else if (k.sign === 'DEQ') {
+          }
+          
+          // 第二球
+          else if (k.sign === 'DEQ') {
             let json = {}
             json.sign = k.sign
             json.name = '第二球'
@@ -1242,7 +1242,10 @@ export default {
             }
 
             temp.push(json)
-          } else if (k.sign === 'DSQ') {
+          }
+
+          // 第三球
+          else if (k.sign === 'DSQ') {
             let json = {}
             json.sign = k.sign
             json.name = '第三球'
@@ -1269,7 +1272,10 @@ export default {
             }
 
             temp.push(json)
-          } else if (k.sign === 'DSIQ') {
+          }
+          
+          // 第四球
+          else if (k.sign === 'DSIQ') {
             let json = {}
             json.sign = k.sign
             json.name = '第四球'
@@ -1296,7 +1302,10 @@ export default {
             }
 
             temp.push(json)
-          } else if (k.sign === 'DWQ') {
+          }
+
+          // 第五球
+          else if (k.sign === 'DWQ') {
             let json = {}
             json.sign = k.sign
             json.name = '第五球'
@@ -1337,6 +1346,26 @@ export default {
           { code: '总双', money: 0, flag: false, odds: 80 }
         ]
         temp.push(json)
+        
+        for (const k of temp) {
+   
+          for (const i of Object.keys(prize)) {
+            if (k.sign === i) {
+              
+              for (const j of k.code) {
+  
+                for (const l of Object.keys(prize[i])) {
+                  
+                  if (String(j.code) === l) {
+  
+                    j.odds = 2 / (prize[i][l].count / prize[i][l].total) * this.userDetail.prize_group / 2000 + .00000001
+                    
+                  }
+                }
+              }
+            }
+          }
+        }
         this.pcdd.allCodeList = temp
       }
 
@@ -1368,7 +1397,18 @@ export default {
           json.odds = 80.0
           allCodeList.push(json)
         }
-
+  
+        for (const k of allCodeList) {
+          
+          for (const i of Object.keys(prize)) {
+            
+            if (String(k.code) === i) {
+  
+              k.odds = 2 / (prize[i].count / prize[i].total) * this.userDetail.prize_group / 2000 + .00000001
+              
+            }
+          }
+        }
         this.pcdd.allCodeList = allCodeList
       }
 
@@ -1480,6 +1520,29 @@ export default {
             }
           }
         }
+        
+        for (const k of Object.keys(temp)) {
+  
+          for (const i of temp[k]) {
+  
+            for (const j of Object.keys(prize)) {
+              
+              if (i.sign === j) {
+             
+                for (const p of i.code) {
+                  
+                  for (const l of Object.keys(prize[j])) {
+                    
+                    if (p.code === l) {
+                      
+                      p.odds = 2 / (prize[j][l].count / prize[j][l].total) * this.userDetail.prize_group / 2000 + .00000001
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
         this.pcdd.allCodeList = temp
       }
 
@@ -1492,7 +1555,13 @@ export default {
               json.code = i
               json.money = 0
               json.flag = false
-              json.odds = 80.0
+              for (const j of Object.keys(prize)) {
+                if (String(i) === j) {
+  
+                  json.odds = 2 / (prize[i].count / prize[i].total) * this.userDetail.prize_group / 2000 + .00000001
+
+                }
+              }
               this.pcdd.allCodeList.push(json)
             }
           }
