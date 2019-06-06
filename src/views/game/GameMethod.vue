@@ -230,7 +230,7 @@ export default {
   
                 json.value = j
                 json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
-  
+                json.prize = count
                 arr.push(json)
               }
               this.typeGroup = '78px'
