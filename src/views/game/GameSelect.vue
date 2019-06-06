@@ -433,7 +433,9 @@ export default {
           // 添加完选号 清空选中号码
           this.clearBtn()
         }
-      } else {
+      }
+      
+      else {
         let _input = ''
         let tmp = (this.inputCodes || '').split(',').map(item => {
           return this.Utils.trim(item)
@@ -472,6 +474,7 @@ export default {
           _input = new Uint8Array(temp)
           _input = pako.gzip(_input, { gzip: true })
         }
+        
         // if (this.currentMethod.b64 && (temp.length > 10)) {
         //     _input = new Uint8Array(temp)
         //     _input = pako.gzip(_input, {gzip:true})
@@ -987,17 +990,6 @@ export default {
 .bet-add-box{
   right:15px;
   font-size: 14px;
-  /deep/{
-    .el-slider{
-      position: relative;
-      z-index: 0;
-      margin: 0 20px;
-      display: inline-block;
-      vertical-align: middle;
-      width: 100px;
-    }
-    
-  }
 }
 .main-column-1{
   /deep/{
@@ -1005,13 +997,8 @@ export default {
       margin-right: 10px;
       width: 108px;
       float: left;
-      
-      .el-input__inner{
-        height:35px;
-      }
     }
     
   }
 }
-
 </style>

@@ -268,6 +268,7 @@ export default {
       }
     }
     .login-btn {
+      font-size: 18px;
       border-radius: 0;
       width: 100%;
       background-color: #d0b085;

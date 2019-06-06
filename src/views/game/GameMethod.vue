@@ -178,7 +178,7 @@ export default {
     //奖金计算
     countPrizes () {
       let [
-        prize = prizes[this.currentLottery.series_id][this.currentMethod.method],
+        prize = prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
         arr = []
       ] = []
@@ -304,4 +304,5 @@ export default {
 .bet-type-group-list:first-child{
   padding-top:20px;
 }
+
 </style>
