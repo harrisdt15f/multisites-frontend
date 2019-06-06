@@ -171,6 +171,14 @@
 
     <div class="bet-statistics" v-if="currentMethod.type !== 'lhc'">
       <div class="main-column-1 fl">
+        <el-select v-model="userConfig.singlePrice" placeholder="二元模式">
+          <el-option
+                  v-for="(item, index) in singlePrice"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value">
+          </el-option>
+        </el-select>
         <div class="bet-play-mode fw">
           <a
             v-for="(mode, modeIndex) in currentLottery.valid_modes"
@@ -182,18 +190,10 @@
           >{{mode.title}}</a>
         </div>
         <div class="bet-choose-total">
-          <input
-            type="button"
-            value="-"
-            class="bet-choose-ipt"
-            @click="timeReduce()">
+          <a href="javascript:;" class="bet-choose-ipt" @click="timeReduce()"> - </a>
           <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes">
-          <input type="button" value="+" class="bet-choose-ipt" @click="timeAdd()">
+          <a href="javascript:;" class="bet-choose-ipt" @click="timeAdd()"> + </a>
           <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span> 
-        </div>
-        <div class="bet-choose-total" style="margin-left: 20px;line-height: 35px;font-size: 14px;color: #222222;">
-          已选 <span style="color:#ff7200;font-size: 20px;">{{currentOrder.currentCount}}</span> 注，
-          共<strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
         </div>
       </div>
       <div class="bet-add-box fr">
@@ -203,6 +203,10 @@
       </div>
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
+      <div class="bet-choose-total bet-choose-total-money">
+        已选 <span class="bet-choose-total-money-count">{{currentOrder.currentCount}}</span> 注，
+        共<strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
+      </div>
       <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">一键投注</a>
         <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
           <i class="fa fa-download ft20"></i> 添加选号
@@ -256,7 +260,13 @@ export default {
       prizes: {
         min: 1800,
         max: 2000,
-      }
+      },
+      
+      // 游戏模式
+      singlePrice: [
+        {value: 1, label: '一元模式'},
+        {value: 2, label: '二元模式'}
+      ]
     }
   },
   components: {
@@ -293,6 +303,11 @@ export default {
     }
   },
   watch: {
+    // 更改一元两元模式
+    'userConfig.singlePrice'() {
+      this.calculate()
+    },
+    
     // 切换玩法时
     'bet.methodsTab'() {
       this.currentOrder.currentCost = 0
@@ -341,6 +356,10 @@ export default {
           this.$set(this.chooseButton[j], i, false)
         }
       }
+      // 清空注单值
+      this.currentOrder.currentCost = 0
+      this.currentOrder.currentCount = 0
+      this.currentOrder.currentTimes = 1
     },
     // 添加投注单
     addOrder(oneKey) {
@@ -545,7 +564,7 @@ export default {
       } else {
         this.currentOrder.currentCost =
           this.inputCodesSingle *
-          2 *
+          +this.userConfig.singlePrice *
           this.currentOrder.currentTimes *
           this.currentOrder.currentMode
         this.currentOrder.currentCount = this.inputCodesSingle
@@ -924,10 +943,7 @@ export default {
           )
           // 添加完选号 清空选中号码
           this.clearBtn()
-          // 清空注单值
-          this.currentOrder.currentCost = 0
-          this.currentOrder.currentCount = 0
-          this.currentOrder.currentTimes = 1
+          
           // 获取我的投注 我的追号记录
           // this.$store.dispatch("betHistory");
           // 刷新余额
@@ -984,4 +1000,19 @@ export default {
     
   }
 }
+.main-column-1{
+  /deep/{
+    .el-select{
+      margin-right: 10px;
+      width: 108px;
+      float: left;
+      
+      .el-input__inner{
+        height:35px;
+      }
+    }
+    
+  }
+}
+
 </style>
