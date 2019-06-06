@@ -171,7 +171,7 @@
 
     <div class="bet-statistics" v-if="currentMethod.type !== 'lhc'">
       <div class="main-column-1 fl">
-        <el-select v-model="userConfig.singlePrice" placeholder="二元模式">
+        <el-select v-model="userConfig.singlePrice" popper-class="single-price" placeholder="二元模式">
           <el-option
                   v-for="(item, index) in singlePrice"
                   :key="index"
