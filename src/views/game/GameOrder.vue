@@ -9,30 +9,32 @@
                 href="javascript:;"
                 class="btn close"
                 id="project-empty"
-                @click="clearOrderList()">清空</a>
+                @click="clearOrderList()"
+              >清空</a>
               购彩篮
             </div>
             <div class="panel-select-title clearfix">
-							<span class="name">玩法</span>
-							<span class="number">号码</span>
-							<span class="bet">注</span>
-							<span class="multiple">倍</span>
-							<span class="price">金额</span>
-							<span class="operation">操作</span>
-					</div>
+              <span class="name">玩法</span>
+              <span class="number">号码</span>
+              <span class="bet">注</span>
+              <span class="multiple">倍</span>
+              <span class="price">金额</span>
+              <span class="operation">操作</span>
+            </div>
             <div class="panel-order-list-cont">
               <ul class="order-container">
                 <li v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
-                  <span class="name">
-                    {{order.method_name}}
-                  </span>
-                  <span class="number">
-                    {{order.codes}}
-                  </span>
+                  <span class="name">{{order.method_name}}</span>
+                  <span class="number">{{order.codes}}</span>
                   <span class="bet">{{order.count}}</span>
                   <span class="multiple">{{order.times}}</span>
                   <span class="price">{{Utils.toFixed(String(order.cost))}}</span>
-                  <a @click="deleteOrderList(order, _orderIndex)" href="javascript:void(0);" title="删除" class="delete"></a>
+                  <a
+                    @click="deleteOrderList(order, _orderIndex)"
+                    href="javascript:void(0);"
+                    title="删除"
+                    class="delete"
+                  ></a>
                 </li>
               </ul>
             </div>
@@ -44,8 +46,14 @@
               <li class="chase-tab" :class="{active: chaseTab === 2}" @click="chaseTabHan(2)">翻倍追号</li>
             </ul>
             <ul class="fw tab-cons">
-              <div style="text-align:right"> 
-                <el-button class="tab-cons-btn" type="warning" plain size="mini" @click="clearChase">清除追号</el-button>
+              <div style="text-align:right">
+                <el-button
+                  class="tab-cons-btn"
+                  type="warning"
+                  plain
+                  size="mini"
+                  @click="clearChase"
+                >清除追号</el-button>
               </div>
               <li class="tab-con" v-if="chaseTab === 0">
                 <section class="tab-inputs">
@@ -55,15 +63,17 @@
                       type="text"
                       v-model="chase.rateLowNum"
                       :placeholder="chase.rateLowNum"
-                      class="tab-input">%
+                      class="tab-input"
+                    >%
                   </label>
                   <label class="param">
                     追号期数
                     <input
-                    type="text"
-                    v-model="chase.rateIssue"
-                    :placeholder="chase.rateIssue"
-                    class="tab-input">
+                      type="text"
+                      v-model="chase.rateIssue"
+                      :placeholder="chase.rateIssue"
+                      class="tab-input"
+                    >
                   </label>
                   <el-button size="small" @click="chaseRateSubmit()">生成追号计划</el-button>
                 </section>
@@ -76,15 +86,17 @@
                       type="text"
                       v-model="chase.sameNum"
                       :placeholder="chase.sameNum"
-                      class="tab-input">倍
+                      class="tab-input"
+                    >倍
                   </label>
                   <label class="param">
                     追号期数
                     <input
-                    type="text"
-                    v-model="chase.sameIssue"
-                    :placeholder="chase.sameIssue"
-                    class="tab-input">
+                      type="text"
+                      v-model="chase.sameIssue"
+                      :placeholder="chase.sameIssue"
+                      class="tab-input"
+                    >
                   </label>
                   <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
                 </section>
@@ -92,13 +104,14 @@
               <li class="tab-con" v-if="chaseTab === 2">
                 <section class="tab-inputs">
                   <label class="param">
-                  起始倍数:
+                    起始倍数:
                     <input
                       type="text"
                       v-model="chase.doubleNum"
                       disabled
                       :placeholder="chase.doubleNum"
-                      class="tab-input">
+                      class="tab-input"
+                    >
                   </label>
                   <label class="param">
                     隔
@@ -106,7 +119,8 @@
                       type="text"
                       v-model="chase.doubleG"
                       :placeholder="chase.doubleG"
-                      class="tab-input">
+                      class="tab-input"
+                    >
                   </label>
                   <label class="param">
                     期 倍x
@@ -114,7 +128,8 @@
                       type="text"
                       v-model="chase.doubleB"
                       :placeholder="chase.doubleB"
-                      class="tab-input">
+                      class="tab-input"
+                    >
                   </label>
                   <label class="param">
                     期数:
@@ -122,7 +137,8 @@
                       type="text"
                       v-model="chase.doubleIssue"
                       :placeholder="chase.doubleIssue"
-                      class="tab-input">
+                      class="tab-input"
+                    >
                   </label>
                   <el-button size="small" @click="chaseDoubleSubmit()">生成追号计划</el-button>
                 </section>
@@ -139,7 +155,7 @@
               <th>
                 <input @click="rateCheckedAll()" v-model="chase.rateChecked" type="checkbox"> 追号期次
               </th>
-              <th>倍数</th> 
+              <th>倍数</th>
               <th>金额</th>
               <th>奖金</th>
               <th>盈利金额</th>
@@ -163,6 +179,7 @@
               <td>
                 <input
                   class="trace-row-multiple"
+                  @input="rateInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
@@ -170,7 +187,7 @@
                 >
               </td>
               <td>
-                <span class="trace-row-money">{{chase.rateMoney * item.multiple}}</span>
+                <span class="trace-row-money">{{item.value}}</span>
               </td>
               <td>
                 <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.prize))}}</span>
@@ -179,9 +196,7 @@
                 <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.profit))}}</span>
               </td>
               <td>
-                <span class="trace-row-userGroupMoney">
-                  {{Utils.toFixed(String(item.percentage))}}%
-                </span>
+                <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.percentage))}}%</span>
               </td>
             </tr>
           </tbody>
@@ -281,8 +296,9 @@
       </section>
       <section class="bet-future-set">
         <div class="bmn-confirm-title">
-          <div class="bmn-confir-icon"><img src="../../assets/images/lottery/icon_money.png"></div>
-          确认投注信息
+          <div class="bmn-confir-icon">
+            <img src="../../assets/images/lottery/icon_money.png">
+          </div>确认投注信息
         </div>
         <span class="bmn-confirm-text">
           总金额
@@ -293,12 +309,13 @@
             <template v-else>{{Utils.toFixed(String(totals.money))}}</template>
           </span>
         </span>
-        
+
         <a
           href="javascript:;"
           class="btn main-btn-confirm"
           id="project-submit"
-          @click="submitBet()">
+          @click="submitBet()"
+        >
           <i class="fa fa-check-circle ft20"></i>确认投注
         </a>
       </section>
@@ -382,6 +399,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { debuglog } from 'util'
 export default {
   name: 'game-order',
   data() {
@@ -456,6 +474,15 @@ export default {
       this.totalSub.money =
         parseInt(this.totalSub.double) * Number(this.total.money)
       return this.total
+    },
+    //当前奖金
+    currentCountPrizes(){
+      if (Array.isArray(this.countPrizes)) {
+        return this.countPrizes[0].prize
+      } else{
+        return this.countPrizes
+      }
+      
     }
   },
   watch: {
@@ -584,7 +611,7 @@ export default {
         }
       }
     },
-    
+
     // 同倍追号当全部选中
     sameCheckedAll() {
       this.chase.sameChecked = !this.chase.sameChecked
@@ -633,9 +660,17 @@ export default {
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.doubleIssue] = []
-      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
-        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-      }))))
+      const list = [].concat(
+        JSON.parse(
+          JSON.stringify(
+            this.issueInfo.filter(item => {
+              return (
+                Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+              )
+            })
+          )
+        )
+      )
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -693,9 +728,17 @@ export default {
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.sameIssue] = []
-      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
-        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-      }))))
+      const list = [].concat(
+        JSON.parse(
+          JSON.stringify(
+            this.issueInfo.filter(item => {
+              return (
+                Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+              )
+            })
+          )
+        )
+      )
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(sameIssue) === Number(this.chase.maxIssue) &&
@@ -723,12 +766,6 @@ export default {
     },
     // 生成利润率追号
     chaseRateSubmit() {
-      if (this.orderList.length === 0) {
-        this.$alert('请至少选择一注投注号码', '提示', {
-          confirmButtonText: '确定'
-        })
-        return
-      }
       this.chase.rateCon = true
       this.chase.sameCon = false
       this.chase.doubleCon = false
@@ -737,14 +774,51 @@ export default {
       this.chase.rateChecked = true
       this.chase.rateMoneyAll = 0
       this.chase.rateMoney = 0
+      if (this.orderList.length === 0) {
+        this.$alert('请至少选择一注投注号码', '提示', {
+          confirmButtonText: '确定'
+        })
+        this.chase.rateCon = false
+        return
+      }
+      //盈利/盈利率追号不支持混投
+      let type = '',
+        mode = ''
       for (let i = 0; i < this.orderList.length; i++) {
+        if (type != '' && mode != '') {
+          if (
+            type != this.orderList[i].method_id ||
+            mode != this.orderList[i].mode
+          ) {
+            this.$alert(
+              '利润率追号不支持混投，请确保您的投注都为同一玩法类型，且元角模式一致。',
+              '提示',
+              {
+                confirmButtonText: '确定'
+              }
+            )
+            this.chase.rateCon = false
+            return false
+          }
+        } else {
+          type = this.orderList[i].method_id
+          mode = this.orderList[i].mode
+        }
         this.chase.rateMoney += this.orderList[i].cost
       }
       // 找出当前期 以及当前期 后面当期数
       let [rateIssue = this.chase.rateIssue] = []
-      const list =  [].concat(JSON.parse(JSON.stringify(this.issueInfo.filter(item => {
-        return Number(item.issue_no) >= Number(this.currentIssue.issue_no)
-      }))))
+      const list = [].concat(
+        JSON.parse(
+          JSON.stringify(
+            this.issueInfo.filter(item => {
+              return (
+                Number(item.issue_no) >= Number(this.currentIssue.issue_no)
+              )
+            })
+          )
+        )
+      )
       // 如果已知期数 小于 用户生成的期数 重新获取所有已知期数
       if (
         Number(rateIssue) === Number(this.chase.maxIssue) &&
@@ -757,6 +831,7 @@ export default {
           }
         })
       }
+      let alertSign = true
       // 追号添加数据
       for (let i = 0; i < list.length; i++) {
         if (i < rateIssue) {
@@ -770,43 +845,49 @@ export default {
           row_data.multiple = this.chase.rateNum
 
           row_data.value = this.chase.rateMoney * row_data.multiple
-          // 奖金
-          row_data.prize = this.countPrizes * row_data.multiple
+          // 奖金 countPrizes 单注奖金
+          row_data.prize =
+            this.currentCountPrizes * this.orderList.length * row_data.multiple
           //盈利金额
-          row_data.profit = (row_data.prize - row_data.value * row_data.id)
+          row_data.profit = row_data.prize - row_data.value * row_data.id
 
-          let p = row_data.profit / (row_data.value * row_data.id) * 100
-      
+          let p = (row_data.profit / (row_data.value * row_data.id)) * 100
+
           // 低于利率加倍
           while (p < this.chase.rateLowNum) {
             // 计算当前成本值
             let v = 0
             this.chase.rateData.forEach(item => {
-              if(item.value) {v += item.value}
+              if (item.value) v += item.value
             })
-
             // 限制最大倍数
-            let max_multiple = Math.floor(2000 / row_data.value)
+            let max_multiple = 1000
             if (row_data.multiple >= max_multiple) {
+              if (alertSign) {
+                alert('生成方案中的倍数超过了系统最大允许设置的倍数，将自动调整为系统最大可设置倍数')
+                alertSign = false
+              }
               row_data.multiple = max_multiple
               row_data.value = this.chase.rateMoney * row_data.multiple
-              row_data.prize = this.countPrizes * row_data.multiple
-              row_data.profit = (row_data.prize - row_data.value - v)
-              p = row_data.profit / (row_data.value + v) * 100
+              row_data.prize =
+                this.currentCountPrizes * this.orderList.length * row_data.multiple
+              row_data.profit = row_data.prize - row_data.value - v
+              p = (row_data.profit / (row_data.value + v)) * 100
               break
             }
 
             row_data.multiple += 1
             row_data.value = this.chase.rateMoney * row_data.multiple
-            row_data.prize = this.countPrizes * row_data.multiple
-            row_data.profit = (row_data.prize - row_data.value - v)
-            p = row_data.profit / (row_data.value + v) * 100
+            row_data.prize =
+              this.currentCountPrizes * this.orderList.length * row_data.multiple
+            row_data.profit = row_data.prize - row_data.value - v
+            p = (row_data.profit / (row_data.value + v)) * 100
 
-            if (p >  this.chase.rateLowNum) {
+            if (p > this.chase.rateLowNum) {
               break
             }
           }
-          
+
           row_data.percentage = p
 
           this.$set(this.chase.rateData[i], 'checked', true)
@@ -951,6 +1032,7 @@ export default {
           money: 0
         }
       }
+      this.clearChase()
     },
     // 清空当前投注
     clearOrderList() {
@@ -965,6 +1047,18 @@ export default {
         double: 1,
         money: 0
       }
+      this.clearChase()
+    },
+    rateInputChange(item, index){
+      const money = this.chase.rateMoney,
+            multiple = Number(item.multiple)
+      if (multiple == '' || multiple == 0) {
+        return
+      }
+      this.$set(item, 'value', money * multiple)
+      this.$set(item, 'prize', this.currentCountPrizes * this.orderList.length * multiple)
+      this.$set(item, 'profit', item.prize - item.value * (index + 1))
+      this.$set(item, 'percentage', (item.profit / (item.value * (index + 1))) * 100)
     }
   }
 }
