@@ -192,20 +192,20 @@ export default {
       
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
-              switch (i) {
-                case 1:
-                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .000001
-                  break
-                case 17:
-                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
-                  break
-                case 20:
-                  count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
-                  break
-                default:
-                  count = this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .000001
-                  break
+  
+  
+              if (i === 1) {
+                count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
               }
+  
+              else if (i === 17 || i === 20) {
+                count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
+              }
+  
+              else {
+                count = this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
+              }
+              
               this.typeGroup = 'auto'
               return this.Utils.toFixed(String(count))
             }
@@ -214,24 +214,22 @@ export default {
             else {
               for (const j of Object.keys(prize.count)) {
                 let json = {}
-  
-                switch (i) {
-                  case 1:
-                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .000001
-                    break
-                  case 17:
-                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
-                    break
-                  case 20:
-                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .000001
-                    break
-                  default:
-                    count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .000001
-                    break
+                
+                
+                if (i === 1) {
+                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
+                }
+                
+                else if (i === 17 || i === 20) {
+                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
+                }
+                
+                else {
+                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .00000001
                 }
   
                 json.value = j
-                json.label = (+j + 1) + ' 等奖' + this.Utils.toFixed(String(count))
+                json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
   
                 arr.push(json)
               }

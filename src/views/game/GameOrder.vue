@@ -2,7 +2,7 @@
   <section class="main-bottom">
     <section class="main-bottom-con" v-if="currentMethod.type !== 'lhc'">
       <section class="bet-count-confirm">
-        <section class="play-footer clearfix">
+        <section class="play-footer clearfix fw">
           <section class="panel-section">
             <div class="pannel-title">
               <a
