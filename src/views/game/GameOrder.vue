@@ -399,7 +399,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { debuglog } from 'util'
 export default {
   name: 'game-order',
   data() {
@@ -835,23 +834,27 @@ export default {
       // 追号添加数据
       for (let i = 0; i < list.length; i++) {
         if (i < rateIssue) {
-          const row_data = {}
+          let row_data = {}
+
           this.chase.rateData.push(list[i])
-          list[i].time = this.Utils.formatTime(
-            list[i].open_time * 1000,
-            'YYYY-MM-DD HH:MM:SS'
-          )
+  
           row_data.id = i + 1
           row_data.multiple = this.chase.rateNum
 
-          row_data.value = this.chase.rateMoney * row_data.multiple
+          row_data.value = this.chase.rateMoney *  row_data.multiple
           // 奖金 countPrizes 单注奖金
           row_data.prize =
             this.currentCountPrizes * this.orderList.length * row_data.multiple
-          //盈利金额
-          row_data.profit = row_data.prize - row_data.value * row_data.id
-
+          //盈利金额 
+          row_data.profit = (row_data.prize - row_data.value * row_data.id)
+        
           let p = (row_data.profit / (row_data.value * row_data.id)) * 100
+          debugger
+          if (i === 0 && p <= 0) {
+            alert('您设置的参数无法达到盈利，请重新设置')
+            this.clearChase()
+            return
+          }
 
           // 低于利率加倍
           while (p < this.chase.rateLowNum) {

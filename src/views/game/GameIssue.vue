@@ -16,31 +16,31 @@
               <em class="min-left">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[0] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[0] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[0] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[0] || 0}}</span>
                 </span>
               </em>
               <em class="min-right">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[1] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[1] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[1] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[1] || 0}}</span>
                 </span>
               </em>
               <span class="space1">:</span>
@@ -48,62 +48,63 @@
               <em class="min-left">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">1</span>
+                  <span class="inner">{{this.time[3] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">1</span>
+                  <span class="inner">{{this.time[3] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">1</span>
+                  <span class="inner">{{this.time[3] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">1</span>
+                  <span class="inner">{{this.time[3] || 0}}</span>
                 </span>
               </em>
               <em class="min-right">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">8</span>
+                  <span class="inner">{{this.time[4] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">8</span>
+                  <span class="inner">{{this.time[4] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">8</span>
+                  <span class="inner">{{this.time[4] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">8</span>
+                  <span class="inner">{{this.time[4] || 0}}</span>
                 </span>
               </em>
               <span class="space1">:</span>
+
               <em class="sec-left">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[6] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[6] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[6] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">0</span>
+                  <span class="inner">{{this.time[6] || 0}}</span>
                 </span>
               </em>
               <em class="sec-right min-left-anim">
                 <b class="deadline-number-mask"></b>
                 <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">6</span>
+                  <span class="inner">{{this.time[7] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">6</span>
+                  <span class="inner">{{this.time[7] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-t">
-                  <span class="inner">7</span>
+                  <span class="inner">{{this.time[7] || 0}}</span>
                 </span>
                 <span class="deadline-num deadline-num-b">
-                  <span class="inner">7</span>
+                  <span class="inner">{{this.time[7] || 0}}</span>
                 </span>
               </em>
             </div>
@@ -188,7 +189,7 @@ export default {
         open_code: ['-', '-', '-', '-', '-']
       },
       issueNum: 0,
-      time: null,
+      time: '--:--:--',
       currentIssueTimer: null,
       notice: {
         issue: '',
@@ -263,16 +264,16 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           const data = [
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000}
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
+            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000}
           ]
           this.$store.commit('issueInfo', data)
           // this.$store.commit('issueInfo', res.data.issueInfo)
@@ -288,23 +289,26 @@ export default {
       time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
       this.notice.issue = this.issueInfo[this.issueNum].issue_no
       this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      // this.currentIssueTimer = setInterval(() => {
-      //   // 计算 倒计时
-      //   time -= 1
-      //   if (time >= 0) {
-      //     this.time = this.Utils.formatSeconds(time)
-      //   } else {
-      //     clearInterval(this.currentIssueTimer)
-      //     this.issueNum += 1
-      //     this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      //     this.notice.show = true
-      //     this.times()
-      //     if (this.issueNum === this.issueInfo.length) {
-      //       this.getIssue()
-      //     }
-      //   }
-      // }, 1000)
+      this.currentIssueTimer = setInterval(() => {
+        // 计算 倒计时
+        time -= 1
+        if (time >= 0) {
+          this.time = this.Utils.formatSeconds(time)
+        } else {
+          clearInterval(this.currentIssueTimer)
+          this.issueNum += 1
+          this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+          this.notice.show = true
+          this.times()
+          if (this.issueNum === this.issueInfo.length) {
+            this.getIssue()
+          }
+        }
+      }, 1000)
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.currentIssueTimer)
   }
 }
 </script>
