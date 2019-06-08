@@ -144,7 +144,6 @@
           <el-upload
             action="/import/bet"
             :show-file-list="false"
-            :before-upload="handleBeforeUpload"
             :http-request="uploadSectionFile"
             accept=".txt">
             <div class="btn btn-blue btn-ball-import" >导入注单</div>
@@ -433,9 +432,7 @@ export default {
           // 添加完选号 清空选中号码
           this.clearBtn()
         }
-      }
-      
-      else {
+      }else {
         let _input = ''
         let tmp = (this.inputCodes || '').split(',').map(item => {
           return this.Utils.trim(item)
@@ -469,18 +466,12 @@ export default {
           })
           return
         }
-        //优化单式//需要压缩
+        // //优化单式//需要压缩
         if (this.currentMethod.b64) {
           _input = new Uint8Array(temp)
           _input = pako.gzip(_input, { gzip: true })
         }
-        
-        // if (this.currentMethod.b64 && (temp.length > 10)) {
-        //     _input = new Uint8Array(temp)
-        //     _input = pako.gzip(_input, {gzip:true})
-        // } else {
-        //     _input = this.inputCodes;
-        // }
+        // _input = this.inputCodes
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
@@ -506,11 +497,11 @@ export default {
           this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
         }
         // 清空注单值
-        this.currentOrder.currentCost = 0
-        this.currentOrder.currentCount = 0
-        this.currentOrder.currentTimes = 1
-        this.inputCodesSingle = 0
-        this.inputCodes = ''
+        // this.currentOrder.currentCost = 0
+        // this.currentOrder.currentCount = 0
+        // this.currentOrder.currentTimes = 1
+        // this.inputCodesSingle = 0
+        // this.inputCodes = ''
       }
     },
     // 计算注数
@@ -573,13 +564,11 @@ export default {
         this.currentOrder.currentCount = this.inputCodesSingle
       }
     },
-
     // 倍数增加
     timeAdd() {
       this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
       this.calculate()
     },
-
     // 倍数减少
     timeReduce() {
       this.currentOrder.currentTimes > 1
@@ -920,6 +909,8 @@ export default {
       let issus = {}
       issus[currentIssus] = true
       this.addOrder(true)
+      console.log(this.currentOrder.currentCost)
+      debugger
       if (
         parseInt(this.currentOrder.currentCost) <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
@@ -963,9 +954,6 @@ export default {
           })
         }
       })
-    },
-    // 导入注单
-    handleBeforeUpload(file) {
     },
     uploadSectionFile(param){
      const _this = this,
