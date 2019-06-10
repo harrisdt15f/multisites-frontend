@@ -82,6 +82,7 @@ a, button {
 }
 /*下拉选择器*/
 body /deep/ .el-select .el-input__inner{
+	padding:0 7px;
 	height:35px;
 }
 body /deep/ .el-select .el-input.is-focus .el-input__inner{

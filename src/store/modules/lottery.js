@@ -3,7 +3,8 @@ import { API } from '@/api'
 const state = {
   // 用户配置
   userConfig: {
-    singlePrice: 2
+    singlePrice: 2,
+    mode: 1
   },
   // 当前彩种
   currentLotterySign: 'cqssc',

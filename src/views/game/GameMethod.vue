@@ -35,7 +35,7 @@
                   </template>
                   
                   <template v-else>
-                    奖级详情:
+                    奖金:
                     <el-select v-model="prizeSelect" :placeholder="prizeSelect">
                       <el-option
                               v-for="(item, index) in countPrizes()"
@@ -45,7 +45,7 @@
                       </el-option>
                     </el-select>
                   </template>
-                 
+                  
                 </div>
                 <div
                   class="bet-type-group-list"
@@ -195,15 +195,15 @@ export default {
   
   
               if (i === 1) {
-                count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
+                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
               }
   
               else if (i === 17 || i === 20) {
-                count = this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
+                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
               }
   
               else {
-                count = this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
+                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
               }
               
               this.typeGroup = 'auto'
@@ -217,15 +217,15 @@ export default {
                 
                 
                 if (i === 1) {
-                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
+                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
                 }
                 
                 else if (i === 17 || i === 20) {
-                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
+                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
                 }
                 
                 else {
-                  count = this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .00000001
+                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .00000001
                 }
   
                 json.value = j

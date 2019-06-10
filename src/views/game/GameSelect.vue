@@ -25,7 +25,7 @@
         class="main-ball-list"
         v-for="(_number, _tabName, yIndex) in currentMethod.layout"
         :key="yIndex">
-        <div class="ball-list-name">{{_tabName}}</div>
+        <div class="ball-list-name" :style="{'padding-top': currentMethod.method.indexOf('LH') > -1 ? '26px' : '7px'}">{{_tabName}}</div>
         
         
 <!--        选号区域  非龙虎选号-->
@@ -196,7 +196,7 @@
         </div>
       </div>
       <div class="bet-add-box fr">
-        奖金:
+        奖金组:
         <el-slider v-model="lottery.countPrize"  :min="prizes.min" :max="prizes.max"></el-slider>
         {{lottery.countPrize}} / {{prizes.max}}
       </div>
@@ -336,6 +336,7 @@ export default {
   },
   created() {
     
+    
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
     
@@ -432,7 +433,7 @@ export default {
           // 添加完选号 清空选中号码
           this.clearBtn()
         }
-      }else {
+      } else {
         let _input = ''
         let tmp = (this.inputCodes || '').split(',').map(item => {
           return this.Utils.trim(item)
@@ -580,6 +581,7 @@ export default {
     // 选择模式
     selectMode(mode) {
       this.currentOrder.currentMode = +mode
+      this.userConfig.mode = +mode
       this.calculate()
     },
     // 选择数字
@@ -862,7 +864,7 @@ export default {
             return this.Utils.trim(item)
           })
         )
-      ] = []  
+      ] = []
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
         for (const k of tmp) {
@@ -909,8 +911,6 @@ export default {
       let issus = {}
       issus[currentIssus] = true
       this.addOrder(true)
-      console.log(this.currentOrder.currentCost)
-      debugger
       if (
         parseInt(this.currentOrder.currentCost) <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
