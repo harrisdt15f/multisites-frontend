@@ -77,13 +77,9 @@ a, button {
 	transition: all 0.3s;
 }
 
-<<<<<<< HEAD
-=======
 .single-price .el-select-dropdown__item.selected{
 	color: #ff9707;
 }
-
->>>>>>> d8a476dec80390eb3706702772917e655912e018
 /*下拉选择器*/
 body /deep/ .el-select .el-input__inner{
 	height:35px;
