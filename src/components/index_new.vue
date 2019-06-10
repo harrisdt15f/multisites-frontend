@@ -32,30 +32,18 @@
             <div class="winning">
               <section class="fw lottery-wins-boxs" id="lottery-wins-boxs">
                 <ul class="lottery-wins-lists" id="lottery-wins-lists">
-                  <li class="lottery-wins-list">
-                    <div class="lottery-wins-list-num">
+                  <li class="lottery-wins-list" v-for="(item, index) in 10" :key="index"> 
+                    <div v-if="index === 0" class="lottery-wins-list-num">
                       <img src="../assets/images/new/index/wins_1.png">
                     </div>
-                    <div class="lottery-wins-list-name">12****8</div>
-                    <div class="lottery-wins-list-moeny wzfw">990,000,000,000</div>
-                  </li>
-                  <li class="lottery-wins-list">
-                    <div class="lottery-wins-list-num">
-                      <img src="../assets/images/new/index/wins_2.png" alt>
+                    <div v-else-if="index === 1" class="lottery-wins-list-num">
+                      <img src="../assets/images/new/index/wins_2.png">
                     </div>
-                    <div class="lottery-wins-list-name">12****8</div>
-                    <div class="lottery-wins-list-moeny wzfw">990,000,000,000</div>
-                  </li>
-                  <li class="lottery-wins-list">
-                    <div class="lottery-wins-list-num">
-                      <img src="../assets/images/new/index/wins_3.png" alt>
+                    <div v-else-if="index === 2" class="lottery-wins-list-num">
+                      <img src="../assets/images/new/index/wins_3.png">
                     </div>
-                    <div class="lottery-wins-list-name">12****8</div>
-                    <div class="lottery-wins-list-moeny wzfw">990,000,000,000</div>
-                  </li>
-                  <li class="lottery-wins-list">
-                    <div class="lottery-wins-list-num">
-                      <span>4</span>
+                    <div v-else class="lottery-wins-list-num">
+                      <span>{{index}}</span>
                     </div>
                     <div class="lottery-wins-list-name">12****8</div>
                     <div class="lottery-wins-list-moeny wzfw">990,000,000,000</div>
