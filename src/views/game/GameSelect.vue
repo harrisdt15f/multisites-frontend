@@ -26,8 +26,6 @@
         v-for="(_number, _tabName, yIndex) in currentMethod.layout"
         :key="yIndex">
         <div class="ball-list-name">{{_tabName}}</div>
-        
-        
 <!--        选号区域  非龙虎选号-->
         <ul class="main-ball-content"
             v-if="currentMethod.method.indexOf('LH') < 0">
@@ -50,7 +48,6 @@
               :y="yIndex">{{_code}}</a>
           </li>
         </ul>
-        
 <!--        龙虎选号-->
         <ul
             v-if="
@@ -67,10 +64,7 @@
             'active': chooseNumber[yIndex][xIndex]}"
             @click="selectCode(yIndex, xIndex)">
           </li>
-          
         </ul>
-        
-        
 <!--       辅助选号按钮-->
         <ul class="main-ball-control"
             v-if="currentMethod.buttons.length > 0"
@@ -151,14 +145,13 @@
         </div>
         <div class="balls-import-box">
           <textarea
-            @input="inputAreaChange()"
             @focus="inputAreaFocus()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
             v-model="inputCodes"></textarea>
         </div>
         <div class="btn-tab-list import-clean-list">
-          <a
+          <a  
             href="javascript:;"
             class="panel-btn-a"
             @click="inputClearRepeatOrder()"
@@ -335,7 +328,6 @@ export default {
     }
   },
   created() {
-    
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
     
@@ -466,12 +458,12 @@ export default {
           })
           return
         }
-        // //优化单式//需要压缩
-        if (this.currentMethod.b64) {
-          _input = new Uint8Array(temp)
-          _input = pako.gzip(_input, { gzip: true })
-        }
-        // _input = this.inputCodes
+        //优化单式//需要压缩
+        // if (this.currentMethod.b64) {
+        //   _input = new Uint8Array(temp)
+        //   _input = pako.gzip(_input, { gzip: true })
+        // }
+        _input = this.inputCodes
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
@@ -834,11 +826,6 @@ export default {
     },
     // 单式输入框 变化时
     inputAreaChange() {
-      // let tmp = (this.inputCodes || '').split(',')
-      // 去重
-      // let temp = Array.from(new Set(tmp))
-      // this.inputCodes = temp.join(',')
-      // this.inputCodesSingle = temp.length
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
         this.inputClearRepeatOrder()
@@ -858,11 +845,11 @@ export default {
     inputClearRepeatOrder() {
       let [
         tmp = new Set(
-          (this.inputCodes || '').split(',').map(item => {
+          (this.inputCodes || '').split(/[\s\n,]+/).map(item => {
             return this.Utils.trim(item)
           })
         )
-      ] = []  
+      ] = []
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
         for (const k of tmp) {
@@ -880,6 +867,7 @@ export default {
           }
         }
       } else {
+        // 直选单式
         for (const i of tmp) {
           // 去除非数字项
           if (isNaN(i)) {
@@ -909,8 +897,6 @@ export default {
       let issus = {}
       issus[currentIssus] = true
       this.addOrder(true)
-      console.log(this.currentOrder.currentCost)
-      debugger
       if (
         parseInt(this.currentOrder.currentCost) <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
@@ -986,7 +972,6 @@ export default {
       width: 108px;
       float: left;
     }
-    
   }
 }
 </style>

@@ -84,7 +84,7 @@
             <a href="javascript:;" class="nav-title">走势图表</a>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">代理中心</a>
+            <router-link tag="a" to="/agent-center" href="javascript:;" class="nav-title">代理中心</router-link>
           </section>
         </nav>
       </div>

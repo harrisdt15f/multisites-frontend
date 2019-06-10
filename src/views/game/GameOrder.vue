@@ -611,7 +611,6 @@ export default {
         }
       }
     },
-
     // 同倍追号当全部选中
     sameCheckedAll() {
       this.chase.sameChecked = !this.chase.sameChecked
