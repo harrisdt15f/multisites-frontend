@@ -211,7 +211,9 @@ import { mapGetters, mapState } from 'vuex'
 import algorithm from '../../lib/algorithm'
 import pako from 'pako/index.js'
 
-import Lhc from '@/components/game/lhc'
+import { isRepeat } from '@/utils'
+
+import Lhc from '@/components/game/lhc' 
 
 export default {
   name: 'game-select',
@@ -379,7 +381,7 @@ export default {
             confirmButtonText: '确定'
           })
           return
-        }
+        } 
         if (oneKey) {
           this.oneKeyList = order
         } else {
@@ -447,10 +449,6 @@ export default {
         let temp = Array.from(new Set(tmp))
         this.inputCodes = temp.join(',')
         this.calculate(this.currentMethod, this.orderState)
-        // if ((tmp.length - temp.length) > 0) {
-        //     this.inputCodes = temp.join(',')
-        //     this.calculate( this.currentMethod, this.orderState)
-        // }
         this.input = this.inputCodes
         if (isNaN(temp[0])) {
           this.$alert('请输入正确的投注号码！', '提示', {
@@ -458,11 +456,6 @@ export default {
           })
           return
         }
-        //优化单式//需要压缩
-        // if (this.currentMethod.b64) {
-        //   _input = new Uint8Array(temp)
-        //   _input = pako.gzip(_input, { gzip: true })
-        // }
         _input = this.inputCodes
         order = {
           method_id: this.currentMethod.method,
@@ -568,7 +561,6 @@ export default {
         : ''
       this.calculate()
     },
-
     // 选择模式
     selectMode(mode) {
       this.currentOrder.currentMode = +mode
@@ -868,20 +860,36 @@ export default {
         }
       } else {
         // 直选单式
-        for (const i of tmp) {
-          // 去除非数字项
-          if (isNaN(i)) {
-            tmp.delete(i)
+        if (this.currentLottery.series_id === 'lotto') {
+          tmp = new Set((this.inputCodes || '').split(/,|，/).map(item => {
+            return this.Utils.trim(item)
+          }))
+          for (const i of tmp) {
+            // 去除重复的组
+            const arr = i.split(/[\s\n]+/)
+
+            if(isRepeat(arr) || arr.length != this.currentMethod.b64
+            || arr.some(val => Number(val) > 11)){
+              tmp.delete(i)
+            }
           }
-          // 去除 小于 或者 大于规定长度
-          if (
-            (this.currentMethod && String(i).length < this.currentMethod.b64) ||
-            String(i).length > this.currentMethod.b64
-          ) {
-            tmp.delete(i)
+        } else {
+          for (const i of tmp) {
+            // 去除非数字项
+            if (isNaN(i)) {
+              tmp.delete(i)
+            }
+            // 去除 小于 或者 大于规定长度
+            if (
+              (this.currentMethod && String(i).length < this.currentMethod.b64) ||
+              String(i).length > this.currentMethod.b64
+            ) {
+              tmp.delete(i)
+            }
           }
         }
       }
+
       this.inputCodes = [...tmp].join(',')
 
       if (!this.inputCodes) {
@@ -894,8 +902,8 @@ export default {
     // 一键投注
     oneKeyBet() {
       let currentIssus = this.currentIssue.issue_no
-      let issus = {}
-      issus[currentIssus] = true
+      let issus = [currentIssus]
+      // issus[currentIssus] = true
       this.addOrder(true)
       if (
         parseInt(this.currentOrder.currentCost) <= 0 ||

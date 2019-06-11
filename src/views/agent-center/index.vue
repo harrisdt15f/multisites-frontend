@@ -7,7 +7,9 @@
       <el-tab-pane label="团队管理" name="user-manage">
         <user-manage></user-manage>
       </el-tab-pane>
-      <el-tab-pane label="下级开户" name="third">下级开户</el-tab-pane>
+      <el-tab-pane label="下级开户" name="third">
+        <accurate-create></accurate-create>
+      </el-tab-pane>
       <el-tab-pane label="代理消息" name="fourth">代理消息</el-tab-pane>
     </el-tabs>
   </div>
@@ -16,11 +18,13 @@
 <script>
 import userProfits from './components/user-profits'
 import userManage from './components/user-manage'
+import accurateCreate from './components/accurate-create'
 export default {
   name: 'agentCenter',
   components: {
     userProfits,
-    userManage
+    userManage,
+    accurateCreate
   },
   data() {
     return {

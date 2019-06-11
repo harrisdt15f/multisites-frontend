@@ -49,8 +49,8 @@ export default {
   bet(lotterySign, issues, balls, total_cost, trace_win_stop = 1) {
     let data = {
       lottery_sign: lotterySign,
-      trace_issues: issues,
-      balls: balls,
+      trace_issues: JSON.stringify(issues),
+      balls: JSON.stringify(balls),
       trace_win_stop: trace_win_stop,
       total_cost: total_cost
     }
