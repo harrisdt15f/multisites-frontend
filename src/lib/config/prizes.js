@@ -97,7 +97,7 @@ export default {
             'HBDW31': {'total': 1000, 'prize': 6.6, 'count': 271},
 
             'QBDW32': {'total': 1000, 'prize': 33, 'count': 54},
-            'hBDW32': {'total': 1000, 'prize': 33, 'count': 54},
+            'HBDW32': {'total': 1000, 'prize': 33, 'count': 54},
             'BDW41': {'total': 10000, 'prize': 5.23, 'count': 3439},
             'BDW42': {'total': 10000, 'prize': 18.48, 'count': 974},
             'BDW52': {'total': 100000, 'prize': 12.27, 'count': 14670},
@@ -225,10 +225,10 @@ export default {
                     '9': {'total': 5, 'prize': 9, 'count': 1}
                 },
                 'all': {
-                    '总大': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总小': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总单': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总双': {'total': 1, 'prize': 1.8, 'count': 1}
+                    '大': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '小': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '单': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '双': {'total': 1, 'prize': 1.8, 'count': 1}
                 }
             },
             'LMP': {
@@ -263,10 +263,10 @@ export default {
                     '双': {'total': 1, 'prize': 1.8, 'count': 1}
                 },
                 'all': {
-                    '总大': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总小': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总单': {'total': 1, 'prize': 1.8, 'count': 1},
-                    '总双': {'total': 1, 'prize': 1.8, 'count': 1}
+                    '大': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '小': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '单': {'total': 1, 'prize': 1.8, 'count': 1},
+                    '双': {'total': 1, 'prize': 1.8, 'count': 1}
                 }
             },
             'DYQ': {

@@ -80,9 +80,9 @@ a, button {
 .single-price .el-select-dropdown__item.selected{
 	color: #ff9707;
 }
-
 /*下拉选择器*/
 body /deep/ .el-select .el-input__inner{
+	padding:0 7px;
 	height:35px;
 }
 body /deep/ .el-select .el-input.is-focus .el-input__inner{
@@ -90,6 +90,10 @@ body /deep/ .el-select .el-input.is-focus .el-input__inner{
 }
 body /deep/ .el-select .el-input__inner:focus {
 	border-color:#ff9707;
+}
+.single-price .el-select-dropdown__item.selected{
+	color: #ff9707;
+	font-weight: 500;
 }
 
 /*拉杆*/
