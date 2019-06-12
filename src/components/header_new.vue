@@ -75,8 +75,7 @@
             <router-link tag="a" to="/chess-all" href="javascript:;" class="nav-title">棋牌游戏</router-link>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">捕鱼游戏</a>
-            
+            <router-link tag="a" to="/fish-game" href="javascript:;" class="nav-title">捕鱼游戏</router-link>
           </section>
           <section class="nav">
             <router-link tag="a" to="/active" href="javascript:;" class="nav-title">优惠活动</router-link>

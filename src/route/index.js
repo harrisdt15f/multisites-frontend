@@ -15,6 +15,7 @@ import UserTrends from '../views/user-trends'
 import AgentCenter from '../views/agent-center'
 import Active from '../views/active'
 import ChessAll from '../views/chess-all'
+import FishGame from '../views/fish-game'
 
 Vue.use(Router)
 
@@ -55,6 +56,11 @@ const router = new Router({
           path: '/chess-all',
           name: 'chess-all',
           component: ChessAll
+        },
+        {
+          path: '/fish-game',
+          name: 'fish-game',
+          component: FishGame
         },
       ]
     },

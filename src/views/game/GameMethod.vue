@@ -36,7 +36,7 @@
                   
                   <template v-else>
                     单注奖金:
-                    <el-select v-model="prizeSelect" :placeholder="prizeSelect">
+                    <el-select style="width:150px;" v-model="prizeSelect" :placeholder="prizeSelect">
                       <el-option
                               v-for="(item, index) in countPrizes()"
                               :key="index"
