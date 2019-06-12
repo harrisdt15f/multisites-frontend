@@ -12,6 +12,9 @@ import GameMain from '../views/game/GameMain'
 import Index from '../components/index_new'
 import Ylc from '../components/game/ylc'
 import UserTrends from '../views/user-trends'
+import AgentCenter from '../views/agent-center'
+import Active from '../views/active'
+import ChessAll from '../views/chess-all'
 
 Vue.use(Router)
 
@@ -37,6 +40,21 @@ const router = new Router({
           path: '/user-trends',
           name: 'user-trends',
           component: UserTrends
+        },
+        {
+          path: '/agent-center',
+          name: 'agent-center',
+          component: AgentCenter
+        },
+        {
+          path: '/active',
+          name: 'active',
+          component: Active
+        },
+        {
+          path: '/chess-all',
+          name: 'chess-all',
+          component: ChessAll
         },
       ]
     },

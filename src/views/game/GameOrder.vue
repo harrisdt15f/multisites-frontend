@@ -187,7 +187,7 @@
                 >
               </td>
               <td>
-                <span class="trace-row-money">{{item.value}}</span>
+                <span class="trace-row-money">{{Utils.toFixed(String(item.value))}}</span>
               </td>
               <td>
                 <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.prize))}}</span>
@@ -611,7 +611,6 @@ export default {
         }
       }
     },
-
     // 同倍追号当全部选中
     sameCheckedAll() {
       this.chase.sameChecked = !this.chase.sameChecked

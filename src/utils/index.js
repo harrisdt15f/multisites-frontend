@@ -30,3 +30,18 @@ export function mathNum (x1, y1, x2, y2, r) {
 
   return [x2 + _a, y2 + _b, x1 - _a, y1 - _b]
 }
+
+
+//判断数组中是否有重复值
+export function isRepeat(arr){     
+  var obj = {} 
+
+  for(var i in arr) { 
+      //存在重复值
+      if(obj[arr[i]])  return true 
+
+      obj[arr[i]] = true 
+  } 
+  //不重复
+  return false 
+}
