@@ -187,7 +187,7 @@
                 >
               </td>
               <td>
-                <span class="trace-row-money">{{item.value}}</span>
+                <span class="trace-row-money">{{Utils.toFixed(String(item.value))}}</span>
               </td>
               <td>
                 <span class="trace-row-userGroupMoney">{{Utils.toFixed(String(item.prize))}}</span>

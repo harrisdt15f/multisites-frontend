@@ -72,16 +72,17 @@
             </section>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">棋牌游戏</a>
+            <router-link tag="a" to="/chess-all" href="javascript:;" class="nav-title">棋牌游戏</router-link>
           </section>
           <section class="nav">
             <a href="javascript:;" class="nav-title">捕鱼游戏</a>
+            
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">优惠活动</a>
+            <router-link tag="a" to="/active" href="javascript:;" class="nav-title">优惠活动</router-link>
           </section>
           <section class="nav">
-            <a href="javascript:;" class="nav-title">走势图表</a>
+            <router-link tag="a" to="/user-trends" href="javascript:;" class="nav-title">走势图标</router-link>
           </section>
           <section class="nav">
             <router-link tag="a" to="/agent-center" href="javascript:;" class="nav-title">代理中心</router-link>
