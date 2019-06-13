@@ -439,41 +439,41 @@ export default {
           })
           return
         }
-        let _input = ''
-        let tmp = (this.inputCodes || '').split(',').map(item => {
-          return this.Utils.trim(item)
-        })
-        for (let i = tmp.length; i >= 0; i--) {
-          // 去除非数字项
-          if (isNaN(tmp[i])) {
-            tmp.splice(i, 1)
-          }
-          // 去除 小于 或者 大于规定长度
-          if (
-            (this.currentMethod &&
-              String(tmp[i]).length < this.currentMethod.b64) ||
-            String(tmp[i]).length > this.currentMethod.b64
-          ) {
-            tmp.splice(i, 1)
-          }
-        }
-        // 去重
-        let temp = Array.from(new Set(tmp))
-        this.inputCodes = temp.join(',')
-        this.calculate(this.currentMethod, this.orderState)
-        this.input = this.inputCodes
-        // if (isNaN(temp[0])) {
-        //   this.$alert('请输入正确的投注号码！', '提示', {
-        //     confirmButtonText: '确定'
-        //   })
-        //   return
+        this.inputClearRepeatOrder()
+        // let _input = ''
+        // let tmp = (this.inputCodes || '').split(',').map(item => {
+        //   return this.Utils.trim(item)
+        // })
+        // for (let i = tmp.length; i >= 0; i--) {
+        //   // 去除非数字项
+        //   if (isNaN(tmp[i])) {
+        //     tmp.splice(i, 1)
+        //   }
+        //   // 去除 小于 或者 大于规定长度
+        //   if (
+        //     (this.currentMethod &&
+        //       String(tmp[i]).length < this.currentMethod.b64) ||
+        //     String(tmp[i]).length > this.currentMethod.b64
+        //   ) {
+        //     tmp.splice(i, 1)
+        //   }
         // }
-        _input = this.inputCodes
-        console.log(_input)
+        // // 去重
+        // let temp = Array.from(new Set(tmp))
+        // this.inputCodes = temp.join(',')
+        // this.calculate(this.currentMethod, this.orderState)
+        // this.input = this.inputCodes
+        // // if (isNaN(temp[0])) {
+        // //   this.$alert('请输入正确的投注号码！', '提示', {
+        // //     confirmButtonText: '确定'
+        // //   })
+        // //   return
+        // // }
+        // _input = this.inputCodes
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
-          codes: _input,
+          codes: this.inputCodes,
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
           cost: this.currentOrder.currentCost,
@@ -873,7 +873,8 @@ export default {
             }
           }
         }
-      } else {
+      }
+      else {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto') {
           tmp = new Set((this.inputCodes || '').split(/,|，/).map(item => {

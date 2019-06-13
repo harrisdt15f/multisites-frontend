@@ -2557,10 +2557,10 @@ body {
 
 .ylc-lhd-list-q:hover,
 .ylc-bet-list:hover{
-  background-color: #e6f4ff;
+  background-color: #ffe8c9;
 }
 .ylc-lhd-list-q.active{
-  background-color: #e6f4ff;
+  background-color: #ffe8c9;
   animation: k3Scale 0.3s;
 }
 
@@ -2582,7 +2582,7 @@ body {
 }
 
 .ylc-bet-list.active{
-  background-color: #e6f4ff;
+  background-color: #ffe8c9;
   animation: k3Scale 0.3s;
 }
 /*娱乐城投注弹窗*/
