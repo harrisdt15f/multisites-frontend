@@ -45,3 +45,7 @@ export function isRepeat(arr){
   //不重复
   return false 
 }
+
+export function randomRange(t, i) {
+  return Math.random() * (i - t) + t
+}
