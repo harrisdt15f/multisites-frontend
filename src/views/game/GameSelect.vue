@@ -148,6 +148,7 @@
         <div class="balls-import-box">
           <textarea
             @focus="inputAreaFocus()"
+            @input="inputAreaChange()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
             v-model="inputCodes"></textarea>
@@ -431,6 +432,13 @@ export default {
           this.clearBtn()
         }
       } else {
+        
+        if (this.currentOrder.currentCost <= 0) {
+          this.$alert('请输入正确的投注号码！', '提示', {
+            confirmButtonText: '确定'
+          })
+          return
+        }
         let _input = ''
         let tmp = (this.inputCodes || '').split(',').map(item => {
           return this.Utils.trim(item)
@@ -454,13 +462,14 @@ export default {
         this.inputCodes = temp.join(',')
         this.calculate(this.currentMethod, this.orderState)
         this.input = this.inputCodes
-        if (isNaN(temp[0])) {
-          this.$alert('请输入正确的投注号码！', '提示', {
-            confirmButtonText: '确定'
-          })
-          return
-        }
+        // if (isNaN(temp[0])) {
+        //   this.$alert('请输入正确的投注号码！', '提示', {
+        //     confirmButtonText: '确定'
+        //   })
+        //   return
+        // }
         _input = this.inputCodes
+        console.log(_input)
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
@@ -486,11 +495,11 @@ export default {
           this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
         }
         // 清空注单值
-        // this.currentOrder.currentCost = 0
-        // this.currentOrder.currentCount = 0
-        // this.currentOrder.currentTimes = 1
-        // this.inputCodesSingle = 0
-        // this.inputCodes = ''
+        this.currentOrder.currentCost = 0
+        this.currentOrder.currentCount = 0
+        this.currentOrder.currentTimes = 1
+        this.inputCodesSingle = 0
+        this.inputCodes = ''
       }
     },
     // 计算注数
@@ -826,7 +835,7 @@ export default {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
         this.inputClearRepeatOrder()
-      }, 500)
+      }, 1000)
     },
     // 单式输入框失去焦点
     inputAreaBlur() {
@@ -840,6 +849,7 @@ export default {
     },
     // 清理重复项 和 错误项
     inputClearRepeatOrder() {
+      
       let [
         tmp = new Set(
           (this.inputCodes || '').split(/[\s\n,]+/).map(item => {
