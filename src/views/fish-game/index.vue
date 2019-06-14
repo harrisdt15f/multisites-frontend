@@ -3,7 +3,7 @@
     <div class="itemq1 itemq" style="display:block;">
       <img src="../../assets/images/fishGame/fish2/bg_1180.jpg" class="itemq-img">
       <div class="wrapper">
-        <div class="fish_txt">
+        <div class="fish_txt" style="top:100px;">
           <h2>捕鱼王2</h2>
           <img src="../../assets/images/fishGame/fish2/logo_1180.png" width="176" height="40" alt="AG}">
           <p class="cont_txt">3D画面及场景上更加逼真、更高之外，弹无虚发、百发百中等全新玩法更是吸引了众多线上平台玩家的目光。新的海底地图、新boss大金龙，以及100倍游戏场等给力玩法，吸引着各平台新玩家源源不断地加入到捕鱼的行列中来。而与其他用户一同狩猎深海BOSS、开启神秘宝箱、触发梦幻转盘的快感，让每位体验过AG《捕鱼王》的用户都感觉热血沸腾</p>
@@ -246,7 +246,7 @@ export default {
     
       $(".fish_nr .itemq").eq(index).stop(false, true).fadeIn(ts.time);
       adTxt.eq(index).children("p").css({ paddingTop: "50px", paddingBottom: "50px" }).stop(false, true).animate({ paddingTop: "0", paddingBottom: "0" }, ts.time);
-      adTxt.eq(index).css({ top: "0", opacity: "0" }).stop(false, true).animate({ top: "50px", opacity: "1" }, ts.time);
+      adTxt.eq(index).css({ top: "0", opacity: "0" }).stop(false, true).animate({ top: "100px", opacity: "1" }, ts.time);
       adImg.eq(index).css({ right: "-50px", opacity: "0" }).stop(false, true).animate({ right: "10px", opacity: "1" }, ts.time);
       ts.curIndex = index;
     }
@@ -335,7 +335,7 @@ export default {
   .snow-container{
     width:100%;
     background:rgba(255,255,255,0.3);
-    bottom:150px;
+    bottom:120px;
     position:absolute;
     height:120px;
     z-index:5;

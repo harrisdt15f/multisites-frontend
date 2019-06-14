@@ -3,23 +3,23 @@
     <div class="container">
       <div class="header-content">
         <div class="auto-item active">
-          <img class="img" src="https://dgg05.dggfileydf.com/typeIcon/dggGame.png">
+          <img class="img" src="../../assets/images/chess/dggGame.png">
           ABC
         </div>
         <div class="auto-item">
-          <img class="img" src="http://youpai10.dasheng80.com/game/leg/leg_logo4545455454.png">
+          <img class="img" src="../../assets/images/chess/leg_logo4545455454.png">
           LEG
         </div>
         <div class="auto-item">
-          <img class="img" src="http://youpai10.dasheng80.com/dev/201902131919146400.jpg">
+          <img class="img" src="../../assets/images/chess/201902131919146400.jpg">
           德胜
         </div>
         <div class="auto-item">
-          <img class="img" src="http://youpai10.dasheng80.com/dev/201903091909355142.jpg">
+          <img class="img" src="../../assets/images/chess/201903091909355142.jpg">
           爱棋牌
         </div>
         <div class="auto-item">
-          <img class="img" src="http://dgg03.dggfileydf.com/b_website/201905031646132603.jpg">
+          <img class="img" src="../../assets/images/chess/201905031646132603.jpg">
           天美
         </div>
       </div>
@@ -34,7 +34,7 @@
         <div class="content-ul-group">
           <div class="content-ul-item" v-for="item in 10" :key="item">
             <div class="content-game_img">
-              <img src="https://dgg05.dggfileydf.com/typeIcon/longhudou.png" alt>
+              <img src="../../assets/images/chess/longhudou.png" alt>
             </div>
             <p class="content_gamename">龙虎斗</p>
             <p class="content_explain">棋牌游戏</p>
