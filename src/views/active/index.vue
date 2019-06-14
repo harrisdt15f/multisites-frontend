@@ -3,7 +3,7 @@
     <el-row class="active-group">
       <el-col :span="24">
         <el-card class="active-group-item" shadow="hover">
-          <img class="img" src="http://dgg05.dggfileydf.com/b040/201905111612529858.jpg">
+          <img class="img" src="../../assets/images/active1.jpg">
           <div class="head">
             <p class="public_color">晋升奖励</p>
             请点击进入活动详情页面
@@ -11,7 +11,7 @@
           </div>
         </el-card>
         <el-card class="active-group-item" shadow="hover">
-          <img class="img" src="http://dgg05.dggfileydf.com/b040/201905111612529858.jpg">
+          <img class="img" src="../../assets/images/active1.jpg">
           <div class="head">
             <p class="public_color">晋升奖励</p>
             请点击进入活动详情页面
@@ -19,7 +19,7 @@
           </div>
         </el-card>
         <el-card class="active-group-item" shadow="hover">
-          <img class="img" src="http://dgg05.dggfileydf.com/b040/201905111612529858.jpg">
+          <img class="img" src="../../assets/images/active1.jpg">
           <div class="head">
             <p class="public_color">晋升奖励</p>
             请点击进入活动详情页面
@@ -53,21 +53,29 @@ export default {
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 18px 40px 18px 20px;
-      background: #fff;
+      background: #fdfdfd;
       border-radius: 4px;
       .img{
         width: 710px;
         height: 184px;
       }
     }
+    .el-button--danger{
+      background-color: #ff8900;
+      border-color: #ff8900;
+      
+      span{
+        font-size:18px;
+      }
+    }
     .head {
       position: relative;
       width: 390px;
-      font-size: 16px;
+      font-size: 17px;
       line-height: 25px;
       color: #999;
       .public_color {
-        color: #f33;
+        color: #ff8900;
         border-color: #fc1805;
       }
       p {
