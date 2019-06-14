@@ -235,7 +235,6 @@ export default {
 
     border-width: 1px;
     border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
-
     color: white;
     padding: 0;
   }
@@ -245,9 +244,6 @@ export default {
     display: inline-block;
     margin-right: 20px;
   }
-}
-.m-t-25{
-  margin-top: 25px;
 }
 .line-center{
   height: 45px;

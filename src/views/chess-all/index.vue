@@ -2,10 +2,25 @@
   <div class="chess-all">
     <div class="container">
       <div class="header-content">
+        <div class="auto-item active">
+          <img class="img" src="https://dgg05.dggfileydf.com/typeIcon/dggGame.png">
+          ABC
+        </div>
         <div class="auto-item">
-          <a href>
-            <img src alt>
-          </a>
+          <img class="img" src="http://youpai10.dasheng80.com/game/leg/leg_logo4545455454.png">
+          LEG
+        </div>
+        <div class="auto-item">
+          <img class="img" src="http://youpai10.dasheng80.com/dev/201902131919146400.jpg">
+          德胜
+        </div>
+        <div class="auto-item">
+          <img class="img" src="http://youpai10.dasheng80.com/dev/201903091909355142.jpg">
+          爱棋牌
+        </div>
+        <div class="auto-item">
+          <img class="img" src="http://dgg03.dggfileydf.com/b_website/201905031646132603.jpg">
+          天美
         </div>
       </div>
       <div class="thematic-content">
@@ -55,7 +70,6 @@ export default {}
   .header-content {
     width: 100%;
     margin: 40px 0;
-    text-align: center;
     height: 80px;
     line-height: 80px;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5));
@@ -171,6 +185,29 @@ export default {}
 
     .content_explain {
       line-height: 29px;
+    }
+  }
+}
+.header-content{
+  font-size: 0;
+  .auto-item{
+    width: 20%;
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    font-size: 25px;
+    height: 100%;
+    .img{
+      display: inline-block;
+      vertical-align: middle;
+      width: 100px;
+      height: 35px;
+      margin: 0 15px;
+    }
+    &:hover,&.active{
+      background-color: #52437a;
+      color: #fef1f0!important;
+      border-bottom: 3px solid #a9128e;
     }
   }
 }

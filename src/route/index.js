@@ -16,6 +16,7 @@ import AgentCenter from '../views/agent-center'
 import Active from '../views/active'
 import ChessAll from '../views/chess-all'
 import FishGame from '../views/fish-game'
+import Account from '../views/account-center'
 
 Vue.use(Router)
 
@@ -61,6 +62,11 @@ const router = new Router({
           path: '/fish-game',
           name: 'fish-game',
           component: FishGame
+        },
+        {
+          path: '/account-center',
+          name: 'account',
+          component: Account
         },
       ]
     },

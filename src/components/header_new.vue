@@ -29,7 +29,7 @@
           </li>
           <li class="head-user">充值</li>
           <li class="head-user">退款</li>
-          <li class="head-user">会员中心</li>
+          <router-link tag="li" to="/account-center" class="head-user">会员中心</router-link>
           <li class="head-user">额度转换</li>
           <li class="head-user" ref="logout" @click="logout()">退出</li>
           <li class="head-user head-user-server">
