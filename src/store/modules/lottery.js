@@ -22,6 +22,7 @@ const state = {
   lotteryList: {},
   // 主界面头部
   currentLottery: {},
+  // 当前奖期
   currentIssue: {},
   currentMethod: {},
   beforeIssue: {},
@@ -49,6 +50,7 @@ const state = {
   lotteryAll: {},
   // 彩种全部期数
 
+  // 可用奖期
   issueInfo: [],
 
   // 切换 官方和娱乐城 玩法

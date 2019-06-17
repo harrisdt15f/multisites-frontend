@@ -169,10 +169,11 @@
   </section>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'game-issue',
   computed: {
+    ...mapState(['currentIssue']),
     ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet'])
   },
   props: {
@@ -183,7 +184,6 @@ export default {
       descs: '',
       lotteryNotice: [],
       scrollNotice: [],
-      currentIssue: {},
       lastIssue: {
         issue_no: '---------',
         open_code: ['-', '-', '-', '-', '-']
@@ -263,21 +263,14 @@ export default {
     getIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
-          const data = [
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000},
-            {checked: false, issue_no: '19232233334', multiple: 1, open_time: new Date().getTime() / 1000, end_time: (new Date().getTime() + (1*24*60*60*1000)) / 1000}
-          ]
-          this.$store.commit('issueInfo', data)
-          // this.$store.commit('issueInfo', res.data.issueInfo)
+          this.$store.commit('currentIssue', res.data.currentIssue)
+          this.$store.commit('issueInfo', res.data.issueInfo)
+          
           this.issueNum = 0
+  
+          if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
+            return
+          }
           // 开始倒计时
           this.times()
         }
