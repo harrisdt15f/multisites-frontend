@@ -930,11 +930,12 @@ export default {
         })
         return false
       }
+      
       this.Api.bet(
         this.currentLottery.en_name,
         issus,
         [this.oneKeyList],
-        this.orderList.cost
+        this.currentOrder.currentCost
       ).then(res => {
         if (res.success) {
           this.oneKeyList = {}
