@@ -8,10 +8,14 @@ const state = {
   activity: '',
   popularLotteries1: [],
   popularLotteries2: [],
-  showBanner: false
+  showBanner: false,
+  showSideFloat: true
 }
 
 const mutations = {
+  SET_SHOW_FLOAT: (state, data) => {
+    state.showSideFloat = data
+  },
   SET_SHOW_BANNER: (state, data) => {
     state.showBanner = data
   },

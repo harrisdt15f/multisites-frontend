@@ -123,6 +123,15 @@ export default {}
     border-radius: 4px;
     background: none;
     border: 0;
+    &::-webkit-input-placeholder {
+      color: #ccc;
+    }
+    &:-moz-placeholder {
+      color: #ccc;
+    }
+    &:-ms-input-placeholder {
+      color: #ccc;
+    }
   }
 }
 .content-ul-group {

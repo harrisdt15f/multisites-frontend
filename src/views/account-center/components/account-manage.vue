@@ -3,30 +3,55 @@
     <el-tabs v-model="activeName">
       <el-tab-pane label="密码管理" name="pwd-manage">
         <div class="container pwd-manage">
-          <h1 class="h1">修改登陆密码</h1>
-          <el-form ref="form" :model="form" label-width="90px">
-            <el-form-item label="旧密码：" prop="pass">
-              <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="新密码：" prop="pass" class="new-pwd">
-              <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
-              <span class="pwd-info">6-16位字符，需使用字母或数字</span>
-            </el-form-item>
-            <el-form-item label="确认密码：" prop="checkPass">
-              <el-input type="password" v-model="form.checkPass" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-form>
-          <div class="submit-btn">
-            <button type="submit" class="form-button">提交修改</button>
+          <div class="custion-radio">
+            <el-radio-group v-model="radio1">
+              <el-radio-button label="account">修改账户密码</el-radio-button>
+              <el-radio-button label="funds">修改资金密码</el-radio-button>
+            </el-radio-group>
           </div>
-          <div class="bmn-time-content">
-            <span class="bmn-time-text">
-              <span class="bmn-form-icon-tips"></span>为了保证您的资金安全，请立即设置您的资金密码 &nbsp;&nbsp;
-              <a
-                class="btn"
-                href="/users/safe-reset-fund-password"
-              >立即设置</a>
-            </span>
+          <div v-if="radio1 == 'account'">
+            <el-form ref="form" :model="form" label-width="90px">
+              <el-form-item label="旧密码：" prop="pass">
+                <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="新密码：" prop="pass" class="new-pwd">
+                <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+                <span class="pwd-info">6-16位字符，需使用字母或数字</span>
+              </el-form-item>
+              <el-form-item label="确认密码：" prop="checkPass">
+                <el-input type="password" v-model="form.checkPass" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div class="submit-btn">
+              <button type="submit" class="form-button">提交修改</button>
+            </div>
+            <div class="bmn-time-content">
+              <span class="bmn-time-text">
+                <span class="bmn-form-icon-tips"></span>为了保证您的资金安全，请立即设置您的资金密码 &nbsp;&nbsp;
+                <a
+                  @click="handleSetFundPass"
+                  class="btn"
+                  href="javascript:;"
+                >立即设置</a>
+              </span>
+            </div>
+          </div>
+          <div v-else>
+            <el-form ref="form" :model="form" label-width="90px">
+              <el-form-item label="旧密码：" prop="pass">
+                <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="新密码：" prop="pass" class="new-pwd">
+                <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+                <span class="pwd-info">6-16位字符，需使用字母或数字</span>
+              </el-form-item>
+              <el-form-item label="确认密码：" prop="checkPass">
+                <el-input type="password" v-model="form.checkPass" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <div class="submit-btn">
+              <button type="submit" class="form-button">提交修改</button>
+            </div>
           </div>
         </div>
       </el-tab-pane>
@@ -71,6 +96,20 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFunt" >
+      <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="密码" prop="pass">
+          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -78,9 +117,20 @@
 export default {
   data() {
     return {
+      radio1: 'account',
       activeName: 'pwd-manage',
       form: {},
-      value1: ''
+      value1: '',
+      showSetFunt: false,
+      ruleForm:{}
+    }
+  },
+  methods: {
+    handleSetFundPass() {
+      this.showSetFunt = true
+    },
+    createFundPass(){
+      this.showSetFunt = false
     }
   }
 }
@@ -88,7 +138,14 @@ export default {
 <style lang="scss" scoped>
 .bet-record {
   /deep/ {
-    .el-tabs__nav-wrap::after{
+    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+      background-color: #fe9112;
+      border-color: #fe9112;
+    }
+    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+      box-shadow: -1px 0 0 0 #fe9112;
+    }
+    .el-tabs__nav-wrap::after {
       height: 1px;
     }
     .el-tabs__nav-scroll {
@@ -131,11 +188,10 @@ export default {
   .container {
     padding: 0 35px 35px;
   }
-}
-.bet-record {
   .pwd-manage {
     /deep/ {
-      .el-input, .el-textarea {
+      .el-input,
+      .el-textarea {
         width: 300px;
       }
     }
@@ -156,22 +212,22 @@ export default {
     text-align: left;
   }
   .form-button {
-      width: 150px;
-      height: 45px;
-      text-align: center;
-      box-sizing: border-box;
-      color: white;
-      font-size: 16px;
-      border-radius: 3px;
-      background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
-        linear-gradient(#ff9700, #ff9700);
-      background-blend-mode: normal, normal;
-      box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
-      border: 1px solid;
-      border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
-      border-image-slice: 1;
-    }
+    width: 150px;
+    height: 45px;
+    text-align: center;
+    box-sizing: border-box;
+    color: white;
+    font-size: 16px;
+    border-radius: 3px;
+    background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
+      linear-gradient(#ff9700, #ff9700);
+    background-blend-mode: normal, normal;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
+    border: 1px solid;
+    border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
+    border-image-slice: 1;
+  }
 }
 .bmn-time-content {
   color: #999999;
@@ -208,6 +264,17 @@ export default {
     color: #222222;
     line-height: 20px;
     margin-left: 16px;
+  }
+}
+.custion-radio {
+  margin-bottom: 30px;
+}
+.dialog-create-pass{
+  /deep/{
+    .el-button--primary{
+      background-color: #ff8900;
+      border-color: #ff8900;
+    }
   }
 }
 </style>

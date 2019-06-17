@@ -10,6 +10,7 @@ const getters = {
   popularLotteries2: state => state.site.popularLotteries2,
   popularLotteries1: state => state.site.popularLotteries1,
   showBanner: state => state.site.showBanner,
+  showSideFloat: state => state.site.showSideFloat,
   // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,

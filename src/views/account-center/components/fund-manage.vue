@@ -1,12 +1,7 @@
 <template>
   <div class="fund-manage">
     <div class="filter-container">
-      <div class="custion-radio">
-        <el-radio-group v-model="radio1">
-          <el-radio-button label="充值"></el-radio-button>
-          <el-radio-button label="提款"></el-radio-button>
-        </el-radio-group>
-      </div>
+      
       账变类型:
       <el-select v-model="value" placeholder="请选择" style="margin-right:30px;">
         <el-option
@@ -77,22 +72,6 @@ export default {
 <style lang="scss">
 .fund-manage {
   padding: 20px 35px;
-  /deep/ {
-    .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-      background-color: #fe9112;
-      border-color: #fe9112;
-    }
-    .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-      box-shadow: -1px 0 0 0 #fe9112;
-    }
-    .el-radio-button__inner:hover{
-      color: #fe9112;
-    }
-  }
-  .custion-radio{
-    margin-bottom: 10px;
-  }
-
 }
 </style>
 

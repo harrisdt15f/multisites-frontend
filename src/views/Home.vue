@@ -24,6 +24,7 @@ export default {
   methods: {
     ...mapActions(['getBanner', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
     initData() {
+      this.$store.commit('SET_SHOW_FLOAT', true)
       this.Api.showHomepageModel().then(({success, data}) => {
         if (success && data) {
           data['logo'] ? this.getLogo() : this.$store.commit('SET_SHOW_BANNER', false)

@@ -26,10 +26,11 @@
           <li class="head-user" style="cursor: default">
             余额:
             {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
+            <i class="fa fa-refresh cur" @click="refresh()"></i>
           </li>
           <li class="head-user">充值</li>
           <li class="head-user">退款</li>
-          <router-link tag="li" to="/account-center" class="head-user">会员中心</router-link>
+          <router-link tag="li" to="/account-center" class="head-user">个人中心</router-link>
           <li class="head-user">额度转换</li>
           <li class="head-user" ref="logout" @click="logout()">退出</li>
           <li class="head-user head-user-server">
@@ -123,6 +124,9 @@ export default {
     },
     // 退出登录
     logout() {
+      this.$alert('是否确认退出', '提示', {
+      confirmButtonText: '确定',
+    }).then(() => {
       this.Api.logout().then(res => {
         const { success } = res
         if (success) {
@@ -136,6 +140,8 @@ export default {
           })
         }
       })
+    })
+      
     },
     // 获取 导航 彩票游戏 全部彩种
     lotteryList() {
@@ -226,6 +232,7 @@ export default {
         vertical-align: -4px;
       }
       .head-user {
+        cursor: pointer;
         font-size: 14px;
         display: inline-block;
         vertical-align: middle;
@@ -233,7 +240,6 @@ export default {
         color: #e6d2c3;
         height: 44px;
         line-height: 44px;
-        cursor: pointer;
         animation: all 0.5s;
       }
       .head-vip {
@@ -241,7 +247,8 @@ export default {
         vertical-align: middle;
       }
       .head-user-name {
-        max-width: 120px;
+        max-width: 140px;
+        cursor: auto;
       }
     }
   }

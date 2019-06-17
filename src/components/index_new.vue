@@ -123,10 +123,10 @@
       <div class="game-list">
         <el-row>
           <el-col :span="6">
-            <div class="game-list-item item-1"></div>
+            <router-link tag="div" :to="`/fish-game`" class="game-list-item item-1"></router-link>
           </el-col>
           <el-col :span="6">
-            <div class="game-list-item item-2"></div>
+           <router-link tag="div" :to="`/chess-all`" class="game-list-item item-2"></router-link>
           </el-col>
           <el-col :span="6">
             <div class="game-list-item item-3"></div>
@@ -138,9 +138,12 @@
       </div>
     </div>
     <!-- 悬浮 -->
-    <div class="float-layer" ref="floatLayer">
+    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">
+      <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
+        <i class="fa fa-times-circle" aria-hidden="true"></i>
+      </a>
       <a href class="online-server"></a>
-      <a href class="promotions"></a>
+      <router-link tag="a" to="active" class="promotions">手动选号</router-link>
     </div>
   </div>
 </template>
@@ -162,7 +165,8 @@ export default {
       'notice',
       'popularLotteries1',
       'popularLotteries2',
-      'showBanner'
+      'showBanner',
+      'showSideFloat'
     ])
   },
   watch: {
@@ -209,7 +213,7 @@ export default {
         document.body.scrollTop
       const floatLayer = this.$refs.floatLayer
       if (scrollTop > 400) {
-        floatLayer.style.top = '26%'
+        floatLayer.style.top = '28%'
       } else if (scrollTop < 1790) {
         floatLayer.style.top = '60%'
       } else {
@@ -625,6 +629,16 @@ export default {
     width: 100%;
     bottom: 18px;
     height: 44px;
+  }
+  .close{
+    color:#f56c6c;
+    position: absolute;
+    font-size: 26px;
+    right:15px;
+    top: 15px;
+  }
+  .close:hover{
+    color:#ff0000;
   }
 }
 </style>
