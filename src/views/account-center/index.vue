@@ -1,38 +1,58 @@
 <template>
   <div class="account">
-    <el-tabs v-model="activeName" type="border-card">
+    <el-tabs v-model="activeName" type="border-card" @tab-click="showMessageCenter">
+      <el-tab-pane label="账户管理" name="account-manage">
+        <account-manage></account-manage>
+      </el-tab-pane>
       <el-tab-pane label="投注记录" name="bet-record">
        <bet-record></bet-record>
       </el-tab-pane>
       <el-tab-pane label="资金管理" name="fund-manage">
         <fund-manage></fund-manage>
       </el-tab-pane>
-      <el-tab-pane label="账户管理" name="account-manage">
-        <account-manage></account-manage>
+      <el-tab-pane label="消息中心" name="message-center">
       </el-tab-pane>
-      <!-- <el-tab-pane label="消息中心" name="message-center">
-        <message-center></message-center>
-      </el-tab-pane> -->
     </el-tabs>
+    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" index='1' @close="handleBulletinClose"></dialog-bulletin>
   </div>
 </template>
 
 <script>
 import betRecord from './components/bet-record'
-import fundManage from './components/fund-manage'
+import fundManage from './components/fund-manage/index'
 import accountManage from './components/account-manage'
-// import messageCenter from './components/message-center'
+import dialogBulletin from '../../components/public/dialog_bulletin'
 
 export default {
   name: 'Account',
   components: {
     betRecord,
     fundManage,
-    accountManage
+    accountManage,
+    dialogBulletin
   },
   data () {
     return {
-      activeName: 'bet-record'
+      activeName: '',
+      showBulletin: false
+    }
+  },
+  props: ['type', 'subtype'],
+  created () {
+    this.activeName = this.type ? this.type : 'account-manage'
+  },
+  methods: {
+    showMessageCenter(val){
+      if(val.name === 'message-center'){
+        this.showBulletin = true
+        this.$nextTick(() => {
+          this.activeName = 'account-manage'
+        })
+        return
+      }
+    },
+    handleBulletinClose(){
+      this.showBulletin = false
     }
   }
 }
@@ -113,6 +133,56 @@ export default {
     border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
     color: white;
     padding: 0;
+  }
+}
+.account .sub-account{
+  /deep/ {
+    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+      background-color: #fe9112;
+      border-color: #fe9112;
+    }
+    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+      box-shadow: -1px 0 0 0 #fe9112;
+    }
+    .el-tabs__nav-wrap::after {
+      height: 1px;
+    }
+    .el-tabs__nav-scroll {
+      background: #fffbf5 !important;
+    }
+    .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+      background-color: #fffbf5;
+    }
+    .el-tabs__item + .el-tabs__item {
+      &::before {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 18px;
+        background: #e6d7c0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+      }
+    }
+    .el-tabs__item.is-active {
+      color: #875c4e;
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: #875c4e;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+    }
+    .el-tabs__item:hover {
+      color: #875c4e;
+    }
   }
 }
 </style>

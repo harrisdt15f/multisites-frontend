@@ -13,7 +13,6 @@ import 'font-awesome/css/font-awesome.css'
 
 import DialogBulletin from './components/public/dialog_bulletin.vue'
 
-Vue.component('dialog-bulletin', DialogBulletin)
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

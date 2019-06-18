@@ -1,7 +1,5 @@
 <template>
-  <div class="message-center">
-    消息中心
-  </div>
+  <div class="withdrawal">withdrawal</div>
 </template>
 
 <script>

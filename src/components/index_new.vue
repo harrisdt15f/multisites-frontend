@@ -7,7 +7,7 @@
             class="carousel-src"
             href="javascript:;"
             @click="goToBannerUrl(item.redirect_url)"
-            :style="`background: url(${item.pic_path}) no-repeat center center`"></a>
+            :style="`background-image: url(${item.pic_path})`"></a>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -61,7 +61,7 @@
             <div class="box-report">
               <ul class="report-list" v-if="notice && notice.length">
                 <li class="report-list-item" v-for="(item, index) in notice" :key="index">
-                  <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}</a>
+                  <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}{{item.id}}</a>
                 </li>
                 <div class="btn">
                   <a href="javascript:;" @click="handleOpenDialog()">
@@ -145,21 +145,26 @@
       <a href class="online-server"></a>
       <router-link tag="a" to="active" class="promotions">手动选号</router-link>
     </div>
-    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletin="currentBulletin" index='0' @close="handleBulletinClose"></dialog-bulletin>
+    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletinIndex="currentBulletinIndex" index='0' @close="handleBulletinClose"></dialog-bulletin>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import dialogBulletin from '../components/public/dialog_bulletin'
+
 export default {
   name: 'index',
   data() {
     return {
       debounce: null,
       lotteriesList: [],
-      currentBulletin: null,
+      currentBulletinIndex: null,
       showBulletin: false
     }
+  },
+  components: {
+    dialogBulletin
   },
   computed: {
     ...mapGetters([
@@ -249,9 +254,7 @@ export default {
       this.$router.push(url)
     },
     handleOpenDialog(id){
-      if (id) {
-        this.currentBulletin = id
-      }
+      id ? this.currentBulletinIndex = id : this.currentBulletinIndex = null
       this.showBulletin = true
     },
     handleBulletinClose(val){
@@ -279,16 +282,16 @@ export default {
     height: 100%;
     width: 100%;
     display: block;
-    /*background-repeat: no-repeat;*/
-    /*background-position: center center;*/
-    /*background-size: cover;*/
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
   }
   /deep/ {
     .el-carousel--horizontal {
       width: 100%;
     }
     .el-carousel__container {
-      height: 580px;
+      height: 392px;
     }
     .el-carousel__arrow--left {
       left: 0;
@@ -335,9 +338,6 @@ export default {
     letter-spacing: 2px;
     box-sizing: border-box;
     background-size: 100% 100%;
-    &:hover{
-      
-    }
     .lotter-list-item-text {
       position: absolute;
       top: 198px;

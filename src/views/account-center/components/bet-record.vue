@@ -1,5 +1,5 @@
 <template>
-  <div class="bet-record">
+  <div class="bet-record sub-account">
     <el-tabs v-model="activeName">
       <el-tab-pane label="游戏记录" name="game">
         <div class="container">
@@ -71,44 +71,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bet-record {
-  /deep/ {
-    .el-tabs__nav-scroll {
-      background: #fffbf5 !important;
-    }
-    .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
-      background-color: #fffbf5;
-    }
-    .el-tabs__item + .el-tabs__item {
-      &::before {
-        content: "";
-        display: block;
-        width: 1px;
-        height: 18px;
-        background: #e6d7c0;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
-      }
-    }
-    .el-tabs__item.is-active {
-      color: #875c4e;
-      &::after {
-        content: "";
-        display: block;
-        width: 75px;
-        height: 2px;
-        background: #875c4e;
-        position: absolute;
-        left: 50%;
-        bottom: 2px;
-        transform: translateX(-50%);
-      }
-    }
-    .el-tabs__item:hover {
-      color: #875c4e;
-    }
-  }
   .container {
     padding: 0 35px 35px;
   }

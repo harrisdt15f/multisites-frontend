@@ -1,6 +1,9 @@
 <template>
   <div class="dialog-bulletin">
     <el-dialog :visible.sync="dialogVisible" @closed="$emit('close')" width="765px">
+      <div class="close" @click="$emit('close')">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </div>
       <div class="head">
         <el-row>
           <el-col
@@ -26,7 +29,7 @@
             <el-col :span="6" class="nr-l">
               <template v-if="notice && notice.length">
                 <div class="nr-l-item" @click="handleTabBulletin(item.id)" v-for="item in notice" :key="item.id">
-                  <div class="title">{{item.title}}</div>
+                  <div class="title">{{item.title}}{{item.id}}</div>
                   <div class="date">2019-05-17 18:05:10</div>
                 </div>
               </template>
@@ -55,7 +58,40 @@
             </el-col>
           </el-row>
         </template>
-        <template v-if="currentIndex == 1"></template>
+        <template v-if="currentIndex == 1">
+          <el-row class="nr">
+            <el-col :span="6" class="nr-l">
+              <template v-if="notice && notice.length">
+                <div class="nr-l-item" @click="handleTabBulletin(item.id)" v-for="item in notice" :key="item.id">
+                  <div class="title">{{item.title}}{{item.id}}</div>
+                  <div class="date">2019-05-17 18:05:10</div>
+                </div>
+              </template>
+              <div class="pagination">
+                <el-pagination :small="true" :total="30" layout="prev, pager, next"></el-pagination>
+              </div>
+            </el-col>
+            <el-col v-if="currentBullrtin" :span="18" class="nr-r">
+              <div class="title">{{currentBullrtin.title}}</div>
+              <div class="text-centent">
+                尊敬的用户：
+                <p>
+                  目前中国人民银行清算总中心发布2019年支付系统运行维护安排，维护时间分
+                  别为：2019年6月16日、8月18日、9月8日、10月20日、11月24日，维护时间均
+                  为00:00开始至6:00前结束。
+                </p>
+                <p>
+                  在每次维护开始期间，各大银行的小额支付系统、网上支付跨行支付等将暂停
+                  受理业务，由此将影响您在平台等充值、提现等服务，敬请谅解。
+                </p>
+                <p>如对银行维护方面有任何疑问，欢迎咨询在线客服，我们将竭诚为您服务.</p>
+                <p>始善于成·至臻于勤</p>
+                <p>包网</p>
+                <p>2019年5月17日</p>
+              </div>
+            </el-col>
+          </el-row>
+        </template>
       </div>
     </el-dialog>
   </div>
@@ -72,18 +108,18 @@ export default {
       currentBullrtin: null 
     }
   },
-  props: ['showBulletin', 'index'],
+  props: ['showBulletin', 'index', 'currentBulletinIndex'],
   computed: {
     ...mapGetters(['notice'])
   },
   created() {
-    this.currentBullrtin = this.notice.length && this.notice[0]
+    if (this.notice && this.notice.length) {
+      this.currentBullrtin = this.currentBulletinIndex ? (this.notice.filter(val => val.id === this.currentBulletinIndex))[0] : this.notice[0]
+    }
   },
   methods: {
     handleTabBulletin(id){
-      console.log(id)
-      this.currentBullrtin = this.notice.filter(val => val.id = id)[0]
-      console.log(this.currentBullrtin)
+      this.currentBullrtin = (this.notice.filter(val => val.id === id))[0]
     }
   }
 }
@@ -92,6 +128,9 @@ export default {
 <style lang="scss" scoped>
 .dialog-bulletin {
   /deep/ {
+    .el-dialog{
+      margin-top: 5vh !important;
+    }
     .el-dialog__header {
       display: none;
     }
@@ -99,15 +138,29 @@ export default {
       padding: 0;
     }
   }
+  position: relative;
+  .close{
+    position: absolute;
+    cursor: pointer;
+    z-index: 9;
+    top: 9px;
+    color: #fff;
+    right: 15px;
+    font-size: 26px;
+    transition: transform .2s ease-out;
+    &:hover{
+      transform: rotate(90deg);
+    }
+  }
   .head {
     text-align: center;
     font-size: 18px;
-    background: #292624;
     color: #fff;
-    height: 45px;
-    line-height: 45px;
     .head-tab {
+      height: 45px;
+    line-height: 45px;
       cursor: pointer;
+      background: #292624;
       &.on {
         background: #febb57;
         color: #000;
@@ -115,9 +168,11 @@ export default {
     }
   }
   .content {
+    min-height: 450px;
     .banner {
       width: 100%;
-      height: 175px;
+      height: 145px;
+      overflow: hidden;
     }
     .nr {
       color: #000;

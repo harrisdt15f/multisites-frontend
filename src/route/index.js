@@ -68,6 +68,12 @@ const router = new Router({
           name: 'account',
           component: Account
         },
+        {
+          path: '/account-center/:type/:subtype',
+          name: 'account',
+          component: Account,
+          props: true
+        },
       ]
     },
     { path: '*', redirect: '/home' }

@@ -8,7 +8,7 @@
             class="footerlogo dinv"
           >
         </section>
-        <section class="foot-nums">
+        <section class="foot-nums">·
           <p class="foot-nums-p dinv">
             ¥
             <strong class="st">

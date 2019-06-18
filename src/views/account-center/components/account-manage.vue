@@ -1,5 +1,5 @@
 <template>
-  <div class="bet-record">
+  <div class="bet-record sub-account">
     <el-tabs v-model="activeName">
       <el-tab-pane label="密码管理" name="pwd-manage">
         <div class="container pwd-manage">
@@ -137,54 +137,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bet-record {
-  /deep/ {
-    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      background-color: #fe9112;
-      border-color: #fe9112;
-    }
-    .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      box-shadow: -1px 0 0 0 #fe9112;
-    }
-    .el-tabs__nav-wrap::after {
-      height: 1px;
-    }
-    .el-tabs__nav-scroll {
-      background: #fffbf5 !important;
-    }
-    .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
-      background-color: #fffbf5;
-    }
-    .el-tabs__item + .el-tabs__item {
-      &::before {
-        content: "";
-        display: block;
-        width: 1px;
-        height: 18px;
-        background: #e6d7c0;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0;
-      }
-    }
-    .el-tabs__item.is-active {
-      color: #875c4e;
-      &::after {
-        content: "";
-        display: block;
-        width: 75px;
-        height: 2px;
-        background: #875c4e;
-        position: absolute;
-        left: 50%;
-        bottom: 1px;
-        transform: translateX(-50%);
-      }
-    }
-    .el-tabs__item:hover {
-      color: #875c4e;
-    }
-  }
   .container {
     padding: 0 35px 35px;
   }
