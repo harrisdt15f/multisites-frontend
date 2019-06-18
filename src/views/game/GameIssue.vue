@@ -6,7 +6,7 @@
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
         <section class="game-lotterys">
-          <div class="deadline">
+          <div class="deadline" v-if="currentIssue">
             <div class="deadline-text">
               第
               <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}}</strong>期
@@ -169,12 +169,11 @@
   </section>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'game-issue',
   computed: {
-    ...mapState(['currentIssue']),
-    ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet'])
+    ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet', 'currentIssue'])
   },
   props: {
     lotterySign: String
@@ -201,6 +200,7 @@ export default {
   mounted() {
     this.getIssue()
     this.getLottery()
+    
     // 滚动公告
     // this.getNoticeList();
     // this.Animation.notice("meque", "meque_text", -1);
@@ -238,7 +238,8 @@ export default {
     getLottery() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
-          this.currentIssue = res.data.currentIssue
+          this.$store.commit('currentIssue', res.data.currentIssue)
+ 
           res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
             ','
           )

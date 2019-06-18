@@ -202,7 +202,9 @@
         已选 <span class="bet-choose-total-money-count">{{currentOrder.currentCount}}</span> 注，
         共<strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
       </div>
-      <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">一键投注</a>
+      <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">
+        <i class="el-icon-loading" v-if="betLoading"></i>一键投注
+      </a>
         <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
           <i class="fa fa-download ft20"></i> 添加选号
         </a>
@@ -212,7 +214,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import algorithm from '../../lib/algorithm'
-import pako from 'pako/index.js'
+// import pako from 'pako/index.js'
 
 import { isRepeat } from '@/utils'
 
@@ -263,7 +265,8 @@ export default {
       singlePrice: [
         {value: 1, label: '一元模式'},
         {value: 2, label: '二元模式'}
-      ]
+      ],
+      betLoading: false // 投注loading
     }
   },
   components: {
@@ -283,7 +286,8 @@ export default {
       'bet',
       'currentIssue',
       'allMethods',
-      'userDetail'
+      'userDetail',
+      'lotteryLists'
     ]),
 
     // 模式配置
@@ -333,8 +337,15 @@ export default {
     }
   },
   created() {
-    
-    
+  
+    // 当前最大 最小奖金组
+    let list = this.lotteryLists[this.currentLottery.series_id].list
+    for (const k of list) {
+      if (k.id === this.currentLottery.en_name) {
+        this.prizes.min = k.min_prize_group
+        this.prizes.max = k.max_prize_group
+      }
+    }
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
     
@@ -930,7 +941,7 @@ export default {
         })
         return false
       }
-      
+      this.betLoading = true
       this.Api.bet(
         this.currentLottery.en_name,
         issus,
@@ -964,6 +975,8 @@ export default {
             }
           })
         }
+  
+        this.betLoading = false
       })
     },
     uploadSectionFile(param){

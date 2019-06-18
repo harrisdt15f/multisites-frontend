@@ -70,6 +70,10 @@ const mutations = {
     state.userConfig = userConfig
   },
 
+  // 拖动后的奖金组
+  countPrize(state, data) {
+    state.countPrize = data
+  },
   // 注单列表
   orderList(state, orderList) {
     state.orderList = orderList

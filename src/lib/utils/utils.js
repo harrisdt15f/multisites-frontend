@@ -40,6 +40,17 @@ let Utils = {
     removeLineFeed (str) {
         return str.replace(/[\n]/g, '')
     },
+    // 限制 只输入数字 包括不能输入字符和小数点
+    number (str, float = false) {
+
+        // float = true 可以输入小数点
+        if (float) {
+            return str.replace(/[^\d.]/g, '').replace(/^0{1,}/g,'')
+        }
+        else {
+            return str.replace(/[^\d]/g, '').replace(/^0{1,}/g,'')
+        }
+    },
     // 去除字符串回车
     removeEnter (str) {
         return str.replace(/[\r]/g, '')

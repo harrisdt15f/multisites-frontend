@@ -1,5 +1,5 @@
 <template>
-  <section class="fw">
+  <section class="fw w100">
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w">
       <section class="main-center">
@@ -192,13 +192,12 @@ export default {
       
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
+              
+              // if (i === 1) {
+              //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
+              // }else
   
-  
-              if (i === 1) {
-                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-              }
-  
-              else if (i === 17 || i === 20) {
+               if (i === 17 || i === 20) {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
               }
   
@@ -216,11 +215,11 @@ export default {
                 let json = {}
                 
                 
-                if (i === 1) {
-                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-                }
-                
-                else if (i === 17 || i === 20) {
+                // if (i === 1) {
+                //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
+                // }else
+                //
+                 if (i === 17 || i === 20) {
                   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
                 }
                 

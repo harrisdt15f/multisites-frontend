@@ -167,7 +167,8 @@ export default {
           date: best,
           money: money,
           people:people,
-          expires: Date.now() + 1000*60*expired
+          expires: Date.now() + 1000 * 60
+          // expires: Date.now() + 1000*60*expired
         }
         localStorage.setItem('endVal', JSON.stringify(endVal))
       }

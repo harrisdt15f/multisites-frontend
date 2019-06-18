@@ -2,6 +2,7 @@ body {
   background: #f1f1f1;
 }
 .game-mian {
+  width:100%;
   padding-bottom: 36px;
 }
 .list-historys {
@@ -907,7 +908,6 @@ body {
 }
 .bet-total-money {
   font-weight: 400;
-  font-size: 19px;
   position: relative;
   top: 0;
   line-height: unset;
@@ -920,13 +920,19 @@ body {
   display: inline-block;
   max-width: 130px;
   text-align: center;
+  cursor:pointer;
+  border-radius: 3px;
 }
 .main-btn-fastadd {
+
   margin: 0 15px;
   background-color: #ff6a21;
 }
+.main-btn-add:hover{
+  background:#eee;
+}
 .main-btn-fastadd:hover {
-  background-color: #ff894f;
+  background-color: #ec5105;
 }
 .main-btn-fastadd:active {
   background-color: #ff6316;
@@ -1043,9 +1049,27 @@ body {
   margin-left: 10px;
   margin-right: 15px;
   text-align: center;
+  border-radius: 3px;
 }
 .main-btn-confirm .fa-check-circle {
   margin-right: 6px;
+}
+.main-btn-fastadd .el-icon-loading{
+  margin-right:5px;
+}
+.main-btn-fastadd {
+  margin-right:20px;
+}
+.main-btn-confirm /deep/ .el-button--primary{
+  background-color: #ff8800;
+  border-color: #ff8800;
+  font-size: 19px;
+  font-weight: normal;
+}
+.main-btn-confirm /deep/ .el-button--primary:hover,
+.main-btn-confirm /deep/ .el-button--primary:focus{
+  background-color: #ec5105;
+  border-color: #ec5105;
 }
 
 /*追号*/
@@ -1344,10 +1368,16 @@ body {
   height: 42px;
   min-width: 140px;
   line-height: 42px;
-  background-color: #f76e6e;
+  background-color: #ff8800;
   text-align: center;
   color: #fff;
   font-size: 18px;
+}
+.main-btn-add{
+  border: 1px solid #ccc;
+  color: #333;
+  background:none;
+  cursor: pointer;
 }
 /* game-issue */
 .msg-notice-bg {
@@ -1686,8 +1716,7 @@ body {
   text-align: center;
 }
 .tab-inputs {
-  padding: 4px 10px 14px 20px;
-  border-bottom: 1px solid #e5e5e5;
+  padding: 30px 10px 14px 20px;
 }
 .tab-cons-btn{
   margin: 14px 15px !important;
@@ -2740,13 +2769,14 @@ body {
   background: #fff;
   float: left;
   width: 595px;
+  min-height:220px;
   margin-right: 10px;
 }
 
 .panel-trace {
   float: left;
   width: 595px;
-  height:100%;
+  height:220px;
   background: #fff;
 }
 
@@ -2989,4 +3019,12 @@ body {
   background:url(../images/methods/lh.png) no-repeat -141px -70px;
   background-size:300%;
   animation: k3Scale 0.3s;
+}
+.bmn-confirm-infos{
+  float: left;
+}
+.bmn-confirm-info{
+  display: inline-block;
+  margin-right:40px;
+  font-size:14px;
 }
