@@ -1,0 +1,166 @@
+<template>
+  <div class="dialog-bulletin">
+    <el-dialog :visible.sync="dialogVisible" @closed="$emit('close')" width="765px">
+      <div class="head">
+        <el-row>
+          <el-col
+            @click.native="currentIndex = 0"
+            :span="12"
+            class="head-tab"
+            :class="{on : currentIndex == 0}"
+          >平台公告</el-col>
+          <el-col
+            @click.native="currentIndex = 1"
+            :span="12"
+            class="head-tab"
+            :class="{on : currentIndex == 1}"
+          >站内信</el-col>
+        </el-row>
+      </div>
+      <div class="content">
+        <template v-if="currentIndex == 0">
+          <div class="banner">
+            <img src="../../assets/images/bulletin_img.jpg">
+          </div>
+          <el-row class="nr">
+            <el-col :span="6" class="nr-l">
+              <template v-if="notice && notice.length">
+                <div class="nr-l-item" @click="handleTabBulletin(item.id)" v-for="item in notice" :key="item.id">
+                  <div class="title">{{item.title}}</div>
+                  <div class="date">2019-05-17 18:05:10</div>
+                </div>
+              </template>
+              <div class="pagination">
+                <el-pagination :small="true" :total="30" layout="prev, pager, next"></el-pagination>
+              </div>
+            </el-col>
+            <el-col v-if="currentBullrtin" :span="18" class="nr-r">
+              <div class="title">{{currentBullrtin.title}}</div>
+              <div class="text-centent">
+                尊敬的用户：
+                <p>
+                  目前中国人民银行清算总中心发布2019年支付系统运行维护安排，维护时间分
+                  别为：2019年6月16日、8月18日、9月8日、10月20日、11月24日，维护时间均
+                  为00:00开始至6:00前结束。
+                </p>
+                <p>
+                  在每次维护开始期间，各大银行的小额支付系统、网上支付跨行支付等将暂停
+                  受理业务，由此将影响您在平台等充值、提现等服务，敬请谅解。
+                </p>
+                <p>如对银行维护方面有任何疑问，欢迎咨询在线客服，我们将竭诚为您服务.</p>
+                <p>始善于成·至臻于勤</p>
+                <p>包网</p>
+                <p>2019年5月17日</p>
+              </div>
+            </el-col>
+          </el-row>
+        </template>
+        <template v-if="currentIndex == 1"></template>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  name: 'dialog_bulletin',
+  data() {
+    return {
+      currentIndex: this.index,
+      dialogVisible: this.showBulletin,
+      currentBullrtin: null 
+    }
+  },
+  props: ['showBulletin', 'index'],
+  computed: {
+    ...mapGetters(['notice'])
+  },
+  created() {
+    this.currentBullrtin = this.notice.length && this.notice[0]
+  },
+  methods: {
+    handleTabBulletin(id){
+      console.log(id)
+      this.currentBullrtin = this.notice.filter(val => val.id = id)[0]
+      console.log(this.currentBullrtin)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.dialog-bulletin {
+  /deep/ {
+    .el-dialog__header {
+      display: none;
+    }
+    .el-dialog__body {
+      padding: 0;
+    }
+  }
+  .head {
+    text-align: center;
+    font-size: 18px;
+    background: #292624;
+    color: #fff;
+    height: 45px;
+    line-height: 45px;
+    .head-tab {
+      cursor: pointer;
+      &.on {
+        background: #febb57;
+        color: #000;
+      }
+    }
+  }
+  .content {
+    .banner {
+      width: 100%;
+      height: 175px;
+    }
+    .nr {
+      color: #000;
+      .nr-l {
+        font-size: 14px;
+        border-right: 1px solid #dadada;
+        .pagination {
+          text-align: center;
+          padding: 10px 0;
+        }
+      }
+      .nr-l-item {
+        cursor: pointer;
+        line-height: 1.5;
+        padding: 10px 15px;
+        border-bottom: 1px dotted #dadada;
+        &:hover{
+          background: #F0F2F3;
+        }
+        .date {
+          margin-top: 5px;
+          font-size: 12px;
+          color: #666666;
+        }
+      }
+      .nr-r {
+        padding: 0 30px 30px;
+        .title {
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          line-height: 70px;
+          border-bottom: 1px dotted #dadada;
+        }
+
+        .text-centent{
+          p{
+            padding-bottom: 15px;
+            text-indent: 2em;
+          }
+        }
+      }
+    }
+  }
+}
+</style>

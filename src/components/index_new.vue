@@ -61,10 +61,10 @@
             <div class="box-report">
               <ul class="report-list" v-if="notice && notice.length">
                 <li class="report-list-item" v-for="(item, index) in notice" :key="index">
-                  <a class="wzfw" href>{{item.title}}</a>
+                  <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}</a>
                 </li>
                 <div class="btn">
-                  <a href="javascript:;">
+                  <a href="javascript:;" @click="handleOpenDialog()">
                     查看更多
                     <i class="fa fa-angle-right"></i>
                   </a>
@@ -138,13 +138,14 @@
       </div>
     </div>
     <!-- 悬浮 -->
-    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">
+    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
       <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
       <router-link tag="a" to="active" class="promotions">手动选号</router-link>
     </div>
+    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletin="currentBulletin" index='0' @close="handleBulletinClose"></dialog-bulletin>
   </div>
 </template>
 
@@ -155,7 +156,9 @@ export default {
   data() {
     return {
       debounce: null,
-      lotteriesList: []
+      lotteriesList: [],
+      currentBulletin: null,
+      showBulletin: false
     }
   },
   computed: {
@@ -244,6 +247,15 @@ export default {
     },
     goToBannerUrl(url){
       this.$router.push(url)
+    },
+    handleOpenDialog(id){
+      if (id) {
+        this.currentBulletin = id
+      }
+      this.showBulletin = true
+    },
+    handleBulletinClose(val){
+      this.showBulletin = val
     }
   },
   destroyed() {

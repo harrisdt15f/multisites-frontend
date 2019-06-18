@@ -166,7 +166,7 @@
 
     <div class="bet-statistics" v-if="currentMethod.type !== 'lhc'">
       <div class="main-column-1 fl">
-        <el-select v-model="userConfig.singlePrice" popper-class="single-price" placeholder="二元模式">
+        <el-select @change="singlePriceChange" v-model="userConfig.singlePrice" popper-class="single-price" placeholder="二元模式">
           <el-option
                   v-for="(item, index) in singlePrice"
                   :key="index"
@@ -179,7 +179,7 @@
             v-for="(mode, modeIndex) in currentLottery.valid_modes"
             href="javascript:;"
             @click="selectMode(mode.val)"
-            :class="['btn-tab', 'btn-effect', 'btn-red', currentOrder.currentMode === mode.val ? 'tab-on' : '']"
+            :class="['btn-tab', 'btn-effect', 'btn-red', userConfig.mode === mode.val ? 'tab-on' : '']"
             :key="modeIndex"
             :v="modeIndex"
           >{{mode.title}}</a>
@@ -337,7 +337,6 @@ export default {
     }
   },
   created() {
-  
     // 当前最大 最小奖金组
     let list = this.lotteryLists[this.currentLottery.series_id].list
     for (const k of list) {
@@ -588,8 +587,13 @@ export default {
     // 选择模式
     selectMode(mode) {
       this.currentOrder.currentMode = +mode
-      this.userConfig.mode = +mode
+      const userConfig = Object.assign(this.userConfig, {mode: +mode})
+      this.$store.commit('userConfig', userConfig)
       this.calculate()
+    },
+    singlePriceChange(val){
+      const userConfig = Object.assign(this.userConfig, {singlePrice: val})
+      this.$store.commit('userConfig', userConfig)
     },
     // 选择数字
     selectCode(y, x) {
