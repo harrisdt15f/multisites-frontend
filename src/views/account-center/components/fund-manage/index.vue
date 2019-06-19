@@ -19,9 +19,10 @@ import recharge from './components/recharge'
 import transfer from './components/transfer'
 import withdrawal from './components/withdrawal'
 export default {
+  inject:['active'],
   data() {
     return {
-      activeName: 'recharge',
+      activeName: '',
       value1: ''
     }
   },
@@ -29,7 +30,7 @@ export default {
     recharge, transfer, withdrawal
   },
   created () {
-    
+    this.activeName = this.active ? this.active : 'recharge'
   }
 }
 </script>

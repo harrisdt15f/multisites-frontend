@@ -28,10 +28,10 @@
             {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
             <i class="fa fa-refresh cur" @click="refresh()"></i>
           </li>
-          <li class="head-user">充值</li>
-          <li class="head-user">退款</li>
+          <router-link tag="li" to="/account-center/fund-manage/recharge" class="head-user">充值</router-link>
+          <router-link tag="li" to="/account-center/fund-manage/withdrawal" class="head-user">提款</router-link>
           <router-link tag="li" to="/account-center" class="head-user">个人中心</router-link>
-          <li class="head-user">额度转换</li>
+          <router-link tag="li" to="/account-center/fund-manage/transfer" class="head-user">额度转换</router-link>
           <li class="head-user" ref="logout" @click="logout()">退出</li>
           <li class="head-user head-user-server">
             <img

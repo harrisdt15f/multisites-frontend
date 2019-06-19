@@ -291,7 +291,7 @@ export default {
       width: 100%;
     }
     .el-carousel__container {
-      height: 392px;
+      height: 520px;
     }
     .el-carousel__arrow--left {
       left: 0;

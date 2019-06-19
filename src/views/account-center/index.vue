@@ -37,6 +37,11 @@ export default {
       showBulletin: false
     }
   },
+  provide(){
+    return {
+      active: this.subtype
+    }
+  },
   props: ['type', 'subtype'],
   created () {
     this.activeName = this.type ? this.type : 'account-manage'
