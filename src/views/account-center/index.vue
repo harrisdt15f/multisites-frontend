@@ -10,6 +10,9 @@
       <el-tab-pane label="资金管理" name="fund-manage">
         <fund-manage></fund-manage>
       </el-tab-pane>
+       <el-tab-pane label="账变记录" name="betchage-record">
+        <fund-record></fund-record>
+      </el-tab-pane>
       <el-tab-pane label="消息中心" name="message-center">
       </el-tab-pane>
     </el-tabs>
@@ -20,6 +23,7 @@
 <script>
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
+import fundRecord from './components/fund-record'
 import accountManage from './components/account-manage'
 import dialogBulletin from '../../components/public/dialog_bulletin'
 
@@ -28,6 +32,7 @@ export default {
   components: {
     betRecord,
     fundManage,
+    fundRecord,
     accountManage,
     dialogBulletin
   },

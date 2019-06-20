@@ -155,8 +155,8 @@ export default {
           const date = best - endVal.date
           if (date/1000 > 10) {
             endVal.date = best
-            endVal.money += randomRange(1, 100)
-            endVal.people += randomRange(1, 100)
+            endVal.money += randomRange(1, 10)
+            endVal.people += randomRange(1, 10)
             localStorage.setItem('endVal', JSON.stringify(endVal))
           }
         }
