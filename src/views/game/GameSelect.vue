@@ -244,7 +244,6 @@ export default {
       choosePosition: [],
       // 当前选中状态
       currentOrder: {
-        currentMode: 1,
         currentCost: 0,
         currentCount: 0,
         currentTimes: 1,
@@ -282,6 +281,7 @@ export default {
       'totalCost',
       'currentLottery',
       'currentMethod',
+      'currentMethodGroup',
       'currentLotterySign',
       'bet',
       'currentIssue',
@@ -383,7 +383,7 @@ export default {
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
           cost: this.currentOrder.currentCost,
-          mode: this.currentOrder.currentMode,
+          mode: this.userConfig.mode,
           prize_group: this.currentOrder.currentGroup,
           price: 2
         }
@@ -487,7 +487,7 @@ export default {
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
           cost: this.currentOrder.currentCost,
-          mode: this.currentOrder.currentMode,
+          mode: this.userConfig.mode,
           prize_group: this.currentOrder.currentGroup,
           price: 2
         }
@@ -556,7 +556,7 @@ export default {
         this.currentOrder.currentCount = _count
         this.currentOrder.currentCost =
           +_count *
-          +this.currentOrder.currentMode *
+          +this.userConfig.mode *
           +this.userConfig.singlePrice *
           +this.currentOrder.currentTimes
         this.currentOrder.inputcodes = inputcodes
@@ -567,8 +567,7 @@ export default {
         this.currentOrder.currentCost =
           this.inputCodesSingle *
           +this.userConfig.singlePrice *
-          this.currentOrder.currentTimes *
-          this.currentOrder.currentMode
+          this.currentOrder.currentTimes * this.userConfig.mode
         this.currentOrder.currentCount = this.inputCodesSingle
       }
     },
@@ -586,7 +585,6 @@ export default {
     },
     // 选择模式
     selectMode(mode) {
-      this.currentOrder.currentMode = +mode
       const userConfig = Object.assign(this.userConfig, {mode: +mode})
       this.$store.commit('userConfig', userConfig)
       this.calculate()
@@ -774,7 +772,47 @@ export default {
           for (let j = 0; j < layout.length; j++) {
             const number = layout[j]
             if (this.chooseNumber[i][j]) {
-              col.push(number)
+              let temp = null
+              if (this.Utils.checkIsChinese(number)) {
+                switch (number) {
+                  case '龙':
+                    temp = '1'
+                    break
+                  case '虎':
+                    temp = '2'
+                    break
+                  case '和':
+                    temp = '3'
+                    break
+                  case '豹子':
+                    temp = 'b'
+                    break
+                  case '顺子':
+                    temp = 's'
+                    break
+                  case '对子':
+                    temp = 'd'
+                    break
+                  case '大':
+                    temp = 'b'
+                    break
+                  case '小':
+                    temp = 's'
+                    break
+                  case '单':
+                    temp = 'a'
+                    break
+                  case '双':
+                    temp = 'd'
+                    break
+                }
+              }
+              else {
+                temp = number
+              }
+              
+              col.push(temp)
+
             }
           }
           codes.push(col.join('&'))
@@ -932,12 +970,14 @@ export default {
     },
     // 一键投注
     oneKeyBet() {
-      let currentIssus = this.currentIssue.issue_no
-      let issus = [currentIssus]
+      let [
+        currentIssus = this.currentIssue.issue_no,
+        issus = [currentIssus]
+      ] = []
       // issus[currentIssus] = true
       this.addOrder(true)
       if (
-        parseInt(this.currentOrder.currentCost) <= 0 ||
+         this.currentOrder.currentCost <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
       ) {
         this.$alert('请输入正确的投注号码！', '提示', {
@@ -945,6 +985,8 @@ export default {
         })
         return false
       }
+     
+      
       this.betLoading = true
       this.Api.bet(
         this.currentLottery.en_name,

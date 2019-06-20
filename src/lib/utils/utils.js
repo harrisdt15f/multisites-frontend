@@ -51,9 +51,12 @@ let Utils = {
             return str.replace(/[^\d]/g, '').replace(/^0{1,}/g,'')
         }
     },
-    // 去除字符串回车
-    removeEnter (str) {
-        return str.replace(/[\r]/g, '')
+    // 是否包含汉字
+    checkIsChinese (val) {
+        let reg = new RegExp('[\\u4E00-\\u9FFF]+', 'g')
+        if (reg.test(val)) {
+            return true
+        }
     },
     /*
     * 显示小数点后面几位

@@ -20,6 +20,7 @@ const getters = {
   defaultGroup: state => state.lottery.defaultGroup,
   defaultMethod: state => state.lottery.defaultMethod,
   currentMethod: state => state.lottery.currentMethod,
+  currentMethodGroup: state => state.lottery.currentMethodGroup,
   chengeYlcPlays: state => state.lottery.chengeYlcPlays,
   orderList: state => state.lottery.orderList,
   currentOrderState: state => state.lottery.currentOrderState,

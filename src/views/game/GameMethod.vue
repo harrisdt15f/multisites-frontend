@@ -10,7 +10,7 @@
                 class="bet-type-crow-li"
                 v-for="(_group, _index) in allMethods"
                 :key="_index"
-                @click="selectGroup(_group.sign, _index)"
+                @click="selectGroup(_group.sign, _index, _group)"
                 v-bind:class="{'on':_group.sign === selectedGroup}">
                 <span class="bet-type-crow-name">{{_group.name}}</span>
                 <span class="bet-type-group-name"></span>
@@ -131,6 +131,7 @@ export default {
       'bet',
       'chengeYlcPlays',
       'userDetail',
+      'currentMethodGroup',
       'userConfig'
     ])
   },
@@ -170,8 +171,6 @@ export default {
   },
   created() {
     this.selectGroup(this.defaultGroup)
-    // this.selectMethod(this.defaultMethod)
-
   },
   methods: {
     
@@ -254,7 +253,7 @@ export default {
       this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
-    selectGroup(groupSign, _index = 0) {
+    selectGroup(groupSign, _index = 0, group = {}) {
       this.selectedGroup = groupSign
       this.selectedGroupIndex = _index
       this.selectedMethodId = ''
@@ -263,6 +262,7 @@ export default {
         this.allMethods[_index]['rows'][0]['methods'][0]['method_id']
       )
       this.$store.commit('methodsTab')
+      this.$store.commit('currentMethodGroup', group)
     },
     // 选中玩法
     selectMethod(methodId) {

@@ -609,7 +609,6 @@ export default {
     'orderList': {
       handler() {
         // 计算总倍数 和 总注数
-        console.log(this.orderList)
         this.current.times = 0
         this.current.count = 0
         for (let i = 0; i < this.orderList.length; i++) {
@@ -1032,6 +1031,51 @@ export default {
         list[i].cost = Number(list[i].cost) * Number(this.totalSub.double)
         list[i].count = Number(list[i].count) * Number(this.totalSub.double)
       }
+      
+      console.log(list)
+      // for (const i of list) {
+      //   let temp = []
+      //   for (const k of i._codes.split(',')) {
+      //     if (this.Utils.checkIsChinese(k)) {
+      //       switch (k) {
+      //         case '龙':
+      //           temp.push('1')
+      //           break
+      //         case '虎':
+      //           temp.push('2')
+      //           break
+      //         case '和':
+      //           temp.push('3')
+      //           break
+      //         case '豹子':
+      //           temp.push('b')
+      //           break
+      //         case '顺子':
+      //           temp.push('s')
+      //           break
+      //         case '对子':
+      //           temp.push('d')
+      //           break
+      //         case '大':
+      //           temp.push('b')
+      //           break
+      //         case '小':
+      //           temp.push('s')
+      //           break
+      //         case '单':
+      //           temp.push('a')
+      //           break
+      //         case '双':
+      //           temp.push('d')
+      //           break
+      //       }
+      //       i.codes = temp.join('&')
+      //       i._codes = temp.join(',')
+      //     }
+      //   }
+      //
+      // }
+      
       this.Api.bet(this.currentLottery.en_name, issus, list, money).then(
         res => {
           if (res.success) {

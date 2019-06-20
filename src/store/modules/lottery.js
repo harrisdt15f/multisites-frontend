@@ -24,7 +24,10 @@ const state = {
   currentLottery: {},
   // 当前奖期
   currentIssue: {},
+  // 当前玩法
   currentMethod: {},
+  // 当前玩法系列
+  currentMethodGroup: {},
   beforeIssue: {},
   nextIssue: {},
   // 计算属性
@@ -101,6 +104,11 @@ const mutations = {
   // 当前玩法
   currentMethod(state, method) {
     state.currentMethod = method
+  },
+
+  // 当前玩法系列
+  currentMethodGroup(state, data) {
+    state.currentMethodGroup = data
   },
 
   // 当前选中订单数据
