@@ -363,6 +363,7 @@ export default {
       }
       .fish-link{
         position:relative;
+        cursor: pointer;
       }
       .cont_txt {
         position: relative;

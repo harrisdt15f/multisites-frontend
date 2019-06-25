@@ -972,7 +972,7 @@ export default {
     oneKeyBet() {
       let [
         currentIssus = this.currentIssue.issue_no,
-        issus = [currentIssus]
+        issus = {[currentIssus] : 1}
       ] = []
       // issus[currentIssus] = true
       this.addOrder(true)
@@ -992,7 +992,8 @@ export default {
         this.currentLottery.en_name,
         issus,
         [this.oneKeyList],
-        this.currentOrder.currentCost
+        this.currentOrder.currentCost,
+        0
       ).then(res => {
         if (res.success) {
           this.oneKeyList = {}
@@ -1007,7 +1008,7 @@ export default {
           this.clearBtn()
           
           // 获取我的投注 我的追号记录
-          // this.$store.dispatch("betHistory");
+          this.$store.dispatch('betHistory')
           // 刷新余额
           this.Api.getBalance().then(res => {
             if (res.success) {

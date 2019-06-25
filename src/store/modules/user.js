@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const state = {
   token: getToken(),
+  balance: 0,
   // 用户信息
   userDetail: {
     username: '',
@@ -17,6 +18,9 @@ const mutations = {
   SET_USER_DETAIL(state, data) {
     state.userDetail = data
   },
+  SET_BALANCE(state, data) {
+    state.balance = data
+  }
 }
 
 const actions = {
@@ -43,10 +47,11 @@ const actions = {
     return new Promise((resolve, reject) => {
       API.getUserDetail()
         .then(res => {
-          const { success } = res
+          const { success, data } = res
           if (success) {
             resolve(res)
-            commit('SET_USER_DETAIL', res.data)
+            commit('SET_USER_DETAIL', data)
+            commit('SET_BALANCE', data.balance)
           }
         })
         .catch(error => {

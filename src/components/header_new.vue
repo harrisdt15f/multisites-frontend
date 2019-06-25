@@ -26,7 +26,7 @@
           <li class="head-user" style="cursor: default">
             余额:
             {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
-            <i class="fa fa-refresh cur" @click="refresh()"></i>
+            <i class="fa fa-refresh cur" :class="{loading: loading}" @click="refresh()"></i>
           </li>
           <router-link tag="li" to="/account-center/fund-manage/recharge" class="head-user">充值</router-link>
           <router-link tag="li" to="/account-center/fund-manage/withdrawal" class="head-user">提款</router-link>
@@ -98,6 +98,11 @@ import { mapGetters } from 'vuex'
 import { removeToken } from '@/utils/auth'
 export default {
   name: 'Header',
+  data () {
+    return {
+      loading: false
+    }
+  },
   computed: {
     ...mapGetters(['userDetail', 'lotteryLists', 'logoSrc'])
   },
@@ -110,15 +115,12 @@ export default {
   methods: {
     // 刷新用户余额
     refresh() {
+      this.loading = true
       this.Api.getBalance().then(res => {
-        if (res.success) {
-          let account = this.Utils.storage.get('current-user')
-          if (account && account.data) {
-            account.data.balance = res.data.balance
-            account.data.frozen = res.data.frozen
-            this.$store.commit('account', account.data)
-            this.Utils.storage.set('current-user', account.data)
-          }
+        this.loading = false
+        const { success, data } = res
+        if (success) {
+          this.$store.commit('SET_BALANCE', data.balance)
         }
       })
     },
@@ -163,6 +165,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes myRotate{
+    0%{ -webkit-transform: rotate(0deg);}
+    50%{ -webkit-transform: rotate(180deg);}
+    100%{ -webkit-transform: rotate(360deg);}
+}
 .header-wrapper {
   height: 97px;
   font-size: 14px;
@@ -226,6 +233,9 @@ export default {
     }
     .head-users {
       padding: 0.1px;
+      .cur.loading{
+        animation:myRotate 1.5s linear infinite;
+      }
       .line {
         color: #e6d2c3;
         font-size: 14px;

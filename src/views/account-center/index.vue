@@ -1,22 +1,26 @@
 <template>
   <div class="account">
     <el-tabs v-model="activeName" type="border-card" @tab-click="showMessageCenter">
-      <el-tab-pane label="账户管理" name="account-manage">
+      <el-tab-pane label="账户管理" :lazy="true" name="account-manage">
         <account-manage></account-manage>
       </el-tab-pane>
-      <el-tab-pane label="投注记录" name="bet-record">
-       <bet-record></bet-record>
+      <el-tab-pane label="投注记录" :lazy="true" name="bet-record">
+        <bet-record></bet-record>
       </el-tab-pane>
-      <el-tab-pane label="资金管理" name="fund-manage">
+      <el-tab-pane label="资金管理" :lazy="true" name="fund-manage">
         <fund-manage></fund-manage>
       </el-tab-pane>
-       <el-tab-pane label="账变记录" name="betchage-record">
+      <el-tab-pane label="账变记录" :lazy="true" name="betchage-record">
         <fund-record></fund-record>
       </el-tab-pane>
-      <el-tab-pane label="消息中心" name="message-center">
-      </el-tab-pane>
+      <el-tab-pane label="消息中心" :lazy="true" name="message-center"></el-tab-pane>
     </el-tabs>
-    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" index='1' @close="handleBulletinClose"></dialog-bulletin>
+    <dialog-bulletin
+      v-if="showBulletin"
+      :showBulletin="showBulletin"
+      index="1"
+      @close="handleBulletinClose"
+    ></dialog-bulletin>
   </div>
 </template>
 
@@ -24,7 +28,7 @@
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
-import accountManage from './components/account-manage'
+import accountManage from './components/account-manage/index'
 import dialogBulletin from '../../components/public/dialog_bulletin'
 
 export default {
@@ -36,24 +40,24 @@ export default {
     accountManage,
     dialogBulletin
   },
-  data () {
+  data() {
     return {
       activeName: '',
       showBulletin: false
     }
   },
-  provide(){
+  provide() {
     return {
       active: this.subtype
     }
   },
   props: ['type', 'subtype'],
-  created () {
+  created() {
     this.activeName = this.type ? this.type : 'account-manage'
   },
   methods: {
-    showMessageCenter(val){
-      if(val.name === 'message-center'){
+    showMessageCenter(val) {
+      if (val.name === 'message-center') {
         this.showBulletin = true
         this.$nextTick(() => {
           this.activeName = 'account-manage'
@@ -61,7 +65,7 @@ export default {
         return
       }
     },
-    handleBulletinClose(){
+    handleBulletinClose() {
       this.showBulletin = false
     }
   }
@@ -74,7 +78,7 @@ export default {
   margin: 30px auto 55px;
   background: #fff;
   /deep/ {
-    .el-tabs__active-bar{
+    .el-tabs__active-bar {
       display: none;
     }
     .el-tabs--border-card > .el-tabs__header .el-tabs__item {
@@ -107,7 +111,7 @@ export default {
       line-height: 50px;
       padding: 0 30px !important;
     }
-    .el-tabs--border-card>.el-tabs__content{
+    .el-tabs--border-card > .el-tabs__content {
       padding: 0;
     }
   }
@@ -145,7 +149,7 @@ export default {
     padding: 0;
   }
 }
-.account .sub-account{
+.account .sub-account {
   /deep/ {
     .el-radio-button__orig-radio:checked + .el-radio-button__inner {
       background-color: #fe9112;
@@ -192,6 +196,18 @@ export default {
     }
     .el-tabs__item:hover {
       color: #875c4e;
+    }
+  }
+}
+.pagination-container {
+  margin-top: 15px;
+  text-align: right;
+  /deep/ {
+    .el-pagination.is-background .el-pager li:not(.disabled).active {
+      background-color: #ff8900;
+    }
+    .el-input--mini{
+      margin-top: -4px !important;
     }
   }
 }

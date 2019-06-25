@@ -29,10 +29,11 @@ export default {
   /*
    * 投注历史
    */
-  getBetHistory(sign, count = 50) {
+  getBetHistory(sign, count = 10, start = 0) {
     let data = {
       lottery_sign: sign,
-      count: count
+      count: count,
+      start: start
     }
     return this.post('/lotteries/projectHistory', data).then(
       response => response
@@ -46,13 +47,14 @@ export default {
    *trace_win_stop @ 0 否 1 是 是否中奖追号停止
    *total_cost  投注金额
    */
-  bet(lotterySign, issues, balls, total_cost, trace_win_stop = 1) {
+  bet(lotterySign, issues, balls, total_cost, is_trace = 0, trace_win_stop = 1) {
     let data = {
       lottery_sign: lotterySign,
       trace_issues: JSON.stringify(issues),
       balls: JSON.stringify(balls),
       trace_win_stop: trace_win_stop,
-      total_cost: total_cost
+      total_cost: total_cost,
+      is_trace: is_trace
     }
     return this.post('/lotteries/bet', data).then(response => response)
   },

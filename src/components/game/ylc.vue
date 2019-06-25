@@ -1038,7 +1038,7 @@ export default {
           this.clearCode()
 
           // 获取我的投注 我的追号记录
-          // this.$store.dispatch('betHistory')
+          this.$store.dispatch('betHistory')
           // 刷新余额
           this.Api.getBalance().then(res => {
             if (res.isSuccess) {

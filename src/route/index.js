@@ -70,12 +70,13 @@ const router = new Router({
         },
         {
           path: '/account-center/:type',
-          name: 'account',
+          name: 'account-type',
           component: Account,
+          props: true
         },
         {
           path: '/account-center/:type/:subtype',
-          name: 'account',
+          name: 'account-type-subtype',
           component: Account,
           props: true
         },
