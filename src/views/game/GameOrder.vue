@@ -1035,7 +1035,7 @@ export default {
       }
       let [
         currentIssus = this.currentIssue.issue_no,
-        issus = [],
+        issus = {},
         money = 0,
         chaseData = []
       ] = []
@@ -1043,14 +1043,14 @@ export default {
       if (this.chase.rateCon) {
         chaseData = this.chase.rateData
         for (let i = 0; i < chaseData.length; i++) {
-          issus.push(chaseData[i].issue_no)
+          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple}) 
         }
         money = this.chase.rateMoneyAll
       } else if (this.chase.sameCon) {
         // 如果打开同倍追奖
         chaseData = this.chase.sameData
         for (let i = 0; i < chaseData.length; i++) {
-          issus.push(chaseData[i].issue_no)
+          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple})
         }
         money = this.chase.sameMoneyAll
       } else if (this.chase.doubleCon) {
@@ -1058,7 +1058,7 @@ export default {
         chaseData = this.chase.doubleData
 
         for (let i = 0; i < chaseData.length; i++) {
-          issus.push(chaseData[i].issue_no)
+          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple})
         }
         money = this.chase.doubleMoneyAll
       } else {
@@ -1129,6 +1129,7 @@ export default {
         money,
         this.isTrace
       ).then(res => {
+        this.betLoading = false
         if (res.success) {
           this.$store.commit('orderList', [])
           this.bet.doubleBeforeOrder = JSON.stringify([])
@@ -1154,7 +1155,6 @@ export default {
             }
           })
         }
-        this.betLoading = false
       })
     },
     // 删除当前投注
