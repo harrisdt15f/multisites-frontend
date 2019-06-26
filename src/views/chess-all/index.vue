@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-</template>x
+</template>
 
 <script>
 export default {}

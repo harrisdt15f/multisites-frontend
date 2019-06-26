@@ -1,6 +1,6 @@
 <template>
   <div class="bank-manage">
-    <div class="container" v-if="!haveCard">
+    <div class="container" v-if="!haveBankCard">
       <div class="bank-manage">
         <div class="form-container">
           <div class="form-text">
@@ -8,6 +8,50 @@
             <button @click="handleOpenDialog" type="submit" class="form-button">立即绑定</button>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="show-manage-bank" v-if="showManageBank">
+      <p>一个游戏账户最多绑定4张银行卡，您目前绑定了{{tableData.length}}张卡，还可以绑定{{4-tableData.length}}张。</p>
+      <p>发起第一次提现后，系统会自动锁定银行卡。</p>
+      <p>为了您的账户资金安全，银行卡“新增”和“修改”将在操作完成2小时0分后，新卡才能发起“向平台提现”。</p>
+      <div class="custom-table" style="margin-top:15px;">
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column align="center" label="银行名称">
+            <template slot-scope="scope">
+              <span>{{ scope.row.bank_name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="卡号">
+            <template slot-scope="scope">
+              <span>{{ scope.row.card_number }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="绑定时间">
+            <template slot-scope="scope">
+              <span>{{ scope.row.created_at }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="更新时间">
+            <template slot-scope="scope">
+              <span>{{ scope.row.updated_at }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="银行卡状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">禁用</span>
+              <span v-else>可用</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" type="danger" @click="delectBankCard(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="form-text">
+        <button class="form-button" @click="handleAddCreate" style="margin-right:30px;">增加绑定</button>
+        <button class="form-button">锁定银行卡</button>
       </div>
     </div>
     <div class="create-bank" v-if="showCreateBank">
@@ -33,9 +77,9 @@
               >
                 <el-option
                   v-for="item in cardOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item.id"
+                  :label="item.title"
+                  :value="item.code"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -44,13 +88,14 @@
                 style="margin-right:15px;width:285px"
                 popper-class="single-price"
                 v-model="cardForm.province_id"
+                @change="handleChangeProvince"
                 placeholder="请选择"
               >
                 <el-option
                   v-for="item in provinceOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item.region_id"
+                  :label="item.region_name"
+                  :value="item.region_id"
                 ></el-option>
               </el-select>
               <el-select
@@ -61,9 +106,9 @@
               >
                 <el-option
                   v-for="item in cityOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item.region_id"
+                  :label="item.region_name"
+                  :value="item.region_id"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -86,54 +131,12 @@
           <p>新的银行卡将在2小时0分钟后可以发起“平台体现”</p>
           <div class="form-text">
             您现在可以：
-            <button @click="handleManageBank" type="submit" class="form-button">银行卡管理</button>
+            <button @click="goToBankManage" type="submit" class="form-button">银行卡管理</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="show-manage-bank" v-if="showManageBank">
-      <p>一个游戏账户最多绑定4张银行卡，您目前绑定了1张卡，还可以绑定3张。</p>
-      <p>发起第一次提现后，系统会自动锁定银行卡。</p>
-      <p>为了您的账户资金安全，银行卡“新增”和“修改”将在操作完成2小时0分后，新卡才能发起“向平台提现”。</p>
-      <div class="custom-table" style="margin-top:15px;">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column align="center" label="银行卡号">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="卡号">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="绑定时间">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="更新时间">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="银行卡状态">
-            <template slot-scope="scope">
-              <span>{{ scope.row.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column align="center" label="操作">
-            <template slot-scope="scope">
-              <el-button size="mini" type="danger">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <div class="form-text">
-        <button class="form-button" style="margin-right:30px;">增加绑定</button>
-        <button class="form-button">锁定银行卡</button>
-      </div>
-    </div>
+   
   </div>
 </template>
 
@@ -141,12 +144,8 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          name: '中国工商银行'
-        }
-      ],
-      haveCard: false,
+      tableData: [],
+      haveBankCard: false,
       showCreateBank: false,
       showManageBank: false,
       cardOptions: [
@@ -155,23 +154,13 @@ export default {
           label: '黄金糕'
         }
       ],
-      createResult: 1,
-      provinceOptions: [
-        {
-          value: 'icbc',
-          label: '黄金糕'
-        }
-      ],
-      cityOptions: [
-        {
-          value: 'icbc',
-          label: '黄金糕'
-        }
-      ],
+      createResult: 0,
+      provinceOptions: [],
+      cityOptions: [],
       cardForm: {
         bank_sign: '',
-        province_id: 1,
-        city_id: 12,
+        province_id: undefined,
+        city_id: undefined,
         card_number: '',
         fund_password: '',
         branch: '',
@@ -202,22 +191,64 @@ export default {
   },
   methods: {
     initData() {
+      this.getCardList()
+      this.Api.bankLists().then(({ success, data }) => {
+        if (success) {
+          this.cardOptions = data
+        }
+      })
+      this.Api.provinceLists().then(({ success, data }) => {
+        if (success) {
+          this.provinceOptions = data
+        }
+      })
+    },
+    getCardList() {
       this.Api.getCardList().then(res => {
-        const { status, data } = res
-        if (status && data) {
-          data.length > 0 ? (this.haveCard = true) : (this.haveCard = false)
+        const { success, data } = res
+        if (success && data) {
+          if (data.length) {
+            this.haveBankCard = true
+            this.showManageBank = true
+          } else{
+            this.haveBankCard = false
+          }
+          this.tableData = data
+        }
+      })
+    },
+    handleChangeProvince(id) {
+      this.Api.cityLists({ region_parent_id: id }).then(({ success, data }) => {
+        if (success) {
+          this.cityOptions = data
         }
       })
     },
     handleOpenDialog() {
       this.showCreateBank = true
-      this.haveCard = true
+      this.haveBankCard = true
     },
     handleAddCard() {
       this.$refs['cardForm'].validate(valid => {
         if (valid) {
-          this.Api.bindCard(this.cardForm).then(res => {
-            console.log(res)
+          Object.assign(this.cardForm, {
+            bank_name: this.cardOptions.filter(
+              v => v.code === this.cardForm.bank_sign
+            )[0].title,
+            province_id: this.provinceOptions.filter(
+              v => v.region_id === this.cardForm.province_id
+            )[0].id,
+            city_id: this.cityOptions.filter(
+              v => v.region_id === this.cardForm.city_id
+            )[0].id
+          })
+          this.Api.addBank(this.cardForm).then(({ success }) => {
+            if (success) {
+              this.$alert('添加银行卡成功！', '提示', {
+                confirmButtonText: '确定'
+              })
+              this.createResult = 1
+            }
           })
         }
       })
@@ -225,6 +256,28 @@ export default {
     handleManageBank() {
       this.showCreateBank = false
       this.showManageBank = true
+      this.getCardList()
+    },
+    handleAddCreate() {
+      this.showCreateBank = true
+      this.showManageBank = false
+      this.createResult = 0
+    },
+    goToBankManage(){
+      this.showCreateBank = false
+      this.showManageBank = true
+      this.createResult = 0
+      this.getCardList()
+    },
+    delectBankCard(row){
+      this.Api.deleteBank({id:row.id}).then(({success}) => {
+        if (success) {
+          this.$alert('删除成功！', '提示', {
+            confirmButtonText: '确定'
+          })
+          this.getCardList()
+        }
+      })
     }
   }
 }
@@ -256,7 +309,7 @@ export default {
   & > p {
     margin-bottom: 5px;
   }
-  .form-text{
+  .form-text {
     text-align: center;
     margin-top: 30px;
   }

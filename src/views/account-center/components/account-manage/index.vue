@@ -5,7 +5,7 @@
         <personal-info></personal-info>
       </el-tab-pane>
       <el-tab-pane :lazy="true" label="密码管理" name="pwd-manage">
-        <pwd-manage @showSetFund="handleshowFundPwd"></pwd-manage>
+        <pwd-manage :existFundPassword="existFundPassword" @showSetFund="handleshowFundPwd"></pwd-manage>
       </el-tab-pane>
       <el-tab-pane :lazy="true" label="银行卡管理" name="bank-manage">
         <bank-manage></bank-manage>
@@ -46,7 +46,8 @@ export default {
       activeName: 'personal-info',
       showSetFund: false,
       ruleForm: {},
-      rules: {}
+      rules: {},
+      existFundPassword: undefined
     }
   },
   components: {
@@ -54,9 +55,18 @@ export default {
     bankManage,
     personalInfo
   },
+  created () {
+    this.initData()
+  },
   methods: {
+    initData(){
+      this.Api.existFundPassword().then(({data, success}) => {
+        if (success) {
+          this.existFundPassword = data
+        }
+      })
+    },
     handleshowFundPwd() {
-      console.log(1)
       this.showSetFund = true
     },
     resetForm(formName) {
@@ -96,6 +106,7 @@ export default {
   .form-button {
     width: 150px;
     height: 45px;
+    cursor: pointer;
     text-align: center;
     box-sizing: border-box;
     color: white;

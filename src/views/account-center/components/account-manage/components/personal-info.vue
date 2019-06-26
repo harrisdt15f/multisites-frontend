@@ -45,7 +45,6 @@ export default {
   },
   created() {
     Object.assign(this.form, this.userDetail)
-    console.log(this.form)
   }
 }
 </script>

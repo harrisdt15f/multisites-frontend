@@ -9,8 +9,7 @@
                 href="javascript:;"
                 class="btn close"
                 id="project-empty"
-                @click="clearOrderList()"
-              >清空</a>
+                @click="clearOrderList()">清空</a>
               购彩篮
             </div>
             <div class="panel-select-title clearfix">

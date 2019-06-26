@@ -106,6 +106,7 @@ export default {
     .form-button {
       width: 150px;
       height: 45px;
+      cursor: pointer;
       text-align: center;
       box-sizing: border-box;
       color: white;
