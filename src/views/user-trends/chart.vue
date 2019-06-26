@@ -64,7 +64,7 @@
                 :class="`c-${items[0]}-${items[2]}`"
               >{{items[0] == 0 ? items[1] : items[0]}}</i>
             </td>
-            <td class="ball-none border-right"></td>
+            <td class="ball-none border-right" ></td>
             <td class="ball-none"></td>
           </template>
           <!-- 号码分布 -->

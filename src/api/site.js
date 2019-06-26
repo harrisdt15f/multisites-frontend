@@ -9,10 +9,10 @@ export default {
   },
   //热门彩种
   getPopularLotteries1(data) {
-    return this.get('/homepage/popular-lotteries-one', data).then(response =>  response)
+    return this.get('/homepage/popular-lotteries', data).then(response =>  response)
   },
   getPopularLotteries2(data) {
-    return this.get('/homepage/popular-lotteries-two', data).then(response =>  response)
+    return this.get('/homepage/popular-methods', data).then(response =>  response)
   },
   //二维码 
   getQrcode() {

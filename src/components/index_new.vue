@@ -182,8 +182,10 @@ export default {
       handler(val) {
         const list = Object.keys(val).map(v => {
           return {
-            name: val[v],
-            id: v,
+            name: val[v].lottery_name,
+            id: val[v].lotteries_id,
+            method_name: val[v].method_name,
+            method_id: val[v].method_id,
             multiple: 1,
             code: [
               { num: 0, sign: true },
@@ -249,6 +251,7 @@ export default {
       item.code.forEach(v => {
         v.sign ? code.push(v.num) : null
       })
+      console.log(item)
     },
     goToBannerUrl(url){
       this.$router.push(url)

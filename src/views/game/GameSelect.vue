@@ -995,6 +995,7 @@ export default {
         this.currentOrder.currentCost,
         0
       ).then(res => {
+        this.betLoading = false
         if (res.success) {
           this.oneKeyList = {}
           this.$alert(
@@ -1022,8 +1023,6 @@ export default {
             }
           })
         }
-  
-        this.betLoading = false
       })
     },
     uploadSectionFile(param){
