@@ -447,10 +447,13 @@ export default {
           })
           return
         }
+        const codes = this.inputCodes.split(',').map(val => {
+          return val.split('').join('&')
+        })
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
-          codes: this.inputCodes,
+          codes: this.currentMethod.type === 'text' ? codes.join('|') : this.inputCodes,
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
           cost: this.currentOrder.currentCost,
@@ -873,7 +876,7 @@ export default {
     inputClearRepeatOrder() {
       let [
         tmp = new Set(
-          (this.inputCodes || '').split(/[\s\n,]+/).map(item => {
+          (this.inputCodes || '').split(/[\s\n,|]+/).map(item => {
             return this.Utils.trim(item)
           })
         )
@@ -926,14 +929,12 @@ export default {
           }
         }
       }
-      const codes = [...tmp].map(val => {
-       return val.split('').join('&')
-      })
-      this.inputCodes = codes.join('|')
+     
+      this.inputCodes = [...tmp].join(',')
       if (!this.inputCodes) {
         this.inputCodesSingle = 0
       } else {
-        this.inputCodesSingle = this.inputCodes.split('|').length
+        this.inputCodesSingle = this.inputCodes.split(',').length
       }
       this.calculate()
     },
