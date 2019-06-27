@@ -1,12 +1,12 @@
 <template>
   <div class="container pwd-manage">
     <div class="custion-radio">
-      <el-radio-group v-model="radio1">
+      <el-radio-group v-model="radio1" @change="changeRadio">
         <el-radio-button label="account">修改账户密码</el-radio-button>
         <el-radio-button label="funds">修改资金密码</el-radio-button>
       </el-radio-group>
     </div>
-      <div v-if="radio1 == 'account'">
+    <div v-show="radio1 == 'account'">
       <el-form ref="form" :rules="rules" :model="form" label-width="90px">
         <el-form-item label="旧密码：" prop="oldPass">
           <el-input type="password" v-model="form.oldPass" autocomplete="off"></el-input>
@@ -33,21 +33,21 @@
         </span>
       </div>
     </div>
-    <div v-else>
+    <div v-show="radio1 == 'funds'">
       <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="90px">
-        <el-form-item label="旧密码：" prop="pass">
-          <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+        <el-form-item label="旧密码：" prop="oldPass">
+          <el-input type="password" v-model="fundForm.oldPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码：" prop="pass" class="new-pwd">
-          <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
+          <el-input type="password" v-model="fundForm.pass" autocomplete="off"></el-input>
           <span class="pwd-info">6-16位字符，需使用字母或数字</span>
         </el-form-item>
         <el-form-item label="确认密码：" prop="checkPass">
-          <el-input type="password" v-model="form.checkPass" autocomplete="off"></el-input>
+          <el-input type="password" v-model="fundForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div class="submit-btn">
-        <button type="submit" class="form-button">提交修改</button>
+        <button type="submit" @click="handleChangeFundPass" class="form-button">提交修改</button>
       </div>
     </div>
   </div>
@@ -77,19 +77,19 @@ export default {
     }
     var validateFundPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'))
+        callback(new Error('请输入资金密码'))
       } else {
-        if (this.form.checkPass !== '') {
-          this.$refs.form.validateField('checkPass')
+        if (this.fundForm.checkPass !== '') {
+          this.$refs.fundForm.validateField('checkPass')
         }
         callback()
       }
     }
     var validateFundPass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.form.pass) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error('请再次输入资金密码'))
+      } else if (value !== this.fundForm.pass) {
+        callback(new Error('两次输入的资金密码不一致!'))
       } else {
         callback()
       }
@@ -112,7 +112,7 @@ export default {
         checkPass: [{ validator: validatePass2, trigger: 'blur' }]
       },
       fundRules: {
-        oldPass: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
+        oldPass: [{ required: true, message: '请输入旧资金密码', trigger: 'blur' }],
         pass: [{ validator: validateFundPass, trigger: 'blur' }],
         checkPass: [{ validator: validateFundPass2, trigger: 'blur' }]
       }
@@ -132,15 +132,51 @@ export default {
             new_password: this.form.pass,
             confirm_password: this.form.checkPass
           }
-          this.Api.resetUserPassword(sendData).then(({ success, data }) => {
+          this.Api.resetUserPassword(sendData).then(({ success }) => {
             if (success) {
               this.$alert('账户密码修改成功！', '提示', {
                 confirmButtonText: '确定'
               })
-              this.form = {}
             }
+            this.form = {}
           })
         }
+      })
+    },
+    handleChangeFundPass() {
+      this.$refs.fundForm.validate(valid => {
+        if (valid) {
+          const sendData = {
+            old_password: this.fundForm.oldPass,
+            new_password: this.fundForm.pass,
+            confirm_password: this.fundForm.checkPass
+          }
+          this.Api.resetUserPassword(sendData).then(({ success }) => {
+            if (success) {
+              this.$alert('账户密码修改成功！', '提示', {
+                confirmButtonText: '确定'
+              })
+            }
+            this.fundForm = {}
+          })
+        }
+      })
+    },
+    changeRadio(v) {
+      if (v === 'funds') {
+        if (!this.existFundPassword) {
+          this.$alert('还没有资金密码，请先设置资金密码！', '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            this.handleSetFundPass()
+          })
+          this.radio1 = 'account'
+          return
+        }
+      }
+      this.$nextTick(() => {
+        this.$refs.form.clearValidate()
+        this.$refs.fundForm.clearValidate()
       })
     }
   }

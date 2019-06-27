@@ -54,4 +54,9 @@ export default {
   resetSpecificInfos(data) {
     return this.post('/user/reset-specific-infos', data).then(response =>  response)
   },
+  //设置资金密码
+  setFundPassword(data) {
+    return this.post('/user/set-fund-password', data).then(response =>  response)
+  }
+  
 }

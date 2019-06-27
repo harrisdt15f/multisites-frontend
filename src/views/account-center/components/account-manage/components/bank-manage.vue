@@ -136,7 +136,6 @@
         </div>
       </div>
     </div>
-   
   </div>
 </template>
 
@@ -231,7 +230,8 @@ export default {
     handleAddCard() {
       this.$refs['cardForm'].validate(valid => {
         if (valid) {
-          Object.assign(this.cardForm, {
+          const sendData = Object.assign({}, this.cardForm)
+          Object.assign(sendData, {
             bank_name: this.cardOptions.filter(
               v => v.code === this.cardForm.bank_sign
             )[0].title,
@@ -242,7 +242,7 @@ export default {
               v => v.region_id === this.cardForm.city_id
             )[0].id
           })
-          this.Api.addBank(this.cardForm).then(({ success }) => {
+          this.Api.addBank(sendData).then(({ success }) => {
             if (success) {
               this.$alert('添加银行卡成功！', '提示', {
                 confirmButtonText: '确定'
@@ -264,10 +264,10 @@ export default {
       this.createResult = 0
     },
     goToBankManage(){
+      this.getCardList()
       this.showCreateBank = false
       this.showManageBank = true
       this.createResult = 0
-      this.getCardList()
     },
     delectBankCard(row){
       this.Api.deleteBank({id:row.id}).then(({success}) => {

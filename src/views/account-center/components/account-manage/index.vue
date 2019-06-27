@@ -20,11 +20,11 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
-          <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+        <el-form-item label="确认密码" prop="confirm_password">
+          <el-input type="password" v-model="ruleForm.confirm_password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -42,12 +42,37 @@ import personalInfo from './components/personal-info'
 
 export default {
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.ruleForm.confirm_password !== '') {
+          this.$refs.ruleForm.validateField('confirm_password')
+        }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       activeName: 'personal-info',
       showSetFund: false,
-      ruleForm: {},
-      rules: {},
-      existFundPassword: undefined
+      ruleForm: {
+        password: '',
+        confirm_password: ''
+      },
+      existFundPassword: undefined,
+      rules: {
+        password: [{ validator: validatePass, trigger: 'blur' }],
+        confirm_password: [{ validator: validatePass2, trigger: 'blur' }]
+      }
     }
   },
   components: {
@@ -55,22 +80,44 @@ export default {
     bankManage,
     personalInfo
   },
-  created () {
+  created() {
     this.initData()
   },
   methods: {
-    initData(){
-      this.Api.existFundPassword().then(({data, success}) => {
+    initData() {
+      this.Api.existFundPassword().then(({ data, success }) => {
         if (success) {
           this.existFundPassword = data
         }
       })
     },
     handleshowFundPwd() {
+      this.ruleForm = {
+        password: '',
+        confirm_password: ''
+      }
       this.showSetFund = true
+      this.$nextTick(() => {
+        this.$refs.ruleForm.clearValidate()
+      })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.Api.setFundPassword(this.ruleForm).then(({ success }) => {
+            this.showSetFund = false
+            if (success) {
+              this.initData()
+              this.$alert('设置资金密码成功成功！', '提示', {
+                confirmButtonText: '确定'
+              })
+            }
+          })
+        }
+      })
     }
   }
 }

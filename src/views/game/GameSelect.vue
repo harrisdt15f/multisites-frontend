@@ -148,7 +148,6 @@
         <div class="balls-import-box">
           <textarea
             @focus="inputAreaFocus()"
-            @input="inputAreaChange()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
             v-model="inputCodes"></textarea>
@@ -435,51 +434,19 @@ export default {
           doubleBeforeOrder.push(order)
           this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
           // 清空注单值
-          this.currentOrder.currentCost = 0
-          this.currentOrder.currentCount = 0
-          this.currentOrder.currentTimes = 1
+          // this.currentOrder.currentCost = 0
+          // this.currentOrder.currentCount = 0
+          // this.currentOrder.currentTimes = 1
           // 添加完选号 清空选中号码
           this.clearBtn()
         }
       } else {
-        
         if (this.currentOrder.currentCost <= 0) {
           this.$alert('请输入正确的投注号码！', '提示', {
             confirmButtonText: '确定'
           })
           return
         }
-        this.inputClearRepeatOrder()
-        // let _input = ''
-        // let tmp = (this.inputCodes || '').split(',').map(item => {
-        //   return this.Utils.trim(item)
-        // })
-        // for (let i = tmp.length; i >= 0; i--) {
-        //   // 去除非数字项
-        //   if (isNaN(tmp[i])) {
-        //     tmp.splice(i, 1)
-        //   }
-        //   // 去除 小于 或者 大于规定长度
-        //   if (
-        //     (this.currentMethod &&
-        //       String(tmp[i]).length < this.currentMethod.b64) ||
-        //     String(tmp[i]).length > this.currentMethod.b64
-        //   ) {
-        //     tmp.splice(i, 1)
-        //   }
-        // }
-        // // 去重
-        // let temp = Array.from(new Set(tmp))
-        // this.inputCodes = temp.join(',')
-        // this.calculate(this.currentMethod, this.orderState)
-        // this.input = this.inputCodes
-        // // if (isNaN(temp[0])) {
-        // //   this.$alert('请输入正确的投注号码！', '提示', {
-        // //     confirmButtonText: '确定'
-        // //   })
-        // //   return
-        // // }
-        // _input = this.inputCodes
         order = {
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
@@ -505,11 +472,11 @@ export default {
           this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
         }
         // 清空注单值
-        this.currentOrder.currentCost = 0
-        this.currentOrder.currentCount = 0
-        this.currentOrder.currentTimes = 1
-        this.inputCodesSingle = 0
-        this.inputCodes = ''
+        // this.currentOrder.currentCost = 0
+        // this.currentOrder.currentCount = 0
+        // this.currentOrder.currentTimes = 1
+        // this.inputCodesSingle = 0
+        // this.inputCodes = ''
       }
     },
     // 计算注数
@@ -894,6 +861,8 @@ export default {
     inputAreaBlur() {
       if (!this.inputCodes) {
         this.inputCodes = this.inputCodesInitText
+      } else {
+        this.inputClearRepeatOrder()
       }
     },
     // 清空直选单式文本
@@ -902,7 +871,6 @@ export default {
     },
     // 清理重复项 和 错误项
     inputClearRepeatOrder() {
-      
       let [
         tmp = new Set(
           (this.inputCodes || '').split(/[\s\n,]+/).map(item => {
@@ -958,13 +926,14 @@ export default {
           }
         }
       }
-
-      this.inputCodes = [...tmp].join(',')
-
+      const codes = [...tmp].map(val => {
+       return val.split('').join('&')
+      })
+      this.inputCodes = codes.join('|')
       if (!this.inputCodes) {
         this.inputCodesSingle = 0
       } else {
-        this.inputCodesSingle = this.inputCodes.split(',').length
+        this.inputCodesSingle = this.inputCodes.split('|').length
       }
       this.calculate()
     },
@@ -974,7 +943,6 @@ export default {
         currentIssus = this.currentIssue.issue_no,
         issus = {[currentIssus] : 1}
       ] = []
-      // issus[currentIssus] = true
       this.addOrder(true)
       if (
          this.currentOrder.currentCost <= 0 ||
@@ -985,7 +953,6 @@ export default {
         })
         return false
       }
-     
       
       this.betLoading = true
       this.Api.bet(

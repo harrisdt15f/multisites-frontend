@@ -946,7 +946,7 @@ export default {
             if (row_data.multiple >= max_multiple) {
               if (alertSign) {
                 alert(
-                  '生成方案中的倍数超过了系统最大允许设置的倍数，将自动调整为系统最大可设置倍数'
+                  '         过了系统最大允许设置的倍数，将自动调整为系统最大可设置倍数'
                 )
                 alertSign = false
               }
