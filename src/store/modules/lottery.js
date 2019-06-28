@@ -4,15 +4,15 @@ const state = {
   // 用户配置
   userConfig: {
     singlePrice: 2,
-    mode: 1
+    mode: 1.000
   },
   // 当前彩种
   currentLotterySign: 'cqssc',
   // 模式配置
   modeConfig: {
-    '1': '元',
-    '0.1': '角',
-    '0.01': '分',
+    '1.000': '元',
+    '0.100': '角',
+    '0.010': '分',
     '0.001': '厘'
   },
   // 玩法相关

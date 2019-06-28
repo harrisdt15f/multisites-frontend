@@ -178,7 +178,7 @@
             v-for="(mode, modeIndex) in currentLottery.valid_modes"
             href="javascript:;"
             @click="selectMode(mode.val)"
-            :class="['btn-tab', 'btn-effect', 'btn-red', userConfig.mode === mode.val ? 'tab-on' : '']"
+            :class="['btn-tab', 'btn-effect', 'btn-red', userConfig.mode == mode.val ? 'tab-on' : '']"
             :key="modeIndex"
             :v="modeIndex"
           >{{mode.title}}</a>
@@ -384,7 +384,7 @@ export default {
           codes: this.convertCodes(),
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
-          cost: this.currentOrder.currentCost,
+          cost: (this.currentOrder.currentCost).toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.currentOrder.currentGroup,
           price: 2
@@ -558,7 +558,7 @@ export default {
     },
     // 选择模式
     selectMode(mode) {
-      const userConfig = Object.assign(this.userConfig, {mode: +mode})
+      const userConfig = Object.assign(this.userConfig, {mode: (+mode).toFixed(3)})
       this.$store.commit('userConfig', userConfig)
       this.calculate()
     },
@@ -959,11 +959,13 @@ export default {
       }
       
       this.betLoading = true
+      const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList))
+      delete oneKeyList._codes
       this.Api.bet(
         this.currentLottery.en_name,
         issus,
-        [this.oneKeyList],
-        this.currentOrder.currentCost,
+        [oneKeyList],
+        (this.currentOrder.currentCost).toFixed(3),
         0
       ).then(res => {
         this.betLoading = false

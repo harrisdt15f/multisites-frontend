@@ -316,9 +316,9 @@
               当前模式
               <span class="corigin">
                 {{userConfig.singlePrice}}元 -
-                <span v-if="userConfig.mode === 1">元</span>
-                <span v-else-if="userConfig.mode === .1">角</span>
-                <span v-else-if="userConfig.mode === .01">分</span>
+                <span v-if="userConfig.mode == 1">元</span>
+                <span v-else-if="userConfig.mode == .1">角</span>
+                <span v-else-if="userConfig.mode == .01">分</span>
                 <span v-else>厘</span>
               </span> 模式
             </li>
@@ -532,8 +532,8 @@ export default {
         money: 0
       }
       for (let i = 0; i < this.orderList.length; i++) {
-        this.total.number += this.orderList[i].count
-        this.total.money += this.orderList[i].cost
+        this.total.number += Number(this.orderList[i].count)
+        this.total.money += Number(this.orderList[i].cost)
       }
       this.totalSub.money =
         parseInt(this.totalSub.double) * Number(this.total.money)
@@ -647,8 +647,8 @@ export default {
         this.current.times = 0
         this.current.count = 0
         for (let i = 0; i < this.orderList.length; i++) {
-          this.current.times += this.orderList[i].times
-          this.current.count += this.orderList[i].count
+          this.current.times += Number(this.orderList[i].times)
+          this.current.count += Number(this.orderList[i].count)
         }
       },
       deep: true
@@ -732,7 +732,7 @@ export default {
       this.chase.doubleMoneyAll = 0
       this.chase.doubleMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
-        this.chase.doubleMoney += this.orderList[i].cost
+        this.chase.doubleMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.doubleIssue] = []
@@ -801,7 +801,7 @@ export default {
       this.chase.sameMoneyAll = 0
       this.chase.sameMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
-        this.chase.sameMoney += this.orderList[i].cost
+        this.chase.sameMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
       let [sameIssue = this.chase.sameIssue] = []
@@ -882,7 +882,7 @@ export default {
           type = this.orderList[i].method_id
           mode = this.orderList[i].mode
         }
-        this.chase.rateMoney += this.orderList[i].cost
+        this.chase.rateMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
       let [rateIssue = this.chase.rateIssue] = []
@@ -1075,57 +1075,15 @@ export default {
         return
       }
       for (let i = 0; i < list.length; i++) {
-        list[i].cost = Number(list[i].cost) * Number(this.totalSub.double)
+        list[i].cost = (Number(list[i].cost) * Number(this.totalSub.double)).toFixed(3)
         list[i].count = Number(list[i].count) * Number(this.totalSub.double)
+        delete list[i]._codes
       }
-      // for (const i of list) {
-      //   let temp = []
-      //   for (const k of i._codes.split(',')) {
-      //     if (this.Utils.checkIsChinese(k)) {
-      //       switch (k) {
-      //         case '龙':
-      //           temp.push('1')
-      //           break
-      //         case '虎':
-      //           temp.push('2')
-      //           break
-      //         case '和':
-      //           temp.push('3')
-      //           break
-      //         case '豹子':
-      //           temp.push('b')
-      //           break
-      //         case '顺子':
-      //           temp.push('s')
-      //           break
-      //         case '对子':
-      //           temp.push('d')
-      //           break
-      //         case '大':
-      //           temp.push('b')
-      //           break
-      //         case '小':
-      //           temp.push('s')
-      //           break
-      //         case '单':
-      //           temp.push('a')
-      //           break
-      //         case '双':
-      //           temp.push('d')
-      //           break
-      //       }
-      //       i.codes = temp.join('&')
-      //       i._codes = temp.join(',')
-      //     }
-      //   }
-      //
-      // }
-
       this.Api.bet(
         this.currentLottery.en_name,
         issus,
         list,
-        money,
+        money.toFixed(3),
         this.isTrace
       ).then(res => {
         this.betLoading = false

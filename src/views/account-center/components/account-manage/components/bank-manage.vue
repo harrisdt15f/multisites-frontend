@@ -161,7 +161,6 @@ export default {
         province_id: undefined,
         city_id: undefined,
         card_number: '',
-        fund_password: '',
         branch: '',
         owner_name: ''
       },
