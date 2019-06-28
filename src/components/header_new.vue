@@ -23,7 +23,7 @@
             {{userDetail.username}}
           </li>
           <span class="line">|</span>
-          <li class="head-user" style="cursor: default">
+          <li class="head-user wzfw" style="cursor: default;">
             余额:
             {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
             <i class="fa fa-refresh cur" :class="{loading: loading}" @click="refresh()"></i>
@@ -198,7 +198,7 @@ export default {
   .top {
     overflow: hidden;
     .head-notice {
-      margin-left: 300px;
+      margin-left: 270px;
       float: left;
       padding-left: 12px;
       margin-top: 5px;
@@ -253,7 +253,7 @@ export default {
         vertical-align: middle;
       }
       .head-user-name {
-        max-width: 140px;
+        max-width: 130px;
         cursor: auto;
       }
     }
