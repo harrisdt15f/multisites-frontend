@@ -307,7 +307,10 @@ export default {
     'userConfig.singlePrice'() {
       this.calculate()
     },
-    
+    //更改倍数
+    'currentOrder.currentTimes'(){
+      this.calculate()
+    },
     // 切换玩法时
     'bet.methodsTab'() {
       this.currentOrder.currentCost = 0

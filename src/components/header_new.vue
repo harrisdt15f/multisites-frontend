@@ -116,12 +116,8 @@ export default {
     // 刷新用户余额
     refresh() {
       this.loading = true
-      this.Api.getBalance().then(res => {
+      this.$store.dispatch('getUserDetail').then(() => {
         this.loading = false
-        const { success, data } = res
-        if (success) {
-          this.$store.commit('SET_BALANCE', data.balance)
-        }
       })
     },
     // 退出登录

@@ -197,7 +197,7 @@ export default {
 .bank-manage {
   .form-container {
     text-align: center;
-    padding: 50px 95px;
+    padding: 100px 95px;
     position: relative;
     font-size: 14px;
     color: #222222;
