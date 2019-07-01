@@ -3,6 +3,7 @@ import request from '@/utils/request'
 import Site from './site'
 import User from './user'
 import Lottery from './lottery'
+import Player from './player'
 
 export const API = {
     get(url) {
@@ -26,5 +27,6 @@ export const API = {
     /**  ============================== 接口 =============================== **/
     ...Site,
     ...User,
-    ...Lottery
+    ...Lottery,
+    ...Player
 }

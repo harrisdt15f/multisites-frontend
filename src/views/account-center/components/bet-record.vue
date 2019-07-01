@@ -46,27 +46,31 @@
               </el-table-column>
               <el-table-column align="center" label="投注内容">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.bet_number }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="投注额">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.total_cost }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖金">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.bonus }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖金组-返点">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.prize_group }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="状态">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span v-if="scope.row.status == 0">已投注</span>
+                  <span v-if="scope.row.status == 1">已撤销</span>
+                  <span v-if="scope.row.status == 2">未中奖</span>
+                  <span v-if="scope.row.status == 3">已中奖</span>
+                  <span v-if="scope.row.status == 4">已派奖</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -76,9 +80,9 @@
               background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="gameListQuery.pageIndex"
+              :current-page="gameListQuery.page"
               :page-sizes="[10,20,30, 50]"
-              :page-size="gameListQuery.pageSize"
+              :page-size="gameListQuery.count"
               layout="total, sizes, prev, pager, next"
               :total="gameListTotal"
             ></el-pagination>
@@ -139,9 +143,9 @@
               background
               @size-change="handleTraceSizeChange"
               @current-change="handleTraceCurrentChange"
-              :current-page="tracesListQuery.pageIndex"
+              :current-page="tracesListQuery.page"
               :page-sizes="[10,20,30, 50]"
-              :page-size="tracesListQuery.pageSize"
+              :page-size="tracesListQuery.count"
               layout="total, sizes, prev, pager, next"
               :total="tracesListTotal"
             ></el-pagination>
@@ -163,19 +167,17 @@ export default {
       tracesListLoading: true,
       gameListTotal: null,
       gameListQuery: {
-        pageSize: 10,
-        pageIndex: 1,
+        count: 10,
+        page: 1,
         lottery_sign: undefined,
-        method_sign: undefined,
-        start_time: undefined,
+        begin_time: undefined,
         end_time: undefined,
-        project_id: undefined,
       },
       tracesListTotal: null,
       tracesList: [],
       tracesListQuery: {
-        pageSize: 10,
-        pageIndex: 1,
+        count: 10,
+        page: 1,
         lottery_sign: undefined,
         method_sign: undefined,
         start_time: undefined,
@@ -195,14 +197,14 @@ export default {
   watch: {
     gameTime:{
       handler(newName) {
-        this.gameListQuery.start_time =  this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
+        this.gameListQuery.begin_time =  this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
         this.gameListQuery.end_time =  this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
       },
       immediate: true
     },
     tracesTime:{
       handler(newName) {
-        this.tracesListQuery.start_time = this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
+        this.tracesListQuery.begin_time = this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
         this.tracesListQuery.end_time = this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
       },
       immediate: true
@@ -216,9 +218,9 @@ export default {
     getGameList() {
       this.listLoading = true
       this.Api.getBetGameRecord(this.gameListQuery).then(res => {
-        const { status, data } = res
+        const { success, data } = res
         this.listLoading = false
-        if (status) {
+        if (success) {
           this.gameList = data.data
           this.gameListTotal = data.total
         }
@@ -227,36 +229,36 @@ export default {
     getTraceList() {
       this.tracesListLoading = true
       this.Api.getBetTraceRecord(this.tracesListQuery).then(res => {
-        const { status, data } = res
+        const { success, data } = res
         this.tracesListLoading = false
-        if (status) {
+        if (success) {
           this.tracesList = data.data
           this.tracesListTotal = data.total
         }
       })
     },
     searchGame() {
-      this.gameListQuery.pageIndex = 1
+      this.gameListQuery.page = 1
       this.getGameList()
     },
     searchTraces() {
-      this.tracesListQuery.pageIndex = 1
+      this.tracesListQuery.page = 1
       this.getTraceList()
     },
     handleSizeChange(val) {
-      this.gameListQuery.pageSize = val
+      this.gameListQuery.count = val
       this.getGameList()
     },
     handleCurrentChange(val) {
-      this.gameListQuery.pageIndex = val
+      this.gameListQuery.page = val
       this.getGameList()
     },
     handleTraceSizeChange(val) {
-      this.tracesListQuery.pageSize = val
+      this.tracesListQuery.count = val
       this.getTraceList()
     },
     handleTraceCurrentChange(val) {
-      this.tracesListQuery.pageIndex = val
+      this.tracesListQuery.page = val
       this.getTraceList()
     }
   }

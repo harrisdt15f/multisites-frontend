@@ -54,20 +54,22 @@
             <section ref="lotterListShow" class="nav-menu-box">
               <el-row :gutter="30">
                 <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
-                  <div class="nav-menu-title">{{lottery.name}}</div>
-                  <el-row :gutter="4" class="nav-menus">
-                    <el-col
-                      :span="8"
-                      class="nav-menu"
-                      v-for="(item, itemIndex) in lottery.list"
-                      :key="itemIndex">
-                      <router-link
-                              :to="`/bet/${item.id}`"
-                              class="span wzfw"
-                              tag="a"
-                      >{{item.name}}</router-link>
-                    </el-col>
-                  </el-row>
+                  <template v-if="lottery.list && lottery.list.length">
+                    <div class="nav-menu-title">{{lottery.name}}</div>
+                    <el-row :gutter="4" class="nav-menus">
+                      <el-col
+                        :span="8"
+                        class="nav-menu"
+                        v-for="(item, itemIndex) in lottery.list"
+                        :key="itemIndex">
+                        <router-link
+                                :to="`/bet/${item.id}`"
+                                class="span wzfw"
+                                tag="a"
+                        >{{item.name}}</router-link>
+                      </el-col>
+                    </el-row>
+                  </template>
                 </el-col>
               </el-row>
             </section>

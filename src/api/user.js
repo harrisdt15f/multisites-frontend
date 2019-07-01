@@ -57,6 +57,9 @@ export default {
   //设置资金密码
   setFundPassword(data) {
     return this.post('/user/set-fund-password', data).then(response =>  response)
+  },
+  //个人资料列表 
+  userSpecificInfos(){
+    return this.get('/user/user-specific-infos').then(response =>  response)
   }
-  
 }
