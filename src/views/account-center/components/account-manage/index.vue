@@ -8,7 +8,7 @@
         <pwd-manage :existFundPassword="existFundPassword" @showSetFund="handleshowFundPwd"></pwd-manage>
       </el-tab-pane>
       <el-tab-pane :lazy="true" label="银行卡管理" name="bank-manage">
-        <bank-manage></bank-manage>
+        <bank-manage v-if="activeName === 'bank-manage'"></bank-manage>
       </el-tab-pane>
     </el-tabs>
     <el-dialog class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFund">
@@ -114,7 +114,7 @@ export default {
               this.$alert('设置资金密码成功成功！', '提示', {
                 confirmButtonText: '确定'
               })
-            }
+            } 
           })
         }
       })

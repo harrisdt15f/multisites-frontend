@@ -201,17 +201,29 @@ export default {
         }
       })
     },
+    fetchCardList() {
+      return new Promise((resolve, reject) => {
+        this.Api.getCardList().then(res => {
+          const { success, data } = res
+          if (success) {
+            this.tableData = data
+            resolve(res)
+          }
+        })
+      })
+    },
     getCardList() {
-      this.Api.getCardList().then(res => {
+      this.fetchCardList().then(res => {
         const { success, data } = res
         if (success && data) {
           if (data.length) {
             this.haveBankCard = true
             this.showManageBank = true
-          } else{
+          } else {
             this.haveBankCard = false
+            this.showManageBank = false
+            this.showCreateBank = false
           }
-          this.tableData = data
         }
       })
     },
@@ -222,7 +234,18 @@ export default {
         }
       })
     },
+    restFrom() {
+      this.cardForm = {
+        bank_sign: '',
+        province_id: undefined,
+        city_id: undefined,
+        card_number: '',
+        branch: '',
+        owner_name: ''
+      }
+    },
     handleOpenDialog() {
+      this.restFrom()
       this.showCreateBank = true
       this.haveBankCard = true
     },
@@ -243,40 +266,59 @@ export default {
           })
           this.Api.addBank(sendData).then(({ success }) => {
             if (success) {
-              this.$alert('添加银行卡成功！', '提示', {
-                confirmButtonText: '确定'
-              })
               this.createResult = 1
             }
           })
+          this.fetchCardList()
         }
       })
     },
-    handleManageBank() {
-      this.showCreateBank = false
-      this.showManageBank = true
-      this.getCardList()
-    },
     handleAddCreate() {
+      this.restFrom()
       this.showCreateBank = true
       this.showManageBank = false
       this.createResult = 0
     },
-    goToBankManage(){
-      this.getCardList()
+    goToBankManage() {
       this.showCreateBank = false
       this.showManageBank = true
       this.createResult = 0
     },
-    delectBankCard(row){
-      this.Api.deleteBank({id:row.id}).then(({success}) => {
-        if (success) {
-          this.$alert('删除成功！', '提示', {
-            confirmButtonText: '确定'
-          })
-          this.getCardList()
-        }
+    delectBankCard(row) {
+      this.$confirm('此操作将永久删除该银行卡, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
+        .then(() => {
+          this.Api.deleteBank({ id: row.id }).then(({ success }) => {
+            if (success) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              this.fetchCardList().then(res => {
+                const { success, data } = res
+                if (success && data) {
+                  if (data.length) {
+                    this.haveBankCard = true
+                    this.showManageBank = true
+                  } else {
+                    this.haveBankCard = false
+                    this.showManageBank = false
+                    this.showCreateBank = false
+                  }
+                }
+              })
+            }
+          })
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   }
 }
