@@ -74,7 +74,7 @@ export default {
 .parsonal-info-head{
   background: #f6f6f7;
   width: 600px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   padding: 5px 15px;
   line-height: 3.0;
   .tit{

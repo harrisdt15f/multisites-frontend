@@ -226,20 +226,8 @@ export default {
       inputCodesInitText: '',
       inputCodes: {},
       inputCodesSingle: 0,
-      chooseNumber: [
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false]
-      ],
-      chooseButton: [
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false],
-        [false, false, false, false, false, false, false, false, false, false]
-      ],
+      chooseNumber: [],
+      chooseButton: [],
       choosePosition: [],
       // 当前选中状态
       currentOrder: {
@@ -339,6 +327,7 @@ export default {
     }
   },
   created() {
+    this.preSelectButton()
     // 当前最大 最小奖金组
     let list = this.lotteryLists[this.currentLottery.series_id].list
     for (const k of list) {
@@ -603,11 +592,44 @@ export default {
       // 计算注数
       this.calculate()
     },
+    preSelectButton(){
+      if(this.currentLottery.series_id === 'lotto'){
+        this.chooseNumber = [
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false]
+        ]
+        this.chooseButton = [
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false, false]
+        ]
+      }else{
+        this.chooseNumber = [
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false]
+        ]
+        this.chooseButton = [
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false],
+          [false, false, false, false, false, false, false, false, false, false]
+        ]
+      }
+    },
     // 选择按钮
     selectButton(y, b) {
       this.cleanChooseButton(y)
       this.cleanChooseNumber(y)
-  
+
       this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
       
       let rowData = this.chooseNumber[y]

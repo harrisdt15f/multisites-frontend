@@ -1,4 +1,5 @@
 import { API } from '@/api'
+import { Promise } from 'q'
 
 const state = {
   // 用户配置
@@ -291,15 +292,19 @@ const actions = {
   },
   // 我的投注 和 我的追号
   betHistory({ commit, state }) {
-    API.getBetHistory(state.currentLottery.en_name).then(res => {
-      if (res.success) {
-        let project = res.data.project
-        for (let i = 0; i < project.length; i++) {
-          project[i].name =
-            state.lotteryAll[project[i].lottery_name].lottery.cn_name
-        }
-        commit('betHistory', res.data)
+    const bet = {}
+    const betHistory = API.getBetHistory(state.currentLottery.en_name).then(({success,data}) => {
+      if (success) {
+        bet.project = data.data
       }
+    })
+    const traceHistory = API.getTracesHistory(state.currentLottery.en_name).then(({success,data}) => {
+      if (success) {
+        bet.trace = data.data
+      }
+    })
+    Promise.all([betHistory, traceHistory]).then(() => {
+      commit('betHistory', bet)
     })
   },
   // 历史开奖记录

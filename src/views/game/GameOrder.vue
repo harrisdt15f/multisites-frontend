@@ -424,29 +424,54 @@
           </tr>
         </tbody>
       </table>-->
-      <el-table :data="bet.betHistory.myBetList" style="width: 100%">
-        <el-table-column align="center" prop="name" label="游戏"></el-table-column>
-        <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
-        <el-table-column align="center" prop="issue" label="期号"></el-table-column>
-        <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
-        <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
-        <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
-        <el-table-column align="center" label="状态">
-          <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">待开奖</span>
-            <span v-if="scope.row.status == 2">未中奖</span>
-            <span v-if="scope.row.status == 3">中奖</span>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column
-          align="center"
-          prop="open_codes"
-          label="操作">
-        </el-table-column>-->
-      </el-table>
-      <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
+      <template v-if="betHistory.tab === 0">
+        <el-table :data="bet.betHistory.myBetList" style="width: 100%">
+          <el-table-column align="center" prop="name" label="游戏">
+            <template>
+              <span>{{currentLottery.cn_name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
+          <el-table-column align="center" prop="issue" label="期号"></el-table-column>
+          <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
+          <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
+          <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
+          <el-table-column align="center" label="状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">待开奖</span>
+              <span v-if="scope.row.status == 2">未中奖</span>
+              <span v-if="scope.row.status == 3">中奖</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
+      </template>
+      <template v-if="betHistory.tab === 1">
+        <el-table :data="bet.betHistory.myChaseList" style="width: 100%">
+          <el-table-column align="center" prop="name" label="游戏">
+            <template>
+              <span>{{currentLottery.cn_name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
+          <el-table-column align="center" prop="start_issue" label="起始奖期"></el-table-column>
+          <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
+          <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
+          <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
+          <el-table-column align="center" label="状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">待开奖</span>
+              <span v-if="scope.row.status == 2">未中奖</span>
+              <span v-if="scope.row.status == 3">中奖</span>
+            </template>
+          </el-table-column>
+        </el-table>
+        <router-link tag="section" class="row-more" to="/account-center/bet-record/traces">更多游戏记录...</router-link>
+      </template>
     </section>
   </section>
 </template>

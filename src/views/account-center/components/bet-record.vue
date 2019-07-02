@@ -158,6 +158,7 @@
 
 <script>
 export default {
+  inject:['active'],
   data() {
     const date = new Date()
     return {
@@ -211,6 +212,7 @@ export default {
     }
   },
   created() {
+    this.activeName = this.active ? this.active : 'game'
     this.getGameList()
     this.getTraceList()
   },
