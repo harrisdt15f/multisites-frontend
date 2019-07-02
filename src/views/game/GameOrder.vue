@@ -467,6 +467,7 @@
               <span v-if="scope.row.status == 0">待开奖</span>
               <span v-if="scope.row.status == 2">未中奖</span>
               <span v-if="scope.row.status == 3">中奖</span>
+              <span v-if="scope.row.status == 4">已派奖</span>
             </template>
           </el-table-column>
         </el-table>
@@ -593,6 +594,8 @@ export default {
             rateAll += Number(newVal[i].multiple)
           }
         }
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = rateAll
         this.chase.rateMoneyAll = rateAll * this.chase.rateMoney
       },
       deep: true
@@ -616,6 +619,8 @@ export default {
             doubleAll += Number(newVal[i].multiple)
           }
         }
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = doubleAll
         this.chase.doubleMoneyAll = doubleAll * this.chase.doubleMoney
       },
       deep: true
@@ -639,6 +644,9 @@ export default {
             doubleAll += Number(newVal[i].multiple)
           }
         }
+
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = doubleAll
         this.chase.sameMoneyAll = doubleAll * this.chase.sameMoney
       },
       deep: true

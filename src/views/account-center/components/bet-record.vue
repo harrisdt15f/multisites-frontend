@@ -46,7 +46,7 @@
               </el-table-column>
               <el-table-column align="center" label="投注内容">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.bet_number }}</span>
+                  <span>{{ scope.row.bet_codes }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="投注额">

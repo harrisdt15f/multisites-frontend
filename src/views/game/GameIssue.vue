@@ -291,6 +291,8 @@ export default {
           this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
           this.notice.show = true
           this.times()
+          this.$store.dispatch('getUserDetail')
+          this.$store.dispatch('betHistory')
           if (this.issueNum === this.issueInfo.length) {
             this.getIssue()
           }
