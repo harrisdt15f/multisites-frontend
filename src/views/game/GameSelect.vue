@@ -645,14 +645,14 @@ export default {
             break
           case '大':
             for (let i = 0; i < rowData.length; i++) {
-              if (i >= rowData.length / 2) {
+              if (i >= Math.floor(rowData.length / 2)) {
                 this.chooseNumber[y][i] = true
               }
             }
             break
           case '小':
             for (let i = 0; i < rowData.length; i++) {
-              if (i < rowData.length / 2) {
+              if (i < Math.floor(rowData.length / 2)) {
                 this.chooseNumber[y][i] = true
               }
             }
@@ -780,13 +780,13 @@ export default {
                     temp = '2'
                     break
                   case '豹子':
-                    temp = 'b'
+                    temp = '0'
                     break
                   case '顺子':
-                    temp = 's'
+                    temp = '1'
                     break
                   case '对子':
-                    temp = 'd'
+                    temp = '2'
                     break
                   case '大':
                     temp = 'b'
