@@ -786,16 +786,16 @@ export default {
                     temp = '2'
                     break
                   case '大':
-                    temp = 'b'
+                    temp = '1'
                     break
                   case '小':
-                    temp = 's'
+                    temp = '0'
                     break
                   case '单':
-                    temp = 'a'
+                    temp = '3'
                     break
                   case '双':
-                    temp = 'd'
+                    temp = '2'
                     break
                 }
               }
