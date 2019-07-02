@@ -771,13 +771,13 @@ export default {
               if (this.Utils.checkIsChinese(number)) {
                 switch (number) {
                   case '龙':
-                    temp = '1'
+                    temp = '0'
                     break
                   case '虎':
-                    temp = '2'
+                    temp = '1'
                     break
                   case '和':
-                    temp = '3'
+                    temp = '2'
                     break
                   case '豹子':
                     temp = 'b'
