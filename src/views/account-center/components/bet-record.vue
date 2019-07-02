@@ -158,7 +158,7 @@
 
 <script>
 export default {
-  inject:['active'],
+  inject: ['active'],
   data() {
     const date = new Date()
     return {
@@ -172,7 +172,7 @@ export default {
         page: 1,
         lottery_sign: undefined,
         begin_time: undefined,
-        end_time: undefined,
+        end_time: undefined
       },
       tracesListTotal: null,
       tracesList: [],
@@ -183,7 +183,7 @@ export default {
         method_sign: undefined,
         start_time: undefined,
         end_time: undefined,
-        project_id: undefined,
+        project_id: undefined
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
@@ -196,17 +196,29 @@ export default {
     }
   },
   watch: {
-    gameTime:{
+    gameTime: {
       handler(newName) {
-        this.gameListQuery.begin_time =  this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
-        this.gameListQuery.end_time =  this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
+        this.gameListQuery.begin_time = this.Utils.formatTime(
+          newName[0],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+        this.gameListQuery.end_time = this.Utils.formatTime(
+          newName[1],
+          'YYYY-MM-DD HH:MM:SS'
+        )
       },
       immediate: true
     },
-    tracesTime:{
+    tracesTime: {
       handler(newName) {
-        this.tracesListQuery.begin_time = this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
-        this.tracesListQuery.end_time = this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
+        this.tracesListQuery.begin_time = this.Utils.formatTime(
+          newName[0],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+        this.tracesListQuery.end_time = this.Utils.formatTime(
+          newName[1],
+          'YYYY-MM-DD HH:MM:SS'
+        )
       },
       immediate: true
     }

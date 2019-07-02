@@ -1040,17 +1040,7 @@ export default {
           // 获取我的投注 我的追号记录
           this.$store.dispatch('betHistory')
           // 刷新余额
-          this.Api.getBalance().then(res => {
-            if (res.isSuccess) {
-              let account = this.Utils.storage.get('current-user')
-              if (account && account.data) {
-                account.data.balance = res.data.balance
-                account.data.frozen = res.data.frozen
-                this.$store.commit('account', account.data)
-                this.Utils.storage.set('current-user', account.data)
-              }
-            }
-          })
+          this.$store.dispatch('getUserDetail')
           this.submitDialog = false
         }
       })
