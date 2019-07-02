@@ -234,7 +234,7 @@ export default {
         currentCost: 0,
         currentCount: 0,
         currentTimes: 1,
-        currentGroup: 1950,
+        currentGroup: undefined,
         currentCodes: {}
       },
       // 一键投注
@@ -242,10 +242,7 @@ export default {
       dsTimer: null,
       series: '',
       // 奖金计算
-      prizes: {
-        min: 1800,
-        max: 2000,
-      },
+      prizes: {},
       
       // 游戏模式
       singlePrice: [
@@ -333,7 +330,7 @@ export default {
     for (const k of list) {
       if (k.id === this.currentLottery.en_name) {
         this.prizes.min = k.min_prize_group
-        this.prizes.max = k.max_prize_group
+        this.prizes.max = this.userDetail.prize_group
       }
     }
     // 当前奖金组
@@ -375,7 +372,7 @@ export default {
           times: this.currentOrder.currentTimes,
           cost: (this.currentOrder.currentCost).toFixed(3),
           mode: this.userConfig.mode,
-          prize_group: this.currentOrder.currentGroup,
+          prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice
         }
         order._codes = this.formatInputCodes(order.codes)
@@ -450,7 +447,7 @@ export default {
           times: this.currentOrder.currentTimes,
           cost: this.currentOrder.currentCost,
           mode: this.userConfig.mode,
-          prize_group: this.currentOrder.currentGroup,
+          prize_group: this.lottery.countPrize,
           price: 2
         }
         if (oneKey) {
