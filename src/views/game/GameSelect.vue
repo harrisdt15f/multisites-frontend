@@ -962,6 +962,9 @@ export default {
     },
     // 一键投注
     oneKeyBet() {
+      if (this.betLoading) {
+        return
+      }
       let [
         currentIssus = this.currentIssue.issue_no,
         issus = {[currentIssus] : 1}

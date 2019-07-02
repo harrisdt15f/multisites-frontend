@@ -1056,6 +1056,9 @@ export default {
     },
     // 确定投注
     submitBet() {
+      if (this.betLoading) {
+        return 
+      }
       if (
         this.bet.doubleBeforeOrder.length === 0 ||
         this.bet.doubleBeforeOrder === '[]'
