@@ -1,5 +1,5 @@
 <template>
-  <div class="bank-manage">
+  <div class="bank-manage" v-loading="loading">
     <div class="container" v-if="!haveBankCard">
       <div class="bank-manage">
         <div class="form-container">
@@ -143,6 +143,7 @@
 export default {
   data() {
     return {
+      loading: false,
       tableData: [],
       haveBankCard: false,
       showCreateBank: false,
@@ -213,7 +214,9 @@ export default {
       })
     },
     getCardList() {
+      this.loading = true
       this.fetchCardList().then(res => {
+        this.loading = false
         const { success, data } = res
         if (success && data) {
           if (data.length) {
@@ -267,9 +270,10 @@ export default {
           this.Api.addBank(sendData).then(({ success }) => {
             if (success) {
               this.createResult = 1
+              this.fetchCardList()
             }
           })
-          this.fetchCardList()
+          
         }
       })
     },

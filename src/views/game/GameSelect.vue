@@ -880,7 +880,7 @@ export default {
     inputAreaChange() {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
-        this.setTimeoutInputClearRepeatOrder()
+        this.inputClearRepeatOrder()
       }, 1000)
     },
     // 单式输入框失去焦点

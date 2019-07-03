@@ -22,7 +22,7 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getBanner', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
+    ...mapActions(['getBanner', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
       this.Api.showHomepageModel().then(({success, data}) => {
@@ -31,7 +31,7 @@ export default {
           data['banner'] ? this.getBanner() : null
           data['qr.code'] ? this.getQrcode() : null
           data['customer.service'] ? '' : null
-          data['winning.ranking'] ? '' : null
+          data['winning.ranking'] ? this.getRanking() : null
           data['notice'] ? this.getNotice() : null
           data['popularLotteries.one'] ? this.getPopularLotteries1() : null
           data['popularLotteries.two'] ? this.getPopularLotteries2() : null

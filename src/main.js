@@ -11,8 +11,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.css'
 
-import DialogBulletin from './components/public/dialog_bulletin.vue'
-
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

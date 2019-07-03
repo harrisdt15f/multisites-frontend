@@ -8,6 +8,7 @@ const state = {
   activity: '',
   popularLotteries1: [],
   popularLotteries2: [],
+  ranking: [],
   showBanner: false,
   showSideFloat: true
 }
@@ -46,6 +47,9 @@ const mutations = {
   SET_NOTICE(state, data) {
     state.notice = data
   },
+  SET_RANKING(state, data) {
+    state.ranking = data
+  },
 }
 
 const actions = {
@@ -76,7 +80,7 @@ const actions = {
   },
   //获取公告 API
   getNotice({ commit }){
-    API.getNotice().then(({success, data}) => {
+    API.getNotice({type:1}).then(({success, data}) => {
       if (success) {
         commit('SET_NOTICE', data)
       }
@@ -103,6 +107,13 @@ const actions = {
       }
     })
   },
+  getRanking({ commit }){
+    API.getRanking().then(({success, data}) => {
+      if (success) {
+        commit('SET_RANKING', data)
+      }
+    })
+  }
 }
 
 export default {
