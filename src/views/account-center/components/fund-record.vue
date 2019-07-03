@@ -4,13 +4,14 @@
       <div class="filter-container">
         游戏时间：
         <el-date-picker
+          size="mini"
           v-model="value1"
           type="datetimerange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
-        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select" style="width:320px;margin-left:15px;">
+        <el-input size="mini" placeholder="请输入内容" v-model="input3" class="input-with-select" style="width:320px;margin-left:15px;">
           <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px;">
             <el-option label="餐厅名" value="1"></el-option>
             <el-option label="订单号" value="2"></el-option>

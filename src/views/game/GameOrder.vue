@@ -364,66 +364,6 @@
           @click="betHistory.tab = 1"
         >我的追号</li>
       </ul>
-      <!-- <table v-if="betHistory.tab === 0" class="w100">
-        <thead>
-          <tr>
-            <th>游戏</th>
-            <th>玩法</th>
-            <th>期号</th>
-            <th>开奖号</th>
-            <th>投注内容</th>
-            <th>投注金额</th>
-            <th>奖金</th>
-            <th>奖金组-返点</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in bet.betHistory.myBetList" :key="index">
-            <td>{{item.name}}</td>
-            <td>{{item.method_name}}</td>
-            <td>{{item.issue}}</td>
-            <td>{{item.open_codes}}</td>
-            <td style="display:inline-block;width:170px;" class="wzfw">{{item.bet_codes}}</td>
-            <td>{{item.total_cost}}</td>
-            <td>0.00</td>
-            <td>{{item.prize_group}}</td>
-            <td>{{item.status}}</td>
-            <td class="cur">详情</td>
-          </tr>
-        </tbody>
-      </table>
-      <table v-if="betHistory.tab === 1" class="w100">
-        <thead>
-          <tr>
-            <th>游戏</th>
-            <th>玩法</th>
-            <th>期号</th>
-            <th>开奖号</th>
-            <th>投注内容</th>
-            <th>投注金额</th>
-            <th>奖金</th>
-            <th>奖金组-返点</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-              <td>重庆时时彩</td>
-              <td>五星直选单式</td>
-              <td>190415040</td>
-              <td>190415040</td>
-              <td style="display:inline-block;width:170px;" class="wzfw">1</td>
-              <td>1</td>
-              <td>2</td>
-              <td>未中奖</td>
-              <td>0</td>
-              <td class="cur">详情</td>
-          </tr>
-        </tbody>
-      </table>-->
       <template v-if="betHistory.tab === 0">
         <el-table :data="bet.betHistory.myBetList" style="width: 100%">
           <el-table-column align="center" prop="name" label="游戏">
@@ -443,6 +383,7 @@
               <span v-if="scope.row.status == 0">待开奖</span>
               <span v-if="scope.row.status == 2">未中奖</span>
               <span v-if="scope.row.status == 3">中奖</span>
+              <span v-if="scope.row.status == 4">已派奖</span>
             </template>
           </el-table-column>
         </el-table>

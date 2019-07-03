@@ -147,6 +147,7 @@
         </div>
         <div class="balls-import-box">
           <textarea
+            @input="inputAreaChange()"
             @focus="inputAreaFocus()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
@@ -879,7 +880,7 @@ export default {
     inputAreaChange() {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
-        this.inputClearRepeatOrder()
+        this.setTimeoutInputClearRepeatOrder()
       }, 1000)
     },
     // 单式输入框失去焦点
@@ -957,6 +958,70 @@ export default {
         this.inputCodesSingle = 0
       } else {
         this.inputCodesSingle = this.inputCodes.split(',').length
+      }
+      this.calculate()
+    },
+    // 清理重复项 和 错误项 计算注数
+    setTimeoutInputClearRepeatOrder(){
+      let [
+        tmp = new Set(
+          (this.inputCodes || '').split(/[\s\n,|]+/).map(item => {
+            return this.Utils.trim(item)
+          })
+        )
+      ] = []
+      // 任选单式
+      if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
+        for (const k of tmp) {
+          let temp = k.split(' ')
+          for (const i of temp) {
+            if (
+              isNaN(i) ||
+              parseInt(i) > 11 ||
+              parseInt(i) < 0 ||
+              i.length !== this.currentMethod.number ||
+              temp.length !== this.currentMethod.b64
+            ) {
+              tmp.delete(k)
+            }
+          }
+        }
+      }
+      else {
+        // 直选单式
+        if (this.currentLottery.series_id === 'lotto') {
+          tmp = new Set((this.inputCodes || '').split(/,|，/).map(item => {
+            return this.Utils.trim(item)
+          }))
+          for (const i of tmp) {
+            // 去除重复的组
+            const arr = i.split(/[\s\n]+/)
+
+            if(isRepeat(arr) || arr.length != this.currentMethod.b64
+            || arr.some(val => Number(val) > 11)){
+              tmp.delete(i)
+            }
+          }
+        } else {
+          for (const i of tmp) {
+            // 去除非数字项
+            if (isNaN(i)) {
+              tmp.delete(i)
+            }
+            // 去除 小于 或者 大于规定长度
+            if (
+              (this.currentMethod && String(i).length < this.currentMethod.b64) ||
+              String(i).length > this.currentMethod.b64
+            ) {
+              tmp.delete(i)
+            }
+          }
+        }
+      }
+      if (!this.inputCodes) {
+        this.inputCodesSingle = 0
+      } else {
+        this.inputCodesSingle = [...tmp].length
       }
       this.calculate()
     },
