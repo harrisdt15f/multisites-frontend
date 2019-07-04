@@ -391,24 +391,28 @@
       </template>
       <template v-if="betHistory.tab === 1">
         <el-table :data="bet.betHistory.myChaseList" style="width: 100%">
-          <el-table-column align="center" prop="name" label="游戏">
+          <el-table-column align="center" prop="name" label="彩种" show-overflow-tooltip>
             <template>
               <span>{{currentLottery.cn_name}}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
-          <el-table-column align="center" prop="start_issue" label="起始奖期"></el-table-column>
-          <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
-          <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
-          <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
-          <el-table-column align="center" label="状态">
+          <el-table-column align="center" prop="method_name" label="玩法" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="start_issue" label="起始奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="process" label="追号奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total_price" label="投注金额" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="is_win_stop" label="追中即停" show-overflow-tooltip>
             <template slot-scope="scope">
-              <span v-if="scope.row.status == 0">待开奖</span>
-              <span v-if="scope.row.status == 2">未中奖</span>
-              <span v-if="scope.row.status == 3">中奖</span>
-              <span v-if="scope.row.status == 4">已派奖</span>
+              <span v-if="scope.row.is_win_stop == 0">不停</span>
+              <span v-if="scope.row.is_win_stop == 1">停</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="finished_bonus" label="中奖金额" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" label="状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">正在追号 </span>
+              <span v-if="scope.row.status == 1">追号完成</span>
+              <span v-if="scope.row.status == 2">玩家撤销 </span>
+              <span v-if="scope.row.status == 3">系统撤销</span>
             </template>
           </el-table-column>
         </el-table>

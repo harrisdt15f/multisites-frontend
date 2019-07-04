@@ -29,7 +29,7 @@
       <div class="center">
         <el-row class="center-box" :gutter="8">
           <el-col :span="6">
-            <div class="winning" v-if="ranking.length">
+            <div class="winning" v-if="ranking && ranking.length">
               <section class="fw lottery-wins-boxs" id="lottery-wins-boxs">
                 <ul class="lottery-wins-lists" id="lottery-wins-lists">
                   <li class="lottery-wins-list" v-for="(item, index) in ranking" :key="index"> 
@@ -59,7 +59,7 @@
               </div>
             </div>
             <div class="box-report">
-              <ul class="report-list" v-if="notice && notice.data.length">
+              <ul class="report-list" v-if="notice.data && notice.data.length">
                 <li class="report-list-item" v-for="(item, index) in notice.data.slice(0, 6)" :key="index">
                   <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}{{item.id}}</a>
                 </li>

@@ -468,8 +468,8 @@ export default {
         // this.currentOrder.currentCost = 0
         // this.currentOrder.currentCount = 0
         // this.currentOrder.currentTimes = 1
-        // this.inputCodesSingle = 0
-        // this.inputCodes = ''
+        this.inputCodesSingle = 0
+        this.inputCodes = ''
       }
     },
     // 计算注数

@@ -1403,7 +1403,7 @@ export default {
                 'type': 'multi',
                 'btnStr': true,
                 'layout': {
-                    '百/个': digitalLhhTpl
+                    '十/个': digitalLhhTpl
                 },
                 'buttons': []
             },
