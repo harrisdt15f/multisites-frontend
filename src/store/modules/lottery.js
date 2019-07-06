@@ -28,7 +28,7 @@ const state = {
   // 当前玩法
   currentMethod: {},
   // 当前玩法系列
-  currentMethodGroup: {},
+  currentMethodGroup: '',
   beforeIssue: {},
   nextIssue: {},
   // 计算属性

@@ -366,6 +366,7 @@ export default {
         this.currentMethod.type === 'k3'
       ) {
         order = {
+          method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
           codes: this.convertCodes(),
@@ -441,12 +442,13 @@ export default {
           return val.split('').join('&')
         })
         order = {
+          method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
           codes: this.currentMethod.type === 'text' ? codes.join('|') : this.inputCodes,
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
-          cost: this.currentOrder.currentCost,
+          cost: (this.currentOrder.currentCost).toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
           price: 2

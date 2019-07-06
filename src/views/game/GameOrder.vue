@@ -374,7 +374,22 @@
           <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
           <el-table-column align="center" prop="issue" label="期号"></el-table-column>
           <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" label="投注内容" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <template v-if="scope.row.method_group === 'DXDS'">
+                {{scope.row.bet_codes.replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}} 
+              </template>
+              <template v-else-if="scope.row.method_group === 'LH'">
+                {{scope.row.bet_codes.replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}} 
+              </template>
+              <template v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'">
+                {{scope.row.bet_codes.replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}} 
+              </template>
+              <template v-else>
+                <span>{{scope.row.bet_codes}}</span>
+              </template>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
           <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
           <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
