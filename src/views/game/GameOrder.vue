@@ -365,7 +365,7 @@
         >我的追号</li>
       </ul>
       <template v-if="betHistory.tab === 0">
-        <el-table :data="bet.betHistory.myBetList" style="width: 100%">
+        <el-table :key="1" :data="bet.betHistory.myBetList" style="width: 100%">
           <el-table-column align="center" prop="name" label="游戏">
             <template>
               <span>{{currentLottery.cn_name}}</span>
@@ -405,7 +405,7 @@
         <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
       </template>
       <template v-if="betHistory.tab === 1">
-        <el-table :data="bet.betHistory.myChaseList" style="width: 100%">
+        <el-table :key="2" :data="bet.betHistory.myChaseList" style="width: 100%">
           <el-table-column align="center" prop="name" label="彩种" show-overflow-tooltip>
             <template>
               <span>{{currentLottery.cn_name}}</span>
@@ -1097,6 +1097,7 @@ export default {
           this.$store.dispatch('betHistory')
           // 刷新余额
           this.$store.dispatch('getUserDetail')
+          this.clearOrderList()
         }
       })
     },
