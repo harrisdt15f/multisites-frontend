@@ -2,20 +2,24 @@
   <section style="border-right: 1px solid #eaeaea;">
     <div class="main-play-introduce ft12">
       {{currentMethod.desc}}
-      <a href="javascript:;" class="ico-why" v-if="currentMethod && currentMethod.help">
+      <a
+        href="javascript:;"
+        class="ico-why"
+        v-if="currentMethod && currentMethod.help"
+      >
         ?
         <div class="tooltip1" v-html="currentMethod.help"></div>
       </a>
-<!--      <a href="javascript:;" class="ico-case" v-if="currentMethod && currentMethod.example">-->
-<!--        例-->
-<!--        <div class="tooltip1" v-html="currentMethod.example"></div>-->
-<!--      </a>-->
+      <!--      <a href="javascript:;" class="ico-case" v-if="currentMethod && currentMethod.example">-->
+      <!--        例-->
+      <!--        <div class="tooltip1" v-html="currentMethod.example"></div>-->
+      <!--      </a>-->
       <div class="lhc-end ab" v-if="currentMethod.type === 'lhc'">
         <el-tooltip content="1800 - 0.00%" placement="bottom">
-          <input type="button" class="input high curr" value="A面">
+          <input type="button" class="input high curr" value="A面" />
         </el-tooltip>
         <el-tooltip content="1800 - 0.00%" placement="bottom">
-          <input type="button" class="input low" value="B面">
+          <input type="button" class="input low" value="B面" />
         </el-tooltip>
       </div>
     </div>
@@ -24,20 +28,23 @@
       <div
         class="main-ball-list"
         v-for="(_number, _tabName, yIndex) in currentMethod.layout"
-        :key="yIndex">
-        <div class="ball-list-name" :style="{'padding-top': currentMethod.method.indexOf('LH') > -1 ? '26px' : '7px'}">{{_tabName}}</div>
-        
-        
-<!--        选号区域  非龙虎选号-->
-        <ul class="main-ball-content"
-            v-if="currentMethod.method.indexOf('LH') < 0">
+        :key="yIndex"
+      >
+        <div
+          class="ball-list-name"
+          :style="{'padding-top': currentMethod.method.indexOf('LH') > -1 ? '26px' : '7px'}"
+        >{{_tabName}}</div>
+
+        <!--        选号区域  非龙虎选号-->
+        <ul class="main-ball-content" v-if="currentMethod.method.indexOf('LH') < 0">
           <li
             class="main-ball-content-li"
             v-for="(_code, xIndex) in _number"
             :key="xIndex"
             :class="{'ball-on': chooseNumber[yIndex][xIndex], 'active': chooseNumber[yIndex][xIndex]}"
-            @click="selectCode(yIndex, xIndex)">
-            <a 
+            @click="selectCode(yIndex, xIndex)"
+          >
+            <a
               href="javascript:;"
               :class="{
                 'ball-number-long' :
@@ -45,16 +52,18 @@
                 currentMethod.method === 'ZTS3' ||
                 currentMethod.method === 'HTS3' ||
                 currentMethod.method === 'LTDDS'}"
-              class="ball" 
-              :x="xIndex" 
-              :y="yIndex">{{_code}}</a>
+              class="ball"
+              :x="xIndex"
+              :y="yIndex"
+            >{{_code}}</a>
           </li>
         </ul>
-<!--        龙虎选号-->
+        <!--        龙虎选号-->
         <ul
-            v-if="
+          v-if="
             currentLottery.series_id === 'ssc' &&
-            currentMethod.method.indexOf('LH') > -1">
+            currentMethod.method.indexOf('LH') > -1"
+        >
           <li
             class="main-ball-content-lh"
             v-for="(_code, xIndex) in _number"
@@ -64,19 +73,22 @@
             'main-ball-content-lh-tiger': _code === '虎',
             'main-ball-content-lh-he': _code === '和',
             'active': chooseNumber[yIndex][xIndex]}"
-            @click="selectCode(yIndex, xIndex)">
-          </li>
+            @click="selectCode(yIndex, xIndex)"
+          ></li>
         </ul>
         <!--辅助选号按钮-->
-        <ul class="main-ball-control"
-            v-if="currentMethod.buttons.length > 0"
-            :class="{'series' : series === 'lotto'}">
+        <ul
+          class="main-ball-control"
+          v-if="currentMethod.buttons.length > 0"
+          :class="{'series' : series === 'lotto'}"
+        >
           <li
             class="main-ball-control-li"
             v-for="(_btnText, bIndex) in  currentMethod.buttons"
             :key="bIndex"
             :class="{'ball-on': chooseButton[yIndex][bIndex] }"
-            @click="selectButton(yIndex, bIndex)">
+            @click="selectButton(yIndex, bIndex)"
+          >
             <a href="javascript:;" class="ball" :x="bIndex" :y="yIndex">{{_btnText}}</a>
           </li>
         </ul>
@@ -88,20 +100,23 @@
       v-else-if="currentMethod.type === 'k3'"
       class="ball-k3"
       v-for="(_number, _tabName, yIndex) in currentMethod.layout"
-      :key="yIndex">
+      :key="yIndex"
+    >
       <ul
         class="k3-dxds-lists k3-sbth-lists"
         v-if="currentMethod.method !== 'KSHZDXDS' && currentMethod.method !== 'KSHZ'"
         :class="{
           'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
           'k3-ebth-lists': currentMethod.method === 'EBTH',
-          'k3-dtys-lists': currentMethod.method === 'DTYS'}">
+          'k3-dtys-lists': currentMethod.method === 'DTYS'}"
+      >
         <li
           class="k3-dxds-list"
           v-for="(_code, xIndex) in _number"
           :key="xIndex"
           @click="selectCode(yIndex, xIndex)"
-          :class="{'active': chooseNumber[yIndex][xIndex]}">
+          :class="{'active': chooseNumber[yIndex][xIndex]}"
+        >
           <a
             href="javascript:;"
             class="k3-sbth-dxds-lk"
@@ -109,7 +124,8 @@
             :x="xIndex"
             :y="yIndex"
             v-for="(_code_sub, index) in String(_code).split('')"
-            :key="index"></a>
+            :key="index"
+          ></a>
         </li>
       </ul>
 
@@ -119,13 +135,15 @@
           class="k3-dxds-list"
           v-for="(_code, xIndex) in _number"
           :key="xIndex"
-          @click="selectCode(yIndex, xIndex)">
+          @click="selectCode(yIndex, xIndex)"
+        >
           <a
             href="javascript:;"
             class="k3-dxds-lk"
             :class="{'active': chooseNumber[yIndex][xIndex]}"
             :x="xIndex"
-            :y="yIndex">{{_code}}</a>
+            :y="yIndex"
+          >{{_code}}</a>
         </li>
       </ul>
     </section>
@@ -141,9 +159,10 @@
             action="/import/bet"
             :show-file-list="false"
             :http-request="uploadSectionFile"
-            accept=".txt">
-            <div class="btn btn-blue btn-ball-import" >导入注单</div>
-          </el-upload>  
+            accept=".txt"
+          >
+            <div class="btn btn-blue btn-ball-import">导入注单</div>
+          </el-upload>
         </div>
         <div class="balls-import-box">
           <textarea
@@ -151,14 +170,11 @@
             @focus="inputAreaFocus()"
             @blur="inputAreaBlur()"
             class="balls-import-txt"
-            v-model="inputCodes"></textarea>
+            v-model="inputCodes"
+          ></textarea>
         </div>
         <div class="btn-tab-list import-clean-list">
-          <a  
-            href="javascript:;"
-            class="panel-btn-a"
-            @click="inputClearRepeatOrder()"
-          >清理重复和错误号码</a>
+          <a href="javascript:;" class="panel-btn-a" @click="inputClearRepeatOrder()">清理重复和错误号码</a>
           <a href="javascript:;" class="panel-btn-a" @click="inputClearOrder()">清空选号</a>
         </div>
       </div>
@@ -166,13 +182,18 @@
 
     <div class="bet-statistics" v-if="currentMethod.type !== 'lhc'">
       <div class="main-column-1 fl">
-        <el-select @change="singlePriceChange" v-model="userConfig.singlePrice" popper-class="single-price" placeholder="二元模式">
+        <el-select
+          @change="singlePriceChange"
+          v-model="userConfig.singlePrice"
+          popper-class="single-price"
+          placeholder="二元模式"
+        >
           <el-option
-                  v-for="(item, index) in singlePrice"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-          </el-option>
+            v-for="(item, index) in singlePrice"
+            :key="index"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
         </el-select>
         <div class="bet-play-mode fw">
           <a
@@ -185,29 +206,34 @@
           >{{mode.title}}</a>
         </div>
         <div class="bet-choose-total">
-          <a href="javascript:;" class="bet-choose-ipt" @click="timeReduce()"> - </a>
-          <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes">
-          <a href="javascript:;" class="bet-choose-ipt" @click="timeAdd()"> + </a>
-          <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span> 
+          <a href="javascript:;" class="bet-choose-ipt" @click="timeReduce()">-</a>
+          <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes" />
+          <a href="javascript:;" class="bet-choose-ipt" @click="timeAdd()">+</a>
+          <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span>
         </div>
       </div>
       <div class="bet-add-box fr">
         奖金组:
-        <el-slider v-model="lottery.countPrize"  :min="prizes.min" :max="prizes.max"></el-slider>
+        <el-slider v-model="lottery.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
         {{lottery.countPrize}} / {{prizes.max}}
       </div>
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
       <div class="bet-choose-total bet-choose-total-money">
-        已选 <span class="bet-choose-total-money-count">{{currentOrder.currentCount}}</span> 注，
-        共<strong class="bet-total-money" id="cost">{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
+        已选
+        <span class="bet-choose-total-money-count">{{currentOrder.currentCount}}</span> 注，
+        共
+        <strong
+          class="bet-total-money"
+          id="cost"
+        >{{Utils.toFixed(String(currentOrder.currentCost))}}</strong>元
       </div>
       <a href="javascript:;" class="btn main-btn-fastadd btn-effect" @click="oneKeyBet()">
         <i class="el-icon-loading" v-if="betLoading"></i>一键投注
       </a>
-        <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
-          <i class="fa fa-download ft20"></i> 添加选号
-        </a>
+      <a href="javascript:;" class="btn main-btn-add btn-effect" @click="addOrder()">
+        <i class="fa fa-download ft20"></i> 添加选号
+      </a>
     </div>
   </section>
 </template>
@@ -216,9 +242,9 @@ import { mapGetters, mapState } from 'vuex'
 import algorithm from '../../lib/algorithm'
 // import pako from 'pako/index.js'
 
-import { isRepeat } from '@/utils'
+import { isRepeat, isRepeatNum } from '@/utils'
 
-import Lhc from '@/components/game/lhc' 
+import Lhc from '@/components/game/lhc'
 
 export default {
   name: 'game-select',
@@ -244,11 +270,11 @@ export default {
       series: '',
       // 奖金计算
       prizes: {},
-      
+
       // 游戏模式
       singlePrice: [
-        {value: 1, label: '一元模式'},
-        {value: 2, label: '二元模式'}
+        { value: 1, label: '一元模式' },
+        { value: 2, label: '二元模式' }
       ],
       betLoading: false // 投注loading
     }
@@ -257,9 +283,7 @@ export default {
     Lhc
   },
   computed: {
-    ...mapState([
-      'lottery'
-    ]),
+    ...mapState(['lottery']),
     ...mapGetters([
       'userConfig',
       'orderList',
@@ -294,7 +318,7 @@ export default {
       this.calculate()
     },
     //更改倍数
-    'currentOrder.currentTimes'(){
+    'currentOrder.currentTimes'() {
       this.calculate()
     },
     // 切换玩法时
@@ -302,7 +326,8 @@ export default {
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.currentTimes = 1
-      this.inputCodes = '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+      this.inputCodes =
+        '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
     },
     // 号码被清空时 清空注单
     // 'currentOrder.currentCost'(newVal) {},
@@ -336,7 +361,7 @@ export default {
     }
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
-    
+
     this.inputAreaInit()
     this.series = this.currentLottery && this.currentLottery.series_id
   },
@@ -372,7 +397,7 @@ export default {
           codes: this.convertCodes(),
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
-          cost: (this.currentOrder.currentCost).toFixed(3),
+          cost: this.currentOrder.currentCost.toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice
@@ -386,7 +411,7 @@ export default {
             confirmButtonText: '确定'
           })
           return
-        } 
+        }
         if (oneKey) {
           this.oneKeyList = order
         } else {
@@ -445,10 +470,13 @@ export default {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
-          codes: this.currentMethod.type === 'text' ? codes.join('|') : this.inputCodes,
+          codes:
+            this.currentMethod.type === 'text'
+              ? codes.join('|')
+              : this.inputCodes,
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
-          cost: (this.currentOrder.currentCost).toFixed(3),
+          cost: this.currentOrder.currentCost.toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
           price: 2
@@ -529,7 +557,8 @@ export default {
         this.currentOrder.currentCost =
           this.inputCodesSingle *
           +this.userConfig.singlePrice *
-          this.currentOrder.currentTimes * this.userConfig.mode
+          this.currentOrder.currentTimes *
+          this.userConfig.mode
         this.currentOrder.currentCount = this.inputCodesSingle
       }
     },
@@ -547,12 +576,14 @@ export default {
     },
     // 选择模式
     selectMode(mode) {
-      const userConfig = Object.assign(this.userConfig, {mode: (+mode).toFixed(3)})
+      const userConfig = Object.assign(this.userConfig, {
+        mode: (+mode).toFixed(3)
+      })
       this.$store.commit('userConfig', userConfig)
       this.calculate()
     },
-    singlePriceChange(val){
-      const userConfig = Object.assign(this.userConfig, {singlePrice: val})
+    singlePriceChange(val) {
+      const userConfig = Object.assign(this.userConfig, { singlePrice: val })
       this.$store.commit('userConfig', userConfig)
     },
     // 选择数字
@@ -592,35 +623,243 @@ export default {
       // 计算注数
       this.calculate()
     },
-    preSelectButton(){
-      if(this.currentLottery.series_id === 'lotto'){
+    preSelectButton() {
+      if (this.currentLottery.series_id === 'lotto') {
         this.chooseNumber = [
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false]
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
         ]
         this.chooseButton = [
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false, false]
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
         ]
-      }else{
+      } else {
         this.chooseNumber = [
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
           [false, false, false, false, false, false, false, false, false, false]
         ]
         this.chooseButton = [
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
-          [false, false, false, false, false, false, false, false, false, false],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
           [false, false, false, false, false, false, false, false, false, false]
         ]
       }
@@ -631,7 +870,7 @@ export default {
       this.cleanChooseNumber(y)
 
       this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
-      
+
       let rowData = this.chooseNumber[y]
       if (
         this.currentLottery.series_id === 'lotto' ||
@@ -675,9 +914,7 @@ export default {
             this.chooseButton[y][b] = false
             break
         }
-      }
-      
-      else {
+      } else {
         switch (this.currentMethod.buttons[b]) {
           case '全':
             for (let i = 0; i < rowData.length; i++) {
@@ -801,16 +1038,25 @@ export default {
                     temp = '2'
                     break
                 }
-              }
-              else {
+              } else {
                 temp = number
               }
-              
-              col.push(temp)
 
+              col.push(temp)
             }
           }
-          codes.push(col.join('&'))
+          if (
+            method.method === 'QZXHZ' ||
+            method.method === 'QZUHZ' ||
+            method.method === 'ZZXHZ' ||
+            method.method === 'ZZUHZ' ||
+            method.method === 'HZXHZ' ||
+            method.method === 'HZUHZ'
+          ) {
+            codes.push(col.join('|'))
+          } else {
+            codes.push(col.join('&'))
+          }
         }
         return codes.join('|')
       } else {
@@ -868,7 +1114,8 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      this.inputCodesInitText = '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+      this.inputCodesInitText =
+        '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
       this.inputCodes = this.inputCodesInitText
     },
     // 单式输入框获取焦点
@@ -882,7 +1129,7 @@ export default {
     inputAreaChange() {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
-        this.setTimeoutInputClearRepeatOrder()
+        this.inputClearRepeatOrder()
       }, 1000)
     },
     // 单式输入框失去焦点
@@ -922,19 +1169,23 @@ export default {
             }
           }
         }
-      }
-      else {
+      } else {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto') {
-          tmp = new Set((this.inputCodes || '').split(/,|，/).map(item => {
-            return this.Utils.trim(item)
-          }))
+          tmp = new Set(
+            (this.inputCodes || '').split(/,|，/).map(item => {
+              return this.Utils.trim(item)
+            })
+          )
           for (const i of tmp) {
             // 去除重复的组
             const arr = i.split(/[\s\n]+/)
 
-            if(isRepeat(arr) || arr.length != this.currentMethod.b64
-            || arr.some(val => Number(val) > 11)){
+            if (
+              isRepeat(arr) ||
+              arr.length != this.currentMethod.b64 ||
+              arr.some(val => Number(val) > 11)
+            ) {
               tmp.delete(i)
             }
           }
@@ -946,15 +1197,30 @@ export default {
             }
             // 去除 小于 或者 大于规定长度
             if (
-              (this.currentMethod && String(i).length < this.currentMethod.b64) ||
+              (this.currentMethod &&
+                String(i).length < this.currentMethod.b64) ||
               String(i).length > this.currentMethod.b64
             ) {
               tmp.delete(i)
             }
+            if (this.currentMethod.method === 'QZU3_S' ||
+                this.currentMethod.method === 'ZZU3_S' ||
+                this.currentMethod.method === 'HZU3_S') {
+                if(isRepeatNum(i) !== 2){
+                  tmp.delete(i)
+                }
+            }
+            if (this.currentMethod.method === 'QZU6_S' ||
+                this.currentMethod.method === 'ZZU6_S' ||
+                this.currentMethod.method === 'HZU6_S') {
+                if(isRepeat(i)){
+                  tmp.delete(i)
+                }
+            }
           }
         }
       }
-     
+
       this.inputCodes = [...tmp].join(',')
       if (!this.inputCodes) {
         this.inputCodesSingle = 0
@@ -964,7 +1230,7 @@ export default {
       this.calculate()
     },
     // 清理重复项 和 错误项 计算注数
-    setTimeoutInputClearRepeatOrder(){
+    setTimeoutInputClearRepeatOrder() {
       let [
         tmp = new Set(
           (this.inputCodes || '').split(/[\s\n,|]+/).map(item => {
@@ -988,19 +1254,23 @@ export default {
             }
           }
         }
-      }
-      else {
+      } else {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto') {
-          tmp = new Set((this.inputCodes || '').split(/,|，/).map(item => {
-            return this.Utils.trim(item)
-          }))
+          tmp = new Set(
+            (this.inputCodes || '').split(/,|，/).map(item => {
+              return this.Utils.trim(item)
+            })
+          )
           for (const i of tmp) {
             // 去除重复的组
             const arr = i.split(/[\s\n]+/)
 
-            if(isRepeat(arr) || arr.length != this.currentMethod.b64
-            || arr.some(val => Number(val) > 11)){
+            if (
+              isRepeat(arr) ||
+              arr.length != this.currentMethod.b64 ||
+              arr.some(val => Number(val) > 11)
+            ) {
               tmp.delete(i)
             }
           }
@@ -1012,7 +1282,8 @@ export default {
             }
             // 去除 小于 或者 大于规定长度
             if (
-              (this.currentMethod && String(i).length < this.currentMethod.b64) ||
+              (this.currentMethod &&
+                String(i).length < this.currentMethod.b64) ||
               String(i).length > this.currentMethod.b64
             ) {
               tmp.delete(i)
@@ -1034,11 +1305,11 @@ export default {
       }
       let [
         currentIssus = this.currentIssue.issue_no,
-        issus = {[currentIssus] : 1}
+        issus = { [currentIssus]: 1 }
       ] = []
       this.addOrder(true)
       if (
-         this.currentOrder.currentCost <= 0 ||
+        this.currentOrder.currentCost <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
       ) {
         this.$alert('请输入正确的投注号码！', '提示', {
@@ -1046,7 +1317,7 @@ export default {
         })
         return false
       }
-      
+
       this.betLoading = true
       const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList))
       delete oneKeyList._codes
@@ -1054,7 +1325,7 @@ export default {
         this.currentLottery.en_name,
         issus,
         [oneKeyList],
-        (this.currentOrder.currentCost).toFixed(3),
+        this.currentOrder.currentCost.toFixed(3),
         0
       ).then(res => {
         this.betLoading = false
@@ -1069,7 +1340,7 @@ export default {
           )
           // 添加完选号 清空选中号码
           this.clearBtn()
-          
+
           // 获取我的投注 我的追号记录
           this.$store.dispatch('betHistory')
           // 刷新余额
@@ -1077,33 +1348,33 @@ export default {
         }
       })
     },
-    uploadSectionFile(param){
-     const _this = this,
-           fileReader = new FileReader(),
-           file       = param.file
-           
+    uploadSectionFile(param) {
+      const _this = this,
+        fileReader = new FileReader(),
+        file = param.file
+
       fileReader.readAsText(file, 'gb2312')
       fileReader.onload = e => {
         let fileText = e.target.result
-        if(fileText.trim() != ''){
+        if (fileText.trim() != '') {
           _this.inputCodes = fileText
           this.inputAreaChange()
         }
       }
-      return 
+      return
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.bet-add-box{
-  right:15px;
+.bet-add-box {
+  right: 15px;
   font-size: 14px;
 }
-.main-column-1{
-  /deep/{
-    .el-select{
+.main-column-1 {
+  /deep/ {
+    .el-select {
       margin-right: 10px;
       width: 108px;
       float: left;
