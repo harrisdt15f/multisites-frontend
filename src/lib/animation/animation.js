@@ -48,8 +48,8 @@ let animation = {
             return false
         }
         mequeText.style.left = meque.offsetWidth + 'px'
-        clearInterval(timer);
-        timer = setInterval(notice, 20);
+        clearInterval(timer)
+        timer = setInterval(notice, 20)
         notice()
         function notice () {
             if (mequeText.offsetLeft < -mequeText.offsetWidth) {
@@ -81,7 +81,7 @@ let animation = {
         obj.timer = setInterval(() => {
             let mStop = true /*当所有的值都到达*/
             for (let attr in json) {/*取当前值*/
-                let com = 0;
+                let com = 0
                 if (attr === 'opacity') {
                     com = parseInt(parseFloat(this.getStyle(obj, attr)) * 100)
                 } else {
@@ -111,11 +111,14 @@ let animation = {
     * 获取属性兼容ie，current
     */
     getStyle (obj,attr) {
-        if (obj.currentStyle) {
-            return obj.currentStyle[attr]
-        } else {
-            return getComputedStyle(obj, false)[attr]
+        if (obj) {
+            if (obj.currentStyle) {
+                return obj.currentStyle[attr]
+            } else {
+                return getComputedStyle(obj, false)[attr]
+            }
         }
+        
     },
     // 全屏幕宽
     screenWidth (obj) {

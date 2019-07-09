@@ -121,7 +121,7 @@
             </div>
             <div class="lottery-number">
               <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em>
-              <div v-if="lastIssue.issue_no === '---------'" class="lottery-animate">
+              <div v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'" class="lottery-animate">
                 <span>开</span>
                 <span>奖</span>
                 <span>中</span>
@@ -202,8 +202,7 @@ export default {
     this.getLottery()
     
     // 滚动公告
-    // this.getNoticeList();
-    this.Animation.notice('meque', 'meque_text', -1)
+    // this.Animation.notice('meque', 'meque_text', -1)
   },
   watch: {
      'notice.show' (newVal) {
@@ -289,7 +288,8 @@ export default {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? 
+            res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
           this.issueNum = 0
   
