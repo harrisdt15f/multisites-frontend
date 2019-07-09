@@ -274,13 +274,23 @@ export default {
         }
       })
     },
+    getLastIssue(){
+      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
+        if (res.success) {
+          this.$store.commit('currentIssue', res.data.currentIssue)
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          this.lastIssue = res.data.lastIssue
+        }
+      })
+    },
     // 当前所在奖期
     getIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
-          
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          this.lastIssue = res.data.lastIssue
           this.issueNum = 0
   
           if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
@@ -310,10 +320,9 @@ export default {
           this.times()
           this.$store.dispatch('getUserDetail')
           this.$store.dispatch('betHistory')
-          this.getIssue()
-          // if (this.issueNum === this.issueInfo.length) {
-          //   this.getIssue()
-          // }
+          if (this.issueNum === this.issueInfo.length) {
+            this.getIssue()
+          }
         }
       }, 1000)
     }
