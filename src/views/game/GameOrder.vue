@@ -401,6 +401,11 @@
               <span v-if="scope.row.status == 4">已派奖</span>
             </template>
           </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
       </template>
@@ -430,14 +435,21 @@
               <span v-if="scope.row.status == 3">系统撤销</span>
             </template>
           </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <router-link tag="section" class="row-more" to="/account-center/bet-record/traces">更多游戏记录...</router-link>
       </template>
     </section>
+    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
   </section>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import recordDetails from '../../components/public/record_details'
 
 export default {
   name: 'game-order',
@@ -447,11 +459,13 @@ export default {
         number: 0,
         money: 0
       },
+      dialogVisible: false,
       totalSub: {
         number: 0,
         double: 1,
         money: 0
       },
+      detailData: null,
       orderListSub: [],
       chaseTab: 0,
       tableData: [],
@@ -497,6 +511,9 @@ export default {
     }
   },
   props: ['countPrizes'],
+  components: {
+    recordDetails
+  },
   computed: {
     ...mapGetters([
       'lotteryAll',
@@ -1152,6 +1169,14 @@ export default {
         'percentage',
         (item.profit / (item.value * (index + 1))) * 100
       )
+    },
+    //投注记录详情
+    handleDetail(row){
+      this.detailData = row
+      this.dialogVisible = true
+    },
+    handleDetailClose(){
+      this.dialogVisible = false
     }
   }
 }

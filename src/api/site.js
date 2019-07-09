@@ -33,5 +33,9 @@ export default {
   //中奖排行
   getRanking() {
     return this.get('/homepage/ranking').then(response =>  response)
+  },
+  //中奖排行
+  getUserHelp() {
+    return this.get('/user-help/menus').then(response =>  response)
   }
 }

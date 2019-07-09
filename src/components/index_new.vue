@@ -79,7 +79,7 @@
                   <div class="hot-box-item" v-for="(item, index) in lotteriesList" :key="index">
                     <div class="title">
                       <div class="fl">
-                        {{item.name}}
+                        {{item.name}} {{item.method_name}}
                         <span style="color:#fb9f46;">20190308</span>
                       </div>
                       <div class="fr">12.1245截止</div>
@@ -143,7 +143,7 @@
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
-      <router-link tag="a" to="active" class="promotions">手动选号</router-link>
+      <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
     <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletinIndex="currentBulletinIndex" index='0' @close="handleBulletinClose"></dialog-bulletin>
   </div>

@@ -157,7 +157,7 @@
         </section>
       </section>
     </section>
-    <!-- <section class="msg-notice-bg" v-if="notice.show">
+    <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
         <br>
@@ -165,7 +165,7 @@
         <br>
         <strong>请留意期号变化({{notice.time}})</strong>
       </section>
-    </section>-->
+    </section>
   </section>
 </template>
 <script>
@@ -203,7 +203,24 @@ export default {
     
     // 滚动公告
     // this.getNoticeList();
-    // this.Animation.notice("meque", "meque_text", -1);
+    this.Animation.notice('meque', 'meque_text', -1)
+  },
+  watch: {
+     'notice.show' (newVal) {
+        let timer = null
+        if (newVal) {
+          setTimeout(() => {
+            timer = setInterval(() => {
+              this.notice.time -= 1
+              if (this.notice.time === 0) {
+                clearInterval(timer)
+                this.notice.show = false
+                this.notice.time = 3
+              }
+            }, 1000)
+          }, 1)
+        }
+      }
   },
   methods: {
     // 获取提示语
@@ -293,9 +310,10 @@ export default {
           this.times()
           this.$store.dispatch('getUserDetail')
           this.$store.dispatch('betHistory')
-          if (this.issueNum === this.issueInfo.length) {
-            this.getIssue()
-          }
+          this.getIssue()
+          // if (this.issueNum === this.issueInfo.length) {
+          //   this.getIssue()
+          // }
         }
       }, 1000)
     }

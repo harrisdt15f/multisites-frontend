@@ -31,7 +31,7 @@
               </el-table-column>
               <el-table-column align="center" label="注单编号">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.issue }}</span>
+                   <el-button type="text" size="mini" @click="handleDetail(scope.row)">{{ scope.row.issue }}</el-button>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖期">
@@ -66,10 +66,9 @@
               </el-table-column>
               <el-table-column align="center" label="状态">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.status == 0">已投注</span>
-                  <span v-if="scope.row.status == 1">已撤销</span>
+                  <span v-if="scope.row.status == 0">待开奖</span>
                   <span v-if="scope.row.status == 2">未中奖</span>
-                  <span v-if="scope.row.status == 3">已中奖</span>
+                  <span v-if="scope.row.status == 3">中奖</span>
                   <span v-if="scope.row.status == 4">已派奖</span>
                 </template>
               </el-table-column>
@@ -167,15 +166,23 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
   </div>
 </template>
 
 <script>
+import recordDetails from '../../../components/public/record_details'
+
 export default {
   inject: ['active'],
+  components: {
+    recordDetails
+  },
   data() {
     const date = new Date()
     return {
+      detailData: null,
+      dialogVisible: false,
       activeName: 'game',
       gameList: [],
       listLoading: true,
@@ -288,6 +295,14 @@ export default {
     handleTraceCurrentChange(val) {
       this.tracesListQuery.page = val
       this.getTraceList()
+    },
+    //投注记录详情
+    handleDetail(row){
+      this.detailData = row
+      this.dialogVisible = true
+    },
+    handleDetailClose(){
+      this.dialogVisible = false
     }
   }
 }

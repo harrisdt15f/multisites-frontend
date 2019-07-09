@@ -49,22 +49,7 @@
           </el-col>
           <el-col v-if="currentBullrtin" :span="18" class="nr-r">
             <div class="title">{{currentBullrtin.title}}</div>
-            <div class="text-centent">
-              尊敬的用户：
-              <p>
-                目前中国人民银行清算总中心发布2019年支付系统运行维护安排，维护时间分
-                别为：2019年6月16日、8月18日、9月8日、10月20日、11月24日，维护时间均
-                为00:00开始至6:00前结束。
-              </p>
-              <p>
-                在每次维护开始期间，各大银行的小额支付系统、网上支付跨行支付等将暂停
-                受理业务，由此将影响您在平台等充值、提现等服务，敬请谅解。
-              </p>
-              <p>如对银行维护方面有任何疑问，欢迎咨询在线客服，我们将竭诚为您服务.</p>
-              <p>始善于成·至臻于勤</p>
-              <p>包网</p>
-              <p>2019年5月17日</p>
-            </div>
+            <div class="text-centent" v-html="currentBullrtin.content"></div>
           </el-col>
         </el-row>
       </div>

@@ -124,8 +124,9 @@ export default {
     },
     // 退出登录
     logout() {
-      this.$alert('是否确认退出', '提示', {
+      this.$confirm('是否确认退出！', '提示', {
       confirmButtonText: '确定',
+      cancelButtonClass: '取消'
     }).then(() => {
       this.Api.logout().then(res => {
         const { success } = res
