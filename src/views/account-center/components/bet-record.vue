@@ -31,7 +31,11 @@
               </el-table-column>
               <el-table-column align="center" label="注单编号">
                 <template slot-scope="scope">
-                   <el-button type="text" size="mini" @click="handleDetail(scope.row)">{{ scope.row.issue }}</el-button>
+                  <el-button
+                    type="text"
+                    size="mini"
+                    @click="handleDetail(scope.row)"
+                  >{{ scope.row.issue }}</el-button>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖期">
@@ -44,9 +48,20 @@
                   <span>{{ scope.row.method_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="投注内容">
+              <el-table-column align="center" width="200px"  show-overflow-tooltip label="投注内容">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.bet_codes }}</span>
+                  <template
+                    v-if="scope.row.method_group === 'DXDS'"
+                  >{{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}}</template>
+                  <template
+                    v-else-if="scope.row.method_group === 'LH'"
+                  >{{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}}</template>
+                  <template
+                    v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'"
+                  >{{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}}</template>
+                  <template v-else>
+                    <span>{{scope.row.bet_codes.replace(/&/g,',')}}</span>
+                  </template>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="投注额">
@@ -166,7 +181,12 @@
         </div>
       </el-tab-pane>
     </el-tabs>
-    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
+    <record-details
+      :detailData="detailData"
+      @close="handleDetailClose"
+      v-if="dialogVisible"
+      :dialogVisible="dialogVisible"
+    ></record-details>
   </div>
 </template>
 
@@ -297,11 +317,11 @@ export default {
       this.getTraceList()
     },
     //投注记录详情
-    handleDetail(row){
+    handleDetail(row) {
       this.detailData = row
       this.dialogVisible = true
     },
-    handleDetailClose(){
+    handleDetailClose() {
       this.dialogVisible = false
     }
   }

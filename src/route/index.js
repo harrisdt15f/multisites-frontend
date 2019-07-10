@@ -20,6 +20,7 @@ import Account from '../views/account-center'
 import P404 from '../components/public/403-404-500.vue'
 import Download from '../components/public/download.vue'
 import HelpCenter from '../components/public/help-center.vue'
+import HelpInfo from '../components/public/help-info.vue'
 
 Vue.use(Router)
 
@@ -92,6 +93,11 @@ const router = new Router({
           path: '/help-center',
           name: 'help-center',
           component: HelpCenter,
+        },
+        {
+          path: '/help-info',
+          name: 'help-info',
+          component: HelpInfo,
         },
         {
           path: '/page403',
