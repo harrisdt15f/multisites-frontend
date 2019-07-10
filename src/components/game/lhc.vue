@@ -416,9 +416,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  name: "lhc",
+  name: 'lhc',
   data() {
     return {
       // 整理后的currentMethod.layout.codes
@@ -429,7 +429,7 @@ export default {
       blueBall: [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48],
       // 绿球
       greenBall: [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49],
-      playValue: "1",
+      playValue: '1',
       // 右侧表格辅助选项
       plays: [],
       // 生肖五行辅助选项
@@ -451,61 +451,61 @@ export default {
       submitDialog: false,
       // 总分布局
       isMethodZF: false
-    };
+    }
   },
   computed: {
-    ...mapGetters(["currentMethod", "bet", "currentLottery"])
+    ...mapGetters(['currentMethod', 'bet', 'currentLottery'])
   },
   watch: {
     currentMethod(newVal) {
       // 将号码顺序转换 和 初始渲染数据处理
-      let [silde = document.getElementsByClassName("silde")[0]] = [];
-      if (newVal.method === "ZF" || newVal.method === "BZ") {
-        let [mainCenter = document.getElementsByClassName("main-left")[0]] = [];
-        mainCenter.style.width = "100%";
-        silde.style.display = "none";
+      let [silde = document.getElementsByClassName('silde')[0]] = []
+      if (newVal.method === 'ZF' || newVal.method === 'BZ') {
+        let [mainCenter = document.getElementsByClassName('main-left')[0]] = []
+        mainCenter.style.width = '100%'
+        silde.style.display = 'none'
       } else {
-        silde.style.display = "block";
-        this.enterMain();
+        silde.style.display = 'block'
+        this.enterMain()
       }
-      this.ballSort();
+      this.ballSort()
     },
-    "bet.methodsTab"() {
-      this.clearNumber();
+    'bet.methodsTab'() {
+      this.clearNumber()
     },
     // 输入金额时
-    "currentOrder.betMoney"(newVal) {
+    'currentOrder.betMoney'(newVal) {
       if (Number(newVal) > 0) {
         for (let i = 0; i < this.newCodes.length; i++) {
           if (this.newCodes[i].flag) {
-            this.newCodes[i].money = Number(newVal);
+            this.newCodes[i].money = Number(newVal)
           }
         }
       }
       if (Number(newVal) < 1) {
-        this.currentOrder.betMoney = 0;
+        this.currentOrder.betMoney = 0
       } else if (Number(newVal) > 1000000) {
-        this.currentOrder.betMoney = 1000000;
+        this.currentOrder.betMoney = 1000000
       }
     },
     // 金钱发生变化时
     newCodes: {
       handler(newVal) {
         // 计算总投注额
-        this.currentOrder.money = 0;
+        this.currentOrder.money = 0
         for (let i = 0; i < newVal.length; i++) {
           if (isNaN(newVal[i].money)) {
-            newVal[i].money = 0;
-            newVal[i].flag = false;
+            newVal[i].money = 0
+            newVal[i].flag = false
           } else if (newVal[i].money) {
             if (Number(newVal[i].money) < 1) {
-              newVal[i].money = 0;
+              newVal[i].money = 0
             }
             if (Number(newVal[i].money) > 1000000) {
-              newVal[i].money = 1000000;
+              newVal[i].money = 1000000
             }
-            newVal[i].flag = Number(newVal[i].money) > 0;
-            this.currentOrder.money += Number(newVal[i].money);
+            newVal[i].flag = Number(newVal[i].money) > 0
+            this.currentOrder.money += Number(newVal[i].money)
           }
         }
       },
@@ -514,7 +514,7 @@ export default {
   },
   created() {
     // 将号码顺序转换 和 初始渲染数据处理
-    this.ballSort();
+    this.ballSort()
   },
   methods: {
     // 确认下注
@@ -529,8 +529,8 @@ export default {
         mode: 1,
         prize_group: this.currentOrder.currentGroup,
         price: 2
-      };
-      let issus = "000";
+      }
+      let issus = '000'
       this.Api.bet(
         this.currentLottery.en_name,
         issus,
@@ -538,50 +538,39 @@ export default {
         order.cost
       ).then(res => {
         if (res.isSuccess) {
-          this.submitDialog = false;
+          this.submitDialog = false
           this.$alert(
-            "投注成功, 您可以通过”游戏记录“查询您的投注记录！",
-            "提示",
+            '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+            '提示',
             {
-              confirmButtonText: "确定"
+              confirmButtonText: '确定'
             }
-          );
+          )
           // 清空号码
-          this.clearNumber();
+          this.clearNumber()
           // 获取我的投注 我的追号记录
-          this.$store.dispatch("betHistory");
+          this.$store.dispatch('betHistory')
           // 刷新余额
-          this.Api.getBalance().then(res => {
-            if (res.isSuccess) {
-              let account = this.Utils.storage.get("current-user");
-              if (account && account.data) {
-                account.data.balance = res.data.balance;
-                account.data.frozen = res.data.frozen;
-                this.$store.commit("account", account.data);
-                this.Utils.storage.set("current-user", account.data);
-              }
-            }
-          });
+          this.$store.dispatch('getUserDetail')
         }
-      });
+      })
     },
 
     // 取消下注
     submitClose() {
-      this.submitDialog = false;
+      this.submitDialog = false
     },
-
     // 立即下注
     submit() {
-      this.currentOrder.list = [];
+      this.currentOrder.list = []
       for (let j = 0; j < this.newCodes.length; j++) {
         if (this.newCodes[j].flag) {
-          this.currentOrder.list.push(this.newCodes[j]);
-          if (!this.newCodes[j].money && this.currentMethod.method !== "BZ") {
-            this.$alert("你还未投注 或 投注错误", "提示", {
-              confirmButtonText: "确定"
-            });
-            return false;
+          this.currentOrder.list.push(this.newCodes[j])
+          if (!this.newCodes[j].money && this.currentMethod.method !== 'BZ') {
+            this.$alert('你还未投注 或 投注错误', '提示', {
+              confirmButtonText: '确定'
+            })
+            return false
           }
         }
       }
@@ -589,149 +578,149 @@ export default {
         this.currentOrder.list.length < 1 ||
         parseInt(this.currentOrder.money) === 0
       ) {
-        this.$alert("你还未投注 或 投注错误", "提示", {
-          confirmButtonText: "确定"
-        });
-        return false;
+        this.$alert('你还未投注 或 投注错误', '提示', {
+          confirmButtonText: '确定'
+        })
+        return false
       }
-      this.submitDialog = true;
+      this.submitDialog = true
     },
 
     // 清空 重置 已选
     clearNumber() {
       for (let j = 0; j < this.newCodes.length; j++) {
-        this.$set(this.newCodes[j], "flag", false);
-        this.$set(this.newCodes[j], "money", 0);
+        this.$set(this.newCodes[j], 'flag', false)
+        this.$set(this.newCodes[j], 'money', 0)
       }
 
       for (let i = 0; i < this.plays.length; i++) {
-        this.$set(this.plays[i], "flag", false);
+        this.$set(this.plays[i], 'flag', false)
       }
 
-      if (this.currentMethod.method === "SX") {
+      if (this.currentMethod.method === 'SX') {
         for (let i = 0; i < this.playsFive.length; i++) {
-          this.$set(this.playsFive[i], "flag", false);
+          this.$set(this.playsFive[i], 'flag', false)
         }
       }
-      this.playValue = -1;
-      this.currentOrder.betMoney = 0;
+      this.playValue = -1
+      this.currentOrder.betMoney = 0
     },
 
     // 特马 正特 大小 生肖 选择号码  半波 大小单双 合单 合双选择器
     selectNumber(item) {
-      let [temp = []] = [];
+      let [temp = []] = []
 
       // 特马 正特
       if (
-        this.currentMethod.method === "TM" ||
-        this.currentMethod.method.indexOf("ZT") > -1
+        this.currentMethod.method === 'TM' ||
+        this.currentMethod.method.indexOf('ZT') > -1
       ) {
         if (
-          item.code === "大" ||
-          item.code === "小" ||
-          item.code === "单" ||
-          item.code === "双"
+          item.code === '大' ||
+          item.code === '小' ||
+          item.code === '单' ||
+          item.code === '双'
         ) {
-          this.play.clear = true;
+          this.play.clear = true
           switch (item.code) {
-            case "大":
+            case '大':
               temp = this.newCodes.filter(i => {
-                return i.code > 24;
-              });
-              break;
-            case "小":
+                return i.code > 24
+              })
+              break
+            case '小':
               temp = this.newCodes.filter(i => {
-                return i.code <= 24;
-              });
-              break;
-            case "单":
+                return i.code <= 24
+              })
+              break
+            case '单':
               temp = this.newCodes.filter(i => {
-                return i.code % 2 !== 0;
-              });
-              break;
-            case "双":
+                return i.code % 2 !== 0
+              })
+              break
+            case '双':
               temp = this.newCodes.filter(i => {
-                return i.code % 2 === 0;
-              });
-              break;
+                return i.code % 2 === 0
+              })
+              break
           }
           // 选中和取消选中
           if (!item.flag) {
-            this.clearNumber();
+            this.clearNumber()
             for (let i = 0; i < temp.length; i++) {
               for (let j = 0; j < this.newCodes.length; j++) {
                 if (
                   parseInt(temp[i].code) === parseInt(this.newCodes[j].code)
                 ) {
-                  this.$set(this.newCodes[j], "flag", true);
+                  this.$set(this.newCodes[j], 'flag', true)
                 }
               }
             }
-            item.flag = true;
+            item.flag = true
           } else {
-            this.clearNumber();
-            item.flag = false;
+            this.clearNumber()
+            item.flag = false
           }
         } else {
           // 如果第一次点击生肖，清空已选号
           if (this.play.clear) {
-            this.clearNumber();
+            this.clearNumber()
           }
-          this.play.clear = false;
+          this.play.clear = false
           switch (item.code) {
-            case "鼠":
-              temp = [12, 24, 36, 48];
-              break;
-            case "牛":
-              temp = [11, 23, 35, 47];
-              break;
-            case "虎":
-              temp = [10, 22, 34, 46];
-              break;
-            case "兔":
-              temp = [9, 21, 33, 45];
-              break;
-            case "龙":
-              temp = [8, 20, 32, 44];
-              break;
-            case "蛇":
-              temp = [7, 19, 31, 43];
-              break;
-            case "马":
-              temp = [6, 18, 30, 42];
-              break;
-            case "羊":
-              temp = [5, 17, 29, 41];
-              break;
-            case "猴":
-              temp = [4, 16, 28, 40];
-              break;
-            case "鸡":
-              temp = [3, 15, 27, 39];
-              break;
-            case "狗":
-              temp = [2, 14, 26, 38];
-              break;
-            case "猪":
-              temp = [1, 13, 25, 37, 49];
-              break;
+            case '鼠':
+              temp = [12, 24, 36, 48]
+              break
+            case '牛':
+              temp = [11, 23, 35, 47]
+              break
+            case '虎':
+              temp = [10, 22, 34, 46]
+              break
+            case '兔':
+              temp = [9, 21, 33, 45]
+              break
+            case '龙':
+              temp = [8, 20, 32, 44]
+              break
+            case '蛇':
+              temp = [7, 19, 31, 43]
+              break
+            case '马':
+              temp = [6, 18, 30, 42]
+              break
+            case '羊':
+              temp = [5, 17, 29, 41]
+              break
+            case '猴':
+              temp = [4, 16, 28, 40]
+              break
+            case '鸡':
+              temp = [3, 15, 27, 39]
+              break
+            case '狗':
+              temp = [2, 14, 26, 38]
+              break
+            case '猪':
+              temp = [1, 13, 25, 37, 49]
+              break
           }
           // 选中和取消选中
           if (!item.flag) {
             for (let i = 0; i < temp.length; i++) {
               for (let j = 0; j < this.newCodes.length; j++) {
                 if (parseInt(temp[i]) === parseInt(this.newCodes[j].code)) {
-                  this.$set(this.newCodes[j], "flag", true);
+                  this.$set(this.newCodes[j], 'flag', true)
                 }
               }
             }
-            item.flag = true;
+            item.flag = true
           } else {
-            item.flag = false;
+            item.flag = false
             for (let i = 0; i < temp.length; i++) {
               for (let j = 0; j < this.newCodes.length; j++) {
                 if (parseInt(temp[i]) === parseInt(this.newCodes[j].code)) {
-                  this.$set(this.newCodes[j], "flag", false);
+                  this.$set(this.newCodes[j], 'flag', false)
                 }
               }
             }
@@ -740,66 +729,66 @@ export default {
       }
 
       // 半波
-      else if (this.currentMethod.method === "BB") {
-        let code = item.code ? item.code : item;
-        if (code.indexOf("红波") > -1) {
+      else if (this.currentMethod.method === 'BB') {
+        let code = item.code ? item.code : item
+        if (code.indexOf('红波') > -1) {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("红大") > -1 || i.name.indexOf("红小") > -1;
-          });
-        } else if (code.indexOf("绿波") > -1) {
+            return i.name.indexOf('红大') > -1 || i.name.indexOf('红小') > -1
+          })
+        } else if (code.indexOf('绿波') > -1) {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("绿大") > -1 || i.name.indexOf("绿小") > -1;
-          });
-        } else if (code.indexOf("蓝波") > -1) {
+            return i.name.indexOf('绿大') > -1 || i.name.indexOf('绿小') > -1
+          })
+        } else if (code.indexOf('蓝波') > -1) {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("蓝大") > -1 || i.name.indexOf("蓝小") > -1;
-          });
-        } else if (code === "大") {
+            return i.name.indexOf('蓝大') > -1 || i.name.indexOf('蓝小') > -1
+          })
+        } else if (code === '大') {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("大") > -1;
-          });
-        } else if (code === "小") {
+            return i.name.indexOf('大') > -1
+          })
+        } else if (code === '小') {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("小") > -1;
-          });
-        } else if (code === "单") {
-          temp = this.newCodes.filter(i => {
-            return (
-              i.name.indexOf("红单") > -1 ||
-              i.name.indexOf("蓝单") > -1 ||
-              i.name.indexOf("绿单") > -1
-            );
-          });
-        } else if (code === "双") {
+            return i.name.indexOf('小') > -1
+          })
+        } else if (code === '单') {
           temp = this.newCodes.filter(i => {
             return (
-              i.name.indexOf("红双") > -1 ||
-              i.name.indexOf("蓝双") > -1 ||
-              i.name.indexOf("绿双") > -1
-            );
-          });
-        } else if (code === "合单") {
+              i.name.indexOf('红单') > -1 ||
+              i.name.indexOf('蓝单') > -1 ||
+              i.name.indexOf('绿单') > -1
+            )
+          })
+        } else if (code === '双') {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("合单") > -1;
-          });
-        } else if (code === "合双") {
+            return (
+              i.name.indexOf('红双') > -1 ||
+              i.name.indexOf('蓝双') > -1 ||
+              i.name.indexOf('绿双') > -1
+            )
+          })
+        } else if (code === '合单') {
           temp = this.newCodes.filter(i => {
-            return i.name.indexOf("合双") > -1;
-          });
+            return i.name.indexOf('合单') > -1
+          })
+        } else if (code === '合双') {
+          temp = this.newCodes.filter(i => {
+            return i.name.indexOf('合双') > -1
+          })
         }
-        this.clearNumber();
+        this.clearNumber()
         if (item.code) {
-          item.flag = true;
+          item.flag = true
         }
         for (let i = 0; i < temp.length; i++) {
           for (let j = 0; j < this.newCodes.length; j++) {
             if (temp[i].name) {
               if (temp[i].name === this.newCodes[j].name) {
-                this.$set(this.newCodes[j], "flag", true);
+                this.$set(this.newCodes[j], 'flag', true)
               }
             } else {
               if (temp[i] === this.newCodes[j].name) {
-                this.$set(this.newCodes[j], "flag", true);
+                this.$set(this.newCodes[j], 'flag', true)
               }
             }
           }
@@ -807,146 +796,146 @@ export default {
       }
 
       // 生肖
-      else if (this.currentMethod.method === "SX") {
-        let code = item.code ? item.code : item;
-        if (code === "大肖") {
-          temp = ["鼠", "牛", "虎", "兔", "龙", "蛇"];
-        } else if (code === "小肖") {
-          temp = ["马", "羊", "猴", "鸡", "狗", "猪"];
-        } else if (code === "男肖") {
-          temp = ["鼠", "马", "牛", "虎", "猴", "龙", "狗"];
-        } else if (code.indexOf("女肖") > -1) {
-          temp = ["羊", "兔", "鸡", "蛇", "猪"];
-        } else if (code === "吉美生肖") {
-          temp = ["马", "羊", "兔", "鸡", "龙", "蛇"];
-        } else if (code === "凶丑生肖") {
-          temp = ["鼠", "牛", "虎", "猴", "狗", "猪"];
-        } else if (code === "野外六兽") {
-          temp = ["鼠", "虎", "猴", "兔", "龙", "蛇"];
-        } else if (code === "家内六畜") {
-          temp = ["牛", "马", "羊", "鸡", "狗", "猪"];
-        } else if (code === "阳性生肖") {
-          temp = ["牛", "羊", "虎", "猴", "兔", "鸡"];
-        } else if (code === "阴性生肖") {
-          temp = ["鼠", "马", "龙", "狗", "蛇", "猪"];
-        } else if (code.indexOf("金") > -1) {
-          temp = ["猴", "鸡"];
-        } else if (code.indexOf("木") > -1) {
-          temp = ["虎", "兔"];
-        } else if (code.indexOf("水") > -1) {
-          temp = ["鼠", "猪"];
-        } else if (code.indexOf("火") > -1) {
-          temp = ["蛇", "马"];
-        } else if (code.indexOf("土") > -1) {
-          temp = ["牛", "龙", "羊", "狗"];
+      else if (this.currentMethod.method === 'SX') {
+        let code = item.code ? item.code : item
+        if (code === '大肖') {
+          temp = ['鼠', '牛', '虎', '兔', '龙', '蛇']
+        } else if (code === '小肖') {
+          temp = ['马', '羊', '猴', '鸡', '狗', '猪']
+        } else if (code === '男肖') {
+          temp = ['鼠', '马', '牛', '虎', '猴', '龙', '狗']
+        } else if (code.indexOf('女肖') > -1) {
+          temp = ['羊', '兔', '鸡', '蛇', '猪']
+        } else if (code === '吉美生肖') {
+          temp = ['马', '羊', '兔', '鸡', '龙', '蛇']
+        } else if (code === '凶丑生肖') {
+          temp = ['鼠', '牛', '虎', '猴', '狗', '猪']
+        } else if (code === '野外六兽') {
+          temp = ['鼠', '虎', '猴', '兔', '龙', '蛇']
+        } else if (code === '家内六畜') {
+          temp = ['牛', '马', '羊', '鸡', '狗', '猪']
+        } else if (code === '阳性生肖') {
+          temp = ['牛', '羊', '虎', '猴', '兔', '鸡']
+        } else if (code === '阴性生肖') {
+          temp = ['鼠', '马', '龙', '狗', '蛇', '猪']
+        } else if (code.indexOf('金') > -1) {
+          temp = ['猴', '鸡']
+        } else if (code.indexOf('木') > -1) {
+          temp = ['虎', '兔']
+        } else if (code.indexOf('水') > -1) {
+          temp = ['鼠', '猪']
+        } else if (code.indexOf('火') > -1) {
+          temp = ['蛇', '马']
+        } else if (code.indexOf('土') > -1) {
+          temp = ['牛', '龙', '羊', '狗']
         }
-        this.clearNumber();
+        this.clearNumber()
         for (let i = 0; i < temp.length; i++) {
           for (let j = 0; j < this.newCodes.length; j++) {
             if (temp[i] === this.newCodes[j].name) {
-              this.$set(this.newCodes[j], "flag", true);
+              this.$set(this.newCodes[j], 'flag', true)
             }
           }
         }
       }
 
       // 尾数
-      else if (this.currentMethod.method === "WX") {
-        let [codes = this.currentMethod.layout.codes] = [];
+      else if (this.currentMethod.method === 'WX') {
+        let [codes = this.currentMethod.layout.codes] = []
 
         switch (item) {
-          case "大":
-            temp = [5, 6, 7, 8, 9];
-            break;
-          case "小":
-            temp = [0, 1, 2, 3, 4];
-            break;
-          case "单":
+          case '大':
+            temp = [5, 6, 7, 8, 9]
+            break
+          case '小':
+            temp = [0, 1, 2, 3, 4]
+            break
+          case '单':
             for (let i = 0; i < codes.length; i++) {
               if (i % 2 !== 0) {
-                temp.push(i);
+                temp.push(i)
               }
             }
-            break;
-          case "双":
+            break
+          case '双':
             for (let i = 0; i < codes.length; i++) {
               if (i % 2 === 0) {
-                temp.push(i);
+                temp.push(i)
               }
             }
-            break;
+            break
         }
-        this.clearNumber();
+        this.clearNumber()
         for (let i = 0; i < temp.length; i++) {
           for (let j = 0; j < this.newCodes.length; j++) {
             if (temp[i] === this.newCodes[j].name) {
-              this.$set(this.newCodes[j], "flag", true);
+              this.$set(this.newCodes[j], 'flag', true)
             }
           }
         }
       }
 
       // 不中
-      else if (this.currentMethod.method === "BZ") {
-        item.flag = !item.flag;
+      else if (this.currentMethod.method === 'BZ') {
+        item.flag = !item.flag
       }
     },
 
     //特马 正特 颜色 选择号码
     selectNumberSub(item) {
-      let [temp = []] = [];
+      let [temp = []] = []
       // 特马 正特
       if (
-        this.currentMethod.method === "TM" ||
-        this.currentMethod.method.indexOf("ZT") > -1
+        this.currentMethod.method === 'TM' ||
+        this.currentMethod.method.indexOf('ZT') > -1
       ) {
-        let obj = [];
-        this.play.clear = true;
-        if (item.indexOf("合") === -1) {
-          if (item.indexOf("红") > -1) {
-            obj = this.redBall;
-          } else if (item.indexOf("蓝") > -1) {
-            obj = this.blueBall;
-          } else if (item.indexOf("绿") > -1) {
-            obj = this.greenBall;
+        let obj = []
+        this.play.clear = true
+        if (item.indexOf('合') === -1) {
+          if (item.indexOf('红') > -1) {
+            obj = this.redBall
+          } else if (item.indexOf('蓝') > -1) {
+            obj = this.blueBall
+          } else if (item.indexOf('绿') > -1) {
+            obj = this.greenBall
           }
-          if (item.indexOf("大") > -1) {
+          if (item.indexOf('大') > -1) {
             temp = obj.filter(i => {
-              return i > 24;
-            });
-          } else if (item.indexOf("小") > -1) {
+              return i > 24
+            })
+          } else if (item.indexOf('小') > -1) {
             temp = obj.filter(i => {
-              return i <= 24;
-            });
-          } else if (item.indexOf("单") > -1) {
+              return i <= 24
+            })
+          } else if (item.indexOf('单') > -1) {
             temp = obj.filter(i => {
-              return i % 2 !== 0;
-            });
-          } else if (item.indexOf("双") > -1) {
+              return i % 2 !== 0
+            })
+          } else if (item.indexOf('双') > -1) {
             temp = obj.filter(i => {
-              return i % 2 === 0;
-            });
+              return i % 2 === 0
+            })
           }
         } else {
-          if (item.indexOf("红合单") > -1) {
-            temp = [1, 7, 12, 18, 23, 29, 30, 34, 45];
-          } else if (item.indexOf("红合双") > -1) {
-            temp = [2, 8, 13, 19, 24, 35, 40, 46];
-          } else if (item.indexOf("绿合单") > -1) {
-            temp = [5, 16, 21, 27, 32, 38, 43];
-          } else if (item.indexOf("绿合双") > -1) {
-            temp = [6, 11, 17, 22, 28, 33, 39, 44];
-          } else if (item.indexOf("蓝合单") > -1) {
-            temp = [3, 9, 10, 14, 25, 36, 41, 47];
-          } else if (item.indexOf("蓝合双") > -1) {
-            temp = [4, 15, 20, 26, 31, 37, 42, 48];
+          if (item.indexOf('红合单') > -1) {
+            temp = [1, 7, 12, 18, 23, 29, 30, 34, 45]
+          } else if (item.indexOf('红合双') > -1) {
+            temp = [2, 8, 13, 19, 24, 35, 40, 46]
+          } else if (item.indexOf('绿合单') > -1) {
+            temp = [5, 16, 21, 27, 32, 38, 43]
+          } else if (item.indexOf('绿合双') > -1) {
+            temp = [6, 11, 17, 22, 28, 33, 39, 44]
+          } else if (item.indexOf('蓝合单') > -1) {
+            temp = [3, 9, 10, 14, 25, 36, 41, 47]
+          } else if (item.indexOf('蓝合双') > -1) {
+            temp = [4, 15, 20, 26, 31, 37, 42, 48]
           }
         }
-        this.clearNumber();
+        this.clearNumber()
         for (let i = 0; i < temp.length; i++) {
           for (let j = 0; j < this.newCodes.length; j++) {
             if (temp[i] === parseInt(this.newCodes[j].code)) {
-              this.$set(this.newCodes[j], "flag", true);
+              this.$set(this.newCodes[j], 'flag', true)
             }
           }
         }
@@ -955,13 +944,13 @@ export default {
 
     // 将号码顺序转换 和 初始渲染数据处理
     ballSort() {
-      this.newCodes = [];
-      this.plays = [];
-      this.playsFive = [];
+      this.newCodes = []
+      this.plays = []
+      this.playsFive = []
       // 特马 正特
       if (
-        this.currentMethod.method === "TM" ||
-        this.currentMethod.method.indexOf("ZT") > -1
+        this.currentMethod.method === 'TM' ||
+        this.currentMethod.method.indexOf('ZT') > -1
       ) {
         // 大小生肖选择数据处理
         let [
@@ -969,314 +958,314 @@ export default {
           tempCode = [],
           newCodes = [],
           sub = this.currentMethod.buttons.sub
-        ] = [];
+        ] = []
         for (let i = 0; i < sub.length; i++) {
-          let json = {};
-          json.code = sub[i];
-          json.flag = false;
-          this.plays.push(json);
+          let json = {}
+          json.code = sub[i]
+          json.flag = false
+          this.plays.push(json)
         }
         for (let i = 0; i < Math.ceil(codes.length / 5); i++) {
-          tempCode.push([]);
+          tempCode.push([])
         }
         for (let i = 0; i < codes.length; i++) {
-          if (i < 9 && String(codes[i]).substr(0, 1) !== "0") {
-            codes[i] = "0" + codes[i];
+          if (i < 9 && String(codes[i]).substr(0, 1) !== '0') {
+            codes[i] = '0' + codes[i]
           }
-          tempCode[i % Math.ceil(codes.length / 5)].push(codes[i]);
+          tempCode[i % Math.ceil(codes.length / 5)].push(codes[i])
         }
         for (let i = 0; i < tempCode.length; i++) {
-          newCodes = newCodes.concat(tempCode[i]);
+          newCodes = newCodes.concat(tempCode[i])
         }
         for (let i = 0; i < newCodes.length; i++) {
-          let json = {};
-          json.flag = false;
-          json.code = newCodes[i];
-          json.money = 0;
-          this.newCodes.push(json);
+          let json = {}
+          json.flag = false
+          json.code = newCodes[i]
+          json.money = 0
+          this.newCodes.push(json)
         }
       }
 
       // 半波
-      else if (this.currentMethod.method === "BB") {
+      else if (this.currentMethod.method === 'BB') {
         let [
           codes = this.currentMethod.layout.codes,
           obj = [],
           sub = this.currentMethod.buttons.sub
-        ] = [];
+        ] = []
         for (let i = 0; i < sub.length; i++) {
-          let json = {};
-          json.code = sub[i];
-          json.flag = false;
-          this.plays.push(json);
+          let json = {}
+          json.code = sub[i]
+          json.flag = false
+          this.plays.push(json)
         }
         for (let i = 0; i < codes.length; i++) {
-          let json = {};
-          if (codes[i].indexOf("合") === -1) {
-            if (codes[i].indexOf("红") > -1) {
-              obj = this.redBall;
-              json.name = "红";
-            } else if (codes[i].indexOf("蓝") > -1) {
-              obj = this.blueBall;
-              json.name = "蓝";
-            } else if (codes[i].indexOf("绿") > -1) {
-              obj = this.greenBall;
-              json.name = "绿";
+          let json = {}
+          if (codes[i].indexOf('合') === -1) {
+            if (codes[i].indexOf('红') > -1) {
+              obj = this.redBall
+              json.name = '红'
+            } else if (codes[i].indexOf('蓝') > -1) {
+              obj = this.blueBall
+              json.name = '蓝'
+            } else if (codes[i].indexOf('绿') > -1) {
+              obj = this.greenBall
+              json.name = '绿'
             }
-            if (codes[i].indexOf("大") > -1) {
-              json.name = json.name + "大";
+            if (codes[i].indexOf('大') > -1) {
+              json.name = json.name + '大'
               json.code = obj.filter(i => {
-                return i > 24;
-              });
-            } else if (codes[i].indexOf("小") > -1) {
-              json.name = json.name + "小";
+                return i > 24
+              })
+            } else if (codes[i].indexOf('小') > -1) {
+              json.name = json.name + '小'
               json.code = obj.filter(i => {
-                return i <= 24;
-              });
-            } else if (codes[i].indexOf("单") > -1) {
-              json.name = json.name + "单";
+                return i <= 24
+              })
+            } else if (codes[i].indexOf('单') > -1) {
+              json.name = json.name + '单'
               json.code = obj.filter(i => {
-                return i % 2 !== 0;
-              });
-            } else if (codes[i].indexOf("双") > -1) {
-              json.name = json.name + "双";
+                return i % 2 !== 0
+              })
+            } else if (codes[i].indexOf('双') > -1) {
+              json.name = json.name + '双'
               json.code = obj.filter(i => {
-                return i % 2 === 0;
-              });
+                return i % 2 === 0
+              })
             }
-            this.newCodes.push(json);
+            this.newCodes.push(json)
           } else {
-            if (codes[i].indexOf("红合单") > -1) {
-              json.name = "红合单";
-              json.code = [1, 7, 12, 18, 23, 29, 30, 34, 45];
-            } else if (codes[i].indexOf("红合双") > -1) {
-              json.name = "红合双";
-              json.code = [2, 8, 13, 19, 24, 35, 40, 46];
-            } else if (codes[i].indexOf("绿合单") > -1) {
-              json.name = "绿合单";
-              json.code = [5, 16, 21, 27, 32, 38, 43];
-            } else if (codes[i].indexOf("绿合双") > -1) {
-              json.name = "绿合双";
-              json.code = [6, 11, 17, 22, 28, 33, 39, 44];
-            } else if (codes[i].indexOf("蓝合单") > -1) {
-              json.name = "蓝合单";
-              json.code = [3, 9, 10, 14, 25, 36, 41, 47];
-            } else if (codes[i].indexOf("蓝合双") > -1) {
-              json.name = "蓝合双";
-              json.code = [4, 15, 20, 26, 31, 37, 42, 48];
+            if (codes[i].indexOf('红合单') > -1) {
+              json.name = '红合单'
+              json.code = [1, 7, 12, 18, 23, 29, 30, 34, 45]
+            } else if (codes[i].indexOf('红合双') > -1) {
+              json.name = '红合双'
+              json.code = [2, 8, 13, 19, 24, 35, 40, 46]
+            } else if (codes[i].indexOf('绿合单') > -1) {
+              json.name = '绿合单'
+              json.code = [5, 16, 21, 27, 32, 38, 43]
+            } else if (codes[i].indexOf('绿合双') > -1) {
+              json.name = '绿合双'
+              json.code = [6, 11, 17, 22, 28, 33, 39, 44]
+            } else if (codes[i].indexOf('蓝合单') > -1) {
+              json.name = '蓝合单'
+              json.code = [3, 9, 10, 14, 25, 36, 41, 47]
+            } else if (codes[i].indexOf('蓝合双') > -1) {
+              json.name = '蓝合双'
+              json.code = [4, 15, 20, 26, 31, 37, 42, 48]
             }
-            this.newCodes.push(json);
+            this.newCodes.push(json)
           }
         }
       }
 
       // 生肖
-      else if (this.currentMethod.method === "SX") {
+      else if (this.currentMethod.method === 'SX') {
         let [
           codes = this.currentMethod.layout.codes,
           sub = this.currentMethod.buttons.alias,
           fiveElements = this.currentMethod.buttons.fiveElements
-        ] = [];
+        ] = []
         // 吉美生肖
         for (let i = 0; i < sub.length; i++) {
-          let json = {};
-          json.code = sub[i];
-          json.flag = false;
-          this.plays.push(json);
+          let json = {}
+          json.code = sub[i]
+          json.flag = false
+          this.plays.push(json)
         }
         for (let i = 0; i < fiveElements.length; i++) {
-          let json = {};
-          json.code = fiveElements[i];
-          json.flag = false;
-          this.playsFive.push(json);
+          let json = {}
+          json.code = fiveElements[i]
+          json.flag = false
+          this.playsFive.push(json)
         }
         for (let i = 0; i < codes.length; i++) {
-          let json = {};
-          if (codes[i].indexOf("鼠") > -1) {
-            json.name = "鼠";
-            json.code = [12, 24, 36, 48];
-            json.position = "-57px -4px";
-          } else if (codes[i].indexOf("马") > -1) {
-            json.name = "马";
-            json.code = [6, 18, 30, 42];
-            json.position = "-10px -4px";
-          } else if (codes[i].indexOf("牛") > -1) {
-            json.name = "牛";
-            json.code = [11, 23, 35, 47];
-            json.position = "-292px -4px";
-          } else if (codes[i].indexOf("羊") > -1) {
-            json.name = "羊";
-            json.code = [5, 17, 29, 41];
-            json.position = "-339px -4px";
-          } else if (codes[i].indexOf("虎") > -1) {
-            json.name = "虎";
-            json.code = [10, 22, 34, 46];
-            json.position = "-104px -4px";
-          } else if (codes[i].indexOf("猴") > -1) {
-            json.name = "猴";
-            json.code = [4, 16, 28, 40];
-            json.position = "-386px -4px";
-          } else if (codes[i].indexOf("兔") > -1) {
-            json.name = "兔";
-            json.code = [9, 21, 33, 45];
-            json.position = "-151px -4px";
-          } else if (codes[i].indexOf("鸡") > -1) {
-            json.name = "鸡";
-            json.code = [3, 15, 27, 39];
-            json.position = "-433px -4px";
-          } else if (codes[i].indexOf("龙") > -1) {
-            json.name = "龙";
-            json.code = [8, 20, 32, 44];
-            json.position = "-198px -4px";
-          } else if (codes[i].indexOf("狗") > -1) {
-            json.name = "狗";
-            json.code = [2, 14, 26, 38];
-            json.position = "-480px -4px";
-          } else if (codes[i].indexOf("蛇") > -1) {
-            json.name = "蛇";
-            json.code = [7, 19, 31, 43];
-            json.position = "-245px -4px";
-          } else if (codes[i].indexOf("猪") > -1) {
-            json.name = "猪";
-            json.code = [1, 13, 25, 37, 49];
-            json.position = "-527px -4px";
+          let json = {}
+          if (codes[i].indexOf('鼠') > -1) {
+            json.name = '鼠'
+            json.code = [12, 24, 36, 48]
+            json.position = '-57px -4px'
+          } else if (codes[i].indexOf('马') > -1) {
+            json.name = '马'
+            json.code = [6, 18, 30, 42]
+            json.position = '-10px -4px'
+          } else if (codes[i].indexOf('牛') > -1) {
+            json.name = '牛'
+            json.code = [11, 23, 35, 47]
+            json.position = '-292px -4px'
+          } else if (codes[i].indexOf('羊') > -1) {
+            json.name = '羊'
+            json.code = [5, 17, 29, 41]
+            json.position = '-339px -4px'
+          } else if (codes[i].indexOf('虎') > -1) {
+            json.name = '虎'
+            json.code = [10, 22, 34, 46]
+            json.position = '-104px -4px'
+          } else if (codes[i].indexOf('猴') > -1) {
+            json.name = '猴'
+            json.code = [4, 16, 28, 40]
+            json.position = '-386px -4px'
+          } else if (codes[i].indexOf('兔') > -1) {
+            json.name = '兔'
+            json.code = [9, 21, 33, 45]
+            json.position = '-151px -4px'
+          } else if (codes[i].indexOf('鸡') > -1) {
+            json.name = '鸡'
+            json.code = [3, 15, 27, 39]
+            json.position = '-433px -4px'
+          } else if (codes[i].indexOf('龙') > -1) {
+            json.name = '龙'
+            json.code = [8, 20, 32, 44]
+            json.position = '-198px -4px'
+          } else if (codes[i].indexOf('狗') > -1) {
+            json.name = '狗'
+            json.code = [2, 14, 26, 38]
+            json.position = '-480px -4px'
+          } else if (codes[i].indexOf('蛇') > -1) {
+            json.name = '蛇'
+            json.code = [7, 19, 31, 43]
+            json.position = '-245px -4px'
+          } else if (codes[i].indexOf('猪') > -1) {
+            json.name = '猪'
+            json.code = [1, 13, 25, 37, 49]
+            json.position = '-527px -4px'
           }
-          this.newCodes.push(json);
+          this.newCodes.push(json)
         }
       }
 
       // 尾数
-      else if (this.currentMethod.method === "WX") {
+      else if (this.currentMethod.method === 'WX') {
         let [
           codes = this.currentMethod.layout.codes,
           tempWx = [],
           tempCodes = [],
           newCodes = [],
           sub = this.currentMethod.buttons.class
-        ] = [];
+        ] = []
         // 右侧 辅助选项
         for (let i = 0; i < sub.length; i++) {
-          let json = {};
-          json.code = sub[i];
-          json.flag = false;
-          this.plays.push(json);
+          let json = {}
+          json.code = sub[i]
+          json.flag = false
+          this.plays.push(json)
         }
         for (let i = 0; i < codes.length; i++) {
-          let json = {};
-          if (codes[i] === "0") {
-            json.name = 0;
-            json.code = [10, 20, 30, 40];
-          } else if (codes[i] === "1") {
-            json.name = 1;
-            json.code = ["01", 11, 21, 31, 41];
-          } else if (codes[i] === "2") {
-            json.name = 2;
-            json.code = ["02", 12, 22, 32, 42];
-          } else if (codes[i] === "3") {
-            json.name = 3;
-            json.code = ["03", 13, 23, 33, 43];
-          } else if (codes[i] === "4") {
-            json.name = 4;
-            json.code = ["04", 14, 24, 34, 44];
-          } else if (codes[i] === "5") {
-            json.name = 5;
-            json.code = ["05", 15, 25, 35, 45];
-          } else if (codes[i] === "6") {
-            json.name = 6;
-            json.code = ["06", 16, 26, 36, 46];
-          } else if (codes[i] === "7") {
-            json.name = 7;
-            json.code = ["07", 17, 27, 37, 47];
-          } else if (codes[i] === "8") {
-            json.name = 8;
-            json.code = ["08", 18, 28, 38, 48];
-          } else if (codes[i] === "9") {
-            json.name = 9;
-            json.code = ["09", 19, 29, 39, 49];
+          let json = {}
+          if (codes[i] === '0') {
+            json.name = 0
+            json.code = [10, 20, 30, 40]
+          } else if (codes[i] === '1') {
+            json.name = 1
+            json.code = ['01', 11, 21, 31, 41]
+          } else if (codes[i] === '2') {
+            json.name = 2
+            json.code = ['02', 12, 22, 32, 42]
+          } else if (codes[i] === '3') {
+            json.name = 3
+            json.code = ['03', 13, 23, 33, 43]
+          } else if (codes[i] === '4') {
+            json.name = 4
+            json.code = ['04', 14, 24, 34, 44]
+          } else if (codes[i] === '5') {
+            json.name = 5
+            json.code = ['05', 15, 25, 35, 45]
+          } else if (codes[i] === '6') {
+            json.name = 6
+            json.code = ['06', 16, 26, 36, 46]
+          } else if (codes[i] === '7') {
+            json.name = 7
+            json.code = ['07', 17, 27, 37, 47]
+          } else if (codes[i] === '8') {
+            json.name = 8
+            json.code = ['08', 18, 28, 38, 48]
+          } else if (codes[i] === '9') {
+            json.name = 9
+            json.code = ['09', 19, 29, 39, 49]
           }
-          tempCodes.push(json);
+          tempCodes.push(json)
         }
 
         // 渲染数据排序
         for (let i = 0; i < Math.ceil(tempCodes.length / 2); i++) {
-          tempWx.push([]);
+          tempWx.push([])
         }
         for (let i = 0; i < tempCodes.length; i++) {
-          tempWx[i % Math.ceil(tempCodes.length / 2)].push(tempCodes[i]);
+          tempWx[i % Math.ceil(tempCodes.length / 2)].push(tempCodes[i])
         }
         for (let i = 0; i < tempWx.length; i++) {
-          newCodes = newCodes.concat(tempWx[i]);
+          newCodes = newCodes.concat(tempWx[i])
         }
         for (let i = 0; i < newCodes.length; i++) {
-          let json = {};
-          json.flag = false;
-          json.name = newCodes[i].name;
-          json.code = newCodes[i].code;
-          json.money = 0;
-          this.newCodes.push(json);
+          let json = {}
+          json.flag = false
+          json.name = newCodes[i].name
+          json.code = newCodes[i].code
+          json.money = 0
+          this.newCodes.push(json)
         }
       }
 
       // 总分
-      else if (this.currentMethod.method === "ZF") {
-        let [codes = this.currentMethod.layout.codes] = [];
+      else if (this.currentMethod.method === 'ZF') {
+        let [codes = this.currentMethod.layout.codes] = []
         for (let i = 0; i < codes.length; i++) {
-          let json = {};
-          json.name = codes[i];
-          json.flag = false;
-          json.money = 0;
+          let json = {}
+          json.name = codes[i]
+          json.flag = false
+          json.money = 0
           switch (codes[i]) {
-            case "大":
-              json.desc = "总分大于等于175的，即视为中奖。";
-              break;
-            case "小":
-              json.desc = "总分小于等于174的，即视为中奖。";
-              break;
-            case "单":
-              json.desc = "总分是单数的，即视为中奖。";
-              break;
-            case "双":
-              json.desc = "总分是双数的，即视为中奖。";
-              break;
-            case "大单":
-              json.desc = "总分小于等于175且为单数的，即视为中奖。";
-              break;
-            case "大双":
-              json.desc = "总分大于等于175且为双数的，即视为中奖。";
-              break;
-            case "小单":
-              json.desc = "总分小于等于174且为单数的，即视为中奖。";
-              break;
-            case "小双":
-              json.desc = "总分小于等于174且为双数的，即视为中奖。";
-              break;
+            case '大':
+              json.desc = '总分大于等于175的，即视为中奖。'
+              break
+            case '小':
+              json.desc = '总分小于等于174的，即视为中奖。'
+              break
+            case '单':
+              json.desc = '总分是单数的，即视为中奖。'
+              break
+            case '双':
+              json.desc = '总分是双数的，即视为中奖。'
+              break
+            case '大单':
+              json.desc = '总分小于等于175且为单数的，即视为中奖。'
+              break
+            case '大双':
+              json.desc = '总分大于等于175且为双数的，即视为中奖。'
+              break
+            case '小单':
+              json.desc = '总分小于等于174且为单数的，即视为中奖。'
+              break
+            case '小双':
+              json.desc = '总分小于等于174且为双数的，即视为中奖。'
+              break
           }
-          this.newCodes.push(json);
+          this.newCodes.push(json)
         }
       }
 
       // 不中
-      else if (this.currentMethod.method === "BZ") {
+      else if (this.currentMethod.method === 'BZ') {
         let [
           codes = this.currentMethod.layout.codes,
           newCode = [],
           tempCode = []
-        ] = [];
+        ] = []
         for (let i = 0; i < Math.ceil(codes.length / 10); i++) {
-          tempCode.push([]);
+          tempCode.push([])
         }
         for (let i = 0; i < codes.length; i++) {
-          tempCode[i % Math.ceil(codes.length / 10)].push(codes[i]);
+          tempCode[i % Math.ceil(codes.length / 10)].push(codes[i])
         }
         for (let i = 0; i < tempCode.length; i++) {
-          newCode = newCode.concat(tempCode[i]);
+          newCode = newCode.concat(tempCode[i])
         }
         for (let i = 0; i < newCode.length; i++) {
-          let json = {};
-          json.code = newCode[i];
-          json.flag = false;
-          json.money = 0;
-          this.newCodes.push(json);
+          let json = {}
+          json.code = newCode[i]
+          json.flag = false
+          json.money = 0
+          this.newCodes.push(json)
         }
       }
     },
@@ -1285,49 +1274,49 @@ export default {
     ballColor(item, index = 0) {
       if (!Array.isArray(item.code)) {
         if (this.redBall.includes(parseInt(item.code))) {
-          return "lhc-tm-list-q-red";
+          return 'lhc-tm-list-q-red'
         } else if (this.blueBall.includes(parseInt(item.code))) {
-          return "lhc-tm-list-q-blue";
+          return 'lhc-tm-list-q-blue'
         } else if (this.greenBall.includes(parseInt(item.code))) {
-          return "lhc-tm-list-q-green";
+          return 'lhc-tm-list-q-green'
         }
       } else {
         if (this.redBall.includes(parseInt(item.code[index]))) {
-          return "lhc-tm-list-q-red";
+          return 'lhc-tm-list-q-red'
         } else if (this.blueBall.includes(parseInt(item.code[index]))) {
-          return "lhc-tm-list-q-blue";
+          return 'lhc-tm-list-q-blue'
         } else if (this.greenBall.includes(parseInt(item.code[index]))) {
-          return "lhc-tm-list-q-green";
+          return 'lhc-tm-list-q-green'
         }
       }
     },
     // 进入离开的布局
     enterMain() {
       let [
-        mainRight = document.getElementsByClassName("main-right")[0],
-        mainCenter = document.getElementsByClassName("main-left")[0]
-      ] = [];
-      mainRight.style.display = "none";
-      mainCenter.style.width = "990px";
+        mainRight = document.getElementsByClassName('main-right')[0],
+        mainCenter = document.getElementsByClassName('main-left')[0]
+      ] = []
+      mainRight.style.display = 'none'
+      mainCenter.style.width = '990px'
     },
     leaveMain() {
       let [
-        mainRight = document.getElementsByClassName("main-right")[0],
-        mainCenter = document.getElementsByClassName("main-left")[0]
-      ] = [];
+        mainRight = document.getElementsByClassName('main-right')[0],
+        mainCenter = document.getElementsByClassName('main-left')[0]
+      ] = []
       if (mainRight) {
-        mainRight.style.display = "block";
-        mainCenter.style.width = "885px";
+        mainRight.style.display = 'block'
+        mainCenter.style.width = '885px'
       }
     }
   },
   mounted() {
-    this.enterMain();
+    this.enterMain()
   },
   destroyed() {
-    this.leaveMain();
+    this.leaveMain()
   }
-};
+}
 </script>
 
 <style scoped>

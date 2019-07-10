@@ -39,6 +39,19 @@ export default {
       response => response
     )
   },
+   /*
+   * 追号历史
+   */
+  getTracesHistory(sign, count = 10, start = 0) {
+    let data = {
+      lottery_sign: sign,
+      count: count,
+      start: start
+    }
+    return this.post('/lotteries/tracesHistory', data).then(
+      response => response
+    )
+  },
   /*
    * 投注
    *lottery_sign  彩种标识

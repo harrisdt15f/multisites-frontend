@@ -17,6 +17,9 @@ import Active from '../views/active'
 import ChessAll from '../views/chess-all'
 import FishGame from '../views/fish-game'
 import Account from '../views/account-center'
+import P404 from '../components/public/403-404-500.vue'
+import Download from '../components/public/download.vue'
+import HelpCenter from '../components/public/help-center.vue'
 
 Vue.use(Router)
 
@@ -80,6 +83,31 @@ const router = new Router({
           component: Account,
           props: true
         },
+        {
+          path: '/download',
+          name: 'download',
+          component: Download,
+        },
+        {
+          path: '/help-center',
+          name: 'help-center',
+          component: HelpCenter,
+        },
+        {
+          path: '/page403',
+          name: 'page403',
+          component: P404
+        },
+        {
+          path: '/page404',
+          name: 'page404',
+          component: P404
+        },
+        {
+          path: '/page500',
+          name: 'page500',
+          component: P404
+        }
       ]
     },
     { path: '*', redirect: '/home' }

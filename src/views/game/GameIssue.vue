@@ -121,7 +121,7 @@
             </div>
             <div class="lottery-number">
               <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em>
-              <div v-if="lastIssue.issue_no === '---------'" class="lottery-animate">
+              <div v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'" class="lottery-animate">
                 <span>开</span>
                 <span>奖</span>
                 <span>中</span>
@@ -157,7 +157,7 @@
         </section>
       </section>
     </section>
-    <!-- <section class="msg-notice-bg" v-if="notice.show">
+    <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
         <br>
@@ -165,7 +165,7 @@
         <br>
         <strong>请留意期号变化({{notice.time}})</strong>
       </section>
-    </section>-->
+    </section>
   </section>
 </template>
 <script>
@@ -202,8 +202,24 @@ export default {
     this.getLottery()
     
     // 滚动公告
-    // this.getNoticeList();
-    // this.Animation.notice("meque", "meque_text", -1);
+    // this.Animation.notice('meque', 'meque_text', -1)
+  },
+  watch: {
+     'notice.show' (newVal) {
+        let timer = null
+        if (newVal) {
+          setTimeout(() => {
+            timer = setInterval(() => {
+              this.notice.time -= 1
+              if (this.notice.time === 0) {
+                clearInterval(timer)
+                this.notice.show = false
+                this.notice.time = 3
+              }
+            }, 1000)
+          }, 1)
+        }
+      }
   },
   methods: {
     // 获取提示语
@@ -257,13 +273,24 @@ export default {
         }
       })
     },
+    getLastIssue(){
+      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
+        if (res.success) {
+          this.$store.commit('currentIssue', res.data.currentIssue)
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          this.lastIssue = res.data.lastIssue
+        }
+      })
+    },
     // 当前所在奖期
     getIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
-          
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? 
+            res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
+          this.lastIssue = res.data.lastIssue
           this.issueNum = 0
   
           if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
@@ -291,6 +318,8 @@ export default {
           this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
           this.notice.show = true
           this.times()
+          this.$store.dispatch('getUserDetail')
+          this.$store.dispatch('betHistory')
           if (this.issueNum === this.issueInfo.length) {
             this.getIssue()
           }

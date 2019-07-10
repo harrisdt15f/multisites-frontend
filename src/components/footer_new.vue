@@ -30,6 +30,7 @@
             <a
               href="javascript:;"
               class="nav-list"
+              @click="goToPage(item)"
               v-for="(item, index) in linkList"
               :key="index"
             >{{item.title}}</a>
@@ -89,7 +90,6 @@ export default {
         { title: '包网品牌' },
         { title: '帮助中心' },
         { title: '手机客户端' },
-        { title: 'PC 客户端' },
         { title: '仿劫持教程' }
       ],
       cooperateList: [
@@ -177,6 +177,11 @@ export default {
         this.endValMoney = endVal.money
         this.endValPeople = endVal.people
       })
+    },
+    goToPage(item){
+      if (item.title === '手机客户端') this.$router.push('/download')
+      if (item.title === '帮助中心') this.$router.push('/help-center')
+      
     }
   }
 }

@@ -27,7 +27,15 @@ export default {
     return this.get('/homepage/logo').then(response =>  response)
   },
   //公告API
-  getNotice() {
-    return this.get('/homepage/notice').then(response =>  response)
+  getNotice(data) {
+    return this.post('/homepage/notice', data).then(response =>  response)
+  },
+  //中奖排行
+  getRanking() {
+    return this.get('/homepage/ranking').then(response =>  response)
+  },
+  //中奖排行
+  getUserHelp() {
+    return this.get('/user-help/menus').then(response =>  response)
   }
 }

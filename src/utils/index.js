@@ -49,3 +49,16 @@ export function isRepeat(arr){
 export function randomRange(t, i) {
   return Math.random() * (i - t) + t
 }
+
+//判断数组中是否有重复值数量
+export function isRepeatNum(arr){     
+  var obj = {} 
+  var num = 1
+  for(var i in arr) { 
+      //存在重复值
+      if(obj[arr[i]])  num++
+
+      obj[arr[i]] = true 
+  } 
+  return num 
+}

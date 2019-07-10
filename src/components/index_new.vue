@@ -29,10 +29,10 @@
       <div class="center">
         <el-row class="center-box" :gutter="8">
           <el-col :span="6">
-            <div class="winning">
+            <div class="winning" v-if="ranking && ranking.length">
               <section class="fw lottery-wins-boxs" id="lottery-wins-boxs">
                 <ul class="lottery-wins-lists" id="lottery-wins-lists">
-                  <li class="lottery-wins-list" v-for="(item, index) in 10" :key="index"> 
+                  <li class="lottery-wins-list" v-for="(item, index) in ranking" :key="index"> 
                     <div v-if="index === 0" class="lottery-wins-list-num">
                       <img src="../assets/images/new/index/wins_1.png">
                     </div>
@@ -45,8 +45,8 @@
                     <div v-else class="lottery-wins-list-num">
                       <span>{{index}}</span>
                     </div>
-                    <div class="lottery-wins-list-name">12****8</div>
-                    <div class="lottery-wins-list-moeny wzfw">990,000,000,000</div>
+                    <div class="lottery-wins-list-name">{{item.username}}</div>
+                    <div class="lottery-wins-list-moeny wzfw">{{item.bonus}}</div>
                   </li>
                 </ul>
               </section>
@@ -59,8 +59,8 @@
               </div>
             </div>
             <div class="box-report">
-              <ul class="report-list" v-if="notice && notice.length">
-                <li class="report-list-item" v-for="(item, index) in notice" :key="index">
+              <ul class="report-list" v-if="notice.data && notice.data.length">
+                <li class="report-list-item" v-for="(item, index) in notice.data.slice(0, 6)" :key="index">
                   <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}{{item.id}}</a>
                 </li>
                 <div class="btn">
@@ -79,7 +79,7 @@
                   <div class="hot-box-item" v-for="(item, index) in lotteriesList" :key="index">
                     <div class="title">
                       <div class="fl">
-                        {{item.name}}
+                        {{item.name}} {{item.method_name}}
                         <span style="color:#fb9f46;">20190308</span>
                       </div>
                       <div class="fr">12.1245截止</div>
@@ -143,7 +143,7 @@
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
-      <router-link tag="a" to="active" class="promotions">手动选号</router-link>
+      <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
     <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletinIndex="currentBulletinIndex" index='0' @close="handleBulletinClose"></dialog-bulletin>
   </div>
@@ -174,7 +174,8 @@ export default {
       'popularLotteries1',
       'popularLotteries2',
       'showBanner',
-      'showSideFloat'
+      'showSideFloat',
+      'ranking'
     ])
   },
   watch: {
@@ -251,7 +252,6 @@ export default {
       item.code.forEach(v => {
         v.sign ? code.push(v.num) : null
       })
-      console.log(item)
     },
     goToBannerUrl(url){
       this.$router.push(url)
@@ -443,7 +443,7 @@ export default {
         }
       }
       .lottery-wins-list-moeny {
-        flex: 0 0 130px;
+        flex: 0 0 110px;
       }
     }
     .box-qr {

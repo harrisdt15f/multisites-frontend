@@ -364,94 +364,92 @@
           @click="betHistory.tab = 1"
         >我的追号</li>
       </ul>
-      <!-- <table v-if="betHistory.tab === 0" class="w100">
-        <thead>
-          <tr>
-            <th>游戏</th>
-            <th>玩法</th>
-            <th>期号</th>
-            <th>开奖号</th>
-            <th>投注内容</th>
-            <th>投注金额</th>
-            <th>奖金</th>
-            <th>奖金组-返点</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in bet.betHistory.myBetList" :key="index">
-            <td>{{item.name}}</td>
-            <td>{{item.method_name}}</td>
-            <td>{{item.issue}}</td>
-            <td>{{item.open_codes}}</td>
-            <td style="display:inline-block;width:170px;" class="wzfw">{{item.bet_codes}}</td>
-            <td>{{item.total_cost}}</td>
-            <td>0.00</td>
-            <td>{{item.prize_group}}</td>
-            <td>{{item.status}}</td>
-            <td class="cur">详情</td>
-          </tr>
-        </tbody>
-      </table>
-      <table v-if="betHistory.tab === 1" class="w100">
-        <thead>
-          <tr>
-            <th>游戏</th>
-            <th>玩法</th>
-            <th>期号</th>
-            <th>开奖号</th>
-            <th>投注内容</th>
-            <th>投注金额</th>
-            <th>奖金</th>
-            <th>奖金组-返点</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-              <td>重庆时时彩</td>
-              <td>五星直选单式</td>
-              <td>190415040</td>
-              <td>190415040</td>
-              <td style="display:inline-block;width:170px;" class="wzfw">1</td>
-              <td>1</td>
-              <td>2</td>
-              <td>未中奖</td>
-              <td>0</td>
-              <td class="cur">详情</td>
-          </tr>
-        </tbody>
-      </table>-->
-      <el-table :data="bet.betHistory.myBetList" style="width: 100%">
-        <el-table-column align="center" prop="name" label="游戏"></el-table-column>
-        <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
-        <el-table-column align="center" prop="issue" label="期号"></el-table-column>
-        <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" prop="bet_codes" label="投注内容" show-overflow-tooltip></el-table-column>
-        <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
-        <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
-        <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
-        <el-table-column align="center" label="状态">
-          <template slot-scope="scope">
-            <span v-if="scope.row.status == 0">待开奖</span>
-            <span v-if="scope.row.status == 2">未中奖</span>
-            <span v-if="scope.row.status == 3">中奖</span>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column
-          align="center"
-          prop="open_codes"
-          label="操作">
-        </el-table-column>-->
-      </el-table>
-      <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
+      <template v-if="betHistory.tab === 0">
+        <el-table :key="1" :data="bet.betHistory.myBetList" style="width: 100%">
+          <el-table-column align="center" prop="name" label="游戏">
+            <template>
+              <span>{{currentLottery.cn_name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
+          <el-table-column align="center" prop="issue" label="期号"></el-table-column>
+          <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" label="投注内容" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <template v-if="scope.row.method_group === 'DXDS'">
+                {{scope.row.bet_codes.replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}} 
+              </template>
+              <template v-else-if="scope.row.method_group === 'LH'">
+                {{scope.row.bet_codes.replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}} 
+              </template>
+              <template v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'">
+                {{scope.row.bet_codes.replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}} 
+              </template>
+              <template v-else>
+                <span>{{scope.row.bet_codes}}</span>
+              </template>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
+          <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
+          <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
+          <el-table-column align="center" label="状态">
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">待开奖</span>
+              <span v-if="scope.row.status == 2">未中奖</span>
+              <span v-if="scope.row.status == 3">中奖</span>
+              <span v-if="scope.row.status == 4">已派奖</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <router-link tag="section" class="row-more" to="/account-center/bet-record">更多游戏记录...</router-link>
+      </template>
+      <template v-if="betHistory.tab === 1">
+        <el-table :key="2" :data="bet.betHistory.myChaseList" style="width: 100%">
+          <el-table-column align="center" prop="name" label="彩种" show-overflow-tooltip>
+            <template>
+              <span>{{currentLottery.cn_name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="method_name" label="玩法" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="start_issue" label="起始奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="process" label="追号奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total_price" label="投注金额" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="is_win_stop" label="追中即停" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span v-if="scope.row.is_win_stop == 0">不停</span>
+              <span v-if="scope.row.is_win_stop == 1">停</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="finished_bonus" label="中奖金额" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" label="状态" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span v-if="scope.row.status == 0">正在追号 </span>
+              <span v-if="scope.row.status == 1">追号完成</span>
+              <span v-if="scope.row.status == 2">玩家撤销 </span>
+              <span v-if="scope.row.status == 3">系统撤销</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <router-link tag="section" class="row-more" to="/account-center/bet-record/traces">更多游戏记录...</router-link>
+      </template>
     </section>
+    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
   </section>
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import recordDetails from '../../components/public/record_details'
 
 export default {
   name: 'game-order',
@@ -461,11 +459,13 @@ export default {
         number: 0,
         money: 0
       },
+      dialogVisible: false,
       totalSub: {
         number: 0,
         double: 1,
         money: 0
       },
+      detailData: null,
       orderListSub: [],
       chaseTab: 0,
       tableData: [],
@@ -511,6 +511,9 @@ export default {
     }
   },
   props: ['countPrizes'],
+  components: {
+    recordDetails
+  },
   computed: {
     ...mapGetters([
       'lotteryAll',
@@ -568,6 +571,8 @@ export default {
             rateAll += Number(newVal[i].multiple)
           }
         }
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = rateAll
         this.chase.rateMoneyAll = rateAll * this.chase.rateMoney
       },
       deep: true
@@ -591,6 +596,8 @@ export default {
             doubleAll += Number(newVal[i].multiple)
           }
         }
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = doubleAll
         this.chase.doubleMoneyAll = doubleAll * this.chase.doubleMoney
       },
       deep: true
@@ -614,6 +621,9 @@ export default {
             doubleAll += Number(newVal[i].multiple)
           }
         }
+
+        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.times = doubleAll
         this.chase.sameMoneyAll = doubleAll * this.chase.sameMoney
       },
       deep: true
@@ -946,7 +956,7 @@ export default {
             if (row_data.multiple >= max_multiple) {
               if (alertSign) {
                 alert(
-                  '         过了系统最大允许设置的倍数，将自动调整为系统最大可设置倍数'
+                  '过了系统最大允许设置的倍数，将自动调整为系统最大可设置倍数'
                 )
                 alertSign = false
               }
@@ -1023,6 +1033,9 @@ export default {
     },
     // 确定投注
     submitBet() {
+      if (this.betLoading) {
+        return 
+      }
       if (
         this.bet.doubleBeforeOrder.length === 0 ||
         this.bet.doubleBeforeOrder === '[]'
@@ -1100,17 +1113,8 @@ export default {
           // 获取我的投注 我的追号记录
           this.$store.dispatch('betHistory')
           // 刷新余额
-          this.Api.getBalance().then(res => {
-            if (res.success) {
-              let account = this.Utils.storage.get('current-user')
-              if (account && account.data) {
-                account.data.balance = res.data.balance
-                account.data.frozen = res.data.frozen
-                this.$store.commit('account', account.data)
-                this.Utils.storage.set('current-user', account.data)
-              }
-            }
-          })
+          this.$store.dispatch('getUserDetail')
+          this.clearOrderList()
         }
       })
     },
@@ -1165,6 +1169,14 @@ export default {
         'percentage',
         (item.profit / (item.value * (index + 1))) * 100
       )
+    },
+    //投注记录详情
+    handleDetail(row){
+      this.detailData = row
+      this.dialogVisible = true
+    },
+    handleDetailClose(){
+      this.dialogVisible = false
     }
   }
 }

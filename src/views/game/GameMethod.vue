@@ -253,7 +253,7 @@ export default {
       this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
-    selectGroup(groupSign, _index = 0, group = {}) {
+    selectGroup(groupSign, _index = 0, group) {
       this.selectedGroup = groupSign
       this.selectedGroupIndex = _index
       this.selectedMethodId = ''
@@ -261,8 +261,9 @@ export default {
       this.selectMethod(
         this.allMethods[_index]['rows'][0]['methods'][0]['method_id']
       )
+      this.$store.commit('currentMethodGroup', this.allMethods[_index]['rows'][0]['methods'][0]['method_group'])
+      
       this.$store.commit('methodsTab')
-      this.$store.commit('currentMethodGroup', group)
     },
     // 选中玩法
     selectMethod(methodId) {

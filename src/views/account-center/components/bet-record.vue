@@ -14,7 +14,7 @@
               :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
             <div class="bmn-search-button" style="margin-left:20px;">
-              <input @click="searchGame" type="submit" value="搜 索" class="btn">
+              <input @click="searchGame" type="submit" value="搜 索" class="btn" />
             </div>
           </div>
           <div class="custom-table m-t-25">
@@ -31,7 +31,7 @@
               </el-table-column>
               <el-table-column align="center" label="注单编号">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.issue }}</span>
+                   <el-button type="text" size="mini" @click="handleDetail(scope.row)">{{ scope.row.issue }}</el-button>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖期">
@@ -46,7 +46,7 @@
               </el-table-column>
               <el-table-column align="center" label="投注内容">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.bet_number }}</span>
+                  <span>{{ scope.row.bet_codes }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="投注额">
@@ -66,10 +66,9 @@
               </el-table-column>
               <el-table-column align="center" label="状态">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.status == 0">已投注</span>
-                  <span v-if="scope.row.status == 1">已撤销</span>
+                  <span v-if="scope.row.status == 0">待开奖</span>
                   <span v-if="scope.row.status == 2">未中奖</span>
-                  <span v-if="scope.row.status == 3">已中奖</span>
+                  <span v-if="scope.row.status == 3">中奖</span>
                   <span v-if="scope.row.status == 4">已派奖</span>
                 </template>
               </el-table-column>
@@ -101,39 +100,53 @@
               end-placeholder="结束日期"
             ></el-date-picker>
             <div class="bmn-search-button" style="margin-left:20px;">
-              <input @click="searchTraces" type="submit" value="搜 索" class="btn">
+              <input @click="searchTraces" type="submit" value="搜 索" class="btn" />
             </div>
           </div>
           <div class="custom-table m-t-25">
             <el-table :data="tracesList" v-loading="tracesListLoading" style="width: 100%">
-              <el-table-column align="center" label="用户名">
+              <el-table-column align="center" show-overflow-tooltip label="彩种">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.name }}</span>
+                  <span>{{ scope.row.lottery_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="投注金额">
+              <el-table-column align="center" show-overflow-tooltip label="玩法">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.method_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="有效投注">
+              <el-table-column align="center" show-overflow-tooltip label="开始奖期">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.start_issue }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="派奖总额">
+              <el-table-column align="center" show-overflow-tooltip label="追号奖期">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.process }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="投注返点">
+              <el-table-column align="center" show-overflow-tooltip label="投注金额">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span>{{ scope.row.total_price }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="游戏盈亏">
+              <el-table-column align="center" show-overflow-tooltip label="追中即停">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.address }}</span>
+                  <span v-if="scope.row.is_win_stop == 0">不停</span>
+                  <span v-if="scope.row.is_win_stop == 1">停</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" show-overflow-tooltip label="中奖金额">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.finished_bonus }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" show-overflow-tooltip label="状态">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.status == 0">正在追号</span>
+                  <span v-if="scope.row.status == 1">追号完成</span>
+                  <span v-if="scope.row.status == 2">玩家撤销</span>
+                  <span v-if="scope.row.status == 3">系统撤销</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -153,14 +166,23 @@
         </div>
       </el-tab-pane>
     </el-tabs>
+    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
   </div>
 </template>
 
 <script>
+import recordDetails from '../../../components/public/record_details'
+
 export default {
+  inject: ['active'],
+  components: {
+    recordDetails
+  },
   data() {
     const date = new Date()
     return {
+      detailData: null,
+      dialogVisible: false,
       activeName: 'game',
       gameList: [],
       listLoading: true,
@@ -171,7 +193,7 @@ export default {
         page: 1,
         lottery_sign: undefined,
         begin_time: undefined,
-        end_time: undefined,
+        end_time: undefined
       },
       tracesListTotal: null,
       tracesList: [],
@@ -182,7 +204,7 @@ export default {
         method_sign: undefined,
         start_time: undefined,
         end_time: undefined,
-        project_id: undefined,
+        project_id: undefined
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
@@ -195,22 +217,35 @@ export default {
     }
   },
   watch: {
-    gameTime:{
+    gameTime: {
       handler(newName) {
-        this.gameListQuery.begin_time =  this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
-        this.gameListQuery.end_time =  this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
+        this.gameListQuery.begin_time = this.Utils.formatTime(
+          newName[0],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+        this.gameListQuery.end_time = this.Utils.formatTime(
+          newName[1],
+          'YYYY-MM-DD HH:MM:SS'
+        )
       },
       immediate: true
     },
-    tracesTime:{
+    tracesTime: {
       handler(newName) {
-        this.tracesListQuery.begin_time = this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
-        this.tracesListQuery.end_time = this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
+        this.tracesListQuery.begin_time = this.Utils.formatTime(
+          newName[0],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+        this.tracesListQuery.end_time = this.Utils.formatTime(
+          newName[1],
+          'YYYY-MM-DD HH:MM:SS'
+        )
       },
       immediate: true
     }
   },
   created() {
+    this.activeName = this.active ? this.active : 'game'
     this.getGameList()
     this.getTraceList()
   },
@@ -260,6 +295,14 @@ export default {
     handleTraceCurrentChange(val) {
       this.tracesListQuery.page = val
       this.getTraceList()
+    },
+    //投注记录详情
+    handleDetail(row){
+      this.detailData = row
+      this.dialogVisible = true
+    },
+    handleDetailClose(){
+      this.dialogVisible = false
     }
   }
 }
