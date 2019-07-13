@@ -3,15 +3,16 @@
     <div class="filter-container">
       <div class="filter-label">
         用户名:
-        <el-input style="width: 200px;" class="filter-item"></el-input>
+        <el-input size="small" style="width: 200px;" class="filter-item"></el-input>
       </div>
       <div class="filter-label">
         用户属性:
-        <el-input style="width: 200px;" class="filter-item"></el-input>
+        <el-input size="small" style="width: 200px;" class="filter-item"></el-input>
       </div>
       <div class="filter-label">
         时间:
         <el-date-picker
+          size="small"
           v-model="time"
           type="datetimerange"
           range-separator="至"
@@ -20,7 +21,7 @@
         ></el-date-picker>
       </div>
       <div class="bmn-search-button">
-        <input type="submit" value="搜 索" class="btn">
+        <input type="submit" value="搜 索" class="btn" />
       </div>
     </div>
     <div class="custom-table m-t-25">
@@ -244,7 +245,7 @@ export default {
     margin-right: 20px;
   }
 }
-.line-center{
+.line-center {
   height: 45px;
   line-height: 45px;
   font-size: 13px;

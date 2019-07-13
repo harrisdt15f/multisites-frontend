@@ -8,8 +8,8 @@
   >
     <template v-if="detailData">
       <div class="content" v-if="!isTraces">
-        <div class="openball-result" v-if="detailData.open_codes && detailData.open_codes.length">
-          <span class="item" v-for="(item, index) in detailData.open_codes.split('')" :key="index">{{item}}</span>
+        <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
+          <span class="item" v-for="(item, index) in detailData.open_number.split('')" :key="index">{{item}}</span>
         </div>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -31,7 +31,7 @@
                 </td>
                 <td align="right">投注时间：</td>
                 <td>
-                  <span class="value">{{detailData.bet_time}}</span>
+                  <span class="value">{{detailData.created_at}}</span>
                 </td>
               </tr>
               <tr>
@@ -82,7 +82,7 @@
         </div>
         <div class="detail-row-cont">
           <div class="title">投注内容：</div>
-          <el-input type="textarea" :rows="4" v-model="detailData.bet_codes"></el-input>
+          <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
         </div>
       </div>
       <div class="content" v-else>
@@ -106,7 +106,7 @@
                 </td>
                 <td align="right">追号时间：</td>
                 <td>
-                  <span class="value">{{detailData.bet_time}}</span>
+                  <span class="value">{{detailData.created_at}}</span>
                 </td>
               </tr>
               <tr>
@@ -180,7 +180,7 @@
         </div>
         <div class="detail-row-cont">
           <div class="title">投注内容：</div>
-          <el-input type="textarea" :rows="4" v-model="detailData.bet_codes"></el-input>
+          <el-input type="textarea" disabled="" :rows="4" v-model="bet_number"></el-input>
         </div>
       </div>
     </template>
@@ -199,7 +199,19 @@ export default {
   computed: {
     ...mapGetters(['currentLottery']),
     isTraces() {
-      return this.detailData.is_win_stop !== undefined
+      return this.detailData.win_stop !== undefined
+    },
+    bet_number() {
+        if (this.detailData.method_group === 'DXDS') {
+          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')
+        }
+        if (this.detailData.method_group === 'LH') {
+          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')
+        }
+        if (this.detailData.method_group === 'QTS3') {
+          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')
+        }
+        return this.detailData.bet_number.replace(/&/g,',')
     }
   },
   watch: {
@@ -208,6 +220,7 @@ export default {
     }
   },
   props: ['dialogVisible', 'detailData'],
+
   methods: {
     handleClose() {
       this.$emit('close')
@@ -218,6 +231,13 @@ export default {
 
 <style lang="scss">
 .record-detail {
+  /deep/{
+    .el-textarea.is-disabled .el-textarea__inner{
+      background-color: #fff;
+      border-color: #DCDFE6;
+      color: #606266;
+    }
+  }
   .content {
     margin: 0 auto;
   }

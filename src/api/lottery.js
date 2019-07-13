@@ -32,7 +32,7 @@ export default {
   getBetHistory(sign, count = 10, start = 0) {
     let data = {
       lottery_sign: sign,
-      count: count,
+      page_size: count,
       start: start
     }
     return this.post('/lotteries/projectHistory', data).then(
@@ -45,7 +45,7 @@ export default {
   getTracesHistory(sign, count = 10, start = 0) {
     let data = {
       lottery_sign: sign,
-      count: count,
+      page_size: count,
       start: start
     }
     return this.post('/lotteries/tracesHistory', data).then(

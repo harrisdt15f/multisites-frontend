@@ -373,26 +373,26 @@
           </el-table-column>
           <el-table-column align="center" prop="method_name" label="玩法"></el-table-column>
           <el-table-column align="center" prop="issue" label="期号"></el-table-column>
-          <el-table-column align="center" prop="open_codes" label="开奖号" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="open_number" label="开奖号" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" label="投注内容" show-overflow-tooltip>
             <template slot-scope="scope">
               <template v-if="scope.row.method_group === 'DXDS'">
-                {{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}} 
+                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}} 
               </template>
               <template v-else-if="scope.row.method_group === 'LH'">
-                {{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}} 
+                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}} 
               </template>
               <template v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'">
-                {{scope.row.bet_codes.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}} 
+                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}} 
               </template>
               <template v-else>
-                <span>{{scope.row.bet_codes.replace(/&/g,',')}}</span>
+                <span>{{scope.row.bet_number.replace(/&/g,',')}}</span>
               </template>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="total_cost" label="投注金额"></el-table-column>
           <el-table-column align="center" prop="bonus" label="奖金"></el-table-column>
-          <el-table-column align="center" prop="prize_group" label="奖金组-返点"></el-table-column>
+          <el-table-column align="center" prop="bet_prize_group" label="奖金组-返点"></el-table-column>
           <el-table-column align="center" label="状态">
             <template slot-scope="scope">
               <span v-if="scope.row.status == 0">待开奖</span>
@@ -418,9 +418,9 @@
           </el-table-column>
           <el-table-column align="center" prop="method_name" label="玩法" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="start_issue" label="起始奖期" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="process" label="追号奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="issue_process" label="追号奖期" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="total_price" label="投注金额" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="is_win_stop" label="追中即停" show-overflow-tooltip>
+          <el-table-column align="center" prop="win_stop" label="追中即停" show-overflow-tooltip>
             <template slot-scope="scope">
               <span v-if="scope.row.is_win_stop == 0">不停</span>
               <span v-if="scope.row.is_win_stop == 1">停</span>
