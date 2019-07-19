@@ -1217,6 +1217,13 @@ export default {
                   tmp.delete(i)
                 }
             }
+            if (this.currentMethod.method === 'QHHZX' ||
+              this.currentMethod.method === 'ZHHZX' ||
+              this.currentMethod.method === 'HHHZX') {
+              if(isRepeatNum(i) === 3){
+                tmp.delete(i)
+              }
+            }
           }
         }
       }
