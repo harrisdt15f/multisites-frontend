@@ -12,6 +12,7 @@ const getters = {
   showBanner: state => state.site.showBanner,
   showSideFloat: state => state.site.showSideFloat,
   ranking: state => state.site.ranking,
+  lotteryNoticeList: state => state.site.lotteryNoticeList,
   // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,

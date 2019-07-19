@@ -22,7 +22,7 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getBanner', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
+    ...mapActions(['getBanner', 'getLotteryNotice', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
       this.Api.showHomepageModel().then(({success, data}) => {
@@ -36,6 +36,7 @@ export default {
           data['popularLotteries.one'] ? this.getPopularLotteries1() : null
           data['popularLotteries.two'] ? this.getPopularLotteries2() : null
           data['activity'] ? this.getActivity() : null
+          this.getLotteryNotice()
         }
       })
     }

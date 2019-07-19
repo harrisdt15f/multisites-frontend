@@ -18,11 +18,15 @@
           </div>
           <div class="hot-box">
             <el-tabs class="hot-box-tab" v-model="activeName">
-              <el-tab-pane label="重庆时时彩" name="first">
+              <el-tab-pane
+                v-for="(item, index) in lotteriesList"
+                :key="index"
+                :label="item.name"
+                :name="item.id"
+              >
                 <div
                   class="hot-box-item"
-                  v-for="(item, index) in lotteriesList.slice(0, 1)"
-                  :key="index">
+                >
                   <div class="title">
                     <div class="fl">
                       {{item.name}} {{item.method_name}}
@@ -67,9 +71,6 @@
                   </div>
                 </div>
               </el-tab-pane>
-              <el-tab-pane label="腾讯分分彩" name="second">腾讯分分彩</el-tab-pane>
-              <el-tab-pane label="自主分分彩" name="third">自主分分彩</el-tab-pane>
-              <el-tab-pane label="上海11选5" name="fourth">上海11选5</el-tab-pane>
             </el-tabs>
           </div>
         </el-col>
@@ -109,22 +110,20 @@
           <div class="kjgg">
             <div class="title">开奖公告</div>
             <div class="kjgg-group">
-              <div class="kigg-item" v-for="item in 6" :key="item">
+              <div class="kigg-item" v-for="(item, index) in lotteryNoticeList" :key="index">
                 <div class="top">
-                  <div class="fl">重庆时时彩</div>
+                  <div class="fl">{{item.cn_name}}</div>
                   <div class="fr">
-                    <span class="time">20190424-041</span>期
+                    <span class="time">{{item.issue}}</span>期
                   </div>
                 </div>
                 <div class="middle">
-                  <span class="ball">3</span>
-                  <span class="ball">4</span>
-                  <span class="ball">8</span>
-                  <span class="ball">4</span>
-                  <span class="ball">4</span>
+                  <template v-if="item.official_code">
+                    <span class="ball" v-for="(item, index) in item.official_code.split('')" :key="index">{{item}}</span>
+                  </template>
                 </div>
                 <div class="bottom">
-                  <div class="fl">2019-04-24</div>
+                  <div class="fl">{{Utils.formatTime(item.encode_time)}}</div>
                   <div class="fr">
                     <a href="javascript:;" class="btn">走势</a>
                     <a href="javascript:;" class="btn">投注</a>
@@ -137,7 +136,7 @@
         <el-col :span="12">
           <div class="other-game">
             <div class="container">
-              <el-tabs v-model="activeGameName" >
+              <el-tabs v-model="activeGameName">
                 <el-tab-pane label="彩票" name="lott">
                   <el-row :gutter="8" class="tab-lott">
                     <el-col :span="12" v-for="item in 8" :key="item">
@@ -170,9 +169,9 @@
                 <div class="zjxx-item" v-for="(item, index) in ranking" :key="index">
                   <img class="img" src="../assets/images/Avatar.png" />
                   <div class="zjxx-r">
-                   {{item.username}}
+                    {{item.username}}
                     <br />喜中十一选五
-                    <span class="cost"> {{item.bonus}}元</span>
+                    <span class="cost">{{item.bonus}}元</span>
                   </div>
                 </div>
               </div>
@@ -211,7 +210,7 @@ export default {
       lotteriesList: [],
       currentBulletinIndex: null,
       showBulletin: false,
-      activeName: 'first',
+      activeName: '',
       activeGameName: 'lott'
     }
   },
@@ -227,7 +226,8 @@ export default {
       'popularLotteries2',
       'showBanner',
       'showSideFloat',
-      'ranking'
+      'ranking',
+      'lotteryNoticeList'
     ])
   },
   watch: {
@@ -256,6 +256,7 @@ export default {
           }
         })
         this.lotteriesList = list
+        this.activeName = list[0].id
       },
       immediate: true
     }
@@ -516,7 +517,7 @@ export default {
     .title {
       overflow: hidden;
       padding: 12px 0;
-      .btn{
+      .btn {
         border: 1px solid #e2e2e2;
         padding: 7px 10px;
       }
@@ -794,7 +795,7 @@ export default {
     .bottom {
       font-size: 14px;
       overflow: hidden;
-      .btn{
+      .btn {
         font-size: 14px;
         border: 1px solid #e2e2e2;
         padding: 3px 8px;

@@ -9,11 +9,15 @@ const state = {
   popularLotteries1: [],
   popularLotteries2: [],
   ranking: [],
+  lotteryNoticeList: [],
   showBanner: false,
   showSideFloat: true
 }
 
 const mutations = {
+  SET_LOTTERY_NOTICE: (state, data) => {
+    state.lotteryNoticeList = data
+  },
   SET_SHOW_FLOAT: (state, data) => {
     state.showSideFloat = data
   },
@@ -111,6 +115,13 @@ const actions = {
     API.getRanking().then(({success, data}) => {
       if (success) {
         commit('SET_RANKING', data)
+      }
+    })
+  },
+  getLotteryNotice({ commit }){
+    API.lotteryNoticeList().then(({success, data}) => {
+      if (success) {
+        commit('SET_LOTTERY_NOTICE', data)
       }
     })
   }

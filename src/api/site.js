@@ -34,8 +34,12 @@ export default {
   getRanking() {
     return this.get('/homepage/ranking').then(response =>  response)
   },
-  //中奖排行
+  //中奖排行 
   getUserHelp() {
     return this.get('/user-help/menus').then(response =>  response)
+  },
+  //开奖公告
+  lotteryNoticeList() {
+    return this.get('/homepage/lottery-notice-list').then(response =>  response)
   }
 }
