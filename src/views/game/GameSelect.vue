@@ -1180,7 +1180,6 @@ export default {
           for (const i of tmp) {
             // 去除重复的组
             const arr = i.split(/[\s\n]+/)
-
             if (
               isRepeat(arr) ||
               arr.length != this.currentMethod.b64 ||

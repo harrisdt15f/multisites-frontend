@@ -1,97 +1,139 @@
 <template>
   <div class="header-wrapper">
-    <header class="container">
-        <router-link class="logo" tag="h1" to="/home" >
-          <img class="logo-img" :src="logoSrc">
-        </router-link>
-      <div class="top">
-        <section class="head-notice">
-          <i class="fa fa-volume-up ft21 head-notice-img"></i>
-          <section class="head-meque">
-            <section
-              class="resultMarquee"
-              id="head-meque">
-              <p id="head-meque_text">
-                 中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
-              </p>
-            </section>
-          </section>
-        </section>
-        <ul class="head-users fr ft0">
-          <li class="head-user head-user-name wzfw">
-            <img src="../assets/images/new/header/vip5.png" alt="vip" title="vip" class="head-vip">
-            {{userDetail.username}}
-          </li>
-          <span class="line">|</span>
-          <li class="head-user wzfw" style="cursor: default;">
-            余额:
-            {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
-            <i class="fa fa-refresh cur" :class="{loading: loading}" @click="refresh()"></i>
-          </li>
-          <router-link tag="li" to="/account-center/fund-manage/recharge" class="head-user">充值</router-link>
-          <router-link tag="li" to="/account-center/fund-manage/withdrawal" class="head-user">提款</router-link>
-          <router-link tag="li" to="/account-center" class="head-user">个人中心</router-link>
-          <router-link tag="li" to="/account-center/fund-manage/transfer" class="head-user">额度转换</router-link>
-          <li class="head-user" ref="logout" @click="logout()">退出</li>
-          <li class="head-user head-user-server">
-            <img
-                    style="display:inline; vertical-align:middle"
-                    src="../assets/images/new/header/lxkf.png"
-            > 联系客服
-          </li>
-        </ul>
+    <div class="header-toptray">
+      <div class="container w">
+        <div class="toptray-left">您好，欢迎光临包网彩票 官方平台！</div>
+        <div class="toptray-right">
+          <ul>
+            <router-link class="toptray-item" tag="li" to="/account-center">用户中心</router-link>|
+            <router-link class="toptray-item" tag="li" to="/account-center/bet-record">投注记录</router-link>|
+            <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
+            <router-link class="toptray-item" tag="li" to="/account-center">在线客服</router-link>
+          </ul>
+        </div>
       </div>
-      <div class="bottom">
-        <nav class="fr">
-          <section class="nav">
-            <router-link tag="a" to="/home" href="javascript:;" class="nav-title">首页</router-link>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/bet" href="javascript:;" class="nav-title">
-              全部彩种 
-              <i class="fa fa-caret-down" aria-hidden="true"></i>
-            </router-link>
-            <section ref="lotterListShow" class="nav-menu-box">
-              <el-row :gutter="30">
-                <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
-                  <template v-if="lottery.list && lottery.list.length">
-                    <div class="nav-menu-title">{{lottery.name}}</div>
-                    <el-row :gutter="4" class="nav-menus">
-                      <el-col
-                        :span="8"
-                        class="nav-menu"
-                        v-for="(item, itemIndex) in lottery.list"
-                        :key="itemIndex">
-                        <router-link
-                                :to="`/bet/${item.id}`"
-                                class="span wzfw"
-                                tag="a"
-                        >{{item.name}}</router-link>
+    </div>
+    <div class="header-content container w">
+      <router-link class="logo" tag="h1" to="/home">
+        <img class="logo-img" :src="logoSrc" />
+      </router-link>
+      <div class="login-form">
+        <el-form :inline="true" :model="formInline" class="login-form-inline">
+          <el-form-item>
+            <el-input
+              style="width:185px;"
+              suffix-icon="el-icon-user"
+              size="small"
+              v-model="formInline.user"
+              placeholder="账号"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input
+              style="width:185px;"
+              suffix-icon="el-icon-lock"
+              size="small"
+              v-model="formInline.user"
+              placeholder="密码"
+            ></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="danger" size="small">登录</el-button>
+            <el-button type="danger" size="small">注册</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+    <div class="header-bottom">
+      <div class="container">
+        <el-row>
+          <el-col :span="6">
+            <div
+              class="select-lottery"
+              @mouseenter="showSelectLottery = true"
+              @mouseleave="showSelectLottery = false"
+            >
+              <div class="title">
+                <span>⑧</span> 选择彩种
+              </div>
+                <div
+                  class="sub-select"
+                  v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
+                >
+                  <ul class="select-grou">
+                    <li v-for="item in 6" :key="item" class="w">
+                      <img class="select-grou-img" src="../assets/images/lott-img.png">
+                      <div class="name">重庆时时彩</div>
+                      <div class="issue">全天59期</div>
+                    </li>
+                  </ul>
+                  <div class="select-box">
+                    <div class="box-l">
+                      <span>全部彩种</span>
+                    </div>
+                    <div class="box-r">
+                      <el-row>
+                        <el-col  class="box-r-item" v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
+                          <i></i> {{lottery.name}}
+                        </el-col>
+                      </el-row>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </el-col>
+          <el-col :span="18">
+            <el-row>
+              <el-col :span="3">&nbsp;</el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/home">首页</router-link>
+              </el-col>
+              <el-col :span="3" class="all-lottery">
+                <router-link class="nav-col" tag="span" to="/bet">全部彩种</router-link>
+                <div class="nav">
+                  <section ref="lotterListShow" class="nav-menu-box">
+                    <el-row :gutter="30">
+                      <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
+                        <div class="nav-menu-title">{{lottery.name}}</div>
+                        <el-row :gutter="4" class="nav-menus">
+                          <el-col
+                            :span="8"
+                            class="nav-menu"
+                            v-for="(item, itemIndex) in lottery.list"
+                            :key="itemIndex"
+                          >
+                            <router-link
+                              :to="`/bet/${item.id}`"
+                              class="span wzfw"
+                              tag="a"
+                            >{{item.name}}</router-link>
+                          </el-col>
+                        </el-row>
                       </el-col>
                     </el-row>
-                  </template>
-                </el-col>
-              </el-row>
-            </section>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/chess-all" href="javascript:;" class="nav-title">棋牌游戏</router-link>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/fish-game" href="javascript:;" class="nav-title">捕鱼游戏</router-link>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/active" href="javascript:;" class="nav-title">优惠活动</router-link>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/user-trends" href="javascript:;" class="nav-title">走势图标</router-link>
-          </section>
-          <section class="nav">
-            <router-link tag="a" to="/agent-center" href="javascript:;" class="nav-title">代理中心</router-link>
-          </section>
-        </nav>
+                  </section>
+                </div>
+              </el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/chess-all">棋牌游戏</router-link>
+              </el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/fish-game">捕鱼游戏</router-link>
+              </el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/active">优惠活动</router-link>
+              </el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/user-trends">走势图标</router-link>
+              </el-col>
+              <el-col :span="3">
+                <router-link class="nav-col" tag="span" to="/agent-center">代理中心</router-link>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
       </div>
-    </header>
+    </div>
   </div>
 </template>
 
@@ -100,9 +142,11 @@ import { mapGetters } from 'vuex'
 import { removeToken } from '@/utils/auth'
 export default {
   name: 'Header',
-  data () {
+  data() {
     return {
-      loading: false
+      loading: false,
+      showSelectLottery: false,
+      formInline: {}
     }
   },
   computed: {
@@ -112,7 +156,7 @@ export default {
     this.$store.dispatch('lotteryAll')
     this.lotteryList()
     // head 滚动公告
-    this.Animation.notice('head-meque', 'head-meque_text', -1)
+    // this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
   methods: {
     // 刷新用户余额
@@ -125,24 +169,23 @@ export default {
     // 退出登录
     logout() {
       this.$confirm('是否确认退出！', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonClass: '取消'
-    }).then(() => {
-      this.Api.logout().then(res => {
-        const { success } = res
-        if (success) {
-          this.$message({ message: '退出成功！', type: 'success' })
-          this.$store.commit('SET_TOKEN', '')
-          this.$store.commit('SET_USER_DETAIL', {})
-          removeToken()
-          window.sessionStorage.clear()
-          this.$nextTick(() => {
-            this.$router.push('/login')
-          })
-        }
+        confirmButtonText: '确定',
+        cancelButtonClass: '取消'
+      }).then(() => {
+        this.Api.logout().then(res => {
+          const { success } = res
+          if (success) {
+            this.$message({ message: '退出成功！', type: 'success' })
+            this.$store.commit('SET_TOKEN', '')
+            this.$store.commit('SET_USER_DETAIL', {})
+            removeToken()
+            window.sessionStorage.clear()
+            this.$nextTick(() => {
+              this.$router.push('/login')
+            })
+          }
+        })
       })
-    })
-      
     },
     // 获取 导航 彩票游戏 全部彩种
     lotteryList() {
@@ -164,197 +207,233 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@keyframes myRotate{
-    0%{ -webkit-transform: rotate(0deg);}
-    50%{ -webkit-transform: rotate(180deg);}
-    100%{ -webkit-transform: rotate(360deg);}
+.container {
+  width: 1200px;
+  margin: 0 auto;
 }
-.header-wrapper {
-  height: 97px;
+.header-toptray {
+  height: 50px;
+  line-height: 50px;
+  background-color: #e6e6e6;
   font-size: 14px;
-  background: url("../assets/images/new/header/header_bg.jpg") repeat-x;
-  .container {
-    width: 1320px;
-    margin: 0 auto;
-    position: relative;
+  .toptray-left {
+    float: left;
   }
-  .logo {
-    cursor: pointer;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: url("../assets/images/new/header/logo_bg.png") no-repeat;
-    text-align: center;
-    color: #fff;
-    width: 273px;
-    height: 83px;
-    .logo-img{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      top:0;
-      margin:auto;
-      height: 60px;
-    }
-  }
-  .top {
-    overflow: hidden;
-    .head-notice {
-      margin-left: 270px;
-      float: left;
-      padding-left: 12px;
-      margin-top: 5px;
-      width: 380px;
-      height: 34px;
-      line-height: 35px;
-      border-radius: 17px;
-      background: #332e2d;
-      color: #fff;
-      .head-notice-img {
-        float: left;
-        margin-top: 8px;
-        color: #f9bd62;
-        font-size: 19px;
-      }
-      .head-meque {
-        margin-left: 25px;
-        position: relative;
-        overflow: hidden;
-        height: 35px;
-        .resultMarquee {
-          white-space: nowrap;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
-      }
-    }
-    .head-users {
-      padding: 0.1px;
-      .cur.loading{
-        animation:myRotate 1.5s linear infinite;
-      }
-      .line {
-        color: #e6d2c3;
-        font-size: 14px;
-        vertical-align: -4px;
-      }
-      .head-user {
-        cursor: pointer;
-        font-size: 14px;
-        display: inline-block;
-        vertical-align: middle;
-        padding: 0 5px;
-        color: #e6d2c3;
-        height: 44px;
-        line-height: 44px;
-        animation: all 0.5s;
-      }
-      .head-vip {
-        display: inline-block;
-        vertical-align: middle;
-      }
-      .head-user-name {
-        max-width: 130px;
-        cursor: auto;
-      }
-    }
-  }
-  .bottom {
-    position: relative;
-    .nav {
+  .toptray-right {
+    float: right;
+    .toptray-item {
       display: inline-block;
-      box-sizing: border-box;
-      .nav-menu-box {
-        min-width: 350px;
-        min-height: 200px;
-        position: absolute;
-        top: 53px;
-        left: 572px;
-        background: #36302e;
-        display: none;
-        z-index: 0;
-        padding: 15px 28px;
+      padding: 0 6px;
+      cursor: pointer;
+    }
+  }
+}
+.header-content {
+  .logo-img {
+    height: 60px;
+    width: auto;
+    float: left;
+  }
+  .login-form {
+    float: right;
+    /deep/ {
+      .el-form-item {
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+      .el-input__suffix {
+        left: 5px;
+        right: auto;
+      }
+      .el-input--suffix .el-input__inner {
+        padding-right: 15px;
+        padding-left: 30px;
+      }
+      .el-input__inner {
+        border-color: #ff5656;
+      }
+      .el-input__prefix,
+      .el-input__suffix {
+        color: #ff5657;
         font-size: 16px;
-        /deep/{
-          .el-loading-spinner i, .el-loading-spinner .el-loading-text{
-            color: #fff;
-          }
-        }
-        .nav-menu-title {
-          font-weight: bold;
-          margin: 8px 0;
-          color: #e6d2c3;
-        }
-        .nav-menus {
-          .nav-menu {
-            .span {
-              box-sizing: border-box;
-              background: #3e3635;
-              color: #e6d2c3;
-              display: block;
-              text-align: center;
-              margin-bottom: 8px;
-              padding: 8px 5px;
-              &:hover {
-                background: #ffc164;
-                color: #36302e;
-              }
-              &.router-link-active {
-                background: #ffc164;
-                color: #36302e;
-              }
-            }
-          }
-        }
-      }
-      &:hover {
-        .nav-menu-box {
-          display: block;
-          z-index: 1002;
-        }
-      }
-      .nav-title {
-        .fa{
-          font-size: 14px;
-          margin-left: 2px;
-        }
-        display: block;
-        height: 53px;
-        line-height: 53px;
-        padding: 0 20px;
-        font-size: 18px;
-        color: #e6d2c3;
-        animation: all 0.5s;
-        &:hover {
-          background: #44362b;
-          box-sizing: border-box;
-          border-bottom: 3px solid #ffc164;
-        }
-        &.router-link-active {
-          background: #44362b;
-          box-sizing: border-box;
-          border-bottom: 3px solid #ffc164;
-        }
       }
     }
   }
 }
-#head-meque {
-  position: relative;
-  left:6px;
-  width: 352px;
-  height:34px;
-  overflow: hidden;
+.header-bottom {
+  height: 58px;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  background: #ff5656;
+  line-height: 58px;
 }
-#head-meque_text {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
+.select-lottery {
+  text-align: left;
+  background: #c51313;
+  .title {
+    width: 100%;
+    padding: 0 15px;
+    & > span {
+      display: inline;
+      background: #fff;
+      color: #c51313;
+      border-radius: 50%;
+      padding: 3px;
+      margin-right: 5px;
+    }
+  }
+}
+.nav-col {
   cursor: pointer;
-  color:#f1f1f1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  &:hover,
+  &.router-link-active {
+    background: #d81e06;
+  }
+}
+.sub-select {
+  position: absolute;
+  z-index: 999;
+  top: 58px;
+  border: 1px solid #e2e2e2;
+  border-top: 0;
+  left: 0;
+  width: 25%;
+}
+.select-grou {
+  background: #fff;
+  width: 100%;
+  color: #000;
+  font-size: 14px;
+  & > li {
+    box-sizing: border-box;
+    padding: 5px 15px;
+    border-bottom: 1px solid #e2e2e2;
+  }
+  .select-grou-img{
+    display:block;
+    float: left;
+    width: 45px;
+    height: auto;
+    margin-top: 5px;
+    margin-right: 10px;
+  }
+  .w {
+    width: 100%;
+  }
+  .name {
+    float: left;
+  }
+  .issue {
+    float: right;
+    color: #c51313;
+  }
+}
+.select-box {
+  background-color: #f9f9f9;
+  font-size: 14px;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 17px 0 18px;
+  .box-l {
+    flex: 0 0 80px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    span {
+      display: block;
+      margin-top: 15px;
+      font-size: 16px;
+      text-align: center;
+      width: 40px;
+      background: #ff5656;
+      color: #fff;
+      padding: 20px 5px;
+      box-sizing: border-box;
+      line-height: 1.5;
+    }
+  }
+  .box-r {
+    flex: 1;
+    line-height: 1.5;
+    .box-r-item {
+      padding: 10px 0;
+      cursor: pointer;
+      &:hover{
+        text-decoration: underline;
+      }
+      i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background: #c51313;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+.all-lottery {
+  .nav-menu-box {
+    line-height: 1.5;
+    min-width: 350px;
+    min-height: 200px;
+    position: absolute;
+    top: 58px;
+    left: 225px;
+    background: #fff;
+    z-index: 0;
+    display: none;
+    // z-index: 1001;
+    padding: 15px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    /deep/ {
+      .el-loading-spinner i,
+      .el-loading-spinner .el-loading-text {
+        color: #fff;
+      }
+    }
+    .nav-menu-title {
+      text-align: left;
+      color: #000;
+      margin-bottom: 5px;
+    }
+    .nav-menus {
+      .nav-menu {
+        .span {
+          box-sizing: border-box;
+          background: #f3f3f3;
+          color: #9d9d9d;
+          display: block;
+          text-align: center;
+          margin-bottom: 8px;
+          font-size: 14px;
+          padding: 8px 5px;
+          &:hover {
+            background: #e9625d;
+            color: #fffefe;
+          }
+          &.router-link-active {
+            background: #e9625d;
+            color: #fffefe;
+          }
+        }
+      }
+    }
+  }
+  &:hover {
+    .nav-menu-box {
+      display: block;
+      display: block;
+      z-index: 1001;
+    }
+  }
 }
 </style>
 

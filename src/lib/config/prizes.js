@@ -429,6 +429,9 @@ export default {
             'LTQ2DTZU2': {'total': 165, 'prize': 98.89, 'count': 1},
             'LTBDW': {'total': 11, 'prize': 6.59, 'count': 3},
             'LTDWD': {'total': 11, 'prize': 19.8, 'count': 1},
+            'LTDWD_1': {'total': 11, 'prize': 19.8, 'count': 1},
+            'LTDWD_2': {'total': 11, 'prize': 19.8, 'count': 1},
+            'LTDWD_3': {'total': 11, 'prize': 19.8, 'count': 1},
             'LTDDS': {'total': 462, 'prize': [830.67, 138.00, 27.00, 11.00, 5.50, 4.10], 'count': [1, 6, 30, 75, 150, 200]},
             'LTCZW': {'total': 462, 'prize': [29.67, 12.30, 9.20, 8.31], 'count': [28, 63, 90, 100]},
 

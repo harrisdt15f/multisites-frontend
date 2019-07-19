@@ -1,151 +1,201 @@
 <template>
   <div class="new-index">
-    <div class="carousel-img" v-if="showBanner">
-      <el-carousel :interval="5000" arrow="always">
-        <el-carousel-item v-for="item in banner" :key="item.src">
-          <a
-            class="carousel-src"
-            href="javascript:;"
-            @click="goToBannerUrl(item.redirect_url)"
-            :style="`background-image: url(${item.pic_path})`"></a>
-        </el-carousel-item>
-      </el-carousel>
-    </div>
-    <div class="container">
-      <ul class="lotter-list ft0" v-if="popularLotteries1 && popularLotteries1.length">
-        <li
-          class="lotter-list-item"
-          v-for="(item, index) in popularLotteries1"
-          :style="`background: url(${item.pic_path}) no-repeat center center`"
-          :key="index">
-          <p class="lotter-list-item-text">
-            <span class="gold">20</span>分钟/期
-            全天共
-            <span class="gold">{{item.day_issue}}</span>期
-          </p>
-          <div @click="goToBet(item.en_name)" class="lotter-list-item-btn"></div>
-        </li>
-      </ul>
-      <div class="center">
-        <el-row class="center-box" :gutter="8">
-          <el-col :span="6">
-            <div class="winning" v-if="ranking && ranking.length">
-              <section class="fw lottery-wins-boxs" id="lottery-wins-boxs">
-                <ul class="lottery-wins-lists" id="lottery-wins-lists">
-                  <li class="lottery-wins-list" v-for="(item, index) in ranking" :key="index"> 
-                    <div v-if="index === 0" class="lottery-wins-list-num">
-                      <img src="../assets/images/new/index/wins_1.png">
+    <div class="w">
+      <el-row class="index-top">
+        <el-col :span="6">&nbsp;</el-col>
+        <el-col :span="12">
+          <div class="carousel-img" v-if="showBanner">
+            <el-carousel :interval="5000" arrow="always">
+              <el-carousel-item v-for="item in banner" :key="item.src">
+                <a
+                  class="carousel-src"
+                  href="javascript:;"
+                  @click="goToBannerUrl(item.redirect_url)"
+                  :style="`background-image: url(${item.pic_path})`"
+                ></a>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+          <div class="hot-box">
+            <el-tabs class="hot-box-tab" v-model="activeName">
+              <el-tab-pane label="重庆时时彩" name="first">
+                <div
+                  class="hot-box-item"
+                  v-for="(item, index) in lotteriesList.slice(0, 1)"
+                  :key="index">
+                  <div class="title">
+                    <div class="fl">
+                      {{item.name}} {{item.method_name}}
+                      <span style="color:#c51313;">20190308</span>
+                      12.1245截止
                     </div>
-                    <div v-else-if="index === 1" class="lottery-wins-list-num">
-                      <img src="../assets/images/new/index/wins_2.png">
-                    </div>
-                    <div v-else-if="index === 2" class="lottery-wins-list-num">
-                      <img src="../assets/images/new/index/wins_3.png">
-                    </div>
-                    <div v-else class="lottery-wins-list-num">
-                      <span>{{index}}</span>
-                    </div>
-                    <div class="lottery-wins-list-name">{{item.username}}</div>
-                    <div class="lottery-wins-list-moeny wzfw">{{item.bonus}}</div>
-                  </li>
-                </ul>
-              </section>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div class="box-qr">
-              <div class="qr" v-if="qrSrc">
-                <img :src="qrSrc">
-              </div>
-            </div>
-            <div class="box-report">
-              <ul class="report-list" v-if="notice.data && notice.data.length">
-                <li class="report-list-item" v-for="(item, index) in notice.data.slice(0, 6)" :key="index">
-                  <a class="wzfw" href="javascript:;" @click="handleOpenDialog(item.id)">{{item.title}}{{item.id}}</a>
-                </li>
-                <div class="btn">
-                  <a href="javascript:;" @click="handleOpenDialog()">
-                    查看更多
-                    <i class="fa fa-angle-right"></i>
-                  </a>
-                </div>
-              </ul>
-            </div>
-          </el-col>
-          <el-col :span="10">
-            <div class="hot-box">
-              <div class="hot-box-wrap">
-                <template>
-                  <div class="hot-box-item" v-for="(item, index) in lotteriesList" :key="index">
-                    <div class="title">
-                      <div class="fl">
-                        {{item.name}} {{item.method_name}}
-                        <span style="color:#fb9f46;">20190308</span>
-                      </div>
-                      <div class="fr">12.1245截止</div>
-                    </div>
-                    <div class="num">
-                      <ul class="num-list">
-                        <li
-                          class="num-list-item"
-                          :class="{on : items.sign}"
-                          v-for="items in item.code"
-                          :key="items.num"
-                        >{{items.num}}</li>
-                      </ul>
-                      <div class="desc">
-                        <el-input-number
-                          v-model="item.multiple"
-                          class="custom-input-number"
-                          @change="handleChangeMultiple(item)"
-                          :min="1"
-                          :max="10"
-                        ></el-input-number>倍，
-                        共
-                        <span style="color:#fff">{{item.totalCost}}</span> 元
-                      </div>
-                    </div>
-                    <div class="btn-group">
-                      <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                        换一注
+                    <div class="fr">
+                      <a class="btn" href="javascript:;">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        走势图
                       </a>
-                      <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
-                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                     </div>
                   </div>
-                </template>
+                  <div class="num">
+                    <ul class="num-list">
+                      <li
+                        class="num-list-item"
+                        :class="{on : items.sign}"
+                        v-for="items in item.code"
+                        :key="items.num"
+                      >{{items.num}}</li>
+                    </ul>
+                    <div class="desc">
+                      <el-input-number
+                        v-model="item.multiple"
+                        class="custom-input-number"
+                        @change="handleChangeMultiple(item)"
+                        :min="1"
+                        :max="10"
+                      ></el-input-number>倍，
+                      共
+                      <span style="color:#c51313">{{item.totalCost}}</span> 元
+                    </div>
+                  </div>
+                  <div class="btn-group">
+                    <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                      <i class="fa fa-refresh" aria-hidden="true"></i>
+                      换一注
+                    </a>
+                    <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
+                    <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
+                  </div>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="腾讯分分彩" name="second">腾讯分分彩</el-tab-pane>
+              <el-tab-pane label="自主分分彩" name="third">自主分分彩</el-tab-pane>
+              <el-tab-pane label="上海11选5" name="fourth">上海11选5</el-tab-pane>
+            </el-tabs>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="box-report">
+            <div class="report-title">网站公告</div>
+            <ul class="report-list">
+              <li
+                class="report-list-item"
+                v-for="(item, index) in notice.data.slice(0, 6)"
+                :key="index"
+              >
+                <a
+                  class="wzfw"
+                  href="javascript:;"
+                  @click="handleOpenDialog(item.id)"
+                >{{item.title}}{{item.id}}</a>
+              </li>
+              <div class="btn">
+                <a href="javascript:;" @click="handleOpenDialog()">
+                  查看更多
+                  <i class="fa fa-angle-right"></i>
+                </a>
+              </div>
+            </ul>
+          </div>
+          <div class="box-qr">
+            <div class="title"></div>
+            <div class="qr" v-if="qrSrc">
+              <img :src="qrSrc" />
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row style="margin: 5px 0 45px 0">
+        <el-col :span="6">
+          <div class="kjgg">
+            <div class="title">开奖公告</div>
+            <div class="kjgg-group">
+              <div class="kigg-item" v-for="item in 6" :key="item">
+                <div class="top">
+                  <div class="fl">重庆时时彩</div>
+                  <div class="fr">
+                    <span class="time">20190424-041</span>期
+                  </div>
+                </div>
+                <div class="middle">
+                  <span class="ball">3</span>
+                  <span class="ball">4</span>
+                  <span class="ball">8</span>
+                  <span class="ball">4</span>
+                  <span class="ball">4</span>
+                </div>
+                <div class="bottom">
+                  <div class="fl">2019-04-24</div>
+                  <div class="fr">
+                    <a href="javascript:;" class="btn">走势</a>
+                    <a href="javascript:;" class="btn">投注</a>
+                  </div>
+                </div>
               </div>
             </div>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="game-list">
-        <el-row>
-          <el-col :span="6">
-            <router-link tag="div" :to="`/fish-game`" class="game-list-item item-1"></router-link>
-          </el-col>
-          <el-col :span="6">
-           <router-link tag="div" :to="`/chess-all`" class="game-list-item item-2"></router-link>
-          </el-col>
-          <el-col :span="6">
-            <div class="game-list-item item-3"></div>
-          </el-col>
-          <el-col :span="6">
-            <div class="game-list-item item-4"></div>
-          </el-col>
-        </el-row>
-      </div>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="other-game">
+            <div class="container">
+              <el-tabs v-model="activeGameName" >
+                <el-tab-pane label="彩票" name="lott">
+                  <el-row :gutter="8" class="tab-lott">
+                    <el-col :span="12" v-for="item in 8" :key="item">
+                      <div class="lott-item-warp">
+                        <div class="lott-item">
+                          <img class="img" src="../assets/images/lott-img.png" />
+                          <div class="lott-r">
+                            <div class="title">
+                              龙虎斗
+                              <br />经典棋牌对战
+                            </div>
+                            <div class="btn">进入游戏</div>
+                          </div>
+                        </div>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="棋牌" name="chess">配置管理</el-tab-pane>
+                <el-tab-pane label="电子" name="electron">角色管理</el-tab-pane>
+              </el-tabs>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="zjxx">
+            <div class="title">中奖信息</div>
+            <div class="zjxx-group" id="lottery-wins-boxs">
+              <div id="lottery-wins-lists" class="zjxx-group-lists">
+                <div class="zjxx-item" v-for="(item, index) in ranking" :key="index">
+                  <img class="img" src="../assets/images/Avatar.png" />
+                  <div class="zjxx-r">
+                   {{item.username}}
+                    <br />喜中十一选五
+                    <span class="cost"> {{item.bonus}}元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <!-- 悬浮 -->
-    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
+    <!-- <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
       <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
       <router-link tag="a" to="active" class="promotions"></router-link>
-    </div>
-    <dialog-bulletin v-if="showBulletin" :showBulletin="showBulletin" :currentBulletinIndex="currentBulletinIndex" index='0' @close="handleBulletinClose"></dialog-bulletin>
+    </div>-->
+    <dialog-bulletin
+      v-if="showBulletin"
+      :showBulletin="showBulletin"
+      :currentBulletinIndex="currentBulletinIndex"
+      index="0"
+      @close="handleBulletinClose"
+    ></dialog-bulletin>
   </div>
 </template>
 
@@ -160,7 +210,9 @@ export default {
       debounce: null,
       lotteriesList: [],
       currentBulletinIndex: null,
-      showBulletin: false
+      showBulletin: false,
+      activeName: 'first',
+      activeGameName: 'lott'
     }
   },
   components: {
@@ -210,7 +262,7 @@ export default {
   },
   mounted() {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
-    this.debounce = this._.debounce(this.handleScroll, 150)
+    // this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
@@ -234,7 +286,7 @@ export default {
     handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
     },
-    handleRandomNum(code) { 
+    handleRandomNum(code) {
       const num = []
       while (num.length < 5) {
         const ranNum = Math.floor(Math.random() * 10)
@@ -253,14 +305,16 @@ export default {
         v.sign ? code.push(v.num) : null
       })
     },
-    goToBannerUrl(url){
+    goToBannerUrl(url) {
       this.$router.push(url)
     },
-    handleOpenDialog(id){
-      id ? this.currentBulletinIndex = id : this.currentBulletinIndex = null
+    handleOpenDialog(id) {
+      id
+        ? (this.currentBulletinIndex = id)
+        : (this.currentBulletinIndex = null)
       this.showBulletin = true
     },
-    handleBulletinClose(val){
+    handleBulletinClose(val) {
       this.showBulletin = val
     }
   },
@@ -280,6 +334,7 @@ export default {
 }
 .carousel-img {
   width: 100%;
+  height: 310px;
   background: #32221a;
   .carousel-src {
     height: 100%;
@@ -294,7 +349,7 @@ export default {
       width: 100%;
     }
     .el-carousel__container {
-      height: 520px;
+      height: 310px;
     }
     .el-carousel__arrow--left {
       left: 0;
@@ -303,19 +358,14 @@ export default {
       right: 0;
     }
     .el-carousel__arrow {
-      width: 58px;
-      height: 58px;
       border-radius: 0;
-      font-size: 36px;
+      font-size: 26px;
       // background-color: rgba(0, 0, 0, .2);
     }
   }
 }
 .new-index {
   width: 100%;
-  background: url("../assets/images/new/index/index_center_bg.jpg") no-repeat
-    center center;
-  background-size: cover;
   .container {
     width: 1200px;
     margin: 0 auto;
@@ -446,76 +496,9 @@ export default {
         flex: 0 0 110px;
       }
     }
-    .box-qr {
-      width: 100%;
-      height: 260px;
-      background: url("../assets/images/new/index/qr_box_bg.png") no-repeat left
-        top;
-      background-size: 100% 100%;
-      position: relative;
-      .qr {
-        width: 143px;
-        height: 143px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        padding: 5px;
-        background: #fff;
-        border-radius: 5px;
-        img {
-          display: block;
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-    .box-report {
-      width: 100%;
-      height: 306px;
-      background: url("../assets/images/new/index/box_report_bg.png") no-repeat
-        left top;
-      background-size: 100% 100%;
-      margin-top: 8px;
-      box-sizing: border-box;
-      padding-top: 46px;
-      .btn {
-        text-align: right;
-        a {
-          display: inline-block;
-          color: #000;
-          background: #e3bd87;
-          height: 28px;
-          width: 98px;
-          line-height: 28px;
-          text-align: center;
-          border-radius: 18px;
-        }
-      }
-    }
-    .report-list {
-      padding: 5px 15px 0;
-      .report-list-item {
-        margin-bottom: 20px;
-        a {
-          display: block;
-          color: #e6d2c3;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
+
     .hot-box {
       width: 100%;
-      height: 576px;
-      background: url("../assets/images/new/index/hot_box_bg.jpg") no-repeat
-        left top;
-      background-size: 100% 46px;
-      box-sizing: border-box;
-      padding-top: 46px;
     }
     .hot-box-wrap {
       height: 100%;
@@ -525,52 +508,57 @@ export default {
     }
   }
   .hot-box-item {
-    font-size: 14px;
-    padding: 10px 15px 15px;
+    font-size: 16px;
+    padding: 0 15px 15px;
     & + .hot-box-item {
       border-top: 1px solid #695e56;
     }
     .title {
       overflow: hidden;
-      padding-bottom: 4px;
+      padding: 12px 0;
+      .btn{
+        border: 1px solid #e2e2e2;
+        padding: 7px 10px;
+      }
     }
     .num {
-      background: #aa8565;
+      background: #f7f7f7;
       .num-list {
         display: flex;
         justify-content: space-around;
-        width: 342px;
+        width: 460px;
         margin: 0 auto;
-        padding: 14px 0;
+        padding: 30px 0;
         .num-list-item {
-          font-size: 12px;
-          width: 24px;
-          height: 24px;
+          font-size: 14px;
+          width: 30px;
+          height: 30px;
           text-align: center;
           color: #fff;
-          line-height: 24px;
+          line-height: 30px;
           border-radius: 50%;
-          background: #6a4c54;
+          background: #fb9f46;
           &.on {
-            background: #fb9f46;
+            background: #c51313;
           }
         }
       }
       .desc {
         text-align: center;
-        padding-bottom: 8px;
+        padding-bottom: 18px;
         color: #000;
       }
     }
     .btn-group {
       display: flex;
       justify-content: space-between;
-      margin-top: 8px;
+      margin-top: 17px;
       .btn-item {
         box-sizing: border-box;
         width: 142px;
         height: 30px;
-        background: linear-gradient(to left, #a78363, #ebc48c);
+        background: #fff;
+        border: 1px solid #e2e2e2;
         line-height: 30px;
         text-align: center;
         color: #000000;
@@ -581,14 +569,14 @@ export default {
         }
       }
       .bet {
-        background: #dd891c;
-        border: 1px solid #dd891c;
+        background: #c51313;
+        border: 1px solid #c51313;
         color: #fff;
       }
       .bet:hover {
         background: transparent;
-        border: 1px solid #dd891c;
-        color: #ffaa31;
+        border: 1px solid #c51313;
+        color: red;
       }
     }
   }
@@ -598,7 +586,7 @@ export default {
     margin-right: 5px;
     /deep/ {
       .el-input__inner {
-        line-height: 24px;
+        line-height: 27px;
         height: 24px;
         padding: 0;
         width: 65px;
@@ -617,7 +605,7 @@ export default {
         border: 0;
         width: 24px;
         color: #fff;
-        background: #6a4c54;
+        background: #c51313;
       }
     }
   }
@@ -645,15 +633,291 @@ export default {
     bottom: 18px;
     height: 44px;
   }
-  .close{
-    color:#f56c6c;
+  .close {
+    color: #f56c6c;
     position: absolute;
     font-size: 26px;
-    right:15px;
+    right: 15px;
     top: 15px;
   }
-  .close:hover{
-    color:#ff0000;
+  .close:hover {
+    color: #ff0000;
+  }
+}
+.hot-box-tab {
+  margin: 5px 5px 0;
+  border: 1px solid #e2e2e2;
+  background-color: #fff;
+  /deep/ {
+    .el-tabs__header {
+      margin: 0 0 10px;
+    }
+    .el-tabs__active-bar {
+      display: none;
+    }
+    .el-tabs__nav-wrap::after {
+      height: 1px;
+    }
+    .el-tabs__nav {
+      width: 100%;
+    }
+    .el-tabs__item {
+      text-align: center;
+      padding: 0;
+      width: 25%;
+      font-size: 16px;
+      height: 45px;
+      line-height: 45px;
+    }
+    .el-tabs__item:hover,
+    .el-tabs__item.is-active {
+      color: #c51313;
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: #c51313;
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}
+.box-report {
+  width: 100%;
+  height: 310px;
+  box-sizing: border-box;
+  border: 1px solid #e2e2e2;
+  background: #fff;
+  .report-title {
+    font-size: 16px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+    border-bottom: 1px solid #efefef;
+  }
+  .btn {
+    text-align: right;
+    a {
+      display: inline-block;
+      color: #000;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+    }
+  }
+}
+.report-list {
+  padding: 5px 15px 0;
+  .report-list-item {
+    margin-bottom: 20px;
+    a {
+      display: block;
+      color: #000;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+.box-qr {
+  width: 100%;
+  height: 298px;
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  margin-top: 5px;
+  .title {
+    width: 228px;
+    height: 39px;
+    background: url("../assets/images/new/index/saoyisao.png") no-repeat;
+    margin: 45px 0 0 32px;
+  }
+  .qr {
+    width: 143px;
+    height: 143px;
+    position: absolute;
+    top: 95px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding: 5px;
+    background: #fff;
+    border-radius: 5px;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.kjgg {
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  min-height: 788px;
+  .title {
+    font-size: 16px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+  }
+  .kigg-item {
+    padding: 10px;
+    font-size: 16px;
+    border-top: 1px solid #efefef;
+    .top {
+      overflow: hidden;
+      .time {
+        color: #c51313;
+        margin-right: 5px;
+      }
+    }
+    .middle {
+      .ball {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        color: #fff;
+        background-color: #c51313;
+        border-radius: 50%;
+        margin: 15px 5px;
+      }
+    }
+    .bottom {
+      font-size: 14px;
+      overflow: hidden;
+      .btn{
+        font-size: 14px;
+        border: 1px solid #e2e2e2;
+        padding: 3px 8px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+.other-game {
+  box-sizing: border-box;
+  padding: 0 5px;
+  .container {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #e2e2e2;
+    background-color: #fff;
+    min-height: 788px;
+  }
+  /deep/ {
+    .el-tabs__nav {
+      width: 100%;
+    }
+    .el-tabs__item {
+      height: 50px;
+      font-size: 16px;
+      line-height: 50px;
+      padding: 0;
+      font-weight: 400;
+      width: 33.3333%;
+      text-align: center;
+    }
+    .el-tabs__active-bar {
+      display: none;
+    }
+    .el-tabs__item.is-active,
+    .el-tabs__item:hover {
+      color: #c51313;
+    }
+    .el-tabs__item.is-active {
+      position: relative;
+      &:after {
+        position: absolute;
+        content: " ";
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: #c51313;
+        bottom: 0;
+        left: 0;
+      }
+    }
+  }
+}
+
+.tab-lott {
+  padding: 14px 20px 20px;
+  .lott-item-warp {
+    border: 1px solid #e2e2e2;
+    margin-bottom: 15px;
+  }
+  .lott-item {
+    overflow: hidden;
+    border: 4px solid #f2f2f2;
+    padding: 15px;
+    .img {
+      float: left;
+      width: 120px;
+    }
+    .lott-r {
+      float: right;
+      .btn {
+        cursor: pointer;
+        background: #ff5656;
+        text-align: center;
+        color: #fff;
+        width: 84px;
+        line-height: 30px;
+        margin-top: 22px;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+.zjxx {
+  box-sizing: border-box;
+  height: 788px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  .title {
+    border-bottom: 1px solid #e2e2e2;
+    font-size: 16px;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+  }
+}
+.zjxx-group {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  .zjxx-group-lists {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  .zjxx-item {
+    overflow: hidden;
+    padding: 15px;
+    border-bottom: 1px dashed #e2e2e2;
+    .img {
+      float: left;
+      margin-right: 10px;
+    }
+    .zjxx-r {
+      float: left;
+      .cost {
+        color: #ff0000;
+      }
+    }
   }
 }
 </style>
