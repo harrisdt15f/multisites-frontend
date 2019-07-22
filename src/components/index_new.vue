@@ -181,13 +181,13 @@
       </el-row>
     </div>
     <!-- 悬浮 -->
-    <!-- <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
+    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
       <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
       <router-link tag="a" to="active" class="promotions"></router-link>
-    </div>-->
+    </div>
     <dialog-bulletin
       v-if="showBulletin"
       :showBulletin="showBulletin"
@@ -263,7 +263,7 @@ export default {
   },
   mounted() {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
-    // this.debounce = this._.debounce(this.handleScroll, 150)
+    this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
@@ -612,34 +612,34 @@ export default {
   }
 }
 .float-layer {
-  width: 197px;
-  height: 468px;
-  background: url("../assets/images/new/index/float_layer_bg.png") no-repeat;
+  width: 135px;
+  height: 316px;
+  background: url("../assets/images/new/index/float_layer_bg2.png") no-repeat;
   position: fixed;
   background-size: contain;
   z-index: 300;
   top: 50%;
-  right: 0;
+  right: 5px;
   transform: translateY(-50%);
   transition: all 0.3s;
   .online-server {
     position: absolute;
     width: 100%;
-    top: 190px;
-    height: 44px;
+    top: 110px;
+    height: 36px;
   }
   .promotions {
     position: absolute;
     width: 100%;
-    bottom: 18px;
-    height: 44px;
+    bottom: 0px;
+    height: 36px;
   }
   .close {
     color: #f56c6c;
     position: absolute;
     font-size: 26px;
-    right: 15px;
-    top: 15px;
+    right: 0px;
+    top: -5px;
   }
   .close:hover {
     color: #ff0000;

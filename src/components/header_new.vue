@@ -56,30 +56,49 @@
               <div class="title">
                 <span>⑧</span> 选择彩种
               </div>
-                <div
-                  class="sub-select"
-                  v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
-                >
-                  <ul class="select-grou">
-                    <li v-for="item in 6" :key="item" class="w">
-                      <img class="select-grou-img" src="../assets/images/lott-img.png">
-                      <div class="name">重庆时时彩</div>
-                      <div class="issue">全天59期</div>
-                    </li>
-                  </ul>
-                  <div class="select-box">
-                    <div class="box-l">
-                      <span>全部彩种</span>
-                    </div>
-                    <div class="box-r">
-                      <el-row>
-                        <el-col  class="box-r-item" v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
-                          <i></i> {{lottery.name}}
-                        </el-col>
-                      </el-row>
-                    </div>
+              <div
+                class="sub-select"
+                v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
+              >
+                <ul class="select-grou">
+                  <router-link
+                    tag="li"
+                    :to="`/bet/${item.en_name}`"
+                    @click.native="showSelectLottery = false"
+                    v-for="(item, index) in popularLotteries1"
+                    :key="index"
+                    class="w"
+                  >
+                    <img class="select-grou-img" :src="item.pic_path" />
+                    <div class="name">{{item.cn_name}}</div>
+                    <div class="issue">全天{{item.day_issue}}期</div>
+                  </router-link>
+                </ul>
+                <div class="select-box">
+                  <div class="box-l">
+                    <span>全部彩种</span>
+                  </div>
+                  <div class="box-r">
+                    <el-row>
+                      <el-col
+                        class="box-r-item"
+                        v-for="(lottery, index) in lotteryLists"
+                        :key="index"
+                        :span="12"
+                      >
+                        <router-link
+                          tag="div"
+                          :to="`/bet/${lottery.list && lottery.list[0].id}`"
+                          @click.native="showSelectLottery = false"
+                        >
+                          <i></i>
+                          {{lottery.name}}
+                        </router-link>
+                      </el-col>
+                    </el-row>
                   </div>
                 </div>
+              </div>
             </div>
           </el-col>
           <el-col :span="18">
@@ -150,7 +169,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userDetail', 'lotteryLists', 'logoSrc'])
+    ...mapGetters([
+      'userDetail',
+      'lotteryLists',
+      'popularLotteries1',
+      'logoSrc'
+    ])
   },
   mounted() {
     this.$store.dispatch('lotteryAll')
@@ -308,13 +332,20 @@ export default {
   width: 100%;
   color: #000;
   font-size: 14px;
+  min-height: 414px;
   & > li {
     box-sizing: border-box;
     padding: 5px 15px;
     border-bottom: 1px solid #e2e2e2;
+    cursor: pointer;
+    &:hover {
+      .name {
+        color: #d81e06;
+      }
+    }
   }
-  .select-grou-img{
-    display:block;
+  .select-grou-img {
+    display: block;
     float: left;
     width: 45px;
     height: auto;
@@ -329,6 +360,7 @@ export default {
   }
   .issue {
     float: right;
+    font-size: 12px;
     color: #c51313;
   }
 }
@@ -365,7 +397,7 @@ export default {
     .box-r-item {
       padding: 10px 0;
       cursor: pointer;
-      &:hover{
+      &:hover {
         text-decoration: underline;
       }
       i {

@@ -123,35 +123,35 @@ const router = new Router({
   }
 })
 
-router.beforeEach((to, from, next) => {
-  const hasToken = getToken()
-  if (hasToken) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-    } else{
-      if (store.getters.userDetail && store.getters.userDetail.user_id > 0) {
-        next()
-      }else {
-        store.dispatch('getUserDetail').then(res => {
-          const {success} = res
-          if (success) {
-            next({ ...to, replace: true })
-          }
-        }).catch(error => {
-          Message.error(error || '请求出错！')
-          next({path: '/login'})
-        })
-      }
-		}
-  } else {
-    const whiteList =  ['/login', '/register','/about']
-    if (whiteList.indexOf(to.path) !== -1) {
-      // in the free login whitelist, go directly
-      next()
-    } else {
-      return next({path: '/login'})
-    }
-	}
-})
+// router.beforeEach((to, from, next) => {
+//   const hasToken = getToken()
+//   if (hasToken) {
+//     if (to.path === '/login') {
+//       next({ path: '/' })
+//     } else{
+//       if (store.getters.userDetail && store.getters.userDetail.user_id > 0) {
+//         next()
+//       }else {
+//         store.dispatch('getUserDetail').then(res => {
+//           const {success} = res
+//           if (success) {
+//             next({ ...to, replace: true })
+//           }
+//         }).catch(error => {
+//           Message.error(error || '请求出错！')
+//           next({path: '/login'})
+//         })
+//       }
+// 		}
+//   } else {
+//     const whiteList =  ['/login', '/register','/about']
+//     if (whiteList.indexOf(to.path) !== -1) {
+//       // in the free login whitelist, go directly
+//       next()
+//     } else {
+//       return next({path: '/login'})
+//     }
+// 	}
+// })
 
 export default router

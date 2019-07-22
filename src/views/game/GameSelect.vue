@@ -1180,6 +1180,7 @@ export default {
           for (const i of tmp) {
             // 去除重复的组
             const arr = i.split(/[\s\n]+/)
+
             if (
               isRepeat(arr) ||
               arr.length != this.currentMethod.b64 ||
@@ -1215,6 +1216,13 @@ export default {
                 if(isRepeat(i)){
                   tmp.delete(i)
                 }
+            }
+            if (this.currentMethod.method === 'QHHZX' ||
+              this.currentMethod.method === 'ZHHZX' ||
+              this.currentMethod.method === 'HHHZX') {
+              if(isRepeatNum(i) === 3){
+                tmp.delete(i)
+              }
             }
           }
         }
