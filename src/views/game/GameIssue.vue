@@ -255,7 +255,7 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code && res.data.lastIssue.open_code.split('')
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
           let [timer = null] = []
           timer = setInterval(() => {
@@ -277,7 +277,7 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
         }
       })
@@ -288,8 +288,7 @@ export default {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? 
-            res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
           this.issueNum = 0
   
@@ -335,7 +334,7 @@ export default {
 <style lang="scss" scoped>
 .game-lotterys {
   float: left;
-  width: 810px;
+  width: 834px;
   line-height: 1.15;
   display: flex;
   justify-content: space-around;
@@ -364,7 +363,7 @@ export default {
     .deadline-text {
       float: left;
       margin: 26px 10px 0 0;
-      width: 128px;
+      width: 142px;
       font-weight: normal;
       letter-spacing: 0px;
       color: #4f4948;
@@ -507,6 +506,7 @@ export default {
   }
 }
 .lottery-animate {
+  text-indent: 2em;
   font-size: 12px;
   color: #57576b;
 }

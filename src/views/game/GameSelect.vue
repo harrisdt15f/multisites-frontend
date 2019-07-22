@@ -167,8 +167,7 @@
         <div class="balls-import-box">
           <textarea
             @input="inputAreaChange()"
-            @focus="inputAreaFocus()"
-            @blur="inputAreaBlur()"
+            :placeholder="inputCodesInitText"
             class="balls-import-txt"
             v-model="inputCodes"
           ></textarea>
@@ -245,13 +244,14 @@ import algorithm from '../../lib/algorithm'
 import { isRepeat, isRepeatNum } from '@/utils'
 
 import Lhc from '@/components/game/lhc'
+import { debuglog } from 'util'
 
 export default {
   name: 'game-select',
   data() {
     return {
       inputCodesInitText: '',
-      inputCodes: {},
+      inputCodes: undefined,
       inputCodesSingle: 0,
       chooseNumber: [],
       chooseButton: [],
@@ -326,8 +326,7 @@ export default {
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.currentTimes = 1
-      this.inputCodes =
-        '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+      this.inputCodes = ''
     },
     // 号码被清空时 清空注单
     // 'currentOrder.currentCost'(newVal) {},
@@ -361,7 +360,6 @@ export default {
     }
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
-
     this.inputAreaInit()
     this.series = this.currentLottery && this.currentLottery.series_id
   },
@@ -1114,9 +1112,15 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      this.inputCodesInitText =
+      if(this.currentLottery.series_id === 'lotto'){
+        this.inputCodesInitText =
+        '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n'
+        +' 格式范例：01 02 03|03 04 05|07 08 11'
+      }else{
+         this.inputCodesInitText =
         '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
-      this.inputCodes = this.inputCodesInitText
+      }
+      // this.inputCodes = this.inputCodesInitText
     },
     // 单式输入框获取焦点
     inputAreaFocus() {
@@ -1173,7 +1177,7 @@ export default {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto') {
           tmp = new Set(
-            (this.inputCodes || '').split(/,|，/).map(item => {
+            (this.inputCodes || '').split(/[,|;]+/).map(item => {
               return this.Utils.trim(item)
             })
           )

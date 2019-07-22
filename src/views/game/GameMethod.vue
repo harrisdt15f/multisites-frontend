@@ -88,7 +88,7 @@
                       <span class="balls">
                         <i
                           class="i curr"
-                          v-for="(num, numIndex) in item.code.split(',')"
+                          v-for="(num, numIndex) in item.code.split('')"
                           :key="numIndex">{{num}}</i>
                       </span>
                     </td>
