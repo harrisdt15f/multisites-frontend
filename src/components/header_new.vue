@@ -61,24 +61,24 @@
                   v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
                 >
                   <ul class="select-grou">
-                    <li v-for="item in 6" :key="item" class="w">
+                    <li v-for="item in 11" :key="item" class="w">
                       <img class="select-grou-img" src="../assets/images/lott-img.png">
                       <div class="name">重庆时时彩</div>
                       <div class="issue">全天59期</div>
                     </li>
                   </ul>
-                  <div class="select-box">
-                    <div class="box-l">
-                      <span>全部彩种</span>
-                    </div>
-                    <div class="box-r">
-                      <el-row>
-                        <el-col  class="box-r-item" v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
-                          <i></i> {{lottery.name}}
-                        </el-col>
-                      </el-row>
-                    </div>
-                  </div>
+<!--                  <div class="select-box">-->
+<!--                    <div class="box-l">-->
+<!--                      <span>全部彩种</span>-->
+<!--                    </div>-->
+<!--                    <div class="box-r">-->
+<!--                      <el-row>-->
+<!--                        <el-col  class="box-r-item" v-for="(lottery, index) in lotteryLists" :key="index" :span="12">-->
+<!--                          <i></i> {{lottery.name}}-->
+<!--                        </el-col>-->
+<!--                      </el-row>-->
+<!--                    </div>-->
+<!--                  </div>-->
                 </div>
             </div>
           </el-col>
@@ -250,27 +250,27 @@ export default {
         padding-left: 30px;
       }
       .el-input__inner {
-        border-color: #ff5656;
+        border-color: #e6e6e6;
       }
       .el-input__prefix,
       .el-input__suffix {
-        color: #ff5657;
+        color: #666;
         font-size: 16px;
       }
     }
   }
 }
 .header-bottom {
-  height: 58px;
+  height: 48px;
   font-size: 16px;
   text-align: center;
   color: #fff;
-  background: #ff5656;
-  line-height: 58px;
+  background: rgb(255, 118, 0);
+  line-height: 48px;
 }
 .select-lottery {
   text-align: left;
-  background: #c51313;
+  background: rgb(255, 155, 0);
   .title {
     width: 100%;
     padding: 0 15px;
@@ -291,17 +291,17 @@ export default {
   height: 100%;
   &:hover,
   &.router-link-active {
-    background: #d81e06;
+    background: rgb(255, 155, 0);
   }
 }
 .sub-select {
   position: absolute;
   z-index: 999;
-  top: 58px;
+  top: 48px;
   border: 1px solid #e2e2e2;
   border-top: 0;
   left: 0;
-  width: 25%;
+  width: 24.8%;
 }
 .select-grou {
   background: #fff;
@@ -312,6 +312,9 @@ export default {
     box-sizing: border-box;
     padding: 5px 15px;
     border-bottom: 1px solid #e2e2e2;
+  }
+  & > li:nth-last-of-type(1){
+    border-bottom: none;
   }
   .select-grou-img{
     display:block;
@@ -329,7 +332,7 @@ export default {
   }
   .issue {
     float: right;
-    color: #c51313;
+    color: #ff7600;
   }
 }
 .select-box {
@@ -352,7 +355,7 @@ export default {
       font-size: 16px;
       text-align: center;
       width: 40px;
-      background: #ff5656;
+      background: #ff7600;
       color: #fff;
       padding: 20px 5px;
       box-sizing: border-box;
@@ -384,7 +387,7 @@ export default {
     min-width: 350px;
     min-height: 200px;
     position: absolute;
-    top: 58px;
+    top: 48px;
     left: 225px;
     background: #fff;
     z-index: 0;
@@ -430,10 +433,18 @@ export default {
   &:hover {
     .nav-menu-box {
       display: block;
-      display: block;
       z-index: 1001;
     }
   }
 }
+.login-form-inline{
+  /deep/ .el-button--danger{
+    color: #FFF;
+    background-color: #ff7600;
+    border-color: #ff7600;
+  }
+}
+
+
 </style>
 
