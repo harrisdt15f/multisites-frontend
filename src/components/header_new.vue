@@ -59,6 +59,7 @@
               <div
                 class="sub-select"
                 v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
+                v-if="popularLotteries1.length"
               >
                 <ul class="select-grou">
                   <router-link

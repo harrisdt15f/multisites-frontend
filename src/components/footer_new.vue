@@ -8,21 +8,6 @@
             class="footerlogo dinv"
           >
         </section>
-        <section class="foot-nums">·
-          <p class="foot-nums-p dinv">
-            ¥
-            <strong class="st">
-              <countTo :startVal="startVal" :endVal="endValMoney" :duration="3000"></countTo>
-            </strong>
-            今日已实现兑奖
-          </p>
-          <p class="foot-nums-p dinv">
-            <strong class="st">
-              <countTo :startVal="startVal" :endVal="endValPeople" :duration="3000"></countTo>
-            </strong>
-            在线人数
-          </p>
-        </section>
       </section>
       <div class="fw">
         <div class="fl">
@@ -133,12 +118,12 @@ export default {
     }
   },
   watch: {
-    $route() {
-      this.mockData()
-    }
+    // $route() {
+    //   this.mockData()
+    // }
   },
   created() {
-    this.mockData()
+    // this.mockData()
   },
   methods: {
     mockData() {
@@ -181,7 +166,6 @@ export default {
     goToPage(item){
       if (item.title === '手机客户端') this.$router.push('/download')
       if (item.title === '帮助中心') this.$router.push('/help-center')
-      
     }
   }
 }
@@ -189,7 +173,7 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  background: #403a38;
+  background: transparent;
   height: 298px;
   width: 100%;
 }
