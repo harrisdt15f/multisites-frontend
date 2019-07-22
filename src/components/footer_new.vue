@@ -1,40 +1,22 @@
 <template>
   <footer class="footer fw">
-    <section class="w">
-      <section class="fw foot-head">
-        <section class="logo">
-          <img
-            :src="logoSrc ? logoSrc : require('../assets/images/new/logo.png')"
-            class="footerlogo dinv"
-          >
-        </section>
-      </section>
-      <div class="fw">
-        <div class="fl">
-          <nav class="fw">
-            <a
-              href="javascript:;"
-              class="nav-list"
-              @click="goToPage(item)"
-              v-for="(item, index) in linkList"
-              :key="index"
-            >{{item.title}}</a>
-          </nav>
-          <ul class="fw">
-            <li
-              class="cooperate-list"
-              v-for="(item, index) in cooperateList"
-              :key="index"
-              :style="{background:item.src}"
-            ></li>
-          </ul>
-          <section class="desc">
-            ©2017包网彩票版权所有
-            <span class="desc-flb">菲律宾政府PAGCOR博彩拍照认证</span>
-            <br>春秋彩票郑重提示：彩票有风险，投注需谨慎，不向未满18周岁的青少年出售彩票
+    <el-row class="w" style="margin-bottom:35px;">
+      <el-col :span="6" class="technical-support">
+        <section class="fw foot-head">
+          技术支持
+          <span>Technical support</span>
+          <section class="logo">
+            <img
+              :src="logoSrc ? logoSrc : require('../assets/images/new/logo.png')"
+              class="footerlogo dinv"
+            />
           </section>
-        </div>
-        <div class="fr">
+        </section>
+      </el-col>
+      <el-col :span="12" class="technical-support service-experience">
+        技术支持
+        <span>Technical support</span>
+        <div>
           <div class="time-box">
             <div class="time-box-title">存款 到账平均时间</div>
             <span class="time-box-desc">
@@ -50,8 +32,52 @@
             </div>
           </div>
         </div>
+      </el-col>
+      <el-col :span="6" class="payment-method">
+        充值方式
+        <span>payment method</span>
+        <div class="w">
+          <div class="pay-logo wechatpay-logo"></div>
+          <div class="pay-logo alipay-logo"></div>
+          <div class="pay-logo unionpay-logo"></div>
+        </div>
+      </el-col>
+    </el-row>
+    <div class="footer-row qualification-info-row">
+      <div class="row-content">
+        <div class="footer-text">
+          <ul class="footer-list">
+            <li>
+              <a  target="_blank">关于我们</a>
+            </li>
+            <li>
+              <a  target="_blank">购彩大厅</a>
+            </li>
+            <li>
+              <a target="_blank">走势图表</a>
+            </li>
+            <li>
+              <a target="_blank">开奖资讯</a>
+            </li>
+            <li>
+              <a target="_blank">优惠活动</a>
+            </li>
+            <li>
+              <a target="_blank">手机购彩</a>
+            </li>
+            <li>
+              <a >热门新闻</a>
+            </li>
+            <li>
+              <a target="_blank">帮助中心</a>
+            </li>
+          </ul>
+          <span>建议游戏分辨率为：1280x760</span>
+          <p>晨兴彩票站郑重提示：彩票有风险，投注需谨慎！不向未满18周岁的青少年出售彩票</p>
+          <img src="../assets/images/new/index/footer-photo.png" alt />
+        </div>
       </div>
-    </section>
+    </div>
   </footer>
 </template>
 <script>
@@ -130,15 +156,15 @@ export default {
       this.endValMoney = 0
       this.endValPeople = 0
       let endVal = localStorage.getItem('endVal'),
-          best = Date.now()
+        best = Date.now()
 
       if (endVal) {
         endVal = JSON.parse(endVal)
         if (new Date(best).getDate() != new Date(endVal.date).getDate()) {
           localStorage.removeItem('endVal')
-        }else{
+        } else {
           const date = best - endVal.date
-          if (date/1000 > 10) {
+          if (date / 1000 > 10) {
             endVal.date = best
             endVal.money += randomRange(1, 10)
             endVal.people += randomRange(1, 10)
@@ -151,7 +177,7 @@ export default {
         endVal = {
           date: best,
           money: money,
-          people:people,
+          people: people,
           expires: Date.now() + 1000 * 60
           // expires: Date.now() + 1000*60*expired
         }
@@ -163,7 +189,7 @@ export default {
         this.endValPeople = endVal.people
       })
     },
-    goToPage(item){
+    goToPage(item) {
       if (item.title === '手机客户端') this.$router.push('/download')
       if (item.title === '帮助中心') this.$router.push('/help-center')
     }
@@ -174,23 +200,17 @@ export default {
 <style lang="scss" scoped>
 .footer {
   background: transparent;
-  height: 298px;
   width: 100%;
 }
-.foot-head {
-  height: 90px;
-  line-height: 90px;
-  border-bottom: 1px dashed #5e6571;
-}
 .logo {
-  float: left;
   margin-right: 14px;
   color: #fff;
   font-size: 21px;
   font-weight: bold;
   img {
     width: auto;
-    height: 36px;
+    height: 80px;
+    display: flex;
   }
 }
 .foot-nums {
@@ -241,10 +261,17 @@ export default {
   color: #d1c2b7;
 }
 .time-box {
-  font-size: 15px;
+  font-size: 12px;
   color: #7d6f65;
-  margin-top: 20px;
+  overflow: hidden;
+  height: 40px;
+  line-height: 40px;
+  .time-box-title {
+    float: left;
+    margin-right: 10px;
+  }
   .time-box-desc {
+    float: left;
     color: #d1c2b7;
     .i {
       display: inline-block;
@@ -261,6 +288,88 @@ export default {
       font-weight: bold;
       margin-left: 8px;
       margin-right: 2px;
+    }
+  }
+}
+.technical-support {
+  border-right: 1px solid #424242;
+  font-size: 20px;
+  & > span {
+    font-size: 14px;
+  }
+}
+.service-experience {
+  padding-left: 20px;
+}
+.payment-method {
+  font-size: 20px;
+  padding-left: 20px;
+  & > span {
+    font-size: 14px;
+  }
+  .w {
+    width: 100%;
+  }
+  .pay-logo {
+    float: left;
+    width: 60px;
+    height: 60px;
+    background: #ccc;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
+  .wechatpay-logo {
+    background: url("../assets/images/new/index/wechatpay.png") center center
+      no-repeat;
+    background-size: contain;
+  }
+
+  .alipay-logo {
+    background: url("../assets/images/new/index/alipay.png") center center
+      no-repeat;
+    background-size: contain;
+  }
+
+  .unionpay-logo {
+    background: url("../assets/images/new/index/unionpay.png") center center
+      no-repeat;
+    background-size: contain;
+  }
+}
+.qualification-info-row {
+  padding-bottom: 50px;
+  .footer-list {
+    width: 960px;
+    padding: 15px 0px 15px 40px;
+    margin-bottom: 12px;
+    text-align: center;
+     li {
+      display: inline-block;
+      width: 70px;
+      a {
+        color: #484848;
+        text-decoration: none;
+        &:hover{
+          color: #ff6c00;
+        }
+      }
+    }
+  }
+  .footer-text {
+    width: 1000px;
+    margin: auto;
+    text-align: center;
+    p {
+      width: 100%;
+      text-align: center;
+      margin: 17px 0px 12px 0px;
+      font-weight: bold;
+    }
+    img {
+      width: 600px;
+      height: 40px;
+      margin: 0 auto;
+      text-align: center;
     }
   }
 }

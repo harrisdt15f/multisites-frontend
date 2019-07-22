@@ -3,7 +3,8 @@
     <div class="w">
       <el-row class="index-top">
         <el-col :span="6">&nbsp;</el-col>
-        <el-col :span="12">
+        
+        <el-col :span="18">
           <div class="carousel-img" v-if="showBanner">
             <el-carousel :interval="5000" arrow="always">
               <el-carousel-item v-for="item in banner" :key="item.src">
@@ -16,95 +17,122 @@
               </el-carousel-item>
             </el-carousel>
           </div>
-          <div class="hot-box">
-            <el-tabs class="hot-box-tab" v-model="activeName">
-              <el-tab-pane
-                v-for="(item, index) in lotteriesList"
-                :key="index"
-                :label="item.name"
-                :name="item.id"
-              >
-                <div
-                  class="hot-box-item"
+  
+          <section class="head-notice">
+            <i class="fa fa-volume-up ft21 head-notice-img"></i>
+            <section class="head-meque">
+              <section class="resultMarquee" id="head-meque">
+                <p id="head-meque_text">
+                  中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+                </p>
+              </section>
+            </section>
+          </section>
+        </el-col>
+        <el-row>
+          <el-col :span="6">&nbsp;</el-col>
+          <el-col :span="12">
+            <div class="hot-box">
+              <el-tabs class="hot-box-tab" v-model="activeName">
+                <el-tab-pane
+                        v-for="(item, index) in lotteriesList"
+                        :key="index"
+                        :label="item.name"
+                        :name="item.id"
                 >
-                  <div class="title">
-                    <div class="fl">
-                      {{item.name}} {{item.method_name}}
-                      <span style="color:#c51313;">20190308</span>
-                      12.1245截止
+                  <div
+                          class="hot-box-item"
+                  >
+                    <div class="title">
+                      <div class="fl">
+                        {{item.name}} {{item.method_name}}
+                        <span style="color:#ff7800;">20190308</span>
+                        12.1245截止
+                      </div>
+                      <div class="fr">
+                        <a class="btn" href="javascript:;">
+                          <i class="fa fa-line-chart" aria-hidden="true"></i>
+                          走势图
+                        </a>
+                      </div>
                     </div>
-                    <div class="fr">
-                      <a class="btn" href="javascript:;">
-                        <i class="fa fa-line-chart" aria-hidden="true"></i>
-                        走势图
+                    <div class="num">
+                      <ul class="num-list">
+                        <li
+                                class="num-list-item"
+                                :class="{on : items.sign}"
+                                v-for="items in item.code"
+                                :key="items.num"
+                        >{{items.num}}</li>
+                      </ul>
+                      <div class="desc">
+                        <el-input-number
+                                v-model="item.multiple"
+                                class="custom-input-number"
+                                @change="handleChangeMultiple(item)"
+                                :min="1"
+                                :max="10"
+                        ></el-input-number>倍，
+                        共
+                        <span style="color:#ff7800">{{item.totalCost}}</span> 元
+                      </div>
+                    </div>
+                    <div class="btn-group">
+                      <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                        换一注
                       </a>
+                      <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
+                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                     </div>
                   </div>
-                  <div class="num">
-                    <ul class="num-list">
-                      <li
-                        class="num-list-item"
-                        :class="{on : items.sign}"
-                        v-for="items in item.code"
-                        :key="items.num"
-                      >{{items.num}}</li>
-                    </ul>
-                    <div class="desc">
-                      <el-input-number
-                        v-model="item.multiple"
-                        class="custom-input-number"
-                        @change="handleChangeMultiple(item)"
-                        :min="1"
-                        :max="10"
-                      ></el-input-number>倍，
-                      共
-                      <span style="color:#c51313">{{item.totalCost}}</span> 元
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
-                      <i class="fa fa-refresh" aria-hidden="true"></i>
-                      换一注
-                    </a>
-                    <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
-                    <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
-                  </div>
-                </div>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="box-report">
-            <div class="report-title">网站公告</div>
-            <ul class="report-list">
-              <li
-                class="report-list-item"
-                v-for="(item, index) in notice.data.slice(0, 6)"
-                :key="index"
-              >
-                <a
-                  class="wzfw"
-                  href="javascript:;"
-                  @click="handleOpenDialog(item.id)"
-                >{{item.title}}{{item.id}}</a>
-              </li>
-              <div class="btn">
-                <a href="javascript:;" @click="handleOpenDialog()">
-                  查看更多
-                  <i class="fa fa-angle-right"></i>
-                </a>
-              </div>
-            </ul>
-          </div>
-          <div class="box-qr">
-            <div class="title"></div>
-            <div class="qr" v-if="qrSrc">
-              <img :src="qrSrc" />
+                </el-tab-pane>
+              </el-tabs>
             </div>
-          </div>
-        </el-col>
+          </el-col>
+          <el-col :span="6">
+            <div class="box-qr">
+              <div class="title"></div>
+              <div class="qr" v-if="qrSrc">
+                <img :src="qrSrc" />
+              </div>
+            </div>
+          </el-col>
+   
+         </el-row>
+
+<!--        <el-col :span="6">-->
+<!--          <div class="box-report">-->
+<!--            <div class="report-title">网站公告</div>-->
+<!--            <ul class="report-list">-->
+<!--              <li-->
+<!--                class="report-list-item"-->
+<!--                v-for="(item, index) in notice.data.slice(0, 6)"-->
+<!--                :key="index"-->
+<!--              >-->
+<!--                <a-->
+<!--                  class="wzfw"-->
+<!--                  href="javascript:;"-->
+<!--                  @click="handleOpenDialog(item.id)"-->
+<!--                >{{item.title}}{{item.id}}</a>-->
+<!--              </li>-->
+<!--              <div class="btn">-->
+<!--                <a href="javascript:;" @click="handleOpenDialog()">-->
+<!--                  查看更多-->
+<!--                  <i class="fa fa-angle-right"></i>-->
+<!--                </a>-->
+<!--              </div>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--          <div class="box-qr">-->
+<!--            <div class="title"></div>-->
+<!--            <div class="qr" v-if="qrSrc">-->
+<!--              <img :src="qrSrc" />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </el-col>-->
       </el-row>
+
       <el-row style="margin: 5px 0 45px 0">
         <el-col :span="6">
           <div class="kjgg">
@@ -331,7 +359,7 @@ export default {
   font-size: 18px;
 }
 .blood {
-  color: #c51313;
+  color: #ff7800;
 }
 .carousel-img {
   width: 100%;
@@ -540,7 +568,7 @@ export default {
           border-radius: 50%;
           background: #fb9f46;
           &.on {
-            background: #c51313;
+            background: #ff7800;
           }
         }
       }
@@ -570,13 +598,13 @@ export default {
         }
       }
       .bet {
-        background: #c51313;
-        border: 1px solid #c51313;
+        background: #ff7800;
+        border: 1px solid #ff7800;
         color: #fff;
       }
       .bet:hover {
         background: transparent;
-        border: 1px solid #c51313;
+        border: 1px solid #ff7800;
         color: red;
       }
     }
@@ -606,7 +634,7 @@ export default {
         border: 0;
         width: 24px;
         color: #fff;
-        background: #c51313;
+        background: #ff7800;
       }
     }
   }
@@ -642,12 +670,10 @@ export default {
     top: -5px;
   }
   .close:hover {
-    color: #ff0000;
+    color: #F9780B;
   }
 }
 .hot-box-tab {
-  margin: 5px 5px 0;
-  border: 1px solid #e2e2e2;
   background-color: #fff;
   /deep/ {
     .el-tabs__header {
@@ -672,13 +698,13 @@ export default {
     }
     .el-tabs__item:hover,
     .el-tabs__item.is-active {
-      color: #c51313;
+      color: rgb(255, 120, 0);
       &::after {
         content: "";
         display: block;
         width: 100%;
         height: 2px;
-        background: #c51313;
+        background: #ff7800;
         position: absolute;
         left: 50%;
         bottom: 0;
@@ -731,7 +757,8 @@ export default {
   position: relative;
   background: #fff;
   border: 1px solid #e2e2e2;
-  margin-top: 5px;
+  border-top: none;
+  overflow: hidden;
   .title {
     width: 228px;
     height: 39px;
@@ -775,7 +802,7 @@ export default {
     .top {
       overflow: hidden;
       .time {
-        color: #c51313;
+        color: #ff7800;
         margin-right: 5px;
       }
     }
@@ -787,7 +814,7 @@ export default {
         line-height: 25px;
         text-align: center;
         color: #fff;
-        background-color: #c51313;
+        background-color: #ff7800;
         border-radius: 50%;
         margin: 15px 5px;
       }
@@ -832,7 +859,7 @@ export default {
     }
     .el-tabs__item.is-active,
     .el-tabs__item:hover {
-      color: #c51313;
+      color: #ff7800;
     }
     .el-tabs__item.is-active {
       position: relative;
@@ -842,7 +869,7 @@ export default {
         display: block;
         height: 2px;
         width: 100%;
-        background: #c51313;
+        background: #ff7800;
         bottom: 0;
         left: 0;
       }
@@ -868,7 +895,7 @@ export default {
       float: right;
       .btn {
         cursor: pointer;
-        background: #ff5656;
+        background: #ff7800;
         text-align: center;
         color: #fff;
         width: 84px;
@@ -916,9 +943,46 @@ export default {
     .zjxx-r {
       float: left;
       .cost {
-        color: #ff0000;
+        color: #F9780B;
       }
     }
   }
+}
+.head-notice{
+  margin: 8px 0 ;
+  background: rgb(255, 253, 233);
+}
+.head-notice-img {
+  float: left;
+  margin: 8px 0 0 7px;
+  color: rgb(254, 99, 3);
+  font-size: 19px;
+}
+.head-meque {
+  margin-left: 25px;
+  position: relative;
+  overflow: hidden;
+  height: 35px;
+  .resultMarquee {
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+#head-meque {
+  position: relative;
+  left:6px;
+  width: 352px;
+  height:34px;
+  overflow: hidden;
+}
+#head-meque_text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  line-height: 35px;
 }
 </style>
