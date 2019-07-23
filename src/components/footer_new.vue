@@ -61,7 +61,7 @@
             </li>
           </ul>
           <span>建议游戏分辨率为：1280x760</span>
-          <p>晨兴彩票站郑重提示：彩票有风险，投注需谨慎！不向未满18周岁的青少年出售彩票</p>
+          <p>包网彩票站郑重提示：彩票有风险，投注需谨慎！不向未满18周岁的青少年出售彩票</p>
           <img src="../assets/images/new/index/footer-photo.png" alt />
         </div>
       </div>
@@ -187,9 +187,10 @@ export default {
 
 <style lang="scss" scoped>
 .footer {
-  background: transparent;
+  padding-top:40px;
+  background: #fff;
   width: 100%;
-  margin-top: 30px;
+  border-top: 1px solid #e6e6e6;
 }
 .logo {
   margin-right: 14px;
@@ -326,7 +327,7 @@ export default {
   }
 }
 .qualification-info-row {
-  padding-bottom: 50px;
+  padding-bottom: 30px;
   .footer-list {
     width: 960px;
     padding: 15px 0px 15px 40px;
@@ -339,7 +340,8 @@ export default {
         color: #484848;
         cursor: pointer;
         text-decoration: none;
-        &:hover {
+        cursor: pointer;
+        &:hover{
           color: #ff6c00;
         }
       }

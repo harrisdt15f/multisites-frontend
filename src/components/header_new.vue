@@ -1,14 +1,14 @@
 <template>
   <div class="header-wrapper">
     <div class="header-toptray">
-      <div class="container w">
+      <div class="container w fw">
         <div class="toptray-left">您好，欢迎光临包网彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
             <router-link class="toptray-item" tag="li" to="/account-center">用户中心</router-link>|
             <router-link class="toptray-item" tag="li" to="/account-center/bet-record">投注记录</router-link>|
             <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
-            <router-link class="toptray-item" tag="li" to="/account-center">在线客服</router-link>
+            <router-link class="toptray-item corigin" tag="li" to="/account-center">在线客服</router-link>
           </ul>
         </div>
       </div>
@@ -115,30 +115,30 @@
                     <div class="issue">全天{{item.day_issue}}期</div>
                   </router-link>
                 </ul>
-                <div class="select-box">
-                  <div class="box-l">
-                    <span>全部彩种</span>
-                  </div>
-                  <div class="box-r">
-                    <el-row>
-                      <el-col
-                        class="box-r-item"
-                        v-for="(lottery, index) in lotteryLists"
-                        :key="index"
-                        :span="12"
-                      >
-                        <router-link
-                          tag="div"
-                          :to="`/bet/${lottery.list && lottery.list[0].id}`"
-                          @click.native="showSelectLottery = false"
-                        >
-                          <i></i>
-                          {{lottery.name}}
-                        </router-link>
-                      </el-col>
-                    </el-row>
-                  </div>
-                </div>
+<!--                <div class="select-box">-->
+<!--                  <div class="box-l">-->
+<!--                    <span>全部彩种</span>-->
+<!--                  </div>-->
+<!--                  <div class="box-r">-->
+<!--                    <el-row>-->
+<!--                      <el-col-->
+<!--                        class="box-r-item"-->
+<!--                        v-for="(lottery, index) in lotteryLists"-->
+<!--                        :key="index"-->
+<!--                        :span="12"-->
+<!--                      >-->
+<!--                        <router-link-->
+<!--                          tag="div"-->
+<!--                          :to="`/bet/${lottery.list && lottery.list[0].id}`"-->
+<!--                          @click.native="showSelectLottery = false"-->
+<!--                        >-->
+<!--                          <i></i>-->
+<!--                          {{lottery.name}}-->
+<!--                        </router-link>-->
+<!--                      </el-col>-->
+<!--                    </el-row>-->
+<!--                  </div>-->
+<!--                </div>-->
               </div>
             </div>
           </el-col>
@@ -258,7 +258,7 @@ export default {
             removeToken()
             window.sessionStorage.clear()
             this.$nextTick(() => {
-              this.$router.push('/login')
+              this.$router.push('/')
             })
           }
         })
@@ -338,6 +338,7 @@ export default {
       display: inline-block;
       padding: 0 6px;
       cursor: pointer;
+      font-size:13px;
     }
   }
 }
@@ -421,7 +422,7 @@ export default {
   width: 100%;
   color: #000;
   font-size: 14px;
-  min-height: 459px;
+  min-height: 658px;
   & > li {
     box-sizing: border-box;
     padding: 5px 15px;
@@ -539,11 +540,11 @@ export default {
           font-size: 14px;
           padding: 8px 5px;
           &:hover {
-            background: #e9625d;
+            background: #ff9b00;
             color: #fffefe;
           }
           &.router-link-active {
-            background: #e9625d;
+            background: #ff9b00;
             color: #fffefe;
           }
         }
