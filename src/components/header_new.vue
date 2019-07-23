@@ -232,8 +232,6 @@ export default {
   mounted() {
     this.$store.dispatch('lotteryAll')
     this.lotteryList()
-    // head 滚动公告
-    // this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
   methods: {
     // 刷新用户余额

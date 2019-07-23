@@ -182,6 +182,7 @@ export default {
         arr = []
       ] = []
   
+  
       for (const k of this.gameId) {
   
         for (const i of k) {

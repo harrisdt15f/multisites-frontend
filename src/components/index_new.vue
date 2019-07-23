@@ -24,6 +24,8 @@
               <section class="resultMarquee" id="head-meque">
                 <p id="head-meque_text">
                   中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+                  中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+                  
                 </p>
               </section>
             </section>
@@ -293,6 +295,7 @@ export default {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
     this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
+    this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
   methods: {
     goToBet(en_name) {
@@ -973,7 +976,6 @@ export default {
 #head-meque {
   position: relative;
   left:6px;
-  width: 352px;
   height:34px;
   overflow: hidden;
 }

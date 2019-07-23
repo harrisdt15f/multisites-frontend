@@ -167,8 +167,7 @@
         <div class="balls-import-box">
           <textarea
             @input="inputAreaChange()"
-            @focus="inputAreaFocus()"
-            @blur="inputAreaBlur()"
+            :placeholder="inputCodesInitText"
             class="balls-import-txt"
             v-model="inputCodes"
           ></textarea>
@@ -219,6 +218,9 @@
       </div>
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
+      <div class="bet-statics-money-nums">
+        最高盈利  <em class="bignum">2,784.00</em>元
+      </div>
       <div class="bet-choose-total bet-choose-total-money">
         已选
         <span class="bet-choose-total-money-count">{{currentOrder.currentCount}}</span> 注，
@@ -245,13 +247,14 @@ import algorithm from '../../lib/algorithm'
 import { isRepeat, isRepeatNum } from '@/utils'
 
 import Lhc from '@/components/game/lhc'
+import { debuglog } from 'util'
 
 export default {
   name: 'game-select',
   data() {
     return {
       inputCodesInitText: '',
-      inputCodes: {},
+      inputCodes: undefined,
       inputCodesSingle: 0,
       chooseNumber: [],
       chooseButton: [],
@@ -326,8 +329,7 @@ export default {
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.currentTimes = 1
-      this.inputCodes =
-        '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+      this.inputCodes = ''
     },
     // 号码被清空时 清空注单
     // 'currentOrder.currentCost'(newVal) {},
@@ -361,7 +363,6 @@ export default {
     }
     // 当前奖金组
     this.lottery.countPrize = this.userDetail.prize_group
-
     this.inputAreaInit()
     this.series = this.currentLottery && this.currentLottery.series_id
   },
@@ -463,9 +464,7 @@ export default {
           })
           return
         }
-        const codes = this.inputCodes.split(',').map(val => {
-          return val.split('').join('&')
-        })
+        const codes = this.currentLottery.series_id === 'lotto' ? this.inputCodes.split('|').map(val => val.split(' ').join('&')) : this.inputCodes.split(',').map(val => val.split('').join('&'))
         order = {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
@@ -1114,9 +1113,15 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      this.inputCodesInitText =
+      if(this.currentLottery.series_id === 'lotto'){
+        this.inputCodesInitText =
+        '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n'
+        +' 格式范例：01 02 03|03 04 05|07 08 11'
+      }else{
+         this.inputCodesInitText =
         '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
-      this.inputCodes = this.inputCodesInitText
+      }
+      // this.inputCodes = this.inputCodesInitText
     },
     // 单式输入框获取焦点
     inputAreaFocus() {
@@ -1173,7 +1178,7 @@ export default {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto') {
           tmp = new Set(
-            (this.inputCodes || '').split(/,|，/).map(item => {
+            (this.inputCodes || '').split(/[,|;]+/).map(item => {
               return this.Utils.trim(item)
             })
           )
@@ -1228,12 +1233,23 @@ export default {
         }
       }
 
-      this.inputCodes = [...tmp].join(',')
-      if (!this.inputCodes) {
-        this.inputCodesSingle = 0
-      } else {
-        this.inputCodesSingle = this.inputCodes.split(',').length
+
+      if (this.currentLottery.series_id === 'lotto'){
+        this.inputCodes = [...tmp].join('|')
+        if (!this.inputCodes) {
+          this.inputCodesSingle = 0
+        } else {
+          this.inputCodesSingle = this.inputCodes.split('|').length
+        }
+      } else{
+        this.inputCodes = [...tmp].join(',')
+        if (!this.inputCodes) {
+          this.inputCodesSingle = 0
+        } else {
+          this.inputCodesSingle = this.inputCodes.split(',').length
+        }
       }
+     
       this.calculate()
     },
     // 清理重复项 和 错误项 计算注数
@@ -1387,5 +1403,10 @@ export default {
       float: left;
     }
   }
+}
+.bet-statics-money-nums{
+  float: left;
+  clear: both;
+  line-height: 45px;
 }
 </style>
