@@ -1,13 +1,13 @@
 <template>
   <div class="agent-center">
     <el-tabs v-model="activeName" type="border-card">
-      <el-tab-pane label="团队盈亏" name="user-profits">
+      <el-tab-pane label="团队盈亏" :lazy="true" name="user-profits">
         <user-profits></user-profits>
       </el-tab-pane>
-      <el-tab-pane label="团队管理" name="user-manage">
+      <el-tab-pane label="团队管理" :lazy="true" name="user-manage">
         <user-manage></user-manage>
       </el-tab-pane>
-      <el-tab-pane label="下级开户" name="third">
+      <el-tab-pane label="下级开户" :lazy="true" name="third">
         <accurate-create></accurate-create>
       </el-tab-pane>
     </el-tabs>
@@ -31,7 +31,16 @@ export default {
       activeName: 'user-profits'
     }
   },
-  methods: {}
+  created () {
+    this.initData()
+  },
+  methods: {
+    initData(){
+      this.Api.getUserProfits().then(({success, data}) => {
+        console.log(data)
+      })
+    }
+  }
 }
 </script>
 

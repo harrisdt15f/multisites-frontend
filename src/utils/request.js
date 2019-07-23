@@ -18,7 +18,7 @@ service.interceptors.request.use(
     if (store.getters.token) {
       config.headers.Authorization = 'Bearer ' + getToken()
       config.headers.Accept = 'application/json'
-    } 
+    }
     return config
   },
   error => {
@@ -33,18 +33,31 @@ service.interceptors.response.use(
     const res = response.data
     if (res && !res.success && res.message) {
       let message = res.message
-      if (res.code == 0) {  
+      if (res.code == 0) {
         sign += 1
         if (sign === 1) {
           MessageBox(message, '提示', {
             confirmButtonText: '确定',
-          }).then(() => {
-            removeToken()
-            window.sessionStorage.clear()
-            nextTick(() => {
-              router.push('/login')
-            })
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+            showClose: false
           })
+            .then(() => {
+              sign = 0
+              removeToken()
+              window.sessionStorage.clear()
+              nextTick(() => {
+                router.push('/login')
+              })
+            })
+            .catch(() => {
+              sign = 0
+              removeToken()
+              window.sessionStorage.clear()
+              nextTick(() => {
+                router.push('/login')
+              })
+            })
         }
       } else {
         MessageBox(message, '提示', {

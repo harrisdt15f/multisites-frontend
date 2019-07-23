@@ -75,7 +75,7 @@ export default {
 <style lang="scss" scoped>
 .account {
   width: 1200px;
-  margin: 30px auto 55px;
+  margin: 15px auto 55px;
   background: #fff;
   /deep/ {
     .el-tabs__active-bar {
