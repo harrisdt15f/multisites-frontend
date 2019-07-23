@@ -48,28 +48,16 @@
         <div class="footer-text">
           <ul class="footer-list">
             <li>
-              <a  target="_blank">关于我们</a>
+              <a>包网品牌</a>
             </li>
             <li>
-              <a  target="_blank">购彩大厅</a>
+              <router-link tag="a" :to="`/help-center`">帮助中心</router-link>
             </li>
             <li>
-              <a target="_blank">走势图表</a>
+              <router-link tag="a" :to="`/download`">手机客户端</router-link>
             </li>
             <li>
-              <a target="_blank">开奖资讯</a>
-            </li>
-            <li>
-              <a target="_blank">优惠活动</a>
-            </li>
-            <li>
-              <a target="_blank">手机购彩</a>
-            </li>
-            <li>
-              <a >热门新闻</a>
-            </li>
-            <li>
-              <a target="_blank">帮助中心</a>
+              <a>仿劫持教程</a>
             </li>
           </ul>
           <span>建议游戏分辨率为：1280x760</span>
@@ -201,6 +189,7 @@ export default {
 .footer {
   background: transparent;
   width: 100%;
+  margin-top: 30px;
 }
 .logo {
   margin-right: 14px;
@@ -343,13 +332,14 @@ export default {
     padding: 15px 0px 15px 40px;
     margin-bottom: 12px;
     text-align: center;
-     li {
+    li {
       display: inline-block;
-      width: 70px;
+      padding: 0 25px;
       a {
         color: #484848;
+        cursor: pointer;
         text-decoration: none;
-        &:hover{
+        &:hover {
           color: #ff6c00;
         }
       }

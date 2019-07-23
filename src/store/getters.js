@@ -2,6 +2,7 @@ const getters = {
   // 登录
   token: state => state.user.token,
   userDetail: state => state.user.userDetail,
+  isLogin: state => Boolean(state.user.token),
   // 网站
   banner: state => state.site.banner,
   qrSrc: state => state.site.qrSrc,

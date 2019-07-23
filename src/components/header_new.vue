@@ -17,28 +17,68 @@
       <router-link class="logo" tag="h1" to="/home">
         <img class="logo-img" :src="logoSrc" />
       </router-link>
-      <div class="login-form">
-        <el-form :inline="true" :model="formInline" class="login-form-inline">
-          <el-form-item>
+      <div class="header-person" v-if="isLogin">
+        <div class="item">欢迎 {{userDetail.username}}</div>
+        <span class="header-line-in">|</span>
+        <div class="header-wallet">
+          <span class="wallet">钱包余额:</span>
+          <span class="header-money">￥</span>
+          <span class="header-money">
+            <span class="header-money">
+              {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
+              <i
+                class="fa fa-refresh cur"
+                :class="{loading: loading}"
+                @click="refresh()"
+              ></i>
+            </span>
+          </span>
+        </div>
+        <div class="header-drop-in">
+          <router-link tag="a" to="/account-center/fund-manage/recharge" class="header-btn-in">充值</router-link>
+          <span class="header-line-in">|</span>
+          <router-link tag="a" to="/account-center/fund-manage/withdrawal" class="header-btn-in">提款</router-link>
+          <span class="header-line-in">|</span>
+          <router-link tag="a" to="/account-center/fund-manage/transfer" class="header-btn-in">额度转换</router-link>
+        </div>
+        <a class="bar-link-in">
+          <i class="fa fa-sign-out" aria-hidden="true"></i>
+          <span class="bar-exit" @click="logout()">退出</span>
+        </a>
+      </div>
+      <div class="login-form" v-else>
+        <el-form
+          :inline="true"
+          :model="user"
+          :rules="userRules"
+          ref="userForm"
+          class="login-form-inline"
+        >
+          <el-form-item prop="username">
             <el-input
               style="width:185px;"
               suffix-icon="el-icon-user"
               size="small"
-              v-model="formInline.user"
+              v-model="user.username"
               placeholder="账号"
             ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input
               style="width:185px;"
               suffix-icon="el-icon-lock"
               size="small"
-              v-model="formInline.user"
+              v-model="user.password"
               placeholder="密码"
             ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="danger" size="small">登录</el-button>
+            <el-button
+              :loading="loginLoading"
+              @click.native="submitForm('userForm')"
+              type="danger"
+              size="small"
+            >登录</el-button>
             <el-button type="danger" size="small">注册</el-button>
           </el-form-item>
         </el-form>
@@ -164,13 +204,25 @@ export default {
   name: 'Header',
   data() {
     return {
+      loginLoading: false,
       loading: false,
       showSelectLottery: false,
-      formInline: {}
+      user: { username: '', password: '' },
+      userRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, message: '长度在 3 个以上', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
+        ]
+      }
     }
   },
   computed: {
     ...mapGetters([
+      'isLogin',
       'userDetail',
       'lotteryLists',
       'popularLotteries1',
@@ -226,12 +278,48 @@ export default {
           this.$store.commit('SET_LOTTERY_LISTS', res.data)
         }
       })
+    },
+    //登录
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.login()
+        } else {
+          return false
+        }
+      })
+    },
+    login() {
+      this.loginLoading = true
+      this.$store
+        .dispatch('login', {
+          username: this.user.username,
+          password: this.user.password
+        })
+        .then(() => {
+          this.loginLoading = false
+          this.$store.dispatch('getUserDetail')
+        })
+        .catch(() => {
+          this.loginLoading = false
+        })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@keyframes myRotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
 .container {
   width: 1200px;
   margin: 0 auto;
@@ -258,13 +346,13 @@ export default {
     height: 60px;
     width: auto;
     float: left;
+    margin-top: 15px;
   }
   .login-form {
     float: right;
     /deep/ {
       .el-form-item {
         margin-top: 25px;
-        margin-bottom: 25px;
       }
       .el-input__suffix {
         left: 5px;
@@ -345,11 +433,11 @@ export default {
       }
     }
   }
-  & > li:nth-last-of-type(1){
+  & > li:nth-last-of-type(1) {
     border-bottom: none;
   }
-  .select-grou-img{
-    display:block;
+  .select-grou-img {
+    display: block;
     float: left;
     width: 45px;
     height: auto;
@@ -469,14 +557,52 @@ export default {
     }
   }
 }
-.login-form-inline{
-  /deep/ .el-button--danger{
-    color: #FFF;
+.login-form-inline {
+  /deep/ .el-button--danger {
+    color: #fff;
     background-color: #ff7600;
     border-color: #ff7600;
   }
 }
+.header-person {
+  display: flex;
+  float: right;
+  width: 600px;
+  height: 75px;
+  line-height: 75px;
+  box-sizing: border-box;
+  justify-content: flex-end;
+  font-size: 13px;
+  padding-right: 5px;
+  .item {
+    padding-right: 5px;
+  }
+}
 
-
+.header-wallet {
+  box-sizing: border-box;
+  padding: 0 8px 0 5px;
+}
+.header-btn-in {
+  box-sizing: border-box;
+  padding: 0px 5px;
+  cursor: pointer;
+  &:hover {
+    color: #ff6c00;
+  }
+}
+.bar-link-in {
+  box-sizing: border-box;
+  padding: 0px 5px;
+  cursor: pointer;
+  &:hover {
+    color: #ff6c00;
+  }
+}
+.header-money {
+  .cur.loading {
+    animation: myRotate 1.5s linear infinite;
+  }
+}
 </style>
 
