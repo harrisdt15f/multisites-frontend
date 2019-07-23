@@ -18,7 +18,7 @@ export default {
 
             'ZX4': {'total': 10000, 'prize': 18000, 'count': 1},
             'ZX4_S': {'total': 10000, 'prize': 18000, 'count': 1},
-            'ZH4': {'total': 10000, 'prize': [18000, 1800, 180, 18], 'count': 1},
+            'ZH4': {'total': 10000, 'prize': [18000, 1800, 180, 18], 'count': [1, 10, 100, 1000]},
             'SXZU24': {'total': 10000, 'prize': 750, 'count': 24},
             'SXZU12': {'total': 10000, 'prize': 1500, 'count': 12},
             'SXZU6': {'total': 10000, 'prize': 3000, 'count': 6},
@@ -532,7 +532,7 @@ export default {
             'QZU6_S':   {'total': 1000, 'prize': 295, 'count': 6},
             'QHHZX':    {'total': 1000, 'prize': 600, 'count': 3},
 
-            'QZUHZ':    {'total': 1000, 'prize': [590, 295], 'count': 250},
+            'QZUHZ':    {'total': 1000, 'prize': [590, 295], 'count': [250, 250]},
 
             'QZX2':     {'total': 1000, 'prize': 177, 'count': 1},
             'QZX2_S':   {'total': 1000, 'prize': 177, 'count': 1},
@@ -566,7 +566,7 @@ export default {
             'QZU6_S':   {'total': 1000, 'prize': 295, 'count': 6},
             'QHHZX':    {'total': 1000, 'prize': 600, 'count': 3},
 
-            'QZUHZ':    {'total': 1000, 'prize': [590, 295], 'count': 250},
+            'QZUHZ':    {'total': 1000, 'prize': [590, 295], 'count': [250, 250]},
 
             'QZX2':     {'total': 1000, 'prize': 177, 'count': 1},
             'QZX2_S':   {'total': 1000, 'prize': 177, 'count': 1},

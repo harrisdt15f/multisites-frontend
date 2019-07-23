@@ -176,6 +176,7 @@ export default {
     
     //奖金计算
     countPrizes () {
+
       let [
         prize = prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
@@ -187,7 +188,6 @@ export default {
         for (const i of k) {
     
           if (this.currentLottery.id === i) {
-      
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
               
