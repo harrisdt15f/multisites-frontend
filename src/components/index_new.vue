@@ -167,7 +167,7 @@
               <el-tabs v-model="activeGameName">
                 <el-tab-pane label="彩票" name="lott">
                   <el-row :gutter="8" class="tab-lott">
-                    <el-col :span="12" v-for="item in 8" :key="item">
+                    <el-col :span="12" v-for="item in 6" :key="item">
                       <div class="lott-item-warp">
                         <div class="lott-item">
                           <img class="img" src="../assets/images/lott-img.png" />
@@ -788,7 +788,7 @@ export default {
   box-sizing: border-box;
   background: #fff;
   border: 1px solid #e2e2e2;
-  min-height: 788px;
+  min-height: 611px;
   .title {
     font-size: 16px;
     height: 42px;
@@ -839,7 +839,7 @@ export default {
     width: 100%;
     border: 1px solid #e2e2e2;
     background-color: #fff;
-    min-height: 788px;
+    min-height: 611px;
   }
   /deep/ {
     .el-tabs__nav {
@@ -878,7 +878,7 @@ export default {
 }
 
 .tab-lott {
-  padding: 14px 20px 20px;
+  padding: 14px 20px 14px;
   .lott-item-warp {
     border: 1px solid #e2e2e2;
     margin-bottom: 15px;
@@ -908,7 +908,7 @@ export default {
 }
 .zjxx {
   box-sizing: border-box;
-  height: 788px;
+  height: 611px;
   overflow: hidden;
   background: #fff;
   border: 1px solid #e2e2e2;
