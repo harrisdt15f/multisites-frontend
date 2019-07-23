@@ -605,5 +605,8 @@ export default {
     animation: myRotate 1.5s linear infinite;
   }
 }
+.header-line-in{
+  color: #909399;
+}
 </style>
 

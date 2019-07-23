@@ -255,7 +255,8 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code && res.data.lastIssue.open_code.split('')
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? 
+            res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
           let [timer = null] = []
           timer = setInterval(() => {
@@ -277,7 +278,8 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? 
+            res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
         }
       })
