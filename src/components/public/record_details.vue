@@ -9,7 +9,11 @@
     <template v-if="detailData">
       <div class="content" v-if="!isTraces">
         <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
-          <span class="item" v-for="(item, index) in detailData.open_number.split('')" :key="index">{{item}}</span>
+          <span
+            class="item"
+            v-for="(item, index) in detailData.open_number.split('')"
+            :key="index"
+          >{{item}}</span>
         </div>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -48,7 +52,9 @@
               <tr>
                 <td align="right">模式：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value" v-if="detailData.mode === '1.0000'">元</span>
+                  <span class="value" v-if="detailData.mode === '0.1000'">角</span>
+                  <span class="value" v-if="detailData.mode === '0.0100'">分</span>
                 </td>
                 <td align="right">投注金额：</td>
                 <td>
@@ -86,7 +92,7 @@
         </div>
       </div>
       <div class="content" v-else>
-         <div class="table-detail">
+        <div class="table-detail">
           <table width="100%" class="table-detail">
             <tbody>
               <tr>
@@ -174,13 +180,23 @@
                   <span class="value">{{detailData.total_cost}}</span>
                 </td>
               </tr>
-
             </tbody>
           </table>
         </div>
         <div class="detail-row-cont">
           <div class="title">投注内容：</div>
-          <el-input type="textarea" disabled="" :rows="4" v-model="bet_number"></el-input>
+          <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
+        </div>
+        <div class="trace-lists">
+          <el-table :data="detailData.trace_lists" style="width: 100%">
+            <el-table-column prop="date" label="奖期" width="180"></el-table-column>
+            <el-table-column prop="name" label="追号内容" width="180"></el-table-column>
+            <el-table-column prop="address" label="追号倍数	"></el-table-column>
+            <el-table-column prop="address" label="投注金额	"></el-table-column>
+            <el-table-column prop="address" label="追号状态"></el-table-column>
+            <el-table-column prop="address" label="中奖	"></el-table-column>
+            <el-table-column prop="address" label="操作	"></el-table-column>
+          </el-table>
         </div>
       </div>
     </template>
@@ -202,16 +218,33 @@ export default {
       return this.detailData.win_stop !== undefined
     },
     bet_number() {
-        if (this.detailData.method_group === 'DXDS') {
-          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')
-        }
-        if (this.detailData.method_group === 'LH') {
-          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')
-        }
-        if (this.detailData.method_group === 'QTS3') {
-          return this.detailData.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')
-        }
-        return this.detailData.bet_number.replace(/&/g,',')
+      if (this.detailData.method_group === 'DXDS') {
+        return this.detailData.bet_number
+          .replace(/&/g, ',')
+          .replace(/(0)/g, '小')
+          .replace(/(1)/g, '大')
+          .replace(/(2)/g, '双')
+          .replace(/(3)/g, '单')
+      }
+      if (this.detailData.method_group === 'LH') {
+        return this.detailData.bet_number
+          .replace(/&/g, ',')
+          .replace(/(0)/g, '龙')
+          .replace(/(1)/g, '虎')
+          .replace(/(2)/g, '和')
+      }
+      if (
+        this.detailData.method_group === 'Q3' ||
+        this.detailData.method_group === 'Z3' ||
+        this.detailData.method_group === 'H3'
+      ) {
+        return this.detailData.bet_number
+          .replace(/&/g, ',')
+          .replace(/(0)/g, '豹子')
+          .replace(/(1)/g, '顺子')
+          .replace(/(2)/g, '对子')
+      }
+      return this.detailData.bet_number.replace(/&/g, ',')
     }
   },
   watch: {
@@ -231,10 +264,10 @@ export default {
 
 <style lang="scss">
 .record-detail {
-  /deep/{
-    .el-textarea.is-disabled .el-textarea__inner{
+  /deep/ {
+    .el-textarea.is-disabled .el-textarea__inner {
       background-color: #fff;
-      border-color: #DCDFE6;
+      border-color: #dcdfe6;
       color: #606266;
     }
   }

@@ -48,8 +48,7 @@
                     <div class="title">
                       <div class="fl">
                         {{item.name}} {{item.method_name}}
-                        <span style="color:#ff7800;">20190308</span>
-                        12.1245截止
+                        <span style="color:#ff7800;">{{Utils.formatTime(item.time, 'HH:MM:SS')}}</span>截止
                       </div>
                       <div class="fr">
                         <a class="btn" href="javascript:;">
@@ -116,7 +115,7 @@
 <!--                  class="wzfw"-->
 <!--                  href="javascript:;"-->
 <!--                  @click="handleOpenDialog(item.id)"-->
-<!--                >{{item.title}}{{item.id}}</a>-->
+<!--                >{{item.title}}{{item.=id}}</a>-->
 <!--              </li>-->
 <!--              <div class="btn">-->
 <!--                <a href="javascript:;" @click="handleOpenDialog()">-->
@@ -153,10 +152,10 @@
                   </template>
                 </div>
                 <div class="bottom">
-                  <div class="fl">{{Utils.formatTime(item.encode_time)}}</div>
+                  <div class="fl" v-if="item.encode_time">{{Utils.formatTime(item.encode_time, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
                     <a href="javascript:;" class="btn">走势</a>
-                    <a href="javascript:;" class="btn">投注</a>
+                    <router-link tag="a" :to="`/bet/${item.lotteries_id}`" class="btn">投注</router-link>
                   </div>
                 </div>
               </div>
@@ -267,6 +266,7 @@ export default {
           return {
             name: val[v].lottery_name,
             id: val[v].lotteries_id,
+            time: val[v].end_time,
             method_name: val[v].method_name,
             method_id: val[v].method_id,
             multiple: 1,

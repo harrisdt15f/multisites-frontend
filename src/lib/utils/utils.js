@@ -100,7 +100,7 @@ let Utils = {
     },
     // obj 传入时间  返回 yyyy-mm-dd
     formatTime (obj, format = 'YYYY-MM-DD') {
-    let date = new Date(obj)
+    let date = new Date(obj*1000)
     let date2 = date.toLocaleDateString().split('/')
     let hours = date.getHours()
     let minutes = date.getMinutes()
@@ -124,9 +124,9 @@ let Utils = {
     if (format === 'YYYY-MM-DD') {
         return dateDay
     } else if (format === 'HH:MM:SS') {
-        return hours + ":" + minutes + ':' + seconds
+        return hours + ':' + minutes + ':' + seconds
     } else if (format === 'YYYY-MM-DD HH:MM:SS') {
-        return dateDay + ' ' + hours + ":" + minutes + ':' + seconds
+        return dateDay + ' ' + hours + ':' + minutes + ':' + seconds
     }
 }
 }
