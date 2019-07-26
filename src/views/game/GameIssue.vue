@@ -291,7 +291,6 @@ export default {
           res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
           this.lastIssue = res.data.lastIssue
           this.issueNum = 0
-  
           if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
             return
           }
@@ -316,9 +315,10 @@ export default {
           this.issueNum += 1
           this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
           this.notice.show = true
-          this.times()
           this.$store.dispatch('getUserDetail')
           this.$store.dispatch('betHistory')
+          this.times()
+          setTimeout(() => {this.getLastIssue()}, 3000)
           if (this.issueNum === this.issueInfo.length) {
             this.getIssue()
           }

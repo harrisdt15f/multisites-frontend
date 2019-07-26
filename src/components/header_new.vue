@@ -341,17 +341,19 @@ export default {
   }
 }
 .header-content {
+  height: 75px;
+  overflow: hidden;
   .logo-img {
     height: 60px;
     width: auto;
     float: left;
-    margin-top: 15px;
+    margin-top: 7px;
   }
   .login-form {
     float: right;
     /deep/ {
       .el-form-item {
-        margin-top: 25px;
+        margin-top: 18px;
       }
       .el-input__suffix {
         left: 5px;

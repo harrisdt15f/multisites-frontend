@@ -89,7 +89,8 @@ export default {
   data() {
     return {
       currentIndex: 1,
-      radio: 1
+      radio: 1,
+      input: ''
     }
   }
 }
@@ -208,13 +209,13 @@ export default {
         bottom: 0;
         width: 0;
         height: 0;
-        border-bottom: 18px solid red;
-        border-left: 18px solid transparent;
+        border-bottom: 25px solid red;
+        border-left: 25px solid transparent;
         i{
-          font-size: 10px;
+          font-size: 12px;
           position: absolute;
-          left: -10px;
-          top: 8px;
+          left: -14px;
+          top: 10px;
           color: #fff;
         }
       }

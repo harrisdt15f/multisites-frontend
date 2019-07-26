@@ -9,11 +9,20 @@
     <template v-if="detailData">
       <div class="content" v-if="!isTraces">
         <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
-          <span
-            class="item"
-            v-for="(item, index) in detailData.open_number.split('')"
-            :key="index"
-          >{{item}}</span>
+          <template v-if="detailData.series_id ==='lotto'">
+            <span
+              class="item"
+              v-for="(item, index) in detailData.open_number.split(' ')"
+              :key="index"
+            >{{item}}</span>
+          </template>
+          <template v-else>
+             <span
+              class="item"
+              v-for="(item, index) in detailData.open_number.split('')"
+              :key="index"
+            >{{item}}</span>
+          </template>
         </div>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -122,51 +131,53 @@
                 </td>
                 <td align="right">追号期数：</td>
                 <td>
-                  <span class="value">{{detailData.start_issue}}</span>
+                  <span class="value">{{detailData.total_issues}}</span>
                 </td>
               </tr>
 
               <tr>
                 <td align="right">完成期数：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value">{{detailData.finished_issues}}</span>
                 </td>
                 <td align="right">取消期数：</td>
                 <td>
-                  <span class="value">{{detailData.total_cost}}</span>
+                  <span class="value">{{detailData.canceled_issues}}</span>
                 </td>
               </tr>
 
               <tr>
                 <td align="right">追号金额：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value">{{detailData.total_price}}</span>
                 </td>
                 <td align="right">完成金额：</td>
                 <td>
-                  <span class="value">{{detailData.total_cost}}</span>
+                  <span class="value">{{detailData.finished_amount}}</span>
                 </td>
               </tr>
 
               <tr>
                 <td align="right">取消金额：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value">{{detailData.canceled_amount}}</span>
                 </td>
                 <td align="right">中奖金额：</td>
                 <td>
-                  <span class="value">{{detailData.total_cost}}</span>
+                  <span class="value">{{detailData.finished_bonus}}</span>
                 </td>
               </tr>
 
               <tr>
                 <td align="right">追号状态：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value">{{detailData.status}}</span>
                 </td>
                 <td align="right">模式：</td>
                 <td>
-                  <span class="value">{{detailData.total_cost}}</span>
+                  <span class="value" v-if="detailData.mode === '1.0000'">元</span>
+                  <span class="value" v-if="detailData.mode === '0.1000'">角</span>
+                  <span class="value" v-if="detailData.mode === '0.0100'">分</span>
                 </td>
               </tr>
 
@@ -177,7 +188,7 @@
                 </td>
                 <td align="right">中奖后终止任务：</td>
                 <td>
-                  <span class="value">{{detailData.total_cost}}</span>
+                  <span class="value">{{detailData.win_stop}}</span>
                 </td>
               </tr>
             </tbody>
@@ -187,15 +198,36 @@
           <div class="title">投注内容：</div>
           <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
         </div>
+        <div style="text-align:center; margin-top:20px;"> 
+          <el-button>终止追号</el-button>
+        </div>
         <div class="trace-lists">
-          <el-table :data="detailData.trace_lists" style="width: 100%">
-            <el-table-column prop="date" label="奖期" width="180"></el-table-column>
-            <el-table-column prop="name" label="追号内容" width="180"></el-table-column>
-            <el-table-column prop="address" label="追号倍数	"></el-table-column>
-            <el-table-column prop="address" label="投注金额	"></el-table-column>
-            <el-table-column prop="address" label="追号状态"></el-table-column>
-            <el-table-column prop="address" label="中奖	"></el-table-column>
-            <el-table-column prop="address" label="操作	"></el-table-column>
+          <el-table :data="detailData.trace_lists" style="width: 50%;margin:30px auto">
+            <el-table-column align="center" prop="issue" label="奖期" width="180"></el-table-column>
+            <el-table-column align="center" label="投注内容" show-overflow-tooltip>
+              <template slot-scope="scope">
+                {{scope.row.bet_number}}
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="times" label="追号倍数"></el-table-column>
+            <el-table-column align="center" prop="total_price" label="投注金额	"></el-table-column>
+            <el-table-column align="center" prop="address" label="追号状态">
+              <template slot-scope="scope">
+                <span v-if="scope.row.status == 0">等待追号</span>
+                <span v-if="scope.row.status == 1">正在追号</span>
+                <span v-if="scope.row.status == 2">追号完成</span>
+                <span v-if="scope.row.status == 3">玩家撤销</span>
+                <span v-if="scope.row.status == 4">管理员撤销</span>
+                <span v-if="scope.row.status == 5">系统撤销</span>
+                <span v-if="scope.row.status == 6">中奖停止</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" prop="address" label="中奖	"></el-table-column>
+            <el-table-column align="center" prop="address" label="操作	">
+               <template slot-scope="scope">
+                 <el-button type="text" size="mini">取消本期追号</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
       </div>

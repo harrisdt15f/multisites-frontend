@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <game-select></game-select>
+            <game-select :countPrizes="countPrizes()"></game-select>
           </div>
           <section class="main-right">
             <section class="list-historys">

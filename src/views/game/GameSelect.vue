@@ -219,7 +219,7 @@
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
       <div class="bet-statics-money-nums">
-        最高盈利  <em class="bignum">2,784.00</em>元
+        最高盈利  <em class="bignum">{{Utils.toFixed(String(currentOrder.maxProfit))}}</em>元
       </div>
       <div class="bet-choose-total bet-choose-total-money">
         已选
@@ -265,7 +265,8 @@ export default {
         currentCount: 0,
         currentTimes: 1,
         currentGroup: undefined,
-        currentCodes: {}
+        currentCodes: {},
+        maxProfit: 0
       },
       // 一键投注
       oneKeyList: {},
@@ -282,6 +283,7 @@ export default {
       betLoading: false // 投注loading
     }
   },
+  props: ['countPrizes'],
   components: {
     Lhc
   },
@@ -313,6 +315,14 @@ export default {
         choices: this.chooseNumber,
         position: this.choosePosition
       }
+    },
+    //当前奖金
+    currentCountPrizes() {
+      if (Array.isArray(this.countPrizes)) {
+        return this.countPrizes[0].prize
+      } else {
+        return this.countPrizes
+      }
     }
   },
   watch: {
@@ -327,6 +337,7 @@ export default {
     // 切换玩法时
     'bet.methodsTab'() {
       this.currentOrder.currentCost = 0
+      this.currentOrder.maxProfit = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.currentTimes = 1
       this.inputCodes = ''
@@ -382,6 +393,7 @@ export default {
       // 清空注单值
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
+      this.currentOrder.maxProfit = 0
       this.currentOrder.currentTimes = 1
     },
     // 添加投注单
@@ -464,7 +476,7 @@ export default {
           })
           return
         }
-        const codes = this.currentLottery.series_id === 'lotto' ? this.inputCodes.split('|').map(val => val.split(' ').join('&')) : this.inputCodes.split(',').map(val => val.split('').join('&'))
+        const codes = this.currentLottery.series_id === 'lotto' ? this.inputCodes.split('|') : this.inputCodes.split(',').map(val => val.split('').join('&'))
         order = {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
@@ -550,10 +562,11 @@ export default {
           +this.currentOrder.currentTimes
         this.currentOrder.inputcodes = inputcodes
         this.currentOrder.positionDesc = positionDesc
-
+        this.currentOrder.maxProfit = _count && (this.currentCountPrizes - _count * this.userConfig.mode * this.userConfig.singlePrice) * this.currentOrder.currentTimes
         return [_count, inputcodes, positionDesc]
       } else {
-        this.currentOrder.currentCost =
+         this.currentOrder.maxProfit = this.inputCodesSingle && (this.currentCountPrizes - this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice) * this.currentOrder.currentTimes
+         this.currentOrder.currentCost =
           this.inputCodesSingle *
           +this.userConfig.singlePrice *
           this.currentOrder.currentTimes *
@@ -563,6 +576,7 @@ export default {
     },
     // 倍数增加
     timeAdd() {
+      if(this.currentOrder.maxProfit > this.userDetail.max_profit_bonus) return
       this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
       this.calculate()
     },

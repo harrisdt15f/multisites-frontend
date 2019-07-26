@@ -145,7 +145,7 @@ export default {
     return {
       loading: false,
       tableData: [],
-      haveBankCard: false,
+      haveBankCard: true,
       showCreateBank: false,
       showManageBank: false,
       cardOptions: [
@@ -329,6 +329,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bank-manage{
+  min-height: 280px;
+}
 .create-bank {
   .title {
     text-align: center;
