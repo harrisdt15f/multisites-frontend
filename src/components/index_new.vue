@@ -298,8 +298,13 @@ export default {
     this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
   methods: {
-    goToBet(en_name) {
-      this.$router.push(`/bet/${en_name}`)
+    preInto(route) {
+      if (!this.isLogin) {
+        this.$router.push('/login')
+        return
+      } else {
+        this.$router.push(route)
+      }
     },
     handleScroll() {
       const scrollTop =

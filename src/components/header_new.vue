@@ -5,10 +5,10 @@
         <div class="toptray-left">您好，欢迎光临包网彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
-            <router-link class="toptray-item" tag="li" to="/account-center">用户中心</router-link>|
-            <router-link class="toptray-item" tag="li" to="/account-center/bet-record">投注记录</router-link>|
+            <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
+            <li @click="preInto('/account-center/bet-record')" class="toptray-item">投注记录</li>|
             <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
-            <router-link class="toptray-item corigin" tag="li" to="/account-center">在线客服</router-link>
+            <router-link class="toptray-item corigin" tag="li" to="/">在线客服</router-link>
           </ul>
         </div>
       </div>
@@ -102,43 +102,41 @@
                 v-if="popularLotteries1.length"
               >
                 <ul class="select-grou">
-                  <router-link
+                  <li
                     tag="li"
-                    :to="`/bet/${item.en_name}`"
-                    @click.native="showSelectLottery = false"
+                    @click="preIntoSel(`/bet/${item.en_name}`)"
                     v-for="(item, index) in popularLotteries1"
                     :key="index"
-                    class="w"
-                  >
+                    class="w">
                     <img class="select-grou-img" :src="item.pic_path" />
                     <div class="name">{{item.cn_name}}</div>
                     <div class="issue">全天{{item.day_issue}}期</div>
-                  </router-link>
+                  </li>
                 </ul>
-<!--                <div class="select-box">-->
-<!--                  <div class="box-l">-->
-<!--                    <span>全部彩种</span>-->
-<!--                  </div>-->
-<!--                  <div class="box-r">-->
-<!--                    <el-row>-->
-<!--                      <el-col-->
-<!--                        class="box-r-item"-->
-<!--                        v-for="(lottery, index) in lotteryLists"-->
-<!--                        :key="index"-->
-<!--                        :span="12"-->
-<!--                      >-->
-<!--                        <router-link-->
-<!--                          tag="div"-->
-<!--                          :to="`/bet/${lottery.list && lottery.list[0].id}`"-->
-<!--                          @click.native="showSelectLottery = false"-->
-<!--                        >-->
-<!--                          <i></i>-->
-<!--                          {{lottery.name}}-->
-<!--                        </router-link>-->
-<!--                      </el-col>-->
-<!--                    </el-row>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <!--                <div class="select-box">-->
+                <!--                  <div class="box-l">-->
+                <!--                    <span>全部彩种</span>-->
+                <!--                  </div>-->
+                <!--                  <div class="box-r">-->
+                <!--                    <el-row>-->
+                <!--                      <el-col-->
+                <!--                        class="box-r-item"-->
+                <!--                        v-for="(lottery, index) in lotteryLists"-->
+                <!--                        :key="index"-->
+                <!--                        :span="12"-->
+                <!--                      >-->
+                <!--                        <router-link-->
+                <!--                          tag="div"-->
+                <!--                          :to="`/bet/${lottery.list && lottery.list[0].id}`"-->
+                <!--                          @click.native="showSelectLottery = false"-->
+                <!--                        >-->
+                <!--                          <i></i>-->
+                <!--                          {{lottery.name}}-->
+                <!--                        </router-link>-->
+                <!--                      </el-col>-->
+                <!--                    </el-row>-->
+                <!--                  </div>-->
+                <!--                </div>-->
               </div>
             </div>
           </el-col>
@@ -162,11 +160,11 @@
                             v-for="(item, itemIndex) in lottery.list"
                             :key="itemIndex"
                           >
-                            <router-link
-                              :to="`/bet/${item.id}`"
+                            <a
+                              @click="preInto(`/bet/${item.id}`)"
+                              href="javascript:;"
                               class="span wzfw"
-                              tag="a"
-                            >{{item.name}}</router-link>
+                            >{{item.name}}</a>
                           </el-col>
                         </el-row>
                       </el-col>
@@ -234,6 +232,23 @@ export default {
     this.lotteryList()
   },
   methods: {
+    preInto(route) {
+      if (!this.isLogin) {
+        this.$router.push('/login')
+        return
+      } else {
+        this.$router.push(route)
+      }
+    },
+    preIntoSel(route) {
+      this.showSelectLottery = false
+      if (!this.isLogin) {
+        this.$router.push('/login')
+        return
+      } else {
+        this.$router.push(route)
+      }
+    },
     // 刷新用户余额
     refresh() {
       this.loading = true
@@ -336,7 +351,7 @@ export default {
       display: inline-block;
       padding: 0 6px;
       cursor: pointer;
-      font-size:13px;
+      font-size: 13px;
     }
   }
 }
@@ -605,7 +620,7 @@ export default {
     animation: myRotate 1.5s linear infinite;
   }
 }
-.header-line-in{
+.header-line-in {
   color: #909399;
 }
 </style>

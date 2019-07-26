@@ -69,15 +69,6 @@ export default {
       this.showBulletin = false
     }
   },
-  beforeRouteEnter (to, from, next) {
-     next(vm => {
-      if (!vm.isLogin) {
-        next({ path: '/login' })
-      } else {
-        next()
-      }
-    })
-  },
 }
 </script>
 

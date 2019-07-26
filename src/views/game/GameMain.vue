@@ -163,17 +163,7 @@ export default {
       this.$store.dispatch('issueHistory')
       this.mainShow = true
     }
-  },
-  beforeRouteEnter (to, from, next) {
-     next(vm => {
-      if (!vm.isLogin) {
-        next({ path: '/login' })
-      } else {
-        next()
-      }
-    })
-    
-  },
+  }
 }
 </script>
 
