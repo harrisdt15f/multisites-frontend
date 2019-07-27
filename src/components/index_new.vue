@@ -48,7 +48,7 @@
                     <div class="title">
                       <div class="fl">
                         {{item.name}} {{item.method_name}}
-                        <span style="color:#ff7800;">{{Utils.formatTime(item.time, 'HH:MM:SS')}}</span>截止
+                        <span style="color:#ff7800;">{{Utils.formatTime(item.time * 1000, 'HH:MM:SS')}}</span>截止
                       </div>
                       <div class="fr">
                         <a class="btn" href="javascript:;">
@@ -152,7 +152,7 @@
                   </template>
                 </div>
                 <div class="bottom">
-                  <div class="fl" v-if="item.encode_time">{{Utils.formatTime(item.encode_time, 'YYYY-MM-DD HH:MM:SS')}}</div>
+                  <div class="fl" v-if="item.encode_time">{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
                     <a href="javascript:;" class="btn">走势</a>
                     <router-link tag="a" :to="`/bet/${item.lotteries_id}`" class="btn">投注</router-link>

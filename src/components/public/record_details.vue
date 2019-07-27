@@ -34,7 +34,7 @@
                 </td>
                 <td align="right">注单编号：</td>
                 <td>
-                  <span class="value"></span>
+                  <span class="value">{{detailData.serial_number}}</span>
                 </td>
               </tr>
               <tr>
@@ -111,7 +111,7 @@
                 </td>
                 <td align="right">追号编号：</td>
                 <td>
-                  <span class="value"></span>
+                  <span class="value">{{detailData.project_serial_number}}</span>
                 </td>
               </tr>
               <tr>

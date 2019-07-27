@@ -2,13 +2,12 @@
   <section class="login">
     <section class="main">
       <div class="main-container">
-        <div class="l">
-          <img src="../../assets/images/login_bg_l.jpg" width="100%" height="100%">
-        </div>
         <div class="r">
           <div class="r-t">
             <div class="title">
-              <div class="title-l"><img class="logo" src="../../assets/images/new/logo.png" alt=""></div>
+              <div class="title-l">
+                <img class="logo" src="../../assets/images/new/logo.png" alt />
+              </div>
               <div class="title-r">欢迎登录</div>
             </div>
             <el-form class="user-form" :model="user" :rules="userRules" ref="userForm">
@@ -184,7 +183,7 @@ export default {
               color: #d0b085;
               font-size: 42px;
               line-height: 1.5;
-              .logo{
+              .logo {
                 height: 45px;
                 width: auto;
               }
@@ -224,11 +223,11 @@ export default {
           }
         }
       }
-      .r-forget{
+      .r-forget {
         margin: -10px 4px 7px 0;
         font-size: 13px;
       }
-      .r-forget-link:hover{
+      .r-forget-link:hover {
         text-decoration: underline;
       }
     }
@@ -238,7 +237,6 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 298px;
   }
 }
 

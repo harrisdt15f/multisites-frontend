@@ -69,7 +69,7 @@ export default {
       list: [],
       total: 0,
       page: 1,
-      count: 5,
+      page_size: 5,
       loading: false
     }
   },
@@ -84,7 +84,7 @@ export default {
     initData() {
       this.loading = true
       if(this.currentIndex == 0){
-        this.Api.getNotice({ type: 1, count: this.count, page: this.page }).then(({ success, data }) => {
+        this.Api.getNotice({ type: 1, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
           this.loading = false
           if (success) {
             this.total = data.total
@@ -93,7 +93,7 @@ export default {
           }
         })
       } else {
-        this.Api.getNotice({ type: 2, count: this.count, page: this.page }).then(({ success, data }) => {
+        this.Api.getNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
           this.loading = false
           if (success) {
             this.total = data.total
@@ -114,7 +114,7 @@ export default {
       this.currentBullrtin = this.list.filter(val => val.id === id)[0]
     },
     handleSizeChange(val) {
-      this.count = val
+      this.page_size = val
       this.initData()
     },
     handleCurrentChange(val) {

@@ -255,7 +255,16 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
+          if (res.data.lastIssue.open_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
+            } else{
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+            }
+          } else{
+            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+          }
+          
           this.lastIssue = res.data.lastIssue
           let [timer = null] = []
           timer = setInterval(() => {
@@ -277,7 +286,15 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
+          if (res.data.lastIssue.open_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
+            } else{
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+            }
+          } else{
+            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+          }
           this.lastIssue = res.data.lastIssue
         }
       })
@@ -288,7 +305,15 @@ export default {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
+          if (res.data.lastIssue.open_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
+            } else{
+               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+            }
+          } else{
+            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+          }
           this.lastIssue = res.data.lastIssue
           this.issueNum = 0
           if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {

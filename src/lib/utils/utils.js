@@ -100,7 +100,7 @@ let Utils = {
     },
     // obj 传入时间  返回 yyyy-mm-dd
     formatTime (obj, format = 'YYYY-MM-DD') {
-    let date = new Date(obj*1000)
+    let date = new Date(obj)
     let date2 = date.toLocaleDateString().split('/')
     let hours = date.getHours()
     let minutes = date.getMinutes()

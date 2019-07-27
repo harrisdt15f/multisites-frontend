@@ -86,10 +86,18 @@
                     <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
                     <td class="td">
                       <span class="balls">
-                        <i
+                        <template v-if="currentLottery.series_id === 'lotto'">
+                          <i
+                          class="i curr"
+                          v-for="(num, numIndex) in item.code.split(' ')"
+                          :key="numIndex">{{num}}</i>
+                        </template>
+                        <template v-else>
+                          <i
                           class="i curr"
                           v-for="(num, numIndex) in item.code.split('')"
                           :key="numIndex">{{num}}</i>
+                        </template>
                       </span>
                     </td>
                   </tr>

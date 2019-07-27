@@ -247,7 +247,6 @@ import algorithm from '../../lib/algorithm'
 import { isRepeat, isRepeatNum } from '@/utils'
 
 import Lhc from '@/components/game/lhc'
-import { debuglog } from 'util'
 
 export default {
   name: 'game-select',
@@ -1020,6 +1019,24 @@ export default {
               let temp = null
               if (this.Utils.checkIsChinese(number)) {
                 switch (number) {
+                  case '5单0双':
+                    temp = '5'
+                    break
+                  case '4单1双':
+                    temp = '4'
+                    break
+                  case '3单2双':
+                    temp = '3'
+                    break
+                  case '2单3双':
+                    temp = '2'
+                    break
+                  case '1单4双':
+                    temp = '1'
+                    break
+                  case '0单五双':
+                    temp = '0'
+                    break
                   case '龙':
                     temp = '0'
                     break
@@ -1064,7 +1081,8 @@ export default {
             method.method === 'ZZXHZ' ||
             method.method === 'ZZUHZ' ||
             method.method === 'HZXHZ' ||
-            method.method === 'HZUHZ'
+            method.method === 'LTCZW' ||
+            method.method === 'LTDDS'
           ) {
             codes.push(col.join('|'))
           } else {
@@ -1174,18 +1192,21 @@ export default {
       ] = []
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
+        tmp = new Set(
+          (this.inputCodes || '').split(/[,|;]+/).map(item => {
+            return this.Utils.trim(item)
+          })
+        )
         for (const k of tmp) {
-          let temp = k.split(' ')
-          for (const i of temp) {
-            if (
-              isNaN(i) ||
-              parseInt(i) > 11 ||
-              parseInt(i) < 0 ||
-              i.length !== this.currentMethod.number ||
-              temp.length !== this.currentMethod.b64
-            ) {
-              tmp.delete(k)
-            }
+          // 去除重复的组
+          const arr = k.split(/[\s\n]+/)
+
+          if (
+            isRepeat(arr) ||
+            arr.length != this.currentMethod.b64 ||
+            arr.some(val => Number(val) > 11)
+          ) {
+            tmp.delete(k)
           }
         }
       } else {

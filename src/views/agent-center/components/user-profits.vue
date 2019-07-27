@@ -3,17 +3,13 @@
     <div class="filter-container">
       <div class="filter-label">
         用户名:
-        <el-input size="small" style="width: 200px;" class="filter-item"></el-input>
-      </div>
-      <div class="filter-label">
-        用户属性:
-        <el-input size="small" style="width: 200px;" class="filter-item"></el-input>
+        <el-input v-model="listQuery.username" size="small" style="width: 200px;" class="filter-item"></el-input>
       </div>
       <div class="filter-label">
         时间:
         <el-date-picker
           size="small"
-          v-model="time"
+          v-model="gameTime"
           type="datetimerange"
           range-separator="至"
           start-placeholder="开始日期"
@@ -25,164 +21,164 @@
       </div>
     </div>
     <div class="custom-table m-t-25">
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="[userProfits.sum]" style="width: 100%">
         <el-table-column align="center" label="区间合计 >" width="188px">
           <template>
             <span>所以区间合计 ></span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="充值总额">
+        <el-table-column align="center" show-overflow-tooltip label="充值总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.team_deposit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="提现总额">
+        <el-table-column align="center" show-overflow-tooltip label="提现总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_withdrawal }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注总额">
+        <el-table-column align="center" show-overflow-tooltip label="投注总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="派奖总额">
+        <el-table-column align="center" show-overflow-tooltip label="派奖总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_prize }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注返点">
+        <el-table-column align="center"  label="投注返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_bet_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="游戏盈亏">
+        <el-table-column align="center" show-overflow-tooltip label="游戏盈亏">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="下级返点">
+        <el-table-column align="center" show-overflow-tooltip label="下级返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="促销红利">
+        <el-table-column align="center" show-overflow-tooltip label="促销红利">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_dividend }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="净盈亏">
+        <el-table-column align="center" show-overflow-tooltip label="净盈亏">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="custom-table m-t-25">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column align="center" label="区间合计 >" width="188px">
+     <el-table :data="[userProfits.self]" style="width: 100%">
+         <el-table-column align="center" label="用户名" width="188px">
           <template>
-            <span>所以区间合计 ></span>
+            <span>{{userDetail.username}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="充值总额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+        <el-table-column align="center" label="用户属性">
+          <template>
+            <span>自己 ></span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="提现总额">
+        <el-table-column align="center" show-overflow-tooltip label="充值总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_deposit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注总额">
+        <el-table-column align="center" show-overflow-tooltip label="提现总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_withdrawal }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="派奖总额">
+        <el-table-column align="center" show-overflow-tooltip label="投注总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注返点">
+        <el-table-column align="center" show-overflow-tooltip label="派奖总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_prize }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="游戏盈亏">
+        <el-table-column align="center" show-overflow-tooltip label="投注返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_bet_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="下级返点">
+        <el-table-column align="center" show-overflow-tooltip label="游戏盈亏">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="促销红利">
+        <el-table-column align="center" show-overflow-tooltip label="下级返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="净盈亏">
+        <el-table-column align="center" show-overflow-tooltip label="促销红利">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_dividend }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="净盈亏">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
     <div class="line-center">直属下级盈亏明细</div>
-    <div class="custom-table">
-      <el-table :data="tableData" style="width: 100%">
-        <el-table-column align="center" label="区间合计 >" width="188px">
-          <template>
-            <span>所以区间合计 ></span>
+    <div class="custom-table" v-if="userProfits.sum.data && userProfits.sum.data.length">
+      <el-table :data="userProfits.sum.data" style="width: 100%">
+        <el-table-column align="center" show-overflow-tooltip label="充值总额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_deposit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="充值总额">
+        <el-table-column align="center" show-overflow-tooltip label="提现总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <span>{{ scope.row.team_withdrawal }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="提现总额">
+        <el-table-column align="center" show-overflow-tooltip label="投注总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注总额">
+        <el-table-column align="center" show-overflow-tooltip label="派奖总额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_prize }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="派奖总额">
+        <el-table-column align="center"  label="投注返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_bet_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注返点">
+        <el-table-column align="center" show-overflow-tooltip label="游戏盈亏">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="游戏盈亏">
+        <el-table-column align="center" show-overflow-tooltip label="下级返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="下级返点">
+        <el-table-column align="center" show-overflow-tooltip label="促销红利">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_dividend }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="促销红利">
+        <el-table-column align="center" show-overflow-tooltip label="净盈亏">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="净盈亏">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_profit }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -191,11 +187,33 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'UserProfits',
   data() {
+    const date1 = new Date()
+      date1.setDate(1)
+      date1.setHours(0,0,0)
+    const date2 = new Date()
+      date2.setHours(23, 59, 59)
     return {
-      time: '',
+      userProfits:{
+        child:{},
+        self:{},
+        sum:{}
+      },
+      listQuery: {
+        count: 10,
+        page: 1,
+        username: undefined,
+        date_from: undefined,
+        date_to: undefined
+      },
+      gameTime: [
+        new Date(date1),
+        new Date(date2)
+      ],
       tableData: [
         {
           date: '2016-05-02',
@@ -203,6 +221,36 @@ export default {
           address: '0.0000'
         }
       ]
+    }
+  },
+  watch: {
+    gameTime: {
+      handler(newName) {
+        this.listQuery.date_from = this.Utils.formatTime(
+          newName[0],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+        this.listQuery.date_to = this.Utils.formatTime(
+          newName[1],
+          'YYYY-MM-DD HH:MM:SS'
+        )
+      },
+      immediate: true
+    },
+  },
+  computed: {
+    ...mapGetters(['userDetail'])
+  },
+  created () {
+    this.initData()
+  },
+  methods: {
+    initData(){
+      this.Api.getUserProfits(this.listQuery).then(({success, data}) => {
+        if (success) {
+          Object.assign(this.userProfits, data) 
+        }
+      })
     }
   }
 }

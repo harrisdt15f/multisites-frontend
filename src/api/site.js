@@ -43,7 +43,7 @@ export default {
     return this.get('/homepage/lottery-notice-list').then(response =>  response)
   },
   //团队盈亏
-  getUserProfits() {
-    return this.get('/user-agent-center/user-profits').then(response =>  response)
+  getUserProfits(data) {
+    return this.get('/user-agent-center/user-profits', data).then(response =>  response)
   }
 }

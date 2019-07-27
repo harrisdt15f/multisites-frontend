@@ -30,26 +30,7 @@ export default {
     return {
       activeName: 'user-profits'
     }
-  },
-  created () {
-    this.initData()
-  },
-  methods: {
-    initData(){
-      this.Api.getUserProfits().then(({success, data}) => {
-        console.log(data)
-      })
-    }
-  },
-  beforeRouteEnter (to, from, next) {
-     next(vm => {
-      if (!vm.isLogin) {
-        next({ path: '/login' })
-      } else {
-        next()
-      }
-    })
-  },
+  }
 }
 </script>
 

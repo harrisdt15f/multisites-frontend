@@ -96,7 +96,7 @@
               @current-change="handleCurrentChange"
               :current-page="gameListQuery.page"
               :page-sizes="[10,20,30, 50]"
-              :page-size="gameListQuery.count"
+              :page-size="gameListQuery.page_size"
               layout="total, sizes, prev, pager, next"
               :total="gameListTotal"
             ></el-pagination>
@@ -173,7 +173,7 @@
               @current-change="handleTraceCurrentChange"
               :current-page="tracesListQuery.page"
               :page-sizes="[10,20,30, 50]"
-              :page-size="tracesListQuery.count"
+              :page-size="tracesListQuery.page_size"
               layout="total, sizes, prev, pager, next"
               :total="tracesListTotal"
             ></el-pagination>
@@ -209,7 +209,7 @@ export default {
       tracesListLoading: true,
       gameListTotal: null,
       gameListQuery: {
-        count: 10,
+        page_size: 10,
         page: 1,
         lottery_sign: undefined,
         begin_time: undefined,
@@ -218,7 +218,7 @@ export default {
       tracesListTotal: null,
       tracesList: [],
       tracesListQuery: {
-        count: 10,
+        page_size: 10,
         page: 1,
         lottery_sign: undefined,
         method_sign: undefined,
@@ -301,7 +301,7 @@ export default {
       this.getTraceList()
     },
     handleSizeChange(val) {
-      this.gameListQuery.count = val
+      this.gameListQuery.page_size = val
       this.getGameList()
     },
     handleCurrentChange(val) {
@@ -309,7 +309,7 @@ export default {
       this.getGameList()
     },
     handleTraceSizeChange(val) {
-      this.tracesListQuery.count = val
+      this.tracesListQuery.page_size = val
       this.getTraceList()
     },
     handleTraceCurrentChange(val) {

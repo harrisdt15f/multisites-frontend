@@ -6,9 +6,9 @@ import Lottery from './lottery'
 import Player from './player'
 
 export const API = {
-    get(url) {
+    get(url, data) {
         return new Promise((resolve, reject) => {
-            request.get(url).then((res) => {
+            request.get(url, {params: data}).then((res) => {
                 resolve(res)
             }). catch((error) => {
                 reject(error)
