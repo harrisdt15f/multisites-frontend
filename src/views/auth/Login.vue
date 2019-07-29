@@ -58,19 +58,14 @@
         </div>
       </div>
     </section>
-    <Footer class="login-footer"></Footer>
   </section>
 </template>
 
 
 <script>
-import Footer from '../../components/footer_new'
 
 export default {
   name: 'login',
-  components: {
-    Footer
-  },
   data() {
     return {
       loading: false,
@@ -147,15 +142,13 @@ export default {
   position: relative;
   box-sizing: border-box;
   min-height: 100%;
-  padding-bottom: 298px;
-  background: url("../../assets/images/login_bg.jpg") no-repeat center center;
   background-size: cover;
   .main {
     padding: 1px;
     .main-container {
       width: 1200px;
       height: 450px;
-      margin: 142px auto;
+      margin: 100px auto;
       overflow: hidden;
       .l {
         float: left;
@@ -164,9 +157,9 @@ export default {
       }
       .r {
         position: relative;
-        float: right;
         height: 450px;
         width: 420px;
+        margin: 0 auto;
         overflow: hidden;
         box-sizing: border-box;
         background: #fff;
@@ -231,12 +224,6 @@ export default {
         text-decoration: underline;
       }
     }
-  }
-  .login-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
 }
 

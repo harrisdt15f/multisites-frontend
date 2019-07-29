@@ -28,13 +28,13 @@ const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', redirect: '/home' },
-    { path: '/login', name: 'login', component: Login },
     { path: '/register', name: 'register', component: Register },
     {
       path: '/home',
       component: Home,
       children: [
         { path: '', name: 'index', component: Index },
+        { path: '/login', name: 'login', component: Login },
         {
           path: '/bet/:lotterySign',
           name: 'bet',

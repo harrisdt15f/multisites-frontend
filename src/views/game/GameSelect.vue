@@ -1204,7 +1204,7 @@ export default {
           if (
             isRepeat(arr) ||
             arr.length != this.currentMethod.b64 ||
-            arr.some(val => Number(val) > 11)
+            arr.some(val => Number(val) > 11 || Number(val) <= 0)
           ) {
             tmp.delete(k)
           }
@@ -1224,7 +1224,7 @@ export default {
             if (
               isRepeat(arr) ||
               arr.length != this.currentMethod.b64 ||
-              arr.some(val => Number(val) > 11)
+              arr.some(val => Number(val) > 11 || Number(val) <= 0)
             ) {
               tmp.delete(i)
             }
