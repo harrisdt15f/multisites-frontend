@@ -395,6 +395,12 @@
               <template
                 v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'"
               >{{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}}</template>
+              <template
+                v-else-if="scope.row.method_sign === 'LTDDS'">
+                {{
+                  scope.row.bet_number.replace(/ /g,',').replace(/(0)/g,'零单五双').replace(/(1)/g,'一单四双').replace(/(2)/g,'二单三双').replace(/(3)/g,'三单二双').replace(/(4)/g,'四单一双').replace(/(5)/g,'五单零双')
+                }}
+              </template>
               <template v-else>
                 <span>{{scope.row.bet_number.replace(/&/g,',')}}</span>
               </template>

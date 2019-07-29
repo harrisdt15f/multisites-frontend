@@ -1080,14 +1080,19 @@ export default {
             method.method === 'QZUHZ' ||
             method.method === 'ZZXHZ' ||
             method.method === 'ZZUHZ' ||
-            method.method === 'HZXHZ' ||
-            method.method === 'LTCZW' ||
-            method.method === 'LTDDS'
+            method.method === 'HZXHZ' 
           ) {
             codes.push(col.join('|'))
-          } else {
+          } else if (method.method === 'LTDDS') {
+             codes.push(col.join(' '))
+          } else if (method.method === 'LTCZW'){
+            codes.push(col.map(val => {
+              return `0${val}`
+            }).join(' '))
+          }else {
             codes.push(col.join('&'))
           }
+          
         }
         return codes.join('|')
       } else {

@@ -17,7 +17,7 @@
             >{{item}}</span>
           </template>
           <template v-else>
-             <span
+            <span
               class="item"
               v-for="(item, index) in detailData.open_number.split('')"
               :key="index"
@@ -198,16 +198,14 @@
           <div class="title">投注内容：</div>
           <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
         </div>
-        <div style="text-align:center; margin-top:20px;"> 
+        <div style="text-align:center; margin-top:20px;">
           <el-button>终止追号</el-button>
         </div>
         <div class="trace-lists">
           <el-table :data="detailData.trace_lists" style="width: 50%;margin:30px auto">
             <el-table-column align="center" prop="issue" label="奖期" width="180"></el-table-column>
             <el-table-column align="center" label="投注内容" show-overflow-tooltip>
-              <template slot-scope="scope">
-                {{scope.row.bet_number}}
-              </template>
+              <template slot-scope="scope">{{scope.row.bet_number}}</template>
             </el-table-column>
             <el-table-column align="center" prop="times" label="追号倍数"></el-table-column>
             <el-table-column align="center" prop="total_price" label="投注金额	"></el-table-column>
@@ -224,8 +222,8 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="中奖	"></el-table-column>
             <el-table-column align="center" prop="address" label="操作	">
-               <template slot-scope="scope">
-                 <el-button type="text" size="mini">取消本期追号</el-button>
+              <template slot-scope="scope">
+                <el-button type="text" size="mini">取消本期追号</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -275,6 +273,16 @@ export default {
           .replace(/(0)/g, '豹子')
           .replace(/(1)/g, '顺子')
           .replace(/(2)/g, '对子')
+      }
+      if (this.detailData.method_sign === 'LTDDS') {
+        return this.detailData.bet_number
+          .replace(/ /g,',')
+          .replace(/(0)/g, '零单五双')
+          .replace(/(1)/g, '一单四双')
+          .replace(/(2)/g, '二单三双')
+          .replace(/(3)/g, '三单二双')
+          .replace(/(4)/g, '四单一双')
+          .replace(/(5)/g, '五单零双')
       }
       return this.detailData.bet_number.replace(/&/g, ',')
     }
