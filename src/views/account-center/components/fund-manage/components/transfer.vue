@@ -66,6 +66,7 @@
 export default {
   data () {
     return {
+      tableData:'',
       options: [{
           value: '选项1',
           label: '黄金糕'

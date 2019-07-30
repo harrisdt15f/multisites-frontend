@@ -9,10 +9,9 @@
           <i class="fa fa-volume-up ft21 head-notice-img"></i>
           <section class="head-meque">
             <section
-              class="resultMarquee"
-              id="head-meque">
+              class="resultMarquee" id="head-meque">
               <p id="head-meque_text">
-                 中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+                中大奖了！！！奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
               </p>
             </section>
           </section>

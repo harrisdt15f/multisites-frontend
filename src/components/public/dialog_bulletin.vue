@@ -11,12 +11,14 @@
             :span="12"
             class="head-tab"
             :class="{on : currentIndex == 0}"
+            v-if="currentIndex == 0"
           >平台公告</el-col>
           <el-col
             @click.native="handleCurrentIndex(1)"
             :span="12"
             class="head-tab"
             :class="{on : currentIndex == 1}"
+            v-if="currentIndex == 1"
           >站内信</el-col>
         </el-row>
       </div>
@@ -33,7 +35,7 @@
                 v-for="item in list"
                 :key="item.id">
                 <div class="title">{{item.title}}{{item.id}}</div>
-                <div class="date">2019-05-17 18:05:10</div>
+                <div class="date">{{item.created_at}}</div>
               </div>
             </template>
             <div class="pagination">
@@ -48,8 +50,8 @@
             </div>
           </el-col>
           <el-col v-if="currentBullrtin" :span="18" class="nr-r">
-            <div class="title">{{currentBullrtin.title}}</div>
-            <div class="text-centent" v-html="currentBullrtin.content"></div>
+            <div class="title">{{currentBullrtin.message_content.title}}</div>
+            <div class="text-centent" v-html="currentBullrtin.message_content.content"></div>
           </el-col>
         </el-row>
       </div>
@@ -153,6 +155,7 @@ export default {
     }
   }
   .head {
+    background: #000;
     text-align: center;
     font-size: 18px;
     color: #fff;

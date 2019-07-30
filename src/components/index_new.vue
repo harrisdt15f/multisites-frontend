@@ -21,117 +21,83 @@
           <section class="head-notice">
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
-              <section class="resultMarquee" id="head-meque">
-                <p id="head-meque_text">
-                  中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
-                  中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！中大奖了！！！
+              <section @click="openNotice" class="resultMarquee" id="head-meque">
+                <p @click="openNotice" id="head-meque_text">
                   
                 </p>
               </section>
             </section>
           </section>
         </el-col>
-        <el-row>
-          <el-col :span="6">&nbsp;</el-col>
-          <el-col :span="12">
-            <div class="hot-box">
-              <el-tabs class="hot-box-tab" v-model="activeName">
-                <el-tab-pane
-                        v-for="(item, index) in lotteriesList"
-                        :key="index"
-                        :label="item.name"
-                        :name="item.id"
+      </el-row>
+      <el-row>
+        <el-col :span="6">&nbsp;</el-col>
+        <el-col :span="12">
+          <div class="hot-box">
+            <el-tabs class="hot-box-tab" v-model="activeName">
+              <el-tab-pane
+                      v-for="(item, index) in lotteriesList"
+                      :key="index"
+                      :label="item.name"
+                      :name="item.id"
+              >
+                <div
+                        class="hot-box-item"
                 >
-                  <div
-                          class="hot-box-item"
-                  >
-                    <div class="title">
-                      <div class="fl">
-                        {{item.name}} {{item.method_name}}
-                        <span style="color:#ff7800;">{{Utils.formatTime(item.time * 1000, 'HH:MM:SS')}}</span>截止
-                      </div>
-                      <div class="fr">
-                        <a class="btn" href="javascript:;">
-                          <i class="fa fa-line-chart" aria-hidden="true"></i>
-                          走势图
-                        </a>
-                      </div>
+                  <div class="title">
+                    <div class="fl">
+                      {{item.name}} {{item.method_name}}
+                      <span style="color:#ff7800;">{{item.time}}</span>截止
                     </div>
-                    <div class="num">
-                      <ul class="num-list">
-                        <li
-                                class="num-list-item"
-                                :class="{on : items.sign}"
-                                v-for="items in item.code"
-                                :key="items.num"
-                        >{{items.num}}</li>
-                      </ul>
-                      <div class="desc">
-                        <el-input-number
-                                v-model="item.multiple"
-                                class="custom-input-number"
-                                @change="handleChangeMultiple(item)"
-                                :min="1"
-                                :max="10"
-                        ></el-input-number>倍，
-                        共
-                        <span style="color:#ff7800">{{item.totalCost}}</span> 元
-                      </div>
-                    </div>
-                    <div class="btn-group">
-                      <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
-                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                        换一注
+                    <div class="fr">
+                      <a class="btn" href="javascript:;">
+                        <i class="fa fa-line-chart" aria-hidden="true"></i>
+                        走势图
                       </a>
-                      <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
-                      <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                     </div>
                   </div>
-                </el-tab-pane>
-              </el-tabs>
+                  <div class="num">
+                    <ul class="num-list">
+                      <li
+                              class="num-list-item"
+                              :class="{on : items.sign}"
+                              v-for="items in item.code"
+                              :key="items.num"
+                      >{{items.num}}</li>
+                    </ul>
+                    <div class="desc">
+                      <el-input-number
+                              v-model="item.multiple"
+                              class="custom-input-number"
+                              @change="handleChangeMultiple(item)"
+                              :min="1"
+                              :max="10"
+                      ></el-input-number>倍，
+                      共
+                      <span style="color:#ff7800">{{item.totalCost}}</span> 元
+                    </div>
+                  </div>
+                  <div class="btn-group">
+                    <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                      <i class="fa fa-refresh" aria-hidden="true"></i>
+                      换一注
+                    </a>
+                    <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
+                    <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
+                  </div>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="box-qr">
+            <div class="title"></div>
+            <div class="qr" v-if="qrSrc">
+              <img :src="qrSrc" />
             </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="box-qr">
-              <div class="title"></div>
-              <div class="qr" v-if="qrSrc">
-                <img :src="qrSrc" />
-              </div>
-            </div>
-          </el-col>
-   
-         </el-row>
-
-<!--        <el-col :span="6">-->
-<!--          <div class="box-report">-->
-<!--            <div class="report-title">网站公告</div>-->
-<!--            <ul class="report-list">-->
-<!--              <li-->
-<!--                class="report-list-item"-->
-<!--                v-for="(item, index) in notice.data.slice(0, 6)"-->
-<!--                :key="index"-->
-<!--              >-->
-<!--                <a-->
-<!--                  class="wzfw"-->
-<!--                  href="javascript:;"-->
-<!--                  @click="handleOpenDialog(item.id)"-->
-<!--                >{{item.title}}{{item.=id}}</a>-->
-<!--              </li>-->
-<!--              <div class="btn">-->
-<!--                <a href="javascript:;" @click="handleOpenDialog()">-->
-<!--                  查看更多-->
-<!--                  <i class="fa fa-angle-right"></i>-->
-<!--                </a>-->
-<!--              </div>-->
-<!--            </ul>-->
-<!--          </div>-->
-<!--          <div class="box-qr">-->
-<!--            <div class="title"></div>-->
-<!--            <div class="qr" v-if="qrSrc">-->
-<!--              <img :src="qrSrc" />-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </el-col>-->
+          </div>
+        </el-col>
       </el-row>
 
       <el-row style="margin: 5px 0 45px 0">
@@ -146,8 +112,11 @@
                     <span class="time">{{item.issue}}</span>期
                   </div>
                 </div>
-                <div class="middle">
-                  <template v-if="item.official_code">
+                <div class="middle" v-if="item.official_code">
+                  <template v-if="item.series_id === 'lotto'">
+                    <span class="ball" v-for="(item, index) in item.official_code.split(' ')" :key="index">{{item}}</span>
+                  </template>
+                  <template v-else>
                     <span class="ball" v-for="(item, index) in item.official_code.split('')" :key="index">{{item}}</span>
                   </template>
                 </div>
@@ -228,19 +197,22 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import dialogBulletin from '../components/public/dialog_bulletin'
 
 export default {
   name: 'index',
   data() {
     return {
+      currentIssueTimer: null,
       debounce: null,
       lotteriesList: [],
       currentBulletinIndex: null,
       showBulletin: false,
       activeName: '',
-      activeGameName: 'lott'
+      endTime: null,
+      activeGameName: 'lott',
+      timerArr: []
     }
   },
   components: {
@@ -266,8 +238,9 @@ export default {
           return {
             name: val[v].lottery_name,
             id: val[v].lotteries_id,
-            time: val[v].end_time,
+            time: this.Utils.formatSeconds(val[v].end_time - new Date().getTime() / 1000),
             method_name: val[v].method_name,
+            end_time: val[v].end_time,
             method_id: val[v].method_id,
             multiple: 1,
             code: [
@@ -285,6 +258,7 @@ export default {
             totalCost: 2
           }
         })
+        this.times()
         this.lotteriesList = list
         this.activeName = list[0].id
       },
@@ -297,7 +271,11 @@ export default {
     window.addEventListener('scroll', this.debounce)
     this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
+  created () {
+    this.getPopularLotteries2()
+  },
   methods: {
+    ...mapActions(['getPopularLotteries2']),
     preInto(route) {
       if (!this.isLogin) {
         this.$router.push('/login')
@@ -353,9 +331,31 @@ export default {
     },
     handleBulletinClose(val) {
       this.showBulletin = val
+    },
+    openNotice(){
+      this.showBulletin = true
+    },
+    times(){
+      this.timerArr = []
+      this.lotteriesList.forEach(v => {
+        let time = v.end_time - new Date().getTime() / 1000
+        console.log(time)
+        this.timerArr.push(setInterval(() => {
+          time -= 1
+          if (time >= 0) {
+            v.time= this.Utils.formatSeconds(time)
+          } else {
+           this.timerArr.forEach(val => {
+             clearInterval(val)
+           })
+          }
+        }, 1000))
+      })
+      console.log(this.timerArr)
     }
   },
   destroyed() {
+    clearInterval(this.currentIssueTimer)
     window.removeEventListener('scroll', this.debounce)
   }
 }
@@ -970,8 +970,10 @@ export default {
   margin-left: 25px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   height: 35px;
   .resultMarquee {
+    
     white-space: nowrap;
     position: absolute;
     top: 0;

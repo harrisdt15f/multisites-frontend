@@ -29,7 +29,7 @@
                   <span>{{ scope.row.lottery_sign }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="注单编号">
+              <el-table-column align="center" label="期号">
                 <template slot-scope="scope">
                   <el-button
                     type="text"
@@ -198,6 +198,7 @@
 
 <script>
 import recordDetails from '../../../components/public/record_details'
+import { debuglog } from 'util'
 
 export default {
   inject: ['active'],
@@ -270,7 +271,7 @@ export default {
       immediate: true
     }
   },
-  created() {
+  created () {
     this.activeName = this.active ? this.active : 'game'
     this.getGameList()
     this.getTraceList()

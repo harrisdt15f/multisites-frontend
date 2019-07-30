@@ -6,37 +6,30 @@
           <div class="r-t">
             <div class="title">
               <div class="title-l">
-                <img class="logo" src="../../assets/images/new/logo.png" alt />
+                账号密码登录
               </div>
-              <div class="title-r">欢迎登录</div>
+              <div class="title-r">
+                <a>忘记密码？</a>
+              </div>
             </div>
-            <el-form class="user-form" :model="user" :rules="userRules" ref="userForm">
-              <el-form-item prop="username">
-                <el-input placeholder="用户名" v-model="user.username" type="text" required clearable>
-                  <template slot="prepend">
-                    <i class="el-icon-user-solid"></i>
-                  </template>
+            <el-form class="user-form" status-icon :model="user" :rules="userRules" label-width="100px"  ref="userForm">
+              <el-form-item label="用户名" prop="username">
+                <el-input style="width:250px" placeholder="用户名" v-model="user.username" type="text" required clearable>
                 </el-input>
               </el-form-item>
-              <el-form-item prop="password">
+              <el-form-item  label="密码" prop="password">
                 <el-input
+                  style="width:250px"
                   placeholder="密码"
                   v-model="user.password"
                   type="password"
                   required
-                  clearable
-                >
-                  <template slot="prepend">
-                    <i class="el-icon-lock"></i>
-                  </template>
+                  clearable>
                 </el-input>
               </el-form-item>
-              <!-- <el-form-item  label="是否记住密码">
-                <el-checkbox v-model="isRemember.checked"></el-checkbox>
-              </el-form-item>-->
-              <div class="forget">
-                <a href="javascript:;" class="forget-pwd">忘记密码</a>
-              </div>
+              <el-form-item >
+                <el-checkbox v-model="isRemember.checked"></el-checkbox>&nbsp;&nbsp; 是否记住密码
+              </el-form-item>
               <el-form-item>
                 <el-button
                   class="login-btn"
@@ -44,16 +37,9 @@
                   type="primary"
                   @click="submitForm('userForm')"
                 >登陆</el-button>
+                <el-button type="info" style="margin-left: 30px;">注册</el-button>
               </el-form-item>
             </el-form>
-          </div>
-          <div class="r-b">
-            <a href>免费试玩</a>
-            <span style="margin:0 10px; color:#b98f59;">|</span>
-            <router-link class="register" to="/register">
-              <i class="fa fa-angle-right"></i>
-              立即注册
-            </router-link>
           </div>
         </div>
       </div>
@@ -61,9 +47,7 @@
   </section>
 </template>
 
-
 <script>
-
 export default {
   name: 'login',
   data() {
@@ -139,16 +123,14 @@ export default {
 
 <style lang="scss" scoped>
 .login {
-  position: relative;
-  box-sizing: border-box;
-  min-height: 100%;
-  background-size: cover;
   .main {
-    padding: 1px;
     .main-container {
+      box-sizing: border-box;
       width: 1200px;
-      height: 450px;
-      margin: 100px auto;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      background: #fff;
       overflow: hidden;
       .l {
         float: left;
@@ -157,35 +139,34 @@ export default {
       }
       .r {
         position: relative;
-        height: 450px;
-        width: 420px;
         margin: 0 auto;
         overflow: hidden;
         box-sizing: border-box;
         background: #fff;
         position: relative;
         .r-t {
-          padding: 30px 30px 0 30px;
           .title {
+            padding: 10px 0 15px;
+            border-bottom: 1px dashed #ccc;
             overflow: hidden;
             height: auto;
-            margin: 10px 0;
             font-weight: bold;
             .title-l {
               float: left;
-              color: #d0b085;
-              font-size: 42px;
+              color: #ff7800;
+              font-weight: 400;
+              border-bottom: 1px solid #ff7800;
+              font-size: 18px;
               line-height: 1.5;
-              .logo {
-                height: 45px;
-                width: auto;
-              }
             }
             .title-r {
               float: right;
-              font-size: 20px;
-              vertical-align: bottom;
-              margin-top: 20px;
+              a{
+                color: #58b3f6;
+              }
+              cursor: pointer;
+              font-size: 18px;
+              font-weight: 400;
             }
           }
         }
@@ -226,54 +207,23 @@ export default {
     }
   }
 }
-
-.user-form {
-  /deep/ {
-    .el-form-item__content {
-      line-height: 48px;
-      .el-input-group {
-        line-height: 48px;
+.user-form{
+    min-height: 400px;
+    padding: 48px 0 15px 150px;
+    /deep/{
+      .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+        background-color: #ff7800;
+        border-color: #ff7800;
       }
-      .el-input__inner {
-        height: 48px;
-        line-height: 48px;
+      .el-button--primary{
+        background-color: #ff7800;
+        border-color: #ff7800;
       }
-    }
-    .el-input-group__prepend {
-      box-sizing: border-box;
-      padding: 0;
-      border: 0;
-      width: 46px;
-      text-align: center;
-      border-radius: 0;
-      background: #f3eadd;
-      i {
-        color: #ccaa7d;
-        font-size: 18px;
+      .el-button--primary:focus, .el-button--primary:hover{
+          background: #ff7800;
+          border-color: #ff7800;
+          color: #FFF;
       }
     }
-    .login-btn {
-      font-size: 18px;
-      border-radius: 0;
-      width: 100%;
-      background-color: #d0b085;
-      border-color: #d0b085;
-      &:hover {
-        background-color: lighten(#d0b085, 2%);
-        border-color: lighten(#d0b085, 2%);
-      }
-    }
-  }
-}
-.forget {
-  text-align: right;
-  margin-top: -7px;
-  margin-bottom: 10px;
-  .forget-pwd {
-    color: #000;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 </style>

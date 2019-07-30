@@ -134,7 +134,7 @@
       </el-table>
     </div>
     <div class="line-center">直属下级盈亏明细</div>
-    <div class="custom-table" v-if="userProfits.sum.data && userProfits.sum.data.length">
+    <div class="custom-table">
       <el-table :data="userProfits.sum.data" style="width: 100%">
         <el-table-column align="center" show-overflow-tooltip label="充值总额">
           <template slot-scope="scope">

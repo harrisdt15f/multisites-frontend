@@ -185,7 +185,7 @@
                 <router-link class="nav-col" tag="span" to="/user-trends">走势图标</router-link>
               </el-col>
               <el-col :span="3">
-                <router-link class="nav-col" tag="span" to="/agent-center">代理中心</router-link>
+                <span class="nav-col" @click="preInto(`/agent-center`)" >代理中心</span>
               </el-col>
             </el-row>
           </el-col>
@@ -359,14 +359,18 @@ export default {
   height: 75px;
   overflow: hidden;
   .logo-img {
-    height: 60px;
+    height: 45px;
     width: auto;
     float: left;
-    margin-top: 7px;
+    margin-top: 10px;
   }
   .login-form {
     float: right;
     /deep/ {
+      .el-form-item__error{
+        padding-top: 0;
+        text-indent: 2px;
+      }
       .el-form-item {
         margin-top: 18px;
       }

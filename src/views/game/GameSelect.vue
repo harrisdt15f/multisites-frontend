@@ -1084,11 +1084,12 @@ export default {
           ) {
             codes.push(col.join('|'))
           } else if (method.method === 'LTDDS') {
-             codes.push(col.join(' '))
+             codes.push(col.join(' ').trim())
           } else if (method.method === 'LTCZW'){
             codes.push(col.map(val => {
               return `0${val}`
             }).join(' '))
+           
           }else {
             codes.push(col.join('&'))
           }

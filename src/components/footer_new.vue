@@ -199,7 +199,7 @@ export default {
   font-weight: bold;
   img {
     width: auto;
-    height: 80px;
+    height: 65px;
     display: flex;
   }
 }
@@ -268,7 +268,7 @@ export default {
       border-radius: 5px;
       width: 250px;
       height: 10px;
-      background: linear-gradient(90deg, #f2bd4c, #f17100);
+      background: linear-gradient(90deg, #67c23a73, #67c23a);
       &.withdrawal {
         background: linear-gradient(90deg, #905ae0, #5449aa);
       }

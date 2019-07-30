@@ -1,13 +1,13 @@
 <template>
   <div class="bet-record sub-account">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="充值" name="recharge">
+      <el-tab-pane label="充值" :lazy="true" name="recharge">
         <recharge></recharge>
       </el-tab-pane>
-      <el-tab-pane label="提款" name="withdrawal">
+      <el-tab-pane label="提款" :lazy="true" name="withdrawal">
         <withdrawal></withdrawal> 
       </el-tab-pane>
-      <el-tab-pane label="额度转换" name="transfer">
+      <el-tab-pane label="额度转换" :lazy="true" name="transfer">
         <transfer></transfer>
       </el-tab-pane>
     </el-tabs>

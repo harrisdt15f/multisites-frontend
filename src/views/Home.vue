@@ -33,8 +33,8 @@ export default {
           data['customer.service'] ? '' : null
           data['winning.ranking'] ? this.getRanking() : null
           data['notice'] ? this.getNotice() : null
-          data['popularLotteries.one'] ? this.getPopularLotteries1() : null
-          data['popularLotteries.two'] ? this.getPopularLotteries2() : null
+          data['popular.lotteries.one'] ? this.getPopularLotteries1() : null
+          // data['popularLotteries.two'] ? this.getPopularLotteries2() : null
           data['activity'] ? this.getActivity() : null
           this.getLotteryNotice()
         }
