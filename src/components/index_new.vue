@@ -20,7 +20,7 @@
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
-                <p @click="openNotice" id="head-meque_text" v-html="notice.data[0].message_content.content">
+                <p @click="openNotice" v-if="notice.data.length" id="head-meque_text" v-html="notice.data[0].message_content.content">
                 </p>
               </section>
             </section>
