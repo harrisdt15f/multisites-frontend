@@ -108,7 +108,7 @@
                     v-for="(item, index) in popularLotteries1"
                     :key="index"
                     class="w">
-                    <img class="select-grou-img" :src="item.pic_path" />
+                    <img class="select-grou-img" :src="item.icon_path" />
                     <div class="name">{{item.cn_name}}</div>
                     <div class="issue">全天{{item.day_issue}}期</div>
                   </li>

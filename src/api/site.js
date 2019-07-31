@@ -41,9 +41,5 @@ export default {
   //开奖公告
   lotteryNoticeList() {
     return this.get('/homepage/lottery-notice-list').then(response =>  response)
-  },
-  //团队盈亏
-  getUserProfits(data) {
-    return this.get('/user-agent-center/user-profits', data).then(response =>  response)
   }
 }

@@ -3,7 +3,6 @@
     <div class="w">
       <el-row class="index-top">
         <el-col :span="6">&nbsp;</el-col>
-        
         <el-col :span="18">
           <div class="carousel-img" v-if="showBanner">
             <el-carousel :interval="5000" arrow="always">
@@ -17,13 +16,11 @@
               </el-carousel-item>
             </el-carousel>
           </div>
-  
           <section class="head-notice">
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
-                <p @click="openNotice" id="head-meque_text">
-                  
+                <p @click="openNotice" id="head-meque_text" v-html="notice.data[0].message_content.content">
                 </p>
               </section>
             </section>
@@ -36,18 +33,15 @@
           <div class="hot-box">
             <el-tabs class="hot-box-tab" v-model="activeName">
               <el-tab-pane
-                      v-for="(item, index) in lotteriesList"
-                      :key="index"
-                      :label="item.name"
-                      :name="item.id"
-              >
-                <div
-                        class="hot-box-item"
-                >
+                v-for="(item, index) in lotteriesList"
+                :key="index"
+                :label="item.name"
+                :name="item.id">
+                <div class="hot-box-item">
                   <div class="title">
                     <div class="fl">
                       {{item.name}} {{item.method_name}}
-                      <span style="color:#ff7800;">{{item.time}}</span>截止
+                      <span style="color:#ff7800;">{{timeArr[index]}}</span>截止
                     </div>
                     <div class="fr">
                       <a class="btn" href="javascript:;">
@@ -59,19 +53,19 @@
                   <div class="num">
                     <ul class="num-list">
                       <li
-                              class="num-list-item"
-                              :class="{on : items.sign}"
-                              v-for="items in item.code"
-                              :key="items.num"
+                        class="num-list-item"
+                        :class="{on : items.sign}"
+                        v-for="items in item.code"
+                        :key="items.num"
                       >{{items.num}}</li>
                     </ul>
                     <div class="desc">
                       <el-input-number
-                              v-model="item.multiple"
-                              class="custom-input-number"
-                              @change="handleChangeMultiple(item)"
-                              :min="1"
-                              :max="10"
+                        v-model="item.multiple"
+                        class="custom-input-number"
+                        @change="handleChangeMultiple(item)"
+                        :min="1"
+                        :max="10"
                       ></el-input-number>倍，
                       共
                       <span style="color:#ff7800">{{item.totalCost}}</span> 元
@@ -82,7 +76,7 @@
                       <i class="fa fa-refresh" aria-hidden="true"></i>
                       换一注
                     </a>
-                    <router-link tag="a" :to="`/bet/${item.id}`" class="btn-item">手动选号</router-link>
+                    <a href="javascript:;" @click="preInto(`/bet/${item.id}`)" class="btn-item">手动选号</a>
                     <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
                   </div>
                 </div>
@@ -114,17 +108,28 @@
                 </div>
                 <div class="middle" v-if="item.official_code">
                   <template v-if="item.series_id === 'lotto'">
-                    <span class="ball" v-for="(item, index) in item.official_code.split(' ')" :key="index">{{item}}</span>
+                    <span
+                      class="ball"
+                      v-for="(item, index) in item.official_code.split(' ')"
+                      :key="index"
+                    >{{item}}</span>
                   </template>
                   <template v-else>
-                    <span class="ball" v-for="(item, index) in item.official_code.split('')" :key="index">{{item}}</span>
+                    <span
+                      class="ball"
+                      v-for="(item, index) in item.official_code.split('')"
+                      :key="index"
+                    >{{item}}</span>
                   </template>
                 </div>
                 <div class="bottom">
-                  <div class="fl" v-if="item.encode_time">{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
+                  <div
+                    class="fl"
+                    v-if="item.encode_time"
+                  >{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
                     <a href="javascript:;" class="btn">走势</a>
-                    <router-link tag="a" :to="`/bet/${item.lotteries_id}`" class="btn">投注</router-link>
+                    <a href="javascript:;" @click="preInto(`/bet/${item.lotteries_id}`)" class="btn">投注</a>
                   </div>
                 </div>
               </div>
@@ -137,16 +142,16 @@
               <el-tabs v-model="activeGameName">
                 <el-tab-pane label="彩票" name="lott">
                   <el-row :gutter="8" class="tab-lott">
-                    <el-col :span="12" v-for="item in 6" :key="item">
+                    <el-col :span="12" v-for="(item, index) in popularLotteries1" :key="index">
                       <div class="lott-item-warp">
                         <div class="lott-item">
-                          <img class="img" src="../assets/images/lott-img.png" />
+                          <img class="img" :src="item.icon_path" />
                           <div class="lott-r">
                             <div class="title">
-                              龙虎斗
-                              <br />经典棋牌对战
+                              {{item.cn_name}}
+                              <br />经典彩票游戏
                             </div>
-                            <div class="btn">进入游戏</div>
+                            <div @click="preInto(`/bet/${item.en_name}`)" class="btn">进入游戏</div>
                           </div>
                         </div>
                       </div>
@@ -179,7 +184,7 @@
       </el-row>
     </div>
     <!-- 悬浮 -->
-    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">   
+    <div class="float-layer" ref="floatLayer" v-if="showSideFloat">
       <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
@@ -212,7 +217,9 @@ export default {
       activeName: '',
       endTime: null,
       activeGameName: 'lott',
-      timerArr: []
+      timer: [],
+      timeArr: ['-- : -- : --', '-- : -- : --'],
+      timerContainer: []
     }
   },
   components: {
@@ -220,6 +227,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'isLogin',
       'banner',
       'qrSrc',
       'notice',
@@ -234,11 +242,11 @@ export default {
   watch: {
     popularLotteries2: {
       handler(val) {
-        const list = Object.keys(val).map(v => {
+        const list = Object.keys(val).map((v, i) => {
+          this.timer[i] = val[v].end_time - new Date().getTime() / 1000
           return {
             name: val[v].lottery_name,
             id: val[v].lotteries_id,
-            time: this.Utils.formatSeconds(val[v].end_time - new Date().getTime() / 1000),
             method_name: val[v].method_name,
             end_time: val[v].end_time,
             method_id: val[v].method_id,
@@ -258,7 +266,6 @@ export default {
             totalCost: 2
           }
         })
-        this.times()
         this.lotteriesList = list
         this.activeName = list[0].id
       },
@@ -271,11 +278,16 @@ export default {
     window.addEventListener('scroll', this.debounce)
     this.Animation.notice('head-meque', 'head-meque_text', -1)
   },
-  created () {
-    this.getPopularLotteries2()
+  created() {
+    this.initData()
   },
   methods: {
     ...mapActions(['getPopularLotteries2']),
+    initData(){
+      this.getPopularLotteries2().then(() => {
+        this.times()
+      })
+    },
     preInto(route) {
       if (!this.isLogin) {
         this.$router.push('/login')
@@ -290,6 +302,7 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop
       const floatLayer = this.$refs.floatLayer
+      if(!floatLayer) return
       if (scrollTop > 400) {
         floatLayer.style.top = '28%'
       } else if (scrollTop < 1790) {
@@ -332,30 +345,35 @@ export default {
     handleBulletinClose(val) {
       this.showBulletin = val
     },
-    openNotice(){
+    openNotice() {
       this.showBulletin = true
     },
-    times(){
-      this.timerArr = []
-      this.lotteriesList.forEach(v => {
-        let time = v.end_time - new Date().getTime() / 1000
-        console.log(time)
-        this.timerArr.push(setInterval(() => {
-          time -= 1
-          if (time >= 0) {
-            v.time= this.Utils.formatSeconds(time)
-          } else {
-           this.timerArr.forEach(val => {
-             clearInterval(val)
-           })
-          }
-        }, 1000))
-      })
-      console.log(this.timerArr)
+    times() {
+      this.timerContainer = []
+      if(this.timer.length){
+        this.timer.forEach((v, i) => {
+          this.timerContainer[i] = setInterval(() => {
+            // 计算 倒计时
+            v -= 1
+            if (v >= 0) {
+              this.$set(this.timeArr, i, this.Utils.formatSeconds(v))
+            } else {
+              this.timerContainer.forEach(setIn => {
+                clearInterval(setIn)
+              })
+              this.$nextTick(() => {
+                this.initData()
+              })
+            }
+          }, 1000)
+        })
+      }
     }
   },
   destroyed() {
-    clearInterval(this.currentIssueTimer)
+    this.timerContainer.forEach(setIn => {
+      clearInterval(setIn)
+    })
     window.removeEventListener('scroll', this.debounce)
   }
 }
@@ -678,7 +696,7 @@ export default {
     top: -5px;
   }
   .close:hover {
-    color: #F9780B;
+    color: #f9780b;
   }
 }
 .hot-box-tab {
@@ -951,13 +969,13 @@ export default {
     .zjxx-r {
       float: left;
       .cost {
-        color: #F9780B;
+        color: #f9780b;
       }
     }
   }
 }
-.head-notice{
-  margin: 8px 0 ;
+.head-notice {
+  margin: 8px 0;
   background: rgb(255, 253, 233);
 }
 .head-notice-img {
@@ -973,7 +991,6 @@ export default {
   cursor: pointer;
   height: 35px;
   .resultMarquee {
-    
     white-space: nowrap;
     position: absolute;
     top: 0;
@@ -982,8 +999,8 @@ export default {
 }
 #head-meque {
   position: relative;
-  left:6px;
-  height:34px;
+  left: 6px;
+  height: 34px;
   overflow: hidden;
 }
 #head-meque_text {

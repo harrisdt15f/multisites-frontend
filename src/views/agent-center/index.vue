@@ -4,6 +4,9 @@
       <el-tab-pane label="团队盈亏" :lazy="true" name="user-profits">
         <user-profits></user-profits>
       </el-tab-pane>
+       <el-tab-pane label="日工资报表" :lazy="true" name="user-daysalary">
+        <user-daysalary></user-daysalary>
+      </el-tab-pane>
       <el-tab-pane label="团队管理" :lazy="true" name="user-manage">
         <user-manage></user-manage>
       </el-tab-pane>
@@ -18,6 +21,7 @@
 import userProfits from './components/user-profits'
 import userManage from './components/user-manage'
 import accurateCreate from './components/accurate-create'
+import userDaysalary from './components/user-daysalary'
 
 export default {
   name: 'agentCenter',
@@ -25,6 +29,7 @@ export default {
     userProfits,
     userManage,
     accurateCreate,
+    userDaysalary
   },
   data() {
     return {

@@ -4,6 +4,7 @@ import Site from './site'
 import User from './user'
 import Lottery from './lottery'
 import Player from './player'
+import Agent from './agent'
 
 export const API = {
     get(url, data) {
@@ -28,5 +29,6 @@ export const API = {
     ...Site,
     ...User,
     ...Lottery,
-    ...Player
+    ...Player,
+    ...Agent
 }
