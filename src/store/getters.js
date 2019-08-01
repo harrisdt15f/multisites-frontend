@@ -14,6 +14,8 @@ const getters = {
   showSideFloat: state => state.site.showSideFloat,
   ranking: state => state.site.ranking,
   lotteryNoticeList: state => state.site.lotteryNoticeList,
+  popularChess: state => state.site.popularChess,
+  popularEgame: state => state.site.popularEgame,
   // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,

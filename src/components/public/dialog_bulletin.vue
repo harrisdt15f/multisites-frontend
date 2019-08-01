@@ -31,9 +31,10 @@
             <template v-if="list && list.length">
               <div
                 class="nr-l-item"
-                @click="handleTabBulletin(item.id)"
+                @click="handleTabBulletin(item, item.id)"
                 v-for="item in list"
                 :key="item.id">
+                <div v-if="!item.status" class="message-circle"></div>
                 <div class="title">{{item.title}}{{item.id}}</div>
                 <div class="date">{{item.created_at}}</div>
               </div>
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'dialog_bulletin',
   data() {
@@ -83,6 +84,7 @@ export default {
     this.initData()
   },
   methods: {
+    ...mapActions(['getPopularLotteries2']),
     initData() {
       this.loading = true
       if(this.currentIndex == 0){
@@ -112,7 +114,14 @@ export default {
       this.currentIndex = num
       this.initData()
     },
-    handleTabBulletin(id) {
+    handleTabBulletin(item, id) {
+      if (!item.status) {
+        this.Api.lotteryRedMessage({id: id}).then(({success}) => {
+          if (success) {
+            item.status = 1
+          }
+        })
+      }
       this.currentBullrtin = this.list.filter(val => val.id === id)[0]
     },
     handleSizeChange(val) {
@@ -192,6 +201,16 @@ export default {
         line-height: 1.5;
         padding: 10px 15px;
         border-bottom: 1px dotted #dadada;
+        position: relative;
+        .message-circle{
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #C82834;
+          position: absolute;
+          left: 3px;
+          top: 8px;
+        }
         &:hover {
           background: #f0f2f3;
         }
