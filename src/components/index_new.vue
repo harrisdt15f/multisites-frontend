@@ -146,13 +146,16 @@
                       <el-col :span="12" v-for="(item, index) in popularLotteries1.slice(0,6)" :key="index">
                         <div class="lott-item-warp">
                           <div class="lott-item">
-                            <img class="img" :src="item.icon_path" />
-                            <div class="lott-r">
+                            <section>
+                              <img class="img dinv" :src="item.icon_path" />
                               <div class="title">
-                                {{item.cn_name}}
-                                <br />经典彩票游戏
+                                {{item.cn_name}}<br />经典彩票游戏
                               </div>
-                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">进入游戏</div>
+                            </section>
+                            <div class="lott-r fw w100">
+                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">号码走势</div>
+                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">玩法规则</div>
+                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">立即投注</div>
                             </div>
                           </div>
                         </div>
@@ -164,7 +167,7 @@
                   <el-row :gutter="8" class="tab-lott">
                     <el-col :span="12" v-for="(item, index) in popularChess" :key="index">
                       <div class="lott-item-warp">
-                        <div class="lott-item">
+                        <div class="lott-item lott-item-game">
                           <img class="img" :src="item.icon" />
                           <div class="lott-r">
                             <div class="title">
@@ -182,12 +185,12 @@
                   <el-row :gutter="8" class="tab-lott">
                     <el-col :span="12" v-for="(item, index) in popularEgame" :key="index">
                       <div class="lott-item-warp">
-                        <div class="lott-item">
+                        <div class="lott-item lott-item-game">
                           <img class="img" :src="item.icon" />
                           <div class="lott-r">
                             <div class="title">
                               {{item.name}}
-                              <br />经典棋牌游戏
+                              <br />经典电子游艺
                             </div>
                             <div class="btn">进入游戏</div>
                           </div>
@@ -947,7 +950,40 @@ export default {
     border: 1px solid #e2e2e2;
     margin-bottom: 15px;
   }
-  .lott-item {
+  .lott-item,
+  .lott-item-game{
+    overflow: hidden;
+    border: 4px solid #f2f2f2;
+    padding-top: 15px;
+    .img {
+      margin:0 15px 10px;
+    }
+    .title{
+      display: inline-block;
+      vertical-align: sub;
+    }
+    .lott-r {
+      border-top:2px solid #f2f2f2;
+      background:#e6e6e6;
+      .btn {
+        float:left;
+        cursor: pointer;
+        text-align: center;
+        color: #4893e3;
+        width: 33.33%;
+        line-height: 38px;
+        font-size:12px;
+        border-right:1px solid #f2f2f2;
+        box-sizing: border-box;
+      }
+      .btn:nth-of-type(3){
+        font-size:14px;
+        border-right:none;
+        color: #333;
+      }
+    }
+  }
+  .lott-item-game {
     overflow: hidden;
     border: 4px solid #f2f2f2;
     padding: 15px;
@@ -955,8 +991,13 @@ export default {
       float: left;
       width: 120px;
     }
+    .title{
+      display: block;
+    }
     .lott-r {
+      border-top:none;
       float: right;
+      background:none;
       .btn {
         cursor: pointer;
         background: #ff7800;

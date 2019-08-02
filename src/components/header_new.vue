@@ -98,7 +98,7 @@
               </div>
               <div
                 class="sub-select"
-                v-show="$route.path.indexOf('/home') != -1 || showSelectLottery"
+                v-show="$route.path.indexOf('/home') !== -1 || showSelectLottery"
                 v-if="popularLotteries1.length"
               >
                 <ul class="select-grou">
@@ -142,7 +142,6 @@
           </el-col>
           <el-col :span="18">
             <el-row>
-              <el-col :span="3">&nbsp;</el-col>
               <el-col :span="3">
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
               </el-col>
@@ -229,7 +228,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('lotteryAll')
-    this.lotteryList()
+    this.lotteryList();
   },
   methods: {
     preInto(route) {
@@ -428,6 +427,8 @@ export default {
   }
 }
 .sub-select {
+  overflow: hidden;
+  height: 658px;
   position: absolute;
   z-index: 999;
   top: 48px;
@@ -443,8 +444,10 @@ export default {
   font-size: 14px;
   min-height: 658px;
   & > li {
+    height: 60px;
+    overflow: hidden;
     box-sizing: border-box;
-    padding: 5px 15px;
+    padding: 2px 15px 0;
     border-bottom: 1px solid #e2e2e2;
     cursor: pointer;
     &:hover {
