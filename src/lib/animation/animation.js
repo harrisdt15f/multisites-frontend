@@ -38,12 +38,46 @@ let animation = {
         }
     },
     // 滚动公告  notice('meque', 'meque_text', -1)
+    // #head-meque {
+    //   position: relative;
+    //   left: 6px;
+    //   height: 34px;
+    //   overflow: hidden;
+    // }
+    // #head-meque_text {
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   white-space: nowrap;
+    //   cursor: pointer;
+    //   line-height: 35px;
+    // }
+    // .meque_text_content{
+    //     float:left;
+    //     min-width:60px;
+    //     padding-right:25px;
+    //   }
+
     notice (meques, text, speed) {
         let [
             mequeText = document.getElementById(text),
             meque = document.getElementById(meques),
             timer = null
         ] = []
+        if (mequeText.children && mequeText.children.length > 0) {
+            let children = mequeText.children
+            let width = 0;
+            for (let i = 0; i < children.length; i++) {
+                width += parseInt(this.getStyle(children[i], 'width'))
+            }
+            if (parseInt(this.getStyle(children[0], 'paddingRight')) > 0) {
+
+                mequeText.style.width = (parseInt(this.getStyle(children[0], 'paddingRight')) * children.length) + width + 'px'
+            } else if (parseInt(this.getStyle(children[0], 'marginRight')) > 0) {
+
+                mequeText.style.width = (parseInt(this.getStyle(children[0], 'marginRight')) * children.length) + width + 'px'
+            }
+        }
         if (parseInt(this.getStyle(mequeText, 'width')) < parseInt(this.getStyle(meque, 'width'))) {
             return false
         }
