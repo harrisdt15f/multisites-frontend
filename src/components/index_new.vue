@@ -592,9 +592,9 @@ export default {
           color: #fff;
           line-height: 30px;
           border-radius: 50%;
-          background: #fb9f46;
+          background: #f5d5b5;
           &.on {
-            background: #ff7800;
+            background: #f37616;
           }
         }
       }
