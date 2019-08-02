@@ -137,6 +137,7 @@ export default {
 .personal-info {
   /deep/ {
     .el-input.is-disabled .el-input__inner {
+      padding: 5px 3px;
       background-color: #fff;
       border-color: #fff;
       color: #606266;
@@ -145,6 +146,12 @@ export default {
       background-color: #fff;
       border-color: #fff;
       color: #606266;
+    }
+    .el-form-item__label{
+      padding:0;
+    }
+    .el-textarea__inner{
+      padding: 5px 3px;
     }
   }
 }

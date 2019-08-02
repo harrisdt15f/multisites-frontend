@@ -142,6 +142,7 @@
           </el-col>
           <el-col :span="18">
             <el-row>
+              <el-col :span="3">&nbsp;</el-col>
               <el-col :span="3">
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
               </el-col>
@@ -264,7 +265,7 @@ export default {
         this.Api.logout().then(res => {
           const { success } = res
           if (success) {
-            this.$message({ message: '退出成功！', type: 'success' })
+            // this.$message({ message: '退出成功！', type: 'success' })
             this.$store.commit('SET_TOKEN', '')
             this.$store.commit('SET_USER_DETAIL', {})
             removeToken()
@@ -554,16 +555,16 @@ export default {
       .nav-menu {
         .span {
           box-sizing: border-box;
-          background: #f3f3f3;
-          color: #9d9d9d;
+          background: #ff9b00;
+          color: #fff;
           display: block;
           text-align: center;
           margin-bottom: 8px;
           font-size: 14px;
           padding: 8px 5px;
+          border-radius: 3px;
           &:hover {
-            background: #ff9b00;
-            color: #fffefe;
+            background: #ff7501;
           }
           &.router-link-active {
             background: #ff9b00;

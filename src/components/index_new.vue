@@ -1022,12 +1022,12 @@ export default {
     }
     .lott-r {
       border-top:2px solid #f2f2f2;
-      background:#e6e6e6;
+      background:#f7f7f7;
       .btn {
         float:left;
         cursor: pointer;
         text-align: center;
-        color: #4893e3;
+        color: #ff7800;
         width: 33.33%;
         line-height: 38px;
         font-size:12px;
