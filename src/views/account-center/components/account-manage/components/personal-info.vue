@@ -105,6 +105,7 @@ export default {
       this.Api.resetSpecificInfos(this.form).then(({ data, success }) => {
         if (success) {
           this.isBtn = 'edit'
+          this.isDisabled = true
           this.initData()
         }
       })
