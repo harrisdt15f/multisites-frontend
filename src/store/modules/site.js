@@ -38,13 +38,13 @@ const mutations = {
   },
   SET_POPULAR_CHESS: (state, data) => {
     data.forEach(val => {
-      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon}`
+      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon.substring(1)}`
     })
     state.popularChess = data
   },
   SET_POPULAR_EGAME: (state, data) => {
     data.forEach(val => {
-      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon}`
+      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon.substring(1)}`
     })
     state.popularEgame = data
   },
@@ -67,6 +67,9 @@ const mutations = {
     state.notice = data
   },
   SET_RANKING(state, data) {
+    data.forEach(val => {
+      val.user_icon = `${process.env.VUE_APP_API_URL}/${val.user_icon.substring(1)}`
+    })
     state.ranking = data
   },
 }

@@ -20,7 +20,17 @@
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
-                <p @click="openNotice" v-if="notice.data.length" id="head-meque_text" v-html="notice.data[0].message_content.content">
+<!--                <p @click="openNotice" v-if="notice.data.length" id="head-meque_text" v-html="notice.data[0].message_content.content"></p>-->
+                <p @click="openNotice"
+                   v-if="notice.data.length"
+                   id="head-meque_text">
+                    <span
+                      class="meque_text_content"
+                      :key="index"
+                      v-for="(item, index) in noticeList"
+                    >
+                       {{item.content}}
+                    </span>
                 </p>
               </section>
             </section>
@@ -41,7 +51,7 @@
                   <div class="title">
                     <div class="fl">
                       {{item.name}} {{item.method_name}}
-                      <span style="color:#ff7800;">{{timeArr[index]}}</span>截止
+                      <span style="color:#ff7800;">{{timeArr[index]}}</span> 截止
                     </div>
                     <div class="fr">
                       <a class="btn" href="javascript:;">
@@ -205,14 +215,14 @@
         </el-col>
         <el-col :span="6">
           <div class="zjxx">
-            <div class="title">中奖信息</div>
+            <div class="title">中奖排行榜</div>
             <div class="zjxx-group" id="lottery-wins-boxs">
               <div id="lottery-wins-lists" class="zjxx-group-lists">
                 <div class="zjxx-item" v-for="(item, index) in ranking" :key="index">
-                  <img class="img" src="../assets/images/Avatar.png" />
-                  <div class="zjxx-r">
+                  <img class="img" :src="item.user_icon" />
+                  <div class="zjxx-r wzfw">
                     {{item.username}}
-                    <br />喜中十一选五
+                    <br />喜中{{item.lottery_sign}}
                     <span class="cost">{{item.bonus}}元</span>
                   </div>
                 </div>
@@ -258,7 +268,10 @@ export default {
       activeGameName: 'lott',
       timer: [],
       timeArr: ['-- : -- : --', '-- : -- : --'],
-      timerContainer: []
+      timerContainer: [],
+      
+      // 公告内容
+      noticeList: []
     }
   },
   components: {
@@ -311,19 +324,37 @@ export default {
         this.activeName = list[0].id
       },
       immediate: true
+    },
+    'noticeList': {
+      handler () {
+        // console.log(document.getElementById('meque_text_content')[0].style.width)
+      }
     }
   },
   mounted() {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
     this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
-    this.Animation.notice('head-meque', 'head-meque_text', -1)
+    this.noticehandler()
   },
   created() {
     this.initData()
   },
   methods: {
     ...mapActions(['getPopularLotteries2']),
+    // 处理公告内容
+    noticehandler() {
+      for (const k of this.notice.data) {
+        let json = {}
+        json['content'] = k['message_content']['title']
+        json['id'] = k['message_content']['id']
+        this.noticeList.push(json)
+      }
+      
+      setTimeout(() => {
+        this.Animation.notice('head-meque', 'head-meque_text', -1)
+      }, 10)
+    },
     initData(){
       this.getPopularLotteries2().then(() => {
         this.times()
@@ -744,7 +775,7 @@ export default {
   background-color: #fff;
   /deep/ {
     .el-tabs__header {
-      margin: 0 0 10px;
+      margin: 0 0 12px;
     }
     .el-tabs__active-bar {
       display: none;
@@ -855,15 +886,15 @@ export default {
   box-sizing: border-box;
   background: #fff;
   border: 1px solid #e2e2e2;
-  min-height: 611px;
+  min-height: 579px;
   .title {
     font-size: 16px;
-    height: 42px;
-    line-height: 42px;
+    height: 49px;
+    line-height: 49px;
     padding: 0 15px;
   }
   .kigg-item {
-    padding: 10px;
+    padding: 14px 10px;
     font-size: 16px;
     border-top: 1px solid #efefef;
     .top {
@@ -906,7 +937,7 @@ export default {
     width: 100%;
     border: 1px solid #e2e2e2;
     background-color: #fff;
-    min-height: 611px;
+    min-height: 579px;
   }
   /deep/ {
     .el-tabs__nav {
@@ -986,12 +1017,15 @@ export default {
   .lott-item-game {
     overflow: hidden;
     border: 4px solid #f2f2f2;
-    padding: 15px;
+    padding: 12px 15px;
     .img {
       float: left;
-      width: 120px;
+      width: 110px;
+      border-radius: 5px;
+      margin:0;
     }
     .title{
+      padding-top: 11px;
       display: block;
     }
     .lott-r {
@@ -1013,15 +1047,15 @@ export default {
 }
 .zjxx {
   box-sizing: border-box;
-  height: 611px;
+  height: 579px;
   overflow: hidden;
   background: #fff;
   border: 1px solid #e2e2e2;
   .title {
     border-bottom: 1px solid #e2e2e2;
     font-size: 16px;
-    height: 42px;
-    line-height: 42px;
+    height: 49px;
+    line-height: 49px;
     padding: 0 15px;
   }
 }
@@ -1044,8 +1078,12 @@ export default {
     .img {
       float: left;
       margin-right: 10px;
+      width:50px;
+      height:50px;
+      border-radius:50%;
     }
     .zjxx-r {
+      width:76%;
       float: left;
       .cost {
         color: #f9780b;
@@ -1090,4 +1128,9 @@ export default {
   cursor: pointer;
   line-height: 35px;
 }
+  .meque_text_content{
+    float:left;
+    min-width:333px;
+    padding-right:25px;
+  }
 </style>
