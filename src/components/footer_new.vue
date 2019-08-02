@@ -23,7 +23,7 @@
               <i class="i"></i>
               
               <span class="span">
-               <countTo :startVal='depositTime.startVal' :endVal='depositTime.endVal' :duration='3000'></countTo>  
+               <countTo :startVal='depositTime.startVal' :endVal='depositTime.endVal' :duration='5000'></countTo>  
               </span> 秒
             </span>
           </div>
@@ -32,7 +32,7 @@
             <div class="time-box-desc">
               <i class="withdrawal i"></i>
               <span class="span">
-              <countTo :startVal='withdrawalTime.startVal' :endVal='withdrawalTime.endVal' :duration='3000'></countTo>  
+              <countTo :startVal='withdrawalTime.startVal' :endVal='withdrawalTime.endVal' :duration='5000'></countTo>  
               </span>秒
             </div>
           </div>

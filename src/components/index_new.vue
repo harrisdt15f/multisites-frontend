@@ -21,7 +21,7 @@
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
                 <p @click="openNotice"
-                   v-if="notice.data.length"
+                   v-if="notice.data && notice.data.length"
                    id="head-meque_text">
                     <span
                       class="meque_text_content"
@@ -139,7 +139,7 @@
                     v-if="item.encode_time"
                   >{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
-                    <a href="javascript:;" class="btn">走势</a>
+                    <router-link tag="a" :to="`/user-trends`" class="btn">走势</router-link>
                     <a href="javascript:;" @click="preInto(`/bet/${item.lotteries_id}`)" class="btn">投注</a>
                   </div>
                 </div>
@@ -164,7 +164,7 @@
                               </div>
                             </section>
                             <div class="lott-r fw w100">
-                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">号码走势</div>
+                              <router-link tag="div" :to="`/user-trends`" class="btn">号码走势</router-link>
                               <!-- <div @click="preInto(`/bet/${item.en_name}`)" class="btn">玩法规则</div> -->
                               <div @click="preInto(`/bet/${item.en_name}`)" class="btn">立即投注</div>
                             </div>
@@ -327,17 +327,22 @@ export default {
       },
       immediate: true
     },
-    'noticeList': {
+    'notice': {
       handler () {
-        // console.log(document.getElementById('meque_text_content')[0].style.width)
-      }
+        this.noticehandler()
+      },
+      immediate: true
+    },
+    'ranking': {
+      handler () {
+        this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+      },
+      immediate: true
     }
   },
   mounted() {
-    this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
     this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
-    this.noticehandler()
   },
   created() {
     this.initData()
@@ -346,7 +351,7 @@ export default {
     ...mapActions(['getPopularLotteries2']),
     // 处理公告内容
     noticehandler() {
-      for (const k of this.notice.data) {
+      for (const k of this.notice['data']) {
         let json = {}
         json['content'] = k['title']
         json['id'] = k['id']
@@ -1043,7 +1048,7 @@ export default {
         cursor: pointer;
         text-align: center;
         color: #ff7800;
-        width: 33.33%;
+        width: 50%;
         line-height: 38px;
         font-size:12px;
         border-right:1px solid #f2f2f2;
@@ -1078,7 +1083,7 @@ export default {
         cursor: pointer;
         background: #ff7800;
         text-align: center;
-        color: #fff;
+        color: #fff !important;
         width: 84px;
         line-height: 30px;
         margin-top: 22px;

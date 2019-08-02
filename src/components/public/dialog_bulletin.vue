@@ -1,6 +1,6 @@
 <template>
   <div class="dialog-bulletin">
-    <el-dialog :visible.sync="dialogVisible" @closed="$emit('close')" width="765px">
+    <el-dialog :class="{mail: currentIndex == 1}" :visible.sync="dialogVisible" @closed="$emit('close')" width="765px">
       <div class="close" @click="$emit('close')">
         <i class="fa fa-times" aria-hidden="true"></i>
       </div>
@@ -42,8 +42,8 @@
             </div>
           </el-col>
           <el-col v-if="currentBullrtin" :span="18" class="nr-r">
-            <div class="title">{{currentIndex == 1 ? currentBullrtin['message_content']['title'] : currentBullrtin.title}}</div>
-            <div class="text-centent" v-html="currentIndex == 1 ? currentBullrtin['message_content']['content'] :  currentBullrtin['content']"></div>
+            <div class="title">{{ currentBullrtin.title}}</div>
+            <div class="text-centent" v-html="currentBullrtin['content']"></div>
           </el-col>
         </el-row>
       </div>
@@ -157,6 +157,11 @@ export default {
     .el-dialog__body {
       padding: 0;
     }
+    .mail{
+      .el-dialog {
+        height:510px;
+      }
+    }
   }
   position: relative;
   .close {
@@ -189,7 +194,6 @@ export default {
     }
   }
   .content {
-    min-height: 605px;
     .banner {
       width: 100%;
       height: 145px;
