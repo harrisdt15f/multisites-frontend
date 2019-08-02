@@ -9,17 +9,8 @@
           <el-col
             @click.native="handleCurrentIndex(0)"
             :span="24"
-            class="head-tab"
-            :class="{on : currentIndex == 0}"
-            v-if="currentIndex == 0"
+            class="head-tab on"
           >{{currentIndex == 1 ? '站内信' : '平台公告'}}</el-col>
-<!--          <el-col-->
-<!--            @click.native="handleCurrentIndex(1)"-->
-<!--            :span="12"-->
-<!--            class="head-tab"-->
-<!--            :class="{on : currentIndex == 1}"-->
-<!--            v-if="currentIndex == 1"-->
-<!--          >站内信</el-col>-->
         </el-row>
       </div>
       <div class="content" v-loading="loading" >
@@ -34,9 +25,9 @@
                 @click="handleTabBulletin(item, item.id)"
                 v-for="item in list"
                 :key="item.id">
-                <div v-if="!item.status" class="message-circle"></div>
-                <div class="title">{{item.message_content.title}}</div>
-                <div class="date">{{item.created_at}}</div>
+                <div v-if="currentIndex == 1 && !item.status" class="message-circle"></div>
+                <div class="title">{{currentIndex == 1 ? item['message_content']['title'] : item['title']}}</div>
+                <div class="date">{{item['created_at']}}</div>
               </div>
             </template>
             <div class="pagination">
@@ -51,8 +42,8 @@
             </div>
           </el-col>
           <el-col v-if="currentBullrtin" :span="18" class="nr-r">
-            <div class="title">{{currentBullrtin.message_content.title}}</div>
-            <div class="text-centent" v-html="currentBullrtin.message_content.content"></div>
+            <div class="title">{{currentIndex == 1 ? currentBullrtin['message_content']['title'] : currentBullrtin.title}}</div>
+            <div class="text-centent" v-html="currentIndex == 1 ? currentBullrtin['message_content']['content'] :  currentBullrtin['content']"></div>
           </el-col>
         </el-row>
       </div>
@@ -93,10 +84,10 @@ export default {
           if (success) {
             this.total = data.total
             for (const k of data['data']) {
-              k['message_content']['content'] = this.Utils.setImg(k['message_content']['content'], 'add')
+              k['content'] = this.Utils.setImg(k['content'], 'add')
             }
             this.list = data.data
-            this.currentBullrtin = this.currentBulletinIndex ? (this.list.filter(val => val.id === this.currentBulletinIndex))[0] : this.list[0]
+            this.currentBullrtin = this.currentBulletinIndex ? (this['list'].filter(val => val.id === this.currentBulletinIndex))[0] : this.list[0]
           }
         })
       } else {
@@ -104,12 +95,14 @@ export default {
           this.loading = false
           if (success) {
             this.total = data.total
+            for (const k of data['data']) {
+              k['message_content']['content'] = this.Utils.setImg(k['message_content']['content'], 'add')
+            }
             this.list = data.data
-            this.currentBullrtin = this.list[0]
+            this.currentBullrtin = this.list[0]['message_content']
           }
         })
       }
-      
     },
     handleCurrentIndex(num){
       this.list = []
@@ -118,14 +111,18 @@ export default {
       this.initData()
     },
     handleTabBulletin(item, id) {
-      if (!item.status) {
-        this.Api.lotteryRedMessage({id: id}).then(({success}) => {
-          if (success) {
-            item.status = 1
-          }
-        })
+      if (this.currentIndex == 1) {
+        if (!item.status) {
+          this.Api.lotteryRedMessage({id: id}).then(({success}) => {
+            if (success) {
+              item.status = 1
+            }
+          })
+        }
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0]['message_content']
+      }else{
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0]
       }
-      this.currentBullrtin = this.list.filter(val => val.id === id)[0]
     },
     handleSizeChange(val) {
       this.page_size = val
@@ -234,7 +231,9 @@ export default {
         }
       }
       .nr-r {
-        padding: 0 10px 30px;
+        padding: 0 10px;
+        height: 460px;
+        overflow: auto;
         .title {
           font-size: 18px;
           font-weight: bold;

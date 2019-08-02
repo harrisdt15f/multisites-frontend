@@ -20,7 +20,6 @@
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
-<!--                <p @click="openNotice" v-if="notice.data.length" id="head-meque_text" v-html="notice.data[0].message_content.content"></p>-->
                 <p @click="openNotice"
                    v-if="notice.data.length"
                    id="head-meque_text">
@@ -349,8 +348,8 @@ export default {
     noticehandler() {
       for (const k of this.notice.data) {
         let json = {}
-        json['content'] = k['message_content']['title']
-        json['id'] = k['message_content']['id']
+        json['content'] = k['title']
+        json['id'] = k['id']
         this.noticeList.push(json)
       }
       
