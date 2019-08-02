@@ -46,11 +46,11 @@
                 v-for="(item, index) in lotteriesList"
                 :key="index"
                 :label="item.name"
-                :name="item.id">
+                :name="String(index)">
                 <div class="hot-box-item">
                   <div class="title">
                     <div class="fl">
-                      {{item.name}} {{item.method_name}}
+                      {{item.method_name}} &nbsp;
                       <span style="color:#ff7800;">{{timeArr[index]}}</span> 截止
                     </div>
                     <div class="fr">
@@ -166,7 +166,7 @@
                             </section>
                             <div class="lott-r fw w100">
                               <div @click="preInto(`/bet/${item.en_name}`)" class="btn">号码走势</div>
-                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">玩法规则</div>
+                              <!-- <div @click="preInto(`/bet/${item.en_name}`)" class="btn">玩法规则</div> -->
                               <div @click="preInto(`/bet/${item.en_name}`)" class="btn">立即投注</div>
                             </div>
                           </div>
@@ -266,13 +266,12 @@ export default {
       lotteriesList: [],
       currentBulletinIndex: null,
       showBulletin: false,
-      activeName: '',
+      activeName: 0,
       endTime: null,
       activeGameName: 'lott',
       timer: [],
       timeArr: ['-- : -- : --', '-- : -- : --'],
       timerContainer: [],
-      
       // 公告内容
       noticeList: []
     }
@@ -308,6 +307,7 @@ export default {
             method_name: val[v].method_name,
             end_time: val[v].end_time,
             method_id: val[v].method_id,
+            method_group: val[v].method_group,
             multiple: 1,
             code: [
               { num: 0, sign: true },
@@ -325,7 +325,6 @@ export default {
           }
         })
         this.lotteriesList = list
-        this.activeName = list[0].id
       },
       immediate: true
     },
@@ -404,6 +403,10 @@ export default {
       this.$set(item, 'totalCost', item.multiple * 10)
     },
     immediateBet(item) {
+      if (!this.isLogin) {
+        this.$router.push('/login')
+        return
+      }
       const code = [],
             bet = []
       item.code.forEach(v => {
@@ -414,17 +417,30 @@ export default {
         price: 2,
         count: 5,
         prize_group: 1980,
+        method_group: item.method_group,
+        method_name: item.name,
+        times: item.multiple,
+        codes: code.join('&'),
+        method_id: item.method_id,
         cost: item.totalCost.toFixed(3)
       })
       this.betBtnLoading = true
       this.Api.bet(
-        
         item.id,
         {[item.issue]:1},
         bet,
         item.totalCost.toFixed(3),
       ).then(res => {
         this.betBtnLoading = false
+        if (res.success) {
+          this.$alert(
+            '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+            '提示',
+            {
+              confirmButtonText: '确定'
+            }
+          )
+        }
       })
     },
     goToBannerUrl(url) {
@@ -1034,7 +1050,7 @@ export default {
         border-right:1px solid #f2f2f2;
         box-sizing: border-box;
       }
-      .btn:nth-of-type(3){
+      .btn:nth-of-type(2){
         font-size:14px;
         border-right:none;
         color: #333;

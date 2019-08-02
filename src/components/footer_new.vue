@@ -21,14 +21,19 @@
             <div class="time-box-title">存款 到账平均时间</div>
             <span class="time-box-desc">
               <i class="i"></i>
-              <span class="span">10</span>秒
+              
+              <span class="span">
+               <countTo :startVal='depositTime.startVal' :endVal='depositTime.endVal' :duration='3000'></countTo>  
+              </span> 秒
             </span>
           </div>
           <div class="time-box">
             <div class="time-box-title">取款 到账平均时间</div>
             <div class="time-box-desc">
               <i class="withdrawal i"></i>
-              <span class="span">50</span>秒
+              <span class="span">
+              <countTo :startVal='withdrawalTime.startVal' :endVal='withdrawalTime.endVal' :duration='3000'></countTo>  
+              </span>秒
             </div>
           </div>
         </div>
@@ -128,7 +133,15 @@ export default {
             require('../assets/images/new/header/_0000_weixin.png') +
             ') no-repeat '
         }
-      ]
+      ],
+      withdrawalTime: {
+        startVal: 0,
+        endVal: 50
+      },
+      depositTime: {
+        startVal: 0,
+        endVal: 10
+      }
     }
   },
   watch: {
