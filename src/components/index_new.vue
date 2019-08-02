@@ -76,7 +76,9 @@
                         @change="handleChangeMultiple(item)"
                         :min="1"
                         :max="10"
-                      ></el-input-number>倍，
+                      ></el-input-number>倍,
+                      <span style="color:#ff7800">5</span>注
+                      &nbsp;
                       共
                       <span style="color:#ff7800">{{item.totalCost}}</span> 元
                     </div>
@@ -87,7 +89,7 @@
                       换一注
                     </a>
                     <a href="javascript:;" @click="preInto(`/bet/${item.id}`)" class="btn-item">手动选号</a>
-                    <a href="javascript:;" @click="immediateBet(item)" class="btn-item bet">立即投注</a>
+                    <el-button type="primary" :loading="betBtnLoading" @click="immediateBet(item)"  class="btn-item bet">立即投注</el-button>
                   </div>
                 </div>
               </el-tab-pane>
@@ -258,6 +260,7 @@ export default {
   name: 'index',
   data() {
     return {
+      betBtnLoading: false,
       currentIssueTimer: null,
       debounce: null,
       lotteriesList: [],
@@ -297,10 +300,11 @@ export default {
     popularLotteries2: {
       handler(val) {
         const list = Object.keys(val).map((v, i) => {
-          this.timer[i] = val[v].end_time - new Date().getTime() / 1000
+          if (val[v].end_time) this.timer[i] = val[v].end_time - new Date().getTime() / 1000
           return {
             name: val[v].lottery_name,
             id: val[v].lotteries_id,
+            issue: val[v].issue,
             method_name: val[v].method_name,
             end_time: val[v].end_time,
             method_id: val[v].method_id,
@@ -317,7 +321,7 @@ export default {
               { num: 8, sign: true },
               { num: 9, sign: false }
             ],
-            totalCost: 2
+            totalCost: 10.00
           }
         })
         this.lotteriesList = list
@@ -397,12 +401,30 @@ export default {
       })
     },
     handleChangeMultiple(item) {
-      this.$set(item, 'totalCost', item.multiple * 2)
+      this.$set(item, 'totalCost', item.multiple * 10)
     },
     immediateBet(item) {
-      const code = []
+      const code = [],
+            bet = []
       item.code.forEach(v => {
         v.sign ? code.push(v.num) : null
+      })
+      bet.push({
+        mode: 1,
+        price: 2,
+        count: 5,
+        prize_group: 1980,
+        cost: item.totalCost.toFixed(3)
+      })
+      this.betBtnLoading = true
+      this.Api.bet(
+        
+        item.id,
+        {[item.issue]:1},
+        bet,
+        item.totalCost.toFixed(3),
+      ).then(res => {
+        this.betBtnLoading = false
       })
     },
     goToBannerUrl(url) {
@@ -704,6 +726,11 @@ export default {
         background: transparent;
         border: 1px solid #ff7800;
         color: red;
+      }
+      /deep/{
+        .el-button{
+          padding: 0;
+        }
       }
     }
   }

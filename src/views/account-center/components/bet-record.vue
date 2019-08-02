@@ -23,7 +23,7 @@
               </el-select>
             </el-input>
             状态：
-            <el-select size="mini" clearable style="width:160px;" v-model="gameListQuery.status" placeholder="请选择">
+            <el-select size="mini"  style="width:160px;" v-model="gameListQuery.status" placeholder="请选择">
               <el-option 
                 label="所有状态" 
                 value="*"></el-option>
@@ -35,7 +35,7 @@
             </el-select>
             <br>
              游戏名称：
-            <el-select size="mini" clearable style="width:160px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
+            <el-select size="mini"  style="width:160px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
               <el-option 
                 label="所有游戏" 
                 value="*"></el-option>
@@ -146,12 +146,45 @@
           <div class="filter-container">
             游戏时间：
             <el-date-picker
+              style="width: 340px; margin-bottom:10px;"
+              size="mini"
               v-model="tracesTime"
               type="datetimerange"
+              :picker-options="pickerOptions"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
+              :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
+            <el-input @change="tracesListInputChange" style="width:250px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="tracesValueSelect" class="input-with-select">
+              <el-select @change="tracesListSelectChange" style="width:80px;" v-model="tracesTypeSelect" slot="prepend" placeholder="请选择">
+                <el-option label="订单号" value="project_serial_number"></el-option>
+                <el-option label="奖期号" value="issue"></el-option>
+              </el-select>
+            </el-input>
+            状态：
+            <el-select size="mini"  style="width:160px;" v-model="tracesListQuery.status" placeholder="请选择">
+              <el-option 
+                label="所有状态" 
+                value="*"></el-option>
+              <el-option 
+                v-for="(item, index) in statusOption" 
+                :key="index"
+                :label="item.label" 
+                :value="item.value"></el-option>
+            </el-select>
+            <br>
+             游戏名称：
+            <el-select size="mini"  style="width:160px;" v-model="tracesListQuery.lottery_sign" placeholder="请选择">
+              <el-option 
+                label="所有游戏" 
+                value="*"></el-option>
+              <el-option 
+                v-for="(item, index) in lotteryAll" 
+                :key="index"
+                :label="item.lottery.cn_name" 
+                :value="item.lottery.en_name"></el-option>
+            </el-select>
             <div class="bmn-search-button" style="margin-left:20px;">
               <input @click="searchTraces" type="submit" value="搜 索" class="btn" />
             </div>
@@ -265,6 +298,8 @@ export default {
       statusOption,
       typeSelect: 'serial_number',
       valueSelect: '',
+      tracesTypeSelect: 'project_serial_number',
+      tracesValueSelect: '',
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -302,8 +337,7 @@ export default {
       gameListQuery: {
         page_size: 10,
         page: 1,
-        begin_time: undefined,
-        end_time: undefined,
+        time_condtions: [],
         status: '*',
         lottery_sign: '*',
         serial_number: '',
@@ -314,11 +348,11 @@ export default {
       tracesListQuery: {
         page_size: 10,
         page: 1,
-        lottery_sign: undefined,
-        method_sign: undefined,
-        start_time: undefined,
-        end_time: undefined,
-        project_id: undefined
+        time_condtions: [],
+        status: '*',
+        lottery_sign: '*',
+        project_serial_number: '',
+        issue: ''
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
@@ -338,27 +372,35 @@ export default {
   watch: {
     gameTime: {
       handler(newName) {
-        this.gameListQuery.begin_time = this.Utils.formatTime(
-          newName[0],
-          'YYYY-MM-DD HH:MM:SS'
-        )
-        this.gameListQuery.end_time = this.Utils.formatTime(
-          newName[1],
-          'YYYY-MM-DD HH:MM:SS'
-        )
+        const time_condtions = []
+        time_condtions.push([
+          'created_at',
+          '>=',
+          this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+        ]) 
+        time_condtions.push([
+          'created_at',
+          '<=',
+          this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+        ]) 
+        this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
       },
       immediate: true
     },
     tracesTime: {
       handler(newName) {
-        this.tracesListQuery.begin_time = this.Utils.formatTime(
-          newName[0],
-          'YYYY-MM-DD HH:MM:SS'
-        )
-        this.tracesListQuery.end_time = this.Utils.formatTime(
-          newName[1],
-          'YYYY-MM-DD HH:MM:SS'
-        )
+        const time_condtions = []
+        time_condtions.push([
+          'created_at',
+          '>=',
+          this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+        ]) 
+        time_condtions.push([
+          'created_at',
+          '<=',
+          this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+        ]) 
+        this.tracesListQuery.time_condtions = JSON.stringify(time_condtions)
       },
       immediate: true
     },
@@ -379,6 +421,18 @@ export default {
       } else if (v === 'issue'){
         this.gameListQuery.issue = this.valueSelect
         this.gameListQuery.serial_number = ''
+      }
+    },
+    tracesListInputChange(v){
+      this.tracesListQuery[this.tracesTypeSelect] = v
+    },
+    tracesListSelectChange(v){
+      if (v === 'serial_number'){
+        this.tracesListQuery.project_serial_number = this.tracesValueSelect
+        this.tracesListQuery.issue = ''
+      } else if (v === 'issue'){
+        this.tracesListQuery.issue = this.tracesValueSelect
+        this.tracesListQuery.project_serial_number = ''
       }
     },
     getGameList() {
