@@ -8,23 +8,23 @@
         <el-row>
           <el-col
             @click.native="handleCurrentIndex(0)"
-            :span="12"
+            :span="24"
             class="head-tab"
             :class="{on : currentIndex == 0}"
             v-if="currentIndex == 0"
-          >平台公告</el-col>
-          <el-col
-            @click.native="handleCurrentIndex(1)"
-            :span="12"
-            class="head-tab"
-            :class="{on : currentIndex == 1}"
-            v-if="currentIndex == 1"
-          >站内信</el-col>
+          >{{currentIndex == 1 ? '站内信' : '平台公告'}}</el-col>
+<!--          <el-col-->
+<!--            @click.native="handleCurrentIndex(1)"-->
+<!--            :span="12"-->
+<!--            class="head-tab"-->
+<!--            :class="{on : currentIndex == 1}"-->
+<!--            v-if="currentIndex == 1"-->
+<!--          >站内信</el-col>-->
         </el-row>
       </div>
       <div class="content" v-loading="loading" >
         <div class="banner" v-if="currentIndex == 0">
-          <img src="../../assets/images/bulletin_img.jpg" />
+          <img src="../../assets/images/bulletin_img.jpg" class="w100"/>
         </div>
         <el-row class="nr" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-col :span="6" class="nr-l">
@@ -35,7 +35,7 @@
                 v-for="item in list"
                 :key="item.id">
                 <div v-if="!item.status" class="message-circle"></div>
-                <div class="title">{{item.title}}{{item.id}}</div>
+                <div class="title">{{item.message_content.title}}</div>
                 <div class="date">{{item.created_at}}</div>
               </div>
             </template>
@@ -92,6 +92,9 @@ export default {
           this.loading = false
           if (success) {
             this.total = data.total
+            for (const k of data['data']) {
+              k['message_content']['content'] = this.Utils.setImg(k['message_content']['content'], 'add')
+            }
             this.list = data.data
             this.currentBullrtin = this.currentBulletinIndex ? (this.list.filter(val => val.id === this.currentBulletinIndex))[0] : this.list[0]
           }
@@ -140,7 +143,16 @@ export default {
 .dialog-bulletin {
   /deep/ {
     .el-dialog {
-      margin-top: 5vh !important;
+      position:absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+      margin: auto !important;
+      width:800px !important;
+      height:650px;
+      border-radius: 5px;
+      overflow: auto;
     }
     .el-dialog__header {
       display: none;
@@ -174,13 +186,13 @@ export default {
       cursor: pointer;
       background: #292624;
       &.on {
-        background: #febb57;
+        background: #ff9b00;
         color: #000;
       }
     }
   }
   .content {
-    min-height: 450px;
+    min-height: 605px;
     .banner {
       width: 100%;
       height: 145px;
@@ -189,6 +201,7 @@ export default {
     .nr {
       color: #000;
       .nr-l {
+        height: 460px;
         font-size: 14px;
         border-right: 1px solid #dadada;
         .pagination {
@@ -221,7 +234,7 @@ export default {
         }
       }
       .nr-r {
-        padding: 0 30px 30px;
+        padding: 0 10px 30px;
         .title {
           font-size: 18px;
           font-weight: bold;
@@ -234,6 +247,10 @@ export default {
           p {
             padding-bottom: 15px;
             text-indent: 2em;
+          }
+          /deep/ img{
+            width:auto !important;
+            max-width:95%;
           }
         }
       }

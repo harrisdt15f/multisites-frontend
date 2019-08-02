@@ -2,7 +2,7 @@
   <div class="header-wrapper">
     <div class="header-toptray">
       <div class="container w fw">
-        <div class="toptray-left">您好，欢迎光临包网彩票 官方平台！</div>
+        <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
