@@ -6,13 +6,45 @@
           <div class="filter-container">
             游戏时间：
             <el-date-picker
+              style="width: 340px; margin-bottom:10px;"
+              size="mini"
               v-model="gameTime"
               type="datetimerange"
+              :picker-options="pickerOptions"
               range-separator="至"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
+            <el-input @change="gameListInputChange" style="width:250px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="valueSelect" class="input-with-select">
+              <el-select @change="gameListSelectChange" style="width:80px;" v-model="typeSelect" slot="prepend" placeholder="请选择">
+                <el-option label="订单号" value="serial_number"></el-option>
+                <el-option label="奖期号" value="issue"></el-option>
+              </el-select>
+            </el-input>
+            状态：
+            <el-select size="mini" clearable style="width:160px;" v-model="gameListQuery.status" placeholder="请选择">
+              <el-option 
+                label="所有状态" 
+                value="*"></el-option>
+              <el-option 
+                v-for="(item, index) in statusOption" 
+                :key="index"
+                :label="item.label" 
+                :value="item.value"></el-option>
+            </el-select>
+            <br>
+             游戏名称：
+            <el-select size="mini" clearable style="width:160px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
+              <el-option 
+                label="所有游戏" 
+                value="*"></el-option>
+              <el-option 
+                v-for="(item, index) in lotteryAll" 
+                :key="index"
+                :label="item.lottery.cn_name" 
+                :value="item.lottery.en_name"></el-option>
+            </el-select>
             <div class="bmn-search-button" style="margin-left:20px;">
               <input @click="searchGame" type="submit" value="搜 索" class="btn" />
             </div>
@@ -26,16 +58,16 @@
               </el-table-column>
               <el-table-column align="center" label="游戏">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.lottery_sign }}</span>
+                  <span>{{ lotteryAll[scope.row.lottery_sign].lottery.cn_name }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="期号">
+              <el-table-column align="center" show-overflow-tooltip label="订单号">
                 <template slot-scope="scope">
                   <el-button
                     type="text"
                     size="mini"
                     @click="handleDetail(scope.row)"
-                  >{{ scope.row.issue }}</el-button>
+                  >{{ scope.row.serial_number }}</el-button>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖期">
@@ -128,7 +160,7 @@
             <el-table :data="tracesList" v-loading="tracesListLoading" style="width: 100%">
               <el-table-column align="center" show-overflow-tooltip label="彩种">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.lottery_sign }}</span>
+                  <span>{{ lotteryAll[scope.row.lottery_sign].lottery.cn_name }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" show-overflow-tooltip label="玩法">
@@ -197,8 +229,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import recordDetails from '../../../components/public/record_details'
-import { debuglog } from 'util'
 
 export default {
   inject: ['active'],
@@ -207,7 +239,59 @@ export default {
   },
   data() {
     const date = new Date()
+    const statusOption = [
+      {
+        value: 0,
+        label: '已投注'
+      },
+      {
+        value: 1,
+        label: '已撤销'
+      },
+      {
+        value: 2,
+        label: '未中奖'
+      },
+      {
+        value: 3,
+        label: '已中奖 '
+      },
+      {
+        value: 4,
+        label: '已派奖'
+      },
+    ]
     return {
+      statusOption,
+      typeSelect: 'serial_number',
+      valueSelect: '',
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
       detailData: null,
       dialogVisible: false,
       activeName: 'game',
@@ -218,9 +302,12 @@ export default {
       gameListQuery: {
         page_size: 10,
         page: 1,
-        lottery_sign: undefined,
         begin_time: undefined,
-        end_time: undefined
+        end_time: undefined,
+        status: '*',
+        lottery_sign: '*',
+        serial_number: '',
+        issue: ''
       },
       tracesListTotal: null,
       tracesList: [],
@@ -242,6 +329,11 @@ export default {
         new Date(date.setHours(23, 59, 59))
       ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      'lotteryAll'
+    ])
   },
   watch: {
     gameTime: {
@@ -269,7 +361,7 @@ export default {
         )
       },
       immediate: true
-    }
+    },
   },
   created () {
     this.activeName = this.active ? this.active : 'game'
@@ -277,6 +369,18 @@ export default {
     this.getTraceList()
   },
   methods: {
+    gameListInputChange(v){
+      this.gameListQuery[this.typeSelect] = v
+    },
+    gameListSelectChange(v){
+      if (v === 'serial_number'){
+        this.gameListQuery.serial_number = this.valueSelect
+        this.gameListQuery.issue = ''
+      } else if (v === 'issue'){
+        this.gameListQuery.issue = this.valueSelect
+        this.gameListQuery.serial_number = ''
+      }
+    },
     getGameList() {
       this.listLoading = true
       this.Api.getBetGameRecord(this.gameListQuery).then(res => {
@@ -338,6 +442,11 @@ export default {
 .bet-record {
   .container {
     padding: 0 35px 35px;
+  }
+  /deep/{
+    .el-input--mini .el-input__inner{
+      height: 28px;
+    }
   }
 }
 </style>

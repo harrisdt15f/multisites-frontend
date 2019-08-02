@@ -142,24 +142,60 @@
               <el-tabs v-model="activeGameName">
                 <el-tab-pane label="彩票" name="lott">
                   <el-row :gutter="8" class="tab-lott">
-                    <el-col :span="12" v-for="(item, index) in popularLotteries1" :key="index">
+                    <template v-if="popularLotteries1.length">
+                      <el-col :span="12" v-for="(item, index) in popularLotteries1.slice(0,6)" :key="index">
+                        <div class="lott-item-warp">
+                          <div class="lott-item">
+                            <img class="img" :src="item.icon_path" />
+                            <div class="lott-r">
+                              <div class="title">
+                                {{item.cn_name}}
+                                <br />经典彩票游戏
+                              </div>
+                              <div @click="preInto(`/bet/${item.en_name}`)" class="btn">进入游戏</div>
+                            </div>
+                          </div>
+                        </div>
+                      </el-col>
+                    </template>
+                  </el-row>
+                </el-tab-pane>
+                <el-tab-pane label="棋牌" name="chess">
+                  <el-row :gutter="8" class="tab-lott">
+                    <el-col :span="12" v-for="(item, index) in popularChess" :key="index">
                       <div class="lott-item-warp">
                         <div class="lott-item">
-                          <img class="img" :src="item.icon_path" />
+                          <img class="img" :src="item.icon" />
                           <div class="lott-r">
                             <div class="title">
-                              {{item.cn_name}}
-                              <br />经典彩票游戏
+                              {{item.name}}
+                              <br />经典棋牌游戏
                             </div>
-                            <div @click="preInto(`/bet/${item.en_name}`)" class="btn">进入游戏</div>
+                            <div class="btn">进入游戏</div>
                           </div>
                         </div>
                       </div>
                     </el-col>
                   </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="棋牌" name="chess">配置管理</el-tab-pane>
-                <el-tab-pane label="电子" name="electron">角色管理</el-tab-pane>
+                <el-tab-pane label="电子" name="electron">
+                  <el-row :gutter="8" class="tab-lott">
+                    <el-col :span="12" v-for="(item, index) in popularEgame" :key="index">
+                      <div class="lott-item-warp">
+                        <div class="lott-item">
+                          <img class="img" :src="item.icon" />
+                          <div class="lott-r">
+                            <div class="title">
+                              {{item.name}}
+                              <br />经典棋牌游戏
+                            </div>
+                            <div class="btn">进入游戏</div>
+                          </div>
+                        </div>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </el-tab-pane>
               </el-tabs>
             </div>
           </div>
@@ -236,7 +272,9 @@ export default {
       'showBanner',
       'showSideFloat',
       'ranking',
-      'lotteryNoticeList'
+      'lotteryNoticeList',
+      'popularEgame',
+      'popularChess'
     ])
   },
   watch: {

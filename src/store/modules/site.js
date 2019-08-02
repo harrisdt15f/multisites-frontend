@@ -1,4 +1,5 @@
 import { API } from '@/api'
+import { join } from 'path'
 
 const state = {
   banner: [],
@@ -8,6 +9,8 @@ const state = {
   activity: '',
   popularLotteries1: [],
   popularLotteries2: [],
+  popularChess: [],
+  popularEgame:[],
   ranking: [],
   lotteryNoticeList: [],
   showBanner: false,
@@ -29,16 +32,28 @@ const mutations = {
   },
   SET_POPULAR_LOTTERIES1: (state, data) => {
     data.forEach(val => {
-      val.pic_path = process.env.VUE_APP_API_URL + val.pic_path
+      val.icon_path = `${process.env.VUE_APP_API_URL}${val.icon_path}`
     })
     state.popularLotteries1 = data
+  },
+  SET_POPULAR_CHESS: (state, data) => {
+    data.forEach(val => {
+      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon}`
+    })
+    state.popularChess = data
+  },
+  SET_POPULAR_EGAME: (state, data) => {
+    data.forEach(val => {
+      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon}`
+    })
+    state.popularEgame = data
   },
   SET_POPULAR_LOTTERIES2: (state, data) => {
     state.popularLotteries2 = data
   },
   SET_BANNER: (state, data) => {
     data.forEach(val => {
-      val.pic_path = process.env.VUE_APP_API_URL + val.pic_path
+      val.pic_path = `${process.env.VUE_APP_API_URL}/${val.pic_path}`
     })
     state.banner = data
   },
@@ -94,6 +109,20 @@ const actions = {
     API.getPopularLotteries1().then(({success, data}) => {
       if (success) {
         commit('SET_POPULAR_LOTTERIES1', data)
+      }
+    })
+  },
+  getPopularChess({ commit }){
+    API.getPopularChess().then(({success, data}) => {
+      if (success) {
+        commit('SET_POPULAR_CHESS', data)
+      }
+    })
+  },
+  getPopularEgame({ commit }){
+    API.getPopularEgame().then(({success, data}) => {
+      if (success) {
+        commit('SET_POPULAR_EGAME', data)
       }
     })
   },

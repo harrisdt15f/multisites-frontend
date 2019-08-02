@@ -123,7 +123,7 @@ export default {
   box-sizing: border-box;
   cursor: pointer;
   width: 80px;
-  height: 36px;
+  height: 28px;
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15),
     inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
   border-style: solid;
@@ -131,7 +131,7 @@ export default {
   border-image-slice: 1;
   border-radius: 3px;
   text-align: center;
-  line-height: 34px;
+  line-height: 28px;
   color: white;
   margin-right: 8px;
   input {

@@ -14,6 +14,14 @@ export default {
   getPopularLotteries2(data) {
     return this.get('/homepage/popular-methods', data).then(response =>  response)
   },
+  //热门棋牌
+  getPopularChess(data) {
+    return this.get('/homepage/popular-chess-cards-lists', data).then(response =>  response)
+  },
+  //热门电子
+  getPopularEgame(data) {
+    return this.get('/homepage/popular-e-game-lists', data).then(response =>  response)
+  },
   //二维码 
   getQrcode() {
     return this.get('/homepage/qrcode').then(response =>  response)
@@ -41,5 +49,9 @@ export default {
   //开奖公告
   lotteryNoticeList() {
     return this.get('/homepage/lottery-notice-list').then(response =>  response)
-  }
+  },
+  //公告|站内信 已读
+  lotteryRedMessage(data) {
+    return this.post('/homepage/read-message', data).then(response =>  response)
+  },
 }
