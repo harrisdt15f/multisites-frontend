@@ -5,6 +5,7 @@
         <div class="container">
           <div class="filter-container">
             游戏时间：
+            <!-- 今天 昨天 -->
             <el-date-picker
               style="width: 370px; margin-bottom:10px;"
               size="mini"
@@ -446,9 +447,9 @@ export default {
       })
     },
     getTraceList() {
-      for (var propName in this.gameListQuery) { 
-        if (this.gameListQuery[propName] === '') {
-          delete this.gameListQuery[propName]
+      for (var propName in this.tracesListQuery) { 
+        if (this.tracesListQuery[propName] === '') {
+          delete this.tracesListQuery[propName]
         }
       }
       this.tracesListLoading = true

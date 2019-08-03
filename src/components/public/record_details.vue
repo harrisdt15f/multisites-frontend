@@ -184,7 +184,7 @@
               <tr>
                 <td align="right">追号奖金组：</td>
                 <td>
-                  <span class="value">{{(this.$store.state.lottery.modeConfig)[detailData.mode]}}</span>
+                  <span class="value">{{detailData.bet_prize_group}}</span>
                 </td>
                 <td align="right">中奖后终止任务：</td>
                 <td>
@@ -202,7 +202,7 @@
           <el-button>终止追号</el-button>
         </div>
         <div class="trace-lists">
-          <el-table :data="detailData.trace_lists" style="width: 50%;margin:30px auto">
+          <el-table :data="detailData.trace_lists" style="width: 80%;margin:30px auto">
             <el-table-column align="center" prop="issue" label="奖期" width="180"></el-table-column>
             <el-table-column align="center" label="投注内容" show-overflow-tooltip>
               <template slot-scope="scope">{{scope.row.bet_number}}</template>
