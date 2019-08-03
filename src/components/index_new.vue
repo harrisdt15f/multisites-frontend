@@ -76,14 +76,14 @@
                         :min="1"
                         :max="10"
                       ></el-input-number>倍,
-                      <span style="color:#ff7800">5</span>注
+                      <span style="color:#ff7800">{{item.count}}</span>注
                       &nbsp;
                       共
                       <span style="color:#ff7800">{{item.totalCost}}</span> 元
                     </div>
                   </div>
                   <div class="btn-group">
-                    <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                    <a @click="handleRandomNum(item)" href="javascript:;" class="btn-item">
                       <i class="fa fa-refresh" aria-hidden="true"></i>
                       换一注
                     </a>
@@ -333,37 +333,39 @@ export default {
     },
     initData(){
       this.Api.getPopularLotteries2().then(({success, data}) => {
-      if (success && data.length) {
-        const list = Object.keys(data).map((v, i) => {
-          if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
-          return {
-            name: data[v].lottery_name,
-            id: data[v].lotteries_id,
-            issue: data[v].issue,
-            method_name: data[v].method_name,
-            end_time: data[v].end_time,
-            method_id: data[v].method_id,
-            method_group: data[v].method_group,
-            multiple: 1,
-            code: [
-              { num: 0, sign: true },
-              { num: 1, sign: false },
-              { num: 2, sign: true },
-              { num: 3, sign: true },
-              { num: 4, sign: true },
-              { num: 5, sign: false },
-              { num: 6, sign: false },
-              { num: 7, sign: false },
-              { num: 8, sign: true },
-              { num: 9, sign: false }
-            ],
-            totalCost: 10.00
-          }
-        })
-        this.lotteriesList = list
-        this.times()
-      }
-    })
+        if (success && data.length) {
+          const list = Object.keys(data).map((v, i) => {
+            if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
+            return {
+              name: data[v].lottery_name,
+              id: data[v].lotteries_id,
+              issue: data[v].issue,
+              method_name: data[v].method_name,
+              end_time: data[v].end_time,
+              method_id: data[v].method_id,
+              method_group: data[v].method_group,
+              count: 5,
+              multiple: 1,
+              code: [
+                { num: 0, sign: true },
+                { num: 1, sign: false },
+                { num: 2, sign: true },
+                { num: 3, sign: true },
+                { num: 4, sign: true },
+                { num: 5, sign: false },
+                { num: 6, sign: false },
+                { num: 7, sign: false },
+                { num: 8, sign: true },
+                { num: 9, sign: false }
+              ],
+              cost: 10.00,
+              totalCost: 10.00
+            }
+          })
+          this.lotteriesList = list
+          this.times()
+        }
+      })
     },
     preInto(route) {
       if (!this.isLogin) {
@@ -391,18 +393,23 @@ export default {
     handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
     },
-    handleRandomNum(code) {
-      const num = []
-      while (num.length < 5) {
+    handleRandomNum(item) {
+      const num = [],
+            randomNum = Math.ceil(Math.random() * 7)
+      while (num.length < randomNum) {
         const ranNum = Math.floor(Math.random() * 10)
         !num.includes(ranNum) ? num.push(ranNum) : null
       }
-      code.forEach(v => {
+      item.count = randomNum
+      item.cost = 2 * item.count
+      item.totalCost = item.multiple * item.cost
+      item.code.forEach(v => {
         this.$set(v, 'sign', num.includes(v.num))
       })
+      
     },
     handleChangeMultiple(item) {
-      this.$set(item, 'totalCost', item.multiple * 10)
+      this.$set(item, 'totalCost', item.multiple * item.cost)
     },
     immediateBet(item) {
       if (!this.isLogin) {
@@ -417,7 +424,7 @@ export default {
       bet.push({
         mode: 1,
         price: 2,
-        count: 5,
+        count: item.count,
         prize_group: 1980,
         method_group: item.method_group,
         method_name: item.name,
@@ -663,10 +670,6 @@ export default {
         flex: 0 0 110px;
       }
     }
-
-    .hot-box {
-      width: 100%;
-    }
     .hot-box-wrap {
       height: 100%;
       background: url("../assets/images/new/index/hot_box_item_bg.png")
@@ -816,8 +819,16 @@ export default {
     color: #f9780b;
   }
 }
+ .hot-box {
+  display: block;
+  width: 100%;
+  background: #fff;
+  height: 296.5px;
+  overflow: hidden;
+}
 .hot-box-tab {
   background-color: #fff;
+  
   /deep/ {
     .el-tabs__header {
       margin: 0 0 12px;

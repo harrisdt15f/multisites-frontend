@@ -43,6 +43,7 @@ export default {
   data() {
     return {
       activeName: '',
+      copyActiveName: '',
       showBulletin: false
     }
   },
@@ -60,9 +61,11 @@ export default {
       if (val.name === 'message-center') {
         this.showBulletin = true
         this.$nextTick(() => {
-          this.activeName = 'account-manage'
+          this.activeName = this.copyActiveName
         })
         return
+      }else {
+        this.copyActiveName = this.activeName
       }
     },
     handleBulletinClose() {
