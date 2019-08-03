@@ -10,9 +10,10 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          style="width:370px;"
         ></el-date-picker>
-        <el-input size="mini" placeholder="请输入内容" v-model="input3" class="input-with-select" style="width:320px;margin-left:15px;">
-          <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px;">
+        <el-input size="mini" placeholder="请输入内容" v-model="input3" class="input-with-select" style="width:250px;margin-left:15px;">
+          <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:90px;">
             <el-option label="餐厅名" value="1"></el-option>
             <el-option label="订单号" value="2"></el-option>
             <el-option label="用户电话" value="3"></el-option>

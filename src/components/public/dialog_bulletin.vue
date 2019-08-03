@@ -15,7 +15,7 @@
       </div>
       <div class="content" v-loading="loading" >
         <div class="banner" v-if="currentIndex == 0">
-          <img src="../../assets/images/bulletin_img.jpg" class="w100"/>
+          <img src="../../assets/images/bulletin_img.jpg" class="img"/>
         </div>
         <el-row class="nr" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-col :span="6" class="nr-l">
@@ -159,7 +159,7 @@ export default {
     }
     .mail{
       .el-dialog {
-        height:510px;
+        height:515px;
       }
     }
   }
@@ -196,13 +196,17 @@ export default {
   .content {
     .banner {
       width: 100%;
-      height: 145px;
+      height: 135px;
       overflow: hidden;
+      .img{
+        width: 100%;
+        height: 135px;
+      }
     }
     .nr {
       color: #000;
       .nr-l {
-        height: 460px;
+        height: 470px;
         font-size: 14px;
         border-right: 1px solid #dadada;
         .pagination {
@@ -240,7 +244,7 @@ export default {
         overflow: auto;
         .title {
           font-size: 18px;
-          font-weight: bold;
+          font-weight: 500;
           text-align: center;
           line-height: 70px;
           border-bottom: 1px dotted #dadada;

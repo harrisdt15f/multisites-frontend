@@ -6,7 +6,7 @@
           <div class="filter-container">
             游戏时间：
             <el-date-picker
-              style="width: 340px; margin-bottom:10px;"
+              style="width: 370px; margin-bottom:10px;"
               size="mini"
               v-model="gameTime"
               type="datetimerange"
@@ -16,16 +16,16 @@
               end-placeholder="结束日期"
               :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
-            <el-input @change="gameListInputChange" style="width:250px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="valueSelect" class="input-with-select">
+            <el-input @change="gameListInputChange" style="width:235px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="valueSelect" class="input-with-select">
               <el-select @change="gameListSelectChange" style="width:80px;" v-model="typeSelect" slot="prepend" placeholder="请选择">
                 <el-option label="订单号" value="serial_number"></el-option>
                 <el-option label="奖期号" value="issue"></el-option>
               </el-select>
             </el-input>
             状态：
-            <el-select size="mini"  style="width:160px;" v-model="gameListQuery.status" placeholder="请选择">
+            <el-select size="mini"  style="width:100px;" v-model="gameListQuery.status" placeholder="请选择">
               <el-option 
-                label="所有状态" 
+                label="所有"
                 value="*"></el-option>
               <el-option 
                 v-for="(item, index) in statusOption" 
@@ -35,7 +35,7 @@
             </el-select>
             <br>
              游戏名称：
-            <el-select size="mini"  style="width:160px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
+            <el-select size="mini"  style="width:120px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
               <el-option 
                 label="所有游戏" 
                 value="*"></el-option>
@@ -146,7 +146,7 @@
           <div class="filter-container">
             游戏时间：
             <el-date-picker
-              style="width: 340px; margin-bottom:10px;"
+              style="width: 370px; margin-bottom:10px;"
               size="mini"
               v-model="tracesTime"
               type="datetimerange"
@@ -156,16 +156,16 @@
               end-placeholder="结束日期"
               :default-time="['00:00:00', '23:59:59']"
             ></el-date-picker>
-            <el-input @change="tracesListInputChange" style="width:250px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="tracesValueSelect" class="input-with-select">
+            <el-input @change="tracesListInputChange" style="width:235px;margin:0 15px"  size="mini" placeholder="请输入内容" v-model="tracesValueSelect" class="input-with-select">
               <el-select @change="tracesListSelectChange" style="width:80px;" v-model="tracesTypeSelect" slot="prepend" placeholder="请选择">
                 <el-option label="订单号" value="project_serial_number"></el-option>
                 <el-option label="奖期号" value="issue"></el-option>
               </el-select>
             </el-input>
             状态：
-            <el-select size="mini"  style="width:160px;" v-model="tracesListQuery.status" placeholder="请选择">
+            <el-select size="mini"  style="width:100px;" v-model="tracesListQuery.status" placeholder="请选择">
               <el-option 
-                label="所有状态" 
+                label="所有"
                 value="*"></el-option>
               <el-option 
                 v-for="(item, index) in statusOption" 
@@ -175,7 +175,7 @@
             </el-select>
             <br>
              游戏名称：
-            <el-select size="mini"  style="width:160px;" v-model="tracesListQuery.lottery_sign" placeholder="请选择">
+            <el-select size="mini"  style="width:120px;" v-model="tracesListQuery.lottery_sign" placeholder="请选择">
               <el-option 
                 label="所有游戏" 
                 value="*"></el-option>
