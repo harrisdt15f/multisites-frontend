@@ -295,18 +295,55 @@ export default {
     ])
   },
   watch: {
-    popularLotteries2: {
-      handler(val) {
-        const list = Object.keys(val).map((v, i) => {
-          if (val[v].end_time) this.timer[i] = val[v].end_time - new Date().getTime() / 1000
+    'notice': {
+      handler () {
+        this.noticehandler()
+      },
+      immediate: true
+    },
+    'ranking': {
+      handler (newVal) {
+        if(!newVal.length) return
+        this.$nextTick(() => {
+          this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+        })
+      },
+      immediate: true
+    }
+  },
+  mounted() {
+    this.initData()
+    this.debounce = this._.debounce(this.handleScroll, 150)
+    window.addEventListener('scroll', this.debounce)
+  },
+  methods: {
+    ...mapActions(['getPopularLotteries2']),
+    // 处理公告内容
+    noticehandler() {
+      if (!this.notice['data']) return
+      for (const k of this.notice['data']) {
+        let json = {}
+        json['content'] = k['title']
+        json['id'] = k['id']
+        this.noticeList.push(json)
+      }
+      setTimeout(() => {
+        this.Animation.notice('head-meque', 'head-meque_text', -1)
+      }, 10)
+    },
+    initData(){
+      this.Api.getPopularLotteries2().then(({success, data}) => {
+      if (success && data.length) {
+        const list = Object.keys(data).map((v, i) => {
+          if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
           return {
-            name: val[v].lottery_name,
-            id: val[v].lotteries_id,
-            issue: val[v].issue,
-            method_name: val[v].method_name,
-            end_time: val[v].end_time,
-            method_id: val[v].method_id,
-            method_group: val[v].method_group,
+            name: data[v].lottery_name,
+            id: data[v].lotteries_id,
+            issue: data[v].issue,
+            method_name: data[v].method_name,
+            end_time: data[v].end_time,
+            method_id: data[v].method_id,
+            method_group: data[v].method_group,
             multiple: 1,
             code: [
               { num: 0, sign: true },
@@ -324,48 +361,9 @@ export default {
           }
         })
         this.lotteriesList = list
-      },
-      immediate: true
-    },
-    'notice': {
-      handler () {
-        this.noticehandler()
-      },
-      immediate: true
-    },
-    'ranking': {
-      handler () {
-        this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
-      },
-      immediate: true
-    }
-  },
-  mounted() {
-    this.debounce = this._.debounce(this.handleScroll, 150)
-    window.addEventListener('scroll', this.debounce)
-  },
-  created() {
-    this.initData()
-  },
-  methods: {
-    ...mapActions(['getPopularLotteries2']),
-    // 处理公告内容
-    noticehandler() {
-      for (const k of this.notice['data']) {
-        let json = {}
-        json['content'] = k['title']
-        json['id'] = k['id']
-        this.noticeList.push(json)
-      }
-      
-      setTimeout(() => {
-        this.Animation.notice('head-meque', 'head-meque_text', -1)
-      }, 10)
-    },
-    initData(){
-      this.getPopularLotteries2().then(() => {
         this.times()
-      })
+      }
+    })
     },
     preInto(route) {
       if (!this.isLogin) {
@@ -678,7 +676,7 @@ export default {
   }
   .hot-box-item {
     font-size: 16px;
-    padding: 0 15px 15px;
+    padding: 0 15px 13px;
     & + .hot-box-item {
       border-top: 1px solid #695e56;
     }
