@@ -3,13 +3,16 @@
     <div class="recharge-group">
       <div
         class="recharge-item"
-        v-for="item in 7"
+        v-for="item in 5"
         :key="item"
         @click="currentIndex = item"
         :class="{on: item === currentIndex}"
       >
         <img class="img" src="@/assets/images/center/recharge_bank.png">
         银行入款
+        <div class="on-r">
+          <i class="fa fa-check" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
     <div class="recharge-content">
@@ -143,8 +146,30 @@ export default {
     padding: 5px 10px;
     margin-right: 8px;
     border-radius: 5px;
+    .on-r{
+      display: none;
+    }
     &.on {
       border-color: #ff8900;
+      border-color: #d00000;
+      position: relative;
+      .on-r {
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-bottom: 25px solid red;
+        border-left: 25px solid transparent;
+        i{
+          font-size: 12px;
+          position: absolute;
+          left: -14px;
+          top: 10px;
+          color: #fff;
+        }
+      }
     }
     .img {
       display: inline-block;

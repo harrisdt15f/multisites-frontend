@@ -340,8 +340,8 @@ export default {
         time_condtions: [],
         status: '*',
         lottery_sign: '*',
-        serial_number: '',
-        issue: ''
+        serial_number: '*',
+        issue: '*'
       },
       tracesListTotal: null,
       tracesList: [],
@@ -351,8 +351,8 @@ export default {
         time_condtions: [],
         status: '*',
         lottery_sign: '*',
-        project_serial_number: '',
-        issue: ''
+        project_serial_number: '*',
+        issue: '*'
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),

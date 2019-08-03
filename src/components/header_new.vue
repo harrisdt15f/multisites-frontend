@@ -113,30 +113,6 @@
                     <div class="issue">全天{{item.day_issue}}期</div>
                   </li>
                 </ul>
-                <!--                <div class="select-box">-->
-                <!--                  <div class="box-l">-->
-                <!--                    <span>全部彩种</span>-->
-                <!--                  </div>-->
-                <!--                  <div class="box-r">-->
-                <!--                    <el-row>-->
-                <!--                      <el-col-->
-                <!--                        class="box-r-item"-->
-                <!--                        v-for="(lottery, index) in lotteryLists"-->
-                <!--                        :key="index"-->
-                <!--                        :span="12"-->
-                <!--                      >-->
-                <!--                        <router-link-->
-                <!--                          tag="div"-->
-                <!--                          :to="`/bet/${lottery.list && lottery.list[0].id}`"-->
-                <!--                          @click.native="showSelectLottery = false"-->
-                <!--                        >-->
-                <!--                          <i></i>-->
-                <!--                          {{lottery.name}}-->
-                <!--                        </router-link>-->
-                <!--                      </el-col>-->
-                <!--                    </el-row>-->
-                <!--                  </div>-->
-                <!--                </div>-->
               </div>
             </div>
           </el-col>
@@ -229,7 +205,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('lotteryAll')
-    this.lotteryList();
+    this.lotteryList()
   },
   methods: {
     preInto(route) {
