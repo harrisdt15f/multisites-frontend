@@ -123,9 +123,9 @@
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
               </el-col>
               <el-col :span="3" class="all-lottery">
-                <router-link class="nav-col" tag="span" to="/bet">
+                <span class="nav-col" to="/bet" :class="{'router-link-active' : this.$route.path.includes('/bet')}">
                   <span @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"  class="dl">全部彩种</span>
-                </router-link>
+                </span>
                 <div class="nav">
                   <section ref="lotterListShow"
                            class="nav-menu-box"

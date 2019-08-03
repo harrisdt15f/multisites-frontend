@@ -114,16 +114,6 @@
               </li>
               <li class="tab-con" v-if="chaseTab === 2">
                 <section class="tab-inputs">
-                  <!--               <label class="param">
-                    起始倍数:
-                    <input
-                      type="text"
-                      v-model="chase.doubleNum"
-                      disabled
-                      :placeholder="chase.doubleNum"
-                      class="tab-input"
-                    >
-                  </label>-->
                   <label class="param">
                     每隔
                     <input
@@ -471,7 +461,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import recordDetails from '../../components/public/record_details'
-import { debuglog } from 'util'
 
 export default {
   name: 'game-order',
@@ -524,7 +513,6 @@ export default {
       },
       // 投注loading
       betLoading: false,
-
       // 当前注数 和 当前倍数
       current: {
         count: 0,

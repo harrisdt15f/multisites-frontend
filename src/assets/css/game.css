@@ -382,7 +382,6 @@ body {
   background: #fff;
   font-size: 12px;
   overflow: hidden;
-  border-right: 1px solid #eaeaea;
   border-bottom: 1px solid #eaeaea;
 }
 .bet-type-group-list {
@@ -2741,12 +2740,16 @@ body {
 }
 .main-center-wrap .main-left {
   float: left;
+  min-height: 639px;
   width: 885px;
+  border-right: 1px solid #eaeaea;
+  box-sizing: border-box;
 }
 
 .main-right {
   float: right;
   width: 315px;
+  min-height: 639px;
   font-size: 12px;
 }
 

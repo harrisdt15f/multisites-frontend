@@ -1,5 +1,5 @@
 <template>
-  <section style="border-right: 1px solid #eaeaea;">
+  <section>
     <div class="main-play-introduce ft12">
       {{currentMethod.desc}}
       <a
@@ -192,7 +192,7 @@
             :key="index"
             :label="item.label"
             :value="item.value"
-          <!-- ></el-option> -->
+          ></el-option>
         </el-select>
         <div class="bet-play-mode fw">
           <a
@@ -213,13 +213,14 @@
       </div>
       <div class="bet-add-box fr">
         奖金组:
-        <el-slider v-model="lottery.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
+        <el-slider @change="sliderChange" v-model="lottery.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
         {{lottery.countPrize}} / {{prizes.max}}
       </div>
     </div>
     <div class="submit-btn" v-if="currentMethod.type !== 'lhc'">
       <div class="bet-statics-money-nums">
-        最高盈利  <em class="bignum">{{Utils.toFixed(String(currentOrder.maxProfit))}}</em>元
+        最高盈利
+        <em class="bignum">{{Utils.toFixed(String(currentOrder.maxProfit))}}</em>元
       </div>
       <div class="bet-choose-total bet-choose-total-money">
         已选
@@ -260,6 +261,8 @@ export default {
       choosePosition: [],
       // 当前选中状态
       currentOrder: {
+        //当前最大倍数
+        currentMaxTimes: undefined,
         currentCost: 0,
         currentCount: 0,
         currentTimes: 1,
@@ -331,10 +334,15 @@ export default {
     },
     //更改倍数
     'currentOrder.currentTimes'() {
-      this.calculate()
+      //最大倍数
+      if(!this.calculate()){
+        this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
+        console.log(this.currentOrder.currentMaxTimes)
+      }
     },
     // 切换玩法时
     'bet.methodsTab'() {
+      this.currentOrder.currentMaxTimes = undefined
       this.currentOrder.currentCost = 0
       this.currentOrder.maxProfit = 0
       this.currentOrder.currentCount = 0
@@ -390,6 +398,7 @@ export default {
         }
       }
       // 清空注单值
+      this.currentOrder.currentMaxTimes = undefined
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.maxProfit = 0
@@ -475,7 +484,10 @@ export default {
           })
           return
         }
-        const codes = this.currentLottery.series_id === 'lotto' ? this.inputCodes.split('|') : this.inputCodes.split(',').map(val => val.split('').join('&'))
+        const codes =
+          this.currentLottery.series_id === 'lotto'
+            ? this.inputCodes.split('|')
+            : this.inputCodes.split(',').map(val => val.split('').join('&'))
         order = {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
@@ -530,7 +542,6 @@ export default {
           positionDesc
         inputcodes = ''
         positionDesc = []
-
         result = algorithm[method.method](method, this.orderState)
         if (method.rx && result[0]) {
           _count = result[0]
@@ -553,6 +564,23 @@ export default {
         } else {
           _count = result
         }
+        //最大倍数
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count && _count * this.userConfig.mode * this.userConfig.singlePrice))
+        //如何大于最大盈利返回false
+        const maxProfit =  _count &&
+          (this.currentCountPrizes -
+            _count * this.userConfig.mode * this.userConfig.singlePrice) *
+            this.currentOrder.currentTimes
+        if (maxProfit < this.userDetail.max_profit_bonus) {
+          this.currentOrder.maxProfit =maxProfit
+        } else{
+          this.$message({
+            message: '已超过最高盈利',
+            type: 'warning'
+          })
+          return false
+        }
+
         this.currentOrder.currentCount = _count
         this.currentOrder.currentCost =
           +_count *
@@ -561,11 +589,28 @@ export default {
           +this.currentOrder.currentTimes
         this.currentOrder.inputcodes = inputcodes
         this.currentOrder.positionDesc = positionDesc
-        this.currentOrder.maxProfit = _count && (this.currentCountPrizes - _count * this.userConfig.mode * this.userConfig.singlePrice) * this.currentOrder.currentTimes
         return [_count, inputcodes, positionDesc]
       } else {
-         this.currentOrder.maxProfit = this.inputCodesSingle && (this.currentCountPrizes - this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice) * this.currentOrder.currentTimes
-         this.currentOrder.currentCost =
+        //最大倍数
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  this.currentCountPrizes - this.inputCodesSingle && this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
+        //如何大于最大盈利返回false
+        const maxProfit =  this.inputCodesSingle &&
+          (this.currentCountPrizes -
+            this.inputCodesSingle *
+              this.userConfig.mode *
+              this.userConfig.singlePrice) *
+            this.currentOrder.currentTimes
+        if (maxProfit < this.userDetail.max_profit_bonus) {
+          this.currentOrder.maxProfit =maxProfit
+        } else{
+          this.$message({
+            message: '已超过最高盈利',
+            type: 'warning'
+          })
+          return false
+        }
+
+        this.currentOrder.currentCost =
           this.inputCodesSingle *
           +this.userConfig.singlePrice *
           this.currentOrder.currentTimes *
@@ -573,11 +618,16 @@ export default {
         this.currentOrder.currentCount = this.inputCodesSingle
       }
     },
+    //将金组改变
+    sliderChange(){
+      this.calculate()
+    },
     // 倍数增加
     timeAdd() {
-      if(this.currentOrder.maxProfit > this.userDetail.max_profit_bonus) return
       this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
-      this.calculate()
+      if(!this.calculate()){
+        this.currentOrder.currentTimes = +this.currentOrder.currentTimes - 1
+      }
     },
     // 倍数减少
     timeReduce() {
@@ -619,7 +669,6 @@ export default {
           }
         }
       }
-
       // 限制同位选择
       if (this.currentMethod.limitSelectedSomePosition) {
         for (let _row = 0; _row < this.chooseNumber.length; _row++) {
@@ -1080,20 +1129,22 @@ export default {
             method.method === 'QZUHZ' ||
             method.method === 'ZZXHZ' ||
             method.method === 'ZZUHZ' ||
-            method.method === 'HZXHZ' 
+            method.method === 'HZXHZ'
           ) {
             codes.push(col.join('|'))
           } else if (method.method === 'LTDDS') {
-             codes.push(col.join(' ').trim())
-          } else if (method.method === 'LTCZW'){
-            codes.push(col.map(val => {
-              return `0${val}`
-            }).join(' '))
-           
-          }else {
+            codes.push(col.join(' ').trim())
+          } else if (method.method === 'LTCZW') {
+            codes.push(
+              col
+                .map(val => {
+                  return `0${val}`
+                })
+                .join(' ')
+            )
+          } else {
             codes.push(col.join('&'))
           }
-          
         }
         return codes.join('|')
       } else {
@@ -1151,13 +1202,13 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      if(this.currentLottery.series_id === 'lotto'){
+      if (this.currentLottery.series_id === 'lotto') {
         this.inputCodesInitText =
-        '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n'
-        +' 格式范例：01 02 03|03 04 05|07 08 11'
-      }else{
-         this.inputCodesInitText =
-        '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+          '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
+          ' 格式范例：01 02 03|03 04 05|07 08 11'
+      } else {
+        this.inputCodesInitText =
+          '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
       }
       // this.inputCodes = this.inputCodesInitText
     },
@@ -1249,24 +1300,30 @@ export default {
             ) {
               tmp.delete(i)
             }
-            if (this.currentMethod.method === 'QZU3_S' ||
-                this.currentMethod.method === 'ZZU3_S' ||
-                this.currentMethod.method === 'HZU3_S') {
-                if(isRepeatNum(i) !== 2){
-                  tmp.delete(i)
-                }
+            if (
+              this.currentMethod.method === 'QZU3_S' ||
+              this.currentMethod.method === 'ZZU3_S' ||
+              this.currentMethod.method === 'HZU3_S'
+            ) {
+              if (isRepeatNum(i) !== 2) {
+                tmp.delete(i)
+              }
             }
-            if (this.currentMethod.method === 'QZU6_S' ||
-                this.currentMethod.method === 'ZZU6_S' ||
-                this.currentMethod.method === 'HZU6_S') {
-                if(isRepeat(i)){
-                  tmp.delete(i)
-                }
+            if (
+              this.currentMethod.method === 'QZU6_S' ||
+              this.currentMethod.method === 'ZZU6_S' ||
+              this.currentMethod.method === 'HZU6_S'
+            ) {
+              if (isRepeat(i)) {
+                tmp.delete(i)
+              }
             }
-            if (this.currentMethod.method === 'QHHZX' ||
+            if (
+              this.currentMethod.method === 'QHHZX' ||
               this.currentMethod.method === 'ZHHZX' ||
-              this.currentMethod.method === 'HHHZX') {
-              if(isRepeatNum(i) === 3){
+              this.currentMethod.method === 'HHHZX'
+            ) {
+              if (isRepeatNum(i) === 3) {
                 tmp.delete(i)
               }
             }
@@ -1274,15 +1331,14 @@ export default {
         }
       }
 
-
-      if (this.currentLottery.series_id === 'lotto'){
+      if (this.currentLottery.series_id === 'lotto') {
         this.inputCodes = [...tmp].join('|')
         if (!this.inputCodes) {
           this.inputCodesSingle = 0
         } else {
           this.inputCodesSingle = this.inputCodes.split('|').length
         }
-      } else{
+      } else {
         this.inputCodes = [...tmp].join(',')
         if (!this.inputCodes) {
           this.inputCodesSingle = 0
@@ -1290,7 +1346,7 @@ export default {
           this.inputCodesSingle = this.inputCodes.split(',').length
         }
       }
-     
+
       this.calculate()
     },
     // 清理重复项 和 错误项 计算注数
@@ -1445,7 +1501,7 @@ export default {
     }
   }
 }
-.bet-statics-money-nums{
+.bet-statics-money-nums {
   float: left;
   clear: both;
   line-height: 45px;

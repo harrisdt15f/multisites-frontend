@@ -165,8 +165,7 @@
             状态：
             <el-select size="mini"  style="width:100px;" v-model="tracesListQuery.status" placeholder="请选择">
               <el-option 
-                label="所有"
-                value="*"></el-option>
+                label="所有"></el-option>
               <el-option 
                 v-for="(item, index) in statusOption" 
                 :key="index"
@@ -177,8 +176,7 @@
              游戏名称：
             <el-select size="mini"  style="width:120px;" v-model="tracesListQuery.lottery_sign" placeholder="请选择">
               <el-option 
-                label="所有游戏" 
-                value="*"></el-option>
+                label="所有游戏"></el-option>
               <el-option 
                 v-for="(item, index) in lotteryAll" 
                 :key="index"
@@ -338,10 +336,8 @@ export default {
         page_size: 10,
         page: 1,
         time_condtions: [],
-        status: '*',
-        lottery_sign: '*',
-        serial_number: '*',
-        issue: '*'
+        lottery_sign: '',
+        serial_number: '',
       },
       tracesListTotal: null,
       tracesList: [],
@@ -349,10 +345,8 @@ export default {
         page_size: 10,
         page: 1,
         time_condtions: [],
-        status: '*',
-        lottery_sign: '*',
-        project_serial_number: '*',
-        issue: '*'
+        project_serial_number: '',
+        issue: ''
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
@@ -436,6 +430,11 @@ export default {
       }
     },
     getGameList() {
+      for (var propName in this.gameListQuery) { 
+        if (this.gameListQuery[propName] === '') {
+          delete this.gameListQuery[propName]
+        }
+      }
       this.listLoading = true
       this.Api.getBetGameRecord(this.gameListQuery).then(res => {
         const { success, data } = res
@@ -447,6 +446,11 @@ export default {
       })
     },
     getTraceList() {
+      for (var propName in this.gameListQuery) { 
+        if (this.gameListQuery[propName] === '') {
+          delete this.gameListQuery[propName]
+        }
+      }
       this.tracesListLoading = true
       this.Api.getBetTraceRecord(this.tracesListQuery).then(res => {
         const { success, data } = res
