@@ -2117,23 +2117,23 @@ body {
   margin: -250px auto 0;
   width: 330px;
   border-radius: 6px;
-  background: #afa18d;
+  background: #fff2e0;
   box-shadow: 1px 1px 20px #333;
   color: #fff;
   font-family: 'Arial';
   text-align: center;
 }
 .ylc-kx-info-header {
-  background: #fff0db;
+  background: #ff7501;
   padding: 9px 30px;
   border-radius: 5px 5px 0 0;
   position: relative;
-  color:#333;
+  color:#fff;
   font-size:18px;
 }
 .ylc-kx-explain {
   padding: 10px 30px;
-  color: #f5f5f5;
+  color: #333;
   text-align: justify;
 }
 .ylc-kx-info-list {
@@ -2154,8 +2154,8 @@ body {
   width: 55px;
   height: 30px;
   line-height: 30px;
-  background-color: #f5f5f5;
-  color: #6d6d6d;
+  background-color: #ff7501;
+  color: #fff;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -2173,7 +2173,7 @@ body {
   background: #515151;
 }
 .ylc-kx-info-btn:nth-of-type(2) {
-  background: #f76e6e;
+  background: #ff7501;
 }
 .ylc-kx-info-btn:hover,
 .ylc-kx-info-clear:hover {
@@ -2289,8 +2289,8 @@ body {
   vertical-align: text-top;
   margin: 0 20px 0 5px;
   color: #fff;
-  border-color: #f76e6e;
-  background: #f76e6e;
+  border-color: #ff7600;
+  background: #ff7600;
 }
 .ylc-kx-footer-confirm:hover {
   box-shadow: 0 1px 4px red;
