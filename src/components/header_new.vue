@@ -147,9 +147,14 @@
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
               </el-col>
               <el-col :span="3" class="all-lottery">
-                <router-link class="nav-col" tag="span" to="/bet">全部彩种</router-link>
+                <router-link class="nav-col" tag="span" to="/bet">
+                  <span @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"  class="dl">全部彩种</span>
+                </router-link>
                 <div class="nav">
-                  <section ref="lotterListShow" class="nav-menu-box">
+                  <section ref="lotterListShow"
+                           class="nav-menu-box"
+                           @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"
+                           v-show="showMenus.show" >
                     <el-row :gutter="30">
                       <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
                         <div class="nav-menu-title">{{lottery.name}}</div>
@@ -215,6 +220,10 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
         ]
+      },
+      // 显示关闭全部菜单
+      showMenus: {
+        show: false
       }
     }
   },
@@ -233,6 +242,7 @@ export default {
   },
   methods: {
     preInto(route) {
+      this.showMenus.show = false
       if (!this.isLogin) {
         this.$router.push('/login')
         return
@@ -534,9 +544,7 @@ export default {
     top: 48px;
     left: 225px;
     background: #fff;
-    z-index: 0;
-    display: none;
-    // z-index: 1001;
+    z-index: 1001;
     padding: 15px;
     font-size: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
@@ -572,12 +580,6 @@ export default {
           }
         }
       }
-    }
-  }
-  &:hover {
-    .nav-menu-box {
-      display: block;
-      z-index: 1001;
     }
   }
 }

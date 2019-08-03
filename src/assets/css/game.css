@@ -2025,7 +2025,7 @@ body {
 }
 .ylc-navs {
   position: relative;
-  padding: 0 10px;
+  padding-right:10px;
   vertical-align: middle;
   height: 50px;
   line-height: 50px;
@@ -2048,7 +2048,7 @@ body {
 }
 .ylc-list:hover,
 .ylc-list.on {
-  border-top: 3px solid #ff9707;
+  border-bottom: 3px solid #ff9707;
   background: #ffe8c9;
   color: #3b3c47;
   font-weight:500;
