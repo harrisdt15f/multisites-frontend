@@ -1,4 +1,8 @@
 export default {
+  //网站头ico
+  getIco(data) {
+    return this.get('/homepage/ico', data).then(response =>  response)
+  },
   // 获取需要展示的前台模块 
   showHomepageModel(data) {
     return this.get('/homepage/show-homepage-model', data).then(response =>  response)

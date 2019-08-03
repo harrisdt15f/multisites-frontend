@@ -7,7 +7,6 @@
       <div class="head">
         <el-row>
           <el-col
-            @click.native="handleCurrentIndex(0)"
             :span="24"
             class="head-tab on"
           >{{currentIndex == 1 ? '站内信' : '平台公告'}}</el-col>

@@ -76,14 +76,14 @@
                         :min="1"
                         :max="10"
                       ></el-input-number>倍,
-                      <span style="color:#ff7800">5</span>注
+                      <span style="color:#ff7800">{{item.count}}</span>注
                       &nbsp;
                       共
                       <span style="color:#ff7800">{{item.totalCost}}</span> 元
                     </div>
                   </div>
                   <div class="btn-group">
-                    <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                    <a @click="handleRandomNum(item)" href="javascript:;" class="btn-item">
                       <i class="fa fa-refresh" aria-hidden="true"></i>
                       换一注
                     </a>
@@ -295,38 +295,6 @@ export default {
     ])
   },
   watch: {
-    popularLotteries2: {
-      handler(val) {
-        const list = Object.keys(val).map((v, i) => {
-          if (val[v].end_time) this.timer[i] = val[v].end_time - new Date().getTime() / 1000
-          return {
-            name: val[v].lottery_name,
-            id: val[v].lotteries_id,
-            issue: val[v].issue,
-            method_name: val[v].method_name,
-            end_time: val[v].end_time,
-            method_id: val[v].method_id,
-            method_group: val[v].method_group,
-            multiple: 1,
-            code: [
-              { num: 0, sign: true },
-              { num: 1, sign: false },
-              { num: 2, sign: true },
-              { num: 3, sign: true },
-              { num: 4, sign: true },
-              { num: 5, sign: false },
-              { num: 6, sign: false },
-              { num: 7, sign: false },
-              { num: 8, sign: true },
-              { num: 9, sign: false }
-            ],
-            totalCost: 10.00
-          }
-        })
-        this.lotteriesList = list
-      },
-      immediate: true
-    },
     'notice': {
       handler () {
         this.noticehandler()
@@ -334,37 +302,69 @@ export default {
       immediate: true
     },
     'ranking': {
-      handler () {
-        this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+      handler (newVal) {
+        if(!newVal.length) return
+        this.$nextTick(() => {
+          this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+        })
       },
       immediate: true
     }
   },
   mounted() {
+    this.initData()
     this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
-  },
-  created() {
-    this.initData()
   },
   methods: {
     ...mapActions(['getPopularLotteries2']),
     // 处理公告内容
     noticehandler() {
+      if (!this.notice['data']) return
       for (const k of this.notice['data']) {
         let json = {}
         json['content'] = k['title']
         json['id'] = k['id']
         this.noticeList.push(json)
       }
-      
       setTimeout(() => {
         this.Animation.notice('head-meque', 'head-meque_text', -1)
       }, 10)
     },
     initData(){
-      this.getPopularLotteries2().then(() => {
-        this.times()
+      this.Api.getPopularLotteries2().then(({success, data}) => {
+        if (success && data.length) {
+          const list = Object.keys(data).map((v, i) => {
+            if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
+            return {
+              name: data[v].lottery_name,
+              id: data[v].lotteries_id,
+              issue: data[v].issue,
+              method_name: data[v].method_name,
+              end_time: data[v].end_time,
+              method_id: data[v].method_id,
+              method_group: data[v].method_group,
+              count: 5,
+              multiple: 1,
+              code: [
+                { num: 0, sign: true },
+                { num: 1, sign: false },
+                { num: 2, sign: true },
+                { num: 3, sign: true },
+                { num: 4, sign: true },
+                { num: 5, sign: false },
+                { num: 6, sign: false },
+                { num: 7, sign: false },
+                { num: 8, sign: true },
+                { num: 9, sign: false }
+              ],
+              cost: 10.00,
+              totalCost: 10.00
+            }
+          })
+          this.lotteriesList = list
+          this.times()
+        }
       })
     },
     preInto(route) {
@@ -393,18 +393,23 @@ export default {
     handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
     },
-    handleRandomNum(code) {
-      const num = []
-      while (num.length < 5) {
+    handleRandomNum(item) {
+      const num = [],
+            randomNum = Math.ceil(Math.random() * 7)
+      while (num.length < randomNum) {
         const ranNum = Math.floor(Math.random() * 10)
         !num.includes(ranNum) ? num.push(ranNum) : null
       }
-      code.forEach(v => {
+      item.count = randomNum
+      item.cost = 2 * item.count
+      item.totalCost = item.multiple * item.cost
+      item.code.forEach(v => {
         this.$set(v, 'sign', num.includes(v.num))
       })
+      
     },
     handleChangeMultiple(item) {
-      this.$set(item, 'totalCost', item.multiple * 10)
+      this.$set(item, 'totalCost', item.multiple * item.cost)
     },
     immediateBet(item) {
       if (!this.isLogin) {
@@ -419,7 +424,7 @@ export default {
       bet.push({
         mode: 1,
         price: 2,
-        count: 5,
+        count: item.count,
         prize_group: 1980,
         method_group: item.method_group,
         method_name: item.name,
@@ -665,10 +670,6 @@ export default {
         flex: 0 0 110px;
       }
     }
-
-    .hot-box {
-      width: 100%;
-    }
     .hot-box-wrap {
       height: 100%;
       background: url("../assets/images/new/index/hot_box_item_bg.png")
@@ -678,7 +679,7 @@ export default {
   }
   .hot-box-item {
     font-size: 16px;
-    padding: 0 15px 15px;
+    padding: 0 15px 13px;
     & + .hot-box-item {
       border-top: 1px solid #695e56;
     }
@@ -818,8 +819,16 @@ export default {
     color: #f9780b;
   }
 }
+ .hot-box {
+  display: block;
+  width: 100%;
+  background: #fff;
+  height: 296.5px;
+  overflow: hidden;
+}
 .hot-box-tab {
   background-color: #fff;
+  
   /deep/ {
     .el-tabs__header {
       margin: 0 0 12px;
