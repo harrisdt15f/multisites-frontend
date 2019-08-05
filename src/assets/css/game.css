@@ -1923,14 +1923,24 @@ body {
 }
 
 /*三不同号*/
-.k3-sbth-lists {
-}
+
 .k3-sbth-lists .k3-dxds-list {
   padding: 7px 10px 3px;
   margin: 1px 5px 5px;
   width: auto;
   border-radius: 5px;
 }
+.k3-sbth-lists.k3-dxds-lists-btn{
+  padding-top: 0;
+  margin-top: -30px;
+}
+.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list{
+  box-sizing: border-box;
+  margin: 0 2px;
+  padding: 7px 10px 3px;
+  width: 142px;
+}
+
 .k3-sbth-dxds-lk {
   display: inline-block;
   vertical-align: middle;
@@ -1941,6 +1951,10 @@ body {
 .k3-sbth-lists .k3-dxds-list.active {
   background: #f60;
   animation: k3Scale 0.3s;
+}
+.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list.active{
+  background: #F4F1E5;
+  border-radius: 5px;
 }
 .k3-sbth-lists .k3-sbth-1 {
   background-position: -248px -42px;

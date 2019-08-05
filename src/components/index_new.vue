@@ -239,6 +239,7 @@
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a href class="online-server"></a>
+      <div class="float-qr"><img class="img" :src="qrSrc" alt=""></div>
       <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
     <dialog-bulletin
@@ -796,6 +797,16 @@ export default {
   right: 5px;
   transform: translateY(-50%);
   transition: all 0.3s;
+  .float-qr{
+    background: red;
+    position: absolute;
+    top: 185px;
+    left: 23px;;
+    .img{
+      width: 93px;
+      height: 94px;
+    }
+  }
   .online-server {
     position: absolute;
     width: 100%;
@@ -818,6 +829,7 @@ export default {
   .close:hover {
     color: #f9780b;
   }
+  
 }
  .hot-box {
   display: block;
