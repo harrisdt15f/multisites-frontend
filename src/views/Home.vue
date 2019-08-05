@@ -21,9 +21,6 @@ export default {
   created() {
     this.initData()
   },
-  mounted () {
-    this.getIco()
-  },
   methods: {
     ...mapActions(['getBanner', 'getPopularChess', 'getPopularEgame', 'getLotteryNotice', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
     initData() {
@@ -44,20 +41,7 @@ export default {
           this.getPopularEgame()
         }
       })
-    },
-    getIco(){
-      this.Api.getIco().then(({success, data}) => {
-        if (success) {
-          const href = `${process.env.VUE_APP_API_URL}${data}`,
-                html = document.createElement('link'),
-                domHead = document.getElementsByTagName('head')
-          
-          html.setAttribute('rel', 'icon')
-          html.setAttribute('href', href)
-          domHead[0].appendChild(html)
-        }
-      })
-    }
+    } 
   }
 }
 </script>

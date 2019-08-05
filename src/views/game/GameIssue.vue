@@ -531,7 +531,8 @@ export default {
   }
 }
 .lottery-animate {
-  text-indent: 2em;
+  text-align: center;
+  line-height: 2.0;
   font-size: 12px;
   color: #57576b;
 }
