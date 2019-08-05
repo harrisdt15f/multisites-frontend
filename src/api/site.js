@@ -57,5 +57,5 @@ export default {
   //公告|站内信 已读
   lotteryRedMessage(data) {
     return this.post('/homepage/read-message', data).then(response =>  response)
-  },
+  }
 }

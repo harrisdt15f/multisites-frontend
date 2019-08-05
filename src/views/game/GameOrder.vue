@@ -402,9 +402,11 @@
           <el-table-column align="center" label="状态">
             <template slot-scope="scope">
               <span v-if="scope.row.status == 0">待开奖</span>
+              <span v-if="scope.row.status == 1">已撤销</span>
               <span v-if="scope.row.status == 2">未中奖</span>
               <span v-if="scope.row.status == 3">中奖</span>
               <span v-if="scope.row.status == 4">已派奖</span>
+              <span v-if="scope.row.status == 5">管理员撤销</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
@@ -870,6 +872,7 @@ export default {
     },
     // 生成利润率追号
     chaseRateSubmit() {
+      console.log(this.orderList)
       if (this.orderList.length === 0) {
         this.$alert('请至少选择一注投注号码', '提示', {
           confirmButtonText: '确定'

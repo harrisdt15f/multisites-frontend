@@ -337,7 +337,6 @@ export default {
       //最大倍数
       if(!this.calculate()){
         this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
-        console.log(this.currentOrder.currentMaxTimes)
       }
     },
     // 切换玩法时
@@ -565,14 +564,14 @@ export default {
           _count = result
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count && _count * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count * this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit =  _count &&
           (this.currentCountPrizes -
-            _count * this.userConfig.mode * this.userConfig.singlePrice) *
+            this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
         if (maxProfit < this.userDetail.max_profit_bonus) {
-          this.currentOrder.maxProfit =maxProfit
+          this.currentOrder.maxProfit = maxProfit
         } else{
           this.$message({
             message: '已超过最高盈利',
@@ -590,12 +589,12 @@ export default {
         this.currentOrder.inputcodes = inputcodes
         this.currentOrder.positionDesc = positionDesc
         return [_count, inputcodes, positionDesc]
+        
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  this.currentCountPrizes - this.inputCodesSingle && this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
-        const maxProfit =  this.inputCodesSingle &&
-          (this.currentCountPrizes -
+        const maxProfit = (this.currentCountPrizes -
             this.inputCodesSingle *
               this.userConfig.mode *
               this.userConfig.singlePrice) *
@@ -1125,6 +1124,7 @@ export default {
             }
           }
           if (
+            method.type === 'k3' ||
             method.method === 'QZXHZ' ||
             method.method === 'QZUHZ' ||
             method.method === 'ZZXHZ' ||

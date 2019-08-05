@@ -75,9 +75,11 @@
                 <td align="right">状态：</td>
                 <td>
                   <span class="value" v-if="detailData.status == 0">待开奖</span>
+                  <span class="value" v-if="detailData.status == 1">已撤销</span>
                   <span class="value" v-if="detailData.status == 2">未中奖</span>
                   <span class="value" v-if="detailData.status == 3">中奖</span>
                   <span class="value" v-if="detailData.status == 4">已派奖</span>
+                  <span class="value" v-if="detailData.status == 5">管理员撤销</span>
                 </td>
                 <td align="right">奖金：</td>
                 <td>
@@ -98,6 +100,9 @@
         <div class="detail-row-cont">
           <div class="title">投注内容：</div>
           <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
+        </div>
+        <div v-if="detailData.status == 0" style="text-align:center; margin-top:10px;">
+          <el-button @click="handleCancelBet(detailData)">撤单</el-button>
         </div>
       </div>
       <div class="content" v-else>
@@ -276,7 +281,7 @@ export default {
       }
       if (this.detailData.method_sign === 'LTDDS') {
         return this.detailData.bet_number
-          .replace(/ /g,',')
+          .replace(/ /g, ',')
           .replace(/(0)/g, '零单五双')
           .replace(/(1)/g, '一单四双')
           .replace(/(2)/g, '二单三双')
@@ -297,6 +302,25 @@ export default {
   methods: {
     handleClose() {
       this.$emit('close')
+    },
+    handleCancelBet(item) {
+      this.$confirm('你确认撤单么？', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.Api.cancelBet({ id: item.id }).then(({ success }) => {
+          if (success) {
+            this.$store.dispatch('betHistory')
+            item.status = 1
+            this.$message({
+              type: 'success',
+              message: '撤单成功!',
+              duration: 1000
+            })
+          }
+        })
+      })
     }
   }
 }

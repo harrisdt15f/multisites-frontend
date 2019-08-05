@@ -26,8 +26,7 @@
             状态：
             <el-select size="mini"  style="width:100px;" v-model="gameListQuery.status" placeholder="请选择">
               <el-option 
-                label="所有"
-                value="*"></el-option>
+                label="所有" value=""></el-option>
               <el-option 
                 v-for="(item, index) in statusOption" 
                 :key="index"
@@ -36,16 +35,11 @@
             </el-select>
             <br>
              游戏名称：
-            <el-select size="mini"  style="width:120px;" v-model="gameListQuery.lottery_sign" placeholder="请选择">
-              <el-option 
-                label="所有游戏" 
-                value="*"></el-option>
-              <el-option 
-                v-for="(item, index) in lotteryAll" 
-                :key="index"
-                :label="item.lottery.cn_name" 
-                :value="item.lottery.en_name"></el-option>
-            </el-select>
+            <el-cascader
+              size="mini" 
+              :props="{ expandTrigger: 'hover' }"
+              v-model="gameListQuery.lotterySign"
+              :options="lotteryAllOptions"></el-cascader>
             <div class="bmn-search-button" style="margin-left:20px;">
               <input @click="searchGame" type="submit" value="搜 索" class="btn" />
             </div>
@@ -68,7 +62,9 @@
                     type="text"
                     size="mini"
                     @click="handleDetail(scope.row)"
-                  >{{ scope.row.serial_number }}</el-button>
+                  >
+                 {{ scope.row.serial_number }}
+                  </el-button>
                 </template>
               </el-table-column>
               <el-table-column align="center" label="奖期">
@@ -121,9 +117,11 @@
               <el-table-column align="center" label="状态">
                 <template slot-scope="scope">
                   <span v-if="scope.row.status == 0">待开奖</span>
+                  <span v-if="scope.row.status == 1">已撤销</span>
                   <span v-if="scope.row.status == 2">未中奖</span>
                   <span v-if="scope.row.status == 3">中奖</span>
                   <span v-if="scope.row.status == 4">已派奖</span>
+                  <span v-if="scope.row.status == 5">管理员撤销</span>
                 </template>
               </el-table-column>
             </el-table>
@@ -166,7 +164,7 @@
             状态：
             <el-select size="mini"  style="width:100px;" v-model="tracesListQuery.status" placeholder="请选择">
               <el-option 
-                label="所有"></el-option>
+                label="所有" value=""></el-option>
               <el-option 
                 v-for="(item, index) in statusOption" 
                 :key="index"
@@ -175,15 +173,11 @@
             </el-select>
             <br>
              游戏名称：
-            <el-select size="mini"  style="width:120px;" v-model="tracesListQuery.lottery_sign" placeholder="请选择">
-              <el-option 
-                label="所有游戏"></el-option>
-              <el-option 
-                v-for="(item, index) in lotteryAll" 
-                :key="index"
-                :label="item.lottery.cn_name" 
-                :value="item.lottery.en_name"></el-option>
-            </el-select>
+            <el-cascader
+              size="mini" 
+              :props="{ expandTrigger: 'hover' }"
+              v-model="tracesListQuery.lotterySign"
+              :options="lotteryAllOptions"></el-cascader>
             <div class="bmn-search-button" style="margin-left:20px;">
               <input @click="searchTraces" type="submit" value="搜 索" class="btn" />
             </div>
@@ -274,7 +268,7 @@ export default {
     const statusOption = [
       {
         value: 0,
-        label: '已投注'
+        label: '待开奖'
       },
       {
         value: 1,
@@ -336,9 +330,12 @@ export default {
       gameListQuery: {
         page_size: 10,
         page: 1,
+        lotterySign: '',
         time_condtions: [],
         lottery_sign: '',
         serial_number: '',
+        issue: '',
+        status: ''
       },
       tracesListTotal: null,
       tracesList: [],
@@ -346,8 +343,11 @@ export default {
         page_size: 10,
         page: 1,
         time_condtions: [],
+        lotterySign: '',
+        lottery_sign: '',
         project_serial_number: '',
-        issue: ''
+        issue: '',
+        status: ''
       },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
@@ -361,8 +361,32 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'lotteryAll'
-    ])
+      'lotteryAll',
+      'lotteryLists'
+    ]),
+    lotteryAllOptions(){
+      if(!Object.keys(this.lotteryLists).length) return
+      let list = []
+      list.push({
+        value: '',
+        label: '所有游戏',
+      })
+      for(let i in this.lotteryLists) {
+        const val = this.lotteryLists[i]
+        const children = val.list.map(val => {
+          return {
+            value: val.id,
+            label: val.name,
+          }
+        })
+        list.push({
+          value: val.sign,
+          label: val.name,
+          children: children
+        })
+      }
+      return list
+    }
   },
   watch: {
     gameTime: {
@@ -431,6 +455,9 @@ export default {
       }
     },
     getGameList() {
+      Object.assign(this.gameListQuery, {
+        lottery_sign: this.gameListQuery.lotterySign && this.gameListQuery.lotterySign.length == 2 ? this.gameListQuery.lotterySign[1] : ''
+      })
       for (var propName in this.gameListQuery) { 
         if (this.gameListQuery[propName] === '') {
           delete this.gameListQuery[propName]
@@ -447,6 +474,9 @@ export default {
       })
     },
     getTraceList() {
+      Object.assign(this.tracesListQuery, {
+        lottery_sign: this.tracesListQuery.lotterySign && this.tracesListQuery.lotterySign.length == 2 ? this.tracesListQuery.lotterySign[1] : ''
+      })
       for (var propName in this.tracesListQuery) { 
         if (this.tracesListQuery[propName] === '') {
           delete this.tracesListQuery[propName]
