@@ -102,33 +102,53 @@
       v-for="(_number, _tabName, yIndex) in currentMethod.layout"
       :key="yIndex"
     >
-      <ul
-        class="k3-dxds-lists k3-sbth-lists"
-        v-if="currentMethod.method !== 'KSHZDXDS' && currentMethod.method !== 'KSHZ'"
-        :class="{
-          'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
-          'k3-ebth-lists': currentMethod.method === 'EBTH',
-          'k3-dtys-lists': currentMethod.method === 'DTYS'}"
-      >
-        <li
-          class="k3-dxds-list"
-          v-for="(_code, xIndex) in _number"
-          :key="xIndex"
-          @click="selectCode(yIndex, xIndex)"
-          :class="{'active': chooseNumber[yIndex][xIndex]}"
+      <template v-if="currentMethod.method !== 'KSHZDXDS' && currentMethod.method !== 'KSHZ'">
+        <ul
+          class="k3-dxds-lists k3-sbth-lists"
+          :class="{
+            'k3-sth-lists': currentMethod.method === 'STH' || currentMethod.method === 'ETH',
+            'k3-ebth-lists': currentMethod.method === 'EBTH',
+            'k3-dtys-lists': currentMethod.method === 'DTYS'}"
         >
-          <a
-            href="javascript:;"
-            class="k3-sbth-dxds-lk"
-            :class="'k3-sbth-' + _code_sub"
-            :x="xIndex"
-            :y="yIndex"
-            v-for="(_code_sub, index) in String(_code).split('')"
-            :key="index"
-          ></a>
-        </li>
-      </ul>
-
+          <li
+            class="k3-dxds-list"
+            v-for="(_code, xIndex) in _number"
+            :key="xIndex"
+            @click="selectCode(yIndex, xIndex)"
+            :class="{'active': chooseNumber[yIndex][xIndex]}"
+          >
+            <a
+              href="javascript:;"
+              class="k3-sbth-dxds-lk"
+              :class="'k3-sbth-' + _code_sub"
+              :x="xIndex"
+              :y="yIndex"
+              v-for="(_code_sub, index) in String(_code).split('')"
+              :key="index"
+            ></a>
+          </li>
+        </ul>
+        <ul v-if="currentMethod.method === 'ETH'" class="k3-dxds-lists k3-sbth-lists k3-dxds-lists-btn">
+          <li
+            class="k3-dxds-list"
+            v-for="(_code, xIndex) in currentMethod.buttons"
+            :key="xIndex"
+            @click="selectButton(yIndex, xIndex)"
+            :class="{'active': chooseButton[yIndex][xIndex]}"
+          >
+            <a
+              href="javascript:;"
+              class="k3-sbth-dxds-lk"
+              :class="'k3-sbth-' + _code_sub"
+              :x="xIndex"
+              :y="yIndex"
+              v-for="(_code_sub, index) in String(_code).split('')"
+              :key="index"
+            ></a>
+          </li>
+        </ul>
+      </template>
+      
       <!-- 合值 大小单双-->
       <ul class="k3-dxds-lists" v-else>
         <li
@@ -337,7 +357,6 @@ export default {
       //最大倍数
       if(!this.calculate()){
         this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
-        console.log(this.currentOrder.currentMaxTimes)
       }
     },
     // 切换玩法时
@@ -565,14 +584,14 @@ export default {
           _count = result
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count && _count * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count * this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit =  _count &&
           (this.currentCountPrizes -
-            _count * this.userConfig.mode * this.userConfig.singlePrice) *
+            this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
         if (maxProfit < this.userDetail.max_profit_bonus) {
-          this.currentOrder.maxProfit =maxProfit
+          this.currentOrder.maxProfit = maxProfit
         } else{
           this.$message({
             message: '已超过最高盈利',
@@ -590,12 +609,12 @@ export default {
         this.currentOrder.inputcodes = inputcodes
         this.currentOrder.positionDesc = positionDesc
         return [_count, inputcodes, positionDesc]
+        
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  this.currentCountPrizes - this.inputCodesSingle && this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
-        const maxProfit =  this.inputCodesSingle &&
-          (this.currentCountPrizes -
+        const maxProfit = (this.currentCountPrizes -
             this.inputCodesSingle *
               this.userConfig.mode *
               this.userConfig.singlePrice) *
@@ -927,11 +946,11 @@ export default {
     },
     // 选择按钮
     selectButton(y, b) {
-      this.cleanChooseButton(y)
-      this.cleanChooseNumber(y)
-
+      if (!this.currentMethod.method === 'ETH') {
+        this.cleanChooseButton(y)
+        this.cleanChooseNumber(y)
+      }
       this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
-
       let rowData = this.chooseNumber[y]
       if (
         this.currentLottery.series_id === 'lotto' ||
@@ -1012,6 +1031,42 @@ export default {
             break
           case '清':
             this.chooseButton[y][b] = false
+            break
+          case '11':
+            for (let i = 0; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
+            break
+          case '22':
+            for (let i = 1; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
+            break
+          case '33':
+            for (let i = 2; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
+            break
+          case '44':
+            for (let i = 3; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
+            break
+          case '55':
+            for (let i = 4; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
+            break
+          case '66':
+            for (let i = 5; i < 30; i+=6) {
+              
+              this.chooseNumber[y][i] = true
+            }
             break
         }
       }
@@ -1125,6 +1180,7 @@ export default {
             }
           }
           if (
+            method.type === 'k3' ||
             method.method === 'QZXHZ' ||
             method.method === 'QZUHZ' ||
             method.method === 'ZZXHZ' ||

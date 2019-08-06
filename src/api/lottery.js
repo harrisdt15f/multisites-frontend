@@ -82,5 +82,9 @@ export default {
    */
   getNoticeList() {
     return this.post(this.url.noticeList).then(response => response)
-  }
+  },
+  //游戏-投注撤销
+  cancelBet(data) {
+    return this.post('/lotteries/cancel-bet', data).then(response =>  response)
+  },
 }
