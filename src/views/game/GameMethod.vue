@@ -25,7 +25,7 @@
             <div class="bet-play" @click="chengePlay()">娱乐城</div>
           </section>
         </div>
-        <div class="main-center-wrap clearfix">
+        <div class="main-center-wrap">
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
               <div class="bet-type-group-warp">
@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <game-select :countPrizes="countPrizes()"></game-select>
+            <game-select @countPrizes="countPrizes" :countPrizes="countPrizes()"></game-select>
           </div>
           <section class="main-right">
             <section class="list-historys">
@@ -181,29 +181,19 @@ export default {
     this.selectGroup(this.defaultGroup)
   },
   methods: {
-    
     //奖金计算
     countPrizes () {
-
       let [
         prize = prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
         arr = []
       ] = []
-  
-  
       for (const k of this.gameId) {
-  
         for (const i of k) {
-    
           if (this.currentLottery.id === i) {
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
               
-              // if (i === 1) {
-              //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-              // }else
-  
                if (i === 17 || i === 20) {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
               }
@@ -221,10 +211,6 @@ export default {
               for (const j of Object.keys(prize.count)) {
                 let json = {}
                 
-                
-                // if (i === 1) {
-                //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-                // }else
                 //
                  if (i === 17 || i === 20) {
                   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001

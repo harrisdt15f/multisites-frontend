@@ -5,10 +5,11 @@
         <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
+            <li v-if="this.isLogin" @click="showMessageCenter" class="toptray-item" tag="li" to="/">消息中心</li>|
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
             <li @click="preInto('/account-center/bet-record')" class="toptray-item">投注记录</li>|
             <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
-            <router-link class="toptray-item corigin" tag="li" to="/">在线客服</router-link>
+            <router-link class="toptray-item corigin" tag="li" to="/">在线客服</router-link>|
           </ul>
         </div>
       </div>
@@ -173,16 +174,28 @@
         </el-row>
       </div>
     </div>
+    <dialog-bulletin
+      v-if="showBulletin"
+      :showBulletin="showBulletin"
+      index="1"
+      @close="handleBulletinClose"
+    ></dialog-bulletin>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import { removeToken } from '@/utils/auth'
+import dialogBulletin from '../components/public/dialog_bulletin'
+
 export default {
   name: 'Header',
+  components: {
+    dialogBulletin
+  },
   data() {
     return {
+      showBulletin: false,
       loginLoading: false,
       loading: false,
       showSelectLottery: false,
@@ -302,6 +315,12 @@ export default {
         .catch(() => {
           this.loginLoading = false
         })
+    },
+    showMessageCenter(){
+      this.showBulletin = true
+    },
+    handleBulletinClose() {
+      this.showBulletin = false
     }
   }
 }

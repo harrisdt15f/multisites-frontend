@@ -226,7 +226,7 @@
         </div>
         <div class="bet-choose-total">
           <a href="javascript:;" class="bet-choose-ipt" @click="timeReduce()">-</a>
-          <input type="text" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes" />
+          <input type="text" oninput = "value=value.replace(/[^\d]/g,'')" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes" />
           <a href="javascript:;" class="bet-choose-ipt" @click="timeAdd()">+</a>
           <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span>
         </div>
@@ -584,11 +584,11 @@ export default {
           _count = result
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count * +this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit =  _count &&
-          (this.currentCountPrizes -
-            this.userConfig.mode * this.userConfig.singlePrice) *
+          (+this.currentCountPrizes - 
+            _count * +this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
         if (maxProfit < this.userDetail.max_profit_bonus) {
           this.currentOrder.maxProfit = maxProfit
@@ -597,6 +597,7 @@ export default {
             message: '已超过最高盈利',
             type: 'warning'
           })
+          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
           return false
         }
 
@@ -612,11 +613,11 @@ export default {
         
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - this.inputCodesSingle * this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - this.inputCodesSingle * +this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit = (this.currentCountPrizes -
             this.inputCodesSingle *
-              this.userConfig.mode *
+              +this.userConfig.mode *
               this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
         if (maxProfit < this.userDetail.max_profit_bonus) {
@@ -626,6 +627,7 @@ export default {
             message: '已超过最高盈利',
             type: 'warning'
           })
+          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
           return false
         }
 
@@ -644,9 +646,6 @@ export default {
     // 倍数增加
     timeAdd() {
       this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
-      if(!this.calculate()){
-        this.currentOrder.currentTimes = +this.currentOrder.currentTimes - 1
-      }
     },
     // 倍数减少
     timeReduce() {
@@ -661,7 +660,11 @@ export default {
         mode: (+mode).toFixed(3)
       })
       this.$store.commit('userConfig', userConfig)
-      this.calculate()
+      this.$emit('countPrizes')
+      this.$nextTick(() => {
+        this.calculate()
+      })
+      
     },
     singlePriceChange(val) {
       const userConfig = Object.assign(this.userConfig, { singlePrice: val })
@@ -946,7 +949,7 @@ export default {
     },
     // 选择按钮
     selectButton(y, b) {
-      if (!this.currentMethod.method === 'ETH') {
+      if (this.currentMethod.method !== 'ETH') {
         this.cleanChooseButton(y)
         this.cleanChooseNumber(y)
       }
@@ -1029,9 +1032,6 @@ export default {
               }
             }
             break
-          case '清':
-            this.chooseButton[y][b] = false
-            break
           case '11':
             for (let i = 0; i < 30; i+=6) {
               
@@ -1067,6 +1067,9 @@ export default {
               
               this.chooseNumber[y][i] = true
             }
+            break
+          case '清':
+            this.chooseButton[y][b] = false
             break
         }
       }

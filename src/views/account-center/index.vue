@@ -13,14 +13,7 @@
       <el-tab-pane label="账变记录" :lazy="true" name="betchage-record">
         <fund-record></fund-record>
       </el-tab-pane>
-      <el-tab-pane label="消息中心" :lazy="true" name="message-center"></el-tab-pane>
     </el-tabs>
-    <dialog-bulletin
-      v-if="showBulletin"
-      :showBulletin="showBulletin"
-      index="1"
-      @close="handleBulletinClose"
-    ></dialog-bulletin>
   </div>
 </template>
 
@@ -29,7 +22,6 @@ import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
 import accountManage from './components/account-manage/index'
-import dialogBulletin from '../../components/public/dialog_bulletin'
 
 export default {
   name: 'Account',
@@ -38,7 +30,7 @@ export default {
     fundManage,
     fundRecord,
     accountManage,
-    dialogBulletin
+    
   },
   data() {
     return {
@@ -57,20 +49,6 @@ export default {
     this.activeName = this.type ? this.type : 'account-manage'
   },
   methods: {
-    showMessageCenter(val) {
-      if (val.name === 'message-center') {
-        this.showBulletin = true
-        this.$nextTick(() => {
-          this.activeName = this.copyActiveName
-        })
-        return
-      }else {
-        this.copyActiveName = this.activeName
-      }
-    },
-    handleBulletinClose() {
-      this.showBulletin = false
-    }
   },
 }
 </script>

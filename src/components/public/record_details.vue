@@ -86,14 +86,6 @@
                   <span class="value">{{detailData.bonus}}</span>
                 </td>
               </tr>
-              <!-- <tr>
-              <td align="right"></td>
-              <td></td>
-              <td align="right">投注返点：</td>
-              <td>
-                <span class="value"></span>
-              </td>
-              </tr>-->
             </tbody>
           </table>
         </div>
@@ -176,7 +168,13 @@
               <tr>
                 <td align="right">追号状态：</td>
                 <td>
-                  <span class="value">{{detailData.status}}</span>
+                  <span class="value">
+                    <span class="value" v-if="detailData.status == 0">正在追号</span>
+                    <span class="value" v-if="detailData.status == 1">追号完成</span>
+                    <span class="value" v-if="detailData.status == 2">中奖停止</span>
+                    <span class="value" v-if="detailData.status == 4">系统撤销</span>
+                    <span class="value" v-if="detailData.status == 5">玩家撤销</span>
+                  </span>
                 </td>
                 <td align="right">模式：</td>
                 <td>
@@ -204,7 +202,7 @@
           <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
         </div>
         <div style="text-align:center; margin-top:20px;">
-          <el-button>终止追号</el-button>
+          <el-button @click="handleStopTrace(detailData)">终止追号</el-button>
         </div>
         <div class="trace-lists">
           <el-table :data="detailData.trace_lists" style="width: 80%;margin:30px auto">
@@ -316,6 +314,25 @@ export default {
             this.$message({
               type: 'success',
               message: '撤单成功!',
+              duration: 1000
+            })
+          }
+        })
+      })
+    },
+    handleStopTrace(item){
+      this.$confirm('你确认中止追号么？', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.Api.stopTrace({ type: 1, lottery_traces_id: item.id}).then(({ success }) => {
+          if (success) {
+            this.$store.dispatch('betHistory')
+            item.status = 5
+            this.$message({
+              type: 'success',
+              message: '本期追号单取消成功!',
               duration: 1000
             })
           }

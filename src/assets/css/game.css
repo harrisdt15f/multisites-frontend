@@ -185,7 +185,7 @@ body {
   font-size: 16px;
   line-height: 45px;
   color: #222222;
-  width: 245px;
+  width: 80%;
   height: 45px;
   background-image: linear-gradient(0deg, #fff0db 0%, #fff5e7 100%),
     linear-gradient(#e4dbd5, #e4dbd5);
@@ -2751,11 +2751,11 @@ body {
 .main-center-wrap {
   background: #fff;
   margin-bottom: 10px;
+  display: flex;
 }
 .main-center-wrap .main-left {
-  float: left;
   min-height: 639px;
-  width: 885px;
+  flex: 1;
   border-right: 1px solid #eaeaea;
   box-sizing: border-box;
 }

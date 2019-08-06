@@ -87,4 +87,8 @@ export default {
   cancelBet(data) {
     return this.post('/lotteries/cancel-bet', data).then(response =>  response)
   },
+  //游戏-投注撤销
+  stopTrace(data) {
+  return this.post('/lotteries/stop-trace', data).then(response =>  response)
+},
 }

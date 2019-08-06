@@ -792,7 +792,7 @@ export default {
       for (let i = 0; i < list.length; i++) {
         if (i < sameIssue) {
           list[i].time = this.Utils.formatTime(
-            list[i].open_time,
+            list[i].open_time * 1000,
             'YYYY-MM-DD HH:MM:SS'
           )
           this.chase.doubleData.push(list[i])
@@ -862,7 +862,7 @@ export default {
         if (i < sameIssue) {
           this.chase.sameData.push(list[i])
           list[i].time = this.Utils.formatTime(
-            list[i].open_time,
+            list[i].open_time * 1000,
             'YYYY-MM-DD HH:MM:SS'
           )
           this.$set(this.chase.sameData[i], 'checked', true)
@@ -872,7 +872,6 @@ export default {
     },
     // 生成利润率追号
     chaseRateSubmit() {
-      console.log(this.orderList)
       if (this.orderList.length === 0) {
         this.$alert('请至少选择一注投注号码', '提示', {
           confirmButtonText: '确定'
