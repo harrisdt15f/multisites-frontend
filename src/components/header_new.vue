@@ -324,8 +324,8 @@ export default {
   margin: 0 auto;
 }
 .header-toptray {
-  height: 50px;
-  line-height: 50px;
+  height: 38px;
+  line-height: 38px;
   background-color: #e6e6e6;
   font-size: 14px;
   .toptray-left {
