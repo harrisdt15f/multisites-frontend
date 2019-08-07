@@ -47,7 +47,8 @@
             class="fl fw w16"
             :class="{'ylc-content-line': index !== pcdd.allCodeList.length - 1}"
             v-for="(list, index) in pcdd.allCodeList"
-            :key="index">
+            :key="index"
+          >
             <p class="ylc-title w100">{{list.name}}</p>
             <ul class="ylc-title w100 ntb">
               <li class="ylc-title-list">号码</li>
@@ -73,7 +74,7 @@
                   @click="listChecked(item)"
                 >{{Utils.toFixed(String(item.odds), 4)}}</span>
                 <section class="w33 fl">
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </section>
               </li>
               <li
@@ -110,8 +111,11 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <span
+                    class="dl red"
+                    @click="listChecked(item)"
+                  >{{Utils.toFixed(String(item.odds), 4)}}</span>
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </li>
               </ul>
             </section>
@@ -135,13 +139,16 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <span
+                    class="dl red"
+                    @click="listChecked(item)"
+                  >{{Utils.toFixed(String(item.odds), 4)}}</span>
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </li>
               </ul>
             </section>
 
-            <br v-if="pcdd.allCodeList.b">
+            <br v-if="pcdd.allCodeList.b" />
             <section class="dinv ylc-lhd-list" v-for="list in pcdd.allCodeList.b">
               <h3 class="ylc-lhd-list-title">{{list.name}}</h3>
               <ul class="fw">
@@ -161,13 +168,16 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <span
+                    class="dl red"
+                    @click="listChecked(item)"
+                  >{{Utils.toFixed(String(item.odds), 4)}}</span>
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </li>
               </ul>
             </section>
 
-            <br v-if="pcdd.allCodeList.s">
+            <br v-if="pcdd.allCodeList.s" />
             <section class="dinv ylc-lhd-list" v-for="list in pcdd.allCodeList.s">
               <h3 class="ylc-lhd-list-title">{{list.name}}</h3>
               <ul class="fw">
@@ -187,8 +197,11 @@
 									      }"
                     >{{item.code}}</span>
                   </section>
-                  <span class="dl red" @click="listChecked(item)">{{Utils.toFixed(String(item.odds), 4)}}</span>
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <span
+                    class="dl red"
+                    @click="listChecked(item)"
+                  >{{Utils.toFixed(String(item.odds), 4)}}</span>
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </li>
               </ul>
             </section>
@@ -235,7 +248,7 @@
                   @click="listChecked(item)"
                 >{{Utils.toFixed(String(item.odds), 4)}}</span>
                 <section class="w33 fl">
-                  <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                  <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </section>
               </li>
             </ul>
@@ -271,7 +284,7 @@
                     @click="listChecked(item)"
                   >{{Utils.toFixed(String(item.odds), 4)}}</span>
                   <section class="w33 fl">
-                    <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                    <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                   </section>
                 </li>
               </ul>
@@ -360,13 +373,14 @@
                   <span class="w33 fl" :class="item.class">{{item.code}}</span>
                   <span class="fl w33 red ylc-bet-list-odds">{{item.odds}}</span>
                   <section class="w33 fl">
-                    <input type="text" class="ylc-bet-list-money" v-model="item.money">
+                    <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                   </section>
                 </li>
                 <li
                   class="ylc-bet-list"
                   :class="{nrb: index === 3}"
-                  v-for="cc in (4 - list.length)"
+                  v-for="(cc, index) in (4 - list.length)"
+                  :key="index"
                 ></li>
               </ul>
             </section>
@@ -459,7 +473,7 @@
             v-model="kxInfo.blue"
             value="10"
             placeholder="未设置"
-          >
+          />
           <span class="ylc-kx-info-clear" @click="kxInfo.blue = 0">清空</span>
         </section>
         <section class="fw ylc-kx-info-list">
@@ -472,7 +486,7 @@
             v-model="kxInfo.red"
             value="10"
             placeholder="未设置"
-          >
+          />
           <span class="ylc-kx-info-clear" @click="kxInfo.red = 0">清空</span>
         </section>
         <section class="fw ylc-kx-info-list">
@@ -485,7 +499,7 @@
             v-model="kxInfo.green"
             value="10"
             placeholder="未设置"
-          >
+          />
           <span class="ylc-kx-info-clear" @click="kxInfo.green = 0">清空</span>
         </section>
         <section class="fw ylc-kx-info-list">
@@ -498,7 +512,7 @@
             v-model="kxInfo.violet"
             value="10"
             placeholder="未设置"
-          >
+          />
           <span class="ylc-kx-info-clear" @click="kxInfo.violet = 0">清空</span>
         </section>
         <section class="fw ylc-kx-info-list">
@@ -511,7 +525,7 @@
             v-model="kxInfo.drakBlue"
             value="10"
             placeholder="未设置"
-          >
+          />
           <span class="ylc-kx-info-clear" @click="kxInfo.drakBlue = 0">清空</span>
         </section>
 
@@ -557,8 +571,14 @@
       <section class="ylc-kx-footer-moneys">
         <span class="ylc-kx-footer-moneys-sp">快选金额</span>
         <ul class="dinv">
-          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.blue2, $event)">{{kxInfo.blue2}}</li>
-          <li class="ylc-kx-footer-moneys-list" @click="kxInfoSelect(kxInfo.red2, $event)">{{kxInfo.red2}}</li>
+          <li
+            class="ylc-kx-footer-moneys-list"
+            @click="kxInfoSelect(kxInfo.blue2, $event)"
+          >{{kxInfo.blue2}}</li>
+          <li
+            class="ylc-kx-footer-moneys-list"
+            @click="kxInfoSelect(kxInfo.red2, $event)"
+          >{{kxInfo.red2}}</li>
           <li
             class="ylc-kx-footer-moneys-list"
             @click="kxInfoSelect(kxInfo.green2, $event)"
@@ -573,7 +593,7 @@
           >{{kxInfo.drakBlue2}}</li>
         </ul>
         <span class="ylc-kx-footer-moneys-much">金额:</span>
-        <input type="text" class="ylc-kx-footer-moneys-text" v-model="currentOrder.money">
+        <input type="text" class="ylc-kx-footer-moneys-text" v-model="currentOrder.money" />
         <span class="ylc-kx-footer-confirm" @click="confirm()">确认投注</span>
       </section>
     </section>
@@ -581,10 +601,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import methods from '../../lib/config/method'
-import prizes from '../../lib/config/prizes'
-import Utils from '../../lib/utils/utils'
+import { mapGetters } from 'vuex';
+import methods from '../../lib/config/method';
+import prizes from '../../lib/config/prizes';
+import Utils from '../../lib/utils/utils';
 export default {
   name: 'ylc',
   data() {
@@ -804,7 +824,7 @@ export default {
       width += k.clientWidth
     }
 
-    this.$refs.ylcNav.style.width = width + 'px'
+    this.$refs.ylcNav.style.width = width + 'px';
   },
   methods: {
     // 切换 官方 和 娱乐城 玩法
@@ -930,7 +950,7 @@ export default {
         this.$alert('你还未投注 或 投注错误', '提示', {
           confirmButtonText: '确定'
         })
-        return
+        return;
       }
 
       this.currentOrder.list = list
@@ -951,46 +971,46 @@ export default {
         if (isNaN(list[i].code)) {
           switch (list[i].code) {
             case '大':
-              list[i].upload = 'b'
+              list[i].upload = 'b';
               break
             case '小':
-              list[i].upload = 's'
+              list[i].upload = 's';
               break
             case '单':
-              list[i].upload = 'o'
+              list[i].upload = 'o';
               break
             case '双':
-              list[i].upload = 'e'
+              list[i].upload = 'e';
               break
             case '大单':
-              list[i].upload = 'bo'
+              list[i].upload = 'bo';
               break
             case '大双':
-              list[i].upload = 'be'
+              list[i].upload = 'be';
               break
             case '小单':
-              list[i].upload = 'so'
+              list[i].upload = 'so';
               break
             case '小双':
-              list[i].upload = 'se'
+              list[i].upload = 'se';
               break
             case '极大':
-              list[i].upload = 'sb'
+              list[i].upload = 'sb';
               break
             case '极小':
-              list[i].upload = 'ss'
+              list[i].upload = 'ss';
               break
             case '豹子':
-              list[i].upload = 'b'
+              list[i].upload = 'b';
               break
             case '红波':
-              list[i].upload = 'red'
+              list[i].upload = 'red';
               break
             case '蓝波':
-              list[i].upload = 'blue'
+              list[i].upload = 'blue';
               break
             case '绿波':
-              list[i].upload = 'green'
+              list[i].upload = 'green';
               break
           }
         }
@@ -1053,11 +1073,10 @@ export default {
         allBtnList = this.pcdd.allBtnList
       ] = []
       this.currentOrder.money = Number(item) + Number(this.currentOrder.money)
-      
-  
-      e.target.className += ' active'
-      setTimeout( () => {
-        e.target.className = 'ylc-kx-footer-moneys-list'
+
+      e.target.className += ' active';
+      setTimeout(() => {
+        e.target.className = 'ylc-kx-footer-moneys-list';
       }, 350)
       // 娱乐城龙虎斗
       if (this.currentMethod.method === 'LHD') {
@@ -1131,16 +1150,15 @@ export default {
       let [
         list = this.currentMethod.layout.codes,
         all = this.allMethods,
-        prize = prizes[this.currentLottery.series_id]['casino'][this.currentMethod.method],
+        prize = prizes[this.currentLottery.series_id]['casino'][
+          this.currentMethod.method
+        ]
       ] = []
       this.pcdd.allCodeList = []
 
       // pc蛋蛋
       if (this.currentMethod.type === 'pcdd') {
-        let [
-          tempList = [],
-          temList = [],
-        ] = []
+        let [tempList = [], temList = []] = []
         for (let i = 0; i < Math.ceil(list.length / 4); i++) {
           tempList.push([])
         }
@@ -1172,12 +1190,11 @@ export default {
         ] = []
 
         for (const k of all) {
-          
           // 第一球
           if (k.sign === 'DYQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第一球'
+            json.name = '第一球';
             json.code = []
             for (const i of casino.DYQ.layout.codes) {
               // 两面盘
@@ -1196,19 +1213,19 @@ export default {
                 codeJson.money = 0
                 codeJson.flag = false
                 codeJson.odds = 80.0
-                
+
                 json.code.push(codeJson)
               }
             }
 
             temp.push(json)
           }
-          
+
           // 第二球
           else if (k.sign === 'DEQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第二球'
+            json.name = '第二球';
             json.code = []
             for (const i of casino.DEQ.layout.codes) {
               // 两面盘
@@ -1238,7 +1255,7 @@ export default {
           else if (k.sign === 'DSQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第三球'
+            json.name = '第三球';
             json.code = []
             for (const i of casino.DSQ.layout.codes) {
               // 两面盘
@@ -1263,12 +1280,12 @@ export default {
 
             temp.push(json)
           }
-          
+
           // 第四球
           else if (k.sign === 'DSIQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第四球'
+            json.name = '第四球';
             json.code = []
             for (const i of casino.DSIQ.layout.codes) {
               // 两面盘
@@ -1298,7 +1315,7 @@ export default {
           else if (k.sign === 'DWQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第五球'
+            json.name = '第五球';
             json.code = []
             for (const i of casino.DWQ.layout.codes) {
               // 两面盘
@@ -1327,8 +1344,8 @@ export default {
 
         // 球数总和
         let json = {}
-        json.sign = 'all'
-        json.name = '总和'
+        json.sign = 'all';
+        json.name = '总和';
         json.code = [
           { code: '总大', money: 0, flag: false, odds: 80 },
           { code: '总小', money: 0, flag: false, odds: 80 },
@@ -1336,20 +1353,18 @@ export default {
           { code: '总双', money: 0, flag: false, odds: 80 }
         ]
         temp.push(json)
-        
+
         for (const k of temp) {
-   
           for (const i of Object.keys(prize)) {
             if (k.sign === i) {
-              
               for (const j of k.code) {
-  
                 for (const l of Object.keys(prize[i])) {
-                  
                   if (String(j.code) === l) {
-  
-                    j.odds = 2 / (prize[i][l].count / prize[i][l].total) * this.userDetail.prize_group / 2000 + .00000001
-                    
+                    j.odds =
+                      ((2 / (prize[i][l].count / prize[i][l].total)) *
+                        this.userDetail.prize_group) /
+                        2000 +
+                      0.00000001
                   }
                 }
               }
@@ -1387,15 +1402,15 @@ export default {
           json.odds = 80.0
           allCodeList.push(json)
         }
-  
+
         for (const k of allCodeList) {
-          
           for (const i of Object.keys(prize)) {
-            
             if (String(k.code) === i) {
-  
-              k.odds = 2 / (prize[i].count / prize[i].total) * this.userDetail.prize_group / 2000 + .00000001
-              
+              k.odds =
+                ((2 / (prize[i].count / prize[i].total)) *
+                  this.userDetail.prize_group) /
+                  2000 +
+                0.00000001
             }
           }
         }
@@ -1422,85 +1437,85 @@ export default {
                     let json = {}
                     switch (m) {
                       case 'wq':
-                        json.name = '万千 第一球 vs 第二球'
+                        json.name = '万千 第一球 vs 第二球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'wb':
-                        json.name = '万百 第一球 vs 第三球'
+                        json.name = '万百 第一球 vs 第三球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'ws':
-                        json.name = '万十 第一球 vs 第四球'
+                        json.name = '万十 第一球 vs 第四球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'wg':
-                        json.name = '万个 第一球 vs 第五球'
+                        json.name = '万个 第一球 vs 第五球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'qb':
-                        json.name = '千百 第二球 vs 第三球'
+                        json.name = '千百 第二球 vs 第三球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'qs':
-                        json.name = '千十 第二球 vs 第四球'
+                        json.name = '千十 第二球 vs 第四球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'qg':
-                        json.name = '千个 第二球 vs 第五球'
+                        json.name = '千个 第二球 vs 第五球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'bs':
-                        json.name = '百十 第三球 vs 第四球'
+                        json.name = '百十 第三球 vs 第四球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'bg':
-                        json.name = '百个 第三球 vs 第五球'
+                        json.name = '百个 第三球 vs 第五球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                       case 'sg':
-                        json.name = '十个 第四球 vs 第五球'
+                        json.name = '十个 第四球 vs 第五球';
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break
+                        break;
                     }
                     json.sign = m
                     temp[j].push(json)
@@ -1510,22 +1525,19 @@ export default {
             }
           }
         }
-        
+
         for (const k of Object.keys(temp)) {
-  
           for (const i of temp[k]) {
-  
             for (const j of Object.keys(prize)) {
-              
               if (i.sign === j) {
-             
                 for (const p of i.code) {
-                  
                   for (const l of Object.keys(prize[j])) {
-                    
                     if (p.code === l) {
-                      
-                      p.odds = 2 / (prize[j][l].count / prize[j][l].total) * this.userDetail.prize_group / 2000 + .00000001
+                      p.odds =
+                        ((2 / (prize[j][l].count / prize[j][l].total)) *
+                          this.userDetail.prize_group) /
+                          2000 +
+                        0.00000001
                     }
                   }
                 }
@@ -1547,9 +1559,11 @@ export default {
               json.flag = false
               for (const j of Object.keys(prize)) {
                 if (String(i) === j) {
-  
-                  json.odds = 2 / (prize[i].count / prize[i].total) * this.userDetail.prize_group / 2000 + .00000001
-
+                  json.odds =
+                    ((2 / (prize[i].count / prize[i].total)) *
+                      this.userDetail.prize_group) /
+                      2000 +
+                    0.00000001
                 }
               }
               this.pcdd.allCodeList.push(json)
@@ -1590,11 +1604,11 @@ export default {
           if (k.sign === 'BO') {
             if (i === '红波' || i === '蓝波' || i === '绿波') {
               if (i === '红波') {
-                json.class = 'ylc-red'
+                json.class = 'ylc-red';
               } else if (i === '蓝波') {
-                json.class = 'ylc-blue'
+                json.class = 'ylc-blue';
               } else if (i === '绿波') {
-                json.class = 'ylc-green'
+                json.class = 'ylc-green';
               }
 
               tempList[3].push(json)
@@ -1613,13 +1627,13 @@ export default {
     // pc蛋蛋整合  号码背景图
     pcddAllIcon(item) {
       if (this.bq.gray.includes(item.code)) {
-        return 'ylc-bet-list-gray'
+        return 'ylc-bet-list-gray';
       } else if (this.bq.green.includes(item.code)) {
-        return 'ylc-bet-list-green'
+        return 'ylc-bet-list-green';
       } else if (this.bq.blue.includes(item.code)) {
-        return 'ylc-bet-list-blue'
+        return 'ylc-bet-list-blue';
       } else if (this.bq.red.includes(item.code)) {
-        return 'ylc-bet-list-red'
+        return 'ylc-bet-list-red';
       }
     },
 

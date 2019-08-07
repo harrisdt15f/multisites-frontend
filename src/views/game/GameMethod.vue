@@ -86,6 +86,7 @@
                     <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
                     <td class="td">
                       <span class="balls">
+                        {{currentLottery.series_id}}
                         <template v-if="currentLottery.series_id === 'lotto'">
                           <i
                           class="i curr"
@@ -153,14 +154,14 @@ export default {
       typeGroup: '',
       // 彩种id
       gameId: [
-        [1, 2, 3, 4, 5], //ssc
         [6, 7, 8, 9, 10, 11], //11x5
         [12, 13, 14, 15, 16], //k3
         [21, 22, 23], //pk10
         [17, 18], //f3d
         [19], //ssl
         [20], //pl35
-        [24] //lhc
+        [24], //lhc
+        [1, 2, 3, 4, 5], //ssc
       ],
       prizeSelect: '一等奖'
     }
@@ -255,6 +256,7 @@ export default {
       this.selectMethod(
         this.allMethods[_index]['rows'][0]['methods'][0]['method_id']
       )
+      
       this.$store.commit('currentMethodGroup', this.allMethods[_index]['rows'][0]['methods'][0]['method_group'])
       
       this.$store.commit('methodsTab')

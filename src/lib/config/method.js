@@ -2133,7 +2133,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': digitalPosTpl,
+                'buttons': [],
                 'limitSelectedCount': [
                     1,
                     999

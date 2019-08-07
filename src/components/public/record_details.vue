@@ -201,7 +201,7 @@
           <div class="title">投注内容：</div>
           <el-input type="textarea" disabled :rows="4" v-model="bet_number"></el-input>
         </div>
-        <div style="text-align:center; margin-top:20px;">
+        <div style="text-align:center; margin-top:20px;" v-if="detailData.status == 0">
           <el-button @click="handleStopTrace(detailData)">终止追号</el-button>
         </div>
         <div class="trace-lists">
@@ -225,8 +225,8 @@
             </el-table-column>
             <el-table-column align="center" prop="address" label="中奖	"></el-table-column>
             <el-table-column align="center" prop="address" label="操作	">
-              <template slot-scope="scope">
-                <el-button type="text" size="mini">取消本期追号</el-button>
+              <template slot-scope="scope" v-if="scope.row.status == 0">
+                <el-button @click="handleStopTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -330,6 +330,11 @@ export default {
           if (success) {
             this.$store.dispatch('betHistory')
             item.status = 5
+            item.trace_lists.forEach(val => {
+              if (val.status == 0) {
+                this.$set(val, 'status', 3)
+              }
+            })
             this.$message({
               type: 'success',
               message: '本期追号单取消成功!',
