@@ -101,11 +101,15 @@ const actions = {
     })
   },
   //获取公告 API
-  getNotice({ commit }){
-    API.getNotice({type:1}).then(({success, data}) => {
-      if (success) {
-        commit('SET_NOTICE', data)
-      }
+  getNotice({ commit }, sendData){
+    return new Promise((resolve, reject) => {
+      API.getNotice(sendData).then(res => {
+        const { success, data } = res
+        if (success) {
+          resolve(res)
+          commit('SET_NOTICE', data)
+        }
+      })
     })
   },
   getPopularLotteries1({ commit }){

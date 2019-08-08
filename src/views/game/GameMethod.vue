@@ -26,6 +26,8 @@
           </section>
         </div>
         <div class="main-center-wrap">
+          <div class="right-collapse" @click="handleCollapseRight">
+            {{this.collapseRight ? '收起开奖记录' : '展开开奖记录'}}</div>
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
               <div class="bet-type-group-warp">
@@ -68,47 +70,48 @@
             </div>
             <game-select @countPrizes="countPrizes" :countPrizes="countPrizes()"></game-select>
           </div>
-          <section class="main-right">
-            <section class="list-historys">
-              <section class="record"></section>
-              <table width="100%" class="bet-table-trend">
-                <thead>
-                  <tr>
-                    <th class="th">奖期</th>
-                    <th class="th">开奖</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    :class="{first: index === 0}"
-                    v-for="(item, index) in bet.issueHistory"
-                    :key="index">
-                    <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
-                    <td class="td">
-                      <span class="balls">
-                        {{currentLottery.series_id}}
-                        <template v-if="currentLottery.series_id === 'lotto'">
-                          <i
-                          class="i curr"
-                          v-for="(num, numIndex) in item.code.split(' ')"
-                          :key="numIndex">{{num}}</i>
-                        </template>
-                        <template v-else>
-                          <i
-                          class="i curr"
-                          v-for="(num, numIndex) in item.code.split('')"
-                          :key="numIndex">{{num}}</i>
-                        </template>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <router-link class="cur more" tag="section" to="/user-trends" >
-                查看完整走势
-              </router-link>
+          <transition name="el-zoom-in-center">
+            <section class="main-right" v-show="collapseRight">
+              <section class="list-historys">
+                <section class="record"></section>
+                <table width="100%" class="bet-table-trend">
+                  <thead>
+                    <tr>
+                      <th class="th" style="width:115px">奖期</th>
+                      <th class="th">开奖</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      :class="{first: index === 0}"
+                      v-for="(item, index) in bet.issueHistory"
+                      :key="index">
+                      <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
+                      <td class="td">
+                        <span class="balls">
+                          <template v-if="currentLottery.series_id === 'lotto'">
+                            <i
+                            class="i curr"
+                            v-for="(num, numIndex) in item.code.split(' ')"
+                            :key="numIndex">{{num}}</i>
+                          </template>
+                          <template v-else>
+                            <i
+                            class="i curr"
+                            v-for="(num, numIndex) in item.code.split('')"
+                            :key="numIndex">{{num}}</i>
+                          </template>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <router-link class="cur more" tag="section" to="/user-trends" >
+                  查看完整走势
+                </router-link>
+              </section>
             </section>
-          </section>
+          </transition>
         </div>
         <game-order :countPrizes="countPrizes()"></game-order>
       </section>
@@ -151,6 +154,7 @@ export default {
       selectedGroup: '',
       selectedGroupIndex: '',
       selectedMethodId: '',
+      collapseRight: true,
       typeGroup: '',
       // 彩种id
       gameId: [
@@ -272,6 +276,10 @@ export default {
       this.$store.commit('currentMethod', play)
       this.selectedMethodId = methodId
       this.$store.commit('methodsTab')
+    },
+    //展开历史
+    handleCollapseRight(){
+      this.collapseRight = !this.collapseRight
     }
   },
   components: {
@@ -299,6 +307,22 @@ export default {
 }
 .bet-type-group-list:first-child{
   padding-top:20px;
+}
+.main-center-wrap{
+  position: relative;
+  .right-collapse{
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.5;
+    top: 0;
+    right: -23px;
+    position: absolute;
+    width: 23px;
+    text-align: center;
+    padding: 8px 0;
+    background: #ff8800;
+    color: #fff;
+  }
 }
 
 </style>

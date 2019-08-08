@@ -5,7 +5,12 @@
         <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
-            <li v-if="this.isLogin" @click="showMessageCenter" class="toptray-item" tag="li" to="/">消息中心</li>|
+            <template v-if="this.isLogin" >
+              <li @click="showMessageCenter" style="padding-right:20px;" class="toptray-item" tag="li" to="/">
+                <i class="num">{{notice.unread_num}}</i> 
+                消息中心
+              </li>|
+            </template>
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
             <li @click="preInto('/account-center/bet-record')" class="toptray-item">投注记录</li>|
             <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
@@ -222,7 +227,8 @@ export default {
       'userDetail',
       'lotteryLists',
       'popularLotteries1',
-      'logoSrc'
+      'logoSrc',
+      'notice'
     ])
   },
   mounted() {
@@ -353,10 +359,24 @@ export default {
   .toptray-right {
     float: right;
     .toptray-item {
+      position: relative;
       display: inline-block;
       padding: 0 6px;
       cursor: pointer;
       font-size: 13px;
+      .num{
+        position: absolute;
+        right: 0;
+        top: 2px;
+        background: #ff7600;
+        width: 20px;
+        text-align: center;
+        line-height: 15px;
+        border-radius: 30px;
+        line-height: 1.0;
+        color: #fff;
+        font-size: 12px;
+      }
     }
   }
 }
