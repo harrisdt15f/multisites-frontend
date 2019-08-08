@@ -102,7 +102,7 @@ const actions = {
   },
   //获取公告 API
   getNotice({ commit }, sendData){
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       API.getNotice(sendData).then(res => {
         const { success, data } = res
         if (success) {
