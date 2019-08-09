@@ -6,107 +6,19 @@
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
         <section class="game-lotterys">
-          <div class="deadline" v-if="currentIssue">
+          <div class="deadline">
             <div class="deadline-text">
               第
               <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}}</strong>期
-              <br>投注截止
+              <br />投注截止
             </div>
-            <div class="deadline-number">
-              <em class="min-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-              </em>
-              <em class="min-right">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-              </em>
-              <span class="space1">:</span>
-
-              <em class="min-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-              </em>
-              <em class="min-right">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-              </em>
-              <span class="space1">:</span>
-
-              <em class="sec-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-              </em>
-              <em class="sec-right min-left-anim">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-              </em>
+            <div class="deadline-number" >
+              <FlipDown
+                :endDate="currentIssue.end_time"
+                :type="3"
+                :theme="2"
+                @timeUp="handleTimeup"
+              />
             </div>
           </div>
           <div class="game-lottery">
@@ -116,43 +28,35 @@
                 <strong>
                   <template>{{lastIssue.issue_no}}</template>
                 </strong>期
-                <br>开奖号码
+                <br />开奖号码
               </div>
             </div>
             <div class="lottery-number">
-              <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em>
-              <div v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'" class="lottery-animate">
+              <div style="overflow:hidden">
+                <!-- <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em> -->
+                <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
+                </em>
+              </div>
+              <div
+                v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'"
+                class="lottery-animate">
                 <span>开</span>
                 <span>奖</span>
                 <span>中</span>
                 <span>...</span>
               </div>
             </div>
-            <!-- <section class="c333 lottery-text">
-                <span class="red">上期开奖号码</span>
-                第 {{lastIssue.issue_no}} 期
-                <span class="official-win">官方开奖</span>
-              </section>
-              <section class="tc lottery-number">
-                <em class="num" v-for="(item, index) in lastIssue.open_code" :key="index">
-                  <span class="num-bg">{{item}}</span>
-                </em>
-              </section>
-              <section class="lottery-tip">
-                提示：
-                <em class="desc" v-html="descs"></em>
-            </section>-->
           </div>
-          <!-- <section class="deadline">投注截止： {{ time }}</section> -->
+          
         </section>
         <section class="trend-info">
-          <router-link class="trend" tag="span" to="/user-trends" >
+          <router-link class="trend" tag="span" to="/user-trends">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
-            <br>开奖趋势
+            <br />开奖趋势
           </router-link>
           <span class="trend info">
             <i class="fa fa-trophy" aria-hidden="true"></i>
-            <br>开奖说明
+            <br />开奖说明
           </span>
         </section>
       </section>
@@ -160,20 +64,32 @@
     <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
-        <br>
+        <br />
         <strong class="red">{{notice.issue}}</strong>
-        <br>
+        <br />
         <strong>请留意期号变化({{notice.time}})</strong>
       </section>
     </section>
   </section>
 </template>
 <script>
+import FlipDown from '../../components/public/flip-down'
+import { Flip } from 'number-flip'
+
 import { mapGetters } from 'vuex'
 export default {
   name: 'game-issue',
+  components: {
+    FlipDown
+  },
   computed: {
-    ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet', 'currentIssue'])
+    ...mapGetters([
+      'currentLottery',
+      'lotteryAll',
+      'issueInfo',
+      'bet',
+      'currentIssue'
+    ])
   },
   props: {
     lotterySign: String
@@ -198,56 +114,37 @@ export default {
     }
   },
   mounted() {
-    this.getIssue()
     this.getLottery()
-    
-    // 滚动公告
-    // this.Animation.notice('meque', 'meque_text', -1)
   },
   watch: {
-     'notice.show' (newVal) {
-        let timer = null
-        if (newVal) {
-          setTimeout(() => {
-            timer = setInterval(() => {
-              this.notice.time -= 1
-              if (this.notice.time === 0) {
-                clearInterval(timer)
-                this.notice.show = false
-                this.notice.time = 3
-              }
-            }, 1000)
-          }, 1)
-        }
+    'notice.show'(newVal) {
+      let timer = null
+      if (newVal) {
+        setTimeout(() => {
+          timer = setInterval(() => {
+            this.notice.time -= 1
+            if (this.notice.time === 0) {
+              clearInterval(timer)
+              this.notice.show = false
+              this.notice.time = 3
+            }
+          }, 1000)
+        }, 1)
       }
+    }
   },
   methods: {
-    // 获取提示语
-    lotteryList() {
-      this.Api.getLotteryList().then(res => {
-        if (res.success) {
-          let [
-            data = res.data.data,
-            sign = this.$route.params.lotterySign
-          ] = []
-
-          for (const k of data) {
-            for (const i of k.list) {
-              if (i.id === sign) {
-                this.descs = i.desc
-              }
-            }
-          }
-        }
-      })
-    },
-    // 获取公告列表  彩种右侧公告 和 彩种滚动公告
-    getNoticeList() {
-      this.Api.getNoticeList().then(res => {
-        if (res.success) {
-          this.lotteryNotice = res.data.list
-          this.scrollNotice = res.data.roll
-        }
+    //开奖号码滚动
+    filpOpenCode() {
+      this.lastIssue.open_code.forEach((v, i) => {
+        const $node = document.querySelector(`.open_code${i}`)
+        $node.innerHTML = ''
+        new Flip({
+          node: $node,
+          from: 0,
+          to: v,
+          duration: 2
+        })
       })
     },
     // 获取开奖结果
@@ -255,104 +152,63 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
-          if (res.data.lastIssue.open_code) {
-            if (this.currentLottery.series_id === 'lotto') {
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
-            } else{
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
-            }
-          } else{
-            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
-          }
-          
-          this.lastIssue = res.data.lastIssue
-          let [timer = null] = []
-          timer = setInterval(() => {
-            let [
-              currTime = res.data.currentIssue.open_time,
-              nowTime = new Date().getTime() / 1000
-            ] = []
-            if (currTime - parseInt(nowTime) === 0) {
-              clearInterval(timer)
-              // 更新历史开奖记录
-              this.$store.dispatch('issueHistory')
-              this.getLottery()
-            }
-          }, 1000)
-        }
-      })
-    },
-    getLastIssue(){
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          if (res.data.lastIssue.open_code) {
-            if (this.currentLottery.series_id === 'lotto') {
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
-            } else{
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
-            }
-          } else{
-            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
-          }
-          this.lastIssue = res.data.lastIssue
-        }
-      })
-    },
-    // 当前所在奖期
-    getIssue() {
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
           this.$store.commit('issueInfo', res.data.issueInfo)
           if (res.data.lastIssue.open_code) {
             if (this.currentLottery.series_id === 'lotto') {
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(' ')
-            } else{
-               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split('')
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ' '
+              )
+            } else {
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ''
+              )
             }
-          } else{
+          } else {
+            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+          }
+
+          this.lastIssue = res.data.lastIssue
+        }
+      }).then(() => {
+        this.filpOpenCode()
+      })
+    },
+    getLastIssue() {
+      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
+        if (res.success) {
+          this.$store.commit('currentIssue', res.data.currentIssue)
+          if (res.data.lastIssue.open_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ' '
+              )
+            } else {
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ''
+              )
+            }
+          } else {
             res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
           }
           this.lastIssue = res.data.lastIssue
-          this.issueNum = 0
-          if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
-            return
-          }
-          // 开始倒计时
-          this.times()
         }
+      }).then(() => {
+        this.filpOpenCode()
       })
     },
-    times() {
-      // 当前 奖期倒计时
-      let [time = 0] = []
-      time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
-      this.notice.issue = this.issueInfo[this.issueNum].issue_no
-      this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      this.currentIssueTimer = setInterval(() => {
-        // 计算 倒计时
-        time -= 1
-        if (time >= 0) {
-          this.time = this.Utils.formatSeconds(time)
-        } else {
-          clearInterval(this.currentIssueTimer)
-          this.issueNum += 1
-          this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-          this.notice.show = true
-          this.$store.dispatch('getUserDetail')
-          this.$store.dispatch('betHistory')
-          this.times()
-          setTimeout(() => {this.getLastIssue()}, 3000)
-          if (this.issueNum === this.issueInfo.length) {
-            this.getIssue()
-          }
-        }
-      }, 1000)
+    handleTimeup(){
+      if(!this.currentIssue.end_time) return
+        this.issueNum += 1
+        this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+        this.notice.issue = this.issueInfo[this.issueNum].issue_no
+        this.notice.show = true
+        this.$store.dispatch('getUserDetail')
+        this.$store.dispatch('betHistory')
+        setTimeout(() => {
+          this.$store.dispatch('issueHistory')
+          this.getLastIssue()
+        }, 3000)
     }
-  },
-  beforeDestroy () {
-    clearInterval(this.currentIssueTimer)
   }
 }
 </script>
@@ -364,11 +220,13 @@ export default {
   display: flex;
   justify-content: space-around;
   .game-lottery {
-    margin-left: 15px;
+    margin-left: 5px;
     flex: 1;
     line-height: 1.15;
+    overflow: hidden;
   }
   .deadline {
+    float: left;
     padding: 0;
     margin: 0;
     margin-left: 30px;
@@ -405,7 +263,7 @@ export default {
     }
     .deadline-number {
       float: left;
-      margin-left: 0;
+      margin-left: 5px;
       margin-top: 28px;
       font-size: 34px;
       .deadline-num {
@@ -513,6 +371,7 @@ export default {
 }
 .lottery-number {
   margin-left: 12px;
+  overflow: hidden;
   margin-top: 8px;
   em {
     float: left;
@@ -531,8 +390,8 @@ export default {
   }
 }
 .lottery-animate {
-  text-align: center;
-  line-height: 2.0;
+  text-indent:4em;
+  line-height: 1.5;
   font-size: 12px;
   color: #57576b;
 }

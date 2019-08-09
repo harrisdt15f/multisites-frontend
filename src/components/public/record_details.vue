@@ -226,7 +226,7 @@
             <el-table-column align="center" prop="address" label="中奖	"></el-table-column>
             <el-table-column align="center" prop="address" label="操作	">
               <template slot-scope="scope" v-if="scope.row.status == 0">
-                <el-button @click="handleStopTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
+                <el-button @click="handleStopIssueTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -335,6 +335,25 @@ export default {
                 this.$set(val, 'status', 3)
               }
             })
+            this.$message({
+              type: 'success',
+              message: '本期追号单取消成功!',
+              duration: 1000
+            })
+          }
+        })
+      })
+    },
+    handleStopIssueTrace(item){
+       this.$confirm('你确认取消本期追号么？', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.Api.stopTrace({ type: 2, lottery_traces_id: item.trace_id, lottery_trace_lists_id: item.id}).then(({ success }) => {
+          if (success) {
+            this.$store.dispatch('betHistory')
+            item.status = 3
             this.$message({
               type: 'success',
               message: '本期追号单取消成功!',

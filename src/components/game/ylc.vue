@@ -1,3 +1,4 @@
+
 <template>
   <section class="w fw ylc-main">
     <!--娱乐城导航-->
@@ -601,10 +602,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import methods from '../../lib/config/method';
-import prizes from '../../lib/config/prizes';
-import Utils from '../../lib/utils/utils';
+
+import { mapGetters } from 'vuex'
+import methods from '../../lib/config/method'
+import prizes from '../../lib/config/prizes'
+import Utils from '../../lib/utils/utils'
 export default {
   name: 'ylc',
   data() {
@@ -824,7 +826,7 @@ export default {
       width += k.clientWidth
     }
 
-    this.$refs.ylcNav.style.width = width + 'px';
+    this.$refs.ylcNav.style.width = width + 'px'
   },
   methods: {
     // 切换 官方 和 娱乐城 玩法
@@ -950,7 +952,7 @@ export default {
         this.$alert('你还未投注 或 投注错误', '提示', {
           confirmButtonText: '确定'
         })
-        return;
+        return
       }
 
       this.currentOrder.list = list
@@ -971,46 +973,46 @@ export default {
         if (isNaN(list[i].code)) {
           switch (list[i].code) {
             case '大':
-              list[i].upload = 'b';
+              list[i].upload = 'b'
               break
             case '小':
-              list[i].upload = 's';
+              list[i].upload = 's'
               break
             case '单':
-              list[i].upload = 'o';
+              list[i].upload = 'o'
               break
             case '双':
-              list[i].upload = 'e';
+              list[i].upload = 'e'
               break
             case '大单':
-              list[i].upload = 'bo';
+              list[i].upload = 'bo'
               break
             case '大双':
-              list[i].upload = 'be';
+              list[i].upload = 'be'
               break
             case '小单':
-              list[i].upload = 'so';
+              list[i].upload = 'so'
               break
             case '小双':
-              list[i].upload = 'se';
+              list[i].upload = 'se'
               break
             case '极大':
-              list[i].upload = 'sb';
+              list[i].upload = 'sb'
               break
             case '极小':
-              list[i].upload = 'ss';
+              list[i].upload = 'ss'
               break
             case '豹子':
-              list[i].upload = 'b';
+              list[i].upload = 'b'
               break
             case '红波':
-              list[i].upload = 'red';
+              list[i].upload = 'red'
               break
             case '蓝波':
-              list[i].upload = 'blue';
+              list[i].upload = 'blue'
               break
             case '绿波':
-              list[i].upload = 'green';
+              list[i].upload = 'green'
               break
           }
         }
@@ -1074,9 +1076,9 @@ export default {
       ] = []
       this.currentOrder.money = Number(item) + Number(this.currentOrder.money)
 
-      e.target.className += ' active';
+      e.target.className += ' active'
       setTimeout(() => {
-        e.target.className = 'ylc-kx-footer-moneys-list';
+        e.target.className = 'ylc-kx-footer-moneys-list'
       }, 350)
       // 娱乐城龙虎斗
       if (this.currentMethod.method === 'LHD') {
@@ -1194,7 +1196,7 @@ export default {
           if (k.sign === 'DYQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第一球';
+            json.name = '第一球'
             json.code = []
             for (const i of casino.DYQ.layout.codes) {
               // 两面盘
@@ -1225,7 +1227,7 @@ export default {
           else if (k.sign === 'DEQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第二球';
+            json.name = '第二球'
             json.code = []
             for (const i of casino.DEQ.layout.codes) {
               // 两面盘
@@ -1255,7 +1257,7 @@ export default {
           else if (k.sign === 'DSQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第三球';
+            json.name = '第三球'
             json.code = []
             for (const i of casino.DSQ.layout.codes) {
               // 两面盘
@@ -1285,7 +1287,7 @@ export default {
           else if (k.sign === 'DSIQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第四球';
+            json.name = '第四球'
             json.code = []
             for (const i of casino.DSIQ.layout.codes) {
               // 两面盘
@@ -1315,7 +1317,7 @@ export default {
           else if (k.sign === 'DWQ') {
             let json = {}
             json.sign = k.sign
-            json.name = '第五球';
+            json.name = '第五球'
             json.code = []
             for (const i of casino.DWQ.layout.codes) {
               // 两面盘
@@ -1344,8 +1346,8 @@ export default {
 
         // 球数总和
         let json = {}
-        json.sign = 'all';
-        json.name = '总和';
+        json.sign = 'all'
+        json.name = '总和'
         json.code = [
           { code: '总大', money: 0, flag: false, odds: 80 },
           { code: '总小', money: 0, flag: false, odds: 80 },
@@ -1437,85 +1439,85 @@ export default {
                     let json = {}
                     switch (m) {
                       case 'wq':
-                        json.name = '万千 第一球 vs 第二球';
+                        json.name = '万千 第一球 vs 第二球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'wb':
-                        json.name = '万百 第一球 vs 第三球';
+                        json.name = '万百 第一球 vs 第三球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'ws':
-                        json.name = '万十 第一球 vs 第四球';
+                        json.name = '万十 第一球 vs 第四球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'wg':
-                        json.name = '万个 第一球 vs 第五球';
+                        json.name = '万个 第一球 vs 第五球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'qb':
-                        json.name = '千百 第二球 vs 第三球';
+                        json.name = '千百 第二球 vs 第三球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'qs':
-                        json.name = '千十 第二球 vs 第四球';
+                        json.name = '千十 第二球 vs 第四球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'qg':
-                        json.name = '千个 第二球 vs 第五球';
+                        json.name = '千个 第二球 vs 第五球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'bs':
-                        json.name = '百十 第三球 vs 第四球';
+                        json.name = '百十 第三球 vs 第四球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'bg':
-                        json.name = '百个 第三球 vs 第五球';
+                        json.name = '百个 第三球 vs 第五球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                       case 'sg':
-                        json.name = '十个 第四球 vs 第五球';
+                        json.name = '十个 第四球 vs 第五球'
                         json.code = [
                           { code: '龙', odds: 2.8, flag: false, money: 0 },
                           { code: '和', odds: 2.8, flag: false, money: 0 },
                           { code: '虎', odds: 2.8, flag: false, money: 0 }
                         ]
-                        break;
+                        break
                     }
                     json.sign = m
                     temp[j].push(json)
@@ -1604,11 +1606,11 @@ export default {
           if (k.sign === 'BO') {
             if (i === '红波' || i === '蓝波' || i === '绿波') {
               if (i === '红波') {
-                json.class = 'ylc-red';
+                json.class = 'ylc-red'
               } else if (i === '蓝波') {
-                json.class = 'ylc-blue';
+                json.class = 'ylc-blue'
               } else if (i === '绿波') {
-                json.class = 'ylc-green';
+                json.class = 'ylc-green'
               }
 
               tempList[3].push(json)
@@ -1627,13 +1629,13 @@ export default {
     // pc蛋蛋整合  号码背景图
     pcddAllIcon(item) {
       if (this.bq.gray.includes(item.code)) {
-        return 'ylc-bet-list-gray';
+        return 'ylc-bet-list-gray'
       } else if (this.bq.green.includes(item.code)) {
-        return 'ylc-bet-list-green';
+        return 'ylc-bet-list-green'
       } else if (this.bq.blue.includes(item.code)) {
-        return 'ylc-bet-list-blue';
+        return 'ylc-bet-list-blue'
       } else if (this.bq.red.includes(item.code)) {
-        return 'ylc-bet-list-red';
+        return 'ylc-bet-list-red'
       }
     },
 

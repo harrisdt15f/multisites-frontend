@@ -74,7 +74,7 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getPopularLotteries2']),
+    ...mapActions(['getNotice']),
     initData() {
       this.loading = true
       if(this.currentIndex == 0){
@@ -90,14 +90,15 @@ export default {
           }
         })
       } else {
-        this.Api.getNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
+        this.getNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
+          const {message} = data
           this.loading = false
           if (success) {
-            this.total = data.total
-            for (const k of data['data']) {
+            this.total = message.total
+            for (const k of message['data']) {
               k['message_content']['content'] = this.Utils.setImg(k['message_content']['content'], 'add')
             }
-            this.list = data.data
+            this.list = message.data
             this.currentBullrtin = this.list[0]['message_content']
           }
         })
@@ -117,6 +118,7 @@ export default {
               item.status = 1
             }
           })
+          this.getNotice({ type: 2, page_size: this.page_size, page: this.page })
         }
         this.currentBullrtin = this.list.filter(val => val.id === id)[0]['message_content']
       }else{
