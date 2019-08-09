@@ -222,10 +222,21 @@
               </el-table-column>
               <el-table-column align="center" show-overflow-tooltip label="状态">
                 <template slot-scope="scope">
-                  <span v-if="scope.row.status == 0">正在追号</span>
-                  <span v-if="scope.row.status == 1">追号完成</span>
-                  <span v-if="scope.row.status == 2">玩家撤销</span>
-                  <span v-if="scope.row.status == 3">系统撤销</span>
+                  <span v-if="scope.row.status == 0">等待追号</span>
+                  <span v-if="scope.row.status == 1">正在追号</span>
+                  <span v-if="scope.row.status == 2">追号完成</span>
+                  <span v-if="scope.row.status == 3">玩家撤销</span>
+                  <span v-if="scope.row.status == 4">管理员撤销</span>
+                  <span v-if="scope.row.status == 5">系统撤销</span>
+                  <span v-if="scope.row.status == 6">中奖停止</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" show-overflow-tooltip label="操作">
+                <template slot-scope="scope">
+                 <el-button
+                    type="text"
+                    size="mini"
+                    @click="handleDetail(scope.row)">详情</el-button>
                 </template>
               </el-table-column>
             </el-table>
