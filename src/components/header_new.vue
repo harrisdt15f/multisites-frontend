@@ -6,9 +6,9 @@
         <div class="toptray-right">
           <ul>
             <template v-if="this.isLogin" >
-              <li @click="showMessageCenter" style="padding-right:20px;" class="toptray-item" tag="li" to="/">
-                <i class="num">{{notice.unread_num}}</i> 
+              <li @click="showMessageCenter" class="toptray-item" tag="li" to="/">
                 消息中心
+                <i class="num" v-if="notice.unread_num && notice.unread_num != 0">{{notice.unread_num}}</i> 
               </li>|
             </template>
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
@@ -23,72 +23,75 @@
       <router-link class="logo" tag="h1" to="/home">
         <img class="logo-img" :src="logoSrc" />
       </router-link>
-      <div class="header-person" v-if="isLogin">
-        <div class="item">欢迎 {{userDetail.username}}</div>
-        <span class="header-line-in">|</span>
-        <div class="header-wallet">
-          <span class="wallet">钱包余额:</span>
-          <span class="header-money">￥</span>
-          <span class="header-money">
+      <template v-if="$route.path.indexOf('/login') == -1">
+        <div class="header-person" v-if="isLogin">
+          <div class="item">欢迎 {{userDetail.username}}</div>
+          <span class="header-line-in">|</span>
+          <div class="header-wallet">
+            <span class="wallet">钱包余额:</span>
+            <span class="header-money">￥</span>
             <span class="header-money">
-              {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
-              <i
-                class="fa fa-refresh cur"
-                :class="{loading: loading}"
-                @click="refresh()"
-              ></i>
+              <span class="header-money">
+                {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
+                <i
+                  class="fa fa-refresh cur"
+                  :class="{loading: loading}"
+                  @click="refresh()"
+                ></i>
+              </span>
             </span>
-          </span>
+          </div>
+          <div class="header-drop-in">
+            <router-link tag="a" to="/account-center/fund-manage/recharge" class="header-btn-in">充值</router-link>
+            <span class="header-line-in">|</span>
+            <router-link tag="a" to="/account-center/fund-manage/withdrawal" class="header-btn-in">提款</router-link>
+            <span class="header-line-in">|</span>
+            <router-link tag="a" to="/account-center/fund-manage/transfer" class="header-btn-in">额度转换</router-link>
+          </div>
+          <a class="bar-link-in">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <span class="bar-exit" @click="logout()">退出</span>
+          </a>
         </div>
-        <div class="header-drop-in">
-          <router-link tag="a" to="/account-center/fund-manage/recharge" class="header-btn-in">充值</router-link>
-          <span class="header-line-in">|</span>
-          <router-link tag="a" to="/account-center/fund-manage/withdrawal" class="header-btn-in">提款</router-link>
-          <span class="header-line-in">|</span>
-          <router-link tag="a" to="/account-center/fund-manage/transfer" class="header-btn-in">额度转换</router-link>
+        <div class="login-form" v-else>
+          <el-form
+            :inline="true"
+            :model="user"
+            :rules="userRules"
+            ref="userForm"
+            class="login-form-inline"
+          >
+            <el-form-item prop="username">
+              <el-input
+                style="width:185px;"
+                suffix-icon="el-icon-user"
+                size="small"
+                v-model="user.username"
+                placeholder="账号"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                style="width:185px;"
+                suffix-icon="el-icon-lock"
+                size="small"
+                v-model="user.password"
+                placeholder="密码"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                :loading="loginLoading"
+                @click.native="submitForm('userForm')"
+                type="danger"
+                size="small"
+              >登录</el-button>
+              <el-button type="danger" size="small">注册</el-button>
+            </el-form-item>
+          </el-form>
         </div>
-        <a class="bar-link-in">
-          <i class="fa fa-sign-out" aria-hidden="true"></i>
-          <span class="bar-exit" @click="logout()">退出</span>
-        </a>
-      </div>
-      <div class="login-form" v-else>
-        <el-form
-          :inline="true"
-          :model="user"
-          :rules="userRules"
-          ref="userForm"
-          class="login-form-inline"
-        >
-          <el-form-item prop="username">
-            <el-input
-              style="width:185px;"
-              suffix-icon="el-icon-user"
-              size="small"
-              v-model="user.username"
-              placeholder="账号"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              style="width:185px;"
-              suffix-icon="el-icon-lock"
-              size="small"
-              v-model="user.password"
-              placeholder="密码"
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              :loading="loginLoading"
-              @click.native="submitForm('userForm')"
-              type="danger"
-              size="small"
-            >登录</el-button>
-            <el-button type="danger" size="small">注册</el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      </template>
+      
     </div>
     <div class="header-bottom">
       <div class="container">
@@ -365,9 +368,9 @@ export default {
       cursor: pointer;
       font-size: 13px;
       .num{
-        position: absolute;
-        right: 0;
-        top: 2px;
+        position: relative;
+        top: -1px;
+        display: inline-block;
         background: #ff7600;
         width: 20px;
         text-align: center;
