@@ -161,7 +161,7 @@
                 </td>
                 <td align="right">中奖金额：</td>
                 <td>
-                  <span class="value">{{detailData.finished_bonus}}</span>
+                  <span class="value">{{detailData.finished_bonus ? detailData.finished_bonus : '--'}}</span>
                 </td>
               </tr>
 
@@ -223,10 +223,15 @@
                 <span v-if="scope.row.status == 6">中奖停止</span>
               </template>
             </el-table-column>
-            <el-table-column align="center" prop="address" label="中奖	"></el-table-column>
-            <el-table-column align="center" prop="address" label="操作	">
-              <template slot-scope="scope" v-if="scope.row.status == 0">
-                <el-button @click="handleStopIssueTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
+            <el-table-column align="center" label="中奖">
+              <!-- <template slot-scope="scope"> -->
+                <!-- {{scope.row.status}} -->
+              <!-- </template> -->
+            </el-table-column>
+            <el-table-column align="center" label="操作	">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.status == 0" @click="handleStopIssueTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
+                <span v-else>--</span>
               </template>
             </el-table-column>
           </el-table>

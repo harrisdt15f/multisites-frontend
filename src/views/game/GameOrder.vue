@@ -66,6 +66,7 @@
                     最低收益率:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.rateLowNum"
                       :placeholder="chase.rateLowNum"
                       class="tab-input"
@@ -75,6 +76,7 @@
                     追号期数
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.rateIssue"
                       :placeholder="chase.rateIssue"
                       class="tab-input"
@@ -92,8 +94,9 @@
                     起始倍数:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
+                      @input="onSamNumChange(chase.sameNum)" 
                       v-model="chase.sameNum"
-                      :placeholder="chase.sameNum"
                       class="tab-input"
                     />倍
                   </label>
@@ -101,6 +104,7 @@
                     追号期数
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.sameIssue"
                       :placeholder="chase.sameIssue"
                       class="tab-input"
@@ -118,15 +122,17 @@
                     每隔
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleG"
                       :placeholder="chase.doubleG"
                       class="tab-input"
                     />
                   </label>
                   <label class="param">
-                    期 倍 x
+                    期倍 x
                     <input
                       type="text"
+                      @input = "onDoubleBChange(chase.doubleB)" 
                       v-model="chase.doubleB"
                       :placeholder="chase.doubleB"
                       class="tab-input"
@@ -136,6 +142,7 @@
                     期数:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleIssue"
                       :placeholder="chase.doubleIssue"
                       class="tab-input"
@@ -183,6 +190,7 @@
               <td>
                 <input
                   class="trace-row-multiple"
+                  oninput = "value && value=value.replace(/[^\d]/g,'')" 
                   @input="rateInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
@@ -235,8 +243,8 @@
               </td>
               <td>
                 <input
+                  disabled
                   class="trace-row-multiple"
-                  @input="item.multiple = Utils.number(item.multiple)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
@@ -283,7 +291,8 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  @input="item.multiple = Utils.number(item.multiple)"
+                  oninput="value && value=value.replace(/[^\d]/g,'')" 
+                  @input="doubleInputChange(item)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
@@ -681,6 +690,7 @@ export default {
           this.current.times += Number(this.orderList[i].times)
           this.current.count += Number(this.orderList[i].count)
         }
+        this.restChase()
       },
       deep: true
     }
@@ -694,6 +704,36 @@ export default {
     ].lottery.max_trace_number
   },
   methods: {
+    // 复原追号条件
+    restChase() {
+       this.chase = {
+        maxIssue: 0,
+        rateCon: false,
+        rateChecked: true,
+        rateMoneyAll: 0,
+        rateMoney: 0,
+        rateData: [],
+        rateLowNum: 50,
+        rateNum: 1,
+        rateIssue: 10,
+        sameData: [],
+        sameCon: false,
+        sameChecked: true,
+        sameMoneyAll: 0,
+        sameMoney: 0,
+        sameNum: 1,
+        sameIssue: 10,
+        doubleData: [],
+        doubleCon: false,
+        doubleChecked: true,
+        doubleMoneyAll: 0,
+        doubleMoney: 0,
+        doubleNum: 1,
+        doubleIssue: 10,
+        doubleG: 1,
+        doubleB: 2
+      }
+    },
     // 清除追号 关闭窗口
     clearChase() {
       this.isTrace = 0
@@ -703,6 +743,7 @@ export default {
       this.chase.rateData = []
       this.chase.doubleCon = false
       this.chase.doubleData = []
+      this.restChase()
     },
     // 翻倍追号当全部选中fw tab-cons
     doubleCheckedAll() {
@@ -762,7 +803,20 @@ export default {
       this.chase.doubleChecked = true
       this.chase.doubleMoneyAll = 0
       this.chase.doubleMoney = 0
+
+      const maxArr = []
       for (let i = 0; i < this.orderList.length; i++) {
+      maxArr.push(this.orderList[i].currentMaxTimes)
+       this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         this.chase.doubleMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
@@ -806,11 +860,22 @@ export default {
               this.chase.doubleNum
             )
           } else {
-            this.$set(
-              this.chase.doubleData[i],
-              'multiple',
-              Math.pow(this.chase.doubleB, parseInt(i / this.chase.doubleG))
-            )
+            const max_multiple = Math.min(...maxArr),
+                  multiple = Math.pow(this.chase.doubleB, parseInt(i / this.chase.doubleG))
+            if (multiple > max_multiple) {
+              this.$set(
+                this.chase.doubleData[i],
+                'multiple',
+                max_multiple
+              )
+            }else{
+              this.$set(
+                this.chase.doubleData[i],
+                'multiple',
+                multiple
+              )
+            }
+            
           }
         }
       }
@@ -832,6 +897,16 @@ export default {
       this.chase.sameMoneyAll = 0
       this.chase.sameMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
+        this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         this.chase.sameMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
@@ -892,8 +967,22 @@ export default {
       this.chase.rateMoney = 0
       //盈利/盈利率追号不支持混投
       let type = '',
-        mode = ''
+          mode = ''
+      
+      const maxArr = []
       for (let i = 0; i < this.orderList.length; i++) {
+        maxArr.push(this.orderList[i].currentMaxTimes)
+        this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         if (type !== '' && mode !== '') {
           if (
             type !== this.orderList[i].method_id ||
@@ -973,7 +1062,7 @@ export default {
               if (item.value) v += item.value
             })
             // 限制最大倍数
-            let max_multiple = 1000
+            let max_multiple = Math.min(...maxArr)
             if (row_data.multiple >= max_multiple) {
               if (alertSign) {
                 alert(
@@ -1182,9 +1271,17 @@ export default {
       }
       this.clearChase()
     },
+    // 倍数改变
     rateInputChange(item, index) {
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (item.multiple > Math.min(...maxArr)) {
+        this.$set(item, 'multiple', ...maxArr)
+      }
       const money = this.chase.rateMoney,
-        multiple = this.Utils.number(item.multiple)
+            multiple = this.Utils.number(item.multiple)
       if (multiple === '' || multiple === 0) {
         return
       }
@@ -1201,6 +1298,15 @@ export default {
         (item.profit / (item.value * (index + 1))) * 100
       )
     },
+    doubleInputChange(item, index) {
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (item.multiple > Math.min(...maxArr)) {
+        this.$set(item, 'multiple', ...maxArr)
+      }
+    },
     //投注记录详情
     handleDetail(row) {
       this.detailData = row
@@ -1208,7 +1314,25 @@ export default {
     },
     handleDetailClose() {
       this.dialogVisible = false
-    }
+    },
+    onSamNumChange(value){
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (maxArr.length && value > Math.min(...maxArr)) {
+        this.chase.sameNum = Math.min(...maxArr)
+      }
+    },
+    onDoubleBChange(value){
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (maxArr.length && value > Math.min(...maxArr)) {
+        this.chase.doubleB = Math.min(...maxArr)
+      }
+    },
   }
 }
 </script>

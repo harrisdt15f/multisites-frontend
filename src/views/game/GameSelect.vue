@@ -437,6 +437,7 @@ export default {
           codes: this.convertCodes(),
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
+          currentMaxTimes: this.currentOrder.currentMaxTimes,
           cost: this.currentOrder.currentCost.toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
