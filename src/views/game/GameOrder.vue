@@ -126,13 +126,13 @@
                       v-model="chase.doubleG"
                       :placeholder="chase.doubleG"
                       class="tab-input"
-                    />
+                    />期
                   </label>
                   <label class="param">
-                    期倍 x
+                    倍 x
                     <input
                       type="text"
-                      @input = "onDoubleBChange(chase.doubleB)" 
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleB"
                       :placeholder="chase.doubleB"
                       class="tab-input"
@@ -659,7 +659,6 @@ export default {
       deep: true
     },
     'chase.rateIssue'(newVal) {
-      console.log(this.chase.maxIssue)
       if (Number(newVal) > this.chase.maxIssue) {
         this.chase.rateIssue = this.chase.maxIssue
       }
@@ -673,6 +672,9 @@ export default {
       if (Number(newVal) > this.chase.maxIssue) {
         this.chase.doubleIssue = this.chase.maxIssue
       }
+    },
+    'issueInfo'(newVal) {
+      this.chase.maxIssue = newVal.length
     },
     'totalSub.double': {
       handler() {
@@ -694,15 +696,16 @@ export default {
         this.restChase()
       },
       deep: true
-    }
+    },
+
   },
   created() {
     // 获取我的投注 我的追号记录
     this.$store.dispatch('betHistory')
     this.clearOrderList()
-    this.chase.maxIssue = this.lotteryAll[
-      this.currentLottery.en_name
-    ].lottery.max_trace_number
+    // this.chase.maxIssue = this.lotteryAll[
+    //   this.currentLottery.en_name
+    // ].lottery.max_trace_number
   },
   methods: {
     // 复原追号条件

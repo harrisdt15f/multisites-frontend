@@ -177,6 +177,7 @@ export default {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
           this.$store.commit('currentIssue', res.data.currentIssue)
+          this.$store.commit('issueInfo', res.data.issueInfo)
           if (res.data.lastIssue.open_code) {
             if (this.currentLottery.series_id === 'lotto') {
               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
@@ -198,7 +199,7 @@ export default {
     },
     handleTimeup(){
       if(!this.currentIssue.end_time) return
-        this.issueNum += 1
+        this.issueNum = 1
         this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
         this.notice.issue = this.issueInfo[this.issueNum].issue_no
         this.notice.show = true
