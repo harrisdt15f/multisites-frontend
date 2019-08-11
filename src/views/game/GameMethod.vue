@@ -143,11 +143,25 @@ export default {
       'bet',
       'chengeYlcPlays',
       'userDetail',
+      'lotteryLists',
       'currentMethodGroup',
       'userConfig'
-    ])
+    ]),
+    gameId() {
+      const gameIdArr = []
+      for (const key in this.lotteryLists) {
+        const listArr = []
+        if (this.lotteryLists.hasOwnProperty(key)) {
+          const element = this.lotteryLists[key]
+          element.list.forEach(val => {
+            listArr.push(val.number_id)
+          })
+        }
+        gameIdArr.push(listArr)
+      }
+      return gameIdArr
+    }
   },
-
   data() {
     return {
       loading: false,
@@ -157,16 +171,16 @@ export default {
       collapseRight: true,
       typeGroup: '',
       // 彩种id
-      gameId: [
-        [6, 7, 8, 9, 10, 11], //11x5
-        [12, 13, 14, 15, 16], //k3
-        [21, 22, 23], //pk10
-        [17, 18], //f3d
-        [19], //ssl
-        [20], //pl35
-        [24], //lhc
-        [1, 2, 3, 4, 5], //ssc
-      ],
+      // gameId: [
+      //   [6, 7, 8, 9, 10, 11], //11x5
+      //   [12, 13, 14, 15, 16], //k3
+      //   [21, 22, 23], //pk10
+      //   [17, 18], //f3d
+      //   [19], //ssl
+      //   [20], //pl35
+      //   [24], //lhc
+      //   [1, 2, 3, 4, 5], //ssc
+      // ],
       prizeSelect: '一等奖'
     }
   },
@@ -189,12 +203,13 @@ export default {
     //奖金计算
     countPrizes () {
       let [
-        prize = prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
+        prize = prizes[this.currentLottery.series_id] && prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
         arr = []
       ] = []
       for (const k of this.gameId) {
         for (const i of k) {
+          if(!prize) return
           if (this.currentLottery.id === i) {
             // 单个奖金时
             if (!Array.isArray(prize.count)) {

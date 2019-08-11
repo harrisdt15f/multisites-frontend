@@ -5,7 +5,7 @@
         <section class="game-header-s">
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
-        <section class="game-lotterys">
+        <section class="game-lotterys" :class="{pk10Deadlie : currentLottery.series_id === 'pk10'}">
           <div class="deadline">
             <div class="deadline-text">
               第
@@ -32,10 +32,18 @@
               </div>
             </div>
             <div class="lottery-number">
-              <div style="overflow:hidden">
-                <!-- <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em> -->
+              <div v-if="currentLottery.series_id !== 'pk10'" style="overflow:hidden">
                 <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
                 </em>
+              </div>
+              <div v-else style="overflow:hidden" class="pk10-num">
+                <template  v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'">
+                  <em v-for="i in 10" :key="i">0</em>
+                </template>
+                <template v-else>
+                  <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
+                  </em>
+                </template>
               </div>
               <div
                 v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'"
@@ -49,7 +57,7 @@
           </div>
           
         </section>
-        <section class="trend-info">
+        <section v-if="currentLottery.series_id !== 'pk10'" class="trend-info">
           <router-link class="trend" tag="span" to="/user-trends">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
             <br />开奖趋势
@@ -215,6 +223,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .game-lotterys {
+  &.pk10Deadlie{
+    width: auto;
+  }
   float: left;
   width: 834px;
   line-height: 1.15;
@@ -388,6 +399,24 @@ export default {
     line-height: 50px;
     text-align: center;
     font-family: inherit;
+  }
+  .pk10-num{
+    margin: 8px 0 5px 0;
+    em{
+      float: left;
+      width: 35px;
+      height: 35px;
+      background: url('../../assets/images/lottery/pk10_ball.png') no-repeat;
+      background-size: 100%;
+      font-size: 22px;
+      color: black;
+      line-height: 40px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: inherit;
+      box-shadow: none;
+      font-family: inherit;
+    }
   }
 }
 .lottery-animate {
