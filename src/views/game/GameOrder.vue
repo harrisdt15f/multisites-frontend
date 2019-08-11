@@ -659,6 +659,7 @@ export default {
       deep: true
     },
     'chase.rateIssue'(newVal) {
+      console.log(this.chase.maxIssue)
       if (Number(newVal) > this.chase.maxIssue) {
         this.chase.rateIssue = this.chase.maxIssue
       }
@@ -707,7 +708,7 @@ export default {
     // 复原追号条件
     restChase() {
        this.chase = {
-        maxIssue: 0,
+        maxIssue: this.chase.maxIssue,
         rateCon: false,
         rateChecked: true,
         rateMoneyAll: 0,

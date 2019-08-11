@@ -46,6 +46,7 @@ service.interceptors.response.use(
               sign = 0
               removeToken()
               window.sessionStorage.clear()
+              store.commit('SET_TOKEN', '')
               nextTick(() => {
                 router.push('/login')
               })
