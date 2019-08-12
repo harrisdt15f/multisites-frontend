@@ -116,9 +116,10 @@
                 <span>充值</span>
               </div>
               <div class="helpetin-right">
-                <a onclick="jumpToLoginModule('/pc/register/login.html');" class="orange">登录</a>后选择支付
+                <router-link tag="a" :to="`/login`" class="orange">登录</router-link>后选择支付
                 <a
-                  onclick="jumpToUserCenter('/pc/userCenter/deposit.html');"
+                  @click="preInto('/account-center/fund-manage/recharge')"
+                  href="javascript:;"
                   class="orange"
                 >充值彩金</a>
               </div>
@@ -233,6 +234,13 @@ export default {
     this.initData()
   },
   methods: {
+    preInto(route) {
+      if (!this.isLogin) {
+        this.$router.push('/login')
+      } else {
+        this.$router.push(route)
+      }
+    },
     initData() {
       this.Api.getUserHelp().then(({ success, data }) => {
         if (success) {

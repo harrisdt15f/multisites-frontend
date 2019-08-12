@@ -74,10 +74,10 @@
             <section class="main-right" v-show="collapseRight">
               <section class="list-historys">
                 <section class="record"></section>
-                <table width="100%" class="bet-table-trend">
+                <table v-if="bet.issueHistory" width="100%" class="bet-table-trend">
                   <thead>
                     <tr>
-                      <th class="th" style="width:115px">奖期</th>
+                      <th class="th" style="width:124px">奖期</th>
                       <th class="th">开奖</th>
                     </tr>
                   </thead>

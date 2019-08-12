@@ -1115,7 +1115,7 @@ export default {
       const method = this.currentMethod
       // 选球类型
       if (method.type === 'multi' || method.type === 'k3') {
-        const codes = []
+        let codes = []
         const iterable = Object.keys(method.layout)
         for (let i = 0; i < iterable.length; i++) {
           const name = iterable[i]
@@ -1207,6 +1207,7 @@ export default {
             codes.push(col.join('&'))
           }
         }
+        codes = codes.filter(val => val != '')
         return codes.join('|')
       } else {
         // let [ codes = [] ] = []
