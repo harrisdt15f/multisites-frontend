@@ -146,7 +146,7 @@ export default {
     filpOpenCode() {
       this.lastIssue.open_code.forEach((v, i) => {
         const $node = document.querySelector(`.open_code${i}`)
-        $node.innerHTML = ''
+        if($node) $node.innerHTML = ''
         new Flip({
           node: $node,
           from: 0,
@@ -165,6 +165,10 @@ export default {
             if (this.currentLottery.series_id === 'lotto') {
               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
                 ' '
+              )
+            } else if (this.currentLottery.series_id === 'pk10') {
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ','
               )
             } else {
               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
@@ -190,6 +194,10 @@ export default {
             if (this.currentLottery.series_id === 'lotto') {
               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
                 ' '
+              )
+            } else if (this.currentLottery.series_id === 'pk10') {
+              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
+                ','
               )
             } else {
               res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(

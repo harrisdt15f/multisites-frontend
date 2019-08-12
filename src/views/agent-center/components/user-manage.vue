@@ -195,6 +195,7 @@ export default {
   data() {
     return {
       time: '',
+      username: '',
       tableData: [
         {
           date: '2016-05-02',

@@ -21,84 +21,60 @@
       </div>
     </div>
     <div class="custom-table m-t-25">
-      <el-table :data="[userProfits.sum]" style="width: 100%">
-        <el-table-column align="center" label="区间合计 >" width="188px">
-          <template>
-            <span>所以区间合计 ></span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="用户投注额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.turnover }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="团队投注额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_turnover }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="有效投注额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_turnover }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="日资比例">
-          <template slot-scope="scope">
-            <span>--</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center"  label="用户日资合计">
-          <template slot-scope="scope">
-            <span>{{ scope.row.daysalary }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="日资区间合计">
-          <template slot-scope="scope">
-            <span>{{ scope.row.daysalary }}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <div class="custom-table m-t-25">
-     <el-table :data="[userProfits.self]" style="width: 100%">
-         <el-table-column align="center" label="用户名" width="140">
+     <el-table :data="userProfits.self ? [userProfits.self] : []" style="width: 100%">
+         <el-table-column align="center" label="用户" width="140">
           <template slot-scope="scope">
             <span>{{scope.row.username}}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="用户属性">
-          <template>
-            <span>自己 ></span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="用户投注额">
+        <el-table-column align="center" show-overflow-tooltip label="投注总额">
           <template slot-scope="scope">
             <span>{{ scope.row.turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="团队有效投注额">
+        <el-table-column align="center" show-overflow-tooltip label="派奖总额">
           <template slot-scope="scope">
             <span>{{ scope.row.team_turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="日资比例">
+        <el-table-column align="center" show-overflow-tooltip label="返点总额">
           <template slot-scope="scope">
             <span>{{ scope.row.daysalary_percentage }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="用户日资">
+        <el-table-column align="center" show-overflow-tooltip label="促销红利">
           <template slot-scope="scope">
             <span>{{ scope.row.turnover }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" show-overflow-tooltip label="日资贡献">
+        <el-table-column align="center" show-overflow-tooltip label="日工资">
+          <template slot-scope="scope">
+            <span>{{ scope.row.remark }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="净盈亏">
+          <template slot-scope="scope">
+            <span>{{ scope.row.remark }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="有效人数">
+          <template slot-scope="scope">
+            <span>{{ scope.row.remark }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="分红比例">
+          <template slot-scope="scope">
+            <span>{{ scope.row.remark }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="分红金额">
           <template slot-scope="scope">
             <span>{{ scope.row.remark }}</span>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <div class="line-center">直属下级日工资报表</div>
+    <div class="line-center">直属下属盈亏明细</div>
     <div class="custom-table">
       <el-table :data="userProfits.child.data" style="width: 100%">
               <el-table-column align="center" label="用户名" width="140">
@@ -135,7 +111,7 @@
     </div>
     <p style="overflow:hidden">
       <span style="float:left">数据来源: 包网统计中心</span>
-      <span style="float:right">*计算公式：用户日工资=日资贡献额汇总=（用户有效投注额*用户日资比例+直属下级日资贡献额汇总）</span>
+      <span style="float:right">* 由于系统任然在计算过程种，当前分红金额仅供参考，实际以到账分红金额为准</span>
     </p>
        <div class="pagination-container">
       <el-pagination
@@ -156,7 +132,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'UserProfits',
+  name: 'user-bonus',
   data() {
     const date1 = new Date()
       date1.setDate(1)
@@ -213,7 +189,7 @@ export default {
   },
   methods: {
     initData(){
-      this.Api.getUserDaysalary(this.listQuery).then(({success, data}) => {
+      this.Api.getUserBonus(this.listQuery).then(({success, data}) => {
         if (success) {
           Object.assign(this.userProfits, data) 
            this.total = data.child.total
