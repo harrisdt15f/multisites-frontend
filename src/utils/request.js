@@ -2,9 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils/auth'
-
 import { AES_encrypt, randomString } from '@/utils/encrypt'
-
 import { nextTick } from 'q'
 
 import qs from 'qs'
@@ -47,7 +45,7 @@ service.interceptors.request.use(
 )
 
 let sign = 0
-// response interceptor
+// response interceptorFright-collapse
 service.interceptors.response.use(
   response => {
     const res = response.data

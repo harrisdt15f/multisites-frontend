@@ -26,7 +26,7 @@
           </section>
         </div>
         <div class="main-center-wrap">
-          <div class="right-collapse" @click="handleCollapseRight">
+          <div v-if="currentLottery.series_id !== 'lhc'" class="right-collapse" @click="handleCollapseRight">
             {{this.collapseRight ? '收起开奖记录' : '展开开奖记录'}}</div>
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
