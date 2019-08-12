@@ -74,7 +74,7 @@ service.interceptors.request.use(
     }
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
     var enstr = AES_encrypt(JSON.stringify(config.data),KEY,IV,pkcs8_public)
-    config.data = config.data ? qs.stringify({data:enstr}) : null
+    config.data = config.data || config.data === {} ? qs.stringify({data:enstr}) : null
     return config
   },
   error => {
