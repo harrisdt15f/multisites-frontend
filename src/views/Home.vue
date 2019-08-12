@@ -34,8 +34,6 @@ export default {
           data['winning.ranking'] ? this.getRanking() : null
           data['notice'] ? this.getNotice({type:2}) : null
           data['popular.lotteries.one'] ? this.getPopularLotteries1() : null
-          // data['popularLotteries.two'] ? this.getPopularLotteries2() : null
-          data['activity'] ? this.getActivity() : null
           this.getLotteryNotice()
           this.getPopularChess()
           this.getPopularEgame()

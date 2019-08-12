@@ -211,7 +211,7 @@ export default {
   font-size: 21px;
   font-weight: bold;
   img {
-    width: 285px;
+    width: auto;
     height: 65px;
     display: flex;
   }

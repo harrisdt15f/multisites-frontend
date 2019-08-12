@@ -17,7 +17,7 @@
         ></el-date-picker>
       </div>
       <div class="bmn-search-button">
-        <input type="submit" value="搜 索" class="btn">
+        <input @click="searchData" type="submit" value="搜 索" class="btn">
       </div>
     </div>
     <div class="custom-table m-t-25">
@@ -270,6 +270,10 @@ export default {
           this.total = data.child.total
         }
       })
+    },
+    searchData(){
+      this.listQuery.page = 1
+      this.initData()
     },
     handleSizeChange(val) {
       this.gameListQuery.page_size = val

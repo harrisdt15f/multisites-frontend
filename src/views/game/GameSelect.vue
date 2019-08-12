@@ -1189,7 +1189,8 @@ export default {
             method.method === 'QZUHZ' ||
             method.method === 'ZZXHZ' ||
             method.method === 'ZZUHZ' ||
-            method.method === 'HZXHZ'
+            method.method === 'HZXHZ' ||
+            method.method === 'HZUHZ'
           ) {
             codes.push(col.join('|'))
           } else if (method.method === 'LTDDS') {
