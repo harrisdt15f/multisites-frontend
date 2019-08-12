@@ -273,7 +273,7 @@ export default {
       this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
-    selectGroup(groupSign, _index = 0, group) {
+    selectGroup(groupSign, _index = 0) {
       this.selectedGroup = groupSign
       this.selectedGroupIndex = _index
       this.selectedMethodId = ''
