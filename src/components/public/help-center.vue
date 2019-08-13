@@ -4,89 +4,24 @@
       <el-col :span="7">
         <div class="help-box">
           <div class="help-tit">
-            网上投注
+            {{betList.menu}}
           </div>
           <div class="help-list">
             <ul>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-57')"
-                >1、如何查询追号记录？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-46')"
-                >2、我从来没买过彩票，这些彩种都怎么玩？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-47')"
-                >3、什么是标准投注？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-48')"
-                >4、什么是单式投注？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-49')"
-                >5、什么是复式投注？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-50')"
-                >6、什么是机选投注？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-51')"
-                >7、什么是直选投注？</a>
+              <li v-for="(item, index) in betList.children" :key="index">
+                <router-link tag="a" :to="`/help-info/${item.id}`">{{item.menu}}</router-link>
               </li>
             </ul>
           </div>
         </div>
         <div class="help-box">
-          <div class="help-tit">
-            常见问题
+           <div class="help-tit">
+            {{questList.menu}}
           </div>
           <div class="help-list">
             <ul>
-              <li>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-1')">1、如何注册？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-2')"
-                >2、在彩票注册要收费吗？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-3')"
-                >3、忘记了登录密码怎么办？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-4')"
-                >4、有银行卡就可以在本站充值了吗？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-5')"
-                >5、如何开通网上支付？</a>
-              </li>
-              <li>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-6')">6、如何在本站充值？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-7')"
-                >7、在本站充值要手续费吗？</a>
-              </li>
-              <li>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-8')"
-                >8、如何查看是否中奖？</a>
+              <li v-for="(item, index) in questList.children" :key="index">
+                 <router-link tag="a" :to="`/help-info/${item.id}`">{{item.menu}}</router-link>
               </li>
             </ul>
           </div>
@@ -150,59 +85,13 @@
         </div>
         <div class="help-box">
           <div class="help-tit">
-            新手指引
+            {{tiroList.menu}}
           </div>
           <div class="help-list">
             <ul>
-              <li>
+              <li v-for="(item, index) in tiroList.children" :key="index">
                 <span class="orange f16">Q</span>
-                <router-link to="/help-info">如何注册成为会员？</router-link>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-46')"
-                >我从未买过彩票，这些彩种怎么玩？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-tit3')"
-                >本站支持哪些充值方式？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-7')">本站充值要手续费吗？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-8')">如何查看是否中奖？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-10')">中奖后如何兑奖？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-23')"
-                >注册时为什么需要完善个人信息？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-44')">提款不成功怎么办？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-37')"
-                >如何修改绑定的联系电话？</a>
-              </li>
-              <li>
-                <span class="orange f16">Q</span>
-                <a
-                  onclick="__openWin('home_help','/pc/helpCenter/helpInfo.html#help-33')"
-                >用户为保证账户资金安全应注意哪些事项？</a>
+                <router-link to="/help-info">{{item.menu}}</router-link>
               </li>
             </ul>
           </div>
@@ -216,7 +105,18 @@
 export default {
   data() {
     return {
-      list: undefined
+      betList: {
+        menu: '',
+        children: []
+      },
+      questList: {
+        menu: '',
+        children: []
+      },
+      tiroList:{
+        menu: '',
+        children: []
+      },
     }
   },
   created() {
@@ -232,8 +132,11 @@ export default {
     },
     initData() {
       this.Api.getUserHelp().then(({ success, data }) => {
-        if (success) {
-          this.list = data
+        if (success && data.length) {
+          this.$store.commit('SET_HELP_LIST', data)
+          this.betList = data[0]
+          this.questList = data[1]
+          this.tiroList = data[2]
         }
       })
     }

@@ -2,12 +2,12 @@
   <div class="accurate-create">
     <el-form class="create-form" ref="form" :model="form" label-width="100px">
       <el-form-item label="开户方式：">
-        <el-radio-group @change="resourceChange" v-model="form.resource">
+        <el-radio-group @change="resourceChange" v-model="resource">
           <el-radio border label="人工开户"></el-radio>
           <el-radio border label="链接开户"></el-radio>
         </el-radio-group>
       </el-form-item>
-      <template v-if="form.resource === '人工开户'">
+      <template v-if="resource === '人工开户'">
         <el-form-item label="用户名：">
           <el-input v-model="form.name"></el-input>
         </el-form-item>
@@ -15,8 +15,8 @@
           <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="设置奖金组：" prop="num">
-          <el-slider v-model="form.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
-          {{form.countPrize}} / {{prizes.max}}
+          <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
+          {{form.prize_group}} / {{prizes.max}}
         </el-form-item>
         <el-form-item>
           预计平均返点率
@@ -42,7 +42,7 @@
       </template>
       <template v-else>
         <el-form-item label="链接有效期：">
-          <el-select v-model="value"  placeholder="请选择">
+          <el-select v-model="form.expire"  placeholder="请选择">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -52,17 +52,17 @@
           </el-select>
         </el-form-item>
         <el-form-item label="推广渠道：">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.channel"></el-input>
         </el-form-item>
         <el-form-item label="设置奖金组：" prop="num">
-          <el-slider v-model="form.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
-          {{form.countPrize}} / {{prizes.max}}
+          <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
+          {{form.prize_group}} / {{prizes.max}}
         </el-form-item>
         <el-form-item>
           预计平均返点率
           <span class="gold">8.00%</span>奖金详情
         </el-form-item>
-        <el-form-item class="custom-progress">
+        <!-- <el-form-item class="custom-progress">
           <span class="current-num" :style="`color:#db0808;margin-left:${97 - 8}%`">1900</span>
           <el-progress
             color="#d8c6b1"
@@ -75,7 +75,7 @@
             <span class="min">1800</span>
             <span class="max">1960</span>
           </div>
-        </el-form-item>
+        </el-form-item> -->
         <div class="submit-btn">
           <el-button size="medium" @click="onSubmit">立即开户</el-button>
         </div>
@@ -89,21 +89,38 @@ export default {
   name: 'accurate-create',
   data() {
     return {
+      links:[],
       prizes: {
         min: undefined,
         max: undefined
       },
+      resource: '人工开户',
+      options:[
+        {
+          value:1, 
+          label:'1天'
+        },
+        {
+          value:7, 
+          label:'7天'
+        },
+        {
+          value:30, 
+          label:'30天'
+        },
+        {
+          value:90, 
+          label:'90天'
+        },
+        {
+          value:0, 
+          label:'永久有效'
+        },
+      ],
       form: {
-        resource: '人工开户',
-        name: '',
-        pass: '',
-        num: 1800,
-        countPrize: 1920,
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        desc: ''
+        expire:0,
+        channel: '',
+        prize_group: 0
       }
     }
   },
@@ -117,6 +134,7 @@ export default {
           const {expire_list, links, max_user_prize_group, min_user_prize_group} = data
           this.prizes.min = parseInt(min_user_prize_group)
           this.prizes.max = parseInt(max_user_prize_group)
+          this.links = links
         }
       })
     },
@@ -125,7 +143,11 @@ export default {
       }
     },
     onSubmit() {
-      console.log('submit!')
+      this.Api.createRegisterLink(this.form).then(({success, data}) => {
+        if (success) {
+          this.initData()
+        }
+      })
     }
   }
 }

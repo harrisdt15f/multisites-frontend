@@ -84,9 +84,10 @@ const router = new Router({
           component: HelpCenter,
         },
         {
-          path: '/help-info',
+          path: '/help-info/:pageId?',
           name: 'help-info',
           component: HelpInfo,
+          props: true
         },
         {
           path: '/page403',

@@ -17,6 +17,6 @@ export default {
   },
   //生成开户链接 
   createRegisterLink(data) {
-    return this.get('/user-agent-center/register-link', data).then(response =>  response)
+    return this.post('/user-agent-center/register-link', data).then(response =>  response)
   },
 }
