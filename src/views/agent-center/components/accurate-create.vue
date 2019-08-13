@@ -90,8 +90,8 @@ export default {
   data() {
     return {
       prizes: {
-        min: 1800,
-        max: 1960
+        min: undefined,
+        max: undefined
       },
       form: {
         resource: '人工开户',
@@ -107,7 +107,19 @@ export default {
       }
     }
   },
+  created () {
+    this.initData()
+  },
   methods: {
+    initData(){
+      this.Api.getRegisterableLink().then(({success, data}) => {
+        if (success) {
+          const {expire_list, links, max_user_prize_group, min_user_prize_group} = data
+          this.prizes.min = parseInt(min_user_prize_group)
+          this.prizes.max = parseInt(max_user_prize_group)
+        }
+      })
+    },
     resourceChange(v) {
       if (v === '链接开户') {
       }

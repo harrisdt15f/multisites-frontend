@@ -505,7 +505,7 @@ export default {
           return
         }
         const codes =
-          this.currentLottery.series_id === 'lotto'
+          this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10'
             ? this.inputCodes.split('|')
             : this.inputCodes.split(',').map(val => val.split('').join('&'))
         order = {
@@ -1203,16 +1203,18 @@ export default {
                 })
                 .join(' ')
             )
+          } else if (this.currentLottery.series_id === 'pk10'){
+            codes.push(
+              col.map(val => {
+                return parseInt(val)
+              }).join('&')
+            )
           } else {
             codes.push(col.join('&'))
           }
         }
         codes = codes.filter(val => val != '')
         return codes.join('|')
-      } else {
-        // let [ codes = [] ] = []
-        //
-        // console.log(method)
       }
     },
     // 格式化号码
@@ -1264,7 +1266,7 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      if (this.currentLottery.series_id === 'lotto') {
+      if (this.currentLottery.series_id === 'lotto'  || this.currentLottery.series_id === 'pk10') {
         this.inputCodesInitText =
           '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
           ' 格式范例：01 02 03|03 04 05|07 08 11'
@@ -1330,7 +1332,7 @@ export default {
         }
       } else {
         // 直选单式
-        if (this.currentLottery.series_id === 'lotto') {
+        if (this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10') {
           tmp = new Set(
             (this.inputCodes || '').split(/[,|;]+/).map(item => {
               return this.Utils.trim(item)
@@ -1393,7 +1395,7 @@ export default {
         }
       }
 
-      if (this.currentLottery.series_id === 'lotto') {
+      if (this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10') {
         this.inputCodes = [...tmp].join('|')
         if (!this.inputCodes) {
           this.inputCodesSingle = 0

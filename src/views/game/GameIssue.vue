@@ -38,7 +38,7 @@
               </div>
               <div v-else style="overflow:hidden" class="pk10-num">
                 <template  v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'">
-                  <em v-for="i in 10" :key="i">0</em>
+                  <em :class="`open_code${i}`" v-for="i in 10" :key="i">0</em>
                 </template>
                 <template v-else>
                   <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
@@ -55,7 +55,6 @@
               </div>
             </div>
           </div>
-          
         </section>
         <section v-if="currentLottery.series_id !== 'pk10'" class="trend-info">
           <router-link class="trend" tag="span" to="/user-trends">
@@ -146,14 +145,16 @@ export default {
     filpOpenCode() {
       this.lastIssue.open_code.forEach((v, i) => {
         const $node = document.querySelector(`.open_code${i}`)
-        if($node) $node.innerHTML = ''
-        new Flip({
-          node: $node,
-          from: 0,
-          to: v,
-          duration: 2
-        })
-      })
+        if($node) {
+          $node.innerHTML = ''
+            new Flip({
+              node: $node,
+              from: 0,
+              to: v,
+              duration: 2
+            })
+          }
+        }) 
     },
     // 获取开奖结果
     getLottery() {

@@ -4,7 +4,7 @@
       <el-col :span="7">
         <div class="help-box">
           <div class="help-tit">
-            <a onclick="__openWin('home2','/pc/helpCenter/helpInfo.html')" class="orange fr">更多</a>网上投注
+            网上投注
           </div>
           <div class="help-list">
             <ul>
@@ -48,7 +48,7 @@
         </div>
         <div class="help-box">
           <div class="help-tit">
-            <a onclick="__openWin('home2','/pc/helpCenter/helpInfo.html')" class="orange fr">更多</a>常见问题
+            常见问题
           </div>
           <div class="help-list">
             <ul>
@@ -103,11 +103,7 @@
                 <span>注册</span>
               </div>
               <div class="helpetin-right">
-                <a
-                  onclick="jumpToLoginModule('/pc/register/index.html');"
-                  target="_self"
-                  class="orange"
-                >免费注册</a>彩票账号
+                <router-link tag="a" class="orange" :to="`/register`">免费注册</router-link>彩票账号
               </div>
             </div>
             <div class="help-cent">
@@ -117,11 +113,7 @@
               </div>
               <div class="helpetin-right">
                 <router-link tag="a" :to="`/login`" class="orange">登录</router-link>后选择支付
-                <a
-                  @click="preInto('/account-center/fund-manage/recharge')"
-                  href="javascript:;"
-                  class="orange"
-                >充值彩金</a>
+                <router-link tag="a" :to="`/account-center/fund-manage/recharge`" class="orange">充值彩金</router-link>
               </div>
             </div>
             <div class="help-cent">
@@ -131,10 +123,7 @@
               </div>
               <div class="helpetin-right">
                 进入彩票购彩大厅，
-                <a
-                  onclick="__openWin('lottery_hall','/pc/mall/common.html');"
-                  class="orange"
-                >马上投注</a>
+                <router-link tag="a" :to="`/home`" class="orange">马上投注</router-link>
               </div>
             </div>
             <div class="help-cent">
@@ -144,10 +133,7 @@
               </div>
               <div class="helpetin-right">
                 中奖后，奖金将派发到
-                <a
-                  onclick="jumpToUserCenter('/pc/userCenter/accountDetail.html');"
-                  class="orange"
-                >彩金账户</a>
+                <router-link tag="a" :to="`/account-center`" class="orange">彩金账户</router-link>
               </div>
             </div>
             <div class="help-cent">
@@ -156,7 +142,8 @@
                 <span>提款</span>
               </div>
               <div class="helpetin-right">
-                <a onclick="jumpToUserCenter('/pc/userCenter/bindbank.html');" class="orange">申请提款</a>，资金转至银行卡
+                <router-link tag="a" :to="`/account-center/fund-manage/withdrawal`" class="orange">申请提款</router-link>
+                ，资金转至银行卡
               </div>
             </div>
           </div>
@@ -228,7 +215,9 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      list: undefined
+    }
   },
   created() {
     this.initData()
@@ -244,7 +233,7 @@ export default {
     initData() {
       this.Api.getUserHelp().then(({ success, data }) => {
         if (success) {
-          console.log(data)
+          this.list = data
         }
       })
     }
