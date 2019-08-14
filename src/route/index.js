@@ -34,7 +34,7 @@ const router = new Router({
       children: [
         { path: '', name: 'index', component: Index },
         { path: '/login', name: 'login', component: Login },
-        { path: '/register', name: 'register', component: Register },
+        { path: '/register/:code?', name: 'register', component: Register, props: true },
         {
           path: '/bet/:lotterySign?',
           name: 'bet',

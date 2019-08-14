@@ -62,8 +62,16 @@ export default {
   userSpecificInfos(){
     return this.get('/user/user-specific-infos').then(response => response)
   },
+  //账变类型列表
+  changeTypeList(data){
+    return this.post('/user-fund/change-type-list', data).then(response => response)
+  },
   //账变记录
   getUserFund(data){
-    return this.post('/web-api/user-fund/lists', data).then(response => response)
+    return this.post('/user-fund/lists', data).then(response => response)
+  },
+  //注册
+  register(data) {
+    return this.post('/register', data).then(response =>  response)
   }
 }

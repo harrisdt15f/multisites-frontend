@@ -1,5 +1,4 @@
 import { API } from '@/api'
-import { join } from 'path'
 
 const state = {
   banner: [],

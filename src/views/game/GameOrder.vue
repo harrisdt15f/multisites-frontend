@@ -25,7 +25,26 @@
               <ul class="order-container">
                 <li v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
                   <span class="name">{{order.method_name}}</span>
-                  <span class="number" :title="order.codes">{{order.codes}}</span>
+                  <span class="number" :title="order.codes">
+                    <template
+                      v-if="order.method_group === 'DXDS'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}}</template>
+                    <template
+                      v-else-if="order.method_group === 'LH'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}}</template>
+                    <template
+                      v-else-if="order.method_id === 'QTS3' || order.method_id === 'ZTS3' || order.method_id === 'HTS3'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}}</template>
+                    <template
+                      v-else-if="order.method_id === 'LTDDS'">
+                      {{
+                        order.codes.replace(/ /g,',').replace(/(0)/g,'零单五双').replace(/(1)/g,'一单四双').replace(/(2)/g,'二单三双').replace(/(3)/g,'三单二双').replace(/(4)/g,'四单一双').replace(/(5)/g,'五单零双')
+                      }}
+                    </template>
+                    <template v-else>
+                      {{order.codes.replace(/&/g,',')}}
+                    </template>
+                  </span>
                   <span class="bet">{{order.count}}</span>
                   <span class="multiple">{{order.times}}</span>
                   <span class="price">{{Utils.toFixed(String(order.cost))}}</span>

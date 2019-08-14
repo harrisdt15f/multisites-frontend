@@ -5,36 +5,47 @@
         <div class="r">
           <div class="r-t">
             <div class="title">
-              <div class="title-l">
-                用户注册
-              </div>
+              <div class="title-l">用户注册</div>
             </div>
-            <el-form class="user-form" status-icon :model="user" :rules="userRules" label-width="100px"  ref="userForm">
+            <el-form
+              class="user-form"
+              status-icon
+              :model="userForm"
+              :rules="userRules"
+              label-width="100px"
+              ref="userForm"
+            >
               <el-form-item label="用户名" prop="username">
-                <el-input style="width:250px" placeholder="用户名" v-model="user.username" type="text" required clearable>
-                </el-input>
+                <el-input
+                  style="width:250px"
+                  placeholder="用户名"
+                  v-model="userForm.username"
+                  type="text"
+                  required
+                  clearable
+                ></el-input>
               </el-form-item>
-              <el-form-item  label="密码" prop="password">
+              <el-form-item label="密码" prop="password">
                 <el-input
                   style="width:250px"
                   placeholder="密码"
-                  v-model="user.password"
+                  v-model="userForm.password"
                   type="password"
                   required
-                  clearable>
-                </el-input>
+                  clearable
+                ></el-input>
               </el-form-item>
-              <el-form-item  label="确认密码" prop="password">
+              <el-form-item label="确认密码" prop="checkPass">
                 <el-input
                   style="width:250px"
                   placeholder="确认密码"
-                  v-model="user.password"
+                  v-model="userForm.checkPass"
                   type="password"
                   required
-                  clearable>
-                </el-input>
+                  clearable
+                ></el-input>
               </el-form-item>
-             
+
               <el-form-item>
                 <el-button
                   class="login-btn"
@@ -42,7 +53,7 @@
                   type="primary"
                   @click="submitForm('userForm')"
                 >注册</el-button>
-                 <el-button
+                <el-button
                   class="login-btn"
                   :loading="loading"
                   style="margin-left: 30px;"
@@ -60,28 +71,49 @@
 <script>
 export default {
   name: 'register',
+  props: ['code'],
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.userForm.checkPass !== '') {
+          this.$refs.userForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.userForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       loading: false,
-      user: { username: '', password: '', confirm_password: '' },
+      userForm: {
+        username: '',
+        password: '',
+        checkPass: ''
+      },
       userRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, message: '长度在 3 个以上', trigger: 'blur' }
+          { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
         ]
-      },
-      isRemember: {
-        password: {},
-        checked: true
       }
     }
   },
   created() {
-  
+    console.log(this.code)
   },
   methods: {
     login() {
@@ -89,6 +121,31 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          const sendData = {
+            username: this.userForm.username,
+            password: this.userForm.password,
+            register_type: 2
+          }
+          if(this.code) sendData.keyword = this.code
+          this.Api.register(sendData).then(({ success }) => {
+           if (success) {
+            this.$alert('用户注册成功', {
+              confirmButtonText: '确定'
+            })
+            this.$store.dispatch('login', {
+              username: this.userForm.username,
+              password: this.userForm.password
+            }).then(() => {
+              this.$router.push('/home')
+            })
+           }
+         })
+        }
+      })
     }
   }
 }
@@ -134,7 +191,7 @@ export default {
             }
             .title-r {
               float: right;
-              a{
+              a {
                 color: #58b3f6;
               }
               cursor: pointer;
@@ -180,23 +237,25 @@ export default {
     }
   }
 }
-.user-form{
-    min-height: 400px;
-    padding: 48px 0 15px 150px;
-    /deep/{
-      .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-        background-color: #ff7800;
-        border-color: #ff7800;
-      }
-      .el-button--primary{
-        background-color: #ff7800;
-        border-color: #ff7800;
-      }
-      .el-button--primary:focus, .el-button--primary:hover{
-          background: #ff7800;
-          border-color: #ff7800;
-          color: #FFF;
-      }
+.user-form {
+  min-height: 400px;
+  padding: 48px 0 15px 150px;
+  /deep/ {
+    .el-checkbox__input.is-checked .el-checkbox__inner,
+    .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+      background-color: #ff7800;
+      border-color: #ff7800;
     }
+    .el-button--primary {
+      background-color: #ff7800;
+      border-color: #ff7800;
+    }
+    .el-button--primary:focus,
+    .el-button--primary:hover {
+      background: #ff7800;
+      border-color: #ff7800;
+      color: #fff;
+    }
+  }
 }
 </style>

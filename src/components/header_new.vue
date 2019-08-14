@@ -72,6 +72,7 @@
             </el-form-item>
             <el-form-item prop="password">
               <el-input
+                type="password"
                 style="width:185px;"
                 suffix-icon="el-icon-lock"
                 size="small"
@@ -86,7 +87,7 @@
                 type="danger"
                 size="small"
               >登录</el-button>
-              <el-button type="danger" size="small">注册</el-button>
+              <router-link tag="el-button" :to="`/register`" type="danger" size="small">注册</router-link>
             </el-form-item>
           </el-form>
         </div>
@@ -175,7 +176,7 @@
                 <router-link class="nav-col" tag="span" to="/user-trends">走势图标</router-link>
               </el-col>
               <el-col :span="3">
-                <span class="nav-col" @click="preInto(`/agent-center`)" >代理中心</span>
+                <span :class="{'router-link-active' : this.$route.path.includes('/agent-center')}" class="nav-col" @click="preInto(`/agent-center`)" >代理中心</span>
               </el-col>
             </el-row>
           </el-col>

@@ -1,86 +1,125 @@
 <template>
   <div class="accurate-create">
-    <el-form class="create-form" ref="form" :model="form" label-width="100px">
-      <el-form-item label="开户方式：">
-        <el-radio-group @change="resourceChange" v-model="resource">
+    <el-form class="create-form" label-width="100px">
+      <el-form-item label="开户方式：" >
+        <el-radio-group v-model="resource">
           <el-radio border label="人工开户"></el-radio>
           <el-radio border label="链接开户"></el-radio>
         </el-radio-group>
       </el-form-item>
+       </el-form>    
       <template v-if="resource === '人工开户'">
-        <el-form-item label="用户名：">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码：" prop="pass">
-          <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="设置奖金组：" prop="num">
-          <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
-          {{form.prize_group}} / {{prizes.max}}
-        </el-form-item>
-        <el-form-item>
-          预计平均返点率
-          <span class="gold">8.00%</span>奖金详情
-        </el-form-item>
-        <el-form-item class="custom-progress">
-          <span class="current-num" :style="`color:#db0808;margin-left:${97 - 8}%`">1900</span>
-          <el-progress
-            color="#d8c6b1"
-            :text-inside="true"
-            :stroke-width="15"
-            :percentage="97"
-            status="exception"
-          ></el-progress>
-          <div class="progress-bar">
-            <span class="min">1800</span>
-            <span class="max">1960</span>
-          </div>
-        </el-form-item>
+        <el-form :rules="rules" class="create-form" label-width="100px" ref="form" :model="form" >
+          <el-form-item label="用户名：" prop="username"> 
+            <el-input placeholder="请输入用户名" style="width:280px" v-model="form.username"></el-input>
+          </el-form-item>
+          <el-form-item label="密码：" prop="password">
+            <el-input placeholder="请输入密码" style="width:280px" type="password" v-model="form.password" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="设置奖金组：" prop="prize_group">
+            <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
+            {{form.prize_group}} / {{prizes.max}}
+          </el-form-item>
+          <el-form-item style="margin-bottom:5px;">
+            预计平均返点率
+            <span class="gold">{{rebateRate}}%</span>
+          </el-form-item>
+           <el-form-item class="custom-progress">
+            <span class="current-num" :style="`color:#db0808;margin-left:${(form.prize_group-prizes.min)/(prizes.max-prizes.min) * 100 - 2}%`">{{form.prize_group}}</span>
+            <el-progress
+              color="#d8c6b1"
+              :stroke-width="15"
+              :show-text=false
+              :percentage="(form.prize_group-prizes.min)/(prizes.max-prizes.min) * 100"
+            ></el-progress>
+            <div class="progress-bar">
+              <span class="min">{{prizes.min}}</span>
+              <span class="max">{{prizes.max}}</span>
+            </div>
+          </el-form-item>
+        </el-form>
         <div class="submit-btn">
-          <el-button size="medium" @click="onSubmit">立即开户</el-button>
+          <el-button :loading="submitLoading" size="medium" @click="onSubmit">立即开户</el-button>
         </div>
       </template>
       <template v-else>
-        <el-form-item label="链接有效期：">
-          <el-select v-model="form.expire"  placeholder="请选择">
+        <el-form :rules="linkRules"  class="create-form" label-width="100px" ref="linkForm" :model="linkForm" >
+        <el-form-item label="链接有效期：" prop="expire">
+          <el-select v-model="linkForm.expire"  placeholder="请选择">
             <el-option
+              style="text-align:center"
               v-for="item in options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="推广渠道：">
-          <el-input v-model="form.channel"></el-input>
-        </el-form-item>
-        <el-form-item label="设置奖金组：" prop="num">
-          <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
-          {{form.prize_group}} / {{prizes.max}}
-        </el-form-item>
-        <el-form-item>
-          预计平均返点率
-          <span class="gold">8.00%</span>奖金详情
-        </el-form-item>
-        <!-- <el-form-item class="custom-progress">
-          <span class="current-num" :style="`color:#db0808;margin-left:${97 - 8}%`">1900</span>
-          <el-progress
-            color="#d8c6b1"
-            :text-inside="true"
-            :stroke-width="15"
-            :percentage="97"
-            status="exception"
-          ></el-progress>
-          <div class="progress-bar">
-            <span class="min">1800</span>
-            <span class="max">1960</span>
-          </div>
-        </el-form-item> -->
+          </el-form-item>
+          <el-form-item label="推广渠道：" prop="channel">
+            <el-input style="width:250px" placeholder="如：QQ推广群" v-model="linkForm.channel"></el-input>
+          </el-form-item>
+            <el-form-item label="设置奖金组：" prop="prize_group">
+              <el-slider v-model="linkForm.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
+              {{linkForm.prize_group}} / {{prizes.max}}
+            </el-form-item>
+            <el-form-item style="margin-bottom:5px;">
+              预计平均返点率
+              <span class="gold">{{linkRebateRate}}%</span>
+            </el-form-item>
+            <el-form-item class="custom-progress">
+              <span class="current-num" :style="`color:#db0808;margin-left:${(linkForm.prize_group-prizes.min)/(prizes.max-prizes.min) * 100 - 2}%`">{{linkForm.prize_group}}</span>
+              <el-progress
+                color="#d8c6b1"
+                :stroke-width="15"
+                :show-text=false
+                :percentage="(linkForm.prize_group-prizes.min)/(prizes.max-prizes.min) * 100"
+              ></el-progress>
+              <div class="progress-bar">
+                <span class="min">{{prizes.min}}</span>
+                <span class="max">{{prizes.max}}</span>
+              </div>
+            </el-form-item>
+        </el-form>
         <div class="submit-btn">
-          <el-button size="medium" @click="onSubmit">立即开户</el-button>
+          <el-button :loading="submitLoading" size="medium" @click="onSubmitLink">立即开户</el-button>
         </div>
+        <el-table v-show="links && links.length" :data="links" border style="width: 100%;margin:20px auto">
+          <el-table-column align="center" prop="channel" label="投放渠道" ></el-table-column>
+          <el-table-column align="center" prop="is_agent" label="开户类型" >
+            <template slot-scope="scope">
+              <span v-if="scope.row.is_agent">代理</span>
+              <span v-else>玩家</span>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="prize_group" label="奖金组" ></el-table-column>
+          <el-table-column align="center" prop="issue" label="注册人数" ></el-table-column>
+          <el-table-column align="center" prop="issue" label="有效期" >
+            <template slot-scope="scope">
+              {{(options.filter(val => val.value == scope.row.valid_days)[0].label) }}
+          </template>
+          </el-table-column>
+          <el-table-column width="340" align="center" label="复制链接" >
+            <template slot-scope="scope" show-overflow-tooltip>
+              <span style="margin-right:4px;">{{ `${currentUrl}${scope.row.url}` }}</span> 
+              <el-button size="mini"  
+                v-clipboard:copy="`${currentUrl}${scope.row.url}`"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError"
+              >复制</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column align="center" width="180" prop="created_at" label="生成时间" ></el-table-column>
+          <el-table-column
+            align="center"
+            fixed="right"
+            label="操作"
+            width="100">
+            <template slot-scope="scope">
+              <el-button @click="deleteLink(scope.row)" type="danger" size="mini">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </template>
-    </el-form>
   </div>
 </template>
 
@@ -90,9 +129,12 @@ export default {
   data() {
     return {
       links:[],
+      submitLoading: false,
+      rebateRate: 0,
+      linkRebateRate: 0,
       prizes: {
-        min: undefined,
-        max: undefined
+        min: null,
+        max: null
       },
       resource: '人工开户',
       options:[
@@ -118,36 +160,89 @@ export default {
         },
       ],
       form: {
+        username: '',
+        password: '',
+        register_type: 1,
+        prize_group: 0
+      },
+      linkForm: {
         expire:0,
         channel: '',
         prize_group: 0
+      },
+      currentUrl:'',
+      linkRules: {
+        channel:[{ required: true, message: '请输入推广渠道', trigger: 'blur' }]
+      },
+      rules: {
+        username:[{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password:[{ required: true, message: '请输入密码', trigger: 'blur' }],
       }
     }
   },
+  watch: {
+    'form.prize_group'(newVal) {
+       this.rebateRate = ((this.prizes.max - newVal)/this.prizes.max * 100).toFixed(2)
+    }, 
+    'linkForm.prize_group'(newVal) {
+       this.linkRebateRate = ((this.prizes.max - newVal)/this.prizes.max * 100).toFixed(2)
+    }, 
+  },
   created () {
     this.initData()
+    this.currentUrl = window.location.host
   },
   methods: {
     initData(){
       this.Api.getRegisterableLink().then(({success, data}) => {
         if (success) {
-          const {expire_list, links, max_user_prize_group, min_user_prize_group} = data
+          const {links, max_user_prize_group, min_user_prize_group} = data
           this.prizes.min = parseInt(min_user_prize_group)
           this.prizes.max = parseInt(max_user_prize_group)
-          this.links = links
+          this.links = links.data
         }
       })
     },
-    resourceChange(v) {
-      if (v === '链接开户') {
-      }
+    onCopy(){
+      this.$message({
+          message: '复制成功',
+          type: 'success'
+        })
     },
-    onSubmit() {
-      this.Api.createRegisterLink(this.form).then(({success, data}) => {
-        if (success) {
-          this.initData()
+    onError(){
+      this.$message.error('复制失败')
+    },
+    onSubmit(){
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.submitLoading = true
+          this.Api.register(this.form).then(({success}) => {
+            if (success) {
+              this.$alert('开户创建成功', {
+                confirmButtonText: '确定'
+              })
+            }
+          })
         }
       })
+    },
+    onSubmitLink() {
+      this.$refs['linkForm'].validate((valid) => {
+        if (valid) {
+          this.submitLoading = true
+          this.Api.createRegisterLink(this.linkForm).then(({success, data}) => {
+            this.submitLoading = false
+            if (success) {
+              this.$alert('开户链接已创建', {
+                confirmButtonText: '确定',
+              })
+              this.initData()
+            }
+          })
+        }
+      })
+    },
+    deleteLink(row){
     }
   }
 }
@@ -180,7 +275,7 @@ export default {
   margin-top: 50px;
   /deep/ {
     .el-button--medium {
-      padding: 20px 50px;
+      padding: 15px 50px;
     }
   }
 }

@@ -1142,7 +1142,7 @@ export default {
                   case '1单4双':
                     temp = '1'
                     break
-                  case '0单五双':
+                  case '0单5双':
                     temp = '0'
                     break
                   case '龙':
@@ -1213,7 +1213,7 @@ export default {
             codes.push(col.join('&'))
           }
         }
-        codes = codes.filter(val => val != '')
+        codes = codes.filter(val => val !== '')
         return codes.join('|')
       }
     },
