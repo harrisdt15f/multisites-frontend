@@ -3,8 +3,6 @@
     <el-row class="w" style="margin-bottom:35px;">
       <el-col :span="6" class="technical-support">
         <section class="fw foot-head">
-          技术支持
-          <span>Technical support</span>
           <section class="logo">
             <img
               :src="logoSrc ? logoSrc : require('../assets/images/new/logo.png')"
@@ -14,8 +12,8 @@
         </section>
       </el-col>
       <el-col :span="12" class="technical-support service-experience">
-        技术支持
-        <span>Technical support</span>
+        服务体验
+        <span>Service Experience</span>
         <div>
           <div class="time-box">
             <div class="time-box-title">存款 到账平均时间</div>
@@ -295,13 +293,14 @@ export default {
   }
 }
 .technical-support {
-  border-right: 1px solid #424242;
   font-size: 20px;
   & > span {
     font-size: 14px;
   }
 }
 .service-experience {
+  border-left: 1px solid #424242;
+  border-right: 1px solid #424242;
   padding-left: 20px;
 }
 .payment-method {

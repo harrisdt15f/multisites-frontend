@@ -28,15 +28,15 @@ const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', redirect: '/home' },
-    { path: '/register', name: 'register', component: Register },
     {
       path: '/home',
       component: Home,
       children: [
         { path: '', name: 'index', component: Index },
         { path: '/login', name: 'login', component: Login },
+        { path: '/register', name: 'register', component: Register },
         {
-          path: '/bet/:lotterySign',
+          path: '/bet/:lotterySign?',
           name: 'bet',
           component: GameMain,
           props: true
@@ -68,18 +68,7 @@ const router = new Router({
           component: FishGame
         },
         {
-          path: '/account-center',
-          name: 'account',
-          component: Account,
-        },
-        {
-          path: '/account-center/:type',
-          name: 'account-type',
-          component: Account,
-          props: true
-        },
-        {
-          path: '/account-center/:type/:subtype',
+          path: '/account-center/:type?/:subtype?',
           name: 'account-type-subtype',
           component: Account,
           props: true
@@ -95,9 +84,10 @@ const router = new Router({
           component: HelpCenter,
         },
         {
-          path: '/help-info',
+          path: '/help-info/:pageId?',
           name: 'help-info',
           component: HelpInfo,
+          props: true
         },
         {
           path: '/page403',

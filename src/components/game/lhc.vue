@@ -3,7 +3,8 @@
     <!--正特 特马-->
     <section
       v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1"
-      class="fl">
+      class="fl"
+    >
       <ul class="fw ball-titles BB-titles">
         <li class="ball-title">号码</li>
         <li class="ball-title">金额</li>
@@ -21,10 +22,11 @@
           class="lhc-tm-list"
           :class="{on: item.flag}"
           v-for="(item, index) in newCodes"
-          :key="index">
+          :key="index"
+        >
           <span class="fl lhc-tm-list-q" :class="ballColor(item)">{{item.code}}</span>
           <span class="fl multiple">x 44.10</span>
-          <input type="text" v-model="item.money" maxlength="8" class="lhc-tm-list-text">
+          <input type="text" v-model="item.money" maxlength="8" class="lhc-tm-list-text" />
         </li>
       </ul>
     </section>
@@ -38,25 +40,26 @@
             <li class="ball-title">金额</li>
           </ul>
           <ul class="fw lhc-tm-lists">
-            <li
-              class="lhc-tm-list"
-              :class="{on: item.flag}"
-              v-if="index < 9"
-              v-for="(item, index) in newCodes"
-              :key="index"
-            >
-              <span class="lhc-bb-ball-name">{{item.name}}</span>
-              <span class="lhc-bb-ball-name">x 6.17</span>
-              <ul class="fw lhc-bb-balls">
-                <li
-                  class="lhc-bb-ball ft14"
-                  :class="ballColor(item)"
-                  v-for="(cd, cdIndex) in item.code"
-                  :key="cdIndex"
-                >{{cd}}</li>
-              </ul>
-              <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
-            </li>
+            <template v-if="index < 9">
+              <li
+                class="lhc-tm-list"
+                :class="{on: item.flag}"
+                v-for="(item, index) in newCodes"
+                :key="index"
+              >
+                <span class="lhc-bb-ball-name">{{item.name}}</span>
+                <span class="lhc-bb-ball-name">x 6.17</span>
+                <ul class="fw lhc-bb-balls">
+                  <li
+                    class="lhc-bb-ball ft14"
+                    :class="ballColor(item)"
+                    v-for="(cd, cdIndex) in item.code"
+                    :key="cdIndex"
+                  >{{cd}}</li>
+                </ul>
+                <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money" />
+              </li>
+            </template>
           </ul>
         </section>
         <section class="fw fl lhc-bb ft0">
@@ -65,25 +68,26 @@
             <li class="ball-title">金额</li>
           </ul>
           <ul class="fw lhc-tm-lists">
-            <li
-              class="lhc-tm-list"
-              :class="{on: item.flag}"
-              v-if="index > 8"
-              v-for="(item, index) in newCodes"
-              :key="index"
-            >
-              <span class="lhc-bb-ball-name">{{item.name}}</span>
-              <span class="lhc-bb-ball-name">x 6.17</span>
-              <ul class="fw lhc-bb-balls">
-                <li
-                  class="lhc-bb-ball ft14"
-                  :class="ballColor(item)"
-                  v-for="(cd, cdIndex) in item.code"
-                  :key="cdIndex"
-                >{{cd}}</li>
-              </ul>
-              <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money">
-            </li>
+            <template v-if="index > 8">
+              <li
+                class="lhc-tm-list"
+                :class="{on: item.flag}"
+                v-for="(item, index) in newCodes"
+                :key="index"
+              >
+                <span class="lhc-bb-ball-name">{{item.name}}</span>
+                <span class="lhc-bb-ball-name">x 6.17</span>
+                <ul class="fw lhc-bb-balls">
+                  <li
+                    class="lhc-bb-ball ft14"
+                    :class="ballColor(item)"
+                    v-for="(cd, cdIndex) in item.code"
+                    :key="cdIndex"
+                  >{{cd}}</li>
+                </ul>
+                <input type="text" class="lhc-bb-ball-money ft14" v-model="item.money" />
+              </li>
+            </template>
           </ul>
         </section>
       </section>
@@ -119,7 +123,7 @@
                 :key="cdIndex"
               >{{cd}}</li>
             </ul>
-            <input type="text" class="lhc-bb-ball-money" v-model="item.money">
+            <input type="text" class="lhc-bb-ball-money" v-model="item.money" />
           </li>
         </ul>
       </section>
@@ -139,7 +143,8 @@
             class="lhc-tm-list"
             :class="{on: item.flag}"
             v-for="(item, index) in newCodes"
-            :key="index">
+            :key="index"
+          >
             <span class="lhc-bb-ball-name tc ft16">{{item.name}} 尾</span>
             <span class="lhc-bb-ball-name">x 6.17</span>
             <ul class="fw lhc-bb-balls">
@@ -150,7 +155,7 @@
                 :key="cdIndex"
               >{{cd}}</li>
             </ul>
-            <input type="text" class="lhc-bb-ball-money" v-model="item.money">
+            <input type="text" class="lhc-bb-ball-money" v-model="item.money" />
           </li>
         </ul>
       </section>
@@ -179,7 +184,7 @@
               type="text"
               class="lhc-bb-ball-money"
               v-model="item.money"
-            >
+            />
           </li>
         </ul>
       </section>
@@ -210,7 +215,7 @@
     <section class="fw clear tc submit">
       <template v-if="currentMethod.method === 'BZ'">
         <p class="lhc-bz-odds">赔率 x 2.01</p>
-        <input type="text" v-model="currentOrder.money" maxlength="8" class="lhc-tm-list-text">
+        <input type="text" v-model="currentOrder.money" maxlength="8" class="lhc-tm-list-text" />
       </template>
       <span v-if="currentMethod.method !== 'BZ'">总金额 {{Utils.toFixed(String(currentOrder.money))}}</span>
       <a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
@@ -229,7 +234,7 @@
             v-model="currentOrder.betMoney"
             maxlength="8"
             class="silde-money-text"
-          >
+          />
         </p>
         <a href="javascript:;" class="silde-reset" @click="clearNumber()">
           <i class="fa fa-refresh"></i>重置
@@ -328,7 +333,8 @@
               :class="{on: item.flag}"
               v-for="(item, index) in plays"
               :key="index"
-              @click="selectNumber(item)">{{item.code}}</li>
+              @click="selectNumber(item)"
+            >{{item.code}}</li>
           </ul>
           <ul class="fw plays lhc-silde-playsFive">
             <li
@@ -387,7 +393,8 @@
           currentMethod.method === 'BB' ||
           currentMethod.method === 'SX' ||
           currentMethod.method === 'WX' ||
-          currentMethod.method === 'ZF'">
+          currentMethod.method === 'ZF'"
+        >
           <li
             class="bet-list"
             v-for="(item, index) in currentOrder.list"
@@ -400,9 +407,9 @@
           <p>
             组合共:
             <span class="red">111</span> 组
-            <br>单注金额:
+            <br />单注金额:
             <span class="red">{{Utils.toFixed(String(currentOrder.money))}}</span> 元
-            <br>总下注金额:
+            <br />总下注金额:
             <span class="red">22222222</span> 元
           </p>
         </li>
@@ -1297,7 +1304,7 @@ export default {
         mainCenter = document.getElementsByClassName('main-left')[0]
       ] = []
       mainRight.style.display = 'none'
-      mainCenter.style.width = '990px'
+      mainCenter.style.width = '790px'
     },
     leaveMain() {
       let [

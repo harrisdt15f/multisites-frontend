@@ -1,6 +1,5 @@
 <template>
   <div class="bet-record sub-account">
-    
     <div class="container">
       <div class="filter-container">
         游戏时间：
@@ -217,7 +216,6 @@ export default {
       activeName: 'game',
       gameList: [],
       listLoading: true,
-      tracesListLoading: true,
       gameListTotal: null,
       gameListQuery: {
         page_size: 10,
@@ -229,26 +227,10 @@ export default {
         issue: '',
         status: ''
       },
-      tracesListTotal: null,
-      tracesList: [],
-      tracesListQuery: {
-        page_size: 10,
-        page: 1,
-        time_condtions: [],
-        lotterySign: '',
-        lottery_sign: '',
-        project_serial_number: '',
-        issue: '',
-        status: ''
-      },
       gameTime: [
         new Date(date.setHours(0, 0, 0)),
         new Date(date.setHours(23, 59, 59))
       ],
-      tracesTime: [
-        new Date(date.setHours(0, 0, 0)),
-        new Date(date.setHours(23, 59, 59))
-      ]
     }
   },
   computed: {
@@ -315,18 +297,6 @@ export default {
         this.gameListQuery.serial_number = ''
       }
     },
-    tracesListInputChange(v){
-      this.tracesListQuery[this.tracesTypeSelect] = v
-    },
-    tracesListSelectChange(v){
-      if (v === 'serial_number'){
-        this.tracesListQuery.project_serial_number = this.tracesValueSelect
-        this.tracesListQuery.issue = ''
-      } else if (v === 'issue'){
-        this.tracesListQuery.issue = this.tracesValueSelect
-        this.tracesListQuery.project_serial_number = ''
-      }
-    },
     getGameList() {
       Object.assign(this.gameListQuery, {
         lottery_sign: this.gameListQuery.lotterySign && this.gameListQuery.lotterySign.length == 2 ? this.gameListQuery.lotterySign[1] : ''
@@ -337,7 +307,7 @@ export default {
         }
       }
       this.listLoading = true
-      this.Api.getBetGameRecord(this.gameListQuery).then(res => {
+      this.Api.getUserFund(this.gameListQuery).then(res => {
         const { success, data } = res
         this.listLoading = false
         if (success) {
@@ -350,10 +320,6 @@ export default {
       this.gameListQuery.page = 1
       this.getGameList()
     },
-    searchTraces() {
-      this.tracesListQuery.page = 1
-      this.getTraceList()
-    },
     handleSizeChange(val) {
       this.gameListQuery.page_size = val
       this.getGameList()
@@ -361,22 +327,6 @@ export default {
     handleCurrentChange(val) {
       this.gameListQuery.page = val
       this.getGameList()
-    },
-    handleTraceSizeChange(val) {
-      this.tracesListQuery.page_size = val
-      this.getTraceList()
-    },
-    handleTraceCurrentChange(val) {
-      this.tracesListQuery.page = val
-      this.getTraceList()
-    },
-    //投注记录详情
-    handleDetail(row) {
-      this.detailData = row
-      this.dialogVisible = true
-    },
-    handleDetailClose() {
-      this.dialogVisible = false
     }
   }
 }

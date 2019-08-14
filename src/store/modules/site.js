@@ -14,10 +14,14 @@ const state = {
   ranking: [],
   lotteryNoticeList: [],
   showBanner: false,
-  showSideFloat: true
+  showSideFloat: true,
+  helpList: []
 }
 
 const mutations = {
+  SET_HELP_LIST:(state, data) => {
+    state.helpList = data
+  },
   SET_LOTTERY_NOTICE: (state, data) => {
     state.lotteryNoticeList = data
   },

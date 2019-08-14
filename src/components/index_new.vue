@@ -347,7 +347,7 @@ export default {
               method_group: data[v].method_group,
               count: 5,
               multiple: 1,
-              code: [
+              code: data[v].code && data[v].code.length ? data[v].code : [
                 { num: 0, sign: true },
                 { num: 1, sign: false },
                 { num: 2, sign: true },

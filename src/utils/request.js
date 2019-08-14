@@ -2,9 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, removeToken } from '@/utils/auth'
-
 import { AES_encrypt, randomString } from '@/utils/encrypt'
-
 import { nextTick } from 'q'
 
 import qs from 'qs'
@@ -35,6 +33,7 @@ service.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + getToken()
     }
     if (config.data) {
+      console.log(`%c ${config.url}`, 'color: #ff7200', config.data)  // eslint-disable-line
       config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
       const enstr = AES_encrypt(JSON.stringify(config.data),KEY,IV,pkcs8_public)
       config.data = qs.stringify({data:enstr})
@@ -47,7 +46,7 @@ service.interceptors.request.use(
 )
 
 let sign = 0
-// response interceptor
+// response interceptorFright-collapse
 service.interceptors.response.use(
   response => {
     const res = response.data

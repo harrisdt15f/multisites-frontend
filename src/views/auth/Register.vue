@@ -1,101 +1,202 @@
 <template>
-  <div class="register">
-    <Header></Header>
-    <el-main>
-      <el-form :model="user" :rules="userRules" ref="userForm" label-width="80px">
-        <el-form-item label="用户名" prop="username">
-          <el-input placeholder="请输入用户名" v-model="user.username" required clearable></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input placeholder="请输入密码" v-model="user.password" type="password" required clearable></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="password_confirmation">
-          <el-input
-            placeholder="请输入确认密码"
-            v-model="user.password_confirmation"
-            type="password"
-            required
-            clearable
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('userForm')">注册</el-button>&nbsp;&nbsp;
-          <el-button @click="resetForm('userForm')">重置</el-button>&nbsp;&nbsp;
-          <router-link to="/login">已有账户？去登陆</router-link>
-        </el-form-item>
-      </el-form>
-    </el-main>
-    <Footer></Footer>
-  </div>
+  <section class="login">
+    <section class="main">
+      <div class="main-container">
+        <div class="r">
+          <div class="r-t">
+            <div class="title">
+              <div class="title-l">
+                用户注册
+              </div>
+            </div>
+            <el-form class="user-form" status-icon :model="user" :rules="userRules" label-width="100px"  ref="userForm">
+              <el-form-item label="用户名" prop="username">
+                <el-input style="width:250px" placeholder="用户名" v-model="user.username" type="text" required clearable>
+                </el-input>
+              </el-form-item>
+              <el-form-item  label="密码" prop="password">
+                <el-input
+                  style="width:250px"
+                  placeholder="密码"
+                  v-model="user.password"
+                  type="password"
+                  required
+                  clearable>
+                </el-input>
+              </el-form-item>
+              <el-form-item  label="确认密码" prop="password">
+                <el-input
+                  style="width:250px"
+                  placeholder="确认密码"
+                  v-model="user.password"
+                  type="password"
+                  required
+                  clearable>
+                </el-input>
+              </el-form-item>
+             
+              <el-form-item>
+                <el-button
+                  class="login-btn"
+                  :loading="loading"
+                  type="primary"
+                  @click="submitForm('userForm')"
+                >注册</el-button>
+                 <el-button
+                  class="login-btn"
+                  :loading="loading"
+                  style="margin-left: 30px;"
+                  @click="submitForm('userForm')"
+                >重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
 </template>
 
-
 <script>
-// import { WebAppAPI } from '@/API.js'
-// import Header from '@/components/header.vue'
-// import Footer from '@/components/footer.vue'
-//
-// export default {
-//   name: 'register',
-//   template: '#register',
-//   components: {
-//     Header,
-//     Footer,
-//   },
-//   data() {
-//     var validateConfirmPassword = (rule, value, callback) => {
-//       if (value === '') {
-//         callback(new Error('请再次输入密码'));
-//       } else if (value !== this.user.password) {
-//         callback(new Error('两次输入密码不一致!'));
-//       } else {
-//         callback();
-//       }
-//     };
-//     return {
-//       user: { username: '', password: '', password_confirmation: '' },
-//       userRules: {
-//         username: [
-//           { required: true, message: '请输入用户名', trigger: 'blur' },
-//           { min: 3, message: '长度在 3 个以上', trigger: 'blur' },
-//         ],
-//         password: [
-//           { required: true, message: '请输入密码', trigger: 'blur' },
-//           { min: 6, message: '长度在 6 个以上', trigger: 'blur' },
-//         ],
-//         password_confirmation: [
-//           { validator: validateConfirmPassword, trigger: 'blur' },
-//         ],
-//       },
-//     };
-//   },
-//   methods: {
-//     createuser() {
-//       let param = { user: this.user };
-//       WebAppAPI.CreateUser(param).then(response => {
-//         if (response.status === 201) {
-//           this.$router.push('/');
-//         } else {
-//           let errorMessage = response.data.message;
-//           this.$alert(errorMessage, '提示');
-//         }
-//       });
-//     },
-//     submitForm(formName) {
-//       this.$refs[formName].validate(valid => {
-//         if (valid) {
-//           this.createuser();
-//         } else {
-//           return false;
-//         }
-//       });
-//     },
-//     resetForm(formName) {
-//       this.$refs[formName].resetFields();
-//     },
-//   },
-// };
+export default {
+  name: 'register',
+  data() {
+    return {
+      loading: false,
+      user: { username: '', password: '', confirm_password: '' },
+      userRules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+          { min: 3, message: '长度在 3 个以上', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
+        ]
+      },
+      isRemember: {
+        password: {},
+        checked: true
+      }
+    }
+  },
+  created() {
+  
+  },
+  methods: {
+    login() {
+      this.loading = true
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields()
+    }
+  }
+}
 </script>
 
-<style>
+<style lang="scss" scoped>
+.login {
+  .main {
+    .main-container {
+      box-sizing: border-box;
+      width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      background: #fff;
+      overflow: hidden;
+      .l {
+        float: left;
+        width: 780px;
+        height: 450px;
+      }
+      .r {
+        position: relative;
+        margin: 0 auto;
+        overflow: hidden;
+        box-sizing: border-box;
+        background: #fff;
+        position: relative;
+        .r-t {
+          .title {
+            padding: 10px 0 15px;
+            border-bottom: 1px dashed #ccc;
+            overflow: hidden;
+            height: auto;
+            font-weight: bold;
+            .title-l {
+              float: left;
+              color: #ff7800;
+              font-weight: 400;
+              border-bottom: 1px solid #ff7800;
+              font-size: 18px;
+              line-height: 1.5;
+            }
+            .title-r {
+              float: right;
+              a{
+                color: #58b3f6;
+              }
+              cursor: pointer;
+              font-size: 18px;
+              font-weight: 400;
+            }
+          }
+        }
+        .r-b {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 70px;
+          padding: 0 30px;
+          box-sizing: border-box;
+          font-size: 16px;
+          background: #f3eadd;
+          text-align: right;
+          line-height: 70px;
+          .register {
+            color: #b98f59;
+            i {
+              display: inline-block;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              text-align: center;
+              line-height: 20px;
+              background: #b98f59;
+              color: #fff;
+            }
+          }
+        }
+      }
+      .r-forget {
+        margin: -10px 4px 7px 0;
+        font-size: 13px;
+      }
+      .r-forget-link:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+.user-form{
+    min-height: 400px;
+    padding: 48px 0 15px 150px;
+    /deep/{
+      .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+        background-color: #ff7800;
+        border-color: #ff7800;
+      }
+      .el-button--primary{
+        background-color: #ff7800;
+        border-color: #ff7800;
+      }
+      .el-button--primary:focus, .el-button--primary:hover{
+          background: #ff7800;
+          border-color: #ff7800;
+          color: #FFF;
+      }
+    }
+}
 </style>

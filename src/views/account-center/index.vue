@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-tabs v-model="activeName" type="border-card" @tab-click="showMessageCenter">
+    <el-tabs v-model="activeName" type="border-card">
       <el-tab-pane label="账户管理" :lazy="true" name="account-manage">
         <account-manage></account-manage>
       </el-tab-pane>

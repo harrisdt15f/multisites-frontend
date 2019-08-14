@@ -26,7 +26,7 @@
           </section>
         </div>
         <div class="main-center-wrap">
-          <div class="right-collapse" @click="handleCollapseRight">
+          <div v-if="currentLottery.series_id !== 'lhc'" class="right-collapse" @click="handleCollapseRight">
             {{this.collapseRight ? '收起开奖记录' : '展开开奖记录'}}</div>
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
@@ -74,10 +74,10 @@
             <section class="main-right" v-show="collapseRight">
               <section class="list-historys">
                 <section class="record"></section>
-                <table width="100%" class="bet-table-trend">
+                <table v-if="bet.issueHistory" width="100%" class="bet-table-trend">
                   <thead>
                     <tr>
-                      <th class="th" style="width:115px">奖期</th>
+                      <th class="th" style="width:124px">奖期</th>
                       <th class="th">开奖</th>
                     </tr>
                   </thead>
@@ -273,7 +273,7 @@ export default {
       this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
-    selectGroup(groupSign, _index = 0, group) {
+    selectGroup(groupSign, _index = 0) {
       this.selectedGroup = groupSign
       this.selectedGroupIndex = _index
       this.selectedMethodId = ''

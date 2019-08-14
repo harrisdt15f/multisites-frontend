@@ -37,7 +37,7 @@
                   type="primary"
                   @click="submitForm('userForm')"
                 >登陆</el-button>
-                <el-button type="info" style="margin-left: 30px;">注册</el-button>
+                <router-link tag="el-button" :to="`/register`" style="margin-left: 30px;">注册</router-link>
               </el-form-item>
             </el-form>
           </div>
