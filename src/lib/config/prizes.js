@@ -432,8 +432,10 @@ export default {
             'LTDWD_1': {'total': 11, 'prize': 19.8, 'count': 1},
             'LTDWD_2': {'total': 11, 'prize': 19.8, 'count': 1},
             'LTDWD_3': {'total': 11, 'prize': 19.8, 'count': 1},
-            'LTDDS': {'total': 462, 'prize': [830.67, 138.00, 27.00, 11.00, 5.50, 4.10], 'count': [1, 6, 30, 75, 150, 200]},
-            'LTCZW': {'total': 462, 'prize': [29.67, 12.30, 9.20, 8.31], 'count': [28, 63, 90, 100]},
+            // 'LTDDS': {'total': 462, 'prize': [830.67, 138.00, 27.00, 11.00, 5.50, 4.10], 'count': [1, 6, 30, 75, 150, 200]},
+            // 'LTCZW': {'total': 462, 'prize': [29.67, 12.30, 9.20, 8.31], 'count': [28, 63, 90, 100]},
+            'LTDDS': {'total': 462, 'prize': 4.10, 'count': 200},
+            'LTCZW': {'total': 462, 'prize': 8.31, 'count': 100},
 
             'LTZX3':    {'total': 990,  'prize': 1782,  'count': 1},
             'LTZX3_S':  {'total': 990,  'prize': 1782,  'count': 1},
@@ -498,7 +500,7 @@ export default {
             'QZU6_S':   {'total': 1000, 'prize': 295, 'count': 6},
             'QHHZX':    {'total': 1000, 'prize': 600, 'count': 3},
 
-            'QZUHZ':    {'total': 1000, 'prize': [590, 295], 'count': 250},
+            'QZUHZ':    {'total': 1000, 'prize': 590, 'count': 3},
 
             'QZX2':     {'total': 1000, 'prize': 177, 'count': 1},
             'QZX2_S':   {'total': 1000, 'prize': 177, 'count': 1},
@@ -654,7 +656,7 @@ export default {
                 '25': { 'total': 1000, 'prize': 300.0,    'count': 6 },
                 '26': { 'total': 1000, 'prize': 599.9998, 'count': 3 },
                 '27': { 'total': 1000, 'prize': 1800.0,   'count': 1 }
-                },
+            },
             'PCDDDXDS': {
                 'BIG':    { 'total': 1000, 'prize': 3.6, 'count': 500 },
                 'SMALL':  { 'total': 1000, 'prize': 3.6, 'count': 500 },
