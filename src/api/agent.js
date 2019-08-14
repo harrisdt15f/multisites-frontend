@@ -18,5 +18,11 @@ export default {
   //生成开户链接 
   createRegisterLink(data) {
     return this.post('/user-agent-center/register-link', data).then(response =>  response)
+  },
+
+  //删除开户链接
+  deleteRestisterLink(data) {
+    return this.post('/user-agent-center/link-del', data).then(response =>  response)
   }
+  
 }

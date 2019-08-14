@@ -217,10 +217,13 @@ export default {
         if (valid) {
           this.submitLoading = true
           this.Api.register(this.form).then(({success}) => {
+            this.submitLoading =false
             if (success) {
               this.$alert('开户创建成功', {
                 confirmButtonText: '确定'
               })
+              this.form.username = ''
+              this.form.password = ''
             }
           })
         }
@@ -230,11 +233,12 @@ export default {
       this.$refs['linkForm'].validate((valid) => {
         if (valid) {
           this.submitLoading = true
-          this.Api.createRegisterLink(this.linkForm).then(({success, data}) => {
+          this.Api.createRegisterLink(this.linkForm).then(({success}) => {
             this.submitLoading = false
             if (success) {
-              this.$alert('开户链接已创建', {
-                confirmButtonText: '确定',
+              this.$message({
+                message: '删除成功',
+                type: 'success'
               })
               this.initData()
             }
@@ -243,6 +247,14 @@ export default {
       })
     },
     deleteLink(row){
+      this.Api.deleteRestisterLink({id: row.id}).then(({success}) => {
+         if (success) {
+            this.$alert('删除成功', {
+              confirmButtonText: '确定',
+            })
+            this.initData()
+          }
+      })
     }
   }
 }
