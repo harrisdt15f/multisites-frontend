@@ -64,14 +64,18 @@ let Utils = {
     * num 显示几个小数点
     */
     toFixed (str, num = 2) {
-        if (str.indexOf('.') > -1) {
-            return str.substr(0, str.lastIndexOf('.') + num + 1)
+        if (String(str).indexOf('.') > -1) {
+            let zeo = ''
+            for (let i = 0; i < (num - String(str).substr(String(str).lastIndexOf('.') + 1, str.length).length); i++) {
+                zeo += '0'
+            }
+            return String(str).substr(0, String(str).lastIndexOf('.') + num + 1) + zeo
         } else {
             let zeo = ''
             for (let i = 0; i < num; i++) {
                 zeo += '0'
             }
-            return str + '.' + zeo
+            return String(str) + '.' + zeo
         }
     },
     // 将剩余秒数转换成倒计时

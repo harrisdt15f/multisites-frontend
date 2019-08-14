@@ -13,9 +13,9 @@
         </el-row>
       </div>
       <div class="content" v-loading="loading" >
-        <div class="banner" v-if="currentIndex == 0">
-          <img src="../../assets/images/bulletin_img.jpg" class="img"/>
-        </div>
+<!--        <div class="banner" v-if="currentIndex == 0">-->
+<!--          <img src="../../assets/images/bulletin_img.jpg" class="img"/>-->
+<!--        </div>-->
         <el-row class="nr" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-col :span="6" class="nr-l">
             <template v-if="list && list.length">
@@ -25,7 +25,7 @@
                 v-for="item in list"
                 :key="item.id">
                 <div v-if="currentIndex == 1 && !item.status" class="message-circle"></div>
-                <div class="title">{{currentIndex == 1 ? item['message_content']['title'] : item['title']}}</div>
+                <div class="title wzfw">{{currentIndex == 1 ? item['message_content']['title'] : item['title']}}</div>
                 <div class="date">{{item['created_at']}}</div>
               </div>
             </template>
@@ -148,7 +148,7 @@ export default {
       right:0;
       margin: auto !important;
       width:800px !important;
-      height:650px;
+      height:515px;
       border-radius: 5px;
       overflow: auto;
     }
