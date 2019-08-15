@@ -121,7 +121,7 @@
               </ul>
             </section>
 
-            <section class="dinv ylc-lhd-list" v-for="list in pcdd.allCodeList.q">
+            <section class="dinv ylc-lhd-list" v-for="(list, index) in pcdd.allCodeList.q" :key="index">
               <h3 class="ylc-lhd-list-title">{{list.name}}</h3>
               <ul class="fw">
                 <li
@@ -134,10 +134,9 @@
                     <span
                       class="ylc-lhd-list-q-y"
                       :class="{
-									      'ylc-lhd-list-q-y-red': item.code === '龙',
-									      'ylc-lhd-list-q-y-green': item.code === '和',
-									      'ylc-lhd-list-q-y-blue': item.code === '虎'
-									      }"
+                        'ylc-lhd-list-q-y-red': item.code === '龙',
+                        'ylc-lhd-list-q-y-green': item.code === '和',
+                        'ylc-lhd-list-q-y-blue': item.code === '虎'}"
                     >{{item.code}}</span>
                   </section>
                   <span
@@ -150,7 +149,7 @@
             </section>
 
             <br v-if="pcdd.allCodeList.b" />
-            <section class="dinv ylc-lhd-list" v-for="list in pcdd.allCodeList.b">
+            <section class="dinv ylc-lhd-list" v-for="(list, index) in pcdd.allCodeList.b" :key="index">
               <h3 class="ylc-lhd-list-title">{{list.name}}</h3>
               <ul class="fw">
                 <li
@@ -163,10 +162,9 @@
                     <span
                       class="ylc-lhd-list-q-y"
                       :class="{
-									      'ylc-lhd-list-q-y-red': item.code === '龙',
-									      'ylc-lhd-list-q-y-green': item.code === '和',
-									      'ylc-lhd-list-q-y-blue': item.code === '虎'
-									      }"
+                          'ylc-lhd-list-q-y-red': item.code === '龙',
+                          'ylc-lhd-list-q-y-green': item.code === '和',
+                          'ylc-lhd-list-q-y-blue': item.code === '虎'}"
                     >{{item.code}}</span>
                   </section>
                   <span
@@ -179,7 +177,7 @@
             </section>
 
             <br v-if="pcdd.allCodeList.s" />
-            <section class="dinv ylc-lhd-list" v-for="list in pcdd.allCodeList.s">
+            <section class="dinv ylc-lhd-list" v-for="(list, index) in pcdd.allCodeList.s" :key="index">
               <h3 class="ylc-lhd-list-title">{{list.name}}</h3>
               <ul class="fw">
                 <li
@@ -192,10 +190,9 @@
                     <span
                       class="ylc-lhd-list-q-y"
                       :class="{
-									      'ylc-lhd-list-q-y-red': item.code === '龙',
-									      'ylc-lhd-list-q-y-green': item.code === '和',
-									      'ylc-lhd-list-q-y-blue': item.code === '虎'
-									      }"
+                          'ylc-lhd-list-q-y-red': item.code === '龙',
+                          'ylc-lhd-list-q-y-green': item.code === '和',
+                          'ylc-lhd-list-q-y-blue': item.code === '虎'}"
                     >{{item.code}}</span>
                   </section>
                   <span
@@ -213,17 +210,17 @@
           <section
             class="fw ylc-dwq"
             v-if="
-					         currentMethod.type === 'ylc' &&
-					         currentMethod.method === 'DYQ' ||
-					         currentMethod.method === 'DEQ' ||
-					         currentMethod.method === 'DSQ' ||
-					         currentMethod.method === 'DSIQ' ||
-					         currentMethod.method === 'DWQ' ||
-					         currentMethod.method === 'QWZY'
+                  currentMethod.type === 'ylc' &&
+                  currentMethod.method === 'DYQ' ||
+                  currentMethod.method === 'DEQ' ||
+                  currentMethod.method === 'DSQ' ||
+                  currentMethod.method === 'DSIQ' ||
+                  currentMethod.method === 'DWQ' ||
+                  currentMethod.method === 'QWZY'
                  "
           >
             <section class="fw">
-              <ul class="fw ylc-title w20" v-for="c in 5">
+              <ul class="fw ylc-title w20" v-for="c in 5" :key="c">
                 <li class="ylc-title-list">号码</li>
                 <li class="ylc-title-list">赔率</li>
                 <li class="ylc-title-list">金额</li>
@@ -352,10 +349,9 @@
             <!--								<li class="ylc-title-list">金额</li>-->
             <!--							</ul>-->
             <!--						</section>-->
-            <section class="fw">
+            <section class="fw" v-if="list.length > 0">
               <ul
                 class="ylc-bet ylc-bet-line w25"
-                v-if="list.length > 0"
                 v-for="(list, index) in pcdd.allBtnList"
                 :key="index"
               >

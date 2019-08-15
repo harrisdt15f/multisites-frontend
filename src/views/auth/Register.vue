@@ -113,7 +113,6 @@ export default {
     }
   },
   created() {
-    console.log(this.code)
   },
   methods: {
     login() {

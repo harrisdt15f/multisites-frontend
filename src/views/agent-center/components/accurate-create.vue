@@ -236,9 +236,8 @@ export default {
           this.Api.createRegisterLink(this.linkForm).then(({success}) => {
             this.submitLoading = false
             if (success) {
-              this.$message({
-                message: '删除成功',
-                type: 'success'
+              this.$alert('链接开户创建成功', {
+                confirmButtonText: '确定',
               })
               this.initData()
             }
@@ -249,9 +248,10 @@ export default {
     deleteLink(row){
       this.Api.deleteRestisterLink({id: row.id}).then(({success}) => {
          if (success) {
-            this.$alert('删除成功', {
-              confirmButtonText: '确定',
-            })
+            this.$message({
+                message: '删除成功',
+                type: 'success'
+              })
             this.initData()
           }
       })

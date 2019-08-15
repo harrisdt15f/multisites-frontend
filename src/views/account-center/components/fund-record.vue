@@ -51,7 +51,7 @@
           </el-table-column>
           <el-table-column align="center" label="时间">
             <template slot-scope="scope">
-              <span>{{ scope.row.process_time }}</span>
+              {{Utils.formatTime(scope.row.process_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}
             </template>
           </el-table-column>
           <el-table-column align="center" label="账变类型">
