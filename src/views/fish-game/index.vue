@@ -325,6 +325,8 @@ export default {
   opacity:0;
   .fish-detail-img{
     position:absolute;
+    left:0;
+    right:0;
     margin:0 auto;
     height:100%;
     z-index: -1;
