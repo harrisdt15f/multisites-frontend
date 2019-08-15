@@ -54,6 +54,7 @@ export default {
     return {
       loading: false,
       user: { username: '', password: '', confirm_password: '' },
+      //验证规则
       userRules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -71,6 +72,7 @@ export default {
     }
   },
   created() {
+    // 记住密码
     let rememberPassword = this.Utils.storage.get('rememberPassword')
     if (rememberPassword) {
       this.user.username = rememberPassword.data.account
@@ -78,6 +80,7 @@ export default {
     }
   },
   methods: {
+    // 登录
     login() {
       this.loading = true
       this.$store
@@ -113,9 +116,6 @@ export default {
           return false
         }
       })
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
     }
   }
 }

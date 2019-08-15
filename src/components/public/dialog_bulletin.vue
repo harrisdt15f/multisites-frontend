@@ -13,9 +13,6 @@
         </el-row>
       </div>
       <div class="content" v-loading="loading" >
-<!--        <div class="banner" v-if="currentIndex == 0">-->
-<!--          <img src="../../assets/images/bulletin_img.jpg" class="img"/>-->
-<!--        </div>-->
         <el-row class="nr" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-col :span="6" class="nr-l">
             <template v-if="list && list.length">
@@ -77,6 +74,7 @@ export default {
     ...mapActions(['getNotice']),
     initData() {
       this.loading = true
+      // 平台公告
       if(this.currentIndex == 0){
         this.Api.getNotice({ type: 1, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
           this.loading = false
@@ -90,6 +88,7 @@ export default {
           }
         })
       } else {
+        // 消息中心
         this.getNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
           const {message} = data
           this.loading = false

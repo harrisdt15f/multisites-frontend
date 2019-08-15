@@ -22,8 +22,6 @@
         </div>
       </section>
       
-      
-      
       <section  class="gallery-thumbs" @mouseenter="claearFish()" @mouseleave="autoFish()">
   
         <section class="gallery-thumbs-warp">
@@ -138,7 +136,7 @@ export default {
       fishImgRight = this.$refs.fishImgRight,
       galleryBox = this.$refs.galleryBox
     ] = []
-    
+
     this.$nextTick(() => {
       this.Animation.move(fishItem[0], {'opacity': 100}, 20)
       this.Animation.move(fishTxt[0], {'top': 66, 'opacity': 100}, 15)

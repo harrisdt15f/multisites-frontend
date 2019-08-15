@@ -72,6 +72,17 @@ export default {
   name: 'register',
   props: ['code'],
   data() {
+    // 验证
+    var validateUser = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入用户名'))
+      } else {
+        if (!(/^[a-zA-Z0-9_-]{4,12}$/).test(value)) {
+          callback(new Error('请输入4-12位英文或者数字组成的用户名'))
+        }
+        callback()
+      }
+    }
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
@@ -100,7 +111,7 @@ export default {
       },
       userRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' }
+          { required: true, validator: validateUser, trigger: 'blur' }
         ],
         password: [
           { required: true, validator: validatePass, trigger: 'blur' }
@@ -114,10 +125,11 @@ export default {
   created() {
   },
   methods: {
-
+    // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
+    // 注册
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         this.loading = true

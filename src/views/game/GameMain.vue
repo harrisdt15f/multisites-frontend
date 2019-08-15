@@ -4,7 +4,7 @@
     <game-issue></game-issue>
 
     <game-method></game-method>
-
+    <!-- 娱乐城 -->
     <GameYlc v-if="currentLottery.en_name === 'bjxy28'"></GameYlc>
   </section>
 </template>
@@ -46,6 +46,7 @@ export default {
     this.chengePlay()
   },
   methods: {
+    //切换娱乐城
     chengePlay() {
       let json = {
         name: 'official',
@@ -53,6 +54,7 @@ export default {
       }
       this.$store.commit('chengeYlcPlays', json)
     },
+    //获取所有彩种
     getLotteryInfo(lotteryAll) {
       let lottery = lotteryAll[this.lotterySign]
       lottery.methodConfig2 = [

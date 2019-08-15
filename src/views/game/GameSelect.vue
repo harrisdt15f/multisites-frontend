@@ -10,10 +10,6 @@
         ?
         <div class="tooltip1" v-html="currentMethod.help"></div>
       </a>
-      <!--      <a href="javascript:;" class="ico-case" v-if="currentMethod && currentMethod.example">-->
-      <!--        例-->
-      <!--        <div class="tooltip1" v-html="currentMethod.example"></div>-->
-      <!--      </a>-->
       <div class="lhc-end ab" v-if="currentMethod.type === 'lhc'">
         <el-tooltip content="1800 - 0.00%" placement="bottom">
           <input type="button" class="input high curr" value="A面" />

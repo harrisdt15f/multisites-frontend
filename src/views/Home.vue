@@ -23,6 +23,7 @@ export default {
   },
   methods: {
     ...mapActions(['getBanner', 'getPopularChess', 'getPopularEgame', 'getLotteryNotice', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
+    //初始化不常变动数据
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
       this.Api.showHomepageModel().then(({success, data}) => {

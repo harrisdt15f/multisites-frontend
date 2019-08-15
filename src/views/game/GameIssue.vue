@@ -5,6 +5,7 @@
         <section class="game-header-s">
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
+        <!-- 本期开奖 -->
         <section class="game-lotterys" :class="{pk10Deadlie : currentLottery.series_id === 'pk10'}">
           <div class="deadline">
             <div class="deadline-text">
@@ -68,6 +69,7 @@
         </section>
       </section>
     </section>
+    <!-- 开奖提示 -->
     <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
@@ -103,16 +105,12 @@ export default {
   },
   data() {
     return {
-      descs: '',
-      lotteryNotice: [],
-      scrollNotice: [],
+      //上期开奖
       lastIssue: {
         issue_no: '---------',
         open_code: ['-', '-', '-', '-', '-']
       },
       issueNum: 0,
-      time: '--:--:--',
-      currentIssueTimer: null,
       notice: {
         issue: '',
         time: 3,
@@ -124,6 +122,7 @@ export default {
     this.getLottery()
   },
   watch: {
+    //倒计时结束团出
     'notice.show'(newVal) {
       let timer = null
       if (newVal) {
@@ -186,6 +185,7 @@ export default {
         this.filpOpenCode()
       })
     },
+    // 获取上期开奖
     getLastIssue() {
       this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
         if (res.success) {
@@ -214,6 +214,7 @@ export default {
         this.filpOpenCode()
       })
     },
+    //倒计时完执行
     handleTimeup(){
       if(!this.currentIssue.end_time) return
         this.issueNum = 1

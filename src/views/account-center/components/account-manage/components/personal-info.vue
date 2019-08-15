@@ -70,7 +70,7 @@ export default {
         zip_code: '',
         address: ''
       },
-      isDisabled: true,
+      isDisabled: true, //是否修改
       isBtn: 'edit',
       rules: {
         email: [
@@ -97,10 +97,12 @@ export default {
         }
       })
     },
+    // 编辑
     handleEdit() {
       this.isBtn = 'submit'
       this.isDisabled = false
     },
+    // 提交修改
     handleSubmit() {
       this.Api.resetSpecificInfos(this.form).then(({ data, success }) => {
         if (success) {

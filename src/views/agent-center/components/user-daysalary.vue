@@ -43,7 +43,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="日资比例">
-          <template slot-scope="scope">
+          <template>
             <span>--</span>
           </template>
         </el-table-column>
@@ -158,6 +158,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'UserProfits',
   data() {
+    // 时间转换
     const date1 = new Date()
       date1.setDate(1)
       date1.setHours(0,0,0)
@@ -170,6 +171,7 @@ export default {
         sum:{}
       },
       total: undefined,
+      // 搜索条件
       listQuery: {
         page_size: 10,
         page: 1,
@@ -191,6 +193,7 @@ export default {
     }
   },
   watch: {
+    // 时间初始化
     gameTime: {
       handler(newName) {
         this.listQuery.date_from = this.Utils.formatTime(
@@ -212,6 +215,7 @@ export default {
     this.initData()
   },
   methods: {
+    // 时间初始化
     initData(){
       this.Api.getUserDaysalary(this.listQuery).then(({success, data}) => {
         if (success) {
@@ -220,6 +224,7 @@ export default {
         }
       })
     },
+    // 搜所
     searchData(){
       this.listQuery.page = 1
       this.initData()

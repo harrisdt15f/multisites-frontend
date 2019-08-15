@@ -1,6 +1,7 @@
 <template>
   <div class="chess-all">
     <div class="container">
+      <!-- 游戏导航 -->
       <div class="header-content">
         <div class="auto-item active">
           <img class="img" src="../../assets/images/chess/dggGame.png">

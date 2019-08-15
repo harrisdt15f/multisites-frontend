@@ -7,6 +7,7 @@
     @close="handleClose"
   >
     <template v-if="detailData">
+      <!-- 投注记录详情 -->
       <div class="content" v-if="!isTraces">
         <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
           <template v-if="detailData.series_id ==='lotto'">
@@ -97,6 +98,7 @@
           <el-button @click="handleCancelBet(detailData)">撤单</el-button>
         </div>
       </div>
+      <!-- 追号记录详情 -->
       <div class="content" v-else>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -247,14 +249,17 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      // 弹框显示
       openStatus: this.dialogVisible
     }
   },
   computed: {
     ...mapGetters(['currentLottery']),
+    // 是否是追号
     isTraces() {
       return this.detailData.win_stop !== undefined
     },
+    // 翻译字符
     bet_number() {
       if (this.detailData.method_group === 'DXDS') {
         return this.detailData.bet_number
@@ -303,9 +308,11 @@ export default {
   props: ['dialogVisible', 'detailData'],
 
   methods: {
+    // 关闭弹框
     handleClose() {
       this.$emit('close')
     },
+    // 撤单
     handleCancelBet(item) {
       this.$confirm('你确认撤单么？', '', {
         confirmButtonText: '确定',
@@ -325,6 +332,7 @@ export default {
         })
       })
     },
+    // 终止追号
     handleStopTrace(item){
       this.$confirm('你确认中止追号么？', '', {
         confirmButtonText: '确定',
@@ -349,6 +357,7 @@ export default {
         })
       })
     },
+    // 终止本期追号
     handleStopIssueTrace(item){
        this.$confirm('你确认取消本期追号么？', '', {
         confirmButtonText: '确定',

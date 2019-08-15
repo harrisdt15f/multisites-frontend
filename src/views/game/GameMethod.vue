@@ -2,6 +2,7 @@
   <section class="fw w100">
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w">
+      <!-- 选号区 -->
       <section class="main-center">
         <div class="bet-type-crow">
           <section class="bet-type-crows">
@@ -119,6 +120,7 @@
             </section>
           </transition>
         </div>
+        <!-- 投注区 -->
         <game-order :countPrizes="countPrizes()"></game-order>
       </section>
     </section>
@@ -153,6 +155,7 @@ export default {
       'currentMethodGroup',
       'userConfig'
     ]),
+    //获取每个彩种id
     gameId() {
       const gameIdArr = []
       for (const key in this.lotteryLists) {
@@ -170,24 +173,12 @@ export default {
   },
   data() {
     return {
-      loading: false,
       selectedGroup: '',
       selectedGroupIndex: '',
       selectedMethodId: '',
       collapseRight: true,
       typeGroup: '',
-      // 彩种id
-      // gameId: [
-      //   [6, 7, 8, 9, 10, 11], //11x5
-      //   [12, 13, 14, 15, 16], //k3
-      //   [21, 22, 23], //pk10
-      //   [17, 18], //f3d
-      //   [19], //ssl
-      //   [20], //pl35
-      //   [24], //lhc
-      //   [1, 2, 3, 4, 5], //ssc
-      // ],
-      prizeSelect: '一等奖'
+      prizeSelect: '一等奖' //单注奖金
     }
   },
   watch: {
@@ -203,6 +194,7 @@ export default {
     }
   },
   created() {
+    //初始化选择玩法
     this.selectGroup(this.defaultGroup)
   },
   methods: {

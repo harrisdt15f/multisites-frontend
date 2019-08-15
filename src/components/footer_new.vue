@@ -151,6 +151,7 @@ export default {
     // this.mockData()
   },
   methods: {
+    // 滚动效果
     mockData() {
       this.endValMoney = 0
       this.endValPeople = 0
@@ -178,7 +179,6 @@ export default {
           money: money,
           people: people,
           expires: Date.now() + 1000 * 60
-          // expires: Date.now() + 1000*60*expired
         }
         localStorage.setItem('endVal', JSON.stringify(endVal))
       }
