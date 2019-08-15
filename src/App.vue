@@ -8,6 +8,7 @@ export default {
     this.getIco()
   },
   methods: {
+    //获取 头部小图标
     getIco(){
       this.Api.getIco().then(({success, data}) => {
         if (success) {

@@ -27,6 +27,7 @@ export default {
     ...mapGetters(['helpList'])
   },
   mounted () {
+    // 定位到指定id 
     if(!this.helpList || !this.helpList.length) this.$router.push('/help-center')
     const anchor = document.getElementById(this.pageId)
     if (anchor) {

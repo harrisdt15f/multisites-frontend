@@ -39,6 +39,7 @@
       <el-row>
         <el-col :span="6">&nbsp;</el-col>
         <el-col :span="12">
+          <!-- 首页投注 -->
           <div class="hot-box">
             <el-tabs class="hot-box-tab" v-model="activeName">
               <el-tab-pane
@@ -214,6 +215,7 @@
             </div>
           </div>
         </el-col>
+        <!-- 中奖排行榜 -->
         <el-col :span="6">
           <div class="zjxx">
             <div class="title">中奖排行榜</div>
@@ -303,6 +305,7 @@ export default {
       },
       immediate: true
     },
+    // 中奖排行
     'ranking': {
       handler (newVal) {
         if(!newVal.length) return
@@ -333,6 +336,7 @@ export default {
         this.Animation.notice('head-meque', 'head-meque_text', -1)
       }, 10)
     },
+    //获取首页热门游戏
     initData(){
       this.Api.getPopularLotteries2().then(({success, data}) => {
         if (success && data.length) {
@@ -377,6 +381,7 @@ export default {
         this.$router.push(route)
       }
     },
+    // 悬浮
     handleScroll() {
       const scrollTop =
         window.pageYOffset ||
@@ -392,9 +397,7 @@ export default {
         floatLayer.style.top = '50%'
       }
     },
-    handleCilckNum(items) {
-      this.$set(items, 'sign', !items.sign)
-    },
+    // 换一注
     handleRandomNum(item) {
       const num = [],
             randomNum = Math.ceil(Math.random() * 7)
@@ -410,9 +413,11 @@ export default {
       })
       
     },
+    // 加倍
     handleChangeMultiple(item) {
       this.$set(item, 'totalCost', item.multiple * item.cost)
     },
+    // 一键投注
     immediateBet(item) {
       if (!this.isLogin) {
         this.$router.push('/login')
@@ -454,21 +459,19 @@ export default {
         }
       })
     },
+    // 点击banner
     goToBannerUrl(url) {
       this.$router.push(url)
     },
-    handleOpenDialog(id) {
-      id
-        ? (this.currentBulletinIndex = id)
-        : (this.currentBulletinIndex = null)
-      this.showBulletin = true
-    },
+    // 关闭平台公告
     handleBulletinClose(val) {
       this.showBulletin = val
     },
+    // 开启平台公告
     openNotice() {
       this.showBulletin = true
     },
+    // 倒计时
     times() {
       this.timerContainer = []
       if(this.timer.length){
@@ -492,6 +495,7 @@ export default {
     }
   },
   destroyed() {
+    // 清空倒计时
     this.timerContainer.forEach(setIn => {
       clearInterval(setIn)
     })

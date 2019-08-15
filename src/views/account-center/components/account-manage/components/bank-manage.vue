@@ -1,5 +1,6 @@
 <template>
   <div class="bank-manage" v-loading="loading">
+    <!-- 没有银行卡 -->
     <div class="container" v-if="!haveBankCard">
       <div class="bank-manage">
         <div class="form-container">
@@ -10,6 +11,7 @@
         </div>
       </div>
     </div>
+    <!-- 银行卡管理 -->
     <div class="show-manage-bank" v-if="showManageBank">
       <p>一个游戏账户最多绑定4张银行卡，您目前绑定了{{tableData.length}}张卡，还可以绑定{{4-tableData.length}}张。</p>
       <p>发起第一次提现后，系统会自动锁定银行卡。</p>
@@ -54,6 +56,7 @@
         <button class="form-button">锁定银行卡</button>
       </div>
     </div>
+    <!-- 创建银行卡 -->
     <div class="create-bank" v-if="showCreateBank">
       <el-row class="title">
         <el-col :span="12" :class="{on : !this.createResult}">1.输入银行卡信息</el-col>
@@ -202,8 +205,9 @@ export default {
         }
       })
     },
+    //获取银行卡列表
     fetchCardList() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         this.Api.getCardList().then(res => {
           const { success, data } = res
           if (success) {
@@ -213,6 +217,7 @@ export default {
         })
       })
     },
+    //切换
     getCardList() {
       this.loading = true
       this.fetchCardList().then(res => {
@@ -230,6 +235,7 @@ export default {
         }
       })
     },
+    // 改变
     handleChangeProvince(id) {
       this.Api.cityLists({ region_parent_id: id }).then(({ success, data }) => {
         if (success) {
@@ -237,6 +243,7 @@ export default {
         }
       })
     },
+    // 复原
     restFrom() {
       this.cardForm = {
         bank_sign: '',
@@ -288,6 +295,8 @@ export default {
       this.showManageBank = true
       this.createResult = 0
     },
+    //删除银行卡
+
     delectBankCard(row) {
       this.$confirm('此操作将永久删除该银行卡, 是否继续?', '提示', {
         confirmButtonText: '确定',

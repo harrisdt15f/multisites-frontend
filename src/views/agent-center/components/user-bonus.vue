@@ -1,9 +1,15 @@
 <template>
   <div class="user-profits">
+    <!-- 搜素过滤 -->
     <div class="filter-container">
       <div class="filter-label">
         用户名:
-        <el-input v-model="listQuery.username" size="small" style="width: 200px;" class="filter-item"></el-input>
+        <el-input
+          v-model="listQuery.username"
+          size="small"
+          style="width: 200px;"
+          class="filter-item"
+        ></el-input>
       </div>
       <div class="filter-label">
         时间:
@@ -17,12 +23,12 @@
         ></el-date-picker>
       </div>
       <div class="bmn-search-button">
-        <input @click="searchData" type="submit" value="搜 索" class="btn">
+        <input @click="searchData" type="submit" value="搜 索" class="btn" />
       </div>
     </div>
     <div class="custom-table m-t-25">
-     <el-table :data="userProfits.self ? [userProfits.self] : []" style="width: 100%">
-         <el-table-column align="center" label="用户" width="140">
+      <el-table :data="userProfits.self ? [userProfits.self] : []" style="width: 100%">
+        <el-table-column align="center" label="用户" width="140">
           <template slot-scope="scope">
             <span>{{scope.row.username}}</span>
           </template>
@@ -77,7 +83,7 @@
     <div class="line-center">直属下属盈亏明细</div>
     <div class="custom-table">
       <el-table :data="userProfits.child.data" style="width: 100%">
-              <el-table-column align="center" label="用户名" width="140">
+        <el-table-column align="center" label="用户名" width="140">
           <template slot-scope="scope">
             <span>{{scope.row.username}}</span>
           </template>
@@ -113,7 +119,8 @@
       <span style="float:left">数据来源: 包网统计中心</span>
       <span style="float:right">* 由于系统任然在计算过程种，当前分红金额仅供参考，实际以到账分红金额为准</span>
     </p>
-       <div class="pagination-container">
+    <!-- 分页 -->
+    <div class="pagination-container">
       <el-pagination
         background
         @size-change="handleSizeChange"
@@ -135,15 +142,15 @@ export default {
   name: 'user-bonus',
   data() {
     const date1 = new Date()
-      date1.setDate(1)
-      date1.setHours(0,0,0)
+    date1.setDate(1)
+    date1.setHours(0, 0, 0)
     const date2 = new Date()
-      date2.setHours(23, 59, 59)
+    date2.setHours(23, 59, 59)
     return {
-      userProfits:{
-        child:{},
-        self:{},
-        sum:{}
+      userProfits: {
+        child: {},
+        self: {},
+        sum: {}
       },
       total: undefined,
       listQuery: {
@@ -153,10 +160,7 @@ export default {
         date_from: undefined,
         date_to: undefined
       },
-      gameTime: [
-        new Date(date1),
-        new Date(date2)
-      ],
+      gameTime: [new Date(date1), new Date(date2)],
       tableData: [
         {
           date: '2016-05-02',
@@ -167,6 +171,7 @@ export default {
     }
   },
   watch: {
+    // 时间初始化格式
     gameTime: {
       handler(newName) {
         this.listQuery.date_from = this.Utils.formatTime(
@@ -179,35 +184,37 @@ export default {
         )
       },
       immediate: true
-    },
+    }
   },
   computed: {
     ...mapGetters(['userDetail'])
   },
-  created () {
+  created() {
     this.initData()
   },
   methods: {
-    initData(){
-      this.Api.getUserBonus(this.listQuery).then(({success, data}) => {
+    // 请求数据
+    initData() {
+      this.Api.getUserBonus(this.listQuery).then(({ success, data }) => {
         if (success) {
-          Object.assign(this.userProfits, data) 
-           this.total = data.child.total
+          Object.assign(this.userProfits, data)
+          this.total = data.child.total
         }
       })
     },
-    searchData(){
+    // 搜素
+    searchData() {
       this.listQuery.page = 1
       this.initData()
     },
     handleSizeChange(val) {
-    this.gameListQuery.page_size = val
-    this.getGameList()
+      this.gameListQuery.page_size = val
+      this.getGameList()
     },
     handleCurrentChange(val) {
       this.gameListQuery.page = val
       this.getGameList()
-    },
+    }
   }
 }
 </script>
@@ -250,7 +257,7 @@ export default {
     margin-right: 20px;
   }
 }
-.line-center{
+.line-center {
   height: 45px;
   line-height: 45px;
   font-size: 13px;

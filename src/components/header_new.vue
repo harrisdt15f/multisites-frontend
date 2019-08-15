@@ -5,6 +5,7 @@
         <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
+            //消息中心
             <template v-if="this.isLogin" >
               <li @click="showMessageCenter" class="toptray-item" tag="li" to="/">
                 消息中心
@@ -88,7 +89,7 @@
                 type="danger"
                 size="small"
               >登录</el-button>
-              <router-link tag="dev" :to="`/register`" >
+              <router-link style="display:inline-block" tag="div" :to="`/register`" >
                 <el-button
                   size="small"
                    type="danger"
@@ -242,10 +243,12 @@ export default {
     ])
   },
   mounted() {
+    // 获取全部彩种
     this.$store.dispatch('lotteryAll')
     this.lotteryList()
   },
   methods: {
+    // 进入游戏
     preInto(route) {
       this.showMenus.show = false
       if (!this.isLogin) {
@@ -317,6 +320,7 @@ export default {
         }
       })
     },
+    // 邓丽
     login() {
       this.loginLoading = true
       this.$store
@@ -332,6 +336,7 @@ export default {
           this.loginLoading = false
         })
     },
+    //消息中心
     showMessageCenter(){
       this.showBulletin = true
     },

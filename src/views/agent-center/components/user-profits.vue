@@ -1,5 +1,6 @@
 <template>
   <div class="user-profits">
+    <!-- 搜索 -->
     <div class="filter-container">
       <div class="filter-label">
         用户名:
@@ -20,6 +21,7 @@
         <input @click="searchData" type="submit" value="搜 索" class="btn">
       </div>
     </div>
+    <!-- 表格 -->
     <div class="custom-table m-t-25">
       <el-table :data="[userProfits.sum]" style="width: 100%">
         <el-table-column align="center" label="区间合计 >" width="188px">
@@ -188,6 +190,7 @@
         </el-table-column>
       </el-table>
     </div>
+    <!-- 分页 -->
     <div class="pagination-container">
       <el-pagination
         background
@@ -209,6 +212,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'UserProfits',
   data() {
+    // 时间初始化
     const date1 = new Date()
       date1.setDate(1)
       date1.setHours(0,0,0)
@@ -242,6 +246,7 @@ export default {
     }
   },
   watch: {
+    // 时间转换
     gameTime: {
       handler(newName) {
         this.listQuery.date_from = this.Utils.formatTime(
@@ -263,6 +268,7 @@ export default {
     this.initData()
   },
   methods: {
+    // 数据初始化
     initData(){
       this.Api.getUserProfits(this.listQuery).then(({success, data}) => {
         if (success) {

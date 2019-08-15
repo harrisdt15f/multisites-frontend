@@ -6,6 +6,7 @@
         <el-radio-button label="funds">修改资金密码</el-radio-button>
       </el-radio-group>
     </div>
+    <!-- 账户密码修改 -->
     <div v-show="radio1 == 'account'">
       <el-form ref="form" :rules="rules" :model="form" label-width="90px">
         <el-form-item label="旧密码：" prop="oldPass">
@@ -33,6 +34,7 @@
         </span>
       </div>
     </div>
+    <!-- 资金密码修改 -->
     <div v-show="radio1 == 'funds'">
       <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="90px">
         <el-form-item label="旧密码：" prop="oldPass">

@@ -131,6 +131,7 @@ export default {
       }
     },
     initData() {
+      // 获取帮助中心
       this.Api.getUserHelp().then(({ success, data }) => {
         if (success && data.length) {
           this.$store.commit('SET_HELP_LIST', data)

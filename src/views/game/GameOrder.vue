@@ -2,6 +2,7 @@
   <section class="main-bottom">
     <section class="main-bottom-con" v-if="currentMethod.type !== 'lhc'">
       <section class="bet-count-confirm">
+        <!-- 购彩蓝 -->
         <section class="play-footer clearfix fw">
           <section class="panel-section">
             <div class="pannel-title">
@@ -177,6 +178,7 @@
           </section>
         </section>
       </section>
+      <!-- 利润率追号 -->
       <section class="chase-table-container" v-if="chase.rateCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
@@ -233,6 +235,7 @@
           </tbody>
         </table>
       </section>
+      <!-- 同倍追号 -->
       <section class="chase-table-container" v-if="chase.sameCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
@@ -280,6 +283,7 @@
           </tbody>
         </table>
       </section>
+      <!-- 翻倍追号 -->
       <section class="chase-table-container" v-if="chase.doubleCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
@@ -328,6 +332,7 @@
           </tbody>
         </table>
       </section>
+      <!-- 确认投注信息 -->
       <section class="bet-future-set">
         <div class="bmn-confirm-title">
           <div class="bmn-confir-icon">
@@ -378,7 +383,8 @@
           </el-button>
         </a>
       </section>
-    </section>
+    </section>、
+    <!-- 投注和追号历史记录 -->
     <section class="list-full-history">
       <ul>
         <li
@@ -481,6 +487,7 @@
         <router-link tag="section" class="row-more" to="/account-center/bet-record/traces">更多游戏记录...</router-link>
       </template>
     </section>
+    <!-- 投注历史详情 -->
     <record-details
       :detailData="detailData"
       @close="handleDetailClose"
