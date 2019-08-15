@@ -290,6 +290,7 @@ export default {
       'showBanner',
       'showSideFloat',
       'ranking',
+      'userDetail',
       'lotteryNoticeList',
       'popularEgame',
       'popularChess'
@@ -426,7 +427,7 @@ export default {
         mode: 1,
         price: 2,
         count: item.count,
-        prize_group: 1980,
+        prize_group: this.userDetail.prize_group,
         method_group: item.method_group,
         method_name: item.name,
         times: item.multiple,

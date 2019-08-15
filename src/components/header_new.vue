@@ -82,12 +82,18 @@
             </el-form-item>
             <el-form-item>
               <el-button
+                style="margin-right:5px"
                 :loading="loginLoading"
                 @click.native="submitForm('userForm')"
                 type="danger"
                 size="small"
               >登录</el-button>
-              <router-link tag="el-button" :to="`/register`" type="danger" size="small">注册</router-link>
+              <router-link tag="dev" :to="`/register`" >
+                <el-button
+                  size="small"
+                   type="danger"
+                >注册</el-button>
+              </router-link>
             </el-form-item>
           </el-form>
         </div>

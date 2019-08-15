@@ -55,9 +55,8 @@
                 >注册</el-button>
                 <el-button
                   class="login-btn"
-                  :loading="loading"
                   style="margin-left: 30px;"
-                  @click="submitForm('userForm')"
+                  @click="resetForm('userForm')"
                 >重置</el-button>
               </el-form-item>
             </el-form>
@@ -115,14 +114,13 @@ export default {
   created() {
   },
   methods: {
-    login() {
-      this.loading = true
-    },
+
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
+        this.loading = true
         if (valid) {
           const sendData = {
             username: this.userForm.username,
@@ -131,6 +129,7 @@ export default {
           }
           if(this.code) sendData.keyword = this.code
           this.Api.register(sendData).then(({ success }) => {
+             this.loading = false
            if (success) {
             this.$alert('用户注册成功', {
               confirmButtonText: '确定'
