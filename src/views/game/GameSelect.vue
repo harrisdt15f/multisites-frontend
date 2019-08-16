@@ -581,7 +581,6 @@ export default {
           _count = result
         }
         //最大倍数
-        console.log(this.currentOrder)
         this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes -  _count * +this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit =  _count &&
