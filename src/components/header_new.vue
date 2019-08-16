@@ -5,7 +5,7 @@
         <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
         <div class="toptray-right">
           <ul>
-            //消息中心
+            <!-- 消息中心 -->
             <template v-if="this.isLogin" >
               <li @click="showMessageCenter" class="toptray-item" tag="li" to="/">
                 消息中心
@@ -143,6 +143,7 @@
                 <span class="nav-col" to="/bet" :class="{'router-link-active' : this.$route.path.includes('/bet')}">
                   <span @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"  class="dl">全部彩种</span>
                 </span>
+                <!-- 全部彩种 -->
                 <div class="nav">
                   <section ref="lotterListShow"
                            class="nav-menu-box"

@@ -29,11 +29,7 @@ export default {
       this.Api.showHomepageModel().then(({success, data}) => {
         if (success && data) {
           data['logo'] ? this.getLogo() : this.$store.commit('SET_SHOW_BANNER', false)
-          data['banner'] ? this.getBanner() : null
           data['qr.code'] ? this.getQrcode() : null
-          data['customer.service'] ? '' : null
-          data['winning.ranking'] ? this.getRanking() : null
-          data['notice'] ? this.getNotice({type:2}) : null
           data['popular.lotteries.one'] ? this.getPopularLotteries1() : null
           this.getLotteryNotice()
           this.getPopularChess()

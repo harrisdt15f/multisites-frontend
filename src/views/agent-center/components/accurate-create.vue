@@ -27,7 +27,7 @@
           <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
           {{form.prize_group}} / {{prizes.max}}
         </el-form-item>
-        <el-form-item style="margin-bottom:5px;">
+        <!-- <el-form-item style="margin-bottom:5px;">
           预计平均返点率
           <span class="gold">{{rebateRate}}%</span>
         </el-form-item>
@@ -46,7 +46,7 @@
             <span class="min">{{prizes.min}}</span>
             <span class="max">{{prizes.max}}</span>
           </div>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div class="submit-btn">
         <el-button :loading="submitLoading" size="medium" @click="onSubmit">立即开户</el-button>
@@ -59,8 +59,13 @@
         class="create-form"
         label-width="100px"
         ref="linkForm"
-        :model="linkForm"
-      >
+        :model="linkForm">
+        <el-form-item label="开户类型：" prop="is_agent">
+          <el-radio-group v-model="linkForm.is_agent">
+            <el-radio-button label=0>会员</el-radio-button>
+            <el-radio-button label=1>代理</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="链接有效期：" prop="expire">
           <el-select v-model="linkForm.expire" placeholder="请选择">
             <el-option
@@ -79,7 +84,7 @@
           <el-slider v-model="linkForm.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
           {{linkForm.prize_group}} / {{prizes.max}}
         </el-form-item>
-        <el-form-item style="margin-bottom:5px;">
+        <!-- <el-form-item style="margin-bottom:5px;">
           预计平均返点率
           <span class="gold">{{linkRebateRate}}%</span>
         </el-form-item>
@@ -98,7 +103,7 @@
             <span class="min">{{prizes.min}}</span>
             <span class="max">{{prizes.max}}</span>
           </div>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div class="submit-btn">
         <el-button :loading="submitLoading" size="medium" @click="onSubmitLink">立即开户</el-button>
@@ -112,12 +117,12 @@
         <el-table-column align="center" prop="channel" label="投放渠道"></el-table-column>
         <el-table-column align="center" prop="is_agent" label="开户类型">
           <template slot-scope="scope">
-            <span v-if="scope.row.is_agent">代理</span>
-            <span v-else>玩家</span>
+            <span v-if="scope.row.is_agent == 1">代理</span>
+            <span v-else>会员</span>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="prize_group" label="奖金组"></el-table-column>
-        <el-table-column align="center" prop="issue" label="注册人数"></el-table-column>
+        <el-table-column align="center" prop="register_count" label="注册人数"></el-table-column>
         <el-table-column align="center" prop="issue" label="有效期">
           <template
             slot-scope="scope"
@@ -164,6 +169,7 @@ export default {
       submitLoading: false,
       rebateRate: 0,
       linkRebateRate: 0,
+      // 设置奖金组
       prizes: {
         min: null,
         max: null
@@ -192,14 +198,17 @@ export default {
           label: '永久有效'
         }
       ],
+      // 人工开户
       form: {
         username: '',
         password: '',
         register_type: 1,
         prize_group: 0
       },
+      // 链接开户
       linkForm: {
         expire: 0,
+        is_agent: 0,
         channel: '',
         prize_group: 0
       },
@@ -332,6 +341,11 @@ export default {
       width: 70%;
       margin: 0;
       padding-right: 15px;
+    }
+    .el-radio-button__orig-radio:checked+.el-radio-button__inner{
+      background-color: #ff8900;
+      border-color: #ff8900;
+      box-shadow: -1px 0 0 0 #ff8900;
     }
   }
 }

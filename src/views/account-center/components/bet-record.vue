@@ -51,7 +51,7 @@
                   <span>{{ scope.row.username }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="游戏">
+              <el-table-column align="center" label="游戏" show-overflow-tooltip>
                 <template slot-scope="scope">
                   <span>{{ lotteryAll[scope.row.lottery_sign].lottery.cn_name }}</span>
                 </template>

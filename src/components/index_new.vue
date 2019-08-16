@@ -298,44 +298,13 @@ export default {
       'popularChess'
     ])
   },
-  watch: {
-    'notice': {
-      handler () {
-        this.noticehandler()
-      },
-      immediate: true
-    },
-    // 中奖排行
-    'ranking': {
-      handler (newVal) {
-        if(!newVal.length) return
-        this.$nextTick(() => {
-          this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
-        })
-      },
-      immediate: true
-    }
-  },
   mounted() {
     this.initData()
     this.debounce = this._.debounce(this.handleScroll, 150)
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
-    ...mapActions(['getPopularLotteries2']),
-    // 处理公告内容
-    noticehandler() {
-      if (!this.notice['data']) return
-      for (const k of this.notice['data']) {
-        let json = {}
-        json['content'] = k['title']
-        json['id'] = k['id']
-        this.noticeList.push(json)
-      }
-      setTimeout(() => {
-        this.Animation.notice('head-meque', 'head-meque_text', -1)
-      }, 10)
-    },
+    ...mapActions(['getPopularLotteries2', 'getNotice', 'getBanner', 'getRanking']),
     //获取首页热门游戏
     initData(){
       this.Api.getPopularLotteries2().then(({success, data}) => {
@@ -372,7 +341,32 @@ export default {
           this.times()
         }
       })
+      this.getNotice({type:1}).then(({success, data}) => {
+        if (success && data) {
+          this.noticehandler(data['data'])
+        }
+      })
+      this.getBanner()
+      this.getRanking().then(() => {
+        this.$nextTick(() => {
+          this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+        })
+      })
     },
+    // 处理公告内容
+    noticehandler(data) {
+      if (!data) return
+      for (const k of data) {
+        let json = {}
+        json['content'] = k['title']
+        json['id'] = k['id']
+        this.noticeList.push(json)
+      }
+      setTimeout(() => {
+        this.Animation.notice('head-meque', 'head-meque_text', -1)
+      }, 10)
+    },
+    // 进入游戏
     preInto(route) {
       if (!this.isLogin) {
         this.$router.push('/login')

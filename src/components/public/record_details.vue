@@ -277,9 +277,9 @@ export default {
           .replace(/(2)/g, '和')
       }
       if (
-        this.detailData.method_group === 'Q3' ||
-        this.detailData.method_group === 'Z3' ||
-        this.detailData.method_group === 'H3'
+        this.detailData.method_sign === 'QTS3' || 
+        this.detailData.method_sign === 'ZTS3' || 
+        this.detailData.method_sign === 'HTS3'
       ) {
         return this.detailData.bet_number
           .replace(/&/g, ',')
