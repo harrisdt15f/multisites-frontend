@@ -239,7 +239,15 @@ export default {
                 }
   
                 json.value = j
-                json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
+                if (this.currentMethodGroup === 'LH') {
+                  if (+j === 0) {
+                    json.label = '和 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  } else if (+j === 1) {
+                    json.label = '龙虎 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  }
+                } else {
+                  json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
+                }
                 json.prize = count
                 arr.push(json)
               }
