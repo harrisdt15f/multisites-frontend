@@ -56,6 +56,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import { removeToken } from '@/utils/auth'
+
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -123,6 +126,7 @@ export default {
   props: ['existFundPassword'],
   computed: {},
   methods: {
+    ...mapActions(['logOut']),
     handleSetFundPass() {
       this.$emit('showSetFund')
     },
@@ -136,8 +140,16 @@ export default {
           }
           this.Api.resetUserPassword(sendData).then(({ success }) => {
             if (success) {
-              this.$alert('账户密码修改成功！', '提示', {
+              this.$alert('账户密码修改成功，请重新登录！', '提示', {
                 confirmButtonText: '确定'
+              }).then(() => {
+                this.$store.commit('SET_TOKEN', '')
+                this.$store.commit('SET_USER_DETAIL', {})
+                removeToken()
+                window.sessionStorage.clear()
+                this.$nextTick(() => {
+                  this.$router.push('/login')
+                })
               })
             }
             this.form = {}

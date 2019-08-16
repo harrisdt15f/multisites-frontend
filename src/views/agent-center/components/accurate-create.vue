@@ -2,7 +2,7 @@
   <div class="accurate-create">
     <el-form class="create-form" label-width="100px">
       <el-form-item label="开户方式：">
-        <el-radio-group v-model="resource">
+        <el-radio-group v-model="resource" @change="tabChange">
           <el-radio border label="人工开户"></el-radio>
           <el-radio border label="链接开户"></el-radio>
         </el-radio-group>
@@ -247,6 +247,11 @@ export default {
     this.currentUrl = window.location.host
   },
   methods: {
+    //清空验证
+    tabChange(){
+      this.$refs['form'] && this.$refs['form'].clearValidate()
+      this.$refs['linkForm'] && this.$refs['linkForm'].clearValidate()
+    },
     //获取开户链接信息
     initData() {
       this.Api.getRegisterableLink().then(({ success, data }) => {

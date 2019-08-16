@@ -69,6 +69,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { removeToken } from '@/utils/auth'
 export default {
   name: 'register',
   props: ['code', 'mapActions'],
@@ -145,22 +146,19 @@ export default {
             sendData.register_type = 2
           }
           this.Api.register(sendData).then(({ success }) => {
-            this.loading = false
-            this.logOut()
+           this.loading = false
            if (success) {
             this.$alert('用户注册成功,请立即登录', {
               confirmButtonText: '确定'
             }).then(() => {
+              this.$store.commit('SET_TOKEN', '')
+              this.$store.commit('SET_USER_DETAIL', {})
+              removeToken()
+              window.sessionStorage.clear()
               this.$nextTick(() => {
                 this.$router.push('/login')
               })
             })
-            // this.$store.dispatch('login', {
-            //   username: this.userForm.username,
-            //   password: this.userForm.password
-            // }).then(() => {
-            //   this.$router.push('/home')
-            // })
            }
          })
         }

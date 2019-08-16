@@ -265,8 +265,9 @@
               </td>
               <td>
                 <input
-                  disabled
                   class="trace-row-multiple"
+                  oninput = "value && value=value.replace(/[^\d]/g,'')" 
+                  @input="doubleInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
@@ -729,9 +730,6 @@ export default {
     // 获取我的投注 我的追号记录
     this.$store.dispatch('betHistory')
     this.clearOrderList()
-    // this.chase.maxIssue = this.lotteryAll[
-    //   this.currentLottery.en_name
-    // ].lottery.max_trace_number
   },
   methods: {
     // 复原追号条件
