@@ -31,7 +31,9 @@
               <tr>
                 <td width="30%" align="right">游戏：</td>
                 <td>
-                  <span class="value">{{currentLottery.cn_name}}</span>
+                  <span class="value">
+                    {{lotteryAll[detailData.lottery_sign].lottery.cn_name}}
+                  </span>
                 </td>
                 <td align="right">注单编号：</td>
                 <td>
@@ -106,7 +108,7 @@
               <tr>
                 <td width="30%" align="right">游戏：</td>
                 <td>
-                  <span class="value">{{currentLottery.cn_name}}</span>
+                  <span class="value">{{lotteryAll[detailData.lottery_sign].lottery.cn_name}}</span>
                 </td>
                 <td align="right">追号编号：</td>
                 <td>
@@ -254,7 +256,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentLottery']),
+    ...mapGetters(['currentLottery', 'lotteryAll']),
     // 是否是追号
     isTraces() {
       return this.detailData.win_stop !== undefined
@@ -306,7 +308,6 @@ export default {
     }
   },
   props: ['dialogVisible', 'detailData'],
-
   methods: {
     // 关闭弹框
     handleClose() {
