@@ -1,5 +1,5 @@
 import { API } from '@/api'
-import { getToken, setToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const state = {
   token: getToken(),
@@ -59,7 +59,24 @@ const actions = {
         })
     })
   },
-  
+  logOut({ commit }){
+    return new Promise((resolve, reject) => {
+      API.logout()
+        .then(res => {
+          const { success } = res
+          resolve(success)
+          if (success) {
+            commit('SET_TOKEN', '')
+            commit('SET_USER_DETAIL', {})
+            removeToken()
+            window.sessionStorage.clear()
+          }
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  }
 }
 
 export default {

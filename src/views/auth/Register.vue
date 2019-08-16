@@ -68,9 +68,10 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'register',
-  props: ['code'],
+  props: ['code', 'mapActions'],
   data() {
     // 验证
     var validateUser = (rule, value, callback) => {
@@ -125,6 +126,7 @@ export default {
   created() {
   },
   methods: {
+    ...mapActions(['logOut']),
     // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields()
@@ -136,22 +138,29 @@ export default {
         if (valid) {
           const sendData = {
             username: this.userForm.username,
-            password: this.userForm.password,
-            register_type: 2
+            password: this.userForm.password
           }
-          if(this.code) sendData.keyword = this.code
+          if(this.code) {
+            sendData.keyword = this.code 
+            sendData.register_type = 2
+          }
           this.Api.register(sendData).then(({ success }) => {
-             this.loading = false
+            this.loading = false
+            this.logOut()
            if (success) {
-            this.$alert('用户注册成功', {
+            this.$alert('用户注册成功,请立即登录', {
               confirmButtonText: '确定'
-            })
-            this.$store.dispatch('login', {
-              username: this.userForm.username,
-              password: this.userForm.password
             }).then(() => {
-              this.$router.push('/home')
+              this.$nextTick(() => {
+                this.$router.push('/login')
+              })
             })
+            // this.$store.dispatch('login', {
+            //   username: this.userForm.username,
+            //   password: this.userForm.password
+            // }).then(() => {
+            //   this.$router.push('/home')
+            // })
            }
          })
         }

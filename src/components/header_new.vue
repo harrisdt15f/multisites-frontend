@@ -201,8 +201,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { removeToken } from '@/utils/auth'
+import { mapGetters, mapActions } from 'vuex'
 import dialogBulletin from '../components/public/dialog_bulletin'
 
 export default {
@@ -249,6 +248,7 @@ export default {
     this.lotteryList()
   },
   methods: {
+    ...mapActions(['getPopularLotteries2', 'logOut']),
     // 进入游戏
     preInto(route) {
       this.showMenus.show = false
@@ -281,14 +281,8 @@ export default {
         confirmButtonText: '确定',
         cancelButtonClass: '取消'
       }).then(() => {
-        this.Api.logout().then(res => {
-          const { success } = res
+        this.logOut().then(success => {
           if (success) {
-            // this.$message({ message: '退出成功！', type: 'success' })
-            this.$store.commit('SET_TOKEN', '')
-            this.$store.commit('SET_USER_DETAIL', {})
-            removeToken()
-            window.sessionStorage.clear()
             this.$nextTick(() => {
               this.$router.push('/')
             })
@@ -321,7 +315,7 @@ export default {
         }
       })
     },
-    // 邓丽
+    // 登录
     login() {
       this.loginLoading = true
       this.$store
