@@ -2,12 +2,12 @@ import { API } from '@/api'
 
 const state = {
   banner: [],
+  ico:'',
   qrSrc: '',
   logoSrc: '',
   notice: '',
   activity: '',
   popularLotteries1: [],
-  popularLotteries2: [],
   popularChess: [],
   popularEgame:[],
   ranking: [],
@@ -18,6 +18,9 @@ const state = {
 }
 
 const mutations = {
+  SET_ICO:(state, data) => {
+    state.ico = process.env.VUE_APP_API_URL + data
+  },
   SET_HELP_LIST:(state, data) => {
     state.helpList = data
   },
@@ -50,9 +53,6 @@ const mutations = {
       val.icon = `${process.env.VUE_APP_API_URL}/${val.icon.substring(1)}`
     })
     state.popularEgame = data
-  },
-  SET_POPULAR_LOTTERIES2: (state, data) => {
-    state.popularLotteries2 = data
   },
   SET_BANNER: (state, data) => {
     data.forEach(val => {
@@ -87,19 +87,13 @@ const actions = {
       }
     })
   },
-  //获取二维码
-  getQrcode({ commit }){
-    API.getQrcode().then(({success, data}) => {
+  //获取网站基本内容
+  getBasicContent({ commit }){
+    API.getBasicContent().then(({success, data}) => {
       if (success) {
-        commit('SET_QR_SRC', data.value)
-      }
-    })
-  },
-  //获取logo
-  getLogo({ commit }){
-    API.getLogo().then(({success, data}) => {
-      if (success) {
-        commit('SET_LOGO_SRC', data.value)
+        commit('SET_ICO', data.ico)
+        commit('SET_LOGO_SRC', data.logo.value)
+        commit('SET_QR_SRC', data.qrcode.value)
       }
     })
   },
@@ -115,31 +109,12 @@ const actions = {
       })
     })
   },
-  getPopularLotteries1({ commit }){
-    API.getPopularLotteries1().then(({success, data}) => {
-      if (success) {
-        commit('SET_POPULAR_LOTTERIES1', data)
-      }
-    })
-  },
-  getPopularChess({ commit }){
-    API.getPopularChess().then(({success, data}) => {
-      if (success) {
-        commit('SET_POPULAR_CHESS', data)
-      }
-    })
-  },
-  getPopularEgame({ commit }){
-    API.getPopularEgame().then(({success, data}) => {
-      if (success) {
-        commit('SET_POPULAR_EGAME', data)
-      }
-    })
-  },
-  getPopularLotteries2({ commit }){
-    API.getPopularLotteries2().then(({success, data}) => {
-      if (success) {
-        commit('SET_POPULAR_LOTTERIES2', data)
+  getPopularGame({ commit }){
+    API.getPopularGame().then(({success, data}) => {
+      if (success && data) {
+        commit('SET_POPULAR_LOTTERIES1', data.lotteries)
+        commit('SET_POPULAR_CHESS', data.chess_cards)
+        commit('SET_POPULAR_EGAME', data.e_game)
       }
     })
   },

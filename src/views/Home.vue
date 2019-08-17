@@ -22,21 +22,19 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getBanner', 'getPopularChess', 'getPopularEgame', 'getLotteryNotice', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
+    ...mapActions([
+      'getPopularGame',
+      'getLotteryNotice',
+      'getActivity',
+      'getBasicContent'
+    ]),
     //初始化不常变动数据
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
-      this.Api.showHomepageModel().then(({success, data}) => {
-        if (success && data) {
-          data['logo'] ? this.getLogo() : this.$store.commit('SET_SHOW_BANNER', false)
-          data['qr.code'] ? this.getQrcode() : null
-          data['popular.lotteries.one'] ? this.getPopularLotteries1() : null
-          this.getLotteryNotice()
-          this.getPopularChess()
-          this.getPopularEgame()
-        }
-      })
-    } 
+      this.getBasicContent()
+      this.getLotteryNotice()
+      this.getPopularGame()
+    }
   }
 }
 </script>
@@ -46,7 +44,7 @@ export default {
   border-top: 1px solid #cfcfcf;
   border-left: 1px solid #cfcfcf;
   border-right: 1px solid #cfcfcf;
-  .el-table{
+  .el-table {
     font-size: 12px;
   }
 
@@ -62,13 +60,13 @@ export default {
       border-left: 1px solid #b7a383;
     }
   }
-  .el-table thead th{
+  .el-table thead th {
     color: #000;
     font-weight: 400;
     font-size: 14px;
   }
 }
-.m-t-25{
+.m-t-25 {
   margin-top: 25px;
 }
 </style>

@@ -70,6 +70,10 @@ export default {
   getUserFund(data){
     return this.post('/user-fund/lists', data).then(response => response)
   },
+   //获取充值记录
+  getRechargeList(data){
+    return this.post('/user-fund/rechargeList', data).then(response => response)
+  },
   //注册
   register(data) {
     return this.post('/register', data).then(response =>  response)

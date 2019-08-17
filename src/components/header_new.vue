@@ -248,7 +248,7 @@ export default {
     this.lotteryList()
   },
   methods: {
-    ...mapActions(['getPopularLotteries2', 'logOut']),
+    ...mapActions(['logOut']),
     // 进入游戏
     preInto(route) {
       this.showMenus.show = false

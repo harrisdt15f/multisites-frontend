@@ -211,7 +211,6 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  oninput = "value && value=value.replace(/[^\d]/g,'')" 
                   @input="rateInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
@@ -266,7 +265,6 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  oninput = "value && value=value.replace(/[^\d]/g,'')" 
                   @input="doubleInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
@@ -315,7 +313,6 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  oninput="value && value=value.replace(/[^\d]/g,'')" 
                   @input="doubleInputChange(item)"
                   v-model="item.multiple"
                   value="1"
@@ -356,10 +353,10 @@
                 <span v-else>厘</span>
               </span> 模式
             </li>
-            <li class="bmn-confirm-info">
+            <!-- <li class="bmn-confirm-info">
               总倍数
               <span class="corigin">{{current.times}}</span>倍
-            </li>
+            </li> -->
             <li class="bmn-confirm-info">
               总注数
               <span class="corigin">{{current.count}}</span>注
@@ -1302,6 +1299,7 @@ export default {
     },
     // 倍数改变
     rateInputChange(item, index) {
+      this.$set(item, 'multiple', item.multiple.replace(/[^\d]/g,''))
       const maxArr = []
       this.orderList.forEach(val => {
         maxArr.push(val.currentMaxTimes)
@@ -1328,6 +1326,7 @@ export default {
       )
     },
     doubleInputChange(item, index) {
+      this.$set(item, 'multiple', item.multiple.replace(/[^\d]/g,''))
       const maxArr = []
       this.orderList.forEach(val => {
         maxArr.push(val.currentMaxTimes)

@@ -288,7 +288,6 @@ export default {
       'qrSrc',
       'notice',
       'popularLotteries1',
-      'popularLotteries2',
       'showBanner',
       'showSideFloat',
       'ranking',
@@ -304,10 +303,9 @@ export default {
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
-    ...mapActions(['getPopularLotteries2', 'getNotice', 'getBanner', 'getRanking']),
-    //获取首页热门游戏
-    initData(){
-      this.Api.getPopularLotteries2().then(({success, data}) => {
+    ...mapActions([ 'getNotice', 'getBanner', 'getRanking']),
+    getIndexLottery(){
+       this.Api.getPopularLotteries2().then(({success, data}) => {
         if (success && data.length) {
           const list = Object.keys(data).map((v, i) => {
             if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
@@ -341,6 +339,10 @@ export default {
           this.times()
         }
       })
+    },
+    //获取首页热门游戏
+    initData(){
+      this.getIndexLottery()
       this.getNotice({type:1}).then(({success, data}) => {
         if (success && data) {
           this.noticehandler(data['data'])
@@ -349,7 +351,10 @@ export default {
       this.getBanner()
       this.getRanking().then(() => {
         this.$nextTick(() => {
-          this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+          setTimeout(() => {
+            this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
+          }, 1500)
+          
         })
       })
     },
@@ -364,7 +369,7 @@ export default {
       }
       setTimeout(() => {
         this.Animation.notice('head-meque', 'head-meque_text', -1)
-      }, 10)
+      }, 1500)
     },
     // 进入游戏
     preInto(route) {
@@ -480,7 +485,7 @@ export default {
                 clearInterval(setIn)
               })
               this.$nextTick(() => {
-                this.initData()
+                this.getIndexLottery()
               })
             }
           }, 1000)
@@ -1055,6 +1060,7 @@ export default {
     padding-top: 15px;
     .img {
       margin:0 15px 10px;
+      width: 70px;
     }
     .title{
       display: inline-block;

@@ -78,11 +78,14 @@
                   <input type="text" class="ylc-bet-list-money" v-model="item.money" />
                 </section>
               </li>
-              <li
+              <template  v-if="currentMethod.method === 'ZH'">
+                <li
                 class="ylc-bet-list ylc-c-bet-list w100"
-                v-if="currentMethod.method === 'ZH'"
                 v-for="cc in (14 - list.code.length)"
+                :key="cc"
               ></li>
+              </template>
+              
             </ul>
           </section>
 
@@ -106,10 +109,9 @@
                     <span
                       class="ylc-lhd-list-q-y"
                       :class="{
-									      'ylc-lhd-list-q-y-red': item.code === '龙',
-									      'ylc-lhd-list-q-y-green': item.code === '和',
-									      'ylc-lhd-list-q-y-blue': item.code === '虎'
-									      }"
+                          'ylc-lhd-list-q-y-red': item.code === '龙',
+                          'ylc-lhd-list-q-y-green': item.code === '和',
+                          'ylc-lhd-list-q-y-blue': item.code === '虎'}"
                     >{{item.code}}</span>
                   </section>
                   <span

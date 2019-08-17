@@ -13,6 +13,9 @@
       <el-tab-pane label="账变记录" :lazy="true" name="betchage-record">
         <fund-record></fund-record>
       </el-tab-pane>
+      <el-tab-pane label="充值记录" :lazy="true" name="recharge-list">
+        <recharge-list></recharge-list>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -21,6 +24,7 @@
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
+import rechargeList from './components/recharge-list'
 import accountManage from './components/account-manage/index'
 
 export default {
@@ -30,7 +34,7 @@ export default {
     fundManage,
     fundRecord,
     accountManage,
-    
+    rechargeList
   },
   data() {
     return {
