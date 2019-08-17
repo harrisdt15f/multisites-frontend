@@ -112,7 +112,7 @@
                 </td>
                 <td align="right">追号编号：</td>
                 <td>
-                  <span class="value">{{detailData.project_serial_number}}</span>
+                  <span class="value">{{detailData.trace_serial_number}}</span>
                 </td>
               </tr>
               <tr>

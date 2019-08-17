@@ -582,13 +582,13 @@ export default {
           _count = result
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.currentLottery.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit =  _count &&
           (+this.currentCountPrizes - 
             _count * +this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
-        if (maxProfit < this.userDetail.max_profit_bonus) {
+        if (maxProfit < this.currentLottery.max_profit_bonus) {
           this.currentOrder.maxProfit = maxProfit
         } else{
           this.$message({
@@ -611,14 +611,14 @@ export default {
         
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.userDetail.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes =  Math.floor(this.currentLottery.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
         //如何大于最大盈利返回false
         const maxProfit = (this.currentCountPrizes -
             this.inputCodesSingle *
               +this.userConfig.mode *
               this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
-        if (maxProfit < this.userDetail.max_profit_bonus) {
+        if (maxProfit < this.currentLottery.max_profit_bonus) {
 
           this.currentOrder.maxProfit =maxProfit
         } else{
@@ -1321,7 +1321,6 @@ export default {
         for (const k of tmp) {
           // 去除重复的组
           const arr = k.split(/[\s\n]+/)
-
           if (
             isRepeat(arr) ||
             arr.length != this.currentMethod.b64 ||

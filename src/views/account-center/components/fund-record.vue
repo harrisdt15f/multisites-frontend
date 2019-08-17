@@ -46,7 +46,7 @@
         <el-table :data="gameList" v-loading="listLoading" style="width: 100%">
           <el-table-column align="center" label="编号">
             <template slot-scope="scope">
-              <span>{{ scope.row.issue }}</span>
+              <span>{{ scope.row.serial_number }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="时间">

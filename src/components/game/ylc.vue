@@ -5,17 +5,17 @@
     <section class="ylc-navs">
       <section class="ylc-nav-box">
         <nav class="ylc-nav" ref="ylcNav">
-          <a
-            href="javascript:;"
-            class="ylc-list"
-            ref="ylclist"
-            v-if="currentLottery.series_id !== 'pcdd'"
-            :class="{on: ylcListOn === item.sign}"
-            @click="checkedPlay(item, index)"
-            v-for="(item, index) in allMethods"
-            :key="index"
-          >{{item.name}}</a>
-
+          <template v-if="currentLottery.series_id !== 'pcdd'">
+            <a
+              href="javascript:;"
+              class="ylc-list"
+              ref="ylclist"
+              :class="{on: ylcListOn === item.sign}"
+              @click="checkedPlay(item, index)"
+              v-for="(item, index) in allMethods"
+              :key="index"
+            >{{item.name}}</a>
+          </template>
           <!--pc蛋蛋导航-->
           <a
             href="javascript:;"
@@ -40,11 +40,11 @@
           :class="{'ylc-content-top-ylc': currentMethod.type === 'ylc'}"
         >
           <!--娱乐城-->
-          <section
-            v-if="
+          <template v-if="
 							currentMethod.type === 'ylc' &&
 							currentMethod.method === 'ZH' ||
-							currentMethod.method === 'LMP'"
+							currentMethod.method === 'LMP'">
+              <section
             class="fl fw w16"
             :class="{'ylc-content-line': index !== pcdd.allCodeList.length - 1}"
             v-for="(list, index) in pcdd.allCodeList"
@@ -89,6 +89,8 @@
             </ul>
           </section>
 
+          </template>
+          
           <!--龙虎斗-->
 
           <section class="tc" v-if="currentMethod.type === 'ylc' && currentMethod.method === 'LHD'">
