@@ -24,7 +24,7 @@
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
-import rechargeList from './components/recharge-list'
+// import rechargeList from './components/recharge-list'
 import accountManage from './components/account-manage/index'
 
 export default {
@@ -34,7 +34,7 @@ export default {
     fundManage,
     fundRecord,
     accountManage,
-    rechargeList
+    // rechargeList
   },
   data() {
     return {

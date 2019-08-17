@@ -92,8 +92,8 @@ const actions = {
     API.getBasicContent().then(({success, data}) => {
       if (success) {
         commit('SET_ICO', data.ico)
-        commit('SET_LOGO_SRC', data.logo.value)
-        commit('SET_QR_SRC', data.qrcode.value)
+        commit('SET_LOGO_SRC', data.logo)
+        commit('SET_QR_SRC', data.qrcode)
       }
     })
   },
