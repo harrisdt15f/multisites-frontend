@@ -472,7 +472,6 @@ export default {
     },
     // 倒计时
     times() {
-      this.timerContainer = []
       if(this.timer.length){
         this.timer.forEach((v, i) => {
           this.timerContainer[i] = setInterval(() => {

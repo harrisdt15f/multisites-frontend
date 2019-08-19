@@ -15,6 +15,7 @@
             </div>
             <div class="deadline-number">
               <FlipDown
+                :serverTime="currentIssue.serverTime"
                 :endDate="currentIssue.end_time"
                 :type="3"
                 :theme="2"
@@ -168,14 +169,16 @@ export default {
       return
     },
     // 获取开奖结果
-    getLottery() {
+    getLottery(lastIssue) {
       //如果是请求下期 清除定时
       clearTimeout(this.timerout)
       this.Api.getOpenAward(this.currentLottery.en_name)
         .then(({ success, data }) => {
           if (success) {
-            this.$store.commit('currentIssue', data.currentIssue)
-            this.$store.commit('issueInfo', data.issueInfo)
+            if (!lastIssue) {
+              this.$store.commit('currentIssue', Object.assign(data.currentIssue, {serverTime:data.serverTime}))
+              this.$store.commit('issueInfo', data.issueInfo)
+            }
             if (data.lastIssue.open_code) {
               if (this.currentLottery.series_id === 'lotto') {
                 data.lastIssue.open_code = data.lastIssue.open_code.split(' ')
@@ -195,7 +198,7 @@ export default {
               }
               // 如果上期未开奖 间隔秒再次请求，知道开奖为止
               this.timerout = setTimeout(() => {
-                this.getLottery()
+                this.getLottery({lastIssue: true})
               }, 10000)
             }
             this.lastIssue = data.lastIssue

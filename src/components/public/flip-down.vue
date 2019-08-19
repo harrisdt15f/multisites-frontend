@@ -40,10 +40,12 @@ export default {
       isAnimate:
         this.theme === 2
           ? new Array(this.type * 2).fill(false)
-          : new Array(this.type).fill(false)
+          : new Array(this.type).fill(false),
+      currentTime: null
     }
   },
   props: {
+    serverTime: {type: [Date, Number, String], default: 0},
     endDate: { type: [Date, Number, String], default: 0 }, // 截止时间
     type: { type: [Number, String], default: 4 }, // 时间精度 4/3/2/1
     theme: { type: [Number, String], default: 1 },
@@ -95,6 +97,7 @@ export default {
   },
   mounted() {
     this.start(true)
+    this.currentTime = this.serverTime * 1000
   },
   beforeDestroy() {
     clearTimeout(this.timer)
@@ -104,7 +107,8 @@ export default {
     start(isFirst) {
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        let t = this.endTime * 1000 - new Date().getTime() // 剩余的毫秒数
+        this.currentTime += 1000
+        let t = this.endTime * 1000 - this.currentTime // 剩余的毫秒数
         t = t < 0 ? 0 : t
         let day = 0 // 剩余的天
         let hour = 0 // 剩余的小时

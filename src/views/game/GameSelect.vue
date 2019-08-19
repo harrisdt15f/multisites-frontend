@@ -391,8 +391,8 @@ export default {
     let list = this.lotteryLists[this.currentLottery.series_id].list
     for (const k of list) {
       if (k.id === this.currentLottery.en_name) {
-        this.prizes.min = this.userDetail.min_prize_group
-        this.prizes.max = this.userDetail.prize_group
+        this.prizes.min = parseInt(this.userDetail.min_prize_group)
+        this.prizes.max = parseInt(this.userDetail.prize_group)
       }
     }
     // 当前奖金组
