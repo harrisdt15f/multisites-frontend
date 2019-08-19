@@ -26,6 +26,13 @@ export default {
       response => response
     )
   },
+  //获取彩种上期的奖期
+  lastIssue(sign) {
+    let data = {
+      lottery_sign: sign
+    }
+    return this.post('/lotteries/last-issue', data).then(response =>  response)
+  },
   /*
    * 投注历史
    */
@@ -89,6 +96,6 @@ export default {
   },
   //游戏-投注撤销
   stopTrace(data) {
-  return this.post('/lotteries/stop-trace', data).then(response =>  response)
-},
+    return this.post('/lotteries/stop-trace', data).then(response =>  response)
+  }
 }

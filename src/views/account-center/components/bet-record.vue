@@ -118,9 +118,9 @@
                 <template slot-scope="scope">
                   <span v-if="scope.row.status == 0">待开奖</span>
                   <span v-if="scope.row.status == 1">已撤销</span>
-                  <span v-if="scope.row.status == 2">未中奖</span>
+                  <span style="color:#ff0000" v-if="scope.row.status == 2">未中奖</span>
                   <span v-if="scope.row.status == 3">中奖</span>
-                  <span v-if="scope.row.status == 4">已派奖</span>
+                  <span style="color:#70ec00" v-if="scope.row.status == 4">已派奖</span>
                   <span v-if="scope.row.status == 5">管理员撤销</span>
                 </template>
               </el-table-column>

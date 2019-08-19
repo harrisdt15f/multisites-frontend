@@ -1213,7 +1213,6 @@ export default {
             codes.push(col.join('&'))
           }
         }
-        codes = codes.filter(val => val !== '')
         return codes.join('|')
       }
     },

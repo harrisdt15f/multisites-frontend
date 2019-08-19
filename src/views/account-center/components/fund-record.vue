@@ -61,7 +61,7 @@
           </el-table-column>
           <el-table-column align="center" label="游戏">
             <template slot-scope="scope">
-              <span>{{ scope.row.game_methods['lottery_name'] }}</span>
+              {{lotteryAll[scope.row.lottery_id].lottery.cn_name}}
             </template>
           </el-table-column>
           <el-table-column align="center" label="玩法">

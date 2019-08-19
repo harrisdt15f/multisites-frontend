@@ -13,7 +13,7 @@
               <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}}</strong>期
               <br />投注截止
             </div>
-            <div class="deadline-number" >
+            <div class="deadline-number">
               <FlipDown
                 :endDate="currentIssue.end_time"
                 :type="3"
@@ -33,22 +33,20 @@
               </div>
             </div>
             <div class="lottery-number">
-              <div v-if="currentLottery.series_id !== 'pk10'" style="overflow:hidden">
-                <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
-                </em>
-              </div>
-              <div v-else style="overflow:hidden" class="pk10-num">
-                <template  v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'">
-                  <em :class="`open_code${i}`" v-for="i in 10" :key="i">0</em>
-                </template>
-                <template v-else>
-                  <em :class="`open_code${index}`" v-for="(item, index) in lastIssue.open_code" :key="index">
-                  </em>
-                </template>
+              <div
+                :class="{'pk10-num' : currentLottery.series_id === 'pk10'}"
+                style="overflow:hidden"
+              >
+                <em
+                  :class="`open_code${index}`"
+                  v-for="(item, index) in lastIssue.open_code"
+                  :key="index"
+                ></em>
               </div>
               <div
                 v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'"
-                class="lottery-animate">
+                class="lottery-animate"
+              >
                 <span>开</span>
                 <span>奖</span>
                 <span>中</span>
@@ -86,6 +84,7 @@ import FlipDown from '../../components/public/flip-down'
 import { Flip } from 'number-flip'
 
 import { mapGetters } from 'vuex'
+import { setInterval, setTimeout, clearTimeout } from 'timers'
 export default {
   name: 'game-issue',
   components: {
@@ -108,8 +107,10 @@ export default {
       //上期开奖
       lastIssue: {
         issue_no: '---------',
-        open_code: ['-', '-', '-', '-', '-']
+        open_code: null
       },
+      timer: null, //进入下期弹框定时
+      timerout:null, //获取下期定时
       issueNum: 0,
       notice: {
         issue: '',
@@ -118,16 +119,26 @@ export default {
       }
     }
   },
+  created() {
+    if (this.currentLottery.series_id === 'pk10') {
+      this.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+    } else if (this.currentLottery.series_id === 'k3') {
+      this.lastIssue.open_code = ['-', '-', '-']
+    } else {
+      this.lastIssue.open_code = ['-', '-', '-', '-', '-']
+    }
+  },
   mounted() {
     this.getLottery()
   },
   watch: {
     //倒计时结束团出
     'notice.show'(newVal) {
+      clearInterval(this.timer)
       let timer = null
       if (newVal) {
         setTimeout(() => {
-          timer = setInterval(() => {
+          this.timer = setInterval(() => {
             this.notice.time -= 1
             if (this.notice.time === 0) {
               clearInterval(timer)
@@ -142,10 +153,15 @@ export default {
   methods: {
     //开奖号码滚动
     filpOpenCode() {
-      this.lastIssue.open_code.forEach((v, i) => {
-        const $node = document.querySelector(`.open_code${i}`)
-        if($node) {
-          $node.innerHTML = ''
+      let $node = undefined
+      if (this.lastIssue.open_code) {
+        this.lastIssue.open_code.forEach((v, i) => {
+          if (v === '-') {
+            v = 0
+          }
+          $node = document.querySelector(`.open_code${i}`)
+          if ($node) {
+            $node.innerHTML = ''
             new Flip({
               node: $node,
               from: 0,
@@ -153,87 +169,73 @@ export default {
               duration: 2
             })
           }
-        }) 
+        })
+      }
+      return
     },
     // 获取开奖结果
     getLottery() {
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          this.$store.commit('issueInfo', res.data.issueInfo)
-          if (res.data.lastIssue.open_code) {
-            if (this.currentLottery.series_id === 'lotto') {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ' '
-              )
-            } else if (this.currentLottery.series_id === 'pk10') {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ','
-              )
+      //如果是请求下期 清除定时
+      clearTimeout(this.timerout)
+      this.Api.getOpenAward(this.currentLottery.en_name)
+        .then(({ success, data }) => {
+          if (success) {
+            this.$store.commit('currentIssue', data.currentIssue)
+            this.$store.commit('issueInfo', data.issueInfo)
+            if (data.lastIssue.open_code) {
+              if (this.currentLottery.series_id === 'lotto') {
+                data.lastIssue.open_code = data.lastIssue.open_code.split(' ')
+              } else if (this.currentLottery.series_id === 'pk10') {
+                data.lastIssue.open_code = data.lastIssue.open_code.split(',')
+              } else {
+                data.lastIssue.open_code = data.lastIssue.open_code.split('')
+              }
+              this.lastIssue = data.lastIssue
             } else {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ''
-              )
+              if (this.currentLottery.series_id === 'pk10') {
+                data.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+              } else if (this.currentLottery.series_id === 'k3') {
+                data.lastIssue.open_code = ['-', '-', '-']
+              } else {
+                data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+              }
+              // 如果上期未开奖 间隔秒再次请求，知道开奖为止
+              this.timerout = setTimeout(() => {
+                this.getLottery()
+              }, 10000)
             }
-          } else {
-            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+            this.lastIssue = data.lastIssue
           }
-
-          this.lastIssue = res.data.lastIssue
-        }
-      }).then(() => {
-        this.filpOpenCode()
-      })
-    },
-    // 获取上期开奖
-    getLastIssue() {
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          this.$store.commit('issueInfo', res.data.issueInfo)
-          if (res.data.lastIssue.open_code) {
-            if (this.currentLottery.series_id === 'lotto') {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ' '
-              )
-            } else if (this.currentLottery.series_id === 'pk10') {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ','
-              )
-            } else {
-              res.data.lastIssue.open_code = res.data.lastIssue.open_code.split(
-                ''
-              )
-            }
-          } else {
-            res.data.lastIssue.open_code = ['-', '-', '-', '-', '-']
-          }
-          this.lastIssue = res.data.lastIssue
-        }
-      }).then(() => {
-        this.filpOpenCode()
-      })
+        })
+        .then(() => {
+          this.filpOpenCode()
+        })
     },
     //倒计时完执行
-    handleTimeup(){
-      if(!this.currentIssue.end_time) return
-        this.issueNum = 1
-        this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-        this.notice.issue = this.issueInfo[this.issueNum].issue_no
-        this.notice.show = true
-        this.$store.dispatch('getUserDetail')
-        this.$store.dispatch('betHistory')
-        setTimeout(() => {
-          this.$store.dispatch('issueHistory')
-          this.getLastIssue()
-        }, 3000)
+    handleTimeup() {
+      if (!this.currentIssue.end_time) return
+      this.issueNum = 1
+      this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+      this.notice.issue = this.issueInfo[this.issueNum].issue_no
+      this.notice.show = true
+      this.$store.dispatch('getUserDetail')
+      this.$store.dispatch('betHistory')
+      setTimeout(() => {
+        this.$store.dispatch('issueHistory')
+        this.getLottery()
+      }, 3000)
     }
+  },
+  beforeDestroy() {
+    // 组件销毁时清除定时
+    clearInterval(this.timer)
+    clearTimeout(this.timerout)
   }
 }
 </script>
 <style lang="scss" scoped>
 .game-lotterys {
-  &.pk10Deadlie{
+  &.pk10Deadlie {
     width: auto;
   }
   float: left;
@@ -410,13 +412,13 @@ export default {
     text-align: center;
     font-family: inherit;
   }
-  .pk10-num{
+  .pk10-num {
     margin: 8px 0 5px 0;
-    em{
+    em {
       float: left;
       width: 35px;
       height: 35px;
-      background: url('../../assets/images/lottery/pk10_ball.png') no-repeat;
+      background: url("../../assets/images/lottery/pk10_ball.png") no-repeat;
       background-size: 100%;
       font-size: 22px;
       color: black;
@@ -430,7 +432,7 @@ export default {
   }
 }
 .lottery-animate {
-  text-indent:4em;
+  text-indent: 4em;
   line-height: 1.5;
   font-size: 12px;
   color: #57576b;
