@@ -75,7 +75,7 @@
         <!--辅助选号按钮-->
         <ul
           class="main-ball-control"
-          v-if="currentMethod.buttons.length > 0"
+          v-if="currentMethod.buttons.length > 0 && _tabName !== '胆码'"
           :class="{'series' : series === 'lotto'}"
         >
           <li

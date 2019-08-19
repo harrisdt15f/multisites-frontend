@@ -5,9 +5,8 @@
         <h3 id="help-tit1">{{items.menu}}</h3>
         <div v-for="(item, index) in items.children" :key="index">
           <div class="help-wrap-tit" :id="item.id">{{item.menu}}</div>
-          <p>
-            {{item.content}}
-          </p>
+          <div v-html="item.content" style="word-break:break-word;">
+          </div>
         </div>
       </div>
     </div>
@@ -55,6 +54,7 @@ export default {
   margin: 10px 0;
   padding: 10px 30px;
   line-height: 24px;
+  overflow: hidden;
 }
 .help-wrap h3 {
   font-size: 18px;
@@ -62,6 +62,7 @@ export default {
 }
 .help-wrap-tit {
   color: #333;
+  font-weight: bold;
   font-size: 14px;
   margin: 15px 0 0;
 }

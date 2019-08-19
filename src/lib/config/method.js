@@ -2001,7 +2001,7 @@ export default {
         }
 
     },
-
+    
     'lotto': {
         'official': {
             'LTQ3ZX3': {
@@ -2427,7 +2427,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     1,
                     999
@@ -2835,14 +2835,14 @@ export default {
             'QZX3': {
                 'name': '复式',
                 'method': 'QZX3',
-                'desc': '从万位、千位、百位各选一个号码组成一注。',
-                'help': '从万位、千位、百位中选择一个3位数号码组成一注，所选号码与开奖号码后3位相同，且顺序一致，即为中奖。',
+                'desc': '从百位、十位、个位各选一个号码组成一注。',
+                'help': '从百位、十位、个位中选择一个3位数号码组成一注，所选号码与开奖号码后3位相同，且顺序一致，即为中奖。',
                 'example': '投注方案：345<br>开奖号码：345，即中前三直选。',
                 'type': 'multi',
                 'layout': {
-                    '万位': digitalCodesTpl,
-                    '千位': digitalCodesTpl,
-                    '百位': digitalCodesTpl
+                    '百位': digitalCodesTpl,
+                    '十位': digitalCodesTpl,
+                    '个位': digitalCodesTpl
                 },
                 'buttons': digitalPosTpl
             },
@@ -2851,7 +2851,7 @@ export default {
                 'name': '单式',
                 'method': 'QZX3_S',
                 'desc': '手动输入号码，至少输入1个三位数号码组成一注。',
-                'help': '手动输入一个3位数号码组成一注，所选号码与开奖号码的万位、千位、百位相同，且顺序一致，即为中奖。',
+                'help': '手动输入一个3位数号码组成一注，所选号码与开奖号码的百位、十位、个位相同，且顺序一致，即为中奖。',
                 'example': '投注方案：345<br>开奖号码：345，即中前三直选。',
                 'type': 'text',
                 'number': 3,

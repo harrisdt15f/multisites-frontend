@@ -58,10 +58,8 @@ export default {
     return {
       num: 0,
       time: null,
-      
       // 上一个  下一个
       whishOne: 0,
-      
       fishList: [
         {
           title: '捕鱼王',
@@ -115,7 +113,6 @@ export default {
           content: '蕴藏在深海中的传说宝藏与龙珠，在龙宫仙女、金龙、海洋生物的守护下，等待各位来猎取! 召集您好友，快点加入JDB捕鱼行列中，使用威力强大的龙王炮，获得30颗免费炮弹，更容易捕获海底生物与满满财宝，实现您一夜致富的梦想。'
         }
       ],
-      
       btnList: [
         {icon: require('../../assets/images/fishGame/fish_item0.png'), en_name: 'AG', zn_name: '捕鱼王2'},
         {icon: require('../../assets/images/fishGame/fish_item0.png'), en_name: 'PT2', zn_name: '深海大赢家'},
@@ -155,12 +152,6 @@ export default {
       if (this.whishOne !== 0) {
         this.whishOne --
       }
-      else {
-        // this.$alert('这已经是第一个啦', '提示', {
-        //   confirmButtonText: '确定',
-        //   callback: () => {}
-        // })
-      }
       this.Animation.move(galleryBox, {'left': this.whishOne * -176}, 30)
     },
     nexts () {
@@ -172,12 +163,6 @@ export default {
       if (num > this.whishOne) {
         this.whishOne ++
       }
-      else {
-        // this.$alert('这已经是最后一个啦', '提示', {
-        //   confirmButtonText: '确定',
-        //   callback: () => {}
-        // })
-      }
       
       this.Animation.move(galleryBox, {'left': this.whishOne * -176}, 30)
     },
@@ -188,10 +173,6 @@ export default {
     
     // 点击切换
     changeFish (index) {
-      
-/*      if (index === this.num) {
-        return
-      }*/
       const [
         fishItem = this.$refs.fishItem,
         fishTxt = this.$refs.fishTxt,

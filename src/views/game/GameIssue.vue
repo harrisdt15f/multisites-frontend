@@ -84,7 +84,7 @@ import FlipDown from '../../components/public/flip-down'
 import { Flip } from 'number-flip'
 
 import { mapGetters } from 'vuex'
-import { setInterval, setTimeout, clearTimeout } from 'timers'
+
 export default {
   name: 'game-issue',
   components: {
@@ -109,7 +109,6 @@ export default {
         issue_no: '---------',
         open_code: null
       },
-      timer: null, //进入下期弹框定时
       timerout:null, //获取下期定时
       issueNum: 0,
       notice: {
@@ -132,18 +131,18 @@ export default {
     this.getLottery()
   },
   watch: {
-    //倒计时结束团出
+    //倒计时结束弹出
     'notice.show'(newVal) {
-      clearInterval(this.timer)
       let timer = null
       if (newVal) {
         setTimeout(() => {
-          this.timer = setInterval(() => {
+          timer = setInterval(() => {
             this.notice.time -= 1
             if (this.notice.time === 0) {
               clearInterval(timer)
-              this.notice.show = false
+              timer = null
               this.notice.time = 3
+              this.notice.show = false
             }
           }, 1000)
         }, 1)
@@ -162,12 +161,7 @@ export default {
           $node = document.querySelector(`.open_code${i}`)
           if ($node) {
             $node.innerHTML = ''
-            new Flip({
-              node: $node,
-              from: 0,
-              to: v,
-              duration: 2
-            })
+            new Flip({node: $node,from: 0,to: v,duration: 2})
           }
         })
       }
@@ -228,7 +222,6 @@ export default {
   },
   beforeDestroy() {
     // 组件销毁时清除定时
-    clearInterval(this.timer)
     clearTimeout(this.timerout)
   }
 }

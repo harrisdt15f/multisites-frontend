@@ -86,9 +86,9 @@
                 <td>
                   <span class="value" v-if="detailData.status == 0">待开奖</span>
                   <span class="value" v-if="detailData.status == 1">已撤销</span>
-                  <span style="color:#ff0000" class="value" v-if="detailData.status == 2">未中奖</span>
+                  <span style="color:red" class="value" v-if="detailData.status == 2">未中奖</span>
                   <span class="value" v-if="detailData.status == 3">中奖</span>
-                  <span style="color:#70ec00" class="value" v-if="detailData.status == 4">已派奖</span>
+                  <span style="color:green" class="value" v-if="detailData.status == 4">已派奖</span>
                   <span class="value" v-if="detailData.status == 5">管理员撤销</span>
                 </td>
                 <td align="right">奖金：</td>
