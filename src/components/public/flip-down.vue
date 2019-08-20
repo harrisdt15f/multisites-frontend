@@ -95,8 +95,9 @@ export default {
         })
       }, 350)
     },
-    endTime(newV) {
+    serverTime(newV) {
       if (newV > 0) {
+        this.currentTime = newV * 1000
         this.start(true)
       }
     }
@@ -111,7 +112,6 @@ export default {
     // 开始倒计时
     start(isFirst) {
       clearTimeout(this.timer)
-      this.currentTime = this.serverTime * 1000
       this.timer = setTimeout(() => {
         this.currentTime += 1000
         let t = this.endTime * 1000 - this.currentTime // 剩余的毫秒数
