@@ -15,7 +15,7 @@
             </div>
             <div class="deadline-number">
               <FlipDown
-                :serverTime="currentIssue.serverTime"
+                :serverDate="currentIssue.serverTime"
                 :endDate="currentIssue.end_time"
                 :type="3"
                 :theme="2"

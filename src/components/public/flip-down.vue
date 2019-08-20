@@ -45,13 +45,19 @@ export default {
     }
   },
   props: {
-    serverTime: {type: [Date, Number, String], default: 0},
+    serverDate: {type: [Date, Number, String], default: 0},
     endDate: { type: [Date, Number, String], default: 0 }, // 截止时间
     type: { type: [Number, String], default: 4 }, // 时间精度 4/3/2/1
     theme: { type: [Number, String], default: 1 },
     timeUnit: { type: Array, default: () => [] }
   },
   computed: {
+    serverTime() {
+      if (this.serverDate instanceof Date) {
+        return this.serverDate.getTime()
+      }
+      return Number(this.serverDate) > 0 ? Number(this.serverDate) : 0
+    },
     endTime() {
       if (this.endDate instanceof Date) {
         return this.endDate.getTime()
@@ -97,7 +103,6 @@ export default {
   },
   mounted() {
     this.start(true)
-    this.currentTime = this.serverTime * 1000
   },
   beforeDestroy() {
     clearTimeout(this.timer)
@@ -106,6 +111,7 @@ export default {
     // 开始倒计时
     start(isFirst) {
       clearTimeout(this.timer)
+      this.currentTime = this.serverTime * 1000
       this.timer = setTimeout(() => {
         this.currentTime += 1000
         let t = this.endTime * 1000 - this.currentTime // 剩余的毫秒数
