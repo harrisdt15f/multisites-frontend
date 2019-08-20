@@ -2445,7 +2445,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     2,
                     999
@@ -2463,7 +2463,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     3,
                     999
@@ -2481,7 +2481,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     4,
                     999
@@ -2499,7 +2499,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     5,
                     999
@@ -2517,7 +2517,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     6,
                     999
@@ -2535,7 +2535,7 @@ export default {
                     '胆码': lottoCodesTpl,
                     '拖码': lottoCodesTpl
                 },
-                'buttons': [],
+                'buttons': digitalPosTpl,
                 'limitSelectedCount': [
                     7,
                     999
