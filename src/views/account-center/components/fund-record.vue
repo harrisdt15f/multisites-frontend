@@ -44,7 +44,7 @@
       </div>
       <div class="custom-table m-t-25">
         <el-table :data="gameList" v-loading="listLoading" style="width: 100%">
-          <el-table-column align="center" label="编号">
+          <el-table-column align="center" label="编号" show-overflow-tooltip>
             <template slot-scope="scope">
               <span>{{ scope.row.serial_number }}</span>
             </template>
@@ -71,7 +71,8 @@
           </el-table-column>
           <el-table-column align="center" label="变动金额">
             <template slot-scope="scope">
-              <span>{{ scope.row.amount }}</span>
+              <span v-if="scope.row.in_out == 1" style="color:green">+{{ scope.row.amount }}</span>
+              <span v-else style="color:red">-{{ scope.row.amount }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="余额">

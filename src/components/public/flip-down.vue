@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted() {
-    this.start(true)
+    this.serverTime > 0 && this.start(true)
   },
   beforeDestroy() {
     clearTimeout(this.timer)

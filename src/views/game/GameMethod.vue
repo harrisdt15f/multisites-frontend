@@ -66,6 +66,18 @@
                       >{{method.method_name}}</li>
                     </ul>
                   </template>
+                  <template v-if="row.methods[0].method_id === 'LTBDW'">
+                    <div class="group-name">{{row.name}}</div>
+                    <ul>
+                      <li
+                        class="bet-type-group-list-li"
+                        v-for="(method, mkey) in row.methods"
+                        :key="mkey"
+                        v-bind:class="{'on':method.method_id === selectedMethodId}"
+                        @click="selectMethod(method.method_id)"
+                      >前三不定位</li>
+                    </ul>
+                  </template>
                 </div>
               </div>
             </div>

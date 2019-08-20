@@ -392,7 +392,12 @@ export default {
     for (const k of list) {
       if (k.id === this.currentLottery.en_name) {
         this.prizes.min = parseInt(this.userDetail.min_prize_group)
-        this.prizes.max = parseInt(this.userDetail.prize_group)
+        if(k.max_prize_group >= this.userDetail.prize_group){
+          this.prizes.max = parseInt(this.userDetail.prize_group)
+        } else {
+          this.prizes.max = k.max_prize_group
+        }
+        
       }
     }
     // 当前奖金组
@@ -1267,11 +1272,11 @@ export default {
     inputAreaInit() {
       if (this.currentLottery.series_id === 'lotto'  || this.currentLottery.series_id === 'pk10') {
         this.inputCodesInitText =
-          '说明：\n 1、支持常见的各种单式格式，间隔符如： 换行符 回车 逗号 分号等, 号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
+          '说明：\n 1、每一注号码之间的间隔符支持|符或者逗号，号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
           ' 格式范例：01 02 03|03 04 05|07 08 11'
       } else {
         this.inputCodesInitText =
-          '说明：\n 1、每一注号码之间的间隔符支持 逗号[,] 每注内间隔使用空格即可。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+          '说明：\n 1、每一注号码之间的间隔符支持换行符 回车 逗号。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
       }
       // this.inputCodes = this.inputCodesInitText
     },

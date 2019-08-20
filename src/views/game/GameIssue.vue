@@ -15,7 +15,7 @@
             </div>
             <div class="deadline-number">
               <FlipDown
-                :serverDate="currentIssue.serverTime"
+                :serverDate="serverTime"
                 :endDate="currentIssue.end_time"
                 :type="3"
                 :theme="2"
@@ -105,6 +105,8 @@ export default {
   },
   data() {
     return {
+      //系统时间
+      serverTime:'',
       //上期开奖
       lastIssue: {
         issue_no: '---------',
@@ -169,16 +171,13 @@ export default {
       return
     },
     // 获取开奖结果
-    getLottery(lastIssue) {
-      //如果是请求下期 清除定时
-      clearTimeout(this.timerout)
+    getLottery() {
       this.Api.getOpenAward(this.currentLottery.en_name)
         .then(({ success, data }) => {
           if (success) {
-            if (!lastIssue) {
-              this.$store.commit('currentIssue', Object.assign(data.currentIssue, {serverTime:data.serverTime}))
-              this.$store.commit('issueInfo', data.issueInfo)
-            }
+            this.serverTime = data.serverTime
+            this.$store.commit('currentIssue', data.currentIssue)
+            this.$store.commit('issueInfo', data.issueInfo)
             if (data.lastIssue.open_code) {
               if (this.currentLottery.series_id === 'lotto') {
                 data.lastIssue.open_code = data.lastIssue.open_code.split(' ')
@@ -196,10 +195,6 @@ export default {
               } else {
                 data.lastIssue.open_code = ['-', '-', '-', '-', '-']
               }
-              // 如果上期未开奖 间隔秒再次请求，知道开奖为止
-              this.timerout = setTimeout(() => {
-                this.getLottery({lastIssue: true})
-              }, 10000)
             }
             this.lastIssue = data.lastIssue
           }
@@ -208,18 +203,57 @@ export default {
           this.filpOpenCode()
         })
     },
+    ////获取彩种上期的奖期
+    getLastIssue(nextIssue){
+      //再次求上期 清除定时
+      clearTimeout(this.timerout)
+      this.Api.lastIssue(this.currentLottery.en_name).then(({ success, data }) => {
+        if (success) {
+          if (nextIssue) {
+            this.serverTime = data.serverTime
+          }
+          const lastIssue = {}
+          if (data.official_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+              lastIssue.open_code = data.official_code.split(' ')
+            } else if (this.currentLottery.series_id === 'pk10') {
+              lastIssue.open_code = data.official_code.split(',')
+            } else {
+              lastIssue.open_code = data.official_code.split('')
+            }
+            this.lastIssue = data
+          } else {
+            if (this.currentLottery.series_id === 'pk10') {
+              lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+            } else if (this.currentLottery.series_id === 'k3') {
+              lastIssue.open_code = ['-', '-', '-']
+            } else {
+              lastIssue.open_code = ['-', '-', '-', '-', '-']
+            }
+            // 如果上期未开奖 间隔秒再次请求，知道开奖为止
+            this.timerout = setTimeout(() => {
+              this.getLastIssue()
+            }, 10000)
+          }
+          lastIssue.issue_no = data.issue
+          this.lastIssue = lastIssue
+        }
+      }).then(() => {
+        this.filpOpenCode()
+      })
+    },
     //倒计时完执行
     handleTimeup() {
       if (!this.currentIssue.end_time) return
-      this.issueNum = 1
+      this.issueNum += 1
       this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
       this.notice.issue = this.issueInfo[this.issueNum].issue_no
       this.notice.show = true
       this.$store.dispatch('getUserDetail')
       this.$store.dispatch('betHistory')
+      this.getLastIssue({nextIssue: true})
       setTimeout(() => {
         this.$store.dispatch('issueHistory')
-        this.getLottery()
       }, 3000)
     }
   },
