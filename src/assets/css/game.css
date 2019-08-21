@@ -514,6 +514,10 @@ body {
   text-align: left;
   background: #fff;
 }
+.main-play-introduce.k3{
+  margin-top: -37px;
+  border-bottom: 1px solid #eaeaea;
+}
 .main-play-introduce .ico-why,
 .main-play-introduce .ico-case {
   position: relative;

@@ -245,8 +245,8 @@
       <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
     <dialog-bulletin
-      v-if="showBulletin"
-      :showBulletin="showBulletin"
+      v-if="showBulletin || showInitNotice"
+      :showBulletin="showBulletin || showInitNotice"
       :currentBulletinIndex="currentBulletinIndex"
       index="0"
       @close="handleBulletinClose"
@@ -283,6 +283,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'showInitNotice',
       'isLogin',
       'banner',
       'qrSrc',
@@ -465,6 +466,7 @@ export default {
     // 关闭平台公告
     handleBulletinClose(val) {
       this.showBulletin = val
+      this.$store.commit('SET_INDEX_NOTICE', false)
     },
     // 开启平台公告
     openNotice() {

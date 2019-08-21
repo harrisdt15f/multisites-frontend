@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="main-play-introduce ft12">
+    <div class="main-play-introduce ft12" :class="{'k3': currentLottery.series_id === 'k3'}">
       {{currentMethod.desc}}
       <a
         href="javascript:;"

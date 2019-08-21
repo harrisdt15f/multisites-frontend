@@ -12,6 +12,7 @@ const getters = {
   popularLotteries1: state => state.site.popularLotteries1,
   showBanner: state => state.site.showBanner,
   showSideFloat: state => state.site.showSideFloat,
+  showInitNotice: state => state.site.showInitNotice,
   ranking: state => state.site.ranking,
   lotteryNoticeList: state => state.site.lotteryNoticeList,
   popularChess: state => state.site.popularChess,

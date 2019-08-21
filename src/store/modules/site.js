@@ -14,6 +14,7 @@ const state = {
   lotteryNoticeList: [],
   showBanner: false,
   showSideFloat: true,
+  showInitNotice: true,
   helpList: []
 }
 
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_SHOW_FLOAT: (state, data) => {
     state.showSideFloat = data
+  },
+  SET_INDEX_NOTICE: (state, data) => {
+    state.showInitNotice = data
   },
   SET_SHOW_BANNER: (state, data) => {
     state.showBanner = data

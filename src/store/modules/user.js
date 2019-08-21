@@ -32,6 +32,7 @@ const actions = {
         const { data, success } = response
         if (success) {
           commit('SET_TOKEN', data.access_token)
+          commit('SET_INDEX_NOTICE', true)
           setToken(data.access_token, data.expires_at)
           resolve()
         } else {

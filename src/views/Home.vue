@@ -31,6 +31,7 @@ export default {
     //初始化不常变动数据
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
+      this.$store.commit('SET_INDEX_NOTICE', true)
       this.getBasicContent()
       this.getLotteryNotice()
       this.getPopularGame()
