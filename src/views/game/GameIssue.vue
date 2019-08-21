@@ -246,15 +246,20 @@ export default {
     handleTimeup() {
       if (!this.currentIssue.end_time) return
       this.issueNum += 1
-      this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      this.notice.issue = this.issueInfo[this.issueNum].issue_no
-      this.notice.show = true
-      this.$store.dispatch('getUserDetail')
-      this.$store.dispatch('betHistory')
-      this.getLastIssue({nextIssue: true})
-      setTimeout(() => {
-        this.$store.dispatch('issueHistory')
-      }, 3000)
+      if(this.issueInfo.length < this.issueNum+1){
+         // 获取开奖结果
+        this.getLottery()
+      } else{
+        this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+        this.notice.issue = this.issueInfo[this.issueNum].issue_no
+        this.notice.show = true
+        this.$store.dispatch('getUserDetail')
+        this.$store.dispatch('betHistory')
+        this.getLastIssue({nextIssue: true})
+        setTimeout(() => {
+          this.$store.dispatch('issueHistory')
+        }, 3000)
+      }
     }
   },
   beforeDestroy() {

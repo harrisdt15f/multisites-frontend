@@ -1273,7 +1273,8 @@ export default {
       if (this.currentLottery.series_id === 'lotto'  || this.currentLottery.series_id === 'pk10') {
         this.inputCodesInitText =
           '说明：\n 1、每一注号码之间的间隔符支持|符或者逗号，号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
-          ' 格式范例：01 02 03|03 04 05|07 08 11'
+          ' 范例1：01 02 03|03 04 05|07 08 11 \n' +
+          ' 范例2：01 02 03,03 04 05,07 08 11 \n'
       } else {
         this.inputCodesInitText =
           '说明：\n 1、每一注号码之间的间隔符支持换行符 回车 逗号。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
@@ -1310,7 +1311,7 @@ export default {
     inputClearRepeatOrder() {
       let [
         tmp = new Set(
-          (this.inputCodes || '').split(/[\s\n,|]+/).map(item => {
+          (this.inputCodes || '').split(/[\s\n,，|]+/).map(item => {
             return this.Utils.trim(item)
           })
         )
@@ -1318,7 +1319,7 @@ export default {
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
         tmp = new Set(
-          (this.inputCodes || '').split(/[,|;]+/).map(item => {
+          (this.inputCodes || '').split(/[,，|;]+/).map(item => {
             return this.Utils.trim(item)
           })
         )
@@ -1328,7 +1329,8 @@ export default {
           if (
             isRepeat(arr) ||
             arr.length != this.currentMethod.b64 ||
-            arr.some(val => Number(val) > 11 || Number(val) <= 0)
+            arr.some(val => Number(val) > 11 || Number(val) <= 0) ||
+            arr.some(val => val.length !== 2) 
           ) {
             tmp.delete(k)
           }
@@ -1337,7 +1339,7 @@ export default {
         // 直选单式
         if (this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10') {
           tmp = new Set(
-            (this.inputCodes || '').split(/[,|;]+/).map(item => {
+            (this.inputCodes || '').split(/[,|，;]+/).map(item => {
               return this.Utils.trim(item)
             })
           )
@@ -1414,75 +1416,6 @@ export default {
         }
       }
 
-      this.calculate()
-    },
-    // 清理重复项 和 错误项 计算注数
-    setTimeoutInputClearRepeatOrder() {
-      let [
-        tmp = new Set(
-          (this.inputCodes || '').split(/[\s\n,|]+/).map(item => {
-            return this.Utils.trim(item)
-          })
-        )
-      ] = []
-      // 任选单式
-      if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
-        for (const k of tmp) {
-          let temp = k.split(' ')
-          for (const i of temp) {
-            if (
-              isNaN(i) ||
-              parseInt(i) > 11 ||
-              parseInt(i) < 0 ||
-              i.length !== this.currentMethod.number ||
-              temp.length !== this.currentMethod.b64
-            ) {
-              tmp.delete(k)
-            }
-          }
-        }
-      } else {
-        // 直选单式
-        if (this.currentLottery.series_id === 'lotto') {
-          tmp = new Set(
-            (this.inputCodes || '').split(/,|，/).map(item => {
-              return this.Utils.trim(item)
-            })
-          )
-          for (const i of tmp) {
-            // 去除重复的组
-            const arr = i.split(/[\s\n]+/)
-
-            if (
-              isRepeat(arr) ||
-              arr.length != this.currentMethod.b64 ||
-              arr.some(val => Number(val) > 11)
-            ) {
-              tmp.delete(i)
-            }
-          }
-        } else {
-          for (const i of tmp) {
-            // 去除非数字项
-            if (isNaN(i)) {
-              tmp.delete(i)
-            }
-            // 去除 小于 或者 大于规定长度
-            if (
-              (this.currentMethod &&
-                String(i).length < this.currentMethod.b64) ||
-              String(i).length > this.currentMethod.b64
-            ) {
-              tmp.delete(i)
-            }
-          }
-        }
-      }
-      if (!this.inputCodes) {
-        this.inputCodesSingle = 0
-      } else {
-        this.inputCodesSingle = [...tmp].length
-      }
       this.calculate()
     },
     // 一键投注
