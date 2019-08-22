@@ -13,8 +13,11 @@
       <el-tab-pane label="团队管理" :lazy="true" name="user-manage">
         <user-manage></user-manage>
       </el-tab-pane>
-      <el-tab-pane label="下级开户" :lazy="true" name="third">
+      <el-tab-pane label="下级开户" :lazy="true" name="accurate-create">
         <accurate-create></accurate-create>
+      </el-tab-pane>
+      <el-tab-pane label="代理消息" :lazy="true" name="agent-message">
+        <agent-message></agent-message>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -26,6 +29,7 @@ import userManage from './components/user-manage'
 import accurateCreate from './components/accurate-create'
 import userDaysalary from './components/user-daysalary'
 import userBonus from './components/user-bonus'
+import agentMessage from './components/agent-message'
 
 export default {
   name: 'agentCenter',
@@ -34,7 +38,8 @@ export default {
     userManage,
     accurateCreate,
     userDaysalary,
-    userBonus
+    userBonus,
+    agentMessage
   },
   data() {
     return {
