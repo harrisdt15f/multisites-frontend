@@ -37,6 +37,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import pwdManage from './components/pwd-manage'
 import bankManage from './components/bank-manage'
 import personalInfo from './components/personal-info'
@@ -82,16 +84,15 @@ export default {
     bankManage,
     personalInfo
   },
+  computed: {
+    ...mapGetters(['userDetail'])
+  },
   created() {
     this.initData()
   },
   methods: {
     initData() {
-      this.Api.existFundPassword().then(({ data, success }) => {
-        if (success) {
-          this.existFundPassword = data
-        }
-      })
+      this.existFundPassword = this.userDetail.fund_password
     },
     // 查看是否含有资金密码
     handleshowFundPwd() {

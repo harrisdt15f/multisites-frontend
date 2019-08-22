@@ -45,7 +45,10 @@
             </div>
           </div>
           <div class="custom-table m-t-25">
-            <el-table :data="gameList" v-loading="listLoading" style="width: 100%">
+            <el-table 
+            :summary-method="getGameSummaries"
+            show-summary
+            :data="gameList" v-loading="listLoading" style="width: 100%">
               <el-table-column align="center" label="用户名">
                 <template slot-scope="scope">
                   <span>{{ scope.row.username }}</span>
@@ -183,7 +186,11 @@
             </div>
           </div>
           <div class="custom-table m-t-25">
-            <el-table :data="tracesList" v-loading="tracesListLoading" style="width: 100%">
+            <el-table :data="tracesList"
+             v-loading="tracesListLoading"
+              :summary-method="getTracesSummaries"
+            show-summary
+              style="width: 100%">
               <el-table-column align="center" show-overflow-tooltip label="彩种">
                 <template slot-scope="scope">
                   <span>{{ lotteryAll[scope.row.lottery_sign].lottery.cn_name }}</span>
@@ -209,15 +216,15 @@
                   <span>{{ scope.row.total_price }}</span>
                 </template>
               </el-table-column>
+              <el-table-column align="center" show-overflow-tooltip label="中奖金额">
+                <template slot-scope="scope">
+                  <span>{{ scope.row.finished_bonus }}</span>
+                </template>
+              </el-table-column>
               <el-table-column align="center" show-overflow-tooltip label="追中即停">
                 <template slot-scope="scope">
                   <span v-if="scope.row.win_stop == 0">不停</span>
                   <span v-if="scope.row.win_stop == 1">停</span>
-                </template>
-              </el-table-column>
-              <el-table-column align="center" show-overflow-tooltip label="中奖金额">
-                <template slot-scope="scope">
-                  <span>{{ scope.row.finished_bonus }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" show-overflow-tooltip label="状态">
@@ -532,6 +539,80 @@ export default {
     },
     handleDetailClose() {
       this.dialogVisible = false
+    },
+    //游戏记录合计
+    getGameSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '本页小结'
+          return
+        }
+        if (index === 6) {
+          const values = data.map(item => Number(item['total_cost']))
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = sums[index].toFixed(3)
+        }
+        if (index === 7) {
+          const values = data.map(item => Number(item['bonus']))
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = sums[index].toFixed(3)
+        }
+      })
+
+      return sums
+    },
+    //追号记录合计
+    getTracesSummaries(param){
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '本页小结'
+          return
+        }
+        if (index === 4) {
+          const values = data.map(item => Number(item['total_price']))
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = sums[index].toFixed(4)
+        }
+        if (index === 5) {
+          const values = data.map(item => Number(item['finished_bonus']))
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = sums[index].toFixed(4)
+        }
+      })
+
+      return sums
     }
   }
 }

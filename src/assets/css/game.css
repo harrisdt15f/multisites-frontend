@@ -515,8 +515,9 @@ body {
   background: #fff;
 }
 .main-play-introduce.k3{
-  margin-top: -37px;
-  border-bottom: 1px solid #eaeaea;
+  position: absolute;
+  left: 0;
+  top: 13px;
 }
 .main-play-introduce .ico-why,
 .main-play-introduce .ico-case {

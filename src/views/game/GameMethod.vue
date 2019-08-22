@@ -1,5 +1,5 @@
 <template>
-  <section class="fw w100">
+  <section class="w100">
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w">
       <!-- 选号区 -->

@@ -3487,7 +3487,7 @@ export default {
                 'example': '投注方案：01 <br>开奖号码为：* 01 * * * * * * * *，即中第三名复式.',
                 'type': 'multi',
                 'layout': {
-                    '第三名': pk10CodesTpl
+                    '季军': pk10CodesTpl
                 },
                 'buttons': digitalPosTpl
             },
@@ -3588,7 +3588,7 @@ export default {
                 'example': '投注方案：01 <br>开奖号码为：* * * * 01 * * * * *，即中第五名复式.',
                 'type': 'multi',
                 'layout': {
-                    '第四名': pk10CodesTpl
+                    '第五名': pk10CodesTpl
                 },
                 'buttons': digitalPosTpl
             },
