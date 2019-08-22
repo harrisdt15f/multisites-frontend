@@ -310,7 +310,7 @@ export default {
           sums[index] =
             sums[index] > 0
               ? `+${sums[index].toFixed(4)}`
-              : `-${sums[index].toFixed(4)}`
+              : `${sums[index].toFixed(4)}`
         }
       })
 
