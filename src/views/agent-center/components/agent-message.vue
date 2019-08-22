@@ -34,12 +34,12 @@
           </template> -->
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="操作">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope"> -->
             <el-button
               size="mini">发送消息</el-button>
             <el-button
               size="mini">历史消息</el-button>
-          </template>
+          <!-- </template> -->
         </el-table-column>
       </el-table>
     </div>
@@ -65,12 +65,12 @@
           </template> -->
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="操作">
-          <template slot-scope="scope">
+          <!-- <template slot-scope="scope"> -->
             <el-button
               size="mini">发送消息</el-button>
             <el-button
               size="mini">历史消息</el-button>
-          </template>
+          <!-- </template> -->
         </el-table-column>
       </el-table>
     </div>
