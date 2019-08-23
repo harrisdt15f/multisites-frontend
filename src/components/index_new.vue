@@ -119,17 +119,10 @@
                   </div>
                 </div>
                 <div class="middle" v-if="item.official_code">
-                  <template v-if="item.series_id === 'lotto'">
+                  <template v-if="lotteryLists[item.series]">
                     <span
                       class="ball"
-                      v-for="(item, index) in item.official_code.split(' ')"
-                      :key="index"
-                    >{{item}}</span>
-                  </template>
-                  <template v-else>
-                    <span
-                      class="ball"
-                      v-for="(item, index) in item.official_code.split('')"
+                      v-for="(item, index) in item.official_code.split(lotteryLists[item.series]['encode_splitter'] || '')"
                       :key="index"
                     >{{item}}</span>
                   </template>
@@ -283,6 +276,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'lotteryLists',
       'showInitNotice',
       'isLogin',
       'banner',

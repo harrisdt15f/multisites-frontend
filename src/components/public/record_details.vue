@@ -10,27 +10,11 @@
       <!-- 投注记录详情 -->
       <div class="content" v-if="!isTraces">
         <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
-          <template v-if="detailData.series_id ==='lotto'">
             <span
               class="item"
-              v-for="(item, index) in detailData.open_number.split(' ')"
+              v-for="(item, index) in detailData.open_number.split(lotteryLists[currentLottery.series_id]['encode_splitter'] || '')"
               :key="index"
             >{{item}}</span>
-          </template>
-          <template v-else-if="detailData.series_id ==='pk10'">
-            <span
-              class="item"
-              v-for="(item, index) in detailData.open_number.split(',')"
-              :key="index"
-            >{{item}}</span>
-          </template>
-          <template v-else>
-            <span
-              class="item"
-              v-for="(item, index) in detailData.open_number.split('')"
-              :key="index"
-            >{{item}}</span>
-          </template>
         </div>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -263,7 +247,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentLottery', 'lotteryAll']),
+    ...mapGetters(['currentLottery', 'lotteryAll', 'lotteryLists']),
     // 是否是追号
     isTraces() {
       return this.detailData.win_stop !== undefined

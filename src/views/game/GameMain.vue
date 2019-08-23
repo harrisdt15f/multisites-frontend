@@ -171,5 +171,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/css/game.css";
+@import "../../assets/css/game.scss";
 </style>

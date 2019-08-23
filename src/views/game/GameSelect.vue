@@ -460,7 +460,7 @@ export default {
           if (oneKey) {
             this.oneKeyList = order
           } else {
-            if (this.currentLottery.max_profit_bonus/+this.currentOrder.currentCost >= 45) {
+            if (+this.currentCountPrizes/+this.currentOrder.currentCost >= 45) {
               this.$msgbox({
                 title: '投注确认',
                 customClass: 'confirm-bet',
@@ -1524,7 +1524,7 @@ export default {
             h('p', 
             { style: 'text-align: center; font-weight:bold;' }, 
             `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`),
-            +this.currentLottery.max_profit_bonus/+this.currentOrder.currentCost >= 45 ? 
+            +this.currentCountPrizes/+this.currentOrder.currentCost >= 45 ? 
               h('p', 
                 { style: 'text-align: center; color: #ff7200' }, 
                 '投注包含单挑注单，奖金上限为2万元') : null

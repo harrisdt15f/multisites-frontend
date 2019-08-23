@@ -111,7 +111,7 @@
               @mouseleave="showSelectLottery = false"
             >
               <div class="title">
-                <span>⑧</span> 选择彩种
+                <span>⑧</span> 彩种推荐
               </div>
               <div
                 class="sub-select"
@@ -181,7 +181,7 @@
                 <router-link class="nav-col" tag="span" to="/active">优惠活动</router-link>
               </el-col>
               <el-col :span="3">
-                <router-link class="nav-col" tag="span" to="/user-trends">走势图标</router-link>
+                <router-link class="nav-col" tag="span" to="/user-trends">走势图表</router-link>
               </el-col>
               <el-col :span="3">
                 <span :class="{'router-link-active' : this.$route.path.includes('/agent-center')}" class="nav-col" @click="preInto(`/agent-center`)" >代理中心</span>

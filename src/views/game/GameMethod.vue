@@ -102,24 +102,10 @@
                       <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
                       <td class="td">
                         <span class="balls">
-                          <template v-if="currentLottery.series_id === 'lotto'">
                             <i
                             class="i curr"
-                            v-for="(num, numIndex) in item.code.split(' ')"
+                            v-for="(num, numIndex) in item.code.split(lotteryLists[currentLottery.series_id]['encode_splitter'] || '')"
                             :key="numIndex">{{num}}</i>
-                          </template>
-                           <template v-else-if="currentLottery.series_id === 'pk10'">
-                            <i
-                            class="i curr"
-                            v-for="(num, numIndex) in item.code.split(',')"
-                            :key="numIndex">{{num}}</i>
-                          </template>
-                          <template v-else>
-                            <i
-                            class="i curr"
-                            v-for="(num, numIndex) in item.code.split('')"
-                            :key="numIndex">{{num}}</i>
-                          </template>
                         </span>
                       </td>
                     </tr>

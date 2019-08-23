@@ -577,8 +577,9 @@ export default {
       QZU6: { total: 1000, prize: 295, count: 6 },
       QZU6_S: { total: 1000, prize: 295, count: 6 },
       QHHZX: { total: 1000, prize: 600, count: 3 },
+      QZUHZ: { total: 1000, prize: 600, count: 3 },
 
-      QZUHZ: { total: 1000, prize: [590, 295], count: [250, 250] },
+      // QZUHZ: { total: 1000, prize: [590, 295], count: [250, 250] },
 
       QZX2: { total: 1000, prize: 177, count: 1 },
       QZX2_S: { total: 1000, prize: 177, count: 1 },

@@ -93,6 +93,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'lotteryLists',
       'currentLottery',
       'lotteryAll',
       'issueInfo',
@@ -179,13 +180,8 @@ export default {
             this.$store.commit('currentIssue', data.currentIssue)
             this.$store.commit('issueInfo', data.issueInfo)
             if (data.lastIssue.open_code) {
-              if (this.currentLottery.series_id === 'lotto') {
-                data.lastIssue.open_code = data.lastIssue.open_code.split(' ')
-              } else if (this.currentLottery.series_id === 'pk10') {
-                data.lastIssue.open_code = data.lastIssue.open_code.split(',')
-              } else {
-                data.lastIssue.open_code = data.lastIssue.open_code.split('')
-              }
+              const encodeSplitter = this.lotteryLists[this.currentLottery.series_id]['encode_splitter'] || ''
+              data.lastIssue.open_code = data.lastIssue.open_code.split(encodeSplitter)
               this.lastIssue = data.lastIssue
             } else {
               if (this.currentLottery.series_id === 'pk10') {
