@@ -1103,7 +1103,6 @@ export default {
     }
   },
   mounted() {
-    console.log(mock)
     this.handleDrawing()
   },
   methods: {
@@ -1170,6 +1169,7 @@ export default {
       return data
     },
     handleDrawing() {
+      console.log(mock.data)
       this.data = this.reBuildData(mock.data).data
       let positionCount = 0,
         currentBallLeft = 0,

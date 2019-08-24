@@ -408,8 +408,11 @@
           <el-table-column align="center" prop="open_number" label="开奖号" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" label="投注内容" show-overflow-tooltip>
             <template slot-scope="scope">
+              <template v-if="scope.row.series_id === 'pk10'">
+                {{scope.row.bet_number.replace(/[0-9]/g, handlePK10Replacer)}}
+              </template>
               <template
-                v-if="scope.row.method_group === 'DXDS'"
+                v-else-if="scope.row.method_group === 'DXDS'"
               >{{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}}</template>
               <template
                 v-else-if="scope.row.method_group === 'LH'"
@@ -729,6 +732,10 @@ export default {
     this.clearOrderList()
   },
   methods: {
+    //pk10开奖正则
+    handlePK10Replacer(match){
+      return parseInt(match) + 1
+    },
     // 复原追号条件
     restChase() {
        this.chase = {

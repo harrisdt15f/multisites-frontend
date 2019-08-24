@@ -86,7 +86,11 @@ export default {
       selectOption: ['guides', 'lost', 'lostPost', 'trend', 'temperature'],
       select:['guides', 'lost', 'trend'],
       options: [],
-      radio1: '近30期'
+      radio1: '近30期',
+      listQuery:{
+        lottery_id: '',
+        range: 30
+      }
     }
   },
   computed: {
@@ -111,14 +115,22 @@ export default {
       return list
     }
   },
+  created () {
+    this.getData(this.lotteryId[1])
+  },
   methods: {
     // 请求走势数据
-    getData(lotteryId){
-      
+    getData(lottery_id){
+      this.listQuery.lottery_id = lottery_id
+      this.Api.getTrend(this.listQuery).then(({success, data}) => {
+        if (success) {
+          console.log(JSON.parse(data))
+        }
+      })
     },
     //选择不同彩种
     handleLotteryIdChange(value){
-      console.log(value)
+      this.getData(value[1])
     },
     //选择不同玩法
     handleChangeSelect(selectOption){

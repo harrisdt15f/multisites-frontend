@@ -578,7 +578,12 @@ export default {
           } else if(this.currentLottery.series_id === 'pk10'){
             return this.inputCodes
               .split('|')
-              .map(val => parseInt(val)-1)
+              .map(val => {
+                const arr = val.split(' ').map(ele => {
+                  return parseInt(ele) - 1
+                })
+                return arr.join('&')
+              })
           } else {
             return this.inputCodes
               .split(',')

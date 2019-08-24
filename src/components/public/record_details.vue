@@ -203,7 +203,7 @@
           <el-table :data="detailData.trace_lists" style="width: 80%;margin:30px auto">
             <el-table-column align="center" prop="issue" label="奖期" width="180"></el-table-column>
             <el-table-column align="center" label="投注内容" show-overflow-tooltip>
-              <template slot-scope="scope">{{scope.row.bet_number}}</template>
+              <template slot-scope="scope">{{bet_number}}</template>
             </el-table-column>
             <el-table-column align="center" prop="times" label="追号倍数"></el-table-column>
             <el-table-column align="center" prop="total_price" label="投注金额	"></el-table-column>
@@ -254,6 +254,12 @@ export default {
     },
     // 翻译字符
     bet_number() {
+      if (this.detailData.series_id === 'pk10') {
+        return this.detailData.bet_number
+          .replace(/[0-9]/g, match=>{
+            return parseInt(match) + 1
+          })
+      }
       if (this.detailData.method_group === 'DXDS') {
         return this.detailData.bet_number
           .replace(/&/g, ',')
