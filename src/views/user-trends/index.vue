@@ -3,25 +3,15 @@
     <div class="trend-header">
       <el-form :inline="true" class="form-inline">
         <el-form-item>
-          <span>选择彩种：</span>
+          <span style="font-size: 16px;">选择彩种：</span>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="value" placeholder="请选择">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-          <el-select v-model="value" placeholder="请选择" style="margin-left:15px">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
+          <el-cascader
+            @change="handleLotteryIdChange"
+            :props="{ expandTrigger: 'hover' }"
+            v-model="lotteryId"
+            :options="lotteryAllOptions"
+          ></el-cascader>
         </el-form-item>
       </el-form>
     </div>
@@ -91,7 +81,7 @@ export default {
   components: { Chart },
   data() {
     return {
-      value: '',
+      lotteryId: ['ssc', 'cqssc'],
       slectOptionDict,
       selectOption: ['guides', 'lost', 'lostPost', 'trend', 'temperature'],
       select:['guides', 'lost', 'trend'],
@@ -100,9 +90,37 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentLottery', 'lotteryLists'])
+    ...mapGetters(['lotteryAll', 'currentLottery', 'lotteryLists']),
+    lotteryAllOptions() {
+      if (!Object.keys(this.lotteryLists).length) return
+      let list = []
+      for (let i in this.lotteryLists) {
+        const val = this.lotteryLists[i]
+        const children = val.list.map(val => {
+          return {
+            value: val.id,
+            label: val.name
+          }
+        })
+        list.push({
+          value: val.sign,
+          label: val.name,
+          children: children
+        })
+      }
+      return list
+    }
   },
   methods: {
+    // 请求走势数据
+    getData(lotteryId){
+      
+    },
+    //选择不同彩种
+    handleLotteryIdChange(value){
+      console.log(value)
+    },
+    //选择不同玩法
     handleChangeSelect(selectOption){
       this.$refs.Chart.handleSelectOption(selectOption)
     },
@@ -115,7 +133,7 @@ export default {
   width: 1240px;
   margin: 0 auto;
   .trend-header {
-    margin-top: 15px;
+    margin: 20px 0 5px;
     /deep/ {
       .el-form-item{
         margin-bottom: 15px;

@@ -124,7 +124,10 @@
             ></a>
           </li>
         </ul>
-        <ul v-if="currentMethod.method === 'ETH'" class="k3-dxds-lists k3-sbth-lists k3-dxds-lists-btn">
+        <ul
+          v-if="currentMethod.method === 'ETH'"
+          class="k3-dxds-lists k3-sbth-lists k3-dxds-lists-btn"
+        >
           <li
             class="k3-dxds-list"
             v-for="(_code, xIndex) in currentMethod.buttons"
@@ -144,7 +147,7 @@
           </li>
         </ul>
       </template>
-      
+
       <!-- 合值 大小单双-->
       <ul class="k3-dxds-lists" v-else>
         <li
@@ -208,7 +211,7 @@
             :key="index"
             :label="item.label"
             :value="item.value"
-           ></el-option>
+          ></el-option>
         </el-select>
         <div class="bet-play-mode fw">
           <a
@@ -222,14 +225,25 @@
         </div>
         <div class="bet-choose-total">
           <a href="javascript:;" class="bet-choose-ipt" @click="timeReduce()">-</a>
-          <input type="text" oninput = "value=value.replace(/[^\d]/g,'')" class="ipt ipt-muliple" value="1" v-model="currentOrder.currentTimes" />
+          <input
+            type="text"
+            oninput="value=value.replace(/[^\d]/g,'')"
+            class="ipt ipt-muliple"
+            value="1"
+            v-model="currentOrder.currentTimes"
+          />
           <a href="javascript:;" class="bet-choose-ipt" @click="timeAdd()">+</a>
           <span style="margin-left: 10px;line-height: 34px;color: #a7a7a7;">倍</span>
         </div>
       </div>
       <div class="bet-add-box fr">
         奖金组:
-        <el-slider @change="sliderChange" v-model="lottery.countPrize" :min="prizes.min" :max="prizes.max"></el-slider>
+        <el-slider
+          @change="sliderChange"
+          v-model="lottery.countPrize"
+          :min="prizes.min"
+          :max="prizes.max"
+        ></el-slider>
         {{lottery.countPrize}} / {{prizes.max}}
       </div>
     </div>
@@ -351,7 +365,7 @@ export default {
     //更改倍数
     'currentOrder.currentTimes'() {
       //最大倍数
-      if(this.currentOrder.currentTimes > this.currentOrder.currentMaxTimes){
+      if (this.currentOrder.currentTimes > this.currentOrder.currentMaxTimes) {
         this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
       }
       this.calculate()
@@ -392,12 +406,11 @@ export default {
     for (const k of list) {
       if (k.id === this.currentLottery.en_name) {
         this.prizes.min = parseInt(this.userDetail.min_prize_group)
-        if(k.max_prize_group >= this.userDetail.prize_group){
+        if (k.max_prize_group >= this.userDetail.prize_group) {
           this.prizes.max = parseInt(this.userDetail.prize_group)
         } else {
           this.prizes.max = k.max_prize_group
         }
-        
       }
     }
     // 当前奖金组
@@ -438,189 +451,213 @@ export default {
         })
         return
       }
-      
-        if (
-          this.currentMethod.type === 'multi' ||
-          this.currentMethod.type === 'k3'
-        ) {
-          order = {
-            method_group: this.currentMethodGroup,
-            method_id: this.currentMethod.method,
-            method_name: this.currentMethod.name,
-            codes: this.convertCodes(),
-            count: this.currentOrder.currentCount,
-            times: this.currentOrder.currentTimes,
-            currentMaxTimes: this.currentOrder.currentMaxTimes,
-            cost: this.currentOrder.currentCost.toFixed(3),
-            mode: this.userConfig.mode,
-            prize_group: this.lottery.countPrize,
-            price: this.userConfig.singlePrice
-          }
-          order._codes = this.formatInputCodes(order.codes) 
-          if (oneKey) {
-            this.oneKeyList = order
-          } else {
-            if (+this.currentCountPrizes/+this.currentOrder.currentCost >= 45) {
-              this.$msgbox({
-                title: '投注确认',
-                customClass: 'confirm-bet',
-                message: h('div', null, [
-                  h('p', 
-                    { style: 'text-align: center; font-weight:bold;' }, 
-                    `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`),
-                    h('p', 
-                    { style: 'text-align: center; font-weight:bold;' }, 
-                    `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`),
-                    h('p', 
-                      { style: 'text-align: center; color: #ff7200' }, 
-                      '投注包含单挑注单，奖金上限为2万元') 
-                ]),
 
-                  confirmButtonText: '继续添加',
-                }).then(() => {
-                  let index = this.orderList.findIndex(item => {
-                    return order.codes === item.codes
-                  })
-                  // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
-                  if (index > -1) {
-                    this.$alert(
-                      '您选择的号码在号码篮已存在，将直接进行倍数累加，返点以第一单为准',
-                      '提示',
-                      {
-                        confirmButtonText: '确定',
-                        callback: () => {
-                          this.$set(
-                            this.orderList[index],
-                            'times',
-                            this.orderList[index].times + order.times
-                          )
-                          this.$set(
-                            this.orderList[index],
-                            'cost',
-                            Number(this.orderList[index].cost) + Number(order.cost)
-                          )
-                        }
-                      }
-                    )
-                  } else {
-                    this.orderList.unshift(order)
-                  }
-                  // 初始化翻倍后的数据
-                  let doubleBeforeOrder = []
-                  if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                    doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
-                  }
-                  doubleBeforeOrder.push(order)
-                  this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-                  this.clearBtn()
-                })
-            }else {
-              let index = this.orderList.findIndex(item => {
-                    return order.codes === item.codes
-                  })
-                  // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
-                  if (index > -1) {
-                    this.$alert(
-                      '您选择的号码在号码篮已存在，将直接进行倍数累加，返点以第一单为准',
-                      '提示',
-                      {
-                        confirmButtonText: '确定',
-                        callback: () => {
-                          this.$set(
-                            this.orderList[index],
-                            'times',
-                            this.orderList[index].times + order.times
-                          )
-                          this.$set(
-                            this.orderList[index],
-                            'cost',
-                            Number(this.orderList[index].cost) + Number(order.cost)
-                          )
-                        }
-                      }
-                    )
-                  } else {
-                    this.orderList.unshift(order)
-                  }
-                  // 初始化翻倍后的数据
-                  let doubleBeforeOrder = []
-                  if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                    doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
-                  }
-                  doubleBeforeOrder.push(order)
-                  this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-                  this.clearBtn()
-            }
-          }
+      if (
+        this.currentMethod.type === 'multi' ||
+        this.currentMethod.type === 'k3'
+      ) {
+        order = {
+          method_group: this.currentMethodGroup,
+          method_id: this.currentMethod.method,
+          method_name: this.currentMethod.name,
+          codes: this.convertCodes(),
+          count: this.currentOrder.currentCount,
+          times: this.currentOrder.currentTimes,
+          currentMaxTimes: this.currentOrder.currentMaxTimes,
+          cost: this.currentOrder.currentCost.toFixed(3),
+          mode: this.userConfig.mode,
+          prize_group: this.lottery.countPrize,
+          price: this.userConfig.singlePrice
+        }
+        order._codes = this.formatInputCodes(order.codes)
+        if (oneKey) {
+          this.oneKeyList = order
         } else {
-          const codes =
-            this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10'
-              ? this.inputCodes.split('|')
-              : this.inputCodes.split(',').map(val => val.split('').join('&'))
-          order = {
-            method_group: this.currentMethodGroup,
-            method_id: this.currentMethod.method,
-            method_name: this.currentMethod.name,
-            codes:
-              this.currentMethod.type === 'text'
-                ? codes.join('|')
-                : this.inputCodes,
-            count: this.currentOrder.currentCount,
-            times: this.currentOrder.currentTimes,
-            cost: this.currentOrder.currentCost.toFixed(3),
-            mode: this.userConfig.mode,
-            prize_group: this.lottery.countPrize,
-            price: this.userConfig.singlePrice
-          }
-          if (oneKey) {
-            this.oneKeyList = order
-          } else {
-            if (this.currentLottery.max_profit_bonus/+this.currentOrder.currentCost >= 45) {
-              this.$msgbox({
+          if (+this.currentCountPrizes / +this.currentOrder.currentCost >= 45) {
+            this.$msgbox({
               title: '投注确认',
               customClass: 'confirm-bet',
               message: h('div', null, [
-                h('p', 
-                  { style: 'text-align: center; font-weight:bold;' }, 
-                  `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`),
-                  h('p', 
-                  { style: 'text-align: center; font-weight:bold;' }, 
-                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`),
-                  h('p', 
-                    { style: 'text-align: center; color: #ff7200' }, 
-                    '投注包含单挑注单，奖金上限为2万元') 
+                h(
+                  'p',
+                  { style: 'text-align: center; font-weight:bold;' },
+                  `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`
+                ),
+                h(
+                  'p',
+                  { style: 'text-align: center; font-weight:bold;' },
+                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+                ),
+                h(
+                  'p',
+                  { style: 'text-align: center; color: #ff7200' },
+                  '投注包含单挑注单，奖金上限为2万元'
+                )
               ]),
 
-                confirmButtonText: '继续添加',
-              }).then(() => {
-                this.oneKeyList = {}
-                this.orderList.unshift(order)
-                // 初始化翻倍后的数据
-                let doubleBeforeOrder = []
-                if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                  doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
-                }
-                doubleBeforeOrder.push(order)
-                this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-                this.inputCodesSingle = 0
-                this.inputCodes = ''
+              confirmButtonText: '继续添加'
+            }).then(() => {
+              let index = this.orderList.findIndex(item => {
+                return order.codes === item.codes
               })
-            } else{
-               this.oneKeyList = {}
+              // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
+              if (index > -1) {
+                this.$alert(
+                  '您选择的号码在号码篮已存在，将直接进行倍数累加，返点以第一单为准',
+                  '提示',
+                  {
+                    confirmButtonText: '确定',
+                    callback: () => {
+                      this.$set(
+                        this.orderList[index],
+                        'times',
+                        this.orderList[index].times + order.times
+                      )
+                      this.$set(
+                        this.orderList[index],
+                        'cost',
+                        Number(this.orderList[index].cost) + Number(order.cost)
+                      )
+                    }
+                  }
+                )
+              } else {
                 this.orderList.unshift(order)
-                // 初始化翻倍后的数据
-                let doubleBeforeOrder = []
-                if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                  doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+              }
+              // 初始化翻倍后的数据
+              let doubleBeforeOrder = []
+              if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+              }
+              doubleBeforeOrder.push(order)
+              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+              this.clearBtn()
+            })
+          } else {
+            let index = this.orderList.findIndex(item => {
+              return order.codes === item.codes
+            })
+            // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
+            if (index > -1) {
+              this.$alert(
+                '您选择的号码在号码篮已存在，将直接进行倍数累加，返点以第一单为准',
+                '提示',
+                {
+                  confirmButtonText: '确定',
+                  callback: () => {
+                    this.$set(
+                      this.orderList[index],
+                      'times',
+                      this.orderList[index].times + order.times
+                    )
+                    this.$set(
+                      this.orderList[index],
+                      'cost',
+                      Number(this.orderList[index].cost) + Number(order.cost)
+                    )
+                  }
                 }
-                doubleBeforeOrder.push(order)
-                this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-                this.inputCodesSingle = 0
-                this.inputCodes = ''
+              )
+            } else {
+              this.orderList.unshift(order)
             }
+            // 初始化翻倍后的数据
+            let doubleBeforeOrder = []
+            if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+            }
+            doubleBeforeOrder.push(order)
+            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+            this.clearBtn()
           }
-          
         }
+      } else {
+        const codes = (() => {
+          if (this.currentLottery.series_id === 'lotto') {
+            return this.inputCodes.split('|')
+          } else if(this.currentLottery.series_id === 'pk10'){
+            return this.inputCodes
+              .split('|')
+              .map(val => parseInt(val)-1)
+          } else {
+            return this.inputCodes
+              .split(',')
+              .map(val => val.split('').join('&'))
+          }
+        })()
+        order = {
+          method_group: this.currentMethodGroup,
+          method_id: this.currentMethod.method,
+          method_name: this.currentMethod.name,
+          codes:
+            this.currentMethod.type === 'text'
+              ? codes.join('|')
+              : this.inputCodes,
+          count: this.currentOrder.currentCount,
+          times: this.currentOrder.currentTimes,
+          cost: this.currentOrder.currentCost.toFixed(3),
+          mode: this.userConfig.mode,
+          prize_group: this.lottery.countPrize,
+          price: this.userConfig.singlePrice
+        }
+        if (oneKey) {
+          this.oneKeyList = order
+        } else {
+          if (
+            this.currentLottery.max_profit_bonus /
+              +this.currentOrder.currentCost >=
+            45
+          ) {
+            this.$msgbox({
+              title: '投注确认',
+              customClass: 'confirm-bet',
+              message: h('div', null, [
+                h(
+                  'p',
+                  { style: 'text-align: center; font-weight:bold;' },
+                  `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`
+                ),
+                h(
+                  'p',
+                  { style: 'text-align: center; font-weight:bold;' },
+                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+                ),
+                h(
+                  'p',
+                  { style: 'text-align: center; color: #ff7200' },
+                  '投注包含单挑注单，奖金上限为2万元'
+                )
+              ]),
+
+              confirmButtonText: '继续添加'
+            }).then(() => {
+              this.oneKeyList = {}
+              this.orderList.unshift(order)
+              // 初始化翻倍后的数据
+              let doubleBeforeOrder = []
+              if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+              }
+              doubleBeforeOrder.push(order)
+              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+              this.inputCodesSingle = 0
+              this.inputCodes = ''
+            })
+          } else {
+            this.oneKeyList = {}
+            this.orderList.unshift(order)
+            // 初始化翻倍后的数据
+            let doubleBeforeOrder = []
+            if (!Array.isArray(this.bet.doubleBeforeOrder)) {
+              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+            }
+            doubleBeforeOrder.push(order)
+            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
+            this.inputCodesSingle = 0
+            this.inputCodes = ''
+          }
+        }
+      }
     },
     // 计算注数
     calculate() {
@@ -663,15 +700,20 @@ export default {
           _count = result
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.currentLottery.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes = Math.floor(
+          this.currentLottery.max_profit_bonus /
+            (this.currentCountPrizes -
+              +this.userConfig.mode * this.userConfig.singlePrice)
+        )
         //如何大于最大盈利返回false
-        const maxProfit =  _count &&
-          (+this.currentCountPrizes - 
+        const maxProfit =
+          _count &&
+          (+this.currentCountPrizes -
             _count * +this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes
         if (maxProfit < this.currentLottery.max_profit_bonus) {
           this.currentOrder.maxProfit = maxProfit
-        } else{
+        } else {
           this.$message({
             message: '已超过最高盈利',
             type: 'warning'
@@ -689,20 +731,23 @@ export default {
         this.currentOrder.inputcodes = inputcodes
         this.currentOrder.positionDesc = positionDesc
         return [_count, inputcodes, positionDesc]
-        
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes =  Math.floor(this.currentLottery.max_profit_bonus / (this.currentCountPrizes - +this.userConfig.mode * this.userConfig.singlePrice))
+        this.currentOrder.currentMaxTimes = Math.floor(
+          this.currentLottery.max_profit_bonus /
+            (this.currentCountPrizes -
+              +this.userConfig.mode * this.userConfig.singlePrice)
+        )
         //如何大于最大盈利返回false
-        const maxProfit = (this.currentCountPrizes -
+        const maxProfit =
+          (this.currentCountPrizes -
             this.inputCodesSingle *
               +this.userConfig.mode *
               this.userConfig.singlePrice) *
-            this.currentOrder.currentTimes
+          this.currentOrder.currentTimes
         if (maxProfit < this.currentLottery.max_profit_bonus) {
-
-          this.currentOrder.maxProfit =maxProfit
-        } else{
+          this.currentOrder.maxProfit = maxProfit
+        } else {
           this.$message({
             message: '已超过最高盈利',
             type: 'warning'
@@ -720,12 +765,12 @@ export default {
       }
     },
     //将金组改变
-    sliderChange(){
+    sliderChange() {
       this.calculate()
     },
     // 倍数增加
     timeAdd() {
-      if(this.currentOrder.currentTimes < this.currentOrder.currentMaxTimes){
+      if (this.currentOrder.currentTimes < this.currentOrder.currentMaxTimes) {
         this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
       }
     },
@@ -746,7 +791,6 @@ export default {
       this.$nextTick(() => {
         this.calculate()
       })
-      
     },
     singlePriceChange(val) {
       const userConfig = Object.assign(this.userConfig, { singlePrice: val })
@@ -1041,43 +1085,95 @@ export default {
         this.currentLottery.series_id === 'lotto' ||
         this.currentLottery.series_id === 'pk10'
       ) {
-        switch (this.currentMethod.buttons[b]) {
-          case '全':
-            for (let i = 0; i < rowData.length; i++) {
-              this.chooseNumber[y][i] = true
-            }
-            break
-          case '大':
-            for (let i = 0; i < rowData.length; i++) {
-              if (i >= Math.floor(rowData.length / 2)) {
+        if (
+          this.currentLottery.series_id === 'lotto' &&
+          (this.currentMethod.method === 'LTQ3ZU3DT' ||
+            this.currentMethod.method === 'LTQ2DTZU2' ||
+            this.currentMethod.method === 'LTRXDT2' ||
+            this.currentMethod.method === 'LTRXDT3' ||
+            this.currentMethod.method === 'LTRXDT4' ||
+            this.currentMethod.method === 'LTRXDT5' ||
+            this.currentMethod.method === 'LTRXDT6' ||
+            this.currentMethod.method === 'LTRXDT7' ||
+            this.currentMethod.method === 'LTRXDT8')
+        ) {
+          switch (this.currentMethod.buttons[b]) {
+            case '全':
+              for (let i = 0; i < rowData.length; i++) {
+                this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+              }
+              break
+            case '大':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i >= Math.floor(rowData.length / 2)) {
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                }
+              }
+              break
+            case '小':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i < Math.floor(rowData.length / 2)) {
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                }
+              }
+              break
+            case '偶':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i % 2 === 1) {
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                }
+              }
+              break
+            case '奇':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i % 2 === 0) {
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                }
+              }
+              break
+            case '清':
+              this.chooseButton[y][b] = false
+              break
+          }
+        } else {
+          switch (this.currentMethod.buttons[b]) {
+            case '全':
+              for (let i = 0; i < rowData.length; i++) {
                 this.chooseNumber[y][i] = true
               }
-            }
-            break
-          case '小':
-            for (let i = 0; i < rowData.length; i++) {
-              if (i < Math.floor(rowData.length / 2)) {
-                this.chooseNumber[y][i] = true
+              break
+            case '大':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i >= Math.floor(rowData.length / 2)) {
+                  this.chooseNumber[y][i] = true
+                }
               }
-            }
-            break
-          case '偶':
-            for (let i = 0; i < rowData.length; i++) {
-              if (i % 2 === 1) {
-                this.chooseNumber[y][i] = true
+              break
+            case '小':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i < Math.floor(rowData.length / 2)) {
+                  this.chooseNumber[y][i] = true
+                }
               }
-            }
-            break
-          case '奇':
-            for (let i = 0; i < rowData.length; i++) {
-              if (i % 2 === 0) {
-                this.chooseNumber[y][i] = true
+              break
+            case '偶':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i % 2 === 1) {
+                  this.chooseNumber[y][i] = true
+                }
               }
-            }
-            break
-          case '清':
-            this.chooseButton[y][b] = false
-            break
+              break
+            case '奇':
+              for (let i = 0; i < rowData.length; i++) {
+                if (i % 2 === 0) {
+                  this.chooseNumber[y][i] = true
+                }
+              }
+              break
+            case '清':
+              this.chooseButton[y][b] = false
+              break
+          }
         }
       } else {
         switch (this.currentMethod.buttons[b]) {
@@ -1115,38 +1211,32 @@ export default {
             }
             break
           case '11':
-            for (let i = 0; i < 30; i+=6) {
-              
+            for (let i = 0; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
           case '22':
-            for (let i = 1; i < 30; i+=6) {
-              
+            for (let i = 1; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
           case '33':
-            for (let i = 2; i < 30; i+=6) {
-              
+            for (let i = 2; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
           case '44':
-            for (let i = 3; i < 30; i+=6) {
-              
+            for (let i = 3; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
           case '55':
-            for (let i = 4; i < 30; i+=6) {
-              
+            for (let i = 4; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
           case '66':
-            for (let i = 5; i < 30; i+=6) {
-              
+            for (let i = 5; i < 30; i += 6) {
               this.chooseNumber[y][i] = true
             }
             break
@@ -1260,7 +1350,6 @@ export default {
               } else {
                 temp = number
               }
-
               col.push(temp)
             }
           }
@@ -1284,11 +1373,13 @@ export default {
                 })
                 .join(' ')
             )
-          } else if (this.currentLottery.series_id === 'pk10'){
+          } else if (this.currentLottery.series_id === 'pk10') {
             codes.push(
-              col.map(val => {
-                return parseInt(val)
-              }).join('&')
+              col
+                .map(val => {
+                  return parseInt(val) - 1
+                })
+                .join('&')
             )
           } else {
             codes.push(col.join('&'))
@@ -1346,7 +1437,10 @@ export default {
     },
     // 输入框初始化
     inputAreaInit() {
-      if (this.currentLottery.series_id === 'lotto'  || this.currentLottery.series_id === 'pk10') {
+      if (
+        this.currentLottery.series_id === 'lotto' ||
+        this.currentLottery.series_id === 'pk10'
+      ) {
         this.inputCodesInitText =
           '说明：\n 1、每一注号码之间的间隔符支持|符或者逗号，号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
           ' 范例1：01 02 03|03 04 05|07 08 11 \n' +
@@ -1406,14 +1500,17 @@ export default {
             isRepeat(arr) ||
             arr.length != this.currentMethod.b64 ||
             arr.some(val => Number(val) > 11 || Number(val) <= 0) ||
-            arr.some(val => val.length !== 2) 
+            arr.some(val => val.length !== 2)
           ) {
             tmp.delete(k)
           }
         }
       } else {
         // 直选单式
-        if (this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10') {
+        if (
+          this.currentLottery.series_id === 'lotto' ||
+          this.currentLottery.series_id === 'pk10'
+        ) {
           tmp = new Set(
             (this.inputCodes || '').split(/[,|，;]+/).map(item => {
               return this.Utils.trim(item)
@@ -1426,7 +1523,7 @@ export default {
               isRepeat(arr) ||
               arr.length != this.currentMethod.b64 ||
               arr.some(val => Number(val) > 11 || Number(val) <= 0) ||
-              arr.some(val => val.length !== 2) 
+              arr.some(val => val.length !== 2)
             ) {
               tmp.delete(i)
             }
@@ -1476,7 +1573,10 @@ export default {
         }
       }
 
-      if (this.currentLottery.series_id === 'lotto' || this.currentLottery.series_id === 'pk10') {
+      if (
+        this.currentLottery.series_id === 'lotto' ||
+        this.currentLottery.series_id === 'pk10'
+      ) {
         this.inputCodes = [...tmp].join('|')
         if (!this.inputCodes) {
           this.inputCodesSingle = 0
@@ -1518,19 +1618,26 @@ export default {
         title: '投注确认',
         customClass: 'confirm-bet',
         message: h('div', null, [
-          h('p', 
-            { style: 'text-align: center; font-weight:bold;' }, 
-            `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`),
-            h('p', 
-            { style: 'text-align: center; font-weight:bold;' }, 
-            `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`),
-            +this.currentCountPrizes/+this.currentOrder.currentCost >= 45 ? 
-              h('p', 
-                { style: 'text-align: center; color: #ff7200' }, 
-                '投注包含单挑注单，奖金上限为2万元') : null
+          h(
+            'p',
+            { style: 'text-align: center; font-weight:bold;' },
+            `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`
+          ),
+          h(
+            'p',
+            { style: 'text-align: center; font-weight:bold;' },
+            `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+          ),
+          +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
+            ? h(
+                'p',
+                { style: 'text-align: center; color: #ff7200' },
+                '投注包含单挑注单，奖金上限为2万元'
+              )
+            : null
         ]),
 
-        confirmButtonText: '确认投注',
+        confirmButtonText: '确认投注'
       }).then(() => {
         this.betLoading = true
         const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList))
@@ -1582,16 +1689,17 @@ export default {
 }
 </script>
 <style lang="scss">
-.confirm-bet{
-  /deep/{
-    .el-message-box__btns{
+.confirm-bet {
+  /deep/ {
+    .el-message-box__btns {
       text-align: center;
     }
-    .el-button--primary{
+    .el-button--primary {
       background-color: #ff8800;
       border-color: #ff8800;
     }
-    .el-button--primary:focus, .el-button--primary:hover {
+    .el-button--primary:focus,
+    .el-button--primary:hover {
       background: #ec5105;
       border-color: #ec5105;
     }

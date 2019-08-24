@@ -1087,7 +1087,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { mathNum } from '@/utils'
 import mock from './mock.js'
 
@@ -1103,11 +1102,8 @@ export default {
       showLost: true
     }
   },
-  computed: {
-    ...mapGetters(['currentLottery', 'cu'])
-  },
-
   mounted() {
+    console.log(mock)
     this.handleDrawing()
   },
   methods: {
