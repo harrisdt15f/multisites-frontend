@@ -210,14 +210,13 @@ export default {
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
               
-               if (i === 17 || i === 20) {
+               if (i === 17 || i === 20 || i === 71) {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
               }
   
               else {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
               }
-              
               this.typeGroup = 'auto'
               return this.Utils.toFixed(String(count))
             }
