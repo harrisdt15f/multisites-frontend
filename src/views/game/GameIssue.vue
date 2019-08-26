@@ -61,10 +61,10 @@
             <i class="fa fa-line-chart" aria-hidden="true"></i>
             <br />开奖趋势
           </router-link>
-          <span class="trend info">
+          <router-link class="trend info" tag="span" to="/help-play">
             <i class="fa fa-trophy" aria-hidden="true"></i>
             <br />开奖说明
-          </span>
+          </router-link>
         </section>
       </section>
     </section>

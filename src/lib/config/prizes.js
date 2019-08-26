@@ -627,8 +627,8 @@ export default {
       PKQD5: { total: 10, prize: 18, count: 1 },
       PKQD5_S: { total: 10, prize: 18, count: 1 },
 
-      PKQZX5: { total: 10, prize: 54432.01, count: 1 },
-      PKQZX5_S: { total: 10, prize: 54432.01, count: 1 },
+      PKQZX5: { total: 30240, prize: 54432.01, count: 1 },
+      PKQZX5_S: { total: 30240, prize: 54432.01, count: 1 },
 
       PKDWD: { total: 10, prize: 18, count: 1 }
     }

@@ -2,7 +2,11 @@
   <div class="header-wrapper">
     <div class="header-toptray">
       <div class="container w fw">
-        <div class="toptray-left">您好，欢迎光临 玄武彩票 官方平台！</div>
+        <div class="toptray-left">
+          <ul>
+            <router-link class="toptray-item" tag="li" to="/download">手机客户端</router-link>|<router-link class="toptray-item " tag="li" to="/">仿劫持教程</router-link>
+          </ul>
+        </div>
         <div class="toptray-right">
           <ul>
             <!-- 消息中心 -->
@@ -368,7 +372,8 @@ export default {
   }
   .toptray-right {
     float: right;
-    .toptray-item {
+  }
+  .toptray-item {
       position: relative;
       display: inline-block;
       padding: 0 6px;
@@ -388,7 +393,6 @@ export default {
         font-size: 12px;
       }
     }
-  }
 }
 .header-content {
   height: 75px;

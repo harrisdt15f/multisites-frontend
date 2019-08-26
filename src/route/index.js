@@ -20,6 +20,7 @@ import Account from '../views/account-center'
 import P404 from '../components/public/403-404-500.vue'
 import Download from '../components/public/download.vue'
 import HelpCenter from '../components/public/help-center.vue'
+import HelpPlay from '../components/public/help-play.vue'
 import HelpInfo from '../components/public/help-info.vue'
 
 Vue.use(Router)
@@ -77,6 +78,11 @@ const router = new Router({
           path: '/download',
           name: 'download',
           component: Download,
+        },
+        {
+          path: '/help-play',
+          name: 'help-play',
+          component: HelpPlay,
         },
         {
           path: '/help-center',
