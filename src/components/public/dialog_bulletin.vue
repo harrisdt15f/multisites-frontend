@@ -96,9 +96,9 @@ export default {
         this.Api.getNotice({ type: 2, count: this.count, page: this.page }).then(({ success, data }) => {
           this.loading = false
           if (success) {
-            this.total = data.total
-            this.list = data.data
-            this.currentBullrtin = this.list[0]
+            this.total = data['message'].total
+            this.list = data['message'].data
+            this.currentBullrtin = this.list[0]['message_content']
           }
         })
       }
@@ -111,7 +111,12 @@ export default {
       this.initData()
     },
     handleTabBulletin(id) {
-      this.currentBullrtin = this.list.filter(val => val.id === id)[0]
+      if (this.currentIndex == 0) {
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0]
+      }else{
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0]['message_content']
+      }
+      
     },
     handleSizeChange(val) {
       this.count = val

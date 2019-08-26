@@ -26,6 +26,13 @@ export default {
       response => response
     )
   },
+  //获取彩种上期的奖期
+  lastIssue(sign) {
+    let data = {
+      lottery_sign: sign
+    }
+    return this.post('/lotteries/last-issue', data).then(response =>  response)
+  },
   /*
    * 投注历史
    */
@@ -82,5 +89,17 @@ export default {
    */
   getNoticeList() {
     return this.post(this.url.noticeList).then(response => response)
+  },
+  //游戏-投注撤销
+  cancelBet(data) {
+    return this.post('/lotteries/cancel-bet', data).then(response =>  response)
+  },
+  //游戏-投注撤销
+  stopTrace(data) {
+    return this.post('/lotteries/stop-trace', data).then(response =>  response)
+  },
+  //游戏-走势图
+  getTrend(data) {
+    return this.post('/lotteries/trend', data).then(response =>  response)
   }
 }

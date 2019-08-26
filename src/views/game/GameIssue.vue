@@ -5,108 +5,22 @@
         <section class="game-header-s">
           <h2 class="logo-lottery">{{currentLottery.cn_name}}</h2>
         </section>
-        <section class="game-lotterys">
-          <div class="deadline" v-if="currentIssue">
+        <!-- 本期开奖 -->
+        <section class="game-lotterys" :class="{pk10Deadlie : currentLottery.series_id === 'pk10'}">
+          <div class="deadline">
             <div class="deadline-text">
               第
               <strong>{{notice.issue ? notice.issue : currentIssue.issue_no}}</strong>期
-              <br>投注截止
+              <br />投注截止
             </div>
             <div class="deadline-number">
-              <em class="min-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[0] || 0}}</span>
-                </span>
-              </em>
-              <em class="min-right">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[1] || 0}}</span>
-                </span>
-              </em>
-              <span class="space1">:</span>
-
-              <em class="min-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[3] || 0}}</span>
-                </span>
-              </em>
-              <em class="min-right">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[4] || 0}}</span>
-                </span>
-              </em>
-              <span class="space1">:</span>
-
-              <em class="sec-left">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[6] || 0}}</span>
-                </span>
-              </em>
-              <em class="sec-right min-left-anim">
-                <b class="deadline-number-mask"></b>
-                <span class="deadline-num deadline-num-next-t">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-next-b">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-t">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-                <span class="deadline-num deadline-num-b">
-                  <span class="inner">{{this.time[7] || 0}}</span>
-                </span>
-              </em>
+              <FlipDown
+                :serverDate="serverTime"
+                :endDate="currentIssue.end_time"
+                :type="3"
+                :theme="2"
+                @timeUp="handleTimeup"
+              />
             </div>
           </div>
           <div class="game-lottery">
@@ -116,80 +30,91 @@
                 <strong>
                   <template>{{lastIssue.issue_no}}</template>
                 </strong>期
-                <br>开奖号码
+                <br />开奖号码
               </div>
             </div>
             <div class="lottery-number">
-              <em v-for="(item, index) in lastIssue.open_code" :key="index">{{item || '-'}}</em>
-              <div v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'" class="lottery-animate">
+              <div
+                :class="{'pk10-num' : currentLottery.series_id === 'pk10'}"
+                style="overflow:hidden"
+              >
+                <em
+                  :class="`open_code${index}`"
+                  v-for="(item, index) in lastIssue.open_code"
+                  :key="index"
+                ></em>
+              </div>
+              <div
+                v-if="lastIssue.open_code && lastIssue.open_code[0] === '-'"
+                class="lottery-animate"
+              >
                 <span>开</span>
                 <span>奖</span>
                 <span>中</span>
                 <span>...</span>
               </div>
             </div>
-            <!-- <section class="c333 lottery-text">
-                <span class="red">上期开奖号码</span>
-                第 {{lastIssue.issue_no}} 期
-                <span class="official-win">官方开奖</span>
-              </section>
-              <section class="tc lottery-number">
-                <em class="num" v-for="(item, index) in lastIssue.open_code" :key="index">
-                  <span class="num-bg">{{item}}</span>
-                </em>
-              </section>
-              <section class="lottery-tip">
-                提示：
-                <em class="desc" v-html="descs"></em>
-            </section>-->
           </div>
-          <!-- <section class="deadline">投注截止： {{ time }}</section> -->
         </section>
-        <section class="trend-info">
-          <router-link class="trend" tag="span" to="/user-trends" >
+        <section v-if="currentLottery.series_id !== 'pk10'" class="trend-info">
+          <router-link class="trend" tag="span" to="/user-trends">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
-            <br>开奖趋势
+            <br />开奖趋势
           </router-link>
           <span class="trend info">
             <i class="fa fa-trophy" aria-hidden="true"></i>
-            <br>开奖说明
+            <br />开奖说明
           </span>
         </section>
       </section>
     </section>
+    <!-- 开奖提示 -->
     <section class="msg-notice-bg" v-if="notice.show">
       <section class="msg-notice">
         <strong>当前已进入</strong>
-        <br>
+        <br />
         <strong class="red">{{notice.issue}}</strong>
-        <br>
+        <br />
         <strong>请留意期号变化({{notice.time}})</strong>
       </section>
     </section>
   </section>
 </template>
 <script>
+import FlipDown from '../../components/public/flip-down'
+import { Flip } from 'number-flip'
+
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'game-issue',
+  components: {
+    FlipDown
+  },
   computed: {
-    ...mapGetters(['currentLottery', 'lotteryAll', 'issueInfo', 'bet', 'currentIssue'])
+    ...mapGetters([
+      'lotteryLists',
+      'currentLottery',
+      'lotteryAll',
+      'issueInfo',
+      'bet',
+      'currentIssue'
+    ])
   },
   props: {
     lotterySign: String
   },
   data() {
     return {
-      descs: '',
-      lotteryNotice: [],
-      scrollNotice: [],
+      //系统时间
+      serverTime:'',
+      //上期开奖
       lastIssue: {
         issue_no: '---------',
-        open_code: ['-', '-', '-', '-', '-']
+        open_code: null
       },
+      timerout:null, //获取下期定时
       issueNum: 0,
-      time: '--:--:--',
-      currentIssueTimer: null,
       notice: {
         issue: '',
         time: 3,
@@ -197,153 +122,166 @@ export default {
       }
     }
   },
+  created() {
+    if (this.currentLottery.series_id === 'pk10') {
+      this.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+    } else if (this.currentLottery.series_id === 'k3') {
+      this.lastIssue.open_code = ['-', '-', '-']
+    } else {
+      this.lastIssue.open_code = ['-', '-', '-', '-', '-']
+    }
+  },
   mounted() {
-    this.getIssue()
     this.getLottery()
-    
-    // 滚动公告
-    // this.Animation.notice('meque', 'meque_text', -1)
   },
   watch: {
-     'notice.show' (newVal) {
-        let timer = null
-        if (newVal) {
-          setTimeout(() => {
-            timer = setInterval(() => {
-              this.notice.time -= 1
-              if (this.notice.time === 0) {
-                clearInterval(timer)
-                this.notice.show = false
-                this.notice.time = 3
-              }
-            }, 1000)
-          }, 1)
-        }
+    //倒计时结束弹出
+    'notice.show'(newVal) {
+      let timer = null
+      if (newVal) {
+        setTimeout(() => {
+          timer = setInterval(() => {
+            this.notice.time -= 1
+            if (this.notice.time === 0) {
+              clearInterval(timer)
+              timer = null
+              this.notice.time = 3
+              this.notice.show = false
+            }
+          }, 1000)
+        }, 1)
       }
+    }
   },
   methods: {
-    // 获取提示语
-    lotteryList() {
-      this.Api.getLotteryList().then(res => {
-        if (res.success) {
-          let [
-            data = res.data.data,
-            sign = this.$route.params.lotterySign
-          ] = []
-
-          for (const k of data) {
-            for (const i of k.list) {
-              if (i.id === sign) {
-                this.descs = i.desc
-              }
-            }
+    //开奖号码滚动
+    filpOpenCode() {
+      let $node = undefined
+      if (this.lastIssue.open_code) {
+        this.lastIssue.open_code.forEach((v, i) => {
+          if (v === '-') {
+            v = 0
           }
-        }
-      })
-    },
-    // 获取公告列表  彩种右侧公告 和 彩种滚动公告
-    getNoticeList() {
-      this.Api.getNoticeList().then(res => {
-        if (res.success) {
-          this.lotteryNotice = res.data.list
-          this.scrollNotice = res.data.roll
-        }
-      })
+          $node = document.querySelector(`.open_code${i}`)
+          if ($node) {
+            $node.innerHTML = ''
+            new Flip({node: $node,from: 0,to: v,duration: 2})
+          }
+        })
+      }
+      return
     },
     // 获取开奖结果
     getLottery() {
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
-          this.lastIssue = res.data.lastIssue
-          let [timer = null] = []
-          timer = setInterval(() => {
-            let [
-              currTime = res.data.currentIssue.open_time,
-              nowTime = new Date().getTime() / 1000
-            ] = []
-            if (currTime - parseInt(nowTime) === 0) {
-              clearInterval(timer)
-              // 更新历史开奖记录
-              this.$store.dispatch('issueHistory')
-              this.getLottery()
+      this.Api.getOpenAward(this.currentLottery.en_name)
+        .then(({ success, data }) => {
+          if (success) {
+            this.serverTime = data.serverTime
+            this.$store.commit('currentIssue', data.currentIssue)
+            this.$store.commit('issueInfo', data.issueInfo)
+            if (data.lastIssue.open_code) {
+              const encodeSplitter = this.lotteryLists[this.currentLottery.series_id]['encode_splitter'] || ''
+              data.lastIssue.open_code = data.lastIssue.open_code.split(encodeSplitter)
+              this.lastIssue = data.lastIssue
+            } else {
+              if (this.currentLottery.series_id === 'pk10') {
+                data.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+              } else if (this.currentLottery.series_id === 'k3') {
+                data.lastIssue.open_code = ['-', '-', '-']
+              } else {
+                data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+              }
             }
-          }, 1000)
-        }
-      })
-    },
-    getLastIssue(){
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
-          this.lastIssue = res.data.lastIssue
-        }
-      })
-    },
-    // 当前所在奖期
-    getIssue() {
-      this.Api.getOpenAward(this.currentLottery.en_name).then(res => {
-        if (res.success) {
-          this.$store.commit('currentIssue', res.data.currentIssue)
-          this.$store.commit('issueInfo', res.data.issueInfo)
-          res.data.lastIssue.open_code = res.data.lastIssue.open_code ? res.data.lastIssue.open_code.split('') : ['-', '-', '-', '-', '-']
-          this.lastIssue = res.data.lastIssue
-          this.issueNum = 0
-  
-          if (res.data.issueInfo.length === 0 || !res.data.issueInfo) {
-            return
+            this.lastIssue = data.lastIssue
           }
-          // 开始倒计时
-          this.times()
+        })
+        .then(() => {
+          this.filpOpenCode()
+        })
+    },
+    ////获取彩种上期的奖期
+    getLastIssue(nextIssue){
+      //再次求上期 清除定时
+      clearTimeout(this.timerout)
+      this.Api.lastIssue(this.currentLottery.en_name).then(({ success, data }) => {
+        if (success) {
+          if (nextIssue) {
+            this.serverTime = data.serverTime
+          }
+          const lastIssue = {}
+          if (data.official_code) {
+            if (this.currentLottery.series_id === 'lotto') {
+              lastIssue.open_code = data.official_code.split(' ')
+            } else if (this.currentLottery.series_id === 'pk10') {
+              lastIssue.open_code = data.official_code.split(',')
+            } else {
+              lastIssue.open_code = data.official_code.split('')
+            }
+            this.lastIssue = data
+          } else {
+            if (this.currentLottery.series_id === 'pk10') {
+              lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
+            } else if (this.currentLottery.series_id === 'k3') {
+              lastIssue.open_code = ['-', '-', '-']
+            } else {
+              lastIssue.open_code = ['-', '-', '-', '-', '-']
+            }
+            // 如果上期未开奖 间隔秒再次请求，知道开奖为止
+            this.timerout = setTimeout(() => {
+              this.getLastIssue()
+            }, 10000)
+          }
+          lastIssue.issue_no = data.issue
+          this.lastIssue = lastIssue
         }
+      }).then(() => {
+        this.filpOpenCode()
       })
     },
-    times() {
-      // 当前 奖期倒计时
-      let [time = 0] = []
-      time = this.issueInfo[this.issueNum].end_time - new Date().getTime() / 1000
-      this.notice.issue = this.issueInfo[this.issueNum].issue_no
-      this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-      this.currentIssueTimer = setInterval(() => {
-        // 计算 倒计时
-        time -= 1
-        if (time >= 0) {
-          this.time = this.Utils.formatSeconds(time)
-        } else {
-          clearInterval(this.currentIssueTimer)
-          this.issueNum += 1
-          this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-          this.notice.show = true
-          this.times()
-          this.$store.dispatch('getUserDetail')
-          this.$store.dispatch('betHistory')
-          if (this.issueNum === this.issueInfo.length) {
-            this.getIssue()
-          }
-        }
-      }, 1000)
+    //倒计时完执行
+    handleTimeup() {
+      if (!this.currentIssue.end_time) return
+      this.issueNum += 1
+      if(this.issueInfo.length < this.issueNum+1){
+         // 获取开奖结果
+        this.getLottery()
+      } else{
+        this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
+        this.notice.issue = this.issueInfo[this.issueNum].issue_no
+        this.notice.show = true
+        this.$store.dispatch('getUserDetail')
+        this.$store.dispatch('betHistory')
+        this.getLastIssue({nextIssue: true})
+        setTimeout(() => {
+          this.$store.dispatch('issueHistory')
+        }, 3000)
+      }
     }
   },
-  beforeDestroy () {
-    clearInterval(this.currentIssueTimer)
+  beforeDestroy() {
+    // 组件销毁时清除定时
+    clearTimeout(this.timerout)
   }
 }
 </script>
 <style lang="scss" scoped>
 .game-lotterys {
+  &.pk10Deadlie {
+    width: auto;
+  }
   float: left;
   width: 834px;
   line-height: 1.15;
   display: flex;
   justify-content: space-around;
   .game-lottery {
-    margin-left: 15px;
+    margin-left: 5px;
     flex: 1;
     line-height: 1.15;
+    overflow: hidden;
   }
   .deadline {
+    float: left;
     padding: 0;
     margin: 0;
     margin-left: 30px;
@@ -380,7 +318,7 @@ export default {
     }
     .deadline-number {
       float: left;
-      margin-left: 0;
+      margin-left: 5px;
       margin-top: 28px;
       font-size: 34px;
       .deadline-num {
@@ -488,6 +426,7 @@ export default {
 }
 .lottery-number {
   margin-left: 12px;
+  overflow: hidden;
   margin-top: 8px;
   em {
     float: left;
@@ -504,9 +443,28 @@ export default {
     text-align: center;
     font-family: inherit;
   }
+  .pk10-num {
+    margin: 8px 0 5px 0;
+    em {
+      float: left;
+      width: 35px;
+      height: 35px;
+      background: url("../../assets/images/lottery/pk10_ball.png") no-repeat;
+      background-size: 100%;
+      font-size: 22px;
+      color: black;
+      line-height: 40px;
+      line-height: 36px;
+      text-align: center;
+      border-radius: inherit;
+      box-shadow: none;
+      font-family: inherit;
+    }
+  }
 }
 .lottery-animate {
-  text-indent: 2em;
+  text-indent: 4em;
+  line-height: 1.5;
   font-size: 12px;
   color: #57576b;
 }

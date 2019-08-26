@@ -6,6 +6,7 @@
         <el-radio-button label="funds">修改资金密码</el-radio-button>
       </el-radio-group>
     </div>
+    <!-- 账户密码修改 -->
     <div v-show="radio1 == 'account'">
       <el-form ref="form" :rules="rules" :model="form" label-width="90px">
         <el-form-item label="旧密码：" prop="oldPass">
@@ -33,6 +34,7 @@
         </span>
       </div>
     </div>
+    <!-- 资金密码修改 -->
     <div v-show="radio1 == 'funds'">
       <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="90px">
         <el-form-item label="旧密码：" prop="oldPass">
@@ -54,6 +56,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import { removeToken } from '@/utils/auth'
+
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -121,6 +126,7 @@ export default {
   props: ['existFundPassword'],
   computed: {},
   methods: {
+    ...mapActions(['logOut']),
     handleSetFundPass() {
       this.$emit('showSetFund')
     },
@@ -134,8 +140,16 @@ export default {
           }
           this.Api.resetUserPassword(sendData).then(({ success }) => {
             if (success) {
-              this.$alert('账户密码修改成功！', '提示', {
+              this.$alert('账户密码修改成功，请重新登录！', '提示', {
                 confirmButtonText: '确定'
+              }).then(() => {
+                this.$store.commit('SET_TOKEN', '')
+                this.$store.commit('SET_USER_DETAIL', {})
+                removeToken()
+                window.sessionStorage.clear()
+                this.$nextTick(() => {
+                  this.$router.push('/login')
+                })
               })
             }
             this.form = {}

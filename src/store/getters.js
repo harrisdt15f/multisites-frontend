@@ -2,16 +2,22 @@ const getters = {
   // 登录
   token: state => state.user.token,
   userDetail: state => state.user.userDetail,
+  isLogin: state => Boolean(state.user.token),
   // 网站
   banner: state => state.site.banner,
+  ico: state => state.site.ico,
   qrSrc: state => state.site.qrSrc,
   logoSrc: state => state.site.logoSrc,
   notice: state => state.site.notice,
-  popularLotteries2: state => state.site.popularLotteries2,
   popularLotteries1: state => state.site.popularLotteries1,
   showBanner: state => state.site.showBanner,
   showSideFloat: state => state.site.showSideFloat,
+  showInitNotice: state => state.site.showInitNotice,
   ranking: state => state.site.ranking,
+  lotteryNoticeList: state => state.site.lotteryNoticeList,
+  popularChess: state => state.site.popularChess,
+  popularEgame: state => state.site.popularEgame,
+  helpList: state => state.site.helpList,
   // 彩票
   currentLottery: state => state.lottery.currentLottery,
   lotteryAll: state => state.lottery.lotteryAll,

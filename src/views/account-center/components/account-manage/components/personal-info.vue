@@ -70,7 +70,7 @@ export default {
         zip_code: '',
         address: ''
       },
-      isDisabled: true,
+      isDisabled: true, //是否修改
       isBtn: 'edit',
       rules: {
         email: [
@@ -97,14 +97,17 @@ export default {
         }
       })
     },
+    // 编辑
     handleEdit() {
       this.isBtn = 'submit'
       this.isDisabled = false
     },
+    // 提交修改
     handleSubmit() {
       this.Api.resetSpecificInfos(this.form).then(({ data, success }) => {
         if (success) {
           this.isBtn = 'edit'
+          this.isDisabled = true
           this.initData()
         }
       })
@@ -136,6 +139,7 @@ export default {
 .personal-info {
   /deep/ {
     .el-input.is-disabled .el-input__inner {
+      padding: 5px 3px;
       background-color: #fff;
       border-color: #fff;
       color: #606266;
@@ -144,6 +148,12 @@ export default {
       background-color: #fff;
       border-color: #fff;
       color: #606266;
+    }
+    .el-form-item__label{
+      padding:0;
+    }
+    .el-textarea__inner{
+      padding: 5px 3px;
     }
   }
 }

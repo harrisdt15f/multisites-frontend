@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-tabs v-model="activeName" type="border-card" @tab-click="showMessageCenter">
+    <el-tabs v-model="activeName" type="border-card">
       <el-tab-pane label="账户管理" :lazy="true" name="account-manage">
         <account-manage></account-manage>
       </el-tab-pane>
@@ -13,14 +13,10 @@
       <el-tab-pane label="账变记录" :lazy="true" name="betchage-record">
         <fund-record></fund-record>
       </el-tab-pane>
-      <el-tab-pane label="消息中心" :lazy="true" name="message-center"></el-tab-pane>
+      <!-- <el-tab-pane label="充值记录" :lazy="true" name="recharge-list">
+        <recharge-list></recharge-list>
+      </el-tab-pane> -->
     </el-tabs>
-    <dialog-bulletin
-      v-if="showBulletin"
-      :showBulletin="showBulletin"
-      index="1"
-      @close="handleBulletinClose"
-    ></dialog-bulletin>
   </div>
 </template>
 
@@ -28,8 +24,8 @@
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
+// import rechargeList from './components/recharge-list'
 import accountManage from './components/account-manage/index'
-import dialogBulletin from '../../components/public/dialog_bulletin'
 
 export default {
   name: 'Account',
@@ -38,11 +34,12 @@ export default {
     fundManage,
     fundRecord,
     accountManage,
-    dialogBulletin
+    // rechargeList
   },
   data() {
     return {
       activeName: '',
+      copyActiveName: '',
       showBulletin: false
     }
   },
@@ -56,26 +53,14 @@ export default {
     this.activeName = this.type ? this.type : 'account-manage'
   },
   methods: {
-    showMessageCenter(val) {
-      if (val.name === 'message-center') {
-        this.showBulletin = true
-        this.$nextTick(() => {
-          this.activeName = 'account-manage'
-        })
-        return
-      }
-    },
-    handleBulletinClose() {
-      this.showBulletin = false
-    }
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .account {
   width: 1200px;
-  margin: 30px auto 55px;
+  margin: 15px auto 55px;
   background: #fff;
   /deep/ {
     .el-tabs__active-bar {
@@ -123,7 +108,7 @@ export default {
   box-sizing: border-box;
   cursor: pointer;
   width: 80px;
-  height: 36px;
+  height: 28px;
   box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15),
     inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
   border-style: solid;
@@ -131,7 +116,7 @@ export default {
   border-image-slice: 1;
   border-radius: 3px;
   text-align: center;
-  line-height: 34px;
+  line-height: 28px;
   color: white;
   margin-right: 8px;
   input {

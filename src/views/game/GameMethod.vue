@@ -1,7 +1,8 @@
 <template>
-  <section class="fw w100">
+  <section class="w100">
     <section
       v-if="currentLottery.en_name !== 'bjxy28' && chengeYlcPlays.name === 'official'" class="w">
+      <!-- 选号区 -->
       <section class="main-center">
         <div class="bet-type-crow">
           <section class="bet-type-crows">
@@ -25,7 +26,9 @@
             <div class="bet-play" @click="chengePlay()">娱乐城</div>
           </section>
         </div>
-        <div class="main-center-wrap clearfix">
+        <div class="main-center-wrap">
+          <div v-if="currentLottery.series_id !== 'lhc'" class="right-collapse" @click="handleCollapseRight">
+            {{this.collapseRight ? '收起开奖记录' : '展开开奖记录'}}</div>
           <div class="main-left">
             <div class="bet-type-group" v-if="selectedGroup" :style="{minHeight: typeGroup}">
               <div class="bet-type-group-warp">
@@ -36,7 +39,7 @@
                   
                   <template v-else>
                     单注奖金:
-                    <el-select style="width:150px;" v-model="prizeSelect" :placeholder="prizeSelect">
+                    <el-select style="width:165px;" v-model="prizeSelect" :placeholder="prizeSelect">
                       <el-option
                               v-for="(item, index) in countPrizes()"
                               :key="index"
@@ -63,44 +66,59 @@
                       >{{method.method_name}}</li>
                     </ul>
                   </template>
+                  <template v-if="row.methods[0].method_id === 'LTBDW'">
+                    <div class="group-name">{{row.name}}</div>
+                    <ul>
+                      <li
+                        class="bet-type-group-list-li"
+                        v-for="(method, mkey) in row.methods"
+                        :key="mkey"
+                        v-bind:class="{'on':method.method_id === selectedMethodId}"
+                        @click="selectMethod(method.method_id)"
+                      >前三不定位</li>
+                    </ul>
+                  </template>
                 </div>
               </div>
             </div>
-            <game-select></game-select>
+            <game-select @countPrizes="countPrizes" :countPrizes="countPrizes()"></game-select>
           </div>
-          <section class="main-right">
-            <section class="list-historys">
-              <section class="record"></section>
-              <table width="100%" class="bet-table-trend">
-                <thead>
-                  <tr>
-                    <th class="th">奖期</th>
-                    <th class="th">开奖</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    :class="{first: index === 0}"
-                    v-for="(item, index) in bet.issueHistory"
-                    :key="index">
-                    <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
-                    <td class="td">
-                      <span class="balls">
-                        <i
-                          class="i curr"
-                          v-for="(num, numIndex) in item.code.split('')"
-                          :key="numIndex">{{num}}</i>
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <router-link class="cur more" tag="section" to="/user-trends" >
-                查看完整走势
-              </router-link>
+          <transition name="el-zoom-in-center">
+            <section class="main-right" v-show="collapseRight">
+              <section class="list-historys">
+                <section class="record"></section>
+                <table v-if="bet.issueHistory" width="100%" class="bet-table-trend">
+                  <thead>
+                    <tr>
+                      <th class="th" style="width:124px">奖期</th>
+                      <th class="th">开奖</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      :class="{first: index === 0}"
+                      v-for="(item, index) in bet.issueHistory"
+                      :key="index">
+                      <td class="td"><span class="number">{{item.issue_no}} 期</span></td>
+                      <td class="td">
+                        <span class="balls">
+                            <i
+                            class="i curr"
+                            v-for="(num, numIndex) in item.code.split(lotteryLists[currentLottery.series_id]['encode_splitter'] || '')"
+                            :key="numIndex">{{num}}</i>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <router-link class="cur more" tag="section" to="/user-trends" >
+                  查看完整走势
+                </router-link>
+              </section>
             </section>
-          </section>
+          </transition>
         </div>
+        <!-- 投注区 -->
         <game-order :countPrizes="countPrizes()"></game-order>
       </section>
     </section>
@@ -131,30 +149,34 @@ export default {
       'bet',
       'chengeYlcPlays',
       'userDetail',
+      'lotteryLists',
       'currentMethodGroup',
       'userConfig'
-    ])
+    ]),
+    //获取每个彩种id
+    gameId() {
+      const gameIdArr = []
+      for (const key in this.lotteryLists) {
+        const listArr = []
+        if (this.lotteryLists.hasOwnProperty(key)) {
+          const element = this.lotteryLists[key]
+          element.list.forEach(val => {
+            listArr.push(val.number_id)
+          })
+        }
+        gameIdArr.push(listArr)
+      }
+      return gameIdArr
+    }
   },
-
   data() {
     return {
-      loading: false,
       selectedGroup: '',
       selectedGroupIndex: '',
       selectedMethodId: '',
+      collapseRight: true,
       typeGroup: '',
-      // 彩种id
-      gameId: [
-        [1, 2, 3, 4, 5], //ssc
-        [6, 7, 8, 9, 10, 11], //11x5
-        [12, 13, 14, 15, 16], //k3
-        [21, 22, 23], //pk10
-        [17, 18], //f3d
-        [19], //ssl
-        [20], //pl35
-        [24] //lhc
-      ],
-      prizeSelect: '一等奖'
+      prizeSelect: '一等奖' //单注奖金
     }
   },
   watch: {
@@ -170,40 +192,31 @@ export default {
     }
   },
   created() {
+    //初始化选择玩法
     this.selectGroup(this.defaultGroup)
   },
   methods: {
-    
     //奖金计算
     countPrizes () {
       let [
-        prize = prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
+        prize = prizes[this.currentLottery.series_id] && prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
         arr = []
       ] = []
-  
-  
       for (const k of this.gameId) {
-  
         for (const i of k) {
-    
+          if(!prize) return
           if (this.currentLottery.id === i) {
-      
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
               
-              // if (i === 1) {
-              //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-              // }else
-  
-               if (i === 17 || i === 20) {
+               if (i === 17 || i === 20 || i === 71) {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
               }
   
               else {
                 count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
               }
-              
               this.typeGroup = 'auto'
               return this.Utils.toFixed(String(count))
             }
@@ -213,10 +226,6 @@ export default {
               for (const j of Object.keys(prize.count)) {
                 let json = {}
                 
-                
-                // if (i === 1) {
-                //   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 20) / 1980 + .00000001
-                // }else
                 //
                  if (i === 17 || i === 20) {
                   count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
@@ -227,7 +236,15 @@ export default {
                 }
   
                 json.value = j
-                json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
+                if (this.currentMethodGroup === 'LH') {
+                  if (+j === 0) {
+                    json.label = '和 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  } else if (+j === 1) {
+                    json.label = '龙虎 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  }
+                } else {
+                  json.label = (+j + 1) + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
+                }
                 json.prize = count
                 arr.push(json)
               }
@@ -253,7 +270,7 @@ export default {
       this.$store.commit('chengeYlcPlays', json)
     },
     // 选中玩法组
-    selectGroup(groupSign, _index = 0, group) {
+    selectGroup(groupSign, _index = 0) {
       this.selectedGroup = groupSign
       this.selectedGroupIndex = _index
       this.selectedMethodId = ''
@@ -261,6 +278,7 @@ export default {
       this.selectMethod(
         this.allMethods[_index]['rows'][0]['methods'][0]['method_id']
       )
+      
       this.$store.commit('currentMethodGroup', this.allMethods[_index]['rows'][0]['methods'][0]['method_group'])
       
       this.$store.commit('methodsTab')
@@ -276,6 +294,10 @@ export default {
       this.$store.commit('currentMethod', play)
       this.selectedMethodId = methodId
       this.$store.commit('methodsTab')
+    },
+    //展开历史
+    handleCollapseRight(){
+      this.collapseRight = !this.collapseRight
     }
   },
   components: {
@@ -303,6 +325,22 @@ export default {
 }
 .bet-type-group-list:first-child{
   padding-top:20px;
+}
+.main-center-wrap{
+  position: relative;
+  .right-collapse{
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1.5;
+    top: 0;
+    right: -23px;
+    position: absolute;
+    width: 23px;
+    text-align: center;
+    padding: 8px 0;
+    background: #ff8800;
+    color: #fff;
+  }
 }
 
 </style>

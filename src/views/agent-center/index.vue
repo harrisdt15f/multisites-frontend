@@ -1,14 +1,23 @@
 <template>
   <div class="agent-center">
     <el-tabs v-model="activeName" type="border-card">
-      <el-tab-pane label="团队盈亏" name="user-profits">
+      <el-tab-pane label="团队盈亏" :lazy="true" name="user-profits">
         <user-profits></user-profits>
       </el-tab-pane>
-      <el-tab-pane label="团队管理" name="user-manage">
+      <el-tab-pane label="日工资报表" :lazy="true" name="user-daysalary">
+        <user-daysalary></user-daysalary>
+      </el-tab-pane>
+      <el-tab-pane label="代理分红报表" :lazy="true" name="user-bonus">
+        <user-bonus></user-bonus>
+      </el-tab-pane>
+      <el-tab-pane label="团队管理" :lazy="true" name="user-manage">
         <user-manage></user-manage>
       </el-tab-pane>
-      <el-tab-pane label="下级开户" name="third">
+      <el-tab-pane label="下级开户" :lazy="true" name="accurate-create">
         <accurate-create></accurate-create>
+      </el-tab-pane>
+      <el-tab-pane label="代理消息" :lazy="true" name="agent-message">
+        <agent-message></agent-message>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -18,6 +27,9 @@
 import userProfits from './components/user-profits'
 import userManage from './components/user-manage'
 import accurateCreate from './components/accurate-create'
+import userDaysalary from './components/user-daysalary'
+import userBonus from './components/user-bonus'
+import agentMessage from './components/agent-message'
 
 export default {
   name: 'agentCenter',
@@ -25,13 +37,15 @@ export default {
     userProfits,
     userManage,
     accurateCreate,
+    userDaysalary,
+    userBonus,
+    agentMessage
   },
   data() {
     return {
       activeName: 'user-profits'
     }
-  },
-  methods: {}
+  }
 }
 </script>
 

@@ -4,7 +4,7 @@
     <game-issue></game-issue>
 
     <game-method></game-method>
-
+    <!-- 娱乐城 -->
     <GameYlc v-if="currentLottery.en_name === 'bjxy28'"></GameYlc>
   </section>
 </template>
@@ -30,7 +30,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentLottery', 'lotteryAll', 'bet']),
+    ...mapGetters(['currentLottery', 'lotteryAll', 'bet', 'isLogin']),
   },
   watch: {
     'lotteryAll': {
@@ -46,6 +46,7 @@ export default {
     this.chengePlay()
   },
   methods: {
+    //切换娱乐城
     chengePlay() {
       let json = {
         name: 'official',
@@ -53,6 +54,7 @@ export default {
       }
       this.$store.commit('chengeYlcPlays', json)
     },
+    //获取所有彩种
     getLotteryInfo(lotteryAll) {
       let lottery = lotteryAll[this.lotterySign]
       lottery.methodConfig2 = [
@@ -160,6 +162,7 @@ export default {
       this.$store.commit('defaultGroup', lottery.defaultGroup)
       this.$store.commit('defaultMethod', lottery.defaultMethod)
       this.$store.commit('allMethods', lottery.methodConfig)
+      this.$store.commit('issueHistory', [])
       this.$store.dispatch('issueHistory')
       this.mainShow = true
     }
@@ -168,5 +171,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../assets/css/game.css";
+@import "../../assets/css/game.scss";
 </style>

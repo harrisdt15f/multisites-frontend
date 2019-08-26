@@ -16,7 +16,7 @@
         <li
           class="lotter-list-item"
           v-for="(item, index) in popularLotteries1"
-          :style="`background: url(${item.pic_path}) no-repeat center center`"
+          :style="`background: url(${item.icon_path}) no-repeat center center`"
           :key="index">
           <p class="lotter-list-item-text">
             <span class="gold">20</span>分钟/期
@@ -80,9 +80,9 @@
                     <div class="title">
                       <div class="fl">
                         {{item.name}} {{item.method_name}}
-                        <span style="color:#fb9f46;">20190308</span>
+                        <span style="color:#fb9f46;">{{item.issue}}</span>
                       </div>
-                      <div class="fr">12.1245截止</div>
+                      <div class="fr">{{timeArr[index]}}截止</div>
                     </div>
                     <div class="num">
                       <ul class="num-list">
@@ -106,7 +106,7 @@
                       </div>
                     </div>
                     <div class="btn-group">
-                      <a @click="handleRandomNum(item.code)" href="javascript:;" class="btn-item">
+                      <a @click="handleRandomNum(item)" href="javascript:;" class="btn-item">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                         换一注
                       </a>
@@ -160,7 +160,11 @@ export default {
       debounce: null,
       lotteriesList: [],
       currentBulletinIndex: null,
-      showBulletin: false
+      showBulletin: false,
+      timer: [],
+      timeArr: ['-- : -- : --', '-- : -- : --'],
+      timerContainer: [],
+
     }
   },
   components: {
@@ -178,35 +182,8 @@ export default {
       'ranking'
     ])
   },
-  watch: {
-    popularLotteries2: {
-      handler(val) {
-        const list = Object.keys(val).map(v => {
-          return {
-            name: val[v].lottery_name,
-            id: val[v].lotteries_id,
-            method_name: val[v].method_name,
-            method_id: val[v].method_id,
-            multiple: 1,
-            code: [
-              { num: 0, sign: true },
-              { num: 1, sign: false },
-              { num: 2, sign: true },
-              { num: 3, sign: true },
-              { num: 4, sign: true },
-              { num: 5, sign: false },
-              { num: 6, sign: false },
-              { num: 7, sign: false },
-              { num: 8, sign: true },
-              { num: 9, sign: false }
-            ],
-            totalCost: 2
-          }
-        })
-        this.lotteriesList = list
-      },
-      immediate: true
-    }
+  created () {
+    this.getIndexLottery()
   },
   mounted() {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
@@ -214,6 +191,103 @@ export default {
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
+    getIndexLottery(){
+       this.Api.getPopularLotteries2().then(({success, data}) => {
+        if (success && data.length) {
+          data = data.slice(0,3)
+          const list = Object.keys(data).map((v, i) => {
+            if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
+            return {
+              name: data[v].lottery_name,
+              id: data[v].lotteries_id,
+              issue: data[v].issue,
+              method_name: data[v].method_name,
+              end_time: data[v].end_time,
+              method_id: data[v].method_id,
+              method_group: data[v].method_group,
+              count: 5,
+              multiple: 1,
+              code: data[v].code && data[v].code.length ? data[v].code : [
+                { num: 0, sign: true },
+                { num: 1, sign: false },
+                { num: 2, sign: true },
+                { num: 3, sign: true },
+                { num: 4, sign: true },
+                { num: 5, sign: false },
+                { num: 6, sign: false },
+                { num: 7, sign: false },
+                { num: 8, sign: true },
+                { num: 9, sign: false }
+              ],
+              cost: 10.00,
+              totalCost: 10.00
+            }
+          })
+          this.lotteriesList = list
+          this.times()
+        }
+      })
+    },
+    // 倒计时
+    times() {
+      if(this.timer.length){
+        this.timer.forEach((v, i) => {
+          this.timerContainer[i] = setInterval(() => {
+            // 计算 倒计时
+            v -= 1
+            if (v >= 0) {
+              this.$set(this.timeArr, i, this.Utils.formatSeconds(v))
+            } else {
+              this.timerContainer.forEach(setIn => {
+                clearInterval(setIn)
+              })
+              this.$nextTick(() => {
+                this.getIndexLottery()
+              })
+            }
+          }, 1000)
+        })
+      }
+    },
+    // 一键投注
+    immediateBet(item) {
+      const code = [],
+            bet = []
+      item.code.forEach(v => {
+        v.sign ? code.push(v.num) : null
+      })
+      bet.push({
+        mode: 1,
+        price: 2,
+        count: item.count,
+        prize_group: this.userDetail.prize_group,
+        method_group: item.method_group,
+        method_name: item.name,
+        times: item.multiple,
+        codes: code.join('&'),
+        method_id: item.method_id,
+        cost: item.totalCost.toFixed(3)
+      })
+      this.betBtnLoading = true
+      this.Api.bet(
+        item.id,
+        {[item.issue]:1},
+        bet,
+        item.totalCost.toFixed(3),
+      ).then(res => {
+        this.betBtnLoading = false
+        if (res.success) {
+          this.$alert(
+            '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+            '提示',
+            {
+              confirmButtonText: '确定'
+            }
+          )
+        }
+      })
+    },
+
     goToBet(en_name) {
       this.$router.push(`/bet/${en_name}`)
     },
@@ -234,24 +308,25 @@ export default {
     handleCilckNum(items) {
       this.$set(items, 'sign', !items.sign)
     },
-    handleRandomNum(code) { 
-      const num = []
-      while (num.length < 5) {
+    // 换一注
+    handleRandomNum(item) {
+      const num = [],
+            randomNum = Math.ceil(Math.random() * 7)
+      while (num.length < randomNum) {
         const ranNum = Math.floor(Math.random() * 10)
         !num.includes(ranNum) ? num.push(ranNum) : null
       }
-      code.forEach(v => {
+      item.count = randomNum
+      item.cost = 2 * item.count
+      item.totalCost = item.multiple * item.cost
+      item.code.forEach(v => {
         this.$set(v, 'sign', num.includes(v.num))
       })
+      
     },
+
     handleChangeMultiple(item) {
       this.$set(item, 'totalCost', item.multiple * 2)
-    },
-    immediateBet(item) {
-      const code = []
-      item.code.forEach(v => {
-        v.sign ? code.push(v.num) : null
-      })
     },
     goToBannerUrl(url){
       this.$router.push(url)

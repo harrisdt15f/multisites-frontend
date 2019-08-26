@@ -22,20 +22,18 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getBanner', 'getRanking', 'getActivity', 'getLogo', 'getQrcode', 'getNotice', 'getPopularLotteries1', 'getPopularLotteries2']),
+    ...mapActions(['getBanner', 'getBasicContent','getPopularGame', 'getRanking', 'getActivity', 'getNotice']),
     initData() {
       this.$store.commit('SET_SHOW_FLOAT', true)
       this.Api.showHomepageModel().then(({success, data}) => {
         if (success && data) {
-          data['logo'] ? this.getLogo() : this.$store.commit('SET_SHOW_BANNER', false)
-          data['banner'] ? this.getBanner() : null
-          data['qr.code'] ? this.getQrcode() : null
+          data['banner'] ? this.getBanner() : this.$store.commit('SET_SHOW_BANNER', false)
           data['customer.service'] ? '' : null
           data['winning.ranking'] ? this.getRanking() : null
-          data['notice'] ? this.getNotice() : null
-          data['popularLotteries.one'] ? this.getPopularLotteries1() : null
-          data['popularLotteries.two'] ? this.getPopularLotteries2() : null
+          data['notice'] ? this.getNotice({type:1}) : null
           data['activity'] ? this.getActivity() : null
+          this.getBasicContent()
+          this.getPopularGame()
         }
       })
     }

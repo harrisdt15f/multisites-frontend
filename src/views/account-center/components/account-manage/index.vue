@@ -11,6 +11,7 @@
         <bank-manage v-if="activeName === 'bank-manage'"></bank-manage>
       </el-tab-pane>
     </el-tabs>
+    <!-- 创建资金密码弹窗 -->
     <el-dialog class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFund">
       <el-form
         :model="ruleForm"
@@ -36,12 +37,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import pwdManage from './components/pwd-manage'
 import bankManage from './components/bank-manage'
 import personalInfo from './components/personal-info'
 
 export default {
   data() {
+    //密码验证
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
@@ -80,17 +84,17 @@ export default {
     bankManage,
     personalInfo
   },
+  computed: {
+    ...mapGetters(['userDetail'])
+  },
   created() {
     this.initData()
   },
   methods: {
     initData() {
-      this.Api.existFundPassword().then(({ data, success }) => {
-        if (success) {
-          this.existFundPassword = data
-        }
-      })
+      this.existFundPassword = this.userDetail.fund_password
     },
+    // 查看是否含有资金密码
     handleshowFundPwd() {
       this.ruleForm = {
         password: '',
@@ -104,6 +108,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
+    //创建资金密码
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {

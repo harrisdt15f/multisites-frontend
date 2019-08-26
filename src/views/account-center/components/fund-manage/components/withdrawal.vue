@@ -27,7 +27,7 @@
           <el-input v-model="form.name" style="width:200px"></el-input>
         </el-form-item>
         <div class="submit-btn">
-          <button type="submit" class="form-button">提交充值订单</button>
+          <button type="submit" class="form-button">提交提款订单</button>
         </div>
       </el-form>
     </div>

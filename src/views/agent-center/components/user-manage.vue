@@ -1,5 +1,6 @@
 <template>
   <div class="user-profits">
+    <!-- 搜索 -->
     <div class="filter-container">
       <div class="filter-label">
         用户名:
@@ -195,6 +196,7 @@ export default {
   data() {
     return {
       time: '',
+      username: '',
       tableData: [
         {
           date: '2016-05-02',

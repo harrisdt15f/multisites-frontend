@@ -2,6 +2,7 @@
   <section class="main-bottom">
     <section class="main-bottom-con" v-if="currentMethod.type !== 'lhc'">
       <section class="bet-count-confirm">
+        <!-- 购彩蓝 -->
         <section class="play-footer clearfix fw">
           <section class="panel-section">
             <div class="pannel-title">
@@ -9,7 +10,8 @@
                 href="javascript:;"
                 class="btn close"
                 id="project-empty"
-                @click="clearOrderList()">清空</a>
+                @click="clearOrderList()"
+              >清空</a>
               购彩篮
             </div>
             <div class="panel-select-title clearfix">
@@ -24,7 +26,26 @@
               <ul class="order-container">
                 <li v-for="(order, _orderIndex) in orderList" :key="_orderIndex">
                   <span class="name">{{order.method_name}}</span>
-                  <span class="number" :title="order.codes">{{order.codes}}</span>
+                  <span class="number" :title="order.codes">
+                    <template
+                      v-if="order.method_group === 'DXDS'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}}</template>
+                    <template
+                      v-else-if="order.method_group === 'LH'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}}</template>
+                    <template
+                      v-else-if="order.method_id === 'QTS3' || order.method_id === 'ZTS3' || order.method_id === 'HTS3'"
+                    >{{order.codes.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}}</template>
+                    <template
+                      v-else-if="order.method_id === 'LTDDS'">
+                      {{
+                        order.codes.replace(/ /g,',').replace(/(0)/g,'零单五双').replace(/(1)/g,'一单四双').replace(/(2)/g,'二单三双').replace(/(3)/g,'三单二双').replace(/(4)/g,'四单一双').replace(/(5)/g,'五单零双')
+                      }}
+                    </template>
+                    <template v-else>
+                      {{order.codes.replace(/&/g,',')}}
+                    </template>
+                  </span>
                   <span class="bet">{{order.count}}</span>
                   <span class="multiple">{{order.times}}</span>
                   <span class="price">{{Utils.toFixed(String(order.cost))}}</span>
@@ -38,7 +59,7 @@
 
                 <li class="no-data" v-if="orderList.length < 1">
                   暂无订单！！！
-                  <br>无限大奖等着您，赶紧购彩去~
+                  <br />无限大奖等着您，赶紧购彩去~
                 </li>
               </ul>
             </div>
@@ -65,22 +86,27 @@
                     最低收益率:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.rateLowNum"
                       :placeholder="chase.rateLowNum"
                       class="tab-input"
-                    >%
+                    />%
                   </label>
                   <label class="param">
                     追号期数
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.rateIssue"
                       :placeholder="chase.rateIssue"
                       class="tab-input"
-                    >
+                    />
                   </label>
                   <el-button size="small" @click="chaseRateSubmit()">生成追号计划</el-button>
                 </section>
+                <div class="chase-stop">
+                  <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
+                </div>
               </li>
               <li class="tab-con" v-if="chaseTab === 1">
                 <section class="tab-inputs">
@@ -88,76 +114,78 @@
                     起始倍数:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
+                      @input="onSamNumChange(chase.sameNum)" 
                       v-model="chase.sameNum"
-                      :placeholder="chase.sameNum"
                       class="tab-input"
-                    >倍
+                    />倍
                   </label>
                   <label class="param">
                     追号期数
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.sameIssue"
                       :placeholder="chase.sameIssue"
                       class="tab-input"
-                    >
+                    />
                   </label>
                   <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
                 </section>
+                <div class="chase-stop">
+                  <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
+                </div>
               </li>
               <li class="tab-con" v-if="chaseTab === 2">
                 <section class="tab-inputs">
-                  <!--               <label class="param">
-                    起始倍数:
-                    <input
-                      type="text"
-                      v-model="chase.doubleNum"
-                      disabled
-                      :placeholder="chase.doubleNum"
-                      class="tab-input"
-                    >
-                  </label>-->
                   <label class="param">
                     每隔
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleG"
                       :placeholder="chase.doubleG"
                       class="tab-input"
-                    >
+                    />期
                   </label>
                   <label class="param">
-                    期 倍 x
+                    倍 x
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleB"
                       :placeholder="chase.doubleB"
                       class="tab-input"
-                    >
+                    />
                   </label>
                   <label class="param">
                     期数:
                     <input
                       type="text"
+                      oninput = "value=value.replace(/[^\d]/g,'')" 
                       v-model="chase.doubleIssue"
                       :placeholder="chase.doubleIssue"
                       class="tab-input"
-                    >
+                    />
                   </label>
                   <el-button size="small" @click="chaseDoubleSubmit()">生成追号计划</el-button>
                 </section>
+                <div class="chase-stop">
+                  <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
+                </div>
               </li>
             </ul>
           </section>
         </section>
       </section>
+      <!-- 利润率追号 -->
       <section class="chase-table-container" v-if="chase.rateCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
             <tr>
               <th class="text-center">序号</th>
               <th>
-                <input @click="rateCheckedAll()" v-model="chase.rateChecked" type="checkbox"> 追号期次
+                <input @click="rateCheckedAll()" v-model="chase.rateChecked" type="checkbox" /> 追号期次
               </th>
               <th>倍数</th>
               <th>金额</th>
@@ -174,7 +202,7 @@
                   class="trace-row-checked"
                   type="checkbox"
                   checked="checked"
-                >
+                />
                 <span class="trace-row-number">
                   {{item.issue_no}}
                   <span class="icon-period-current"></span>
@@ -188,7 +216,7 @@
                   value="1"
                   type="text"
                   style="width:60px;text-align:center;"
-                >
+                />
               </td>
               <td>
                 <span class="trace-row-money">{{Utils.toFixed(String(item.value))}}</span>
@@ -206,13 +234,14 @@
           </tbody>
         </table>
       </section>
+      <!-- 同倍追号 -->
       <section class="chase-table-container" v-if="chase.sameCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
             <tr>
               <th class="text-center">序号</th>
               <th>
-                <input @click="sameCheckedAll()" v-model="chase.sameChecked" type="checkbox"> 追号期次
+                <input @click="sameCheckedAll()" v-model="chase.sameChecked" type="checkbox" /> 追号期次
               </th>
               <th>倍数</th>
               <th>金额</th>
@@ -227,7 +256,7 @@
                   class="trace-row-checked"
                   type="checkbox"
                   checked="checked"
-                >
+                />
                 <span class="trace-row-number">
                   {{item.issue_no}}
                   <span class="icon-period-current"></span>
@@ -236,12 +265,12 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  @input="item.multiple = Utils.number(item.multiple)"
+                  @input="doubleInputChange(item, index)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
                   style="width:60px;text-align:center;"
-                >
+                />
               </td>
               <td>
                 <span class="trace-row-money">{{chase.sameMoney * item.multiple}}</span>
@@ -253,13 +282,14 @@
           </tbody>
         </table>
       </section>
+      <!-- 翻倍追号 -->
       <section class="chase-table-container" v-if="chase.doubleCon">
         <table class="chase-table">
           <tbody data-type="lirunlv">
             <tr>
               <th class="text-center">序号</th>
               <th>
-                <input @click="doubleCheckedAll()" v-model="chase.doubleChecked" type="checkbox"> 追号期次
+                <input @click="doubleCheckedAll()" v-model="chase.doubleChecked" type="checkbox" /> 追号期次
               </th>
               <th>倍数</th>
               <th>金额</th>
@@ -274,7 +304,7 @@
                   class="trace-row-checked"
                   type="checkbox"
                   checked="checked"
-                >
+                />
                 <span class="trace-row-number">
                   {{item.issue_no}}
                   <span class="icon-period-current"></span>
@@ -283,12 +313,12 @@
               <td>
                 <input
                   class="trace-row-multiple"
-                  @input="item.multiple = Utils.number(item.multiple)"
+                  @input="doubleInputChange(item)"
                   v-model="item.multiple"
                   value="1"
                   type="text"
                   style="width:60px;text-align:center;"
-                >
+                />
               </td>
               <td>
                 <span class="trace-row-money">{{chase.doubleMoney * item.multiple}}</span>
@@ -300,10 +330,11 @@
           </tbody>
         </table>
       </section>
+      <!-- 确认投注信息 -->
       <section class="bet-future-set">
         <div class="bmn-confirm-title">
           <div class="bmn-confir-icon">
-            <img src="../../assets/images/lottery/icon_money.png">
+            <img src="../../assets/images/lottery/icon_money.png" />
           </div>确认投注信息
         </div>
         <section class="bmn-confirm-text">
@@ -322,10 +353,10 @@
                 <span v-else>厘</span>
               </span> 模式
             </li>
-            <li class="bmn-confirm-info">
+            <!-- <li class="bmn-confirm-info">
               总倍数
               <span class="corigin">{{current.times}}</span>倍
-            </li>
+            </li> -->
             <li class="bmn-confirm-info">
               总注数
               <span class="corigin">{{current.count}}</span>注
@@ -350,7 +381,8 @@
           </el-button>
         </a>
       </section>
-    </section>
+    </section>、
+    <!-- 投注和追号历史记录 -->
     <section class="list-full-history">
       <ul>
         <li
@@ -376,14 +408,23 @@
           <el-table-column align="center" prop="open_number" label="开奖号" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" label="投注内容" show-overflow-tooltip>
             <template slot-scope="scope">
-              <template v-if="scope.row.method_group === 'DXDS'">
-                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}} 
+              <template v-if="scope.row.series_id === 'pk10'">
+                {{scope.row.bet_number.replace(/[0-9]/g, handlePK10Replacer)}}
               </template>
-              <template v-else-if="scope.row.method_group === 'LH'">
-                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}} 
-              </template>
-              <template v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'">
-                {{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}} 
+              <template
+                v-else-if="scope.row.method_group === 'DXDS'"
+              >{{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'小').replace(/(1)/g,'大').replace(/(2)/g,'双').replace(/(3)/g,'单')}}</template>
+              <template
+                v-else-if="scope.row.method_group === 'LH'"
+              >{{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'龙').replace(/(1)/g,'虎').replace(/(2)/g,'和')}}</template>
+              <template
+                v-else-if="scope.row.method_sign === 'QTS3' || scope.row.method_sign === 'ZTS3' || scope.row.method_sign === 'HTS3'"
+              >{{scope.row.bet_number.replace(/&/g,',').replace(/(0)/g,'豹子').replace(/(1)/g,'顺子').replace(/(2)/g,'对子')}}</template>
+              <template
+                v-else-if="scope.row.method_sign === 'LTDDS'">
+                {{
+                  scope.row.bet_number.replace(/ /g,',').replace(/(0)/g,'零单五双').replace(/(1)/g,'一单四双').replace(/(2)/g,'二单三双').replace(/(3)/g,'三单二双').replace(/(4)/g,'四单一双').replace(/(5)/g,'五单零双')
+                }}
               </template>
               <template v-else>
                 <span>{{scope.row.bet_number.replace(/&/g,',')}}</span>
@@ -396,14 +437,16 @@
           <el-table-column align="center" label="状态">
             <template slot-scope="scope">
               <span v-if="scope.row.status == 0">待开奖</span>
-              <span v-if="scope.row.status == 2">未中奖</span>
+              <span v-if="scope.row.status == 1">已撤销</span>
+              <span style="color:red" v-if="scope.row.status == 2">未中奖</span>
               <span v-if="scope.row.status == 3">中奖</span>
-              <span v-if="scope.row.status == 4">已派奖</span>
+              <span style="color:green" v-if="scope.row.status == 4">已派奖</span>
+              <span v-if="scope.row.status == 5">管理员撤销</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+              <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -418,33 +461,40 @@
           </el-table-column>
           <el-table-column align="center" prop="method_name" label="玩法" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="start_issue" label="起始奖期" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="issue_process" label="追号奖期" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" prop="total_issues" label="追号期数" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="total_price" label="投注金额" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="win_stop" label="追中即停" show-overflow-tooltip>
             <template slot-scope="scope">
-              <span v-if="scope.row.is_win_stop == 0">不停</span>
-              <span v-if="scope.row.is_win_stop == 1">停</span>
+              <span v-if="scope.row.win_stop == 0">不停</span>
+              <span v-if="scope.row.win_stop == 1">停</span>
             </template>
           </el-table-column>
           <el-table-column align="center" prop="finished_bonus" label="中奖金额" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" label="状态" show-overflow-tooltip>
             <template slot-scope="scope">
-              <span v-if="scope.row.status == 0">正在追号 </span>
+              <span v-if="scope.row.status == 0">正在追号</span>
               <span v-if="scope.row.status == 1">追号完成</span>
-              <span v-if="scope.row.status == 2">玩家撤销 </span>
-              <span v-if="scope.row.status == 3">系统撤销</span>
+              <span v-if="scope.row.status == 2">中奖停止</span>
+              <span v-if="scope.row.status == 4">系统撤销</span>
+              <span v-if="scope.row.status == 5">玩家撤销</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="操作">
             <template slot-scope="scope">
-               <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
+              <el-button type="text" size="mini" @click="handleDetail(scope.row)">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
         <router-link tag="section" class="row-more" to="/account-center/bet-record/traces">更多游戏记录...</router-link>
       </template>
     </section>
-    <record-details :detailData="detailData" @close="handleDetailClose" v-if="dialogVisible" :dialogVisible="dialogVisible"></record-details>
+    <!-- 投注历史详情 -->
+    <record-details
+      :detailData="detailData"
+      @close="handleDetailClose"
+      v-if="dialogVisible"
+      :dialogVisible="dialogVisible"
+    ></record-details>
   </section>
 </template>
 <script>
@@ -465,6 +515,7 @@ export default {
         double: 1,
         money: 0
       },
+      checkTraceWinStop: true,
       detailData: null,
       orderListSub: [],
       chaseTab: 0,
@@ -501,7 +552,6 @@ export default {
       },
       // 投注loading
       betLoading: false,
-
       // 当前注数 和 当前倍数
       current: {
         count: 0,
@@ -530,6 +580,7 @@ export default {
     ]),
     // 翻倍
     totals() {
+      /* eslint-disable */ 
       this.total = {
         number: 0,
         money: 0
@@ -571,7 +622,9 @@ export default {
             rateAll += Number(newVal[i].multiple)
           }
         }
-        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.count =
+          newVal.filter(val => val.checked === true).length *
+          this.orderList.length
         this.current.times = rateAll
         this.chase.rateMoneyAll = rateAll * this.chase.rateMoney
       },
@@ -596,7 +649,9 @@ export default {
             doubleAll += Number(newVal[i].multiple)
           }
         }
-        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.count =
+          newVal.filter(val => val.checked === true).length *
+          this.orderList.length
         this.current.times = doubleAll
         this.chase.doubleMoneyAll = doubleAll * this.chase.doubleMoney
       },
@@ -622,7 +677,9 @@ export default {
           }
         }
 
-        this.current.count = (newVal.filter(val => val.checked === true)).length * this.orderList.length
+        this.current.count =
+          newVal.filter(val => val.checked === true).length *
+          this.orderList.length
         this.current.times = doubleAll
         this.chase.sameMoneyAll = doubleAll * this.chase.sameMoney
       },
@@ -643,6 +700,9 @@ export default {
         this.chase.doubleIssue = this.chase.maxIssue
       }
     },
+    'issueInfo'(newVal) {
+      this.chase.maxIssue = newVal.length
+    },
     'totalSub.double': {
       handler() {
         // 计算翻倍后的金额
@@ -660,19 +720,52 @@ export default {
           this.current.times += Number(this.orderList[i].times)
           this.current.count += Number(this.orderList[i].count)
         }
+        this.restChase()
       },
       deep: true
-    }
+    },
+
   },
   created() {
     // 获取我的投注 我的追号记录
     this.$store.dispatch('betHistory')
     this.clearOrderList()
-    this.chase.maxIssue = this.lotteryAll[
-      this.currentLottery.en_name
-    ].lottery.max_trace_number
   },
   methods: {
+    //pk10开奖正则
+    handlePK10Replacer(match){
+      return parseInt(match) + 1
+    },
+    // 复原追号条件
+    restChase() {
+       this.chase = {
+        maxIssue: this.chase.maxIssue,
+        rateCon: false,
+        rateChecked: true,
+        rateMoneyAll: 0,
+        rateMoney: 0,
+        rateData: [],
+        rateLowNum: 50,
+        rateNum: 1,
+        rateIssue: 10,
+        sameData: [],
+        sameCon: false,
+        sameChecked: true,
+        sameMoneyAll: 0,
+        sameMoney: 0,
+        sameNum: 1,
+        sameIssue: 10,
+        doubleData: [],
+        doubleCon: false,
+        doubleChecked: true,
+        doubleMoneyAll: 0,
+        doubleMoney: 0,
+        doubleNum: 1,
+        doubleIssue: 10,
+        doubleG: 1,
+        doubleB: 2
+      }
+    },
     // 清除追号 关闭窗口
     clearChase() {
       this.isTrace = 0
@@ -682,6 +775,7 @@ export default {
       this.chase.rateData = []
       this.chase.doubleCon = false
       this.chase.doubleData = []
+      this.restChase()
     },
     // 翻倍追号当全部选中fw tab-cons
     doubleCheckedAll() {
@@ -741,7 +835,20 @@ export default {
       this.chase.doubleChecked = true
       this.chase.doubleMoneyAll = 0
       this.chase.doubleMoney = 0
+
+      const maxArr = []
       for (let i = 0; i < this.orderList.length; i++) {
+      maxArr.push(this.orderList[i].currentMaxTimes)
+       this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         this.chase.doubleMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
@@ -785,11 +892,22 @@ export default {
               this.chase.doubleNum
             )
           } else {
-            this.$set(
-              this.chase.doubleData[i],
-              'multiple',
-              Math.pow(this.chase.doubleB, parseInt(i / this.chase.doubleG))
-            )
+            const max_multiple = Math.min(...maxArr),
+                  multiple = Math.pow(this.chase.doubleB, parseInt(i / this.chase.doubleG))
+            if (multiple > max_multiple) {
+              this.$set(
+                this.chase.doubleData[i],
+                'multiple',
+                max_multiple
+              )
+            }else{
+              this.$set(
+                this.chase.doubleData[i],
+                'multiple',
+                multiple
+              )
+            }
+            
           }
         }
       }
@@ -811,6 +929,16 @@ export default {
       this.chase.sameMoneyAll = 0
       this.chase.sameMoney = 0
       for (let i = 0; i < this.orderList.length; i++) {
+        this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         this.chase.sameMoney += Number(this.orderList[i].cost)
       }
       // 找出当前期 以及当前期 后面当期数
@@ -871,8 +999,22 @@ export default {
       this.chase.rateMoney = 0
       //盈利/盈利率追号不支持混投
       let type = '',
-        mode = ''
+          mode = ''
+      
+      const maxArr = []
       for (let i = 0; i < this.orderList.length; i++) {
+        maxArr.push(this.orderList[i].currentMaxTimes)
+        this.$set(
+          this.orderList[i],
+          'times',
+          1
+        )
+
+        this.$set(
+          this.orderList[i],
+          'cost',
+          (this.orderList[i].count * +this.orderList[i].mode * +this.orderList[i].price).toFixed(3)
+        )
         if (type !== '' && mode !== '') {
           if (
             type !== this.orderList[i].method_id ||
@@ -952,7 +1094,8 @@ export default {
               if (item.value) v += item.value
             })
             // 限制最大倍数
-            let max_multiple = 1000
+            let max_multiple = Math.min(...maxArr)
+            console.log(max_multiple)
             if (row_data.multiple >= max_multiple) {
               if (alertSign) {
                 alert(
@@ -998,6 +1141,7 @@ export default {
     },
     // 追号tab 切换
     chaseTabHan(val) {
+      this.checkTraceWinStop = true
       this.chaseTab = val
       if (val === 0) {
         if (this.chase.rateData.length > 0) {
@@ -1034,7 +1178,7 @@ export default {
     // 确定投注
     submitBet() {
       if (this.betLoading) {
-        return 
+        return
       }
       if (
         this.bet.doubleBeforeOrder.length === 0 ||
@@ -1053,29 +1197,35 @@ export default {
       ] = []
       this.betLoading = true
       if (this.chase.rateCon) {
-        chaseData = this.chase.rateData
+        chaseData = this.chase.rateData.filter(val => val.checked == true)
         for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple}) 
+          Object.assign(issus, {
+            [chaseData[i].issue_no]: chaseData[i].multiple
+          })
         }
         money = this.chase.rateMoneyAll
       } else if (this.chase.sameCon) {
         // 如果打开同倍追奖
-        chaseData = this.chase.sameData
+        chaseData = this.chase.sameData.filter(val => val.checked === true)
         for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple})
+          Object.assign(issus, {
+            [chaseData[i].issue_no]: chaseData[i].multiple
+          })
         }
         money = this.chase.sameMoneyAll
       } else if (this.chase.doubleCon) {
         // 如果打开翻倍
-        chaseData = this.chase.doubleData
+        chaseData = this.chase.doubleData.filter(val => val.checked === true)
 
         for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {[chaseData[i].issue_no]: chaseData[i].multiple})
+          Object.assign(issus, {
+            [chaseData[i].issue_no]: chaseData[i].multiple
+          })
         }
         money = this.chase.doubleMoneyAll
       } else {
         // 同倍和翻倍追奖 都没有打开
-        issus = {[currentIssus]: 1}
+        issus = { [currentIssus]: 1 }
         money =
           this.totalSub.double > 1 ? this.totalSub.money : this.totals.money
       }
@@ -1088,7 +1238,9 @@ export default {
         return
       }
       for (let i = 0; i < list.length; i++) {
-        list[i].cost = (Number(list[i].cost) * Number(this.totalSub.double)).toFixed(3)
+        list[i].cost = (
+          Number(list[i].cost) * Number(this.totalSub.double)
+        ).toFixed(3)
         list[i].count = Number(list[i].count) * Number(this.totalSub.double)
         delete list[i]._codes
       }
@@ -1097,7 +1249,8 @@ export default {
         issus,
         list,
         money.toFixed(3),
-        this.isTrace
+        this.isTrace,
+        this.checkTraceWinStop ? 1 : 0  
       ).then(res => {
         this.betLoading = false
         if (res.success) {
@@ -1151,9 +1304,18 @@ export default {
       }
       this.clearChase()
     },
+    // 倍数改变
     rateInputChange(item, index) {
+      this.$set(item, 'multiple', item.multiple.replace(/[^\d]/g,''))
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (item.multiple > Math.min(...maxArr)) {
+        this.$set(item, 'multiple', ...maxArr)
+      }
       const money = this.chase.rateMoney,
-        multiple = this.Utils.number(item.multiple)
+            multiple = this.Utils.number(item.multiple)
       if (multiple === '' || multiple === 0) {
         return
       }
@@ -1170,14 +1332,56 @@ export default {
         (item.profit / (item.value * (index + 1))) * 100
       )
     },
+    doubleInputChange(item, index) {
+      this.$set(item, 'multiple', item.multiple.replace(/[^\d]/g,''))
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (item.multiple > Math.min(...maxArr)) {
+        this.$set(item, 'multiple', ...maxArr)
+      }
+    },
     //投注记录详情
-    handleDetail(row){
+    handleDetail(row) {
       this.detailData = row
       this.dialogVisible = true
     },
-    handleDetailClose(){
+    handleDetailClose() {
       this.dialogVisible = false
-    }
+    },
+    onSamNumChange(value){
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (maxArr.length && value > Math.min(...maxArr)) {
+        this.chase.sameNum = Math.min(...maxArr)
+      }
+    },
+    onDoubleBChange(value){
+      const maxArr = []
+      this.orderList.forEach(val => {
+        maxArr.push(val.currentMaxTimes)
+      })
+      if (maxArr.length && value > Math.min(...maxArr)) {
+        this.chase.doubleB = Math.min(...maxArr)
+      }
+    },
   }
 }
 </script>
+
+<style scoped>
+.chase-stop {
+  text-align: left;
+  padding-left: 20px;
+}
+.chase-stop /deep/ .el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #000;
+}
+.chase-stop /deep/ .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background-color: #ff7200;
+    border-color: #ff7200;
+}
+</style>
