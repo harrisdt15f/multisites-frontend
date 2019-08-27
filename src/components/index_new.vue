@@ -54,10 +54,10 @@
                       <span style="color:#ff7800;">{{timeArr[index]}}</span> 截止
                     </div>
                     <div class="fr">
-                      <a class="btn" href="javascript:;">
+                      <router-link tag="a" :to="`/user-trends/${item.id}`" class="btn">
                         <i class="fa fa-line-chart" aria-hidden="true"></i>
                         走势图
-                      </a>
+                      </router-link>
                     </div>
                   </div>
                   <div class="num">
@@ -133,7 +133,7 @@
                     v-if="item.encode_time"
                   >{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
-                    <router-link tag="a" :to="`/user-trends`" class="btn">走势</router-link>
+                    <router-link tag="a" :to="`/user-trends/${item.lotteries_id}`" class="btn">走势</router-link>
                     <a href="javascript:;" @click="preInto(`/bet/${item.lotteries_id}`)" class="btn">投注</a>
                   </div>
                 </div>

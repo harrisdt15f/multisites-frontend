@@ -24,7 +24,7 @@ Vue.prototype.Animation = animation
 Vue.prototype._ = _
 
 new Vue({
-    router,
-    store: index,
-    render: h => h(App),
+  router,
+  store: index,
+  render: h => h(App)
 }).$mount('#app')

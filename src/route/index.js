@@ -44,9 +44,10 @@ const router = new Router({
         },
         { path: 'ylc', name: 'ylc', component: Ylc, props: true },
         {
-          path: '/user-trends',
+          path: '/user-trends/:lotterySign?',
           name: 'user-trends',
-          component: UserTrends
+          component: UserTrends,
+          props: true
         },
         {
           path: '/agent-center',
