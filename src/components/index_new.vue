@@ -51,7 +51,7 @@
                   <div class="title">
                     <div class="fl">
                       {{item.method_name}} &nbsp;
-                      <span style="color:#ff7800;">{{timeArr[index]}}</span> 截止
+                      <span style="color:$primary-color;">{{timeArr[index]}}</span> 截止
                     </div>
                     <div class="fr">
                       <router-link tag="a" :to="`/user-trends/${item.id}`" class="btn">
@@ -77,10 +77,10 @@
                         :min="1"
                         :max="10"
                       ></el-input-number>倍,
-                      <span style="color:#ff7800">{{item.count}}</span>注
+                      <span style="color:$primary-color">{{item.count}}</span>注
                       &nbsp;
                       共
-                      <span style="color:#ff7800">{{item.totalCost}}</span> 元
+                      <span style="color:$primary-color">{{item.totalCost}}</span> 元
                     </div>
                   </div>
                   <div class="btn-group">
@@ -499,12 +499,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/var.scss";
+
 .gold {
   color: #fde785;
   font-size: 18px;
 }
 .blood {
-  color: #ff7800;
+  color: $primary-color;
 }
 .carousel-img {
   width: 100%;
@@ -707,9 +709,9 @@ export default {
           color: #fff;
           line-height: 30px;
           border-radius: 50%;
-          background: #f5d5b5;
+          background: #fb9f46;
           &.on {
-            background: #f37616;
+            background: $primary-color-hover;
           }
         }
       }
@@ -739,13 +741,13 @@ export default {
         }
       }
       .bet {
-        background: #ff7800;
-        border: 1px solid #ff7800;
+        background: $primary-color;
+        border: 1px solid $primary-color;
         color: #fff;
       }
       .bet:hover {
         background: transparent;
-        border: 1px solid #ff7800;
+        border: 1px solid $primary-color;
         color: red;
       }
       /deep/{
@@ -780,7 +782,7 @@ export default {
         border: 0;
         width: 24px;
         color: #fff;
-        background: #ff7800;
+        background: $primary-color;
       }
     }
   }
@@ -863,13 +865,13 @@ export default {
     }
     .el-tabs__item:hover,
     .el-tabs__item.is-active {
-      color: rgb(255, 120, 0);
+      color: $primary-color-hover;
       &::after {
         content: "";
         display: block;
         width: 100%;
         height: 2px;
-        background: #ff7800;
+        background: $primary-color;
         position: absolute;
         left: 50%;
         bottom: 0;
@@ -967,7 +969,7 @@ export default {
     .top {
       overflow: hidden;
       .time {
-        color: #ff7800;
+        color: $primary-color;
         margin-right: 5px;
       }
     }
@@ -979,7 +981,7 @@ export default {
         line-height: 25px;
         text-align: center;
         color: #fff;
-        background-color: #ff7800;
+        background-color: $primary-color;
         border-radius: 50%;
         margin: 15px 5px;
       }
@@ -1024,7 +1026,7 @@ export default {
     }
     .el-tabs__item.is-active,
     .el-tabs__item:hover {
-      color: #ff7800;
+      color: $primary-color;
     }
     .el-tabs__item.is-active {
       position: relative;
@@ -1034,7 +1036,7 @@ export default {
         display: block;
         height: 2px;
         width: 100%;
-        background: #ff7800;
+        background: $primary-color;
         bottom: 0;
         left: 0;
       }
@@ -1068,7 +1070,7 @@ export default {
         float:left;
         cursor: pointer;
         text-align: center;
-        color: #ff7800;
+        color: $primary-color;
         width: 50%;
         line-height: 38px;
         font-size:12px;
@@ -1102,7 +1104,7 @@ export default {
       background:none;
       .btn {
         cursor: pointer;
-        background: #ff7800;
+        background: $primary-color;
         text-align: center;
         color: #fff !important;
         width: 84px;
@@ -1154,7 +1156,7 @@ export default {
       width:76%;
       float: left;
       .cost {
-        color: #f9780b;
+        color: $primary-color-hover;
       }
     }
   }
@@ -1166,7 +1168,7 @@ export default {
 .head-notice-img {
   float: left;
   margin: 8px 0 0 7px;
-  color: rgb(254, 99, 3);
+  color: $primary-color-hover;
   font-size: 19px;
 }
 .head-meque {

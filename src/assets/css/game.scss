@@ -1,8 +1,7 @@
-body {
-  background: #f1f1f1;
-}
+@import './var.scss';
+
 .game-mian {
-  width:100%;
+  width: 100%;
   padding-bottom: 36px;
 }
 .list-historys {
@@ -43,7 +42,7 @@ body {
     linear-gradient(#e4dbd5, #e4dbd5);
 }
 .bet-table-trend .balls i {
-  border: 1px solid #f36e3d;
+  border: 1px solid $primary-color-hover;
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -51,13 +50,13 @@ body {
   line-height: 20px;
   font-style: normal;
   margin: 0 1px;
-  border-radius:50% !important;
+  border-radius: 50% !important;
   color: #b2a789;
   font-size: 14px;
 }
 .bet-table-trend .balls i.curr {
-  color: #f36e3d;
-  border-color: #f36e3d;
+  color: $primary-color-hover;
+  border-color: $primary-color-hover;
 }
 .bet-table-trend .balls i.special {
   color: #f5d300;
@@ -171,11 +170,7 @@ body {
   margin: 2px;
 }
 .bet-table-trend .first .balls i.curr {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ffaf39), color-stop(23%, #ff9800), to(#ffb549)),
-    -webkit-gradient(linear, left top, left bottom, from(#ff9400), to(#ff9400));
-  background-image: linear-gradient(0deg, #ffaf39 0%, #ff9800 23%, #ffb549 100%),
-    linear-gradient(#ff9400, #ff9400);
-  background-blend-mode: normal, normal;
+  background: $ball-color;
   color: #ffffff;
   letter-spacing: 0.6px;
 }
@@ -201,7 +196,7 @@ body {
     linear-gradient(#e4dbd5, #e4dbd5);
   background-blend-mode: normal, normal;
   -webkit-box-shadow: 0 0 4px 0 #dadada, inset 0 0 0 0 white;
-          box-shadow: 0 0 4px 0 #dadada, inset 0 0 0 0 white;
+  box-shadow: 0 0 4px 0 #dadada, inset 0 0 0 0 white;
   border: solid 1px #bcbcbc;
   border-radius: 3px;
 }
@@ -212,7 +207,7 @@ body {
     linear-gradient(#f2eee7, #f2eee7);
   background-blend-mode: normal, normal;
   -webkit-box-shadow: 0px 2px 4px 0px #dadada, inset 0px 2px 0px 0px white;
-          box-shadow: 0px 2px 4px 0px #dadada, inset 0px 2px 0px 0px white;
+  box-shadow: 0px 2px 4px 0px #dadada, inset 0px 2px 0px 0px white;
   border: solid 1px #eeb162;
 }
 /*===========display:inline-block;  共用============*/
@@ -268,7 +263,7 @@ body {
   background-color: #f6543b;
   border-radius: 30px;
   -webkit-box-shadow: 0px 2px 0px #c7c7c7;
-          box-shadow: 0px 2px 0px #c7c7c7;
+  box-shadow: 0px 2px 0px #c7c7c7;
   color: #fff;
   font-size: 24px;
   line-height: 36px;
@@ -311,7 +306,7 @@ body {
 }
 .bet-type-crow {
   height: 50px;
-  background-color: #fffbf4;
+  background-color: #fff;
   border-bottom: 1px solid #ded2c1;
 }
 .bet-type-crow ul {
@@ -326,7 +321,7 @@ body {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.bet-type-crow li:nth-last-child(1) .bet-type-crow-name{
+.bet-type-crow li:nth-last-child(1) .bet-type-crow-name {
   border-right: none;
 }
 .bet-type-crow-name {
@@ -341,23 +336,18 @@ body {
   border-right: 1px solid #e1dacd;
 }
 .bet-type-crow li:hover {
-  color: #ff7200;
-  border-bottom: 3px solid #ffb44c;
+  color: $primary-color-hover;
+  border-bottom: 3px solid $primary-color-hover;
 }
 .bet-type-crow li:hover .bet-type-crow-name {
-  color: #ff7200;
+  color: $primary-color-hover;
 }
 .bet-type-crow li.on {
   height: 50px;
   font-weight: 500;
-  color: #302b2a;
+  color: $primary-color-hover;
   background: #fff;
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ffe8c9), to(#fff3e3)),
-    -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
-  background-image: linear-gradient(0deg, #ffe8c9 0%, #fff3e3 100%),
-    linear-gradient(#ffffff, #ffffff);
-  background-blend-mode: normal, normal;
-  border-bottom: 3px solid #ff9707;
+  border-bottom: 3px solid $primary-color-hover;
 }
 .bet-type-crow li.on2 {
   height: 50px;
@@ -367,6 +357,7 @@ body {
   color: #f6543b;
 }
 .bet-type-crow li.on .bet-type-crow-name {
+  color: $primary-color-hover;
   border: 0;
 }
 
@@ -415,8 +406,8 @@ body {
 }
 .bet-type-group-list .group-name {
   -webkit-box-flex: 0;
-      -ms-flex: 0 1 auto;
-          flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
   float: left;
   margin-right: 18px;
   line-height: 28px;
@@ -425,8 +416,8 @@ body {
 }
 .bet-type-group-list ul {
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 .bet-type-group-list li {
   padding: 1px 10px;
@@ -443,7 +434,7 @@ body {
   border: solid 1px #ccc8c0;
   color: #535353;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   position: relative;
   margin-top: 0;
   margin-bottom: 10px;
@@ -451,23 +442,18 @@ body {
 
 .bet-type-group-list li.on,
 .bet-type-group-list li:hover {
-  color: #f37e00;
-  border: solid 1px #e99b37;
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#fff4ea), to(#fff0d8)),
-    -webkit-gradient(linear, left top, left bottom, from(#ffa015), to(#ffa015));
-  background-image: linear-gradient(0deg, #fff4ea 0%, #fff0d8 100%),
-    linear-gradient(#ffa015, #ffa015);
-  background-blend-mode: normal, normal;
+  color: $primary-color-hover;
+  border: solid 1px $ball-color;
   -webkit-box-shadow: inset 0px 2px 2px 1px rgba(232, 194, 156, 0.5);
-          box-shadow: inset 0px 2px 2px 1px rgba(232, 194, 156, 0.5);
+  box-shadow: inset 0px 2px 2px 1px rgba(232, 194, 156, 0.5);
 }
 .bet-type-group-list li:hover {
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   background-image: none;
   background-color: #fff9ef;
-  border: solid 1px #e99b37;
-  color: #ff7200;
+  border: solid 1px $ball-color;
+  color: $primary-color-hover;
 }
 /*玩法展开 折起*/
 .bet-type-group-hide {
@@ -475,7 +461,7 @@ body {
   z-index: 99;
   width: 100%;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 0 0 5px 5px;
   border: 1px solid #d5d5d5;
   background: rgba(255, 255, 255, 0.9);
@@ -514,7 +500,7 @@ body {
   text-align: left;
   background: #fff;
 }
-.main-play-introduce.k3{
+.main-play-introduce.k3 {
   position: absolute;
   left: 0;
   top: 13px;
@@ -589,18 +575,18 @@ body {
 }
 /*复式投注球区------------------------------------------------------------*/
 .main-ball-list {
-  padding-top:20px;
+  padding-top: 20px;
   min-height: 78px;
   margin: 0 15px;
   border-bottom: 1px solid #eeeeee;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   overflow: hidden;
 }
 /*位数 遗漏类型*/
 .ball-list-name {
-  padding-top:8px;
-  float:left;
+  padding-top: 8px;
+  float: left;
   font-weight: 500;
   color: #5f442e;
   width: 77px;
@@ -617,7 +603,7 @@ body {
 }
 /*号码数字盘*/
 .main-ball-content {
-  float:left;
+  float: left;
   max-width: 777px;
 }
 .main-ball-content-li {
@@ -652,7 +638,7 @@ body {
   );
   -webkit-box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
     inset 0px 3px 0px 0px #ffffff;
-          box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
+  box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
     inset 0px 3px 0px 0px #ffffff;
   border: 1px solid #b7b7b7;
   border-radius: 50%;
@@ -660,63 +646,61 @@ body {
   position: relative;
 }
 .main-ball-content-li .ball:hover {
-  color: #ff7200;
+  color: $primary-color-hover;
   background-color: #fff6ea;
   -webkit-box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
     inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-          box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
+  box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
     inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
   border: 1px solid #ff8e33;
 }
 
-.main-ball-content-li .ball.ball-number-long{
+.main-ball-content-li .ball.ball-number-long {
   padding: 0 26px;
   margin: 0 5px;
   width: auto;
   height: 35px;
   -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
   font-size: 16px;
   border-radius: 25px;
   line-height: 35px;
   border: 1px solid #b7b7b7;
 }
 
-.main-ball-content-li .ball.ball-number-long:hover{
-  color: #ff7200;
+.main-ball-content-li .ball.ball-number-long:hover {
+  color: $primary-color-hover;
   background-color: #fff6ea;
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-          box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5), inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
+    inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
+  box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
+    inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
   border: 1px solid #ff8e33;
 }
 
 .main-ball-content-li.ball-on .ball {
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
-    inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-          box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
-    inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-  background-image: url('../images/lottery/number-bg.png');
-  background-position: -1px;
-  color: black;
-  border: 1px solid transparent;
+  border: 1px solid $ball-color;
+  background-color: $ball-color;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(5%, $ball-color), to($ball-color));
+  background-image: linear-gradient(-180deg, $ball-color 5%, $ball-color 100%);
+          -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.20);
+                  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.20);
+  color: #FFF;
 }
 
-.main-ball-content-li.ball-on .ball.ball-number-long, .main-ball-content-li.ball-on .ball.ball-number-long:hover{
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ffaf39), color-stop(23%, #ff9800), to(#ffb549)), -webkit-gradient(linear, left top, left bottom, from(#ff9400), to(#ff9400));
-  background-image: linear-gradient(0deg, #ffaf39 0%, #ff9800 23%, #ffb549 100%), linear-gradient(#ff9400, #ff9400);
-  background-blend-mode: normal, normal;
-  color: black;
+.main-ball-content-li.ball-on .ball.ball-number-long,
+.main-ball-content-li.ball-on .ball.ball-number-long:hover {
+  background: $ball-color;
+  color: #fff;
 }
 .main-ball-content-li.active,
-
-
-.ylc-kx-footer-moneys-list.active{
+.ylc-kx-footer-moneys-list.active {
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
-.ylc-kx-footer-moneys-list.active .ylc-kx-footer-moneys-list-sp{
+.ylc-kx-footer-moneys-list.active .ylc-kx-footer-moneys-list-sp {
   -webkit-transform: scale(1);
-          transform: scale(1);
+  transform: scale(1);
 }
 /*冷热遗漏显示*/
 .main-ball-control-li i {
@@ -725,11 +709,11 @@ body {
 }
 /*全大小单双清*/
 .main-ball-control {
-  float:left;
-  margin-top:7px;
+  float: left;
+  margin-top: 7px;
   padding: 0 0 0 15px;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .main-ball-control.series {
@@ -740,7 +724,7 @@ body {
   -webkit-transition: none;
   transition: none;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: inline-block;
   margin: unset;
   vertical-align: middle;
@@ -756,7 +740,7 @@ body {
   background-blend-mode: normal, normal;
   -webkit-box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
     inset 0px 3px 0px 0px #ffffff;
-          box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
+  box-shadow: 0px 2px 3px 0px rgba(80, 62, 51, 0.2),
     inset 0px 3px 0px 0px #ffffff;
   border: 1px solid #bab9b9;
   border-radius: 50%;
@@ -764,25 +748,23 @@ body {
   text-align: center;
   font-size: 14px;
   color: #222222;
-  
 }
 .main-ball-control-li .ball:hover {
   background-image: none;
   background-color: #fff6ea;
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
+  -webkit-box-shadow: 0px 2px 5px 0px $ball-color,
     inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-          box-shadow: 0px 2px 5px 0px rgba(178, 80, 0, 0.5),
+  box-shadow: 0px 2px 5px 0px $ball-color,
     inset 0px 2px 0px 0px rgba(255, 255, 255, 0.4);
-  border: 1px solid #ff8e33;
-  color: #ff7200;
+  border: 1px solid $ball-color;
+  color: $primary-color-hover;
 }
 .main-ball-control-li.ball-on .ball {
-  background-image: url('../images/lottery/cnbtn_bg.png');
-  background-position: center;
+  background: $ball-color;
   -webkit-box-shadow: none;
           box-shadow: none;
   position: relative;
-  color: #000;
+  color: #fff;
 }
 /*只有一行*/
 .only-one {
@@ -794,7 +776,7 @@ body {
 /*单式投注区------------------------------------------------------------*/
 
 .main-balls-import {
- width: 100%;
+  width: 100%;
 }
 .ico-import {
   width: 20px;
@@ -827,15 +809,15 @@ body {
   height: 150px;
   padding: 5px;
   margin-bottom: 15px;
-  border: 1px solid #CACACA;
-  background: #F9F9F9;
+  border: 1px solid #cacaca;
+  background: #f9f9f9;
   margin-top: 10px;
 }
 .balls-import-txt {
   width: 608px;
   height: 138px;
-  border: 1px solid #CCC;
-  background: #FFF;
+  border: 1px solid #ccc;
+  background: #fff;
   padding: 5px;
   outline: none;
   line-height: 150%;
@@ -882,14 +864,14 @@ body {
   color: #a7a7a7;
   font-size: 15px;
 }
-.bet-choose-total-money{
-  margin:0 30px 0 20px;
+.bet-choose-total-money {
+  margin: 0 30px 0 20px;
   line-height: 35px;
   font-size: 14px;
   color: #222222;
 }
-.bet-choose-total-money-count{
-  color:#ff7200;
+.bet-choose-total-money-count {
+  color: $primary-color-hover;
   font-size: 20px;
 }
 .bet-choose-total .bet-choose-ipt {
@@ -907,15 +889,15 @@ body {
 }
 .bet-play-mode {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: inline-block;
   font-size: 0;
   background-color: #e1e1e1;
   border: solid 1px #cecece;
   border-radius: 2px;
 }
-.btn-tab:nth-last-child(1){
-  border-right:none;
+.btn-tab:nth-last-child(1) {
+  border-right: none;
 }
 .play-mode-name {
   position: absolute;
@@ -977,23 +959,22 @@ body {
   line-height: unset;
   padding: 0 4px;
   font-size: 20px;
-  color: #ff7200;
+  color: $primary-color-hover;
 }
 .main-btn-add,
 .main-btn-fastadd {
   display: inline-block;
   max-width: 130px;
   text-align: center;
-  cursor:pointer;
+  cursor: pointer;
   border-radius: 3px;
 }
 .main-btn-fastadd {
-
   margin: 0 15px;
   background-color: #ff6a21;
 }
-.main-btn-add:hover{
-  background:#eee;
+.main-btn-add:hover {
+  background: #eee;
 }
 .main-btn-fastadd:hover {
   background-color: #ec5105;
@@ -1118,22 +1099,22 @@ body {
 .main-btn-confirm .fa-check-circle {
   margin-right: 6px;
 }
-.main-btn-fastadd .el-icon-loading{
-  margin-right:5px;
+.main-btn-fastadd .el-icon-loading {
+  margin-right: 5px;
 }
 .main-btn-fastadd {
-  margin-right:20px;
+  margin-right: 20px;
 }
-.main-btn-confirm /deep/ .el-button--primary{
-  background-color: #ff8800;
-  border-color: #ff8800;
+.main-btn-confirm /deep/ .el-button--primary {
+  background-color: $ball-color;
+  border-color: $ball-color;
   font-size: 19px;
   font-weight: normal;
 }
 .main-btn-confirm /deep/ .el-button--primary:hover,
-.main-btn-confirm /deep/ .el-button--primary:focus{
-  background-color: #ec5105;
-  border-color: #ec5105;
+.main-btn-confirm /deep/ .el-button--primary:focus {
+  background-color: $ball-color;
+  border-color: $ball-color;
 }
 
 /*追号*/
@@ -1286,7 +1267,7 @@ body {
   border-radius: 2px;
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
     0 1px 1px rgba(255, 255, 255, 0.1) inset;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
     0 1px 1px rgba(255, 255, 255, 0.1) inset;
 }
 
@@ -1409,7 +1390,7 @@ body {
   cursor: pointer;
   font-weight: normal;
   -webkit-box-shadow: inset 0 0 0 0 #ffffff;
-          box-shadow: inset 0 0 0 0 #ffffff;
+  box-shadow: inset 0 0 0 0 #ffffff;
   line-height: 33px;
   text-align: center;
   color: #3f3f3f;
@@ -1423,9 +1404,10 @@ body {
   color: #f6543b;
 }
 .tab-on {
-  background: #fff0db;
+  background: $ball-color;
+  color: #fff;
   -webkit-box-shadow: inset 0 0 0 0 #ffffff;
-          box-shadow: inset 0 0 0 0 #ffffff;
+  box-shadow: inset 0 0 0 0 #ffffff;
 }
 /*橙色按钮*/
 .main-btn-fastadd,
@@ -1437,15 +1419,15 @@ body {
   height: 42px;
   min-width: 140px;
   line-height: 42px;
-  background-color: #ff8800;
+  background-color: $ball-color;
   text-align: center;
   color: #fff;
   font-size: 18px;
 }
-.main-btn-add{
+.main-btn-add {
   border: 1px solid #ccc;
   color: #333;
-  background:none;
+  background: none;
   cursor: pointer;
 }
 /* game-issue */
@@ -1509,15 +1491,7 @@ body {
 
 .game-header {
   height: 91px;
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#fff0db), to(#fff5e7)),
-    -webkit-gradient(linear, left top, left bottom, from(#e4dbd5), to(#e4dbd5));
-  background-image: linear-gradient(0deg, #fff0db 0%, #fff5e7 100%),
-    linear-gradient(#e4dbd5, #e4dbd5);
-  background-blend-mode: normal, normal;
-  -webkit-box-shadow: 0px 1px 0px 0px #e3d3bc, inset 0px 1px 0px 0px #ffffff;
-          box-shadow: 0px 1px 0px 0px #e3d3bc, inset 0px 1px 0px 0px #ffffff;
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  background: #fff;
 }
 
 .game-header-w {
@@ -1537,7 +1511,7 @@ body {
   height: 100%;
   border-right: 1px solid rgba(151, 151, 151, 0.4);
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .logo-lottery {
@@ -1546,7 +1520,7 @@ body {
   line-height: 91px;
   text-align: center;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-family: inherit;
   margin: 0;
 }
@@ -1764,7 +1738,7 @@ body {
   background-image: linear-gradient(0deg, #fff0db 0%, #fff5e7 100%),
     linear-gradient(#fffbf4, #fffbf4);
   -webkit-box-shadow: inset 0px 1px 0px 0px white;
-          box-shadow: inset 0px 1px 0px 0px white;
+  box-shadow: inset 0px 1px 0px 0px white;
   background-blend-mode: normal, normal;
 }
 .chase-tab {
@@ -1779,7 +1753,7 @@ body {
   cursor: pointer;
   background: transparent;
   border: none;
-  
+
   cursor: pointer;
   font-size: 16px;
   padding: 16px 20px 33px;
@@ -1787,17 +1761,17 @@ body {
   line-height: 16px;
   border-left: none;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .chase-tab + .chase-tab {
   border-left: 1px solid #e4e0d8;
 }
 .chase-tab.active {
-  color: #ff7200;
+  color: $primary-color-hover;
   margin: 0 -1px 0 0;
   padding: 14px 20px 33px;
   background-color: #ffffff;
-  border-top: 2px solid #ff9707;
+  border-top: 2px solid $ball-color;
   border-bottom: 1px solid #ffffff;
   border-right: 1px solid #e3d3bc;
   border-left: none;
@@ -1809,7 +1783,7 @@ body {
 .tab-inputs {
   padding: 30px 10px 14px 20px;
 }
-.tab-cons-btn{
+.tab-cons-btn {
   margin: 14px 15px !important;
 }
 .tab-inputs .param {
@@ -1821,14 +1795,15 @@ body {
   width: 50px;
   height: 30px;
   background-color: #ffffff;
-  -webkit-box-shadow: 0px 2px 0px 0px #ffffff, inset 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
-          box-shadow: 0px 2px 0px 0px #ffffff, inset 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0px 2px 0px 0px #ffffff,
+    inset 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 0px 0px #ffffff, inset 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
   border: solid 1px #b9b1a1;
   outline: none;
   border-radius: 2px;
   padding: 0;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   text-align: center;
 }
 .tab-input {
@@ -1857,7 +1832,7 @@ body {
   margin: 0;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
-          box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
 .list-full-history {
@@ -1865,7 +1840,7 @@ body {
   padding-bottom: 10px;
   background: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
 }
 .list-full-history ul {
   height: 49px;
@@ -1876,7 +1851,7 @@ body {
   background-image: linear-gradient(0deg, #fff0db 0%, #fff5e7 100%),
     linear-gradient(#fffbf4, #fffbf4);
   -webkit-box-shadow: inset 0px 1px 0px 0px white;
-          box-shadow: inset 0px 1px 0px 0px white;
+  box-shadow: inset 0px 1px 0px 0px white;
   background-blend-mode: normal, normal;
 }
 .list-full-history .title-list {
@@ -1888,16 +1863,16 @@ body {
   line-height: 16px;
   border-left: 1px solid #e3d3bc;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .list-full-history .title-list.current,
 .list-full-history .title-list.current:hover {
-  color: #ff7200;
+  color: $primary-color-hover;
   margin: 0 -1px 0 0;
   padding: 14px 20px 17px;
   background-color: #ffffff;
-  border-top: 2px solid #ff9707;
+  border-top: 2px solid $ball-color;
   border-bottom: 1px solid #ffffff;
   border-right: 1px solid #e3d3bc;
 }
@@ -2006,7 +1981,7 @@ body {
     #c7c8ca 100%
   );
   -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.38);
-          box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.38);
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.38);
   border-radius: 15px;
   line-height: 45px;
   font-size: 35px;
@@ -2020,7 +1995,7 @@ body {
   background-image: linear-gradient(-225deg, #f5515f 0%, #9f041b 100%);
   color: #fff;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
 
 /*三不同号*/
@@ -2031,13 +2006,13 @@ body {
   width: auto;
   border-radius: 5px;
 }
-.k3-sbth-lists.k3-dxds-lists-btn{
+.k3-sbth-lists.k3-dxds-lists-btn {
   padding-top: 0;
   margin-top: -30px;
 }
-.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list{
+.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list {
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   margin: 0 2px;
   padding: 7px 10px 3px;
   width: 142px;
@@ -2053,10 +2028,10 @@ body {
 .k3-sbth-lists .k3-dxds-list.active {
   background: #f60;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
-.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list.active{
-  background: #F4F1E5;
+.k3-sbth-lists.k3-dxds-lists-btn .k3-dxds-list.active {
+  background: #f4f1e5;
   border-radius: 5px;
 }
 .k3-sbth-lists .k3-sbth-1 {
@@ -2125,30 +2100,30 @@ body {
 @-webkit-keyframes k3Scale {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   50% {
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes k3Scale {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
   50% {
     -webkit-transform: scale(1.2);
-            transform: scale(1.2);
+    transform: scale(1.2);
   }
   100% {
     -webkit-transform: scale(1);
-            transform: scale(1);
+    transform: scale(1);
   }
 }
 
@@ -2159,7 +2134,7 @@ body {
 }
 .ylc-navs {
   position: relative;
-  padding-right:10px;
+  padding-right: 10px;
   vertical-align: middle;
   height: 50px;
   line-height: 50px;
@@ -2175,7 +2150,7 @@ body {
   padding: 0 25px;
   height: 50px;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border-top: 3px solid transparent;
   line-height: 50px;
   color: #333;
@@ -2186,7 +2161,7 @@ body {
   border-bottom: 3px solid #ff9707;
   background: #ffe8c9;
   color: #3b3c47;
-  font-weight:500;
+  font-weight: 500;
 }
 .ylc-kx {
   float: left;
@@ -2221,7 +2196,7 @@ body {
   height: 30px;
   margin-right: 10px;
   -webkit-box-shadow: 0 3px 5px #f1f1f1 inset;
-          box-shadow: 0 3px 5px #f1f1f1 inset;
+  box-shadow: 0 3px 5px #f1f1f1 inset;
   background: #f1f1f1;
   border-radius: 20px;
   text-align: center;
@@ -2255,7 +2230,7 @@ body {
   border-radius: 6px;
   background: #fff2e0;
   -webkit-box-shadow: 1px 1px 20px #333;
-          box-shadow: 1px 1px 20px #333;
+  box-shadow: 1px 1px 20px #333;
   color: #fff;
   font-family: 'Arial';
   text-align: center;
@@ -2265,8 +2240,8 @@ body {
   padding: 9px 30px;
   border-radius: 5px 5px 0 0;
   position: relative;
-  color:#fff;
-  font-size:18px;
+  color: #fff;
+  font-size: 18px;
 }
 .ylc-kx-explain {
   padding: 10px 30px;
@@ -2279,7 +2254,7 @@ body {
 .ylc-kx-info-text {
   margin-right: 10px;
   -webkit-box-shadow: 0 3px 5px #585858 inset;
-          box-shadow: 0 3px 5px #585858 inset;
+  box-shadow: 0 3px 5px #585858 inset;
   background-color: #e6e6e6;
   height: 30px;
   border-radius: 20px;
@@ -2353,7 +2328,7 @@ body {
 .ylc-kx-footer-clear:hover {
   background: #ffc054;
   -webkit-box-shadow: 0 2px 5px #ffc054;
-          box-shadow: 0 2px 5px #ffc054;
+  box-shadow: 0 2px 5px #ffc054;
 }
 .ylc-kx-footer-moneys {
   float: right;
@@ -2419,7 +2394,7 @@ body {
   height: 38px;
   line-height: 38px;
   -webkit-box-shadow: 0 1px 3px #e7e7e7 inset;
-          box-shadow: 0 1px 3px #e7e7e7 inset;
+  box-shadow: 0 1px 3px #e7e7e7 inset;
   border: 1px solid #e7e7e7;
   border-radius: 2px;
   text-align: center;
@@ -2434,7 +2409,7 @@ body {
 }
 .ylc-kx-footer-confirm:hover {
   -webkit-box-shadow: 0 1px 4px red;
-          box-shadow: 0 1px 4px red;
+  box-shadow: 0 1px 4px red;
 }
 .ylc-content {
   padding: 10px 9px;
@@ -2453,7 +2428,7 @@ body {
   /*border-right:1px dashed #D4D4D4;*/
   background: #f9f9f9;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .ylc-title-list {
   float: left;
@@ -2509,7 +2484,7 @@ body {
   /*border-right:1px dashed #D4D4D4;*/
   overflow: hidden;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   line-height: 42px;
   cursor: pointer;
 }
@@ -2552,7 +2527,7 @@ body {
   height: 23px;
   padding: 0 5px;
   -webkit-box-shadow: 0 1px 3px #e7e7e7 inset;
-          box-shadow: 0 1px 3px #e7e7e7 inset;
+  box-shadow: 0 1px 3px #e7e7e7 inset;
   border: 1px solid #e7e7e7;
   text-align: center;
   border-radius: 15px;
@@ -2561,7 +2536,7 @@ body {
 .ylc-content-line {
   border-right: 1px dashed #d4d4d4;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .ylc-content-left {
   float: left;
@@ -2730,13 +2705,13 @@ body {
 }
 
 .ylc-lhd-list-q:hover,
-.ylc-bet-list:hover{
+.ylc-bet-list:hover {
   background-color: #ffe8c9;
 }
-.ylc-lhd-list-q.active{
+.ylc-lhd-list-q.active {
   background-color: #ffe8c9;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
 
 .ylc-bet-line .ylc-bet-list:hover,
@@ -2756,10 +2731,10 @@ body {
   border-color: #fe0c0c;
 }
 
-.ylc-bet-list.active{
+.ylc-bet-list.active {
   background-color: #ffe8c9;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
 /*娱乐城投注弹窗*/
 .ylc-bet-title {
@@ -2808,14 +2783,14 @@ body {
   cursor: pointer;
   border: 1px solid #e6d7c0;
 }
-.bet-play:nth-of-type(1){
-  border-right:none;
+.bet-play:nth-of-type(1) {
+  border-right: none;
 }
-.bet-play:nth-of-type(2){
-  border-left:none;
+.bet-play:nth-of-type(2) {
+  border-left: none;
 }
 .bet-play.active {
-  background: #b79564;
+  background: $primary-color-hover;
   color: #fff;
 }
 .bet-play:nth-of-type(1) {
@@ -2892,11 +2867,11 @@ body {
 .main-center-wrap .main-left {
   min-height: 639px;
   -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   border-right: 1px solid #eaeaea;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .main-right {
@@ -2925,14 +2900,14 @@ body {
   background: #fff;
   float: left;
   width: 595px;
-  min-height:220px;
+  min-height: 220px;
   margin-right: 10px;
 }
 
 .panel-trace {
   float: left;
   width: 595px;
-  height:220px;
+  height: 220px;
   background: #fff;
 }
 
@@ -2950,7 +2925,7 @@ body {
   background-image: linear-gradient(0deg, #fff0db 0%, #fff5e7 100%),
     linear-gradient(#fffbf4, #fffbf4);
   -webkit-box-shadow: inset 0px 1px 0px 0px white;
-          box-shadow: inset 0px 1px 0px 0px white;
+  box-shadow: inset 0px 1px 0px 0px white;
   background-blend-mode: normal, normal;
 }
 
@@ -2970,7 +2945,7 @@ body {
   padding: 0 10px;
   background: transparent;
   -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   top: 0;
 }
 
@@ -3095,7 +3070,7 @@ body {
   width: 39px;
   height: 39px;
   background-color: #fff4ea;
-  border: solid 1px #ff942c;
+  border: solid 1px $ball-color;
   text-align: center;
   line-height: 44px;
   border-radius: 50%;
@@ -3109,7 +3084,7 @@ body {
   vertical-align: -5px;
   margin-right: 15px;
 }
-.panel-btn-a{
+.panel-btn-a {
   position: relative;
   display: inline-block;
   height: 28px;
@@ -3118,78 +3093,113 @@ body {
   text-align: center;
   vertical-align: middle;
   font-size: 12px;
-  color: #FFF;
+  color: #fff;
   cursor: pointer;
   border-radius: 2px;
   outline: none;
   font-family: microsoft yahei;
   background-color: #b79564;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
-          box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   margin-right: 10px;
   padding: 1px 10px;
 }
-.main-single-entry{
+.main-single-entry {
   padding: 15px 20px;
 }
-.bet-rebate-cont{
+.bet-rebate-cont {
   padding: 20px 20px 0;
   text-align: right;
 }
-.submit-btn{
+.submit-btn {
   text-align: right;
   padding: 0px 20px 20px;
 }
 
-.popper-class{
+.popper-class {
   margin-top: 5px !important;
 }
-.trace-row-multiple{
-  border: 1px solid #DBDBDB;
+.trace-row-multiple {
+  border: 1px solid #dbdbdb;
 }
-
 
 /*龙虎展示*/
-.main-ball-content-lh{
+.main-ball-content-lh {
   margin: 0 0 13px 20px;
-  float:left;
+  float: left;
   width: 70px;
   height: 70px;
-  background:url(../images/methods/lh.png) no-repeat;
-  background-size:300%;
+  background: url(../images/methods/lh.png) no-repeat;
+  background-size: 300%;
 }
-.main-ball-content-lh-tiger{
-  background:url(../images/methods/lh.png) no-repeat -69px 0;
-  background-size:300%;
+.main-ball-content-lh-tiger {
+  background: url(../images/methods/lh.png) no-repeat -69px 0;
+  background-size: 300%;
 }
-.main-ball-content-lh-he{
-  background:url(../images/methods/lh.png) no-repeat -141px 0;
-  background-size:300%;
+.main-ball-content-lh-he {
+  background: url(../images/methods/lh.png) no-repeat -141px 0;
+  background-size: 300%;
 }
-.main-ball-content-lh.active{
-  background:url(../images/methods/lh.png) no-repeat 0 -70px;
-  background-size:300%;
+.main-ball-content-lh.active {
+  background: url(../images/methods/lh.png) no-repeat 0 -70px;
+  background-size: 300%;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
-.main-ball-content-lh-tiger.active{
-  background:url(../images/methods/lh.png) no-repeat -69px -70px;
-  background-size:300%;
+.main-ball-content-lh-tiger.active {
+  background: url(../images/methods/lh.png) no-repeat -69px -70px;
+  background-size: 300%;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
-.main-ball-content-lh-he.active{
-  background:url(../images/methods/lh.png) no-repeat -141px -70px;
-  background-size:300%;
+.main-ball-content-lh-he.active {
+  background: url(../images/methods/lh.png) no-repeat -141px -70px;
+  background-size: 300%;
   -webkit-animation: k3Scale 0.3s;
-          animation: k3Scale 0.3s;
+  animation: k3Scale 0.3s;
 }
-.bmn-confirm-infos{
+.bmn-confirm-infos {
   float: left;
 }
-.bmn-confirm-info{
+.bmn-confirm-info {
   display: inline-block;
   vertical-align: middle;
   margin-right: 20px;
   font-size: 14px;
+}
+
+.single-price .el-select-dropdown__item.selected {
+  color: $ball-color;
+}
+/*下拉选择器*/
+body /deep/ .el-select .el-input__inner {
+  padding: 0 7px;
+  height: 35px;
+}
+body /deep/ .el-select .el-input.is-focus .el-input__inner {
+  border-color: $ball-color;
+}
+body /deep/ .el-select .el-input__inner:focus {
+  border-color: $ball-color;
+}
+.single-price .el-select-dropdown__item.selected {
+  color: $ball-color;
+  font-weight: 500;
+}
+
+/*拉杆*/
+body /deep/ .el-slider {
+  position: relative;
+  z-index: 0;
+  margin: 0 20px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+}
+
+body /deep/ .el-slider__bar {
+  background-color: $ball-color;
+}
+body /deep/ .el-slider__button {
+  border-color: $ball-color;
 }

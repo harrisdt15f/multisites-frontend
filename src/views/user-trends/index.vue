@@ -79,6 +79,7 @@ const slectOptionDict = {
 export default {
   name: 'user-trends',
   components: { Chart },
+  props: ['lotterySign'],
   data() {
     return {
       lotteryId: ['ssc', 'cqssc'],
@@ -116,6 +117,7 @@ export default {
     }
   },
   created () {
+    this.lotteryId = [this.lotteryAll[this.lotterySign]['lottery']['series_id'], this.lotterySign]
     this.getData(this.lotteryId[1])
   },
   methods: {
@@ -130,6 +132,7 @@ export default {
     },
     //选择不同彩种
     handleLotteryIdChange(value){
+      console.log(value)
       this.getData(value[1])
     },
     //选择不同玩法
@@ -141,6 +144,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .user-trends {
   width: 1240px;
   margin: 0 auto;
@@ -163,22 +167,22 @@ export default {
     }
 
     .el-checkbox__input.is-checked + .el-checkbox__label {
-      color: #ff7200;
+      color: $primary-color;
     }
     .el-checkbox__inner:hover {
-      border-color: #ff7200;
+      border-color: $primary-color;
     }
     .el-checkbox__input.is-checked .el-checkbox__inner,
     .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-      background-color: #ff7200;
-      border-color: #ff7200;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
     .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      background-color: #ff7200;
-      border-color: #ff7200;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
     .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      box-shadow: -1px 0 0 0 #ff7200;
+      box-shadow: -1px 0 0 0 $primary-color;
     }
   }
 
@@ -326,9 +330,9 @@ export default {
 
   .select-list li.current,
   .select-list li.current:hover {
-    color: #ff7200;
+    color: $primary-color;
     background-color: #ffffff;
-    border-top: 2px solid #ff9707;
+    border-top: 2px solid $primary-color;
     border-bottom: 1px solid #ffffff;
     border-right: 1px solid #e3d3bc;
     border-left: 1px solid #e3d3bc;
@@ -350,20 +354,20 @@ export default {
   }
   .select-list li:hover {
     background-color: #ffffff;
-    border-top: 2px solid #ff9707;
+    border-top: 2px solid $primary-color;
     border-bottom: 1px solid #ffffff;
     border-right: 1px solid #e3d3bc;
     border-left: 1px solid #e3d3bc;
   }
 
   .select-list li:hover a {
-    color: #ff7200;
+    color: $primary-color;
     text-decoration: none;
   }
 
   .select-list li.current a,
   .select-list li.current:hover a:hover {
-    color: #ff7200;
+    color: $primary-color;
   }
 }
 </style>

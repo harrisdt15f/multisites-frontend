@@ -57,7 +57,7 @@
           </div>
         </section>
         <section v-if="currentLottery.series_id !== 'pk10'" class="trend-info">
-          <router-link class="trend" tag="span" to="/user-trends">
+          <router-link class="trend" tag="span" :to="`/user-trends/${currentLottery.en_name}`">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
             <br />开奖趋势
           </router-link>
@@ -436,8 +436,9 @@ export default {
     font-size: 32px;
     text-align: center;
     background: url("../../assets/images/lottery/pic_ball.png") no-repeat;
+    background-size: 100% 100%;
     font-size: 26px;
-    color: black;
+    color: #fff;
     margin-right: 5px;
     line-height: 50px;
     text-align: center;

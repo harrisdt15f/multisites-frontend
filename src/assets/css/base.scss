@@ -1,4 +1,3 @@
-@charset "UTF-8";
 html,
 body {
   height: 100%;
@@ -35,9 +34,9 @@ body {
   color: #333;
   line-height: 24px;
   overflow-x: hidden;
-	background: #fff;
-  font-family: DIN, "Helvetica Neue", Helvetica, Arial, "Lantinghei SC",
-    "Microsoft YaHei", "Hiragino Sans GB", "STHeiti", "WenQuanYi Micro Hei",
+  background: #f1f1f1;
+  font-family: DIN, 'Helvetica Neue', Helvetica, Arial, 'Lantinghei SC',
+    'Microsoft YaHei', 'Hiragino Sans GB', 'STHeiti', 'WenQuanYi Micro Hei',
     SimSun, sans-serif;
 }
 ol,
@@ -126,9 +125,6 @@ input {
 .c51313 {
   color: #c51313;
 }
-.corigin{
-  color: #ff7600;
-}
 
 .mr {
   margin: 0 auto;
@@ -210,7 +206,7 @@ input {
   position: relative;
 }
 .w:after {
-  content: "";
+  content: '';
   display: block;
   clear: both;
 }
@@ -220,45 +216,7 @@ button {
   transition: all 0.3s;
 }
 
-.corigin {
-  color: #ff7200;
-}
 
-.single-price .el-select-dropdown__item.selected {
-  color: #ff9707;
-}
-/*下拉选择器*/
-body /deep/ .el-select .el-input__inner {
-  padding: 0 7px;
-  height: 35px;
-}
-body /deep/ .el-select .el-input.is-focus .el-input__inner {
-  border-color: #ff9707;
-}
-body /deep/ .el-select .el-input__inner:focus {
-  border-color: #ff9707;
-}
-.single-price .el-select-dropdown__item.selected {
-  color: #ff9707;
-  font-weight: 500;
-}
-
-/*拉杆*/
-body /deep/ .el-slider {
-  position: relative;
-  z-index: 0;
-  margin: 0 20px;
-  display: inline-block;
-  vertical-align: middle;
-  width: 100px;
-}
-
-body /deep/ .el-slider__bar {
-  background-color: #ff9707;
-}
-body /deep/ .el-slider__button {
-  border-color: #ff9707;
-}
 
 /*暂无数据*/
 .no-data {

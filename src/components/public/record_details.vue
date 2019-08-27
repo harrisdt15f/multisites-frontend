@@ -380,6 +380,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../assets/css/var.scss";
 .record-detail {
   /deep/ {
     .el-textarea.is-disabled .el-textarea__inner {
@@ -399,7 +400,7 @@ export default {
       width: 45px;
       height: 45px;
       line-height: 45px;
-      background: #ffbb52;
+      background: $ball-color;
       text-align: center;
       border-radius: 50%;
       color: #fff9e9;

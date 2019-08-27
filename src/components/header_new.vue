@@ -347,6 +347,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/var.scss";
+
 @keyframes myRotate {
   0% {
     -webkit-transform: rotate(0deg);
@@ -383,7 +385,7 @@ export default {
         position: relative;
         top: -1px;
         display: inline-block;
-        background: #ff7600;
+        background: $primary-color-hover;
         width: 20px;
         text-align: center;
         line-height: 15px;
@@ -437,12 +439,12 @@ export default {
   font-size: 16px;
   text-align: center;
   color: #fff;
-  background: rgb(255, 118, 0);
+  background: $primary-color;
   line-height: 48px;
 }
 .select-lottery {
   text-align: left;
-  background: rgb(255, 155, 0);
+  background: $primary-color-hover;
   .title {
     width: 100%;
     padding: 0 15px;
@@ -463,7 +465,7 @@ export default {
   height: 100%;
   &:hover,
   &.router-link-active {
-    background: rgb(255, 155, 0);
+    background: $primary-color-hover;
   }
 }
 .sub-select {
@@ -515,7 +517,7 @@ export default {
   }
   .issue {
     float: right;
-    color: #ff7600;
+    color: $primary-color-hover;
   }
 }
 .select-box {
@@ -538,7 +540,7 @@ export default {
       font-size: 16px;
       text-align: center;
       width: 40px;
-      background: #ff7600;
+      background: $primary-color-hover;
       color: #fff;
       padding: 20px 5px;
       box-sizing: border-box;
@@ -592,7 +594,7 @@ export default {
       .nav-menu {
         .span {
           box-sizing: border-box;
-          background: #ff9b00;
+          background: $header-btn-color;
           color: #fff;
           display: block;
           text-align: center;
@@ -601,10 +603,10 @@ export default {
           padding: 8px 5px;
           border-radius: 3px;
           &:hover {
-            background: #ff7501;
+            background: $primary-color-hover;
           }
           &.router-link-active {
-            background: #ff9b00;
+            background: $primary-color-hover;
             color: #fffefe;
           }
         }
@@ -615,8 +617,8 @@ export default {
 .login-form-inline {
   /deep/ .el-button--danger {
     color: #fff;
-    background-color: #ff7600;
-    border-color: #ff7600;
+    background-color: $primary-color;
+    border-color: $primary-color;
   }
 }
 .header-person {
@@ -643,7 +645,7 @@ export default {
   padding: 0px 5px;
   cursor: pointer;
   &:hover {
-    color: #ff6c00;
+    color: $primary-color-hover;
   }
 }
 .bar-link-in {
@@ -651,7 +653,7 @@ export default {
   padding: 0px 5px;
   cursor: pointer;
   &:hover {
-    color: #ff6c00;
+    color: $primary-color-hover;
   }
 }
 .header-money {
@@ -661,6 +663,9 @@ export default {
 }
 .header-line-in {
   color: #909399;
+}
+.corigin{
+  color: $primary-color-hover;
 }
 </style>
 

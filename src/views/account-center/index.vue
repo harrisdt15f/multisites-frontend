@@ -58,6 +58,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .account {
   width: 1200px;
   margin: 15px auto 55px;
@@ -83,13 +84,13 @@ export default {
         height: 2px;
         top: 0;
         left: 0;
-        background: #ff9707;
+        background: $primary-color;
       }
     }
     .el-tabs--border-card
       > .el-tabs__header
       .el-tabs__item:not(.is-disabled):hover {
-      color: #ff9707;
+      color: $primary-color;
     }
     .el-tabs__item {
       height: 50px;
@@ -103,6 +104,7 @@ export default {
 }
 </style>
 <style lang="scss">
+@import "../../assets/css/var.scss";
 .bmn-search-button {
   display: inline-block;
   box-sizing: border-box;
@@ -123,13 +125,11 @@ export default {
     cursor: pointer;
     width: 80px;
     height: 100%;
-    background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
-      linear-gradient(#d8cdb6, #d8cdb6);
+    background: $primary-color;
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15),
       inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
 
     border-width: 1px;
-    border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
     color: white;
     padding: 0;
   }
@@ -137,17 +137,17 @@ export default {
 .account .sub-account {
   /deep/ {
     .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      background-color: #fe9112;
-      border-color: #fe9112;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
     .el-radio-button__orig-radio:checked + .el-radio-button__inner {
-      box-shadow: -1px 0 0 0 #fe9112;
+      box-shadow: -1px 0 0 0 $primary-color;
     }
     .el-tabs__nav-wrap::after {
       height: 1px;
     }
     .el-tabs__nav-scroll {
-      background: #fffbf5 !important;
+      background: #ffffff !important;
     }
     .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
       background-color: #fffbf5;
@@ -166,13 +166,13 @@ export default {
       }
     }
     .el-tabs__item.is-active {
-      color: #875c4e;
+      color: $primary-color;
       &::after {
         content: "";
         display: block;
         width: 100%;
         height: 2px;
-        background: #875c4e;
+        background: $primary-color;
         position: absolute;
         left: 50%;
         bottom: 0;
@@ -180,7 +180,7 @@ export default {
       }
     }
     .el-tabs__item:hover {
-      color: #875c4e;
+      color: $primary-color-hover;
     }
   }
 }
@@ -189,7 +189,7 @@ export default {
   text-align: right;
   /deep/ {
     .el-pagination.is-background .el-pager li:not(.disabled).active {
-      background-color: #ff8900;
+      background-color: $primary-color;
     }
     .el-input--mini{
       margin-top: -4px !important;

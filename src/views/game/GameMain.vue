@@ -169,7 +169,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-@import "../../assets/css/game.scss";
-</style>
