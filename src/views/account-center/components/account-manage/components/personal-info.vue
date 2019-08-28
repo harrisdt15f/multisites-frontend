@@ -104,7 +104,7 @@ export default {
     },
     // 提交修改
     handleSubmit() {
-      this.Api.resetSpecificInfos(this.form).then(({ data, success }) => {
+      this.Api.resetSpecificInfos(this.form).then(({ success }) => {
         if (success) {
           this.isBtn = 'edit'
           this.isDisabled = true
@@ -118,6 +118,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../../assets/css/var.scss";
 .parsonal-info-head {
   background: #f6f6f7;
   width: 600px;
@@ -125,7 +126,7 @@ export default {
   padding: 5px 15px;
   line-height: 3;
   .tit {
-    color: #ff8900;
+    color: $primary-color;
     margin-right: 5px;
   }
 }
@@ -133,7 +134,7 @@ export default {
   font-size: 18px;
   font-weight: bold;
   margin: 15px 0;
-  border-left: 3px solid #ff8900;
+  border-left: 3px solid $primary-color;
   padding-left: 10px;
 }
 .personal-info {

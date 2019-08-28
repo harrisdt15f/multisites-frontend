@@ -265,6 +265,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .game-lotterys {
   &.pk10Deadlie {
     width: auto;
@@ -450,14 +451,14 @@ export default {
       float: left;
       width: 35px;
       height: 35px;
-      background: url("../../assets/images/lottery/pk10_ball.png") no-repeat;
+      background: $ball-color;
       background-size: 100%;
       font-size: 22px;
-      color: black;
+      border-radius: 50%;
+      color: #fff;
       line-height: 40px;
       line-height: 36px;
       text-align: center;
-      border-radius: inherit;
       box-shadow: none;
       font-family: inherit;
     }
