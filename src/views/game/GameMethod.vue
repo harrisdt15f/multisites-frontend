@@ -199,6 +199,8 @@ export default {
     //奖金计算
     countPrizes () {
       let [
+        seriesId = this.currentLottery.series_id,
+        diff = 0,
         prize = prizes[this.currentLottery.series_id] && prizes[this.currentLottery.series_id]['official'][this.currentMethod.method],
         count = 0,
         arr = []
@@ -207,16 +209,25 @@ export default {
         for (const i of k) {
           if(!prize) return
           if (this.currentLottery.id === i) {
+            if (
+                i === 20||
+                i === 17 ||
+                i === 71 ||
+                seriesId === 'sd' ||
+                seriesId === 'p3p5'
+            ) {
+              diff = 30
+            } else if (seriesId === 'lotto') {
+              diff = 20
+            }
             // 单个奖金时
             if (!Array.isArray(prize.count)) {
-              
-               if (i === 17 || i === 20 || i === 71) {
-                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
-              }
   
-              else {
-                count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count / prize.total) * this.lottery.countPrize / 2000 + .00000001
-              }
+              count = this.userConfig.mode *
+                      this.userConfig.singlePrice /
+                      (prize.count / prize.total) *
+                      (this.lottery.countPrize - diff) /
+                      2000 + .00000001
               this.typeGroup = 'auto'
               return this.Utils.toFixed(String(count))
             }
@@ -226,14 +237,11 @@ export default {
               for (const j of Object.keys(prize.count)) {
                 let json = {}
                 
-                //
-                 if (i === 17 || i === 20) {
-                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * (this.lottery.countPrize - 30) / 2000 + .00000001
-                }
-                
-                else {
-                  count = this.userConfig.mode * this.userConfig.singlePrice / (prize.count[j] / prize.total) * this.lottery.countPrize / 2000 + .00000001
-                }
+                count = this.userConfig.mode *
+                        this.userConfig.singlePrice /
+                        (prize.count[j] / prize.total) *
+                        (this.lottery.countPrize - diff) /
+                        2000 + .00000001
   
                 json.value = j
                 if (this.currentMethodGroup === 'LH') {
