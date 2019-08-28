@@ -128,6 +128,7 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "../../../../assets/css/var.scss";
 .bet-record {
   .container {
     padding: 0 35px 35px;
@@ -140,7 +141,7 @@ export default {
       }
     }
     .h1 {
-      color: #ff8900;
+      color: $primary-color;
       font-size: 16px;
       font-weight: 400;
       margin: 20px 0;
@@ -164,13 +165,11 @@ export default {
     color: white;
     font-size: 16px;
     border-radius: 3px;
-    background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
-      linear-gradient(#ff9700, #ff9700);
+    background: $primary-color;
     background-blend-mode: normal, normal;
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
     border: 1px solid;
-    border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
     border-image-slice: 1;
   }
 }
@@ -216,8 +215,8 @@ export default {
 .dialog-create-pass {
   /deep/ {
     .el-button--primary {
-      background-color: #ff8900;
-      border-color: #ff8900;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
   }
 }

@@ -146,11 +146,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 a{
   cursor: pointer;
 }
 .orange {
-  color: #d81e06;
+  color: $primary-color-hover;
 }
 .help-center {
   width: 1200px;
@@ -199,7 +200,7 @@ a{
       position: relative;
     }
     .help-icon {
-      background: #fc9721;
+      background: $primary-color;
       color: #fff;
       width: 22px;
       height: 22px;

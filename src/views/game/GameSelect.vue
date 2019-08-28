@@ -1694,19 +1694,20 @@ export default {
 }
 </script>
 <style lang="scss">
+@import "../../assets/css/var.scss";
 .confirm-bet {
   /deep/ {
     .el-message-box__btns {
       text-align: center;
     }
     .el-button--primary {
-      background-color: #ff8800;
-      border-color: #ff8800;
+      background-color: $ball-color;
+      border-color: $ball-color;
     }
     .el-button--primary:focus,
     .el-button--primary:hover {
-      background: #ec5105;
-      border-color: #ec5105;
+      background: $primary-color-hover;
+      border-color: $primary-color-hover;
     }
   }
 }

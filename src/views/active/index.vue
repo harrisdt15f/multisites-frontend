@@ -68,6 +68,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .active{
   width: 1200px;
   margin: 0 auto;
@@ -94,8 +95,8 @@ export default {
       }
     }
     .el-button--danger{
-      background-color: #ff8900;
-      border-color: #ff8900;
+      background-color: $primary-color;
+      border-color: $primary-color;
       
       span{
         font-size:18px;
@@ -108,7 +109,7 @@ export default {
       line-height: 25px;
       color: #999;
       .public_color {
-        color: #ff8900;
+        color:  $primary-color-hover;
         border-color: #fc1805;
       }
       p {

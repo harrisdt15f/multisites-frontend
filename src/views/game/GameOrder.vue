@@ -1372,7 +1372,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .chase-stop {
   text-align: left;
   padding-left: 20px;
@@ -1381,7 +1382,7 @@ export default {
   color: #000;
 }
 .chase-stop /deep/ .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-  background-color: #ff7200;
-    border-color: #ff7200;
+  background-color: $ball-color;
+    border-color: $ball-color;
 }
 </style>

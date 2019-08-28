@@ -137,6 +137,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .dialog-bulletin {
   /deep/ {
     .el-dialog {
@@ -188,8 +189,8 @@ export default {
       cursor: pointer;
       background: #292624;
       &.on {
-        background: #ff9b00;
-        color: #000;
+        background: $primary-color;
+        color: #fff;
       }
     }
   }

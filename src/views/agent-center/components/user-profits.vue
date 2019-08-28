@@ -295,6 +295,7 @@ export default {
 
 
 <style lang="scss" scoped>
+@import "../../../assets/css/var.scss";
 .bmn-search-button {
   display: inline-block;
   box-sizing: border-box;
@@ -314,13 +315,11 @@ export default {
   input {
     width: 80px;
     height: 100%;
-    background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
-      linear-gradient(#d8cdb6, #d8cdb6);
+    background: $primary-color;
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15),
       inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
 
     border-width: 1px;
-    border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
     color: white;
     padding: 0;
   }

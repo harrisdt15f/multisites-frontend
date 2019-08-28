@@ -135,8 +135,8 @@ export default {
     // 注册
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
-        this.loading = true
         if (valid) {
+          this.loading = true
           const sendData = {
             username: this.userForm.username,
             password: this.userForm.password
@@ -169,6 +169,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .login {
   .main {
     .main-container {
@@ -200,9 +201,9 @@ export default {
             font-weight: bold;
             .title-l {
               float: left;
-              color: #ff7800;
+              color: $primary-color-hover;
               font-weight: 400;
-              border-bottom: 1px solid #ff7800;
+              border-bottom: 1px solid $primary-color-hover;
               font-size: 18px;
               line-height: 1.5;
             }
@@ -260,17 +261,17 @@ export default {
   /deep/ {
     .el-checkbox__input.is-checked .el-checkbox__inner,
     .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-      background-color: #ff7800;
-      border-color: #ff7800;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
     .el-button--primary {
-      background-color: #ff7800;
-      border-color: #ff7800;
+      background-color: $primary-color;
+      border-color: $primary-color;
     }
     .el-button--primary:focus,
     .el-button--primary:hover {
-      background: #ff7800;
-      border-color: #ff7800;
+      background: $primary-color;
+      border-color: $primary-color;
       color: #fff;
     }
   }

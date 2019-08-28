@@ -160,13 +160,13 @@ export default {
         bottom: 0;
         width: 0;
         height: 0;
-        border-bottom: 25px solid red;
-        border-left: 25px solid transparent;
+        border-bottom: 20px solid red;
+        border-left: 20px solid transparent;
         i{
           font-size: 12px;
           position: absolute;
-          left: -14px;
-          top: 10px;
+          left: -12px;
+          top: 7px;
           color: #fff;
         }
       }

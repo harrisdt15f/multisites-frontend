@@ -64,8 +64,8 @@
                 :class="`c-${items[0]}-${items[2]}`"
               >{{items[0] == 0 ? items[1] : items[0]}}</i>
             </td>
-            <td class="ball-none border-right" ></td>
-            <td class="ball-none"></td>
+            <td class="ball-none border-right" :key="`${item[0]}${index}border-right`"></td>
+            <td class="ball-none" :key="`${item[0]}${index}ball-none`"></td>
           </template>
           <!-- 号码分布 -->
           <td v-for="(ball, index1) in item[7]" :key="`${item[0]}${index1}`">
@@ -1169,7 +1169,6 @@ export default {
       return data
     },
     handleDrawing() {
-      console.log(mock.data)
       this.data = this.reBuildData(mock.data).data
       let positionCount = 0,
         currentBallLeft = 0,

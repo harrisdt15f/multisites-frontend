@@ -57,7 +57,7 @@
           </div>
         </section>
         <section v-if="currentLottery.series_id !== 'pk10'" class="trend-info">
-          <router-link class="trend" tag="span" to="/user-trends">
+          <router-link class="trend" tag="span" :to="`/user-trends/${currentLottery.en_name}`">
             <i class="fa fa-line-chart" aria-hidden="true"></i>
             <br />开奖趋势
           </router-link>
@@ -265,6 +265,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .game-lotterys {
   &.pk10Deadlie {
     width: auto;
@@ -436,8 +437,9 @@ export default {
     font-size: 32px;
     text-align: center;
     background: url("../../assets/images/lottery/pic_ball.png") no-repeat;
+    background-size: 100% 100%;
     font-size: 26px;
-    color: black;
+    color: #fff;
     margin-right: 5px;
     line-height: 50px;
     text-align: center;
@@ -449,14 +451,14 @@ export default {
       float: left;
       width: 35px;
       height: 35px;
-      background: url("../../assets/images/lottery/pk10_ball.png") no-repeat;
+      background: $ball-color;
       background-size: 100%;
       font-size: 22px;
-      color: black;
+      border-radius: 50%;
+      color: #fff;
       line-height: 40px;
       line-height: 36px;
       text-align: center;
-      border-radius: inherit;
       box-shadow: none;
       font-family: inherit;
     }

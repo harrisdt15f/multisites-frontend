@@ -50,6 +50,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .agent-center {
   width: 1200px;
   margin: 30px auto 55px;
@@ -71,13 +72,13 @@ export default {
         height: 2px;
         top: 0;
         left: 0;
-        background: #ff9707;
+        background: $primary-color;
       }
     }
     .el-tabs--border-card
       > .el-tabs__header
       .el-tabs__item:not(.is-disabled):hover {
-      color: #ff9707;
+      color: $primary-color;
     }
     .el-tabs__item {
       height: 50px;

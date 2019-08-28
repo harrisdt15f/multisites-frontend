@@ -328,19 +328,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../../assets/css/var.scss";
 .create-form {
   width: 520px;
   margin: 30px auto;
   /deep/ {
     .el-radio.is-bordered.is-checked {
-      border-color: #ff8900;
+      border-color: $primary-color;
     }
     .el-radio__input.is-checked + .el-radio__label {
       color: #000;
     }
     .el-radio__input.is-checked .el-radio__inner {
-      border-color: #ff8900;
-      background: #ff8900;
+      border-color: $primary-color;
+      background: $primary-color;
     }
     .el-slider {
       width: 70%;
@@ -348,9 +349,9 @@ export default {
       padding-right: 15px;
     }
     .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-      background-color: #ff8900;
-      border-color: #ff8900;
-      box-shadow: -1px 0 0 0 #ff8900;
+      background-color: $primary-color;
+      border-color: $primary-color;
+      box-shadow: -1px 0 0 0 $primary-color;
     }
   }
 }
