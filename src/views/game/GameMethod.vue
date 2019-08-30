@@ -214,6 +214,7 @@ export default {
                 i === 17 ||
                 i === 71 ||
                 seriesId === 'sd' ||
+                seriesId === 'ssl' ||
                 seriesId === 'p3p5'
             ) {
               diff = 30
