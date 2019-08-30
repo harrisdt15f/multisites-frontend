@@ -44,6 +44,7 @@ import bankManage from './components/bank-manage'
 import personalInfo from './components/personal-info'
 
 export default {
+  inject:['active'],
   data() {
     //密码验证
     var validatePass = (rule, value, callback) => {
@@ -92,6 +93,7 @@ export default {
   },
   methods: {
     initData() {
+      this.activeName = this.active ? this.active : 'personal-info'
       this.existFundPassword = this.userDetail.fund_password
     },
     // 查看是否含有资金密码

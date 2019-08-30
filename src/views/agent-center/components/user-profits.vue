@@ -139,8 +139,8 @@
     <div class="custom-table">
       <el-table :data="userProfits.child.data" style="width: 100%">
         <el-table-column align="center" label="用户名">
-          <template>
-            <span>{{userDetail.username}}</span>
+          <template slot-scope="scope">
+            <span>{{scope.row.username}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="充值总额">

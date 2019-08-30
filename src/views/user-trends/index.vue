@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-        <chart ref="Chart"></chart>
+        <chart :list="list" ref="Chart"></chart>
       </div>
     </div>
   </div>
@@ -82,6 +82,7 @@ export default {
   props: ['lotterySign'],
   data() {
     return {
+      list: [],
       lotteryId: ['ssc', 'cqssc'],
       slectOptionDict,
       selectOption: ['guides', 'lost', 'lostPost', 'trend', 'temperature'],
@@ -117,16 +118,19 @@ export default {
     }
   },
   created () {
-    this.lotteryId = [this.lotteryAll[this.lotterySign]['lottery']['series_id'], this.lotterySign]
+    if(this.lotterySign) this.lotteryId = [this.lotteryAll[this.lotterySign]['lottery']['series_id'], this.lotterySign]
+  },
+  mounted () {
     this.getData(this.lotteryId[1])
   },
   methods: {
     // 请求走势数据
     getData(lottery_id){
+      this.list = []
       this.listQuery.lottery_id = lottery_id
       this.Api.getTrend(this.listQuery).then(({success, data}) => {
         if (success) {
-          console.log(JSON.parse(data))
+          this.list = JSON.parse(data)
         }
       })
     },

@@ -13,9 +13,18 @@
       <el-tab-pane label="账变记录" :lazy="true" name="betchage-record">
         <fund-record></fund-record>
       </el-tab-pane>
-      <!-- <el-tab-pane label="充值记录" :lazy="true" name="recharge-list">
-        <recharge-list></recharge-list>
-      </el-tab-pane> -->
+      <el-tab-pane label="我的充值" :lazy="true" name="my-recharge">
+        <my-recharge></my-recharge>
+      </el-tab-pane>
+      <el-tab-pane label="充值申请" :lazy="true" name="user-recharge">
+        <user-recharge></user-recharge>
+      </el-tab-pane>
+      <el-tab-pane label="我的提现" :lazy="true" name="my-withdraw">
+        <my-withdraw></my-withdraw>
+      </el-tab-pane>
+      <el-tab-pane label="提现申请" :lazy="true" name="user-withdraw">
+        <user-withdraw></user-withdraw>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -24,7 +33,10 @@
 import betRecord from './components/bet-record'
 import fundManage from './components/fund-manage/index'
 import fundRecord from './components/fund-record'
-// import rechargeList from './components/recharge-list'
+import myRecharge from './components/my-recharge'
+import myWithdraw from './components/my-withdraw'
+import userRecharge from './components/user-recharge'
+import userWithdraw from './components/user-withdraw'
 import accountManage from './components/account-manage/index'
 
 export default {
@@ -34,7 +46,10 @@ export default {
     fundManage,
     fundRecord,
     accountManage,
-    // rechargeList
+    myRecharge,
+    userRecharge,
+    myWithdraw,
+    userWithdraw
   },
   data() {
     return {

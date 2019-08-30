@@ -175,6 +175,9 @@ a{
       font-size: 12px;
     }
   }
+  .help-list{
+    min-height: 41px;
+  }
   .help-list ul li {
     line-height: 40px;
     border-bottom: 1px solid #ececec;

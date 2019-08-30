@@ -451,7 +451,9 @@ export default {
         })
         return
       }
-
+      const convertCodes = this.convertCodes()
+      const isHe = this.currentMethodGroup === 'LH' && convertCodes == 2
+      const isChallenge = +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
       if (
         this.currentMethod.type === 'multi' ||
         this.currentMethod.type === 'k3'
@@ -460,20 +462,21 @@ export default {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
           method_name: this.currentMethod.name,
-          codes: this.convertCodes(),
+          codes: convertCodes,
           count: this.currentOrder.currentCount,
           times: this.currentOrder.currentTimes,
           currentMaxTimes: this.currentOrder.currentMaxTimes,
           cost: this.currentOrder.currentCost.toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
-          price: this.userConfig.singlePrice
+          price: this.userConfig.singlePrice,
+          challenge: isChallenge ? 1 : 0
         }
         order._codes = this.formatInputCodes(order.codes)
         if (oneKey) {
           this.oneKeyList = order
         } else {
-          if (+this.currentCountPrizes / +this.currentOrder.currentCost >= 45) {
+          if (isChallenge || isHe) {
             this.$msgbox({
               title: '投注确认',
               customClass: 'confirm-bet',
@@ -491,7 +494,7 @@ export default {
                 h(
                   'p',
                   { style: 'text-align: center; color: #ff7200' },
-                  '投注包含单挑注单，奖金上限为2万元'
+                  isHe ? '投注包含单挑注单，奖金上限为4万元' : '投注包含单挑注单，奖金上限为2万元'
                 )
               ]),
 
@@ -603,16 +606,13 @@ export default {
           cost: this.currentOrder.currentCost.toFixed(3),
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
-          price: this.userConfig.singlePrice
+          price: this.userConfig.singlePrice,
+          challenge: isChallenge ? 1 : 0
         }
         if (oneKey) {
           this.oneKeyList = order
         } else {
-          if (
-            this.currentLottery.max_profit_bonus /
-              +this.currentOrder.currentCost >=
-            45
-          ) {
+          if (isChallenge) {
             this.$msgbox({
               title: '投注确认',
               customClass: 'confirm-bet',
@@ -1619,6 +1619,8 @@ export default {
         return false
       }
       const h = this.$createElement
+      const isChallenge = +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
+      const isHe = this.currentMethodGroup === 'LH' && this.convertCodes() == 2
       this.$msgbox({
         title: '投注确认',
         customClass: 'confirm-bet',
@@ -1633,11 +1635,10 @@ export default {
             { style: 'text-align: center; font-weight:bold;' },
             `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
           ),
-          +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
-            ? h(
+          isChallenge || isHe ? h(
                 'p',
                 { style: 'text-align: center; color: #ff7200' },
-                '投注包含单挑注单，奖金上限为2万元'
+                isHe ? '投注包含单挑注单，奖金上限为4万元' : '投注包含单挑注单，奖金上限为2万元'
               )
             : null
         ]),

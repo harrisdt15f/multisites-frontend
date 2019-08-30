@@ -1105,6 +1105,7 @@ export default {
   mounted() {
     this.handleDrawing()
   },
+  props: ['list'],
   methods: {
     reBuildData(data) {
       var arrMain = [],

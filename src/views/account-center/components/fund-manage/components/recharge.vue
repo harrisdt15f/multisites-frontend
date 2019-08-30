@@ -3,86 +3,47 @@
     <div class="recharge-group">
       <div
         class="recharge-item"
-        v-for="item in 5"
-        :key="item"
-        @click="currentIndex = item"
-        :class="{on: item === currentIndex}"
+        v-for="(item, index) in channelList"
+        :key="index"
+        @click="changeChannel(item)"
+        :class="{on: item.channel_sign === currentIndex}"
       >
         <img class="img" src="@/assets/images/center/recharge_bank.png">
-        银行入款
+        {{item.channel_name}}
         <div class="on-r">
           <i class="fa fa-check" aria-hidden="true"></i>
         </div>
       </div>
     </div>
-    <div class="recharge-content">
-      <p class="title">
-        <span class="num">1</span>
-        请转账到一下账户：
-        <span class="sub-title">单比最低10元，最高200000元</span>
-      </p>
-      <div class="p">
-        <div class="p-l fl">收款通道：</div>
-        <div class="p-r fl">
-          <div class="recharge-redio">
-            <el-radio-group v-model="radio" size="small">
-              <el-radio label="1" border>
-                中国工商银行
-                <div class="b-r">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                </div>
-              </el-radio>
-              <el-radio label="2" border>
-                中国工商银行
-                <div class="b-r">
-                  <i class="fa fa-check" aria-hidden="true"></i>
-                </div>
-              </el-radio>
-            </el-radio-group>
-          </div>
+    <div class="recharge-content" v-if="channelList.length">
+      <template v-if="currentIndex === 'transfer'">
+        <div class="tip">
+          <p> 重要提醒：平台不定期更换收款卡，每次充值务必获取最新的收款卡信息</p>
+          <p>1. 平台支持手机网银、任何跨行、支付宝、微信等转账方式</p>
+          <p>2. 务必记得填写正确附言以及申请金额与实际支付金额保持一致</p>
+          <p> 3. 充值到平台已更换的银行卡中导致的资金损失，平台概不负责</p>
+          <p> 4. 支付宝、微信转账务必选择2小时内到账，转账后联系客服上分</p>
         </div>
-      </div>
-      <div class="p">
-        <div class="p-l fl">收款银行：</div>
-        <div class="p-r fl">中国中商银行</div>
-      </div>
-      <div class="p">
-        <div class="p-l fl">收款户名：</div>
-        <div class="p-r fl">陈子慧</div>
-      </div>
-      <div class="p">
-        <div class="p-l fl">收款账号：</div>
-        <div class="p-r fl">6222082353243338960</div>
-      </div>
-      <div class="p">
-        <div class="p-l fl">开户支行：</div>
-        <div class="p-r fl">中国工商银行建瓯支行营业部</div>
-      </div>
-      <p class="title">
-        <span class="num">2</span>
-        请认真填写您的转账信息：
-        <span class="sub-title">请务必转账后再提交订单，否则无法及时查到您的款项！</span>
-      </p>
+      </template>
+      <template v-else-if="currentIndex === 'zfb'">
+        <div class="tip">
+          请在新弹出的支付宝收银台页面，进行充值操作。
+          如果您的浏览器未弹出新的支付页面，请取消浏览器对弹出页面的<br>阻拦，并选择允许（信任）。
+        </div>
+      </template>
       <div class="p">
         <div class="p-input fl">
           充值金额：
-          <el-input style="width:186px" v-model="input" placeholder="请输入充值金额"></el-input>
+          <el-input-number v-model="amount" controls-position="right" :min="prizes.min" :max="prizes.max"></el-input-number>
+          <span style="color:red">*</span> 元
         </div>
-        <div class="p-input fl">
-          银行姓名：
-          <el-input style="width:186px" v-model="input" placeholder="请输入充值金额"></el-input>
-        </div>
+        <p class="p-input-line">
+          最低 <span>{{prizes.min}}</span> 元， 
+          最高 <span>{{prizes.max}}</span> 元
+        </p> 
       </div>
       <div class="submit-btn">
-        <button type="submit" class="form-button">提交充值订单</button>
-      </div>
-      <div class="tip">
-        温馨提示：
-        <br>1.请转账完成后再提交充值订单。
-        <br>2.请正确填写您的户名和充值金额。
-        <br>3.转账1笔提交1次，请勿重复提交订单。
-        <br>4.转账完成后请保留单据作为核对证明。
-        <br>
+        <el-button @click="submitForm" :loading="btnLoading" class="form-button">提交充值订单</el-button>
       </div>
     </div>
   </div>
@@ -91,17 +52,68 @@
 export default {
   data() {
     return {
-      currentIndex: 1,
+      btnLoading: false,
+      // 最大最小额度
+      prizes: {
+        min: null,
+        max: null
+      },
+      channelList:[],
+      currentIndex: null,
       radio: 1,
-      input: ''
+      amount: null
+    }
+  },
+  mounted () {
+    this.initData()
+  },
+  methods: {
+    initData(){
+      this.Api.getRechargeChannel().then(({success, data}) => {
+        if (success && data.length) {
+          this.currentIndex = data[0].channel_sign
+          this.prizes.max = parseInt(data[0].max)
+          this.prizes.min = parseInt(data[0].min)
+          this.channelList = data
+        }
+      })
+    },
+    // 切换支付渠道
+    changeChannel(item) {
+      this.amount = null
+      this.currentIndex = item.channel_sign
+      this.prizes.max = parseInt(item.max)
+      this.prizes.min = parseInt(item.min)
+    },
+    //提交
+    submitForm(){
+      const sendData = {
+        amount: this.amount,
+        channel: this.currentIndex
+      }
+      this.btnLoading = true
+      this.Api.postRecharge(sendData).then(({success, data}) => {
+        this.btnLoading = false
+        if (success) {
+          this.$alert(
+            data.msg,
+            '提示',
+            {
+              confirmButtonText: '确定'
+            }
+          )
+        }
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../../../../../assets/css/var.scss";
 .recharge {
   padding: 0 30px 35px;
+  min-height: 500px;
   /deep/ {
     .submit-btn {
       padding: 20px 95px;
@@ -116,22 +128,20 @@ export default {
       color: white;
       font-size: 16px;
       border-radius: 3px;
-      background-image: linear-gradient(0deg, #ff8400 0%, #ffa200 100%),
-        linear-gradient(#ff9700, #ff9700);
-      background-blend-mode: normal, normal;
+      background: $primary-color;
       box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.15),
         inset 0 1px 0 0 rgba(255, 255, 255, 0.4);
       border: 1px solid;
-      border-image-source: linear-gradient(0deg, #d78700 0%, #e58f00 100%);
       border-image-slice: 1;
     }
   }
   .tip {
-    margin-top: 30px;
+    border: none;
+    padding-left: 32px;
+    background: url('../../../../../assets/images/recharge-hint.png') no-repeat;
+    color: #C4A17C;
     font-size: 14px;
-    color: #6b3c00;
-    background: #fff3e0;
-    padding: 20px;
+    margin-bottom: 15px;
   }
 }
 .recharge-group {
@@ -144,7 +154,7 @@ export default {
     border: 1px solid;
     border-color: #cfcfcf;
     padding: 5px 10px;
-    margin-right: 8px;
+    margin-right: 15px;
     border-radius: 5px;
     .on-r{
       display: none;
@@ -210,6 +220,14 @@ export default {
     .p-input {
       margin-right: 25px;
     }
+  }
+}
+     
+.p-input-line{
+  font-size: 12px;
+  margin-top: 16px;
+  span{
+    color: red;
   }
 }
 .recharge-redio {

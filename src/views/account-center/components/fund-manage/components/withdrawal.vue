@@ -2,32 +2,35 @@
   <div class="withdrawal">
     <div class="container">
       <div class="acc-detail">
-        <div class="fl">账号：252525</div>
+        <div class="fl">账号：{{userDetail.username}}</div>
         <div class="fl">
           余额：
-          <span style="color:#d00000">￥6589.00</span>
+          <span style="color:#d00000">{{userDetail.balance}}</span>
         </div>
         <div class="bmn-search-button">
           <input type="submit" value="交易记录" class="btn">
         </div>
       </div>
-      <el-form class="withdrawal-form" ref="form" :model="form" label-width="90px">
-        <el-form-item label="银行卡：">
-          <el-input v-model="form.name" placeholder="银行卡名称：工商银行      卡号：6222063562773547890      姓名：张子惠"></el-input>
-        </el-form-item>
-        <el-form-item label="消费比例：">
-          <el-input v-model="form.name"></el-input>
+      <el-form class="withdrawal-form" label-width="90px">
+        <el-form-item label="银行卡：" >
+           <el-select style="width:260px" popper-class="single-price" v-model="bankCard" placeholder="请选择">
+              <el-option
+                v-for="item in cardList"
+                :key="item.value"
+                :label="`${item.owner_name} ${item.card_number} ${item.bank_name}`"
+                :value="item">
+                {{item.owner_name}} {{item.card_number}} {{item.bank_name}}
+              </el-option>
+            </el-select>
         </el-form-item>
         <el-form-item label="消费金额：">
-          <el-input v-model="form.name" style="width:200px"></el-input>&nbsp;&nbsp;元
+          <el-input-number v-model="amount" controls-position="right" :min="20" :max="Number(userDetail.balance)"></el-input-number> &nbsp;&nbsp;元
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <span style="color:#d00000">*</span>最小金额为<span style="color:#d00000">10</span>元，请正确填写
-        </el-form-item>
-        <el-form-item label="取款密码：">
-          <el-input v-model="form.name" style="width:200px"></el-input>
+          <span style="color:#d00000">*</span>
+          最小金额为<span style="color:#d00000">20.00</span>元，请正确填写
         </el-form-item>
         <div class="submit-btn">
-          <button type="submit" class="form-button">提交提款订单</button>
+          <el-button @click="submitForm" :loading="btnLoading" class="form-button">提交提款订单</el-button>
         </div>
       </el-form>
     </div>
@@ -39,10 +42,71 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
-      form: {}
+      btnLoading:false,
+      cardList: [],
+      amount: null,
+      bankCard: null
+    }
+  },
+  computed: {
+    ...mapGetters(['userDetail']),
+  },
+  created () {
+    this.fetchCardList()
+  },
+  methods: {
+    //获取银行卡列表
+    fetchCardList() {
+      return new Promise(() => {
+        this.Api.getCardList().then(res => {
+          const { success, data } = res
+          if (success) {
+            if(!data || !data.length){
+              this.$alert(
+                '还没有银行卡， 请先添加银行卡',
+                '提示',
+                {
+                  confirmButtonText: '确定'
+                }
+              ).then(() => {
+                this.$router.push('/account-center/account-manage/bank-manage')
+              }).catch(() => {
+                this.$router.push('/account-center/account-manage/bank-manage')
+              })
+            }else{
+              this.cardList = data
+              this.bankCard = data[0]
+            }
+          }
+        })
+      })
+    },
+    //提交
+    submitForm(){
+      const sendData = {
+        amount: this.amount,
+        bank_sign: this.bankCard.bank_sign,
+        card_number: this.bankCard.card_number,
+        card_username: this.bankCard.owner_name
+      }
+      this.btnLoading = true
+      this.Api.postWithdraw(sendData).then(({success}) => {
+        this.btnLoading = false
+        if (success) {
+          this.$alert(
+            '提款成功！',
+            '提示',
+            {
+              confirmButtonText: '确定'
+            }
+          )
+        }
+      })
     }
   }
 }

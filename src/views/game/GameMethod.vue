@@ -309,6 +309,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/css/var.scss";
 .bet-type-group-warp{
   position: relative;
   padding-top: 20px;
@@ -338,7 +339,7 @@ export default {
     width: 23px;
     text-align: center;
     padding: 8px 0;
-    background: #ff8800;
+    background: $primary-color;
     color: #fff;
   }
 }

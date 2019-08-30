@@ -92,7 +92,7 @@ export default {
         { title: '包网品牌' },
         { title: '帮助中心' },
         { title: '手机客户端' },
-        { title: '仿劫持教程' }
+        { title: '防劫持教程' }
       ],
       cooperateList: [
         {

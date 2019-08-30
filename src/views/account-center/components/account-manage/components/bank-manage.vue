@@ -53,7 +53,7 @@
       </div>
       <div class="form-text">
         <button class="form-button" @click="handleAddCreate" style="margin-right:30px;">增加绑定</button>
-        <button class="form-button">锁定银行卡</button>
+        <!-- <button class="form-button">锁定银行卡</button> -->
       </div>
     </div>
     <!-- 创建银行卡 -->
