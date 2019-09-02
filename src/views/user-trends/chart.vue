@@ -39,21 +39,21 @@
       <tbody ref="chart-content" class="chart" :class="{'table-guides':showGuides}">
         <tr
           v-for="(item, index) in data"
-          :key="item[0]"
+          :key="index"
           :class="{'border-bottom': (index+1)%5 === 0}"
         >
           <!-- 期号 开奖号码 -->
           <td class="ball-none"></td>
-          <td class="issue-numbers">{{item[0]}}</td>
+          <td class="issue-numbers">{{item.issue}}</td>
           <td class="ball-none border-right"></td>
           <td class="ball-none"></td>
           <td class>
-            <span class="lottery-numbers">{{item[1]}}</span>
+            <span class="lottery-numbers">{{item.code}}</span>
           </td>
           <td class="ball-none border-right"></td>
           <td class="ball-none"></td>
           <!-- 万位 千位 百位 个位 -->
-          <template v-for="(num, index) in item.slice(2, 7)">
+          <template v-for="(num, index) in item.data">
             <td
               v-for="(items, index0) in num"
               :class="`l-${items[3]}`"
@@ -1106,14 +1106,77 @@ export default {
     this.handleDrawing()
   },
   props: ['list'],
+  watch: {
+     'list': {
+      handler(newVal) {
+        if(newVal.length) this.handleDrawing(newVal)
+      },
+      deep: true
+    },
+  },
   methods: {
+    handleDrawing(data) {
+      this.data = this.reBuildData(data)[0]
+      let positionCount = 0,
+        currentBallLeft = 0,
+        currentBallTop = 0,
+        chartTrendPosition = [],
+        parentDom = this.$refs['chart-content']
+      this.$nextTick(() => {
+        for (let i = 0, current; i < this.data.length; i++) {
+          current = this.data[i].data
+          for (let k = 0; k < current.length; k++) {
+            for (let j = 0; j < Object.keys(current[k]).length; j++) {
+              if (j == 0) {
+                var currentDom = parentDom.getElementsByTagName('i')[
+                    positionCount
+                  ].parentNode,
+                  left = parseInt(currentDom.offsetLeft),
+                  top = parseInt(currentDom.offsetTop),
+                  width = currentDom.offsetWidth,
+                  height = currentDom.offsetHeight
+              }
+              //当前位置球
+              positionCount++
+              //当前号码
+              if (current[k][j][0] == 0) {
+                //第一排渲染
+                if (typeof chartTrendPosition[k] == 'undefined') {
+                  // 当前球的坐标
+                  currentBallLeft = left + (j + 1) * width - width / 2
+                  currentBallTop = top + height / 2
+                  chartTrendPosition[k] = {}
+                  chartTrendPosition[k]['top'] = currentBallTop
+                  chartTrendPosition[k]['left'] = currentBallLeft
+                } else {
+                  //当前球的坐标
+                  currentBallLeft = left + (j + 1) * width - width / 2
+                  currentBallTop = chartTrendPosition[k]['top'] + height
+                  //绘制画布
+                  //绘制走势图线
+                  this.handleLine(
+                    chartTrendPosition[k]['top'],
+                    chartTrendPosition[k]['left'],
+                    currentBallTop,
+                    currentBallLeft
+                  )
+                  chartTrendPosition[k]['top'] = currentBallTop
+                  chartTrendPosition[k]['left'] = currentBallLeft
+                }
+              }
+            }
+          }
+          positionCount = 0
+        }
+      })
+    },
     reBuildData(data) {
       var arrMain = [],
           newArr = [],
-          timesData = data['statistics'][0],
-          ballData = data['data'],
-          loseBar = data['omissionBarStatus'],
-          loseFlag = new Array(50),
+          timesData = data[1][0],
+          ballData = data[0],
+          // loseBar = data['omissionBarStatus'],
+          // loseFlag = new Array(50),
           i2 = 0,
           i3 = 0
       const tem1 = [0, 1, 2, 3, 4]
@@ -1139,92 +1202,32 @@ export default {
           }
         })
       })
-
       ballData.forEach((v, i) => {
         i2 = 0
-        v.forEach(j => {
+        v.data.forEach(j => {
           i3 = 0
-          if(i2 > 1 && i2 < 7){
-            j.forEach(m => {
-              if (m[0] == 0) {
-                m[2] = newArr[(i2 - 2)*10 + i3]
-              }
-              //loseBar
-              if(loseBar[(i2 - 2)*10 + i3] < 0){
-                loseFlag[(i2 - 2)*10 + i3] = true
-              }
-              if(loseFlag[(i2 - 2)*10 + i3]){
-                  m[3] = 1
-              }else{
-                  m[3] = 0
-              }
-              if(loseBar[(i2 - 2)*10 + i3] == i){
-                  loseFlag[(i2 - 2)*10 + i3] = true
-              }
-              i3++
-            })
-          }
+          Object.keys(j).forEach(m => {
+            if (j[m][0] == 0) {
+              j[m][2] = newArr[(i2 - 2)*10 + i3]
+            }
+            //loseBar
+            // if(loseBar[(i2 - 2)*10 + i3] < 0){
+            //   loseFlag[(i2 - 2)*10 + i3] = true
+            // }
+            // if(loseFlag[(i2 - 2)*10 + i3]){
+            //     j[m][3] = 1
+            // }else{
+            //     j[m][3] = 0
+            // }
+            // if(loseBar[(i2 - 2)*10 + i3] == i){
+            //     loseFlag[(i2 - 2)*10 + i3] = true
+            // }
+            i3++
+          })
           i2++
         })
       })
       return data
-    },
-    handleDrawing() {
-      this.data = this.reBuildData(mock.data).data
-      let positionCount = 0,
-        currentBallLeft = 0,
-        currentBallTop = 0,
-        chartTrendPosition = [],
-        parentDom = this.$refs['chart-content']
-      this.$nextTick(() => {
-        for (let i = 0, current; i < this.data.length; i++) {
-          current = this.data[i]
-          for (let k = 0; k < current.length; k++) {
-            if (k > 1 && k < 7) {
-              for (let j = 0; j < current[k].length; j++) {
-                if (j == 0) {
-                  var currentDom = parentDom.getElementsByTagName('i')[
-                      positionCount
-                    ].parentNode,
-                    left = parseInt(currentDom.offsetLeft),
-                    top = parseInt(currentDom.offsetTop),
-                    width = currentDom.offsetWidth,
-                    height = currentDom.offsetHeight
-                }
-                //当前位置球
-                positionCount++
-                //当前号码
-                if (current[k][j][0] == 0) {
-                  //第一排渲染
-                  if (typeof chartTrendPosition[k] == 'undefined') {
-                    // 当前球的坐标
-                    currentBallLeft = left + (j + 1) * width - width / 2
-                    currentBallTop = top + height / 2
-                    chartTrendPosition[k] = {}
-                    chartTrendPosition[k]['top'] = currentBallTop
-                    chartTrendPosition[k]['left'] = currentBallLeft
-                  } else {
-                    //当前球的坐标
-                    currentBallLeft = left + (j + 1) * width - width / 2
-                    currentBallTop = chartTrendPosition[k]['top'] + height
-                    //绘制画布
-                    //绘制走势图线
-                    this.handleLine(
-                      chartTrendPosition[k]['top'],
-                      chartTrendPosition[k]['left'],
-                      currentBallTop,
-                      currentBallLeft
-                    )
-                    chartTrendPosition[k]['top'] = currentBallTop
-                    chartTrendPosition[k]['left'] = currentBallLeft
-                  }
-                }
-              }
-            }
-          }
-          positionCount = 0
-        }
-      })
     },
     handleLine(Mx, My, Lx, Ly) {
       let canvas = null,

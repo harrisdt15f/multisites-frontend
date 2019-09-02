@@ -60,7 +60,7 @@
               <router-link tag="a" :to="`/download`">手机客户端</router-link>
             </li>
             <li>
-              <a>仿劫持教程</a>
+              <a>防劫持教程</a>
             </li>
           </ul>
           <span>建议游戏分辨率为：1280x760</span>

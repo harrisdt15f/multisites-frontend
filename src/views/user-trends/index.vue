@@ -136,7 +136,6 @@ export default {
     },
     //选择不同彩种
     handleLotteryIdChange(value){
-      console.log(value)
       this.getData(value[1])
     },
     //选择不同玩法

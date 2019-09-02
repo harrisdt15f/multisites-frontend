@@ -124,8 +124,6 @@ export default {
       }
     }
   },
-  created() {
-  },
   methods: {
     ...mapActions(['logOut']),
     // 重置
@@ -144,6 +142,8 @@ export default {
           if(this.code) {
             sendData.keyword = this.code 
             sendData.register_type = 2
+          } else {
+            sendData.prize_group = 1800
           }
           this.Api.register(sendData).then(({ success }) => {
            this.loading = false
