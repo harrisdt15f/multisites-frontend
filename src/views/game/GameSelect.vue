@@ -470,7 +470,8 @@ export default {
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice,
-          challenge: isChallenge ? 1 : 0
+          challenge: isChallenge || isHe ? 1 : 0,
+          challenge_prize: isHe ? 40000 : 20000
         }
         order._codes = this.formatInputCodes(order.codes)
         if (oneKey) {
@@ -607,7 +608,8 @@ export default {
           mode: this.userConfig.mode,
           prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice,
-          challenge: isChallenge ? 1 : 0
+          challenge: isChallenge || isHe ? 1 : 0,
+          challenge_prize: isHe ? 40000 : 20000
         }
         if (oneKey) {
           this.oneKeyList = order

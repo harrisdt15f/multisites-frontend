@@ -151,8 +151,8 @@ export default {
                   this.$router.push('/login')
                 })
               })
+              this.form = {}
             }
-            this.form = {}
           })
         }
       })
@@ -165,13 +165,13 @@ export default {
             new_password: this.fundForm.pass,
             confirm_password: this.fundForm.checkPass
           }
-          this.Api.resetUserPassword(sendData).then(({ success }) => {
+          this.Api.resetFundPassword(sendData).then(({ success }) => {
             if (success) {
               this.$alert('账户密码修改成功！', '提示', {
                 confirmButtonText: '确定'
               })
+              this.fundForm = {}
             }
-            this.fundForm = {}
           })
         }
       })
