@@ -16,6 +16,7 @@
         <tr class="title-text">
           <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">期号</th>
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
+          <th colspan="12" class="border-right border-bottom">万位</th>
           <th colspan="12" class="border-right border-bottom">千位</th>
           <th colspan="12" class="border-right border-bottom">百位</th>
           <th colspan="12" class="border-right border-bottom">十位</th>
@@ -25,7 +26,7 @@
         <tr class="title-number">
           <th class="ball-none border-bottom-header"></th>
           <th class="border-bottom-header"></th>
-          <template v-for="item in 5">
+          <template v-for="item in 6">
             <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-l`"></th>
             <th class="ball-none border-bottom-header td-bg" :key="`${item}-r`"></th>
             <th class="border-bottom-header td-bg" v-for="num in 10" :key="`${item}-${num}`">
@@ -82,7 +83,7 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in totalNum.slice(1)">
+          <template v-for="(items, index) in totalNum">
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
@@ -98,7 +99,7 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in omissionNum.slice(1)">
+          <template v-for="(items, index) in omissionNum">
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
@@ -114,7 +115,7 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in omissionMaxNum.slice(1)">
+          <template v-for="(items, index) in omissionMaxNum">
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
@@ -130,7 +131,7 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in continuousNum.slice(1)">
+          <template v-for="(items, index) in continuousNum">
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
@@ -143,7 +144,7 @@
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
           <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-         <template v-for="items in 5">
+         <template v-for="items in 6">
             <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
             <td v-for="item in 10" :key="`${items}-${item}`" class="border-bottom td-bg">
               <i class="ball-noraml">{{item-1}}</i>
@@ -152,6 +153,7 @@
          </template>
         </tr>
         <tr class="auxiliary-area title-text">
+          <td colspan="12" class="border-right border-bottom">万位</td>
           <td colspan="12" class="border-right border-bottom">千位</td>
           <td colspan="12" class="border-right border-bottom">百位</td>
           <td colspan="12" class="border-right border-bottom">十位</td>
@@ -199,13 +201,8 @@ export default {
     },
   },
   methods: {
-    handleDrawing(datas) {
-      const data = JSON.parse(JSON.stringify(datas))
-      const sumData = data[1]
-
-      data[0].forEach(v => {
-        v['data'] = v.data.slice(1)
-      }) // eslint-disable-next-line
+    handleDrawing(data) {
+      const sumData = data[1] // eslint-disable-next-line
       this.totalNum = _.chunk(sumData[0],10) // eslint-disable-next-line
       this.omissionNum = _.chunk(sumData[1],10) // eslint-disable-next-line
       this.omissionMaxNum = _.chunk(sumData[2],10) // eslint-disable-next-line
@@ -394,7 +391,3 @@ export default {
   }
 }
 </script>
-
-
-
-

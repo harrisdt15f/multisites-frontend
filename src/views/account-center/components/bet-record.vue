@@ -209,9 +209,9 @@
                   <span>{{ scope.row.start_issue }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" show-overflow-tooltip label="追号奖期">
+              <el-table-column align="center" show-overflow-tooltip label="追号进度">
                 <template slot-scope="scope">
-                  <span>{{ scope.row.issue_process }}</span>
+                  <span>{{scope.row.trace_lists | handleTraceList}}/{{ scope.row.trace_lists.length }}</span>
                 </template>
               </el-table-column>
               <el-table-column align="center" show-overflow-tooltip label="投注金额">
@@ -447,6 +447,12 @@ export default {
     this.activeName = this.active ? this.active : 'game'
     this.getGameList()
     this.getTraceList()
+  },
+  filters: {
+    handleTraceList(list){
+      const newArr = list.filter(v => v.status > 1)
+      return newArr.length
+    }
   },
   methods: {
     //pk10开奖正则

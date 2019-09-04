@@ -432,7 +432,9 @@ export default {
         times: item.multiple,
         codes: code.join('&'),
         method_id: item.method_id,
-        cost: item.totalCost.toFixed(3)
+        cost: item.totalCost.toFixed(3),
+        challenge:0,
+        challenge_prize:0
       })
       this.betBtnLoading = true
       this.Api.bet(

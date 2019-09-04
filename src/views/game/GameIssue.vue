@@ -125,7 +125,7 @@ export default {
   created() {
     if (this.currentLottery.series_id === 'pk10') {
       this.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-    } else if (this.currentLottery.series_id === 'k3') {
+    } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
       this.lastIssue.open_code = ['-', '-', '-']
     } else {
       this.lastIssue.open_code = ['-', '-', '-', '-', '-']
@@ -186,7 +186,7 @@ export default {
             } else {
               if (this.currentLottery.series_id === 'pk10') {
                 data.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-              } else if (this.currentLottery.series_id === 'k3') {
+              } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
                 data.lastIssue.open_code = ['-', '-', '-']
               } else {
                 data.lastIssue.open_code = ['-', '-', '-', '-', '-']
@@ -221,7 +221,7 @@ export default {
           } else {
             if (this.currentLottery.series_id === 'pk10') {
               lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-            } else if (this.currentLottery.series_id === 'k3') {
+            } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
               lastIssue.open_code = ['-', '-', '-']
             } else {
               lastIssue.open_code = ['-', '-', '-', '-', '-']

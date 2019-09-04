@@ -79,7 +79,7 @@ export default {
       if (value === '') {
         callback(new Error('请输入用户名'))
       } else {
-        if (!(/^[a-zA-Z0-9_-]{4,12}$/).test(value)) {
+        if (!(/^[a-zA-Z0-9_-]{4,18}$/).test(value)) {
           callback(new Error('请输入4-12位英文或者数字组成的用户名'))
         }
         callback()

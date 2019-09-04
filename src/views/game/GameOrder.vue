@@ -461,7 +461,11 @@
           </el-table-column>
           <el-table-column align="center" prop="method_name" label="玩法" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="start_issue" label="起始奖期" show-overflow-tooltip></el-table-column>
-          <el-table-column align="center" prop="total_issues" label="追号期数" show-overflow-tooltip></el-table-column>
+          <el-table-column align="center" label="追号进度" show-overflow-tooltip>
+            <template slot-scope="scope">
+              <span>{{scope.row.trace_lists | handleTraceList}}/{{ scope.row.trace_lists.length }}</span>
+            </template>
+          </el-table-column>
           <el-table-column align="center" prop="total_price" label="投注金额" show-overflow-tooltip></el-table-column>
           <el-table-column align="center" prop="win_stop" label="追中即停" show-overflow-tooltip>
             <template slot-scope="scope">
@@ -730,6 +734,12 @@ export default {
     // 获取我的投注 我的追号记录
     this.$store.dispatch('betHistory')
     this.clearOrderList()
+  },
+  filters: {
+    handleTraceList(list){
+      const newArr = list.filter(v => v.status > 1)
+      return newArr.length
+    }
   },
   methods: {
     //pk10开奖正则

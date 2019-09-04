@@ -18,27 +18,32 @@
     <div class="trend-main">
       <div class="select-section">
         <div class="select-section-inner clearfix">
-          <ul class="select-list">
+          <ul class="select-list" v-if="this.lotteryId[0] === 'ssc'">
             <li :class="{current: currentChart === 'WuXing'}">
-              <a href="javascript:void(0);" @click="currentChart = 'WuXing'">五星</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('WuXing')">五星</a>
             </li>
             <li :class="{current: currentChart === 'SiXing'}">
-              <a href="javascript:void(0);" @click="currentChart = 'SiXing'">四星</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('SiXing')">四星</a>
             </li>
-            <li class>
-              <a href="javascript:void(0);">前三</a>
+            <li :class="{current: currentChart === 'QianSan'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('QianSan')">前三</a>
             </li>
-            <li class>
-              <a href="javascript:void(0);">中三</a>
+            <li :class="{current: currentChart === 'ZhongSan'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('ZhongSan')">中三</a>
             </li>
-            <li class>
-              <a href="javascript:void(0);">后三</a>
+            <li :class="{current: currentChart === 'HouSan'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('HouSan')">后三</a>
             </li>
-            <li class>
-              <a href="javascript:void(0);">前二</a>
+            <li :class="{current: currentChart === 'QianEr'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('QianEr')">前二</a>
             </li>
-            <li class>
-              <a href="javascript:void(0);">后二</a>
+            <li :class="{current: currentChart === 'HouEr'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('HouEr')">后二</a>
+            </li>
+          </ul>
+          <ul class="select-list" v-if="this.lotteryId[0] === 'lotto'">
+            <li :class="{current: currentChart === 'WuXing11x5'}">
+              <a href="javascript:void(0);" @click="selectCurrentChart('WuXing11x5')">五星</a>
             </li>
           </ul>
         </div>
@@ -52,15 +57,15 @@
               </el-checkbox-group>
             </div>
             <div class="time">
-              <el-radio-group v-model="radio1">
-                <el-radio-button label="近30期"></el-radio-button>
-                <el-radio-button label="近50期"></el-radio-button>
-                <el-radio-button label="近100期"></el-radio-button>
+              <el-radio-group v-model="dataNum" @change="dataNumChange">
+                <el-radio-button label=30>近30期</el-radio-button>
+                <el-radio-button label=50>近50期</el-radio-button>
+                <el-radio-button label=100>近100期</el-radio-button>
               </el-radio-group>
             </div>
           </div>
         </div>
-        <component :list="list" :is="currentChart"></component>
+        <component v-if="showCurrentChat" ref="Chart" :list="list" :is="currentChart"></component>
       </div>
     </div>
   </div>
@@ -70,6 +75,14 @@
 import { mapGetters } from 'vuex'
 import WuXing from './components/ssc/wu-xing'
 import SiXing from './components/ssc/si-xing'
+import QianSan from './components/ssc/qian-san'
+import ZhongSan from './components/ssc/zhong-san'
+import HouSan from './components/ssc/hou-san'
+import QianEr from './components/ssc/qian-er'
+import HouEr from './components/ssc/hou-er'
+
+import WuXing11x5 from './components/11-5/wu-xing'
+
 const slectOptionDict = {
     guides: '辅助线',
     lost: '遗漏',
@@ -81,19 +94,26 @@ export default {
   name: 'user-trends',
   components: { 
     WuXing, 
-    SiXing 
+    SiXing,
+    QianSan,
+    ZhongSan,
+    HouSan,
+    QianEr,
+    HouEr,
+    WuXing11x5
   },
   props: ['lotterySign'],
   data() {
     return {
       list: [],
+      showCurrentChat:false,
       currentChart: 'WuXing',
       lotteryId: ['ssc', 'cqssc'],
       slectOptionDict,
       selectOption: ['guides', 'lost', 'lostPost', 'trend', 'temperature'],
       select:['guides', 'lost', 'trend'],
       options: [],
-      radio1: '近30期',
+      dataNum: 30,
       listQuery:{
         lottery_id: '',
         range: 30
@@ -133,20 +153,51 @@ export default {
     getData(lottery_id){
       this.list = []
       this.listQuery.lottery_id = lottery_id
+      this.showCurrentChat = false
       this.Api.getTrend(this.listQuery).then(({success, data}) => {
         if (success) {
+          this.showCurrentChat = true
           this.list = JSON.parse(data)
+          console.log(this.list)
         }
       })
     },
+    //请求数量改变
+    dataNumChange(num){
+      this.listQuery.range = num
+      this.getData(this.lotteryId[1])
+    },
     //选择不同彩种
     handleLotteryIdChange(value){
+      console.log(value)
+      this.restQuery()
       this.getData(value[1])
+      switch (value[0]) {
+        case 'ssc':
+          this.currentChart = 'WuXing'
+          break
+        case 'lotto':
+          this.currentChart = 'WuXing11x5'
+          break
+        default:
+          break
+      }
     },
-    //选择不同玩法
-    handleChangeSelect(selectOption){
-      this.$refs.Chart.handleSelectOption(selectOption)
+    //筛选条件
+    handleChangeSelect(select){
+      this.$refs.Chart.handleSelectOption(select)
     },
+    // 复原搜索条件
+    restQuery(){
+      this.dataNum = 30
+      this.listQuery.range = 30
+      this.select = ['guides', 'lost', 'trend']
+    },
+    //选择当前玩法
+    selectCurrentChart(method){
+      this.select = ['guides', 'lost', 'trend']
+      this.currentChart = method
+    }
   }
 }
 </script>
@@ -166,6 +217,7 @@ export default {
   }
 }
 .trend-main {
+  min-height: 500px;
   /deep/ {
     .el-checkbox {
       margin-right: 5px;
@@ -391,6 +443,7 @@ export default {
   border-top: 1px solid #ccc;
   width: 1238px;
   margin: 0 auto 80px auto;
+  box-sizing: border-box;
 }
 
 .chart-table {

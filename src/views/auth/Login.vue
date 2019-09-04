@@ -51,14 +51,24 @@
 export default {
   name: 'login',
   data() {
+    // 验证
+    var validateUser = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入用户名'))
+      } else {
+        if (!(/^[a-zA-Z0-9_-]{4,18}$/).test(value)) {
+          callback(new Error('请输入4-12位英文或者数字组成的用户名'))
+        }
+        callback()
+      }
+    }
     return {
       loading: false,
       user: { username: '', password: '', confirm_password: '' },
       //验证规则
       userRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, message: '长度在 3 个以上', trigger: 'blur' }
+          { required: true, validator: validateUser, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },

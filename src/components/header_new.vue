@@ -214,6 +214,17 @@ export default {
     dialogBulletin
   },
   data() {
+    // 验证用户名，
+    var validateUser = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入用户名'))
+      } else {
+        if (!(/^[a-zA-Z0-9_-]{4,18}$/).test(value)) {
+          callback(new Error('用户名格式不正确'))
+        }
+        callback()
+      }
+    }
     return {
       showBulletin: false,
       loginLoading: false,
@@ -222,8 +233,7 @@ export default {
       user: { username: '', password: '' },
       userRules: {
         username: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, message: '长度在 3 个以上', trigger: 'blur' }
+          { required: true, validator: validateUser, trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },

@@ -16,16 +16,17 @@
         <tr class="title-text">
           <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">期号</th>
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
+          <th colspan="12" class="border-right border-bottom">万位</th>
           <th colspan="12" class="border-right border-bottom">千位</th>
-          <th colspan="12" class="border-right border-bottom">百位</th>
-          <th colspan="12" class="border-right border-bottom">十位</th>
-          <th colspan="12" class="border-right border-bottom">个位</th>
+          <th rowspan="2" colspan="3" class="border-right">对子</th>
           <th colspan="12" class="border-bottom">号码分布</th>
+          <th colspan="12" class="border-bottom">跨度走势</th>
+          <th rowspan="2" colspan="3" class="border-right border-left">和值</th>
         </tr>
         <tr class="title-number">
           <th class="ball-none border-bottom-header"></th>
           <th class="border-bottom-header"></th>
-          <template v-for="item in 5">
+          <template v-for="item in 4">
             <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-l`"></th>
             <th class="ball-none border-bottom-header td-bg" :key="`${item}-r`"></th>
             <th class="border-bottom-header td-bg" v-for="num in 10" :key="`${item}-${num}`">
@@ -41,7 +42,6 @@
           :key="index"
           :class="{'border-bottom': (index+1)%5 === 0}"
         >
-          <!-- 期号 开奖号码 -->
           <td class="ball-none"></td>
           <td class="issue-numbers">{{item.issue}}</td>
           <td class="ball-none border-right"></td>
@@ -51,7 +51,6 @@
           </td>
           <td class="ball-none border-right"></td>
           <td class="ball-none"></td>
-          <!-- 万位 千位 百位 个位 -->
           <template v-for="(num, index) in item.data">
             <td
               v-for="(items, index0) in num"
@@ -66,7 +65,8 @@
             <td class="ball-none border-right" :key="`${item[0]}${index}border-right`"></td>
             <td class="ball-none" :key="`${item[0]}${index}ball-none`"></td>
           </template>
-          <!-- 号码分布 -->
+          <!-- 对子 -->
+          <td class="border-right" colspan="2">{{handlePair(item.code.slice(0, 2))}}</td>
           <td v-for="(ball, index1) in item[7]" :key="`${item[0]}${index1}`">
             <i class="ball-noraml" :class="`f-${ball[2]}`">{{ball[0] == 0 ? ball[1] : ball[0]}}</i>
           </td>
@@ -143,20 +143,36 @@
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
           <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-         <template v-for="items in 5">
+          <template v-for="items in 2">
             <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
             <td v-for="item in 10" :key="`${items}-${item}`" class="border-bottom td-bg">
               <i class="ball-noraml">{{item-1}}</i>
             </td>
             <td :key="`${items}-border-bottom`" class="ball-none border-right border-bottom td-bg"></td>
-         </template>
+          </template>
+          <td class="ball-none border-bottom td-bg"></td>
+          <td class="border-bottom td-bg">
+            <i class="ball-noraml"></i>
+          </td>
+          <td class="ball-none border-right border-bottom td-bg"></td>
+          <template v-for="items in 2">
+            <td :key="`${items}-border-top-2`" class="ball-none border-bottom td-bg"></td>
+            <td v-for="item in 10" :key="`${items}-${item}-2`" class="border-bottom td-bg">
+              <i class="ball-noraml">{{item-1}}</i>
+            </td>
+            <td
+              :key="`${items}-border-bottom-2`"
+              class="ball-none border-right border-bottom td-bg"
+            ></td>
+          </template>
+          <td class="border-bottom" rowspan="2">和值</td>
         </tr>
         <tr class="auxiliary-area title-text">
+          <td colspan="12" class="border-right border-bottom">万位</td>
           <td colspan="12" class="border-right border-bottom">千位</td>
-          <td colspan="12" class="border-right border-bottom">百位</td>
-          <td colspan="12" class="border-right border-bottom">十位</td>
-          <td colspan="12" class="border-right border-bottom">个位</td>
-          <td colspan="12" class="border-bottom">号码分布</td>
+          <td colspan="3" class="border-right border-bottom">对子</td>
+          <td colspan="12" class="border-right border-bottom">号码分布</td>
+          <td colspan="12" class="border-right border-bottom">跨度</td>
         </tr>
       </tbody>
     </table>
@@ -164,55 +180,69 @@
 </template>
 
 <script>
-import { mathNum } from '@/utils'
-
+import { mathNum } from '@/utils' // eslint-disable-next-line
+import { isPair } from "../../../../utils/trend";
 export default {
   data() {
+		this.pairIndex = 0
     return {
       // 开将值
       data: [],
       // 出现总次数
-      totalNum:[],
+      totalNum: [],
       // 平均遗漏值
       omissionNum: [],
-      // 最大遗漏值	
+      // 最大遗漏值
       omissionMaxNum: [],
       // 最大连出值
-      continuousNum: [],
+			continuousNum: [],
+			// 全局计算
       showTemperature: false,
       showLostPost: false,
       showTrend: true,
       showGuides: true,
       showLost: true
     }
-  },
+	},
   mounted() {
-    if(this.list && this.list.length) this.handleDrawing(this.list)
+    if (this.list && this.list.length) this.handleDrawing(this.list)
   },
   props: ['list'],
   watch: {
-     'list': {
+    list: {
       handler(newVal) {
-        if(newVal.length) this.handleDrawing(newVal)
+        if (newVal.length) this.handleDrawing(newVal)
       },
       deep: true
-    },
+    }
   },
+  filters: {},
   methods: {
+    // 和值计算
+    handlePair(data) {
+      if (isPair(data)) {
+				this.pairIndex = 0
+        return '✔'
+      } else {
+				console.log()
+				this.pairIndex++
+				return this.pairIndex 
+      }
+    },
     handleDrawing(datas) {
       const data = JSON.parse(JSON.stringify(datas))
       const sumData = data[1]
 
       data[0].forEach(v => {
-        v['data'] = v.data.slice(1)
+        v['data'] = v.data.slice(0, 2)
       }) // eslint-disable-next-line
-      this.totalNum = _.chunk(sumData[0],10) // eslint-disable-next-line
-      this.omissionNum = _.chunk(sumData[1],10) // eslint-disable-next-line
-      this.omissionMaxNum = _.chunk(sumData[2],10) // eslint-disable-next-line
-      this.continuousNum = _.chunk(sumData[3],10) // eslint-disable-next-line
+      this.totalNum = _.chunk(sumData[0], 10); // eslint-disable-next-line
+      this.omissionNum = _.chunk(sumData[1], 10); // eslint-disable-next-line
+      this.omissionMaxNum = _.chunk(sumData[2], 10); // eslint-disable-next-line
+      this.continuousNum = _.chunk(sumData[3], 10); // eslint-disable-next-line
 
       this.data = this.reBuildData(data)[0]
-      
+
       let positionCount = 0,
         currentBallLeft = 0,
         currentBallTop = 0,
@@ -268,33 +298,33 @@ export default {
     },
     reBuildData(data) {
       var arrMain = [],
-          newArr = [],
-          timesData = data[1][0],
-          ballData = data[0],
-          // loseBar = data['omissionBarStatus'],
-          // loseFlag = new Array(50),
-          i2 = 0,
-          i3 = 0
+        newArr = [],
+        timesData = data[1][0],
+        ballData = data[0],
+        // loseBar = data['omissionBarStatus'],
+        // loseFlag = new Array(50),
+        i2 = 0,
+        i3 = 0
       const tem1 = [0, 1, 2, 3, 4]
-      const tem2 = [0,1,2,3,4,5,6,7,8,9]
+      const tem2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       tem1.forEach(i => {
         arrMain[i] = []
         tem2.forEach(j => {
-          arrMain[i][j] = [timesData[i*10+j], j]
+          arrMain[i][j] = [timesData[i * 10 + j], j]
         })
-        arrMain[i].sort(function(a, b){
-            return b[0] - a[0]
+        arrMain[i].sort(function(a, b) {
+          return b[0] - a[0]
         })
         arrMain[i].forEach((v, k) => {
           //cold 1
           //hot 3
           //other 2
-          if(k < 3){
-              newArr[i*10+arrMain[i][k][1]] = 3
-          }else if(k > 6){
-              newArr[i*10+arrMain[i][k][1]] = 1
-          }else{
-              newArr[i*10+arrMain[i][k][1]] = 2
+          if (k < 3) {
+            newArr[i * 10 + arrMain[i][k][1]] = 3
+          } else if (k > 6) {
+            newArr[i * 10 + arrMain[i][k][1]] = 1
+          } else {
+            newArr[i * 10 + arrMain[i][k][1]] = 2
           }
         })
       })
@@ -304,7 +334,7 @@ export default {
           i3 = 0
           Object.keys(j).forEach(m => {
             if (j[m][0] == 0) {
-              j[m][2] = newArr[(i2 - 2)*10 + i3]
+              j[m][2] = newArr[(i2 - 2) * 10 + i3]
             }
             //loseBar
             // if(loseBar[(i2 - 2)*10 + i3] < 0){
@@ -394,7 +424,3 @@ export default {
   }
 }
 </script>
-
-
-
-

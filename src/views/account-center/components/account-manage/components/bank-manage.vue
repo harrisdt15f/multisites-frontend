@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column align="center" label="卡号">
             <template slot-scope="scope">
-              <span>{{ scope.row.card_number }}</span>
+              <span>{{ scope.row.card_num }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="绑定时间">

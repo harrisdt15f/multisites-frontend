@@ -23,7 +23,7 @@
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="消费金额：">
+        <el-form-item label="提现金额：">
           <el-input-number v-model="amount" controls-position="right" :min="20" :max="Number(userDetail.balance)"></el-input-number> &nbsp;&nbsp;元
           &nbsp;&nbsp;&nbsp;&nbsp;
           <span style="color:#d00000">*</span>
