@@ -28,7 +28,7 @@
           <el-input type="password" v-model="ruleForm.confirm_password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+          <el-button :loading="btnLoading" type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 import pwdManage from './components/pwd-manage'
 import bankManage from './components/bank-manage'
@@ -73,10 +73,17 @@ export default {
         password: '',
         confirm_password: ''
       },
+      btnLoading:false,
       existFundPassword: undefined,
       rules: {
-        password: [{ validator: validatePass, trigger: 'blur' }],
-        confirm_password: [{ validator: validatePass2, trigger: 'blur' }]
+        password: [
+          { required: true, validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+        ],
+        confirm_password: [
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -92,6 +99,7 @@ export default {
     this.initData()
   },
   methods: {
+    ...mapActions(['getUserDetail']),
     initData() {
       this.activeName = this.active ? this.active : 'personal-info'
       this.existFundPassword = this.userDetail.fund_password
@@ -114,10 +122,13 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.btnLoading = true
           this.Api.setFundPassword(this.ruleForm).then(({ success }) => {
-            this.showSetFund = false
+            this.btnLoading = false
             if (success) {
-              this.initData()
+              this.showSetFund = false
+              this.existFundPassword = true
+              this.getUserDetail()
               this.$alert('设置资金密码成功成功！', '提示', {
                 confirmButtonText: '确定'
               })
@@ -219,6 +230,11 @@ export default {
     .el-button--primary {
       background-color: $primary-color;
       border-color: $primary-color;
+    }
+    .el-button--primary:focus, .el-button--primary:hover {
+      background: $primary-color;
+      border-color: $primary-color;
+      color: #FFF;
     }
   }
 }

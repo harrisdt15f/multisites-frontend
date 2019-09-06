@@ -409,7 +409,7 @@
           <el-table-column align="center" label="投注内容" show-overflow-tooltip>
             <template slot-scope="scope">
               <template v-if="scope.row.series_id === 'pk10'">
-                {{scope.row.bet_number.replace(/[0-9]/g, handlePK10Replacer)}}
+                {{scope.row.bet_number.replace(/&/g,',').replace(/[0-9]/g, handlePK10Replacer)}}
               </template>
               <template
                 v-else-if="scope.row.method_group === 'DXDS'"

@@ -256,6 +256,7 @@ export default {
     bet_number() {
       if (this.detailData.series_id === 'pk10') {
         return this.detailData.bet_number
+          .replace(/&/g,',')
           .replace(/[0-9]/g, match=>{
             return parseInt(match) + 1
           })
