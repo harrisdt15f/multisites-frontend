@@ -111,7 +111,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <router-link class="cur more" tag="section" to="/user-trends" >
+                <router-link class="cur more" tag="section" :to="`/user-trends/${currentLottery.en_name}`" >
                   查看完整走势
                 </router-link>
               </section>

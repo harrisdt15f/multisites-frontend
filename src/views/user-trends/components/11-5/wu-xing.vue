@@ -14,26 +14,29 @@
     >
       <thead class="thead">
         <tr class="title-text">
-          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">期号</th>
+          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">
+            期号
+            <span val="0" class="issue-order"></span>
+          </th>
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
-          <th colspan="12" class="border-right border-bottom">万位</th>
-          <th colspan="12" class="border-right border-bottom">千位</th>
-          <th colspan="12" class="border-right border-bottom">百位</th>
-          <th colspan="12" class="border-right border-bottom">十位</th>
-          <th colspan="12" class="border-right border-bottom">个位</th>
-          <th colspan="12" class="border-bottom">号码分布</th>
+          <th colspan="13" class="border-right border-bottom">一位</th>
+          <th colspan="13" class="border-right border-bottom">二位</th>
+          <th colspan="13" class="border-right border-bottom">三位</th>
+          <th colspan="13" class="border-right border-bottom">四位</th>
+          <th colspan="13" class="border-right border-bottom">五位</th>
+          <th colspan="13" class="border-bottom">号码分布</th>
         </tr>
         <tr class="title-number">
           <th class="ball-none border-bottom-header"></th>
           <th class="border-bottom-header"></th>
+          <th class="ball-none border-bottom-header border-right"></th>
           <template v-for="item in 6">
-            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-l`"></th>
-            <th class="ball-none border-bottom-header td-bg" :key="`${item}-r`"></th>
-            <th class="border-bottom-header td-bg" v-for="num in 10" :key="`${item}-${num}`">
-              <i class="ball-noraml">{{num - 1}}</i>
+            <th class="ball-none border-bottom-header td-bg" :key="`${item}-l`"></th>
+            <th v-for="num in 11" :key="`${item}-${num}`" class="border-bottom-header td-bg">
+              <i class="ball-noraml">{{num}}</i>
             </th>
+            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-r`"></th>
           </template>
-          <th class="ball-none border-bottom-header td-bg"></th>
         </tr>
       </thead>
       <tbody ref="chart-content" class="chart" :class="{'table-guides':showGuides}">
@@ -144,21 +147,21 @@
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
           <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-         <template v-for="items in 6">
+          <template v-for="items in 6">
             <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
-            <td v-for="item in 10" :key="`${items}-${item}`" class="border-bottom td-bg">
-              <i class="ball-noraml">{{item-1}}</i>
+            <td v-for="item in 11" :key="`${items}-${item}`" class="border-bottom td-bg">
+              <i class="ball-noraml">{{item}}</i>
             </td>
             <td :key="`${items}-border-bottom`" class="ball-none border-right border-bottom td-bg"></td>
-         </template>
+          </template>
         </tr>
         <tr class="auxiliary-area title-text">
-          <td colspan="12" class="border-right border-bottom">万位</td>
-          <td colspan="12" class="border-right border-bottom">千位</td>
-          <td colspan="12" class="border-right border-bottom">百位</td>
-          <td colspan="12" class="border-right border-bottom">十位</td>
-          <td colspan="12" class="border-right border-bottom">个位</td>
-          <td colspan="12" class="border-bottom">号码分布</td>
+          <td colspan="13" class="border-right border-bottom">万位</td>
+          <td colspan="13" class="border-right border-bottom">千位</td>
+          <td colspan="13" class="border-right border-bottom">百位</td>
+          <td colspan="13" class="border-right border-bottom">十位</td>
+          <td colspan="13" class="border-right border-bottom">个位</td>
+          <td colspan="13" class="border-bottom border-right">号码分布</td>
         </tr>
       </tbody>
     </table>
@@ -174,10 +177,10 @@ export default {
       // 开将值
       data: [],
       // 出现总次数
-      totalNum:[],
+      totalNum: [],
       // 平均遗漏值
       omissionNum: [],
-      // 最大遗漏值	
+      // 最大遗漏值
       omissionMaxNum: [],
       // 最大连出值
       continuousNum: [],
@@ -189,27 +192,25 @@ export default {
     }
   },
   mounted() {
-    if(this.list && this.list.length) this.handleDrawing(this.list)
+    if (this.list && this.list.length) this.handleDrawing(this.list)
   },
   props: ['list'],
   watch: {
-     'list': {
+    list: {
       handler(newVal) {
-        if(newVal.length) this.handleDrawing(newVal)
+        if (newVal.length) this.handleDrawing(newVal)
       },
       deep: true
-    },
+    }
   },
   methods: {
     handleDrawing(data) {
-      const sumData = data[1] // eslint-disable-next-line
-      this.totalNum = _.chunk(sumData[0],10) // eslint-disable-next-line
-      this.omissionNum = _.chunk(sumData[1],10) // eslint-disable-next-line
-      this.omissionMaxNum = _.chunk(sumData[2],10) // eslint-disable-next-line
-      this.continuousNum = _.chunk(sumData[3],10) // eslint-disable-next-line
-
+      const sumData = data[1] 
+      this.totalNum = this._.chunk(sumData[0], 11) 
+      this.omissionNum = this._.chunk(sumData[1], 11) 
+      this.omissionMaxNum = this._.chunk(sumData[2], 11) 
+      this.continuousNum = this._.chunk(sumData[3], 11) 
       this.data = this.reBuildData(data)[0]
-      
       let positionCount = 0,
         currentBallLeft = 0,
         currentBallTop = 0,
@@ -218,6 +219,7 @@ export default {
       this.$nextTick(() => {
         for (let i = 0, current; i < this.data.length; i++) {
           current = this.data[i].data
+
           for (let k = 0; k < current.length; k++) {
             for (let j = 0; j < Object.keys(current[k]).length; j++) {
               if (j == 0) {
@@ -232,7 +234,7 @@ export default {
               //当前位置球
               positionCount++
               //当前号码
-              if (current[k][j][0] == 0) {
+              if (current[k][j + 1][0] == 0) {
                 //第一排渲染
                 if (typeof chartTrendPosition[k] == 'undefined') {
                   // 当前球的坐标
@@ -265,33 +267,33 @@ export default {
     },
     reBuildData(data) {
       var arrMain = [],
-          newArr = [],
-          timesData = data[1][0],
-          ballData = data[0],
-          // loseBar = data['omissionBarStatus'],
-          // loseFlag = new Array(50),
-          i2 = 0,
-          i3 = 0
+        newArr = [],
+        timesData = data[1][0],
+        ballData = data[0],
+        // loseBar = data['omissionBarStatus'],
+        // loseFlag = new Array(50),
+        i2 = 0,
+        i3 = 0
       const tem1 = [0, 1, 2, 3, 4]
-      const tem2 = [0,1,2,3,4,5,6,7,8,9]
+      const tem2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
       tem1.forEach(i => {
         arrMain[i] = []
         tem2.forEach(j => {
-          arrMain[i][j] = [timesData[i*10+j], j]
+          arrMain[i][j] = [timesData[i * 10 + j], j]
         })
-        arrMain[i].sort(function(a, b){
-            return b[0] - a[0]
+        arrMain[i].sort(function(a, b) {
+          return b[0] - a[0]
         })
         arrMain[i].forEach((v, k) => {
           //cold 1
           //hot 3
           //other 2
-          if(k < 3){
-              newArr[i*10+arrMain[i][k][1]] = 3
-          }else if(k > 6){
-              newArr[i*10+arrMain[i][k][1]] = 1
-          }else{
-              newArr[i*10+arrMain[i][k][1]] = 2
+          if (k < 3) {
+            newArr[i * 10 + arrMain[i][k][1]] = 3
+          } else if (k > 6) {
+            newArr[i * 10 + arrMain[i][k][1]] = 1
+          } else {
+            newArr[i * 10 + arrMain[i][k][1]] = 2
           }
         })
       })
@@ -301,7 +303,7 @@ export default {
           i3 = 0
           Object.keys(j).forEach(m => {
             if (j[m][0] == 0) {
-              j[m][2] = newArr[(i2 - 2)*10 + i3]
+              j[m][2] = newArr[(i2 - 2) * 10 + i3]
             }
             //loseBar
             // if(loseBar[(i2 - 2)*10 + i3] < 0){

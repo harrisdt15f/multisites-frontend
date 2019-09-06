@@ -59,7 +59,7 @@ export default {
       list: [],
       total: 0,
       page: 1,
-      page_size: 5,
+      page_size: 6,
       loading: false
     }
   },
@@ -71,7 +71,7 @@ export default {
     this.initData()
   },
   methods: {
-    ...mapActions(['getNotice']),
+    ...mapActions(['getNotice', 'getInnerNotice']),
     initData() {
       this.loading = true
       // 平台公告
@@ -89,7 +89,7 @@ export default {
         })
       } else {
         // 消息中心
-        this.getNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
+        this.getInnerNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
           const {message} = data
           this.loading = false
           if (success) {
@@ -117,7 +117,7 @@ export default {
               item.status = 1
             }
           })
-          this.getNotice({ type: 2, page_size: this.page_size, page: this.page })
+          this.getInnerNotice({ type: 2, page_size: this.page_size, page: this.page })
         }
         this.currentBullrtin = this.list.filter(val => val.id === id)[0]['message_content']
       }else{

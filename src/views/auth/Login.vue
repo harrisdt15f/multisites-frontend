@@ -72,7 +72,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
+          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
         ]
       },
       isRemember: {

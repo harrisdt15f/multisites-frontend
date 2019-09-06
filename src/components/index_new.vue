@@ -298,7 +298,7 @@ export default {
     window.addEventListener('scroll', this.debounce)
   },
   methods: {
-    ...mapActions([ 'getNotice', 'getBanner', 'getRanking']),
+    ...mapActions([ 'getNotice', 'getBanner', 'getInnerNotice', 'getRanking']),
     getIndexLottery(){
        this.Api.getPopularLotteries2().then(({success, data}) => {
         if (success && data.length) {
@@ -343,6 +343,9 @@ export default {
           this.noticehandler(data['data'])
         }
       })
+      if (this.isLogin) {
+        this.getInnerNotice({type:2})
+      }
       this.getBanner()
       this.getRanking().then(() => {
         this.$nextTick(() => {

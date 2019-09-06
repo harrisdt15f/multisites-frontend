@@ -79,7 +79,7 @@ export default {
       if (value === '') {
         callback(new Error('请输入用户名'))
       } else {
-        if (!(/^[a-zA-Z0-9_-]{4,18}$/).test(value)) {
+        if (!/^[a-zA-Z0-9_-]{4,18}$/.test(value)) {
           callback(new Error('请输入4-12位英文或者数字组成的用户名'))
         }
         callback()
@@ -116,10 +116,22 @@ export default {
           { required: true, validator: validateUser, trigger: 'blur' }
         ],
         password: [
-          { required: true, validator: validatePass, trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' },
+          {
+            min: 6,
+            max: 18,
+            message: '密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
         ],
         checkPass: [
-          { required: true, validator: validatePass2, trigger: 'blur' }
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          {
+            min: 6,
+            max: 18,
+            message: '密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -139,28 +151,28 @@ export default {
             username: this.userForm.username,
             password: this.userForm.password
           }
-          if(this.code) {
-            sendData.keyword = this.code 
+          if (this.code) {
+            sendData.keyword = this.code
             sendData.register_type = 2
           } else {
             sendData.prize_group = 1800
           }
           this.Api.register(sendData).then(({ success }) => {
-           this.loading = false
-           if (success) {
-            this.$alert('用户注册成功,请立即登录', {
-              confirmButtonText: '确定'
-            }).then(() => {
-              this.$store.commit('SET_TOKEN', '')
-              this.$store.commit('SET_USER_DETAIL', {})
-              removeToken()
-              window.sessionStorage.clear()
-              this.$nextTick(() => {
-                this.$router.push('/login')
+            this.loading = false
+            if (success) {
+              this.$alert('用户注册成功,请立即登录', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                this.$store.commit('SET_TOKEN', '')
+                this.$store.commit('SET_USER_DETAIL', {})
+                removeToken()
+                window.sessionStorage.clear()
+                this.$nextTick(() => {
+                  this.$router.push('/login')
+                })
               })
-            })
-           }
-         })
+            }
+          })
         }
       })
     }

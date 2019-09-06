@@ -14,34 +14,29 @@
     >
       <thead class="thead">
         <tr class="title-text">
-          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">期号</th>
-          <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
-          <th colspan="12" class="border-right border-bottom">万位</th>
-          <th colspan="12" class="border-right border-bottom">千位</th>
-          <th colspan="12" class="border-right border-bottom">百位</th>
-          <th colspan="12" class="border-bottom">号码分布</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">大小形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">单双形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">质合形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">012形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">豹子</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">组三</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">组六</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">跨度</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">直选和值</th>
-          <th rowspan="2" colspan="3" class="border-right border-left">和值尾数</th>
+          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">
+            期号
+            <span val="0" class="issue-order"></span>
+          </th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">开奖号码</th>
+          <th colspan="12" class="border-right border-bottom">冠军</th>
+          <th colspan="12" class="border-right border-bottom">亚军</th>
+          <th colspan="12" class="border-right border-bottom">号码分布</th>
+          <th colspan="2" rowspan="2" class="border-right border-bottom">大小形态</th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">单双形态</th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">升平降形态</th>
         </tr>
         <tr class="title-number">
           <th class="ball-none border-bottom-header"></th>
           <th class="border-bottom-header"></th>
-          <template v-for="item in 4">
-            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-l`"></th>
-            <th class="ball-none border-bottom-header td-bg" :key="`${item}-r`"></th>
+          <th class="ball-none border-bottom-header border-right"></th>
+          <template v-for="item in 3">
+            <th class="ball-none border-bottom-header td-bg" :key="`${item}-l`"></th>
             <th class="border-bottom-header td-bg" v-for="num in 10" :key="`${item}-${num}`">
-              <i class="ball-noraml">{{num - 1}}</i>
+              <i class="ball-noraml">{{num}}</i>
             </th>
+            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-r`"></th>
           </template>
-          <th class="ball-none border-bottom-header td-bg"></th>
         </tr>
       </thead>
       <tbody ref="chart-content" class="chart" :class="{'table-guides':showGuides}">
@@ -149,32 +144,27 @@
         </tr>
       </tbody>
       <tbody class="tbody tbody-footer-header">
+        <tr class="auxiliary-area title-text">
+          <th rowspan="2" colspan="3" class="border-bottom border-right">期号</th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">开奖号码</th>
+          <th colspan="12" class="border-right border-bottom">冠军</th>
+          <th colspan="12" class="border-right border-bottom">亚军</th>
+          <th colspan="12" class="border-right border-bottom">号码分布</th>
+          <th colspan="2" rowspan="2" class="border-right border-bottom">大小形态</th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">单双形态</th>
+          <th colspan="3" rowspan="2" class="border-right border-bottom">升平降形态</th>
+        </tr>
         <tr class="auxiliary-area title-number">
-          <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
-          <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-          <template v-for="items in 4">
-            <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
+          <th class="ball-none border-bottom-header td-bg"></th>
+          <th class="ball-none border-bottom-header td-bg"></th>
+          <th class="ball-none border-bottom-header td-bg"></th>
+          <template v-for="items in 3">
+             <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
             <td v-for="item in 10" :key="`${items}-${item}`" class="border-bottom td-bg">
-              <i class="ball-noraml">{{item-1}}</i>
+              <i class="ball-noraml">{{item}}</i>
             </td>
             <td :key="`${items}-border-bottom`" class="ball-none border-right border-bottom td-bg"></td>
           </template>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">大小形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">单双形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">质合形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">012形态</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">豹子</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">组三</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">组六</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">跨度</th>
-          <th rowspan="2" colspan="3" class="border-right border-bottom">直选和值</th>
-          <th rowspan="2" colspan="3" class="border-bottom border-right">和值尾数</th>
-        </tr>
-        <tr class="auxiliary-area title-text">
-          <td colspan="12" class="border-right border-bottom">万位</td>
-          <td colspan="12" class="border-right border-bottom">千位</td>
-          <td colspan="12" class="border-right border-bottom">百位</td>
-          <td colspan="12" class="border-bottom">号码分布</td>
         </tr>
       </tbody>
     </table>
@@ -183,7 +173,6 @@
 
 <script>
 import { mathNum } from '@/utils'
-
 export default {
   data() {
     return {
@@ -222,15 +211,13 @@ export default {
       const sumData = data[1]
 
       data[0].forEach(v => {
-        v['data'] = v.data.slice(0, 3)
-      }) 
-      this.totalNum = _.chunk(sumData[0], 10) 
-      this.omissionNum = _.chunk(sumData[1], 10) 
-      this.omissionMaxNum = _.chunk(sumData[2], 10) 
-      this.continuousNum = _.chunk(sumData[3], 10) 
-
+        v['data'] = v.data.slice(0, 2)
+      })
+      this.totalNum = this._.chunk(sumData[0], 10)
+      this.omissionNum = this._.chunk(sumData[1], 10)
+      this.omissionMaxNum = this._.chunk(sumData[2], 10)
+      this.continuousNum = this._.chunk(sumData[3], 10)
       this.data = this.reBuildData(data)[0]
-
       let positionCount = 0,
         currentBallLeft = 0,
         currentBallTop = 0,
@@ -239,6 +226,7 @@ export default {
       this.$nextTick(() => {
         for (let i = 0, current; i < this.data.length; i++) {
           current = this.data[i].data
+
           for (let k = 0; k < current.length; k++) {
             for (let j = 0; j < Object.keys(current[k]).length; j++) {
               if (j == 0) {
@@ -253,7 +241,7 @@ export default {
               //当前位置球
               positionCount++
               //当前号码
-              if (current[k][j][0] == 0) {
+              if (current[k][j + 1][0] == 0) {
                 //第一排渲染
                 if (typeof chartTrendPosition[k] == 'undefined') {
                   // 当前球的坐标
@@ -412,7 +400,3 @@ export default {
   }
 }
 </script>
-
-
-
-

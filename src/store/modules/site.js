@@ -6,6 +6,7 @@ const state = {
   qrSrc: '',
   logoSrc: '',
   notice: '',
+  innerNotice: '',
   activity: '',
   popularLotteries1: [],
   popularChess: [],
@@ -73,6 +74,9 @@ const mutations = {
   SET_NOTICE(state, data) {
     state.notice = data
   },
+  SET_INNER_NOTICE(state, data) {
+    state.innerNotice = data
+  },
   SET_RANKING(state, data) {
     data.forEach(val => {
       val.user_icon = `${process.env.VUE_APP_API_URL}/${val.user_icon.substring(1)}`
@@ -109,6 +113,17 @@ const actions = {
         if (success) {
           resolve(res)
           commit('SET_NOTICE', data)
+        }
+      })
+    })
+  },
+  getInnerNotice({ commit }, sendData){
+    return new Promise((resolve) => {
+      API.getNotice(sendData).then(res => {
+        const { success, data } = res
+        if (success) {
+          resolve(res)
+          commit('SET_INNER_NOTICE', data)
         }
       })
     })

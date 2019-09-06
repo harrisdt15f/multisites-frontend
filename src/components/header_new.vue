@@ -13,7 +13,7 @@
             <template v-if="this.isLogin" >
               <li @click="showMessageCenter" class="toptray-item" tag="li" to="/">
                 消息中心
-                <i class="num" v-if="notice.unread_num && notice.unread_num != 0">{{notice.unread_num}}</i> 
+                <i class="num" v-if="innerNotice.unread_num && innerNotice.unread_num != 0">{{innerNotice.unread_num}}</i> 
               </li>|
             </template>
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
@@ -253,7 +253,7 @@ export default {
       'lotteryLists',
       'popularLotteries1',
       'logoSrc',
-      'notice'
+      'innerNotice'
     ])
   },
   mounted() {

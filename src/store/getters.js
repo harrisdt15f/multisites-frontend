@@ -9,6 +9,7 @@ const getters = {
   qrSrc: state => state.site.qrSrc,
   logoSrc: state => state.site.logoSrc,
   notice: state => state.site.notice,
+  innerNotice: state => state.site.innerNotice,
   popularLotteries1: state => state.site.popularLotteries1,
   showBanner: state => state.site.showBanner,
   showSideFloat: state => state.site.showSideFloat,
