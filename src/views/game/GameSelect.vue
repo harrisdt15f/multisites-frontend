@@ -502,7 +502,7 @@ export default {
               confirmButtonText: '继续添加'
             }).then(() => {
               let index = this.orderList.findIndex(item => {
-                return order.codes === item.codes
+                return order.codes === item.codes && order.method_id === item.method_id
               })
               // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
               if (index > -1) {
@@ -539,7 +539,7 @@ export default {
             })
           } else {
             let index = this.orderList.findIndex(item => {
-              return order.codes === item.codes
+              return order.codes === item.codes && order.method_id === item.method_id
             })
             // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
             if (index > -1) {
@@ -1470,7 +1470,7 @@ export default {
       clearInterval(this.dsTimer)
       this.dsTimer = setTimeout(() => {
         this.inputClearRepeatOrder()
-      }, 1000)
+      }, 2000)
     },
     // 单式输入框失去焦点
     inputAreaBlur() {
