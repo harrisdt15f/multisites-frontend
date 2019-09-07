@@ -8,7 +8,7 @@
     </div>
     <!-- 账户密码修改 -->
     <div v-show="radio1 == 'account'">
-      <el-form ref="form" :rules="rules" :model="form" label-width="90px">
+      <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="旧密码：" prop="oldPass">
           <el-input type="password" v-model="form.oldPass" autocomplete="off"></el-input>
         </el-form-item>
@@ -36,7 +36,7 @@
     </div>
     <!-- 资金密码修改 -->
     <div v-show="radio1 == 'funds'">
-      <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="90px">
+      <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="100px">
         <el-form-item label="旧密码：" prop="oldPass">
           <el-input type="password" v-model="fundForm.oldPass" autocomplete="off"></el-input>
         </el-form-item>
@@ -113,13 +113,13 @@ export default {
       },
       rules: {
         oldPass: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
-        pass: [{ validator: validatePass, trigger: 'blur' }],
-        checkPass: [{ validator: validatePass2, trigger: 'blur' }]
+        pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
+        checkPass: [{ required: true, validator: validatePass2, trigger: 'blur' }]
       },
       fundRules: {
         oldPass: [{ required: true, message: '请输入旧资金密码', trigger: 'blur' }],
-        pass: [{ validator: validateFundPass, trigger: 'blur' }],
-        checkPass: [{ validator: validateFundPass2, trigger: 'blur' }]
+        pass: [{ required: true, validator: validateFundPass, trigger: 'blur' }],
+        checkPass: [{ required: true, validator: validateFundPass2, trigger: 'blur' }]
       }
     }
   },

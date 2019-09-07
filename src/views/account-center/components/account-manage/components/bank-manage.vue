@@ -59,8 +59,9 @@
     <!-- 创建银行卡 -->
     <div class="create-bank" v-if="showCreateBank">
       <el-row class="title">
-        <el-col :span="12" :class="{on : !this.createResult}">1.输入银行卡信息</el-col>
-        <el-col :span="12" :class="{on : this.createResult}">2.绑定结果</el-col>
+        <el-col :span="8" :class="{on : !this.createResult}">1.验证信息</el-col>
+        <el-col :span="8" :class="{on : this.createResult}">2.输入银行卡信息</el-col>
+        <el-col :span="8" :class="{on : this.createResult}">3.绑定结果</el-col>
       </el-row>
       <div class="content">
         <div v-if="!createResult">
@@ -122,10 +123,10 @@
               <el-input style="width:285px" v-model="cardForm.owner_name"></el-input>
             </el-form-item>
             <el-form-item label="银行卡号：" prop="card_number">
-              <el-input style="width:285px" v-model="cardForm.card_number"></el-input>
+              <el-input @paste.native.capture.prevent style="width:285px" type="number" placeholder="银行卡卡号由16位或19位数字组成" v-model="cardForm.card_number"></el-input>
             </el-form-item>
             <el-form-item>
-              <div @click="handleAddCard" type="submit" class="form-button">确认提交</div>
+              <el-button :loading="createLoading" @click="handleAddCard" type="submit" class="form-button">确认提交</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -145,9 +146,19 @@
 <script>
 export default {
   data() {
+    var validateCardNumber = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请填写银行卡号'))
+      } else if (value.length !== 16 && value.length !== 19) {
+        callback(new Error('银行卡卡号由16位或19位数字组成'))
+      } else {
+        callback()
+      }
+    }
     return {
       loading: false,
       tableData: [],
+      createLoading: false,
       haveBankCard: true,
       showCreateBank: false,
       showManageBank: false,
@@ -182,7 +193,7 @@ export default {
           { required: true, message: '请填写持卡人姓名', trigger: 'blur' }
         ],
         card_number: [
-          { required: true, message: '请填写银行卡号', trigger: 'blur' }
+          { required: true, validator: validateCardNumber, trigger: 'blur' }
         ]
       },
       cardIndex: 0
@@ -262,6 +273,7 @@ export default {
     handleAddCard() {
       this.$refs['cardForm'].validate(valid => {
         if (valid) {
+          this.createLoading = true
           const sendData = Object.assign({}, this.cardForm)
           Object.assign(sendData, {
             bank_name: this.cardOptions.filter(
@@ -275,6 +287,7 @@ export default {
             )[0].id
           })
           this.Api.addBank(sendData).then(({ success }) => {
+            this.createLoading = false
             if (success) {
               this.createResult = 1
               this.fetchCardList()
@@ -340,6 +353,12 @@ export default {
 <style lang="scss" scoped>
 .bank-manage{
   min-height: 280px;
+  /deep/{
+    .el-button:focus, .el-button:hover{
+      color:#fff;
+      background: #f73b3b;
+    }
+  }
 }
 .create-bank {
   .title {
