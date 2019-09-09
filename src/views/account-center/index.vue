@@ -25,6 +25,9 @@
       <el-tab-pane label="提现申请" :lazy="true" name="user-withdraw">
         <user-withdraw></user-withdraw>
       </el-tab-pane>
+      <el-tab-pane label="奖金组详情" :lazy="true" name="prize-detail">
+        <prize-detail></prize-detail>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -38,6 +41,7 @@ import myWithdraw from './components/my-withdraw'
 import userRecharge from './components/user-recharge'
 import userWithdraw from './components/user-withdraw'
 import accountManage from './components/account-manage/index'
+import prizeDetail from './components/prize-detail'
 
 export default {
   name: 'Account',
@@ -49,7 +53,8 @@ export default {
     myRecharge,
     userRecharge,
     myWithdraw,
-    userWithdraw
+    userWithdraw,
+    prizeDetail
   },
   data() {
     return {

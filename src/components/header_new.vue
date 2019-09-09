@@ -19,7 +19,7 @@
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
             <li @click="preInto('/account-center/bet-record')" class="toptray-item">投注记录</li>|
             <router-link class="toptray-item" tag="li" to="/help-center">帮助中心</router-link>|
-            <router-link class="toptray-item corigin" tag="li" to="/">在线客服</router-link>
+            <a class="toptray-item corigin" :href="customerService" target="_blank">在线客服</a>
           </ul>
         </div>
       </div>
@@ -248,6 +248,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'customerService',
       'isLogin',
       'userDetail',
       'lotteryLists',

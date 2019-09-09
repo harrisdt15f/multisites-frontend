@@ -8,6 +8,7 @@ const state = {
   notice: '',
   innerNotice: '',
   activity: '',
+  customerService: '', 
   popularLotteries1: [],
   popularChess: [],
   popularEgame:[],
@@ -22,6 +23,9 @@ const state = {
 const mutations = {
   SET_ICO:(state, data) => {
     state.ico = process.env.VUE_APP_API_URL + data
+  },
+  SET_CUSTOME_SERVICE:(state, data) => {
+    state.customerService = data
   },
   SET_HELP_LIST:(state, data) => {
     state.helpList = data
@@ -102,6 +106,7 @@ const actions = {
         commit('SET_ICO', data.ico)
         commit('SET_LOGO_SRC', data.logo)
         commit('SET_QR_SRC', data.qrcode)
+        commit('SET_CUSTOME_SERVICE', data.customer_service )
       }
     })
   },

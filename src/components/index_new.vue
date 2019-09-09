@@ -233,7 +233,7 @@
       <a href="javascript:;" @click="$store.commit('SET_SHOW_FLOAT', !showSideFloat)" class="close">
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
-      <a href class="online-server"></a>
+      <a :href="customerService" target="_blank" class="online-server"></a>
       <div class="float-qr"><img class="img" :src="qrSrc" alt=""></div>
       <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
@@ -276,6 +276,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      'customerService',
       'lotteryLists',
       'showInitNotice',
       'isLogin',
