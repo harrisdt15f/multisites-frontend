@@ -113,7 +113,7 @@ const router = new Router({
         }
       ]
     },
-    { path: '*', redirect: '/home' }
+    { path: '*', redirect: '/page404' }
   ],
   scrollBehavior () {
     return { x: 0, y: 0 }

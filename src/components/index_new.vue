@@ -10,7 +10,7 @@
                 <a
                   class="carousel-src"
                   href="javascript:;"
-                  @click="goToBannerUrl(item.redirect_url)"
+                  @click="goToBannerUrl(item)"
                   :style="`background-image: url(${item.pic_path})`"
                 ></a>
               </el-carousel-item>
@@ -460,8 +460,10 @@ export default {
       })
     },
     // 点击banner
-    goToBannerUrl(url) {
-      this.$router.push(url)
+    goToBannerUrl(item) {
+      if (item.redirect_url) {
+        this.$router.push(item.redirect_url)
+      }
     },
     // 关闭平台公告
     handleBulletinClose(val) {
