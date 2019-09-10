@@ -4,7 +4,7 @@
       <div class="container w fw">
         <div class="toptray-left">
           <ul>
-            <router-link class="toptray-item" tag="li" to="/download">手机客户端</router-link>|<router-link class="toptray-item " tag="li" to="/">防劫持教程</router-link>
+            <router-link class="toptray-item" tag="li" to="/download">手机客户端</router-link>|<router-link class="toptray-item " tag="li" to="/preventHijack">防劫持教程</router-link>
           </ul>
         </div>
         <div class="toptray-right">

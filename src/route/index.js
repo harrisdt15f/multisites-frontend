@@ -22,6 +22,7 @@ import Download from '../components/public/download.vue'
 import HelpCenter from '../components/public/help-center.vue'
 import HelpPlay from '../components/public/help-play.vue'
 import HelpInfo from '../components/public/help-info.vue'
+import PreventHijack from '../components/public/preventHijack.vue'
 
 Vue.use(Router)
 
@@ -110,6 +111,12 @@ const router = new Router({
           path: '/page500',
           name: 'page500',
           component: P404
+        },
+        // 防劫持
+        {
+          path: '/preventHijack',
+          name: 'preventHijack',
+          component: PreventHijack
         }
       ]
     },

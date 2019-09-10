@@ -19,9 +19,13 @@
             <div class="time-box-title">存款 到账平均时间</div>
             <span class="time-box-desc">
               <i class="i"></i>
-              
+
               <span class="span">
-               <countTo :startVal='depositTime.startVal' :endVal='depositTime.endVal' :duration='5000'></countTo>  
+                <countTo
+                  :startVal="depositTime.startVal"
+                  :endVal="depositTime.endVal"
+                  :duration="5000"
+                ></countTo>
               </span> 秒
             </span>
           </div>
@@ -30,7 +34,11 @@
             <div class="time-box-desc">
               <i class="withdrawal i"></i>
               <span class="span">
-              <countTo :startVal='withdrawalTime.startVal' :endVal='withdrawalTime.endVal' :duration='5000'></countTo>  
+                <countTo
+                  :startVal="withdrawalTime.startVal"
+                  :endVal="withdrawalTime.endVal"
+                  :duration="5000"
+                ></countTo>
               </span>秒
             </div>
           </div>
@@ -57,10 +65,10 @@
               <router-link tag="a" :to="`/help-center`">帮助中心</router-link>
             </li>
             <li>
-              <router-link tag="a" :to="`/download`">手机客户端</router-link>
+              <router-link tag="a" :to="`/download`">手机客户端 </router-link>
             </li>
             <li>
-              <a>防劫持教程</a>
+              <router-link tag="a" :to="`/preventHijack`">防劫持教程</router-link>
             </li>
           </ul>
           <span>建议游戏分辨率为：1280x760</span>
@@ -72,9 +80,9 @@
   </footer>
 </template>
 <script>
-import countTo from 'vue-count-to'
-import { mapGetters } from 'vuex'
-import { randomRange } from '@/utils'
+import countTo from 'vue-count-to';
+import { mapGetters } from 'vuex';
+import { randomRange } from '@/utils';
 export default {
   name: 'Foote',
   components: {
@@ -140,7 +148,7 @@ export default {
         startVal: 0,
         endVal: 10
       }
-    }
+    };
   },
   watch: {
     // $route() {
@@ -153,52 +161,52 @@ export default {
   methods: {
     // 滚动效果
     mockData() {
-      this.endValMoney = 0
-      this.endValPeople = 0
+      this.endValMoney = 0;
+      this.endValPeople = 0;
       let endVal = localStorage.getItem('endVal'),
-        best = Date.now()
+        best = Date.now();
 
       if (endVal) {
-        endVal = JSON.parse(endVal)
+        endVal = JSON.parse(endVal);
         if (new Date(best).getDate() != new Date(endVal.date).getDate()) {
-          localStorage.removeItem('endVal')
+          localStorage.removeItem('endVal');
         } else {
-          const date = best - endVal.date
+          const date = best - endVal.date;
           if (date / 1000 > 10) {
-            endVal.date = best
-            endVal.money += randomRange(1, 10)
-            endVal.people += randomRange(1, 10)
-            localStorage.setItem('endVal', JSON.stringify(endVal))
+            endVal.date = best;
+            endVal.money += randomRange(1, 10);
+            endVal.people += randomRange(1, 10);
+            localStorage.setItem('endVal', JSON.stringify(endVal));
           }
         }
       } else {
-        const money = randomRange(18888888, 29999999)
-        const people = randomRange(1500, 3000)
+        const money = randomRange(18888888, 29999999);
+        const people = randomRange(1500, 3000);
         endVal = {
           date: best,
           money: money,
           people: people,
           expires: Date.now() + 1000 * 60
-        }
-        localStorage.setItem('endVal', JSON.stringify(endVal))
+        };
+        localStorage.setItem('endVal', JSON.stringify(endVal));
       }
 
       this.$nextTick(() => {
-        this.endValMoney = endVal.money
-        this.endValPeople = endVal.people
-      })
+        this.endValMoney = endVal.money;
+        this.endValPeople = endVal.people;
+      });
     },
     goToPage(item) {
-      if (item.title === '手机客户端') this.$router.push('/download')
-      if (item.title === '帮助中心') this.$router.push('/help-center')
+      if (item.title === '手机客户端') this.$router.push('/download');
+      if (item.title === '帮助中心') this.$router.push('/help-center');
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .footer {
-  padding-top:40px;
+  padding-top: 40px;
   background: #fff;
   width: 100%;
   border-top: 1px solid #e6e6e6;
@@ -353,7 +361,7 @@ export default {
         cursor: pointer;
         text-decoration: none;
         cursor: pointer;
-        &:hover{
+        &:hover {
           color: #ff6c00;
         }
       }
