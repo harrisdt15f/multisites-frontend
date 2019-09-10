@@ -3,6 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="handleTabClick">
       <el-tab-pane
         v-for="(item, index) in lotteryLists"
+        :lazy="true"
         :key="index"
         :label="item.name"
         :name="item.sign"
@@ -17,69 +18,97 @@
           ></el-slider>
           {{countPrize}} / {{prizes.max}}
         </div>
-        <div class="list-table"></div>
+        <div class="list-table">
+          <el-table :span-method="objectSpanMethod" border :data="list" style="width: 100%">
+            <el-table-column prop="name" label="玩法" align="center"></el-table-column>
+            <el-table-column prop="level" label="奖级" align="center"></el-table-column>
+            <el-table-column prop="amount" label="奖金" align="center"></el-table-column>
+          </el-table>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import methods from '../../../lib/config/method'
-import prizes from '../../../lib/config/prizes'
+import { mapGetters } from 'vuex';
+import methods from '../../../lib/config/method';
+import prizes from '../../../lib/config/prizes';
 
 export default {
   data() {
     return {
       activeName: '',
+      showTable: false,
       // 奖金计算
       prizes: {},
       list: [],
       methodList: null,
-      countPrize: null
-    }
+      countPrize: null,
+      // 合并列数列表
+      spanArr: []
+    };
   },
   computed: {
     ...mapGetters(['lotteryAll', 'lotteryLists', 'userDetail']),
     gameId() {
-      const gameIdArr = []
+      const gameIdArr = [];
       for (const key in this.lotteryLists) {
-        const listArr = []
+        const listArr = [];
         if (this.lotteryLists.hasOwnProperty(key)) {
-          const element = this.lotteryLists[key]
+          const element = this.lotteryLists[key];
           element.list.forEach(val => {
-            listArr.push(val.number_id)
-          })
+            listArr.push(val.number_id);
+          });
         }
-        gameIdArr.push(listArr)
+        gameIdArr.push(listArr);
       }
-      return gameIdArr
+      return gameIdArr;
     }
   },
   created() {
-    this.activeName = Object.keys(this.lotteryLists)[0]
-    this.prizes.min = parseInt(this.userDetail.min_prize_group)
-    this.prizes.max = parseInt(this.userDetail.prize_group)
+    this.activeName = Object.keys(this.lotteryLists)[0];
+    this.prizes.min = parseInt(this.userDetail.min_prize_group);
+    this.prizes.max = parseInt(this.userDetail.prize_group);
+    this.countPrize = this.prizes.max;
   },
   mounted() {
-    this.initData()
+    this.handleTabClick()
   },
   methods: {
+    // 初始化数据
     initData() {
-      this.list = []
-      const methodList = methods[this.activeName].official
-      for (const key in methodList) {
-        if (methodList.hasOwnProperty(key)) {
-          const element = methodList[key]
+      this.list = [];
+      let initList = [];
+      const methodLists = this.lotteryAll[
+        this.lotteryLists[this.activeName].list[0]['id']
+      ]['methodConfig'];
+      methodLists.forEach(e => {
+        e.rows.forEach(el => {
+          initList.push(...el.methods);
+        });
+      });
+      // 展开分级奖金
+      initList.forEach(v => {
+        const amount = this.countPrizes(v.method_id);
+        if (this._.isArray(amount)) {
+          amount.forEach(a => {
+            this.list.push({
+              name: v.method_name,
+              level: a.label,
+              amount: a.value
+            });
+          });
+        } else {
           this.list.push({
-            name: element.name,
-            level: '一等奖',
-            amount: this.countPrizes(element.method)
-          })
+            name: v.method_name,
+            level: '1等奖',
+            amount: amount
+          });
         }
-      }
-      console.log(this.list)
+      });
     },
+    // 计算奖金
     countPrizes(methodName) {
       let [
         seriesId = this.activeName,
@@ -87,10 +116,10 @@ export default {
         prize = prizes[this.activeName]['official'][methodName],
         count = 0,
         arr = []
-      ] = []
+      ] = [];
       for (const k of this.gameId) {
         for (const i of k) {
-          if (!prize) return
+          if (!prize) return;
           if (
             i === 20 ||
             i === 17 ||
@@ -99,66 +128,91 @@ export default {
             seriesId === 'ssl' ||
             seriesId === 'p3p5'
           ) {
-            diff = 30
+            diff = 30;
           } else if (seriesId === 'lotto') {
-            diff = 20
+            diff = 20;
           }
           // 单个奖金时
           if (!Array.isArray(prize.count)) {
             count =
-              (((1 * 2) /
-                (prize.count / prize.total)) *
+              (((1 * 2) / (prize.count / prize.total)) *
                 (this.countPrize - diff)) /
                 2000 +
-              0.00000001
-            this.typeGroup = 'auto'
-            return this.Utils.toFixed(String(count))
+              0.00000001;
+            this.typeGroup = 'auto';
+            return this.Utils.toFixed(String(count));
           }
 
           // 奖金为多个奖级时  数组
           else {
             for (const j of Object.keys(prize.count)) {
-              let json = {}
+              let json = {};
 
               count =
-                (((1 * 2) /
-                  (prize.count[j] / prize.total)) *
+                (((1 * 2) / (prize.count[j] / prize.total)) *
                   (this.countPrize - diff)) /
                   2000 +
-                0.00000001
+                0.00000001;
 
-              json.value = j
+              json.value = this.Utils.toFixed(String(count));
               if (this.currentMethodGroup === 'LH') {
                 if (+j === 0) {
-                  json.label =
-                    '和 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  json.label = '和 ';
                 } else if (+j === 1) {
-                  json.label =
-                    '龙虎 ' + this.Utils.toFixed(String(count)) + ' 元'
+                  json.label = '龙虎 ';
                 }
               } else {
-                json.label =
-                  +j + 1 + ' 等奖 ' + this.Utils.toFixed(String(count)) + ' 元'
+                json.label = +j + 1 + ' 等奖 ';
               }
-              json.prize = count
-              arr.push(json)
+              json.prize = count;
+              arr.push(json);
             }
-            this.typeGroup = '78px'
-            this.prizeSelect = arr[0].label
-            return arr
+            return arr;
           }
         }
       }
     },
-    handleTabClick(tab) {
-      this.activeName = tab.name
-      this.initData()
+    handleTabClick() {
+      this.activeName = this.activeName;
+      this.countPrize = this.prizes.max;
+      this.initData();
+      this.getSpanArr(this.list);
     },
-    sliderChange(v) {
-      console.log(v)
+    sliderChange() {
+      this.initData();
+    },
+    // 计算合并列数
+    getSpanArr(data) {
+      this.spanArr = []
+      for (var i = 0; i < data.length; i++) {
+        if (i === 0) {
+          this.spanArr.push(1);
+          this.pos = 0;
+        } else {
+          // 判断当前元素与上一个元素是否相同
+          if (data[i].name === data[i - 1].name) {
+            this.spanArr[this.pos] += 1;
+            this.spanArr.push(0);
+          } else {
+            this.spanArr.push(1);
+            this.pos = i;
+          }
+        }
+      }
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      // 合并第一列
+      if (columnIndex === 0) {
+        const _row = this.spanArr[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .bet-record {
@@ -175,6 +229,10 @@ export default {
   }
   .slider {
     text-align: center;
+    margin: 15px 0 15px;
+  }
+  .list-table {
+    padding: 30px;
   }
 }
 </style>

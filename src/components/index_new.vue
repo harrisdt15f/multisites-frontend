@@ -20,16 +20,16 @@
             <i class="fa fa-volume-up ft21 head-notice-img"></i>
             <section class="head-meque">
               <section @click="openNotice" class="resultMarquee" id="head-meque">
-                <p @click="openNotice"
-                   v-if="notice.data && notice.data.length"
-                   id="head-meque_text">
-                    <span
-                      class="meque_text_content"
-                      :key="index"
-                      v-for="(item, index) in noticeList"
-                    >
-                       {{item.content}}
-                    </span>
+                <p
+                  @click="openNotice"
+                  v-if="notice.data && notice.data.length"
+                  id="head-meque_text"
+                >
+                  <span
+                    class="meque_text_content"
+                    :key="index"
+                    v-for="(item, index) in noticeList"
+                  >{{item.content}}</span>
                 </p>
               </section>
             </section>
@@ -46,12 +46,15 @@
                 v-for="(item, index) in lotteriesList"
                 :key="index"
                 :label="item.name"
-                :name="String(index)">
+                :name="String(index)"
+              >
                 <div class="hot-box-item">
                   <div class="title">
                     <div class="fl">
                       {{item.method_name}} &nbsp;
-                      <span style="color:$primary-color;">{{timeArr[index]}}</span> 截止
+                      <span
+                        style="color:$primary-color;"
+                      >{{timeArr[index]}}</span> 截止
                     </div>
                     <div class="fr">
                       <router-link tag="a" :to="`/user-trends/${item.id}`" class="btn">
@@ -80,7 +83,9 @@
                       <span style="color:$primary-color">{{item.count}}</span>注
                       &nbsp;
                       共
-                      <span style="color:$primary-color">{{item.totalCost}}</span> 元
+                      <span
+                        style="color:$primary-color"
+                      >{{item.totalCost}}</span> 元
                     </div>
                   </div>
                   <div class="btn-group">
@@ -89,7 +94,12 @@
                       换一注
                     </a>
                     <a href="javascript:;" @click="preInto(`/bet/${item.id}`)" class="btn-item">手动选号</a>
-                    <el-button type="primary" :loading="betBtnLoading" @click="immediateBet(item)"  class="btn-item bet">立即投注</el-button>
+                    <el-button
+                      type="primary"
+                      :loading="betBtnLoading"
+                      @click="immediateBet(item)"
+                      class="btn-item bet"
+                    >立即投注</el-button>
                   </div>
                 </div>
               </el-tab-pane>
@@ -134,7 +144,11 @@
                   >{{Utils.formatTime(item.encode_time * 1000, 'YYYY-MM-DD HH:MM:SS')}}</div>
                   <div class="fr">
                     <router-link tag="a" :to="`/user-trends/${item.lotteries_id}`" class="btn">走势</router-link>
-                    <a href="javascript:;" @click="preInto(`/bet/${item.lotteries_id}`)" class="btn">投注</a>
+                    <a
+                      href="javascript:;"
+                      @click="preInto(`/bet/${item.lotteries_id}`)"
+                      class="btn"
+                    >投注</a>
                   </div>
                 </div>
               </div>
@@ -148,13 +162,18 @@
                 <el-tab-pane label="彩票" name="lott">
                   <el-row :gutter="8" class="tab-lott">
                     <template v-if="popularLotteries1.length">
-                      <el-col :span="12" v-for="(item, index) in popularLotteries1.slice(0,6)" :key="index">
+                      <el-col
+                        :span="12"
+                        v-for="(item, index) in popularLotteries1.slice(0,6)"
+                        :key="index"
+                      >
                         <div class="lott-item-warp">
                           <div class="lott-item">
                             <section>
                               <img class="img dinv" :src="item.icon_path" />
                               <div class="title">
-                                {{item.cn_name}}<br />经典彩票游戏
+                                {{item.cn_name}}
+                                <br />经典彩票游戏
                               </div>
                             </section>
                             <div class="lott-r fw w100">
@@ -218,7 +237,8 @@
                   <img class="img" :src="item.user_icon" />
                   <div class="zjxx-r wzfw">
                     {{item.username}}
-                    <br />喜中{{item.lottery_sign}}
+                    <br />
+                    喜中{{item.lottery_sign}}
                     <span class="cost">{{item.bonus}}元</span>
                   </div>
                 </div>
@@ -234,7 +254,9 @@
         <i class="fa fa-times-circle" aria-hidden="true"></i>
       </a>
       <a :href="customerService" target="_blank" class="online-server"></a>
-      <div class="float-qr"><img class="img" :src="qrSrc" alt=""></div>
+      <div class="float-qr">
+        <img class="img" :src="qrSrc" alt />
+      </div>
       <router-link tag="a" to="active" class="promotions"></router-link>
     </div>
     <dialog-bulletin
@@ -248,8 +270,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import dialogBulletin from '../components/public/dialog_bulletin'
+import { mapGetters, mapActions } from 'vuex';
+import dialogBulletin from '../components/public/dialog_bulletin';
 
 export default {
   name: 'index',
@@ -269,7 +291,7 @@ export default {
       timerContainer: [],
       // 公告内容
       noticeList: []
-    }
+    };
   },
   components: {
     dialogBulletin
@@ -294,17 +316,18 @@ export default {
     ])
   },
   mounted() {
-    this.initData()
-    this.debounce = this._.debounce(this.handleScroll, 150)
-    window.addEventListener('scroll', this.debounce)
+    this.initData();
+    this.debounce = this._.debounce(this.handleScroll, 150);
+    window.addEventListener('scroll', this.debounce);
   },
   methods: {
-    ...mapActions([ 'getNotice', 'getBanner', 'getInnerNotice', 'getRanking']),
-    getIndexLottery(){
-       this.Api.getPopularLotteries2().then(({success, data}) => {
+    ...mapActions(['getNotice', 'getBanner', 'getInnerNotice', 'getRanking']),
+    getIndexLottery() {
+      this.Api.getPopularLotteries2().then(({ success, data }) => {
         if (success && data.length) {
           const list = Object.keys(data).map((v, i) => {
-            if (data[v].end_time) this.timer[i] = data[v].end_time - new Date().getTime() / 1000
+            if (data[v].end_time)
+              this.timer[i] = data[v].end_time - new Date().getTime() / 1000;
             return {
               name: data[v].lottery_name,
               id: data[v].lotteries_id,
@@ -315,68 +338,74 @@ export default {
               method_group: data[v].method_group,
               count: 5,
               multiple: 1,
-              code: data[v].code && data[v].code.length ? data[v].code : [
-                { num: 0, sign: true },
-                { num: 1, sign: false },
-                { num: 2, sign: true },
-                { num: 3, sign: true },
-                { num: 4, sign: true },
-                { num: 5, sign: false },
-                { num: 6, sign: false },
-                { num: 7, sign: false },
-                { num: 8, sign: true },
-                { num: 9, sign: false }
-              ],
-              cost: 10.00,
-              totalCost: 10.00
-            }
-          })
-          this.lotteriesList = list
-          this.times()
+              code:
+                data[v].code && data[v].code.length
+                  ? data[v].code
+                  : [
+                      { num: 0, sign: true },
+                      { num: 1, sign: false },
+                      { num: 2, sign: true },
+                      { num: 3, sign: true },
+                      { num: 4, sign: true },
+                      { num: 5, sign: false },
+                      { num: 6, sign: false },
+                      { num: 7, sign: false },
+                      { num: 8, sign: true },
+                      { num: 9, sign: false }
+                    ],
+              cost: 10.0,
+              totalCost: 10.0
+            };
+          });
+          this.lotteriesList = list;
+          this.times();
         }
-      })
+      });
     },
     //获取首页热门游戏
-    initData(){
-      this.getIndexLottery()
-      this.getNotice({type:1}).then(({success, data}) => {
+    initData() {
+      this.getIndexLottery();
+      this.getNotice({ type: 1 }).then(({ success, data }) => {
         if (success && data) {
-          this.noticehandler(data['data'])
+          this.noticehandler(data['data']);
         }
-      })
+      });
       if (this.isLogin) {
-        this.getInnerNotice({type:2})
+        this.getInnerNotice({ type: 2 });
       }
-      this.getBanner()
+      this.getBanner();
       this.getRanking().then(() => {
         this.$nextTick(() => {
           setTimeout(() => {
-            this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
-          }, 1500)
-          
-        })
-      })
+            this.Animation.ranking(
+              'lottery-wins-boxs',
+              'lottery-wins-lists',
+              -1
+            );
+          }, 1500);
+        });
+      });
     },
     // 处理公告内容
     noticehandler(data) {
-      if (!data) return
+      if (!data || !data.length) return;
       for (const k of data) {
-        let json = {}
-        json['content'] = k['title']
-        json['id'] = k['id']
-        this.noticeList.push(json)
+        let json = {};
+        json['content'] = k['title'];
+        json['id'] = k['id'];
+        this.noticeList.push(json);
       }
       setTimeout(() => {
-        this.Animation.notice('head-meque', 'head-meque_text', -1)
-      }, 1500)
+        this.Animation.notice('head-meque', 'head-meque_text', -1);
+      }, 1500);
     },
     // 进入游戏
     preInto(route) {
       if (!this.isLogin) {
-        this.$router.push('/login')
-        return
+        this.$router.push('/login');
+        return;
       } else {
-        this.$router.push(route)
+        this.$router.push(route);
       }
     },
     // 悬浮
@@ -384,48 +413,47 @@ export default {
       const scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop
-      const floatLayer = this.$refs.floatLayer
-      if(!floatLayer) return
+        document.body.scrollTop;
+      const floatLayer = this.$refs.floatLayer;
+      if (!floatLayer) return;
       if (scrollTop > 400) {
-        floatLayer.style.top = '28%'
+        floatLayer.style.top = '28%';
       } else if (scrollTop < 1790) {
-        floatLayer.style.top = '60%'
+        floatLayer.style.top = '60%';
       } else {
-        floatLayer.style.top = '50%'
+        floatLayer.style.top = '50%';
       }
     },
     // 换一注
     handleRandomNum(item) {
       const num = [],
-            randomNum = Math.ceil(Math.random() * 7)
+        randomNum = Math.ceil(Math.random() * 7);
       while (num.length < randomNum) {
-        const ranNum = Math.floor(Math.random() * 10)
-        !num.includes(ranNum) ? num.push(ranNum) : null
+        const ranNum = Math.floor(Math.random() * 10);
+        !num.includes(ranNum) ? num.push(ranNum) : null;
       }
-      item.count = randomNum
-      item.cost = 2 * item.count
-      item.totalCost = item.multiple * item.cost
+      item.count = randomNum;
+      item.cost = 2 * item.count;
+      item.totalCost = item.multiple * item.cost;
       item.code.forEach(v => {
-        this.$set(v, 'sign', num.includes(v.num))
-      })
-      
+        this.$set(v, 'sign', num.includes(v.num));
+      });
     },
     // 加倍
     handleChangeMultiple(item) {
-      this.$set(item, 'totalCost', item.multiple * item.cost)
+      this.$set(item, 'totalCost', item.multiple * item.cost);
     },
     // 一键投注
     immediateBet(item) {
       if (!this.isLogin) {
-        this.$router.push('/login')
-        return
+        this.$router.push('/login');
+        return;
       }
       const code = [],
-            bet = []
+        bet = [];
       item.code.forEach(v => {
-        v.sign ? code.push(v.num) : null
-      })
+        v.sign ? code.push(v.num) : null;
+      });
       bet.push({
         mode: 1,
         price: 2,
@@ -437,17 +465,17 @@ export default {
         codes: code.join('&'),
         method_id: item.method_id,
         cost: item.totalCost.toFixed(3),
-        challenge:0,
-        challenge_prize:0
-      })
-      this.betBtnLoading = true
+        challenge: 0,
+        challenge_prize: 0
+      });
+      this.betBtnLoading = true;
       this.Api.bet(
         item.id,
-        {[item.issue]:1},
+        { [item.issue]: 1 },
         bet,
-        item.totalCost.toFixed(3),
+        item.totalCost.toFixed(3)
       ).then(res => {
-        this.betBtnLoading = false
+        this.betBtnLoading = false;
         if (res.success) {
           this.$alert(
             '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
@@ -455,55 +483,55 @@ export default {
             {
               confirmButtonText: '确定'
             }
-          )
+          );
         }
-      })
+      });
     },
     // 点击banner
     goToBannerUrl(item) {
       if (item.redirect_url) {
-        this.$router.push(item.redirect_url)
+        this.$router.push(item.redirect_url);
       }
     },
     // 关闭平台公告
     handleBulletinClose(val) {
-      this.showBulletin = val
-      this.$store.commit('SET_INDEX_NOTICE', false)
+      this.showBulletin = val;
+      this.$store.commit('SET_INDEX_NOTICE', false);
     },
     // 开启平台公告
     openNotice() {
-      this.showBulletin = true
+      this.showBulletin = true;
     },
     // 倒计时
     times() {
-      if(this.timer.length){
+      if (this.timer.length) {
         this.timer.forEach((v, i) => {
           this.timerContainer[i] = setInterval(() => {
             // 计算 倒计时
-            v -= 1
+            v -= 1;
             if (v >= 0) {
-              this.$set(this.timeArr, i, this.Utils.formatSeconds(v))
+              this.$set(this.timeArr, i, this.Utils.formatSeconds(v));
             } else {
               this.timerContainer.forEach(setIn => {
-                clearInterval(setIn)
-              })
+                clearInterval(setIn);
+              });
               this.$nextTick(() => {
-                this.getIndexLottery()
-              })
+                this.getIndexLottery();
+              });
             }
-          }, 1000)
-        })
+          }, 1000);
+        });
       }
     }
   },
   destroyed() {
     // 清空倒计时
     this.timerContainer.forEach(setIn => {
-      clearInterval(setIn)
-    })
-    window.removeEventListener('scroll', this.debounce)
+      clearInterval(setIn);
+    });
+    window.removeEventListener('scroll', this.debounce);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -758,8 +786,8 @@ export default {
         border: 1px solid $primary-color;
         color: red;
       }
-      /deep/{
-        .el-button{
+      /deep/ {
+        .el-button {
           padding: 0;
         }
       }
@@ -806,12 +834,12 @@ export default {
   right: 5px;
   transform: translateY(-50%);
   transition: all 0.3s;
-  .float-qr{
+  .float-qr {
     background: red;
     position: absolute;
     top: 185px;
-    left: 23px;;
-    .img{
+    left: 23px;
+    .img {
       width: 93px;
       height: 94px;
     }
@@ -838,9 +866,8 @@ export default {
   .close:hover {
     color: #f9780b;
   }
-  
 }
- .hot-box {
+.hot-box {
   display: block;
   width: 100%;
   background: #fff;
@@ -849,7 +876,7 @@ export default {
 }
 .hot-box-tab {
   background-color: #fff;
-  
+
   /deep/ {
     .el-tabs__header {
       margin: 0 0 12px;
@@ -1059,35 +1086,35 @@ export default {
     margin-bottom: 15px;
   }
   .lott-item,
-  .lott-item-game{
+  .lott-item-game {
     overflow: hidden;
     border: 4px solid #f2f2f2;
     padding-top: 15px;
     .img {
-      margin:0 15px 10px;
+      margin: 0 15px 10px;
       width: 70px;
     }
-    .title{
+    .title {
       display: inline-block;
       vertical-align: sub;
     }
     .lott-r {
-      border-top:2px solid #f2f2f2;
-      background:#f7f7f7;
+      border-top: 2px solid #f2f2f2;
+      background: #f7f7f7;
       .btn {
-        float:left;
+        float: left;
         cursor: pointer;
         text-align: center;
         color: $primary-color;
         width: 50%;
         line-height: 38px;
-        font-size:12px;
-        border-right:1px solid #f2f2f2;
+        font-size: 12px;
+        border-right: 1px solid #f2f2f2;
         box-sizing: border-box;
       }
-      .btn:nth-of-type(2){
-        font-size:14px;
-        border-right:none;
+      .btn:nth-of-type(2) {
+        font-size: 14px;
+        border-right: none;
         color: #333;
       }
     }
@@ -1100,16 +1127,16 @@ export default {
       float: left;
       width: 110px;
       border-radius: 5px;
-      margin:0;
+      margin: 0;
     }
-    .title{
+    .title {
       padding-top: 11px;
       display: block;
     }
     .lott-r {
-      border-top:none;
+      border-top: none;
       float: right;
-      background:none;
+      background: none;
       .btn {
         cursor: pointer;
         background: $primary-color;
@@ -1156,12 +1183,12 @@ export default {
     .img {
       float: left;
       margin-right: 10px;
-      width:50px;
-      height:50px;
-      border-radius:50%;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
     }
     .zjxx-r {
-      width:76%;
+      width: 76%;
       float: left;
       .cost {
         color: $primary-color-hover;
@@ -1206,9 +1233,9 @@ export default {
   cursor: pointer;
   line-height: 35px;
 }
-  .meque_text_content{
-    float:left;
-    min-width:333px;
-    padding-right:25px;
-  }
+.meque_text_content {
+  float: left;
+  min-width: 333px;
+  padding-right: 25px;
+}
 </style>
