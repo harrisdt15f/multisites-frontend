@@ -188,7 +188,7 @@ export default {
   mounted() {
     this.Animation.ranking('lottery-wins-boxs', 'lottery-wins-lists', -1)
     this.debounce = this._.debounce(this.handleScroll, 150)
-    window.addEventListener('scroll', this.debounce)
+    this.showSideFloat && window.addEventListener('scroll', this.debounce)
   },
   methods: {
     getIndexLottery(){
