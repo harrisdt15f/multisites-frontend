@@ -44,11 +44,11 @@
               <span v-else>可用</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="操作">
+          <!-- <el-table-column align="center" label="操作">
             <template slot-scope="scope">
               <el-button size="mini" type="danger" @click="delectBankCard(scope.row)">删除</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
       <div class="form-text">
@@ -60,13 +60,12 @@
       <el-row class="title">
         <el-col v-if="show.verifty" :span="8" :class="{on : show.verifty}">1.验证信息</el-col>
         <el-col
-          :span="show.createBank && !showVerifty ? 12 : 8"
-          :class="{on : showCreateBank && !showVerifty && !createResult}"
-        >{{this.showCreateBank && !this.showVerifty ? 1 : 2}}.输入银行卡信息</el-col>
+          :span="show.createBank && !show.verifty ? 12 : 8"
+          :class="{on : showCreateBank && !show.verifty}"
+        >{{showCreateBank && !showVerifty ? 1 : 2}}.输入银行卡信息</el-col>
         <el-col
-          :span="showCreateBank && !showVerifty ? 12 : 8"
-          :class="{on : createResult}"
-        >{{this.showCreateBank && !this.showVerifty ? 2 : 3}}.绑定结果</el-col>
+          :span="showCreateBank && !show.verifty ? 12 : 8"
+        >{{showCreateBank && !showVerifty ? 2 : 3}}.绑定结果</el-col>
       </el-row>
       <div class="content">
         <div v-if="show.verifty">

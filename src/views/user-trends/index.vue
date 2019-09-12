@@ -20,13 +20,13 @@
         <div class="select-section-inner clearfix" v-if="lotteryId[0] !== 'lhc'">
           <ul class="select-list" v-if="this.lotteryId[0] === 'ssc'">
             <li :class="{current: currentChart === 'WuXing'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('WuXing')">五星</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('WuXing', 5)">五星</a>
             </li>
             <li :class="{current: currentChart === 'SiXing'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('SiXing')">四星</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('SiXing', 4)">四星</a>
             </li>
             <li :class="{current: currentChart === 'QianSan'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('QianSan')">前三</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('QianSan', '3f')">前三</a>
             </li>
             <li :class="{current: currentChart === 'ZhongSan'}">
               <a href="javascript:void(0);" @click="selectCurrentChart('ZhongSan')">中三</a>
@@ -92,7 +92,9 @@
             </div>
           </div>
         </div>
-        <component v-if="showCurrentChat" ref="Chart" :list="list" :is="currentChart"></component>
+        <div class="chart-loading" v-loading="chartLoading">
+          <component v-if="showCurrentChat" ref="Chart" :list="list" :is="currentChart"></component>
+        </div>
       </div>
     </div>
   </div>
@@ -149,6 +151,7 @@ export default {
     }
     return {
       list: [],
+      chartLoading: false,
       showCurrentChat: false,
       currentChart: '',
       lotteryId: ['ssc', 'cqssc'],
@@ -195,18 +198,21 @@ export default {
     this.switchChat(this.lotteryId[0])
   },
   mounted() {
-    this.getData(this.lotteryId[1])
+    this.getData(this.lotteryId[1], 5)
   },
   methods: {
     // 请求走势数据
-    getData(lottery_id) {
+    getData(lottery_id, num) {
       this.list = []
       this.listQuery.lottery_id = lottery_id
+      this.listQuery.num_type = num
       this.showCurrentChat = false
+      this.chartLoading = true
       this.Api.getTrend(this.listQuery).then(({ success, data }) => {
         if (success) {
-          this.showCurrentChat = true
+          this.chartLoading = false
           this.list = data
+          this.showCurrentChat = true
         }
       })
     },
@@ -218,7 +224,7 @@ export default {
     //选择不同彩种
     handleLotteryIdChange(value) {
       this.restQuery()
-      this.getData(value[1])
+      this.getData(value[1], 3)
       this.switchChat(value[0])
     },
     // 进入不同玩法
@@ -259,9 +265,10 @@ export default {
       this.select = ['guides', 'lost', 'trend']
     },
     //选择当前玩法
-    selectCurrentChart(method) {
+    selectCurrentChart(method, num) {
       this.select = ['guides', 'lost', 'trend']
       this.currentChart = method
+      this.getData(this.lotteryId[1], num)
     }
   }
 }
@@ -494,6 +501,10 @@ export default {
   .select-list li.current:hover a:hover {
     color: $primary-color;
   }
+}
+.chart-loading{
+  min-height: 350px;
+  background: #fff;
 }
 </style>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-tabs v-model="activeName" type="border-card">
+    <el-tabs v-model="activeName" type="border-card" @tab-click="handleTabClick">
       <el-tab-pane label="账户管理" :lazy="true" name="account-manage">
         <account-manage></account-manage>
       </el-tab-pane>
@@ -63,6 +63,9 @@ export default {
     this.activeName = this.type ? this.type : 'account-manage'
   },
   methods: {
+    handleTabClick(v){
+      this.$router.push(`/account-center/${v.name}`)
+    }
   },
 }
 </script>

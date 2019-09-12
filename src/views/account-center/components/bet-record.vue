@@ -1,7 +1,7 @@
 <template>
   <div class="bet-record sub-account">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="游戏记录" name="game">
+      <el-tab-pane :lazy="true" label="游戏记录" name="game">
         <div class="container">
           <div class="filter-container">
             游戏时间：
@@ -146,7 +146,7 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="追号记录" name="traces">
+      <el-tab-pane :lazy="true" label="追号记录" name="traces">
         <div class="container">
           <div class="filter-container">
             游戏时间：

@@ -83,197 +83,13 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">19</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">18</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">13</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">16</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">11</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">13</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">16</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">17</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="ball-none border-bottom"></td>
+          <template v-for="(items, index) in totalNum">
+            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
+              <i class="ball-noraml">{{item}}</i>
+            </td>
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
+          </template>
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -283,197 +99,13 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">31</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-bottom"></td>
+          <template v-for="(items, index) in omissionNum">
+            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
+              <i class="ball-noraml">{{item}}</i>
+            </td>
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
+          </template>
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -483,197 +115,13 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">18</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">13</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">14</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">22</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">30</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">19</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">19</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">16</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">11</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">21</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">19</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">18</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">14</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">25</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">13</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">11</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">17</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">24</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">18</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">29</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">14</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">17</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">16</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">15</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">21</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">29</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">11</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">20</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">12</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">14</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">18</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">24</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">10</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">22</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">16</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">11</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="ball-none border-bottom"></td>
+          <template v-for="(items, index) in omissionMaxNum">
+            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
+              <i class="ball-noraml">{{item}}</i>
+            </td>
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
+          </template>
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -683,395 +131,26 @@
           <td class="border-bottom"></td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="ball-none border-bottom"></td>
+          <template v-for="(items, index) in continuousNum">
+            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
+              <i class="ball-noraml">{{item}}</i>
+            </td>
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
+          </template>
         </tr>
       </tbody>
       <tbody class="tbody tbody-footer-header">
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
           <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
-          <td class="ball-none border-bottom td-bg"></td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">0</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">1</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">2</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">3</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">4</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">5</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">6</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">7</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">8</i>
-          </td>
-          <td class="border-bottom td-bg">
-            <i class="ball-noraml">9</i>
-          </td>
-          <td class="ball-none border-bottom td-bg"></td>
+         <template v-for="items in 6">
+            <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
+            <td v-for="item in 10" :key="`${items}-${item}`" class="border-bottom td-bg">
+              <i class="ball-noraml">{{item-1}}</i>
+            </td>
+            <td :key="`${items}-border-bottom`" class="ball-none border-right border-bottom td-bg"></td>
+         </template>
         </tr>
         <tr class="auxiliary-area title-text">
           <td colspan="12" class="border-right border-bottom">万位</td>
@@ -1094,7 +173,16 @@ export default {
   name: 'user-trends-chart',
   data() {
     return {
+      // 开奖值
       data: [],
+      // 出现总次数
+      totalNum:[],
+      // 平均遗漏值
+      omissionNum: [],
+      // 最大遗漏值	
+      omissionMaxNum: [],
+      // 最大连出值
+      continuousNum: [],
       showTemperature: false,
       showLostPost: false,
       showTrend: true,
@@ -1102,23 +190,25 @@ export default {
       showLost: true
     }
   },
-  computed: {
-    ...mapGetters(['currentLottery', 'cu'])
-  },
   props: ['list'],
   watch: {
     list: {
       handler(newVal) {
-        if (newVal.length) this.handleDrawing(newVal)
+        if (newVal.data.length) this.handleDrawing(newVal)
       },
       deep: true
     }
   },
   mounted() {
-    if (this.list && this.list.length) this.handleDrawing(this.list)
+    if (this.list.data.length) this.handleDrawing(this.list)
   },
   methods: {
     handleDrawing(list) {
+      const sumData = list.statistics 
+      this.totalNum = this._.chunk(sumData[0],10) 
+      this.omissionNum = this._.chunk(sumData[1],10) 
+      this.omissionMaxNum = this._.chunk(sumData[2],10) 
+      this.continuousNum = this._.chunk(sumData[3],10)
       this.data = this.reBuildData(list).data
       let positionCount = 0,
         currentBallLeft = 0,
