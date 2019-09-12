@@ -32,7 +32,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import methods from '../../../lib/config/method';
 import prizes from '../../../lib/config/prizes';
 
 export default {
@@ -200,6 +199,7 @@ export default {
         }
       }
     },
+    // eslint-disable-next-line no-unused-vars
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
       // 合并第一列
       if (columnIndex === 0) {

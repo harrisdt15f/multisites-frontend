@@ -206,8 +206,7 @@ export default {
       this.Api.getTrend(this.listQuery).then(({ success, data }) => {
         if (success) {
           this.showCurrentChat = true
-          this.list = JSON.parse(data)
-          console.log(this.list)
+          this.list = data
         }
       })
     },

@@ -313,7 +313,7 @@ export default {
           }
         })
       })
-      ballData.forEach((v, i) => {
+      ballData.forEach((v) => {
         i2 = 0
         v.data.forEach(j => {
           i3 = 0
