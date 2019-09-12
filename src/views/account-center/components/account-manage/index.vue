@@ -8,11 +8,11 @@
         <pwd-manage :existFundPassword="existFundPassword" @showSetFund="handleshowFundPwd"></pwd-manage>
       </el-tab-pane>
       <el-tab-pane :lazy="true" label="银行卡管理" name="bank-manage">
-        <bank-manage v-if="activeName === 'bank-manage'"></bank-manage>
+        <bank-manage v-if="activeName === 'bank-manage'" @showSetFund="handleshowFundPwd" ></bank-manage>
       </el-tab-pane>
     </el-tabs>
     <!-- 创建资金密码弹窗 -->
-    <el-dialog class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFund">
+    <el-dialog :close-on-click-modal="false" :close-on-press-escape="false" class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFund">
       <el-form
         :model="ruleForm"
         status-icon
@@ -22,10 +22,10 @@
         class="demo-ruleForm"
       >
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+          <el-input style="width:300px;" type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="confirm_password">
-          <el-input type="password" v-model="ruleForm.confirm_password" autocomplete="off"></el-input>
+        <el-form-item label="确认密码" prop="password_confirmation">
+          <el-input style="width:300px;" type="password" v-model="ruleForm.password_confirmation" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button :loading="btnLoading" type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -51,8 +51,8 @@ export default {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        if (this.ruleForm.confirm_password !== '') {
-          this.$refs.ruleForm.validateField('confirm_password')
+        if (this.ruleForm.password_confirmation !== '') {
+          this.$refs.ruleForm.validateField('password_confirmation')
         }
         callback()
       }
@@ -71,7 +71,7 @@ export default {
       showSetFund: false,
       ruleForm: {
         password: '',
-        confirm_password: ''
+        password_confirmation: ''
       },
       btnLoading:false,
       existFundPassword: undefined,
@@ -80,7 +80,7 @@ export default {
           { required: true, validator: validatePass, trigger: 'blur' },
           { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
         ],
-        confirm_password: [
+        password_confirmation: [
           { required: true, validator: validatePass2, trigger: 'blur' },
           { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
         ]
@@ -108,7 +108,7 @@ export default {
     handleshowFundPwd() {
       this.ruleForm = {
         password: '',
-        confirm_password: ''
+        password_confirmation: ''
       }
       this.showSetFund = true
       this.$nextTick(() => {

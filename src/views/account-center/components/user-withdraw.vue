@@ -48,9 +48,9 @@
           </el-table-column>
           <el-table-column align="center" label="状态">
             <template slot-scope="scope">
-              <span v-if="scope.row.status == 0">正在充值</span>
-              <span v-if="scope.row.status == 1">充值成功</span>
-              <span v-if="scope.row.status == 2">充值失败</span>
+              <span v-if="scope.row.status == 0">正在提现</span>
+              <span v-if="scope.row.status == 1">提现成功</span>
+              <span v-if="scope.row.status == 2">提现失败</span>
               <span v-if="scope.row.status == 10">正在审核</span>
               <span v-if="scope.row.status == 11">审核成功</span>
               <span v-if="scope.row.status == 12">审核失败</span>

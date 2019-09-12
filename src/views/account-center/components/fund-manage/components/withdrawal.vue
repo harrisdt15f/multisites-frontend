@@ -17,9 +17,9 @@
               <el-option
                 v-for="item in cardList"
                 :key="item.value"
-                :label="`${item.owner_name} ${item.card_number} ${item.bank_name}`"
+                :label="`${item.owner_name} ${item.card_num} ${item.bank_name}`"
                 :value="item">
-                {{item.owner_name}} {{item.card_number}} {{item.bank_name}}
+                {{item.owner_name}} {{item.card_num}} {{item.bank_name}}
               </el-option>
             </el-select>
         </el-form-item>
@@ -91,7 +91,7 @@ export default {
       const sendData = {
         amount: this.amount,
         bank_sign: this.bankCard.bank_sign,
-        card_number: this.bankCard.card_number,
+        card_number: this.bankCard.card_num,
         card_username: this.bankCard.owner_name
       }
       this.btnLoading = true

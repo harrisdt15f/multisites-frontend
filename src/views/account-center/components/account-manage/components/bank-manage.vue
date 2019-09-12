@@ -12,7 +12,7 @@
       </div>
     </div>
     <!-- 银行卡管理 -->
-    <div class="show-manage-bank" v-if="showManageBank">
+    <div class="show-manage-bank" v-if="show.bankManage">
       <p>一个游戏账户最多绑定4张银行卡，您目前绑定了{{tableData.length}}张卡，还可以绑定{{4-tableData.length}}张。</p>
       <p>发起第一次提现后，系统会自动锁定银行卡。</p>
       <p>为了您的账户资金安全，银行卡“新增”和“修改”将在操作完成2小时0分后，新卡才能发起“向平台提现”。</p>
@@ -53,19 +53,55 @@
       </div>
       <div class="form-text">
         <button class="form-button" @click="handleAddCreate" style="margin-right:30px;">增加绑定</button>
-        <!-- <button class="form-button">锁定银行卡</button> -->
       </div>
     </div>
     <!-- 创建银行卡 -->
-    <div class="create-bank" v-if="showCreateBank">
+    <div class="create-bank" v-if="show.createBank">
       <el-row class="title">
-        <el-col :span="8" :class="{on : !this.createResult}">1.验证信息</el-col>
-        <el-col :span="8" :class="{on : this.createResult}">2.输入银行卡信息</el-col>
-        <el-col :span="8" :class="{on : this.createResult}">3.绑定结果</el-col>
+        <el-col v-if="show.verifty" :span="8" :class="{on : show.verifty}">1.验证信息</el-col>
+        <el-col
+          :span="show.createBank && !showVerifty ? 12 : 8"
+          :class="{on : showCreateBank && !showVerifty && !createResult}"
+        >{{this.showCreateBank && !this.showVerifty ? 1 : 2}}.输入银行卡信息</el-col>
+        <el-col
+          :span="showCreateBank && !showVerifty ? 12 : 8"
+          :class="{on : createResult}"
+        >{{this.showCreateBank && !this.showVerifty ? 2 : 3}}.绑定结果</el-col>
       </el-row>
       <div class="content">
-        <div v-if="!createResult">
+        <div v-if="show.verifty">
           <el-form
+            :key="1"
+            :model="veriftyForm"
+            :rules="veriftyRules"
+            ref="veriftyForm"
+            label-width="120px"
+            class="card-form"
+          >
+            <el-form-item label="开户人姓名：" prop="owner_name">
+              <el-input style="width:285px" v-model="veriftyForm.owner_name"></el-input>
+            </el-form-item>
+            <el-form-item label="资金密码：" prop="fund_password">
+              <el-input
+                style="width:285px"
+                type="password"
+                v-model="veriftyForm.fund_password"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                :loading="createLoading"
+                @click="handleVerifty"
+                type="submit"
+                class="form-button"
+              >下一步</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div v-else-if="show.form">
+          <el-form
+            :key="2"
             :model="cardForm"
             :rules="rules"
             ref="cardForm"
@@ -123,10 +159,21 @@
               <el-input style="width:285px" v-model="cardForm.owner_name"></el-input>
             </el-form-item>
             <el-form-item label="银行卡号：" prop="card_number">
-              <el-input @paste.native.capture.prevent style="width:285px" type="number" placeholder="银行卡卡号由16位或19位数字组成" v-model="cardForm.card_number"></el-input>
+              <el-input
+                @paste.native.capture.prevent
+                style="width:285px"
+                type="number"
+                placeholder="银行卡卡号由16位或19位数字组成"
+                v-model="cardForm.card_number"
+              ></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button :loading="createLoading" @click="handleAddCard" type="submit" class="form-button">确认提交</el-button>
+              <el-button
+                :loading="createLoading"
+                @click="handleAddCard"
+                type="submit"
+                class="form-button"
+              >确认提交</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -144,33 +191,33 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     var validateCardNumber = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请填写银行卡号'))
+        callback(new Error('请填写银行卡号'));
       } else if (value.length !== 16 && value.length !== 19) {
-        callback(new Error('银行卡卡号由16位或19位数字组成'))
+        callback(new Error('银行卡卡号由16位或19位数字组成'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loading: false,
-      tableData: [],
       createLoading: false,
+      tableData: [],
       haveBankCard: true,
-      showCreateBank: false,
-      showManageBank: false,
-      cardOptions: [
-        {
-          value: 'icbc',
-          label: '黄金糕'
-        }
-      ],
-      createResult: 0,
+      cardOptions: [],
       provinceOptions: [],
       cityOptions: [],
+      show: {
+        bankManage: false,
+        createBank: false,
+        verifty: false,
+        form: false
+      },
       cardForm: {
         bank_sign: '',
         province_id: undefined,
@@ -178,6 +225,10 @@ export default {
         card_number: '',
         branch: '',
         owner_name: ''
+      },
+      veriftyForm: {
+        owner_name: '',
+        fund_password: ''
       },
       rules: {
         bank_sign: [
@@ -196,66 +247,93 @@ export default {
           { required: true, validator: validateCardNumber, trigger: 'blur' }
         ]
       },
-      cardIndex: 0
-    }
+      veriftyRules: {
+        owner_name: [
+          { required: true, message: '请输入开户人姓名', trigger: 'blur' }
+        ],
+        fund_password: [
+          { required: true, message: '请输入资金密码', trigger: 'blur' },
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
+        ]
+      }
+    };
+  },
+  computed: {
+    ...mapGetters(['userDetail'])
   },
   created() {
-    this.initData()
+    if (!this.userDetail.fund_password) {
+      this.$alert('还没有资金密码，请先设置资金密码！', '提示', {
+        confirmButtonText: '确定'
+      }).then(() => {
+        this.$emit('showSetFund');
+      });
+    } else {
+      this.initData();
+    }
   },
   methods: {
     initData() {
-      this.getCardList()
+      this.getCardList();
       this.Api.bankLists().then(({ success, data }) => {
         if (success) {
-          this.cardOptions = data
+          this.cardOptions = data;
         }
-      })
+      });
       this.Api.provinceLists().then(({ success, data }) => {
         if (success) {
-          this.provinceOptions = data
+          this.provinceOptions = data;
         }
-      })
+      });
     },
     //获取银行卡列表
     fetchCardList() {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         this.Api.getCardList().then(res => {
-          const { success, data } = res
+          const { success, data } = res;
           if (success) {
-            this.tableData = data
-            resolve(res)
+            this.tableData = data;
+            resolve(res);
           }
-        })
-      })
+        });
+      });
     },
     //切换
     getCardList() {
-      this.loading = true
+      this.loading = true;
       this.fetchCardList().then(res => {
-        this.loading = false
-        const { success, data } = res
+        this.loading = false;
+        const { success, data } = res;
         if (success && data) {
           if (data.length) {
-            this.haveBankCard = true
-            this.showManageBank = true
+            this.haveBankCard = true;
+            this.show.bankManage = true;
           } else {
-            this.haveBankCard = false
-            this.showManageBank = false
-            this.showCreateBank = false
+            this.haveBankCard = false;
           }
         }
-      })
+      });
     },
-    // 改变
+    // 改变区域选择
     handleChangeProvince(id) {
+      this.cardForm.city_id = '';
       this.Api.cityLists({ region_parent_id: id }).then(({ success, data }) => {
         if (success) {
-          this.cityOptions = data
+          this.cityOptions = data;
         }
-      })
+      });
     },
     // 复原
     restFrom() {
+      this.veriftyForm = {
+        owner_name: '',
+        fund_password: ''
+      },
       this.cardForm = {
         bank_sign: '',
         province_id: undefined,
@@ -263,18 +341,35 @@ export default {
         card_number: '',
         branch: '',
         owner_name: ''
-      }
+      };
     },
+    // 立即绑定
     handleOpenDialog() {
-      this.restFrom()
-      this.showCreateBank = true
-      this.haveBankCard = true
+      this.haveBankCard = true;
+      this.show.createBank = true;
+      this.show.form = true;
     },
+    // 验证资金密码
+    handleVerifty() {
+      this.$refs['veriftyForm'].validate(valid => {
+        if (valid) {
+          this.createLoading = true;
+          this.Api.twoAddVerify(this.veriftyForm).then(({ success }) => {
+            this.createLoading = false;
+            if (success) {
+              this.show.verifty = false;
+              this.show.form = true;
+            }
+          });
+        }
+      });
+    },
+    // 创建银行卡
     handleAddCard() {
       this.$refs['cardForm'].validate(valid => {
         if (valid) {
-          this.createLoading = true
-          const sendData = Object.assign({}, this.cardForm)
+          this.createLoading = true;
+          const sendData = Object.assign({}, this.cardForm);
           Object.assign(sendData, {
             bank_name: this.cardOptions.filter(
               v => v.code === this.cardForm.bank_sign
@@ -285,31 +380,30 @@ export default {
             city_id: this.cityOptions.filter(
               v => v.region_id === this.cardForm.city_id
             )[0].id
-          })
+          });
+          if(this.veriftyForm.fund_password){Object.assign(sendData, {fund_password : this.veriftyForm.fund_password})}
           this.Api.addBank(sendData).then(({ success }) => {
-            this.createLoading = false
+            this.createLoading = false;
             if (success) {
-              this.createResult = 1
-              this.fetchCardList()
+              this.show.verifty = false
+              this.show.form = false
+              this.fetchCardList();
             }
-          })
-          
+          });
         }
-      })
+      });
     },
     handleAddCreate() {
-      this.restFrom()
-      this.showCreateBank = true
-      this.showManageBank = false
-      this.createResult = 0
+      this.restFrom();
+      this.show.createBank = true;
+      this.show.bankManage = false;
+      this.show.verifty = true;
     },
     goToBankManage() {
-      this.showCreateBank = false
-      this.showManageBank = true
-      this.createResult = 0
+      this.show.createBank = false;
+      this.show.bankManage = true;
     },
     //删除银行卡
-
     delectBankCard(row) {
       this.$confirm('此操作将永久删除该银行卡, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -322,40 +416,41 @@ export default {
               this.$message({
                 type: 'success',
                 message: '删除成功!'
-              })
+              });
               this.fetchCardList().then(res => {
-                const { success, data } = res
+                const { success, data } = res;
                 if (success && data) {
                   if (data.length) {
-                    this.haveBankCard = true
-                    this.showManageBank = true
+                    this.haveBankCard = true;
+                    this.show.bankManage = true;
                   } else {
-                    this.haveBankCard = false
-                    this.showManageBank = false
-                    this.showCreateBank = false
+                    this.haveBankCard = false;
+                    this.show.bankManage = false;
+                    this.show.createBank = false;
                   }
                 }
-              })
+              });
             }
-          })
+          });
         })
         .catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          })
-        })
+          });
+        });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.bank-manage{
+.bank-manage {
   min-height: 280px;
-  /deep/{
-    .el-button:focus, .el-button:hover{
-      color:#fff;
+  /deep/ {
+    .el-button:focus,
+    .el-button:hover {
+      color: #fff;
       background: #f73b3b;
     }
   }
@@ -381,7 +476,7 @@ export default {
   }
 }
 .show-manage-bank {
-  margin: 0 35px 35px;
+  padding: 0 35px 35px;
   & > p {
     margin-bottom: 5px;
   }

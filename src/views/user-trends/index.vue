@@ -159,7 +159,8 @@ export default {
       dataNum: 30,
       listQuery: {
         lottery_id: '',
-        range: 30
+        num_type: 5,
+        count: 30
       }
     }
   },
@@ -212,7 +213,7 @@ export default {
     },
     //请求数量改变
     dataNumChange(num) {
-      this.listQuery.range = num
+      this.listQuery.count = num
       this.getData(this.lotteryId[1])
     },
     //选择不同彩种
@@ -255,7 +256,7 @@ export default {
     // 复原搜索条件
     restQuery() {
       this.dataNum = 30
-      this.listQuery.range = 30
+      this.listQuery.count = 30
       this.select = ['guides', 'lost', 'trend']
     },
     //选择当前玩法
@@ -658,7 +659,7 @@ export default {
 }
 
 .chart-table .ball-red,
-.chart-table .ball-orange,
+.chart-table .ball-ocount,
 .chart-table .ball-blue,
 .chart-table .ball-green,
 .chart-table .ball-purple,
@@ -672,7 +673,7 @@ export default {
   background-position: 0 0;
 }
 
-.chart-table .ball-orange {
+.chart-table .ball-ocount {
   background-position: -20px 0;
 }
 
@@ -866,7 +867,7 @@ export default {
   color: #b7b7b7;
 }
 
-.table-lost .select-area .ball-orange {
+.table-lost .select-area .ball-ocount {
   color: #fff;
 }
 

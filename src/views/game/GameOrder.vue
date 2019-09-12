@@ -1105,7 +1105,6 @@ export default {
             })
             // 限制最大倍数
             let max_multiple = Math.min(...maxArr)
-            console.log(max_multiple)
             if (row_data.multiple >= max_multiple) {
               if (alertSign) {
                 alert(

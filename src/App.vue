@@ -12,7 +12,7 @@ export default {
     this.getIco()
   },
   methods: {
-    //获取 头部小图标
+    //获取标签头部小图标
     getIco() {
       const href = this.ico,
         html = document.createElement('link'),

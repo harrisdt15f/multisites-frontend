@@ -1003,7 +1003,7 @@
 }
 
 .lhc-qx .end {
-    margin: 0px !important;
+    margin: 0 !important;
 }
 
 .colorwhite {

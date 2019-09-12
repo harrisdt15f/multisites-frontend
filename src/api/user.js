@@ -43,6 +43,10 @@ export default {
   provinceLists(){
     return this.get('/user-bank-card/province-lists').then(response => response)
   },
+  // 二次添加银行卡验证资金密码与开户姓名
+  twoAddVerify(data) {
+    return this.post('/user-bank-card/two-add-verifiy', data).then(response => response)
+  },
   // 玩家-银行卡列表
   getCardList(data) {
     return this.get('/user-bank-card/lists', data).then(response => response)

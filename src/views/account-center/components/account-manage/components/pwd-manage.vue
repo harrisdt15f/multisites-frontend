@@ -112,14 +112,32 @@ export default {
         checkPass: ''
       },
       rules: {
-        oldPass: [{ required: true, message: '请输入旧密码', trigger: 'blur' }],
-        pass: [{ required: true, validator: validatePass, trigger: 'blur' }],
-        checkPass: [{ required: true, validator: validatePass2, trigger: 'blur' }]
+        oldPass: [
+          { required: true, message: '请输入旧密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+        ],
+        pass: [
+          { required: true, validator: validatePass, trigger: 'blur' },
+          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+        ],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: 'blur' },
+          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+        ]
       },
       fundRules: {
-        oldPass: [{ required: true, message: '请输入旧资金密码', trigger: 'blur' }],
-        pass: [{ required: true, validator: validateFundPass, trigger: 'blur' }],
-        checkPass: [{ required: true, validator: validateFundPass2, trigger: 'blur' }]
+        oldPass: [
+          { required: true, message: '请输入旧资金密码', trigger: 'blur' },
+          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+        ],
+        pass: [
+          { required: true, validator: validateFundPass, trigger: 'blur' },
+          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+        ],
+        checkPass: [
+          { required: true, validator: validateFundPass2, trigger: 'blur' },
+          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -135,8 +153,8 @@ export default {
         if (valid) {
           const sendData = {
             old_password: this.form.oldPass,
-            new_password: this.form.pass,
-            confirm_password: this.form.checkPass
+            password: this.form.pass,
+            password_confirmation: this.form.checkPass
           }
           this.Api.resetUserPassword(sendData).then(({ success }) => {
             if (success) {
@@ -162,8 +180,8 @@ export default {
         if (valid) {
           const sendData = {
             old_password: this.fundForm.oldPass,
-            new_password: this.fundForm.pass,
-            confirm_password: this.fundForm.checkPass
+            password: this.fundForm.pass,
+            password_confirmation: this.fundForm.checkPass
           }
           this.Api.resetFundPassword(sendData).then(({ success }) => {
             if (success) {
