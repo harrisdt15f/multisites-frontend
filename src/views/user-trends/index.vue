@@ -29,16 +29,16 @@
               <a href="javascript:void(0);" @click="selectCurrentChart('QianSan', '3f')">前三</a>
             </li>
             <li :class="{current: currentChart === 'ZhongSan'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('ZhongSan')">中三</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('ZhongSan', '3m')">中三</a>
             </li>
             <li :class="{current: currentChart === 'HouSan'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('HouSan')">后三</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('HouSan', '3e')">后三</a>
             </li>
             <li :class="{current: currentChart === 'QianEr'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('QianEr')">前二</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('QianEr', '2f')">前二</a>
             </li>
             <li :class="{current: currentChart === 'HouEr'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('HouEr')">后二</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('HouEr', '2e')">后二</a>
             </li>
           </ul>
           <ul class="select-list" v-if="this.lotteryId[0] === 'lotto'">
