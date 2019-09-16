@@ -17,10 +17,14 @@ const state = {
   showBanner: false,
   showSideFloat: true,
   showInitNotice: true,
-  helpList: []
+  helpList: [],
+  isCryptData: true //参数是否加密
 }
 
 const mutations = {
+  SET_IS_CRYPT_DATA:(state, data) => {
+    state.isCryptData = data
+  },
   SET_ICO:(state, data) => {
     state.ico = process.env.VUE_APP_API_URL + data
   },
@@ -162,7 +166,15 @@ const actions = {
         commit('SET_LOTTERY_NOTICE', data)
       }
     })
-  }
+  },
+  //获取是否加密
+  getIsCryptData({ commit }){
+    API.isCryptData().then(({success, data}) => {
+      if (success) {
+        commit('SET_IS_CRYPT_DATA', data)
+      }
+    })
+  },
 }
 
 export default {

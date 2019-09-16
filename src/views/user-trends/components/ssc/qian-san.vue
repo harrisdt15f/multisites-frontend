@@ -47,7 +47,7 @@
           <th class="ball-none border-bottom-header td-bg"></th>
         </tr>
       </thead>
-      <tbody ref="ball-content" class="chart tbody" :class="{'table-guides':showGuides}">
+      <tbody ref="chart-content" class="chart tbody" :class="{'table-guides':showGuides}">
         <tr
           v-for="(item, index) in data"
           :key="`${index}-item`"
@@ -126,7 +126,7 @@
           <td class="border-right">{{item[15]}}</td>
         </tr>
       </tbody>
-      <tbody ref="ball-content" class="tbody ball-content">
+      <tbody class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>

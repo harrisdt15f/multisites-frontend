@@ -4,6 +4,7 @@ const getters = {
   userDetail: state => state.user.userDetail,
   isLogin: state => Boolean(state.user.token),
   // 网站
+  isCryptData: state => state.site.isCryptData, //参数加密
   banner: state => state.site.banner,
   ico: state => state.site.ico,
   qrSrc: state => state.site.qrSrc,

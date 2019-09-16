@@ -19,9 +19,9 @@
             <span val="0" class="issue-order"></span>
           </th>
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
-          <th colspan="12" class="border-right">万位</th>
-          <th colspan="12" class="border-right">千位</th>
           <th colspan="12" class="border-right">百位</th>
+          <th colspan="12" class="border-right">十位</th>
+          <th colspan="12" class="border-right">个位</th>
           <th colspan="12" class="border-right">号码分布</th>
           <th rowspan="2" class="border-bottom border-right">大小形态</th>
           <th rowspan="2" class="border-bottom border-right">单双形态</th>
@@ -99,21 +99,21 @@
           <td class="bg-green border-right">{{item[9].join('')}}</td>
           <!-- 豹子 -->
           <td class="border-right">
-            <template v-if="item[10][0] == 0">
+            <template v-if="item[10] && item[10][0] == 0">
               <span class="group-current"></span>
             </template>
-            <template v-else>{{item[10][0]}}</template>
+            <template v-else>{{item[10] && item[10][0]}}</template>
           </td>
           <!-- 组三 -->
           <td class="border-right">
-            <template v-if="item[11][0] == 0">
+            <template v-if="item[11] && item[11][0] == 0">
               <span class="group-current"></span>
             </template>
-            <template v-else>{{item[11][0]}}</template>
+            <template v-else>{{item[11] && item[11][0]}}</template>
           </td>
           <!-- 组六 -->
           <td class="border-right">
-            <template v-if="item[12][0] == 0">
+            <template v-if="item[12] && item[12][0] == 0">
               <span class="group-current"></span>
             </template>
             <template v-else>{{item[12][0]}}</template>
@@ -126,7 +126,7 @@
           <td class="border-right">{{item[15]}}</td>
         </tr>
       </tbody>
-      <tbody ref="ball-content" class="tbody ball-content">
+      <tbody class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
@@ -141,15 +141,17 @@
             </td>
           </template>
           <td class="border-right border-bottom" v-for="item in 5" :key="`${item}-t`"></td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{totalNum[4][0]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{totalNum[4][1]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{totalNum[4][2]}}</i>
-          </td>
+          <template v-if="omissionMaxNum[4]">
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{totalNum[4][0]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{totalNum[4][1]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{totalNum[4][2]}}</i>
+            </td>
+          </template>
           <td class="border-right border-bottom" v-for="item in 3" :key="`${item}-b`"></td>
         </tr>
         <tr class="auxiliary-area">
@@ -166,15 +168,17 @@
             </td>
           </template>
           <td class="border-right border-bottom" v-for="item in 5" :key="`${item}-t`"></td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionNum[4][0]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionNum[4][1]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionNum[4][2]}}</i>
-          </td>
+          <template v-if="omissionMaxNum[4]">
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionNum[4][0]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionNum[4][1]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionNum[4][2]}}</i>
+            </td>
+          </template>
           <td class="border-right border-bottom" v-for="item in 3" :key="`${item}-b`"></td>
         </tr>
         <tr class="auxiliary-area">
@@ -191,15 +195,17 @@
             </td>
           </template>
           <td class="border-right border-bottom" v-for="item in 5" :key="`${item}-t`"></td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionMaxNum[4][0]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionMaxNum[4][1]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{omissionMaxNum[4][2]}}</i>
-          </td>
+          <template v-if="omissionMaxNum[4]">
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionMaxNum[4][0]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionMaxNum[4][1]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{omissionMaxNum[4][2]}}</i>
+            </td>
+          </template>
           <td class="border-right border-bottom" v-for="item in 3" :key="`${item}-b`"></td>
         </tr>
         <tr class="auxiliary-area">
@@ -216,15 +222,17 @@
             </td>
           </template>
           <td class="border-right border-bottom" v-for="item in 5" :key="`${item}-t`"></td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{continuousNum[4][0]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{continuousNum[4][1]}}</i>
-          </td>
-          <td class="border-bottom border-right">
-            <i class="ball-noraml">{{continuousNum[4][2]}}</i>
-          </td>
+          <template v-if="omissionMaxNum[4]">
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{continuousNum[4][0]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{continuousNum[4][1]}}</i>
+            </td>
+            <td class="border-bottom border-right">
+              <i class="ball-noraml">{{continuousNum[4][2]}}</i>
+            </td>
+          </template>
           <td class="border-right border-bottom" v-for="item in 3" :key="`${item}-b`"></td>
         </tr>
       </tbody>
@@ -251,9 +259,9 @@
           <th class="border-bottom border-right" rowspan="2">和值尾数</th>
         </tr>
         <tr class="auxiliary-area title-text">
-          <td colspan="12" class="border-right border-bottom">万位</td>
-          <td colspan="12" class="border-right border-bottom">千位</td>
           <td colspan="12" class="border-right border-bottom">百位</td>
+          <td colspan="12" class="border-right border-bottom">十位</td>
+          <td colspan="12" class="border-right border-bottom">个位</td>
           <td colspan="12" class="border-bottom border-right">号码分布</td>
         </tr>
       </tbody>

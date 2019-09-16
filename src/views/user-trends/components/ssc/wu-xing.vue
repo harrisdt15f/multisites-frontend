@@ -74,7 +74,7 @@
           <td class="ball-none"></td>
         </tr>
       </tbody>
-      <tbody ref="ball-content" class="tbody ball-content">
+      <tbody class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
@@ -166,11 +166,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { mathNum } from '@/utils'
 
 export default {
-  name: 'user-trends-chart',
   data() {
     return {
       // 开奖值

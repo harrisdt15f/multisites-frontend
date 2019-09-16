@@ -8,6 +8,9 @@ export default {
   computed: {
     ...mapGetters(['ico'])
   },
+  beforeCreate () {
+    this.$store.dispatch('getIsCryptData')
+  },
   created() {
     this.getIco()
   },

@@ -178,7 +178,7 @@
         </div>
         <div v-else class="create-success">
           <h3>恭喜您，银行卡绑定成功</h3>
-          <p>新的银行卡将在2小时0分钟后可以发起“平台体现”</p>
+          <p>新的银行卡将在2小时0分钟后可以发起“平台提现”</p>
           <div class="form-text">
             您现在可以：
             <button @click="goToBankManage" type="submit" class="form-button">银行卡管理</button>

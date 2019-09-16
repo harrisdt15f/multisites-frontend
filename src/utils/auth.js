@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-
+import { API } from '@/api'
 const TokenKey = 'Auth-Token'
 
 export function getToken() {
@@ -12,4 +12,12 @@ export function setToken(token, date) {
 
 export function removeToken() {
   return Cookies.remove(TokenKey)
+}
+
+export function isCryptData() {
+  API.isCryptData().then(({success, data}) => {
+    if (success) {
+      return data
+    }
+  })
 }

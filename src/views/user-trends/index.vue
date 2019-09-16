@@ -205,7 +205,7 @@ export default {
     getData(lottery_id, num) {
       this.list = []
       this.listQuery.lottery_id = lottery_id
-      this.listQuery.num_type = num
+      if(num)this.listQuery.num_type = num
       this.showCurrentChat = false
       this.chartLoading = true
       this.Api.getTrend(this.listQuery).then(({ success, data }) => {
@@ -232,23 +232,29 @@ export default {
       switch (chatName) {
         case 'ssc':
           this.currentChart = 'WuXing'
+          this.listQuery.num_type = 5
           break
         case 'lotto':
           this.currentChart = 'WuXing11x5'
+          this.listQuery.num_type = 5
           break
         case 'k3':
           this.currentChart = 'SanXingK3'
+          this.listQuery.num_type = 3
           break
         case 'sd':
         case '3d':
         case 'ssl':
           this.currentChart = 'SanXingDpc'
+          this.listQuery.num_type = 3
           break
         case 'pk10':
           this.currentChart = 'GuanYa'
+          this.listQuery.num_type = '2gy'
           break
         case 'lhc':
           this.currentChart = 'Lhc'
+          this.listQuery.num_type = '7a'          
           break
         default:
           break

@@ -14,49 +14,46 @@
     >
       <thead class="thead">
         <tr class="title-text">
-          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">
-            期号
-            <span val="0" class="issue-order"></span>
-          </th>
+          <th rowspan="2" colspan="3" class="border-bottom border-right title-issue">期号</th>
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
-          <th colspan="13" class="border-right border-bottom">一位</th>
-          <th colspan="13" class="border-right border-bottom">二位</th>
-          <th colspan="13" class="border-right border-bottom">三位</th>
-          <th colspan="13" class="border-right border-bottom">四位</th>
-          <th colspan="13" class="border-right border-bottom">五位</th>
+          <th colspan="13" class="border-right border-bottom">万位</th>
+          <th colspan="13" class="border-right border-bottom">千位</th>
+          <th colspan="13" class="border-right border-bottom">百位</th>
+          <th colspan="13" class="border-right border-bottom">十位</th>
+          <th colspan="13" class="border-right border-bottom">个位</th>
           <th colspan="13" class="border-bottom">号码分布</th>
         </tr>
         <tr class="title-number">
           <th class="ball-none border-bottom-header"></th>
           <th class="border-bottom-header"></th>
-          <th class="ball-none border-bottom-header border-right"></th>
           <template v-for="item in 6">
-            <th class="ball-none border-bottom-header td-bg" :key="`${item}-l`"></th>
-            <th v-for="num in 11" :key="`${item}-${num}`" class="border-bottom-header td-bg">
+            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-l`"></th>
+            <th class="ball-none border-bottom-header td-bg" :key="`${item}-r`"></th>
+            <th class="border-bottom-header td-bg" v-for="num in 11" :key="`${item}-${num}`">
               <i class="ball-noraml">{{num}}</i>
             </th>
-            <th class="ball-none border-bottom-header border-right td-bg" :key="`${item}-r`"></th>
           </template>
+          <th class="ball-none border-bottom-header td-bg"></th>
         </tr>
       </thead>
       <tbody ref="chart-content" class="chart" :class="{'table-guides':showGuides}">
         <tr
           v-for="(item, index) in data"
-          :key="index"
+          :key="item[0]"
           :class="{'border-bottom': (index+1)%5 === 0}"
         >
           <!-- 期号 开奖号码 -->
           <td class="ball-none"></td>
-          <td class="issue-numbers">{{item.issue}}</td>
+          <td class="issue-numbers">{{item[0]}}</td>
           <td class="ball-none border-right"></td>
           <td class="ball-none"></td>
           <td class>
-            <span class="lottery-numbers">{{item.code}}</span>
+            <span class="lottery-numbers">{{item[1]}}</span>
           </td>
           <td class="ball-none border-right"></td>
           <td class="ball-none"></td>
           <!-- 万位 千位 百位 个位 -->
-          <template v-for="(num, index) in item.data">
+          <template v-for="(num, index) in item.slice(2, 7)">
             <td
               v-for="(items, index0) in num"
               :class="`l-${items[3]}`"
@@ -77,7 +74,7 @@
           <td class="ball-none"></td>
         </tr>
       </tbody>
-      <tbody ref="ball-content" class="tbody ball-content">
+      <tbody class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
@@ -147,13 +144,13 @@
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
           <td rowspan="2" colspan="3" class="border-right border-bottom">开奖号码</td>
-          <template v-for="items in 6">
+         <template v-for="items in 6">
             <td :key="`${items}-border-top`" class="ball-none border-bottom td-bg"></td>
             <td v-for="item in 11" :key="`${items}-${item}`" class="border-bottom td-bg">
               <i class="ball-noraml">{{item}}</i>
             </td>
             <td :key="`${items}-border-bottom`" class="ball-none border-right border-bottom td-bg"></td>
-          </template>
+         </template>
         </tr>
         <tr class="auxiliary-area title-text">
           <td colspan="13" class="border-right border-bottom">万位</td>
@@ -161,7 +158,7 @@
           <td colspan="13" class="border-right border-bottom">百位</td>
           <td colspan="13" class="border-right border-bottom">十位</td>
           <td colspan="13" class="border-right border-bottom">个位</td>
-          <td colspan="13" class="border-bottom border-right">号码分布</td>
+          <td colspan="13" class="border-bottom">号码分布</td>
         </tr>
       </tbody>
     </table>
@@ -174,13 +171,13 @@ import { mathNum } from '@/utils'
 export default {
   data() {
     return {
-      // 开将值
+      // 开奖值
       data: [],
       // 出现总次数
-      totalNum: [],
+      totalNum:[],
       // 平均遗漏值
       omissionNum: [],
-      // 最大遗漏值
+      // 最大遗漏值	
       omissionMaxNum: [],
       // 最大连出值
       continuousNum: [],
@@ -191,26 +188,26 @@ export default {
       showLost: true
     }
   },
-  mounted() {
-    if (this.list && this.list.length) this.handleDrawing(this.list)
-  },
   props: ['list'],
   watch: {
     list: {
       handler(newVal) {
-        if (newVal.length) this.handleDrawing(newVal)
+        if (newVal.data.length) this.handleDrawing(newVal)
       },
       deep: true
     }
   },
+  mounted() {
+    if (this.list.data.length) this.handleDrawing(this.list)
+  },
   methods: {
-    handleDrawing(data) {
-      const sumData = data[1] 
-      this.totalNum = this._.chunk(sumData[0], 11) 
-      this.omissionNum = this._.chunk(sumData[1], 11) 
-      this.omissionMaxNum = this._.chunk(sumData[2], 11) 
-      this.continuousNum = this._.chunk(sumData[3], 11) 
-      this.data = this.reBuildData(data)[0]
+    handleDrawing(list) {
+      const sumData = list.statistics 
+      this.totalNum = this._.chunk(sumData[0],11) 
+      this.omissionNum = this._.chunk(sumData[1],11) 
+      this.omissionMaxNum = this._.chunk(sumData[2],11) 
+      this.continuousNum = this._.chunk(sumData[3],11)
+      this.data = this.reBuildData(list).data
       let positionCount = 0,
         currentBallLeft = 0,
         currentBallTop = 0,
@@ -218,45 +215,46 @@ export default {
         parentDom = this.$refs['chart-content']
       this.$nextTick(() => {
         for (let i = 0, current; i < this.data.length; i++) {
-          current = this.data[i].data
-
+          current = this.data[i]
           for (let k = 0; k < current.length; k++) {
-            for (let j = 0; j < Object.keys(current[k]).length; j++) {
-              if (j == 0) {
-                var currentDom = parentDom.getElementsByTagName('i')[
-                    positionCount
-                  ].parentNode,
-                  left = parseInt(currentDom.offsetLeft),
-                  top = parseInt(currentDom.offsetTop),
-                  width = currentDom.offsetWidth,
-                  height = currentDom.offsetHeight
-              }
-              //当前位置球
-              positionCount++
-              //当前号码
-              if (current[k][j + 1][0] == 0) {
-                //第一排渲染
-                if (typeof chartTrendPosition[k] == 'undefined') {
-                  // 当前球的坐标
-                  currentBallLeft = left + (j + 1) * width - width / 2
-                  currentBallTop = top + height / 2
-                  chartTrendPosition[k] = {}
-                  chartTrendPosition[k]['top'] = currentBallTop
-                  chartTrendPosition[k]['left'] = currentBallLeft
-                } else {
-                  //当前球的坐标
-                  currentBallLeft = left + (j + 1) * width - width / 2
-                  currentBallTop = chartTrendPosition[k]['top'] + height
-                  //绘制画布
-                  //绘制走势图线
-                  this.handleLine(
-                    chartTrendPosition[k]['top'],
-                    chartTrendPosition[k]['left'],
-                    currentBallTop,
-                    currentBallLeft
-                  )
-                  chartTrendPosition[k]['top'] = currentBallTop
-                  chartTrendPosition[k]['left'] = currentBallLeft
+            if (k > 1 && k < 7) {
+              for (let j = 0; j < current[k].length; j++) {
+                if (j == 0) {
+                  var currentDom = parentDom.getElementsByTagName('i')[
+                      positionCount
+                    ].parentNode,
+                    left = parseInt(currentDom.offsetLeft),
+                    top = parseInt(currentDom.offsetTop),
+                    width = currentDom.offsetWidth,
+                    height = currentDom.offsetHeight
+                }
+                //当前位置球
+                positionCount++
+                //当前号码
+                if (current[k][j][0] == 0) {
+                  //第一排渲染
+                  if (typeof chartTrendPosition[k] == 'undefined') {
+                    // 当前球的坐标
+                    currentBallLeft = left + (j + 1) * width - width / 2
+                    currentBallTop = top + height / 2
+                    chartTrendPosition[k] = {}
+                    chartTrendPosition[k]['top'] = currentBallTop
+                    chartTrendPosition[k]['left'] = currentBallLeft
+                  } else {
+                    //当前球的坐标
+                    currentBallLeft = left + (j + 1) * width - width / 2
+                    currentBallTop = chartTrendPosition[k]['top'] + height
+                    //绘制画布
+                    //绘制走势图线
+                    this.handleLine(
+                      chartTrendPosition[k]['top'],
+                      chartTrendPosition[k]['left'],
+                      currentBallTop,
+                      currentBallLeft
+                    )
+                    chartTrendPosition[k]['top'] = currentBallTop
+                    chartTrendPosition[k]['left'] = currentBallLeft
+                  }
                 }
               }
             }
@@ -267,58 +265,61 @@ export default {
     },
     reBuildData(data) {
       var arrMain = [],
-        newArr = [],
-        timesData = data[1][0],
-        ballData = data[0],
-        // loseBar = data['omissionBarStatus'],
-        // loseFlag = new Array(50),
-        i2 = 0,
-        i3 = 0
+          newArr = [],
+          timesData = data['statistics'][0],
+          ballData = data['data'],
+          loseBar = data['omissionBarStatus'],
+          loseFlag = new Array(50),
+          i2 = 0,
+          i3 = 0
       const tem1 = [0, 1, 2, 3, 4]
-      const tem2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      const tem2 = [0,1,2,3,4,5,6,7,8,9,10]
       tem1.forEach(i => {
         arrMain[i] = []
         tem2.forEach(j => {
-          arrMain[i][j] = [timesData[i * 10 + j], j]
+          arrMain[i][j] = [timesData[i*10+j], j]
         })
-        arrMain[i].sort(function(a, b) {
-          return b[0] - a[0]
+        arrMain[i].sort(function(a, b){
+            return b[0] - a[0]
         })
         arrMain[i].forEach((v, k) => {
           //cold 1
           //hot 3
           //other 2
-          if (k < 3) {
-            newArr[i * 10 + arrMain[i][k][1]] = 3
-          } else if (k > 6) {
-            newArr[i * 10 + arrMain[i][k][1]] = 1
-          } else {
-            newArr[i * 10 + arrMain[i][k][1]] = 2
+          if(k < 3){
+              newArr[i*10+arrMain[i][k][1]] = 3
+          }else if(k > 6){
+              newArr[i*10+arrMain[i][k][1]] = 1
+          }else{
+              newArr[i*10+arrMain[i][k][1]] = 2
           }
         })
       })
+
       ballData.forEach((v, i) => {
         i2 = 0
-        v.data.forEach(j => {
+        v.forEach(j => {
           i3 = 0
-          Object.keys(j).forEach(m => {
-            if (j[m][0] == 0) {
-              j[m][2] = newArr[(i2 - 2) * 10 + i3]
-            }
-            //loseBar
-            // if(loseBar[(i2 - 2)*10 + i3] < 0){
-            //   loseFlag[(i2 - 2)*10 + i3] = true
-            // }
-            // if(loseFlag[(i2 - 2)*10 + i3]){
-            //     j[m][3] = 1
-            // }else{
-            //     j[m][3] = 0
-            // }
-            // if(loseBar[(i2 - 2)*10 + i3] == i){
-            //     loseFlag[(i2 - 2)*10 + i3] = true
-            // }
-            i3++
-          })
+          if(i2 > 1 && i2 < 7){
+            j.forEach(m => {
+              if (m[0] == 0) {
+                m[2] = newArr[(i2 - 2)*10 + i3]
+              }
+              //loseBar
+              if(loseBar[(i2 - 2)*10 + i3] < 0){
+                loseFlag[(i2 - 2)*10 + i3] = true
+              }
+              if(loseFlag[(i2 - 2)*10 + i3]){
+                  m[3] = 1
+              }else{
+                  m[3] = 0
+              }
+              if(loseBar[(i2 - 2)*10 + i3] == i){
+                  loseFlag[(i2 - 2)*10 + i3] = true
+              }
+              i3++
+            })
+          }
           i2++
         })
       })
@@ -393,3 +394,5 @@ export default {
   }
 }
 </script>
+
+

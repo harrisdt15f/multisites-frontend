@@ -76,7 +76,7 @@
           <td class="ball-none"></td>
         </tr>
       </tbody>
-      <tbody ref="ball-content" class="tbody ball-content">
+      <tbody class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
@@ -297,7 +297,7 @@ export default {
         });
       });
 
-      ballData.forEach((v, i) => {
+     ballData.forEach((v, i) => {
         i2 = 0;
         v.forEach(j => {
           i3 = 0;
@@ -310,7 +310,7 @@ export default {
               if (loseBar[(i2 - 2) * 10 + i3] < 0) {
                 loseFlag[(i2 - 2) * 10 + i3] = true;
               }
-              if (loseFlag[(i2 - 2) * 10 + i3]) {
+              if (!loseFlag[(i2 - 2) * 10 + i3]) {
                 m[3] = 0;
               } else {
                 m[3] = 1;
