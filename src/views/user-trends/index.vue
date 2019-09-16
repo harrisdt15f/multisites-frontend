@@ -720,9 +720,12 @@ export default {
   color: #fff;
 }
 
-.chart-table .tbody .bg-blue {
+.chart-table .bg-blue {
   background-color: #00a2ff;
   color: #fff;
+  .ball-noraml{
+    color: #fff;
+  }
 }
 
 .chart-table .tbody .bg-blue .ball-noraml {

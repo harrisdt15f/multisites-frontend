@@ -208,12 +208,12 @@
           <template v-for="num in 10">
             <template v-if="item[6][num-1][0] == 0">
               <td class="bg-blue" :key="`${item[1]}${num}-ll`">
-                <i class="ball-noraml">{{item[6][num][1]}}</i>
+                <i class="ball-noraml">{{item[6][num-1][1]}}</i>
               </td>
             </template>
             <template v-else>
               <td class="" :key="`${item[1]}${num}-ll`">
-                <i class="ball-noraml">{{item[6][num][0]}}</i>
+                <i class="ball-noraml">{{item[6][num-1][0]}}</i>
               </td>
             </template>
           </template>
@@ -222,22 +222,26 @@
           <td>{{item[7]}}</td>
         </tr>
       </tbody>
-      <!-- <tbody ref="ball-content" class="tbody ball-content">
+      <tbody ref="ball-content" class="tbody ball-content">
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in totalNum.slice(1)">
+          <!-- 万位	千位 -->
+          <template v-for="(items, index) in totalNum.slice(0, 2)">
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
           </template>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{totalNum[2] && totalNum[2][0]}}</i></td>
+          <td class="border-bottom"></td>
+          <!-- 号码分布	跨度 -->
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -245,15 +249,19 @@
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in omissionNum.slice(1)">
+          <!-- 万位	千位 -->
+          <template v-for="(items, index) in omissionNum.slice(0, 2)">
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
           </template>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionNum[2] && omissionNum[2][0]}}</i></td>
+          <td class="border-bottom"></td>
+          <!-- 号码分布	跨度 -->
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -261,15 +269,19 @@
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in omissionMaxNum.slice(1)">
+          <!-- 万位	千位 -->
+          <template v-for="(items, index) in omissionMaxNum.slice(0, 2)">
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
           </template>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionMaxNum[2] && omissionMaxNum[2][0]}}</i></td>
+          <td class="border-bottom"></td>
+          <!-- 号码分布	跨度 -->
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -277,17 +289,21 @@
           <td class="ball-none border-right border-bottom"></td>
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
-          <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
-          <template v-for="(items, index) in continuousNum.slice(1)">
+          <!-- 万位	千位 -->
+          <template v-for="(items, index) in continuousNum.slice(0, 2)">
+            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
+            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
             <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
               <i class="ball-noraml">{{item}}</i>
             </td>
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
           </template>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{continuousNum[2] && continuousNum[2][0]}}</i></td>
+          <td class="border-bottom"></td>
+          <!-- 号码分布	跨度 -->
         </tr>
-      </tbody>-->
+      </tbody>
       <tbody class="tbody tbody-footer-header">
         <tr class="auxiliary-area title-number">
           <td rowspan="2" colspan="3" class="border-right border-bottom">期号</td>
