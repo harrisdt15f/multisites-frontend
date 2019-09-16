@@ -83,7 +83,7 @@
           </el-table-column>
           <el-table-column align="center" label="玩法">
             <template slot-scope="scope">
-              <span>{{ scope.row.game_methods['method_name'] }}</span>
+              <span>{{ scope.row.game_methods && scope.row.game_methods['method_name'] }}</span>
             </template>
           </el-table-column>
           <el-table-column align="center" label="变动金额">

@@ -7,7 +7,6 @@ import { nextTick } from 'q'
 
 import qs from 'qs'
 
-
 import router from '@/route'
 
 // create an axios instance
@@ -16,14 +15,13 @@ const service = axios.create({
   timeout: 1000 * 60 * 3 // request timeout
 })
 
-
 //偏移量 由前端每次请求随机生成 16位
 var IV = randomString(16)
 //AES加密KEY 由前端自己每次请求随机生成
 var KEY = randomString(16)
 //公钥固定值
-var pkcs8_public='-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt5ugWm2WdqkMI5iDgTmdavYPTp6hmqbopy7N9fNnsNiwEE+toi0XgQjQeuE0Yf7VOIiCI8eWzUaTWfCK3D/dmFTbsTK3Ugql6QuYKRhSn9QnxtEqzvkz5jv3dc3sSav8gK3Ox22DBWUX5LOwY52kBieawlRFckv8vtCOYVPrd+wIDAQAB-----END PUBLIC KEY-----'
-
+var pkcs8_public =
+  '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt5ugWm2WdqkMI5iDgTmdavYPTp6hmqbopy7N9fNnsNiwEE+toi0XgQjQeuE0Yf7VOIiCI8eWzUaTWfCK3D/dmFTbsTK3Ugql6QuYKRhSn9QnxtEqzvkz5jv3dc3sSav8gK3Ox22DBWUX5LOwY52kBieawlRFckv8vtCOYVPrd+wIDAQAB-----END PUBLIC KEY-----'
 
 //数据需要jso
 // request interceptor
@@ -33,11 +31,17 @@ service.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + getToken()
     }
     if (config.data) {
-      console.log(`%c ${config.url}`, 'color: #ff7200', config.data)  // eslint-disable-line
-      config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
-      const enstr = AES_encrypt(JSON.stringify(config.data),KEY,IV,pkcs8_public)
+      console.log(`%c ${config.url}`, 'color: #ff7200', config.data) // eslint-disable-line
+      config.headers['Content-Type'] =
+        'application/x-www-form-urlencoded; charset=UTF-8'
+      const enstr = AES_encrypt(
+        JSON.stringify(config.data),
+        KEY,
+        IV,
+        pkcs8_public
+      )
       if (store.getters.isCryptData) {
-        config.data = qs.stringify({data:enstr})
+        config.data = qs.stringify({ data: enstr })
       }
     }
     return config
@@ -47,6 +51,7 @@ service.interceptors.request.use(
   }
 )
 
+let sign_0 = 0
 let sign = 0
 // response interceptorFright-collapse
 service.interceptors.response.use(
@@ -82,9 +87,19 @@ service.interceptors.response.use(
             })
         }
       } else {
-        MessageBox(message, '提示', {
-          confirmButtonText: '确定'
-        })
+        if (res.code == 100507) {
+          sign_0 += 1
+          if (sign_0 === 1) {
+            MessageBox(message, '提示', {
+              confirmButtonText: '确定'
+            })
+            store.commit('SET_IS_CRYPT_DATA', !store.getters.isCryptData)
+          }
+        } else{
+          MessageBox(message, '提示', {
+            confirmButtonText: '确定'
+          })
+        } 
       }
     }
     return res
