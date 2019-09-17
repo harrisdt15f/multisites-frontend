@@ -14,8 +14,10 @@ export default {
     ...mapGetters(['ico'])
   },
   beforeCreate() {
-    this.$store.dispatch('getIsCryptData').then(() => {
-      this.start = true
+    this.$store.dispatch('getIsCryptData').then(({success}) => {
+      if (success) {
+        this.start = true
+      }
     })
   },
   created() {

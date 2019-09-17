@@ -53,7 +53,7 @@
           </ul>
           <ul
             class="select-list"
-            v-if="this.lotteryId[0] === '3d' || this.lotteryId[0] === 'sd' || this.lotteryId[0] === 'ssl'"
+            v-if="this.lotteryId[0] === '3d' || this.lotteryId[0] === 'sd' || this.lotteryId[0] === 'p3p5' || this.lotteryId[0] === 'ssl'"
           >
             <li :class="{current: currentChart === 'SanXingDpc'}">
               <a href="javascript:void(0);" @click="selectCurrentChart('SanXingDpc')">三星</a>
@@ -61,13 +61,13 @@
           </ul>
           <ul class="select-list" v-if="this.lotteryId[0] === 'pk10'">
             <li :class="{current: currentChart === 'GuanYa'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('GuanYa')">冠亚军</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('GuanYa', '2gy')">冠亚军</a>
             </li>
             <li :class="{current: currentChart === 'QianWu'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('QianWu')">前五名</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('QianWu', '5f')">前五名</a>
             </li>
             <li :class="{current: currentChart === 'HouWu'}">
-              <a href="javascript:void(0);" @click="selectCurrentChart('HouWu')">后五名</a>
+              <a href="javascript:void(0);" @click="selectCurrentChart('HouWu', '5e')">后五名</a>
             </li>
           </ul>
         </div>
@@ -245,6 +245,7 @@ export default {
         case 'sd':
         case '3d':
         case 'ssl':
+        case 'p3p5':
           this.currentChart = 'SanXingDpc'
           this.listQuery.num_type = 3
           break

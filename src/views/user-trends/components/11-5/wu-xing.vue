@@ -39,7 +39,7 @@
       <tbody ref="chart-content" class="chart" :class="{'table-guides':showGuides}">
         <tr
           v-for="(item, index) in data"
-          :key="item[0]"
+          :key="`${item[0]}-${index}`"
           :class="{'border-bottom': (index+1)%5 === 0}"
         >
           <!-- 期号 开奖号码 -->
@@ -68,7 +68,7 @@
             <td class="ball-none" :key="`${item[0]}${index}ball-none`"></td>
           </template>
           <!-- 号码分布 -->
-          <td v-for="(ball, index1) in item[7]" :key="`${item[0]}${index1}`">
+          <td v-for="(ball, index1) in item[7]" :key="`${item[0]}${index1}-t`">
             <i class="ball-noraml" :class="`f-${ball[2]}`">{{ball[0] == 0 ? ball[1] : ball[0]}}</i>
           </td>
           <td class="ball-none"></td>

@@ -223,6 +223,7 @@
         </tr>
       </tbody>
       <tbody ref="ball-content" class="tbody ball-content">
+        <!-- 出现总次数 -->
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom border-top">出现总次数</td>
@@ -230,18 +231,31 @@
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
           <!-- 万位	千位 -->
-          <template v-for="(items, index) in totalNum.slice(0, 2)">
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
-            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
-              <i class="ball-noraml">{{item}}</i>
-            </td>
-          </template>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}`">
+            <i class="ball-noraml">{{totalNum[index]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
+            <i class="ball-noraml">{{totalNum[index+10]}}</i>
+          </td>
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{totalNum[2] && totalNum[2][0]}}</i></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{totalNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
+            <i class="ball-noraml">{{totalNum[index+21]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
+            <i class="ball-noraml">{{totalNum[index+31]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
         </tr>
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
@@ -250,19 +264,33 @@
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
           <!-- 万位	千位 -->
-          <template v-for="(items, index) in omissionNum.slice(0, 2)">
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
-            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
-              <i class="ball-noraml">{{item}}</i>
-            </td>
-          </template>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}`">
+            <i class="ball-noraml">{{omissionNum[index]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
+            <i class="ball-noraml">{{omissionNum[index+10]}}</i>
+          </td>
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionNum[2] && omissionNum[2][0]}}</i></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
+            <i class="ball-noraml">{{omissionNum[index+21]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
+            <i class="ball-noraml">{{omissionNum[index+31]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
         </tr>
+        <!-- 最大遗漏值 -->
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom">最大遗漏值</td>
@@ -270,19 +298,33 @@
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
           <!-- 万位	千位 -->
-          <template v-for="(items, index) in omissionMaxNum.slice(0, 2)">
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
-            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
-              <i class="ball-noraml">{{item}}</i>
-            </td>
-          </template>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}`">
+            <i class="ball-noraml">{{omissionMaxNum[index]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
+            <i class="ball-noraml">{{omissionMaxNum[index+10]}}</i>
+          </td>
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionMaxNum[2] && omissionMaxNum[2][0]}}</i></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionMaxNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
+            <i class="ball-noraml">{{omissionMaxNum[index+21]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
+            <i class="ball-noraml">{{omissionMaxNum[index+31]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
         </tr>
+        <!-- 最大连出值 -->
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom">最大连出值</td>
@@ -290,18 +332,31 @@
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom"></td>
           <!-- 万位	千位 -->
-          <template v-for="(items, index) in continuousNum.slice(0, 2)">
-            <td class="ball-none border-right border-bottom" :key="`${index}-ball`"></td>
-            <td class="ball-none border-bottom" :key="`${index}-ball-bottom`"></td>
-            <td class="border-bottom" v-for="(item, index1) in items" :key="`${index}-${index1}`">
-              <i class="ball-noraml">{{item}}</i>
-            </td>
-          </template>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}`">
+            <i class="ball-noraml">{{continuousNum[index]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
+            <i class="ball-noraml">{{continuousNum[index+10]}}</i>
+          </td>
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{continuousNum[2] && continuousNum[2][0]}}</i></td>
+          <td class="border-bottom border-right"><i class="ball-noraml">{{continuousNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
+            <i class="ball-noraml">{{continuousNum[index+21]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
+          <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
+            <i class="ball-noraml">{{continuousNum[index+31]}}</i>
+          </td>
+          <td class="ball-none border-right border-bottom"></td>
+          <td class="ball-none border-bottom"></td>
         </tr>
       </tbody>
       <tbody class="tbody tbody-footer-header">
@@ -456,7 +511,6 @@ import { mathNum } from '@/utils'; // eslint-disable-next-line
 import { isPair } from "../../../../utils/trend";
 export default {
   data() {
-    this.pairIndex = 0;
     return {
       // 开将值
       data: [],
@@ -492,10 +546,10 @@ export default {
   methods: {
     handleDrawing(list) {
       const sumData = list.statistics;
-      this.totalNum = this._.chunk(sumData[0], 10);
-      this.omissionNum = this._.chunk(sumData[1], 10);
-      this.omissionMaxNum = this._.chunk(sumData[2], 10);
-      this.continuousNum = this._.chunk(sumData[3], 10);
+      this.totalNum = sumData[0];
+      this.omissionNum = sumData[1];
+      this.omissionMaxNum = sumData[2];
+      this.continuousNum = sumData[3];
       this.data = this.reBuildData(list).data;
       let positionCount = 0,
         currentBallLeft = 0,

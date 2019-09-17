@@ -169,10 +169,14 @@ const actions = {
   },
   //获取是否加密
   getIsCryptData({ commit }){
-    API.isCryptData().then(({success, data}) => {
-      if (success) {
-        commit('SET_IS_CRYPT_DATA', data)
-      }
+    return new Promise((resolve) => {
+      API.isCryptData().then(res => {
+        resolve(res)
+        const {success, data} = res
+        if (success) {
+          commit('SET_IS_CRYPT_DATA', data)
+        }
+      })
     })
   },
 }

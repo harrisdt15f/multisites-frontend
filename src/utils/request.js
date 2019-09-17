@@ -51,7 +51,7 @@ service.interceptors.request.use(
   }
 )
 
-let sign_0 = 0
+// let sign_0 = 0
 let sign = 0
 // response interceptorFright-collapse
 service.interceptors.response.use(
@@ -87,19 +87,19 @@ service.interceptors.response.use(
             })
         }
       } else {
-        if (res.code == 100507) {
-          sign_0 += 1
-          if (sign_0 === 1) {
-            MessageBox(message, '提示', {
-              confirmButtonText: '确定'
-            })
-            store.commit('SET_IS_CRYPT_DATA', !store.getters.isCryptData)
-          }
-        } else{
+        // if (res.code == 100507) {
+        //   sign_0 += 1
+        //   if (sign_0 === 1) {
+        //     MessageBox(message, '提示', {
+        //       confirmButtonText: '确定'
+        //     })
+        //     store.commit('SET_IS_CRYPT_DATA', !store.getters.isCryptData)
+        //   }
+        // } else{
           MessageBox(message, '提示', {
             confirmButtonText: '确定'
           })
-        } 
+        // } 
       }
     }
     return res
