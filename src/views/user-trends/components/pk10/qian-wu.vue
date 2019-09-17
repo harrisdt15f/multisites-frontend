@@ -70,7 +70,7 @@
               >{{items[0] == 0 ? items[1] : items[0]}}</i>
             </td>     
           </template>
-          <td class="ball-none border-right  border-bottom"></td>
+          <td class="ball-none border-right  border-bottom dxxt"></td>
           <!-- 大小形态	 -->
           <td style="margin-left:1px" class="border-bottom" :class="{'border-right': num == 5}" v-for="(num, index) in 5" :key="index">
             <template v-if="item[8] && item[8][index] == 1">大</template>
@@ -638,3 +638,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.ball-none{
+  width: 0px !important;
+}
+</style>

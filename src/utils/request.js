@@ -32,8 +32,6 @@ service.interceptors.request.use(
     }
     if (config.data) {
       console.log(`%c ${config.url}`, 'color: #ff7200', config.data) // eslint-disable-line
-      config.headers['Content-Type'] =
-        'application/x-www-form-urlencoded; charset=UTF-8'
       const enstr = AES_encrypt(
         JSON.stringify(config.data),
         KEY,
@@ -41,6 +39,7 @@ service.interceptors.request.use(
         pkcs8_public
       )
       if (store.getters.isCryptData) {
+        config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         config.data = qs.stringify({ data: enstr })
       }
     }
