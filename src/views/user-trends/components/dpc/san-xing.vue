@@ -251,7 +251,7 @@
           <th rowspan="2" class="border-right border-bottom">单双形态</th>
           <th rowspan="2" class="border-right border-bottom">质合形态</th>
           <th rowspan="2" class="border-right border-bottom">012形态</th>
-          <th rowspan="2" class="border-right border-bottom">豹子</th>
+          <th rowspan="2" class="border-right border-bottom">豹子(三同号)</th>
           <th rowspan="2" class="border-right border-bottom">组三</th>
           <th rowspan="2" class="border-right border-bottom">组六</th>
           <th rowspan="2" class="border-right border-bottom">跨度</th>

@@ -1,24 +1,12 @@
 <template>
-  <router-view v-if="start"></router-view>
+  <router-view></router-view>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 export default {
   name: 'app',
-  data () {
-    return {
-      start: false
-    }
-  },
   computed: {
     ...mapGetters(['ico'])
-  },
-  beforeCreate() {
-    this.$store.dispatch('getIsCryptData').then(({success}) => {
-      if (success) {
-        this.start = true
-      }
-    })
   },
   created() {
     this.getIco();

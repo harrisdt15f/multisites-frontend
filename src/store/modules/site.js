@@ -1,4 +1,5 @@
 import { API } from '@/api'
+import { setIsCryptData } from '@/utils/auth'
 
 const state = {
   banner: [],
@@ -17,14 +18,10 @@ const state = {
   showBanner: false,
   showSideFloat: true,
   showInitNotice: true,
-  helpList: [],
-  isCryptData: true //参数是否加密
+  helpList: []
 }
 
 const mutations = {
-  SET_IS_CRYPT_DATA:(state, data) => {
-    state.isCryptData = data
-  },
   SET_ICO:(state, data) => {
     state.ico = process.env.VUE_APP_API_URL + data
   },
@@ -168,13 +165,13 @@ const actions = {
     })
   },
   //获取是否加密
-  getIsCryptData({ commit }){
+  getIsCryptData(){
     return new Promise((resolve) => {
       API.isCryptData().then(res => {
-        resolve(res)
         const {success, data} = res
         if (success) {
-          commit('SET_IS_CRYPT_DATA', data)
+          setIsCryptData(data)
+          resolve(res)
         }
       })
     })

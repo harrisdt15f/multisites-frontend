@@ -4,16 +4,20 @@
       <div class="container w fw">
         <div class="toptray-left">
           <ul>
-            <router-link class="toptray-item" tag="li" to="/download">手机客户端</router-link>|<router-link class="toptray-item " tag="li" to="/preventHijack">防劫持教程</router-link>
+            <router-link class="toptray-item" tag="li" to="/download">手机客户端</router-link>|
+            <router-link class="toptray-item" tag="li" to="/preventHijack">防劫持教程</router-link>
           </ul>
         </div>
         <div class="toptray-right">
           <ul>
             <!-- 消息中心 -->
-            <template v-if="this.isLogin" >
+            <template v-if="this.isLogin">
               <li @click="showMessageCenter" class="toptray-item" tag="li" to="/">
                 消息中心
-                <i class="num" v-if="innerNotice.unread_num && innerNotice.unread_num != 0">{{innerNotice.unread_num}}</i> 
+                <i
+                  class="num"
+                  v-if="innerNotice.unread_num && innerNotice.unread_num != 0"
+                >{{innerNotice.unread_num}}</i>
               </li>|
             </template>
             <li @click="preInto('/account-center')" class="toptray-item">用户中心</li>|
@@ -49,9 +53,17 @@
           <div class="header-drop-in">
             <router-link tag="a" to="/account-center/fund-manage/recharge" class="header-btn-in">充值</router-link>
             <span class="header-line-in">|</span>
-            <router-link tag="a" to="/account-center/fund-manage/withdrawal" class="header-btn-in">提款</router-link>
+            <router-link
+              tag="a"
+              to="/account-center/fund-manage/withdrawal"
+              class="header-btn-in"
+            >提款</router-link>
             <span class="header-line-in">|</span>
-            <router-link tag="a" to="/account-center/fund-manage/transfer" class="header-btn-in">额度转换</router-link>
+            <router-link
+              tag="a"
+              to="/account-center/fund-manage/transfer"
+              class="header-btn-in"
+            >额度转换</router-link>
           </div>
           <a class="bar-link-in">
             <i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -93,17 +105,13 @@
                 type="danger"
                 size="small"
               >登录</el-button>
-              <router-link style="display:inline-block" tag="div" :to="`/register`" >
-                <el-button
-                  size="small"
-                   type="danger"
-                >注册</el-button>
+              <router-link style="display:inline-block" tag="div" :to="`/register`">
+                <el-button size="small" type="danger">注册</el-button>
               </router-link>
             </el-form-item>
           </el-form>
         </div>
       </template>
-      
     </div>
     <div class="header-bottom">
       <div class="container">
@@ -128,7 +136,8 @@
                     @click="preIntoSel(`/bet/${item.en_name}`)"
                     v-for="(item, index) in popularLotteries1"
                     :key="index"
-                    class="w">
+                    class="w"
+                  >
                     <img class="select-grou-img" :src="item.icon_path" />
                     <div class="name">{{item.cn_name}}</div>
                     <div class="issue">全天{{item.day_issue}}期</div>
@@ -144,22 +153,34 @@
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
               </el-col>
               <el-col :span="3" class="all-lottery">
-                <span class="nav-col" to="/bet" :class="{'router-link-active' : this.$route.path.includes('/bet')}">
-                  <span @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"  class="dl">全部彩种</span>
+                <span
+                  class="nav-col"
+                  to="/bet"
+                  :class="{'router-link-active' : this.$route.path.includes('/bet')}"
+                >
+                  <span
+                    @mouseenter="showMenus.show = true"
+                    @mouseleave="showMenus.show = false"
+                    class="dl"
+                  >全部彩种</span>
                 </span>
                 <!-- 全部彩种 -->
                 <div class="nav">
-                  <section ref="lotterListShow"
-                           class="nav-menu-box"
-                           @mouseenter="showMenus.show = true" @mouseleave="showMenus.show = false"
-                           v-show="showMenus.show" >
+                  <section
+                    ref="lotterListShow"
+                    class="nav-menu-box"
+                    @mouseenter="showMenus.show = true"
+                    @mouseleave="showMenus.show = false"
+                    v-show="showMenus.show"
+                  >
                     <el-row :gutter="30">
                       <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
                         <div class="nav-menu-title">{{lottery.name}}</div>
-                        <el-row :gutter="4" class="nav-menus">
+                        <el-row :gutter="4" class="nav-menus" >
                           <el-col
                             :span="8"
                             class="nav-menu"
+                            :class="{hot: hotLottery.some(v => v === item.id)}"
                             v-for="(item, itemIndex) in lottery.list"
                             :key="itemIndex"
                           >
@@ -188,7 +209,11 @@
                 <router-link class="nav-col" tag="span" to="/user-trends">走势图表</router-link>
               </el-col>
               <el-col :span="3">
-                <span :class="{'router-link-active' : this.$route.path.includes('/agent-center')}" class="nav-col" @click="preInto(`/agent-center`)" >代理中心</span>
+                <span
+                  :class="{'router-link-active' : this.$route.path.includes('/agent-center')}"
+                  class="nav-col"
+                  @click="preInto(`/agent-center`)"
+                >代理中心</span>
               </el-col>
             </el-row>
           </el-col>
@@ -205,8 +230,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
-import dialogBulletin from '../components/public/dialog_bulletin'
+import { mapGetters, mapActions } from 'vuex';
+import dialogBulletin from '../components/public/dialog_bulletin';
 
 export default {
   name: 'Header',
@@ -217,15 +242,16 @@ export default {
     // 验证用户名，
     var validateUser = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入用户名'))
+        callback(new Error('请输入用户名'));
       } else {
-        if (!(/^[a-zA-Z0-9_-]{4,18}$/).test(value)) {
-          callback(new Error('用户名格式不正确'))
+        if (!/^[a-zA-Z0-9_-]{4,18}$/.test(value)) {
+          callback(new Error('用户名格式不正确'));
         }
-        callback()
+        callback();
       }
-    }
+    };
     return {
+      hotLottery: ['cqssc', 'duotxffc', 'txffc', 'xjssc', 'sd115', 'gd115', 'ftpk10', 'jssc', 'jsk3', 'hklhc'],
       showBulletin: false,
       loginLoading: false,
       loading: false,
@@ -242,9 +268,9 @@ export default {
       },
       // 显示关闭全部菜单
       showMenus: {
-        show: false
+        show: true
       }
-    }
+    };
   },
   computed: {
     ...mapGetters([
@@ -259,36 +285,36 @@ export default {
   },
   mounted() {
     // 获取全部彩种
-    this.$store.dispatch('lotteryAll')
-    this.lotteryList()
+    this.$store.dispatch('lotteryAll');
+    this.lotteryList();
   },
   methods: {
     ...mapActions(['logOut']),
     // 进入游戏
     preInto(route) {
-      this.showMenus.show = false
+      this.showMenus.show = false;
       if (!this.isLogin) {
-        this.$router.push('/login')
-        return
+        this.$router.push('/login');
+        return;
       } else {
-        this.$router.push(route)
+        this.$router.push(route);
       }
     },
     preIntoSel(route) {
-      this.showSelectLottery = false
+      this.showSelectLottery = false;
       if (!this.isLogin) {
-        this.$router.push('/login')
-        return
+        this.$router.push('/login');
+        return;
       } else {
-        this.$router.push(route)
+        this.$router.push(route);
       }
     },
     // 刷新用户余额
     refresh() {
-      this.loading = true
+      this.loading = true;
       this.$store.dispatch('getUserDetail').then(() => {
-        this.loading = false
-      })
+        this.loading = false;
+      });
     },
     // 退出登录
     logout() {
@@ -299,11 +325,11 @@ export default {
         this.logOut().then(success => {
           if (success) {
             this.$nextTick(() => {
-              this.$router.push('/')
-            })
+              this.$router.push('/');
+            });
           }
-        })
-      })
+        });
+      });
     },
     // 获取 导航 彩票游戏 全部彩种
     lotteryList() {
@@ -312,49 +338,49 @@ export default {
         text: '拼命加载中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      })
+      });
       this.Api.getLotteryList().then(res => {
-        loading.close()
+        loading.close();
         if (res.success) {
-          this.$store.commit('SET_LOTTERY_LISTS', res.data)
+          this.$store.commit('SET_LOTTERY_LISTS', res.data);
         }
-      })
+      });
     },
     //登录
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.login()
+          this.login();
         } else {
-          return false
+          return false;
         }
-      })
+      });
     },
     // 登录
     login() {
-      this.loginLoading = true
+      this.loginLoading = true;
       this.$store
         .dispatch('login', {
           username: this.user.username,
           password: this.user.password
         })
         .then(() => {
-          this.loginLoading = false
-          this.$store.dispatch('getUserDetail')
+          this.loginLoading = false;
+          this.$store.dispatch('getUserDetail');
         })
         .catch(() => {
-          this.loginLoading = false
-        })
+          this.loginLoading = false;
+        });
     },
     //消息中心
-    showMessageCenter(){
-      this.showBulletin = true
+    showMessageCenter() {
+      this.showBulletin = true;
     },
     handleBulletinClose() {
-      this.showBulletin = false
+      this.showBulletin = false;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -387,25 +413,25 @@ export default {
     float: right;
   }
   .toptray-item {
+    position: relative;
+    display: inline-block;
+    padding: 0 6px;
+    cursor: pointer;
+    font-size: 13px;
+    .num {
       position: relative;
+      top: -1px;
       display: inline-block;
-      padding: 0 6px;
-      cursor: pointer;
-      font-size: 13px;
-      .num{
-        position: relative;
-        top: -1px;
-        display: inline-block;
-        background: $primary-color-hover;
-        width: 20px;
-        text-align: center;
-        line-height: 15px;
-        border-radius: 30px;
-        line-height: 1.0;
-        color: #fff;
-        font-size: 12px;
-      }
+      background: $primary-color-hover;
+      width: 20px;
+      text-align: center;
+      line-height: 15px;
+      border-radius: 30px;
+      line-height: 1;
+      color: #fff;
+      font-size: 12px;
     }
+  }
 }
 .header-content {
   height: 75px;
@@ -419,7 +445,7 @@ export default {
   .login-form {
     float: right;
     /deep/ {
-      .el-form-item__error{
+      .el-form-item__error {
         padding-top: 0;
         text-indent: 2px;
       }
@@ -603,6 +629,28 @@ export default {
     }
     .nav-menus {
       .nav-menu {
+        position: relative;
+        &.hot {
+          &::before {
+            content: "";
+            box-sizing: border-box;
+            position: absolute;
+            left: 2px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 25px 25px 0 0;
+            border-color: red transparent transparent transparent;
+          }
+          &::after {
+            content: "热";
+            position: absolute;
+            left: 2px;
+            top: 1px;
+            font-size: 12px;
+          }
+        }
         .span {
           box-sizing: border-box;
           background: $header-btn-color;
@@ -675,7 +723,7 @@ export default {
 .header-line-in {
   color: #909399;
 }
-.corigin{
+.corigin {
   color: $primary-color-hover;
 }
 </style>

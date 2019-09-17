@@ -490,7 +490,11 @@ export default {
     // 点击banner
     goToBannerUrl(item) {
       if (item.redirect_url) {
-        this.$router.push(item.redirect_url);
+        if (item.type === 3) {
+          window.open(item.redirect_url)
+        }else{
+          this.$router.push(item.redirect_url);
+        }
       }
     },
     // 关闭平台公告

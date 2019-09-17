@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie'
-import { API } from '@/api'
 const TokenKey = 'Auth-Token'
 
 export function getToken() {
@@ -14,10 +13,11 @@ export function removeToken() {
   return Cookies.remove(TokenKey)
 }
 
-export function isCryptData() {
-  API.isCryptData().then(({success, data}) => {
-    if (success) {
-      return data
-    }
-  })
+// 保存是否加密
+export function setIsCryptData(data) {
+  return Cookies.set('Is-CryptData', data)
+}
+
+export function getIsCryptData() {
+  return Cookies.get('Is-CryptData')
 }

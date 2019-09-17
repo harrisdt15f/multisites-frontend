@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken, removeToken, getIsCryptData } from '@/utils/auth'
 import { AES_encrypt, randomString } from '@/utils/encrypt'
 import { nextTick } from 'q'
 
@@ -31,14 +31,16 @@ service.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + getToken()
     }
     if (config.data) {
-      console.log(`%c ${config.url}`, 'color: #ff7200', config.data) // eslint-disable-line
-      const enstr = AES_encrypt(
-        JSON.stringify(config.data),
-        KEY,
-        IV,
-        pkcs8_public
-      )
-      if (store.getters.isCryptData) {
+      console.log(`%c ${config.url}`, 'color: #ff7200', config.data)
+      const IsCryptData = getIsCryptData()
+      if (IsCryptData == 'true') { //判断是否加密
+        debugger
+        const enstr = AES_encrypt(
+          JSON.stringify(config.data),
+          KEY,
+          IV,
+          pkcs8_public
+        )
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         config.data = qs.stringify({ data: enstr })
       }
@@ -50,7 +52,7 @@ service.interceptors.request.use(
   }
 )
 
-// let sign_0 = 0
+let sign_0 = 0
 let sign = 0
 // response interceptorFright-collapse
 service.interceptors.response.use(
@@ -86,19 +88,32 @@ service.interceptors.response.use(
             })
         }
       } else {
-        // if (res.code == 100507) {
-        //   sign_0 += 1
-        //   if (sign_0 === 1) {
-        //     MessageBox(message, '提示', {
-        //       confirmButtonText: '确定'
-        //     })
-        //     store.commit('SET_IS_CRYPT_DATA', !store.getters.isCryptData)
-        //   }
-        // } else{
+        //如果页面加载中，参数加密方式改变处理
+        if (res.code == 100507) {
+          sign_0 += 1
+          if (sign_0 === 1) {
+            MessageBox(message, '提示', {
+              confirmButtonText: '确定'
+            })
+            store.dispatch('getIsCryptData').then(res => {
+              const {success} = res
+              if (success) {
+                sign_0 = 0
+                removeToken()
+                window.sessionStorage.clear()
+                nextTick(() => {
+                  router.push('/login')
+                })
+              }
+            }).catch(error => {
+              Message.error(error || '请求出错！')
+            })
+          }
+        } else{
           MessageBox(message, '提示', {
             confirmButtonText: '确定'
           })
-        // } 
+        } 
       }
     }
     return res
