@@ -109,13 +109,9 @@ import ZhongSan from './components/ssc/zhong-san'
 import HouSan from './components/ssc/hou-san'
 import QianEr from './components/ssc/qian-er'
 import HouEr from './components/ssc/hou-er'
-
 import SanXingK3 from './components/k3/san-xing'
-
 import SanXingDpc from './components/dpc/san-xing'
-
 import WuXing11x5 from './components/11-5/wu-xing'
-
 import GuanYa from './components/pk10/guanya'
 import QianWu from './components/pk10/qian-wu'
 import HouWu from './components/pk10/hou-wu'

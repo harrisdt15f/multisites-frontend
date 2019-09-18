@@ -8,11 +8,17 @@
         <pwd-manage :existFundPassword="existFundPassword" @showSetFund="handleshowFundPwd"></pwd-manage>
       </el-tab-pane>
       <el-tab-pane :lazy="true" label="银行卡管理" name="bank-manage">
-        <bank-manage v-if="activeName === 'bank-manage'" @showSetFund="handleshowFundPwd" ></bank-manage>
+        <bank-manage v-if="activeName === 'bank-manage'" @showSetFund="handleshowFundPwd"></bank-manage>
       </el-tab-pane>
     </el-tabs>
     <!-- 创建资金密码弹窗 -->
-    <el-dialog :close-on-click-modal="false" :close-on-press-escape="false" class="dialog-create-pass" title="创建资金密码" :visible.sync="showSetFund">
+    <el-dialog
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      class="dialog-create-pass"
+      title="创建资金密码"
+      :visible.sync="showSetFund"
+    >
       <el-form
         :model="ruleForm"
         status-icon
@@ -22,10 +28,20 @@
         class="demo-ruleForm"
       >
         <el-form-item label="密码" prop="password">
-          <el-input style="width:300px;" type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+          <el-input
+            style="width:300px;"
+            type="password"
+            v-model="ruleForm.password"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="password_confirmation">
-          <el-input style="width:300px;" type="password" v-model="ruleForm.password_confirmation" autocomplete="off"></el-input>
+          <el-input
+            style="width:300px;"
+            type="password"
+            v-model="ruleForm.password_confirmation"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button :loading="btnLoading" type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -37,35 +53,41 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 
-import pwdManage from './components/pwd-manage'
-import bankManage from './components/bank-manage'
-import personalInfo from './components/personal-info'
+import pwdManage from './components/pwd-manage';
+import bankManage from './components/bank-manage';
+import personalInfo from './components/personal-info';
 
 export default {
-  inject:['active'],
+  inject: ['active'],
   data() {
     //密码验证
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'))
+        callback(new Error('请输入密码'));
       } else {
         if (this.ruleForm.password_confirmation !== '') {
-          this.$refs.ruleForm.validateField('password_confirmation')
+          this.$refs.ruleForm.validateField('password_confirmation');
         }
-        callback()
+        callback();
       }
-    }
-    var validatePass2 = (rule, value, callback) => {
+    };
+    const validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'))
+        callback(new Error('请再次输入密码'));
       } else if (value !== this.ruleForm.password) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error('两次输入密码不一致!'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+    const validateFundPassword = (rule, value, callback) => {
+      if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(value)) {
+        callback(new Error('资金密码必须同时包含字母和数字'));
+      }
+      callback();
+    };
     return {
       activeName: 'personal-info',
       showSetFund: false,
@@ -73,19 +95,31 @@ export default {
         password: '',
         password_confirmation: ''
       },
-      btnLoading:false,
+      btnLoading: false,
       existFundPassword: undefined,
       rules: {
         password: [
           { required: true, validator: validatePass, trigger: 'blur' },
-          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
         ],
         password_confirmation: [
           { required: true, validator: validatePass2, trigger: 'blur' },
-          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
         ]
       }
-    }
+    };
   },
   components: {
     pwdManage,
@@ -96,49 +130,49 @@ export default {
     ...mapGetters(['userDetail'])
   },
   created() {
-    this.initData()
+    this.initData();
   },
   methods: {
     ...mapActions(['getUserDetail']),
     initData() {
-      this.activeName = this.active ? this.active : 'personal-info'
-      this.existFundPassword = this.userDetail.fund_password
+      this.activeName = this.active ? this.active : 'personal-info';
+      this.existFundPassword = this.userDetail.fund_password;
     },
     // 查看是否含有资金密码
     handleshowFundPwd() {
       this.ruleForm = {
         password: '',
         password_confirmation: ''
-      }
-      this.showSetFund = true
+      };
+      this.showSetFund = true;
       this.$nextTick(() => {
-        this.$refs.ruleForm.clearValidate()
-      })
+        this.$refs.ruleForm.clearValidate();
+      });
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields()
+      this.$refs[formName].resetFields();
     },
     //创建资金密码
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.btnLoading = true
+          this.btnLoading = true;
           this.Api.setFundPassword(this.ruleForm).then(({ success }) => {
-            this.btnLoading = false
+            this.btnLoading = false;
             if (success) {
-              this.showSetFund = false
-              this.existFundPassword = true
-              this.getUserDetail()
+              this.showSetFund = false;
+              this.existFundPassword = true;
+              this.getUserDetail();
               this.$alert('设置资金密码成功成功！', '提示', {
                 confirmButtonText: '确定'
-              })
-            } 
-          })
+              });
+            }
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang="scss">
 @import "../../../../assets/css/var.scss";
@@ -231,10 +265,11 @@ export default {
       background-color: $primary-color;
       border-color: $primary-color;
     }
-    .el-button--primary:focus, .el-button--primary:hover {
+    .el-button--primary:focus,
+    .el-button--primary:hover {
       background: $primary-color;
       border-color: $primary-color;
-      color: #FFF;
+      color: #fff;
     }
   }
 }

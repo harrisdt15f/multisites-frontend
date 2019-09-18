@@ -56,49 +56,55 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { removeToken } from '@/utils/auth'
+import { mapActions } from 'vuex';
+import { removeToken } from '@/utils/auth';
 
 export default {
   data() {
-    var validatePass = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'))
+        callback(new Error('请输入密码'));
       } else {
         if (this.form.checkPass !== '') {
-          this.$refs.form.validateField('checkPass')
+          this.$refs.form.validateField('checkPass');
         }
-        callback()
+        callback();
       }
-    }
-    var validatePass2 = (rule, value, callback) => {
+    };
+    const validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'))
+        callback(new Error('请再次输入密码'));
       } else if (value !== this.form.pass) {
-        callback(new Error('两次输入密码不一致!'))
+        callback(new Error('两次输入密码不一致!'));
       } else {
-        callback()
+        callback();
       }
-    }
-    var validateFundPass = (rule, value, callback) => {
+    };
+    const validateFundPass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入资金密码'))
+        callback(new Error('请输入资金密码'));
       } else {
         if (this.fundForm.checkPass !== '') {
-          this.$refs.fundForm.validateField('checkPass')
+          this.$refs.fundForm.validateField('checkPass');
         }
-        callback()
+        callback();
       }
-    }
-    var validateFundPass2 = (rule, value, callback) => {
+    };
+    const validateFundPass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入资金密码'))
+        callback(new Error('请再次输入资金密码'));
       } else if (value !== this.fundForm.pass) {
-        callback(new Error('两次输入的资金密码不一致!'))
+        callback(new Error('两次输入的资金密码不一致!'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+    const validateFundPassword = (rule, value, callback) => {
+      if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(value)) {
+        callback(new Error('资金密码必须同时包含字母和数字'));
+      }
+      callback();
+    };
     return {
       radio1: 'account',
       form: {
@@ -114,39 +120,72 @@ export default {
       rules: {
         oldPass: [
           { required: true, message: '请输入旧密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
         ],
         pass: [
           { required: true, validator: validatePass, trigger: 'blur' },
-          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
         ],
         checkPass: [
           { required: true, validator: validatePass2, trigger: 'blur' },
-          { min: 6, max: 18, message: '密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          }
         ]
       },
       fundRules: {
         oldPass: [
           { required: true, message: '请输入旧资金密码', trigger: 'blur' },
-          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
         ],
         pass: [
           { required: true, validator: validateFundPass, trigger: 'blur' },
-          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
         ],
         checkPass: [
           { required: true, validator: validateFundPass2, trigger: 'blur' },
-          { min: 6, max: 18, message: '资金密码长度应在 6-18 之间,', trigger: 'blur' }
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
         ]
       }
-    }
+    };
   },
   props: ['existFundPassword'],
   computed: {},
   methods: {
     ...mapActions(['logOut']),
     handleSetFundPass() {
-      this.$emit('showSetFund')
+      this.$emit('showSetFund');
     },
     handleChangePass() {
       this.$refs.form.validate(valid => {
@@ -155,25 +194,25 @@ export default {
             old_password: this.form.oldPass,
             password: this.form.pass,
             password_confirmation: this.form.checkPass
-          }
+          };
           this.Api.resetUserPassword(sendData).then(({ success }) => {
             if (success) {
               this.$alert('账户密码修改成功，请重新登录！', '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                this.$store.commit('SET_TOKEN', '')
-                this.$store.commit('SET_USER_DETAIL', {})
-                removeToken()
-                window.sessionStorage.clear()
+                this.$store.commit('SET_TOKEN', '');
+                this.$store.commit('SET_USER_DETAIL', {});
+                removeToken();
+                window.sessionStorage.clear();
                 this.$nextTick(() => {
-                  this.$router.push('/login')
-                })
-              })
-              this.form = {}
+                  this.$router.push('/login');
+                });
+              });
+              this.form = {};
             }
-          })
+          });
         }
-      })
+      });
     },
     handleChangeFundPass() {
       this.$refs.fundForm.validate(valid => {
@@ -182,17 +221,17 @@ export default {
             old_password: this.fundForm.oldPass,
             password: this.fundForm.pass,
             password_confirmation: this.fundForm.checkPass
-          }
+          };
           this.Api.resetFundPassword(sendData).then(({ success }) => {
             if (success) {
               this.$alert('账户密码修改成功！', '提示', {
                 confirmButtonText: '确定'
-              })
-              this.fundForm = {}
+              });
+              this.fundForm = {};
             }
-          })
+          });
         }
-      })
+      });
     },
     changeRadio(v) {
       if (v === 'funds') {
@@ -200,19 +239,19 @@ export default {
           this.$alert('还没有资金密码，请先设置资金密码！', '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            this.handleSetFundPass()
-          })
-          this.radio1 = 'account'
-          return
+            this.handleSetFundPass();
+          });
+          this.radio1 = 'account';
+          return;
         }
       }
       this.$nextTick(() => {
-        this.$refs.form.clearValidate()
-        this.$refs.fundForm.clearValidate()
-      })
+        this.$refs.form.clearValidate();
+        this.$refs.fundForm.clearValidate();
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

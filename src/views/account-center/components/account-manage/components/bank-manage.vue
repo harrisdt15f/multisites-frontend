@@ -194,7 +194,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   data() {
-    var validateCardNumber = (rule, value, callback) => {
+    const validateCardNumber = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请填写银行卡号'));
       } else if (value.length !== 16 && value.length !== 19) {
@@ -202,6 +202,12 @@ export default {
       } else {
         callback();
       }
+    };
+    const validateFundPassword =  (rule, value, callback) => {
+      if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(value)) {
+          callback(new Error('资金密码必须同时包含字母和数字'));
+        }
+        callback();
     };
     return {
       loading: false,
@@ -257,7 +263,8 @@ export default {
             max: 18,
             message: '资金密码长度应在 6-18 之间,',
             trigger: 'blur'
-          }
+          },
+          {validator: validateFundPassword, trigger: 'blur' }
         ]
       }
     };

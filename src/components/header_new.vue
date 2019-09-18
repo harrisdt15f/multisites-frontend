@@ -254,7 +254,7 @@ export default {
       }
     };
     return {
-      hotLottery: ['cqssc', 'duotxffc', 'txffc', 'xjssc', 'sd115', 'gd115', 'ftpk10', 'jssc', 'jsk3', 'hklhc'],
+      hotLottery: ['cqssc', 'qiqtxffc', 'duotxffc', 'txffc', 'xjssc', 'sd115', 'gd115', 'ftpk10', 'jssc', 'jsk3', 'hklhc'],
       showBulletin: false,
       loginLoading: false,
       loading: false,
