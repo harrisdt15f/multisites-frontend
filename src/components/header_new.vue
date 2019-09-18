@@ -138,6 +138,9 @@
                     :key="index"
                     class="w"
                   >
+                    <img v-if="hotLottery.some(v => v === item.en_name)" 
+                      src="../assets/images/hot.png"
+                      alt="hot" class="hot">
                     <img class="select-grou-img" :src="item.icon_path" />
                     <div class="name">{{item.cn_name}}</div>
                     <div class="issue">全天{{item.day_issue}}期</div>
@@ -268,7 +271,7 @@ export default {
       },
       // 显示关闭全部菜单
       showMenus: {
-        show: true
+        show: false
       }
     };
   },
@@ -516,6 +519,14 @@ export default {
   left: 0;
   width: 24.8%;
 }
+@keyframes hot {
+  0% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(2px);
+  }
+}
 .select-grou {
   background: #fff;
   width: 100%;
@@ -524,11 +535,19 @@ export default {
   min-height: 658px;
   & > li {
     height: 60px;
-    overflow: hidden;
     box-sizing: border-box;
     padding: 2px 15px 0;
     border-bottom: 1px solid #e2e2e2;
     cursor: pointer;
+    position: relative;
+    .hot{
+      position: absolute;
+      top: -8px;
+      left: 52px;
+      width: 18px;
+      height: 23px;
+      animation: hot .5s linear infinite alternate;
+    }
     &:hover {
       .name {
         color: #d81e06;

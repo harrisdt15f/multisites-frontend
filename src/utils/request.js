@@ -34,7 +34,6 @@ service.interceptors.request.use(
       console.log(`%c ${config.url}`, 'color: #ff7200', config.data)
       const IsCryptData = getIsCryptData()
       if (IsCryptData == 'true') { //判断是否加密
-        debugger
         const enstr = AES_encrypt(
           JSON.stringify(config.data),
           KEY,
