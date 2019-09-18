@@ -11,6 +11,12 @@
     <!-- 人工开户 -->
     <template v-if="resource === '人工开户'">
       <el-form :rules="rules" class="create-form" label-width="100px" ref="form" :model="form">
+        <el-form-item label="开户类型：" prop="user_type">
+          <el-radio-group v-model="linkForm.user_type">
+            <el-radio-button label=3>会员</el-radio-button>
+            <el-radio-button label=2>代理</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="用户名：" prop="username">
           <el-input placeholder="请输入用户名" style="width:280px" v-model="form.username"></el-input>
         </el-form-item>
@@ -27,26 +33,6 @@
           <el-slider v-model="form.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
           {{form.prize_group}} / {{prizes.max}}
         </el-form-item>
-        <!-- <el-form-item style="margin-bottom:5px;">
-          预计平均返点率
-          <span class="gold">{{rebateRate}}%</span>
-        </el-form-item>
-        <el-form-item class="custom-progress">
-          <span
-            class="current-num"
-            :style="`color:#db0808;margin-left:${(form.prize_group-prizes.min)/(prizes.max-prizes.min) * 100 - 2}%`"
-          >{{form.prize_group}}</span>
-          <el-progress
-            color="#d8c6b1"
-            :stroke-width="15"
-            :show-text="false"
-            :percentage="(form.prize_group-prizes.min)/(prizes.max-prizes.min) * 100"
-          ></el-progress>
-          <div class="progress-bar">
-            <span class="min">{{prizes.min}}</span>
-            <span class="max">{{prizes.max}}</span>
-          </div>
-        </el-form-item> -->
       </el-form>
       <div class="submit-btn">
         <el-button :loading="submitLoading" size="medium" @click="onSubmit">立即开户</el-button>
@@ -60,10 +46,10 @@
         label-width="100px"
         ref="linkForm"
         :model="linkForm">
-        <el-form-item label="开户类型：" prop="is_agent">
-          <el-radio-group v-model="linkForm.is_agent">
-            <el-radio-button label=0>会员</el-radio-button>
-            <el-radio-button label=1>代理</el-radio-button>
+        <el-form-item label="开户类型：" prop="user_type">
+          <el-radio-group v-model="linkForm.user_type">
+            <el-radio-button label=3>会员</el-radio-button>
+            <el-radio-button label=2>代理</el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="链接有效期：" prop="expire">
@@ -84,26 +70,6 @@
           <el-slider v-model="linkForm.prize_group" :min="prizes.min" :max="prizes.max"></el-slider>
           {{linkForm.prize_group}} / {{prizes.max}}
         </el-form-item>
-        <!-- <el-form-item style="margin-bottom:5px;">
-          预计平均返点率
-          <span class="gold">{{linkRebateRate}}%</span>
-        </el-form-item>
-        <el-form-item class="custom-progress">
-          <span
-            class="current-num"
-            :style="`color:#db0808;margin-left:${(linkForm.prize_group-prizes.min)/(prizes.max-prizes.min) * 100 - 2}%`"
-          >{{linkForm.prize_group}}</span>
-          <el-progress
-            color="#d8c6b1"
-            :stroke-width="15"
-            :show-text="false"
-            :percentage="(linkForm.prize_group-prizes.min)/(prizes.max-prizes.min) * 100"
-          ></el-progress>
-          <div class="progress-bar">
-            <span class="min">{{prizes.min}}</span>
-            <span class="max">{{prizes.max}}</span>
-          </div>
-        </el-form-item> -->
       </el-form>
       <div class="submit-btn">
         <el-button :loading="submitLoading" size="medium" @click="onSubmitLink">立即开户</el-button>
@@ -117,7 +83,7 @@
         <el-table-column align="center" prop="channel" label="投放渠道"></el-table-column>
         <el-table-column align="center" prop="is_agent" label="开户类型">
           <template slot-scope="scope">
-            <span v-if="scope.row.is_agent == 1">代理</span>
+            <span v-if="scope.row.user_type == 3">代理</span>
             <span v-else>会员</span>
           </template>
         </el-table-column>
@@ -201,6 +167,7 @@ export default {
       // 人工开户
       form: {
         username: '',
+        user_type: 3,
         password: '',
         register_type: 1,
         prize_group: 0
@@ -208,7 +175,7 @@ export default {
       // 链接开户
       linkForm: {
         expire: 0,
-        is_agent: 0,
+        user_type: 3,
         channel: '',
         prize_group: 0
       },
@@ -289,9 +256,10 @@ export default {
             if (success) {
               this.$alert('开户创建成功', {
                 confirmButtonText: '确定'
+              }).then(() => {
+                this.form.username = ''
+                this.form.password = ''
               })
-              this.form.username = ''
-              this.form.password = ''
             }
           })
         }

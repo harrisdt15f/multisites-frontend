@@ -1315,6 +1315,7 @@ export default {
     },
     // 倍数改变
     rateInputChange(item, index) {
+      debugger
       this.$set(item, 'multiple', item.multiple.replace(/[^\d]/g,''))
       const maxArr = []
       this.orderList.forEach(val => {
