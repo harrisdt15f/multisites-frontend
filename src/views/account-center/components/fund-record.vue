@@ -79,7 +79,7 @@
             </template>
           </el-table-column>
           <el-table-column align="center" label="游戏">
-            <template slot-scope="scope">{{lotteryAll[scope.row.lottery_id].lottery.cn_name}}</template>
+            <template slot-scope="scope">{{lotteryAll[scope.row.lottery_id] && lotteryAll[scope.row.lottery_id].lottery.cn_name}}</template>
           </el-table-column>
           <el-table-column align="center" label="玩法">
             <template slot-scope="scope">
@@ -120,7 +120,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   data() {
-    const date = new Date()
     return {
       typeSelect: 'project_id',
       valueSelect: '',
@@ -171,10 +170,7 @@ export default {
         project_id: '',
         issue: ''
       },
-      gameTime: [
-        new Date(date.setHours(0, 0, 0)),
-        new Date(date.setHours(23, 59, 59))
-      ]
+      gameTime: []
     }
   },
   computed: {
@@ -206,21 +202,25 @@ export default {
   watch: {
     gameTime: {
       handler(newName) {
-        const time_condtions = []
-        time_condtions.push([
-          'created_at',
-          '>=',
-          this.Utils.formatTime(newName[0], 'YYYY-MM-DD HH:MM:SS')
-        ])
-        time_condtions.push([
-          'created_at',
-          '<=',
-          this.Utils.formatTime(newName[1], 'YYYY-MM-DD HH:MM:SS')
-        ])
-        this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        if (newName && newName.length) {
+          const time_condtions = []
+          time_condtions.push([
+            'created_at',
+            '>=',
+            this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          time_condtions.push([
+            'created_at',
+            '<=',
+            this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        }else{
+          this.gameListQuery.time_condtions = []
+        }
       },
       immediate: true
-    }
+    },
   },
   created() {
     this.getChangeTypeList()
@@ -255,7 +255,7 @@ export default {
             : ''
       })
       for (var propName in this.gameListQuery) {
-        if (this.gameListQuery[propName] === '') {
+        if (this.gameListQuery[propName] == '' || this.gameListQuery[propName] == []) {
           delete this.gameListQuery[propName]
         }
       }

@@ -7,6 +7,10 @@ export default {
   getUserDaysalary(data) {
     return this.get('/user-agent-center/user-daysalary', data).then(response =>  response)
   },
+  //团队管理
+  getTeamManagement(data) {
+    return this.get('/user-agent-center/team-management', data).then(response =>  response)
+  },
   //日工资
   getUserBonus(data) {
     return this.get('/user-agent-center/user-bonus', data).then(response =>  response)
@@ -19,7 +23,6 @@ export default {
   createRegisterLink(data) {
     return this.post('/user-agent-center/register-link', data).then(response =>  response)
   },
-
   //删除开户链接
   deleteRestisterLink(data) {
     return this.post('/user-agent-center/link-del', data).then(response =>  response)

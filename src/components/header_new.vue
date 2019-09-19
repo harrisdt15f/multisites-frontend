@@ -654,18 +654,19 @@ export default {
             content: "";
             box-sizing: border-box;
             position: absolute;
-            left: 2px;
+            right: 2px;
             top: 0;
             width: 0;
             height: 0;
             border-style: solid;
-            border-width: 25px 25px 0 0;
-            border-color: red transparent transparent transparent;
+            border-width: 0 25px 28px 0;
+            border-color:transparent #ffea00 transparent transparent;
           }
           &::after {
             content: "热";
             position: absolute;
-            left: 2px;
+            color: #dd1010;
+            right: 3px;
             top: 1px;
             font-size: 12px;
           }

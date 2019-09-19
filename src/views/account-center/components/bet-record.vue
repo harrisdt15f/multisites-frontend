@@ -368,14 +368,8 @@ export default {
         issue: '',
         status: ''
       },
-      gameTime: [
-        new Date(date.setHours(0, 0, 0)),
-        new Date(date.setHours(23, 59, 59))
-      ],
-      tracesTime: [
-        new Date(date.setHours(0, 0, 0)),
-        new Date(date.setHours(23, 59, 59))
-      ]
+      gameTime: [],
+      tracesTime: []
     }
   },
   computed: {
@@ -410,35 +404,43 @@ export default {
   watch: {
     gameTime: {
       handler(newName) {
-        const time_condtions = []
-        time_condtions.push([
-          'created_at',
-          '>=',
-          this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        time_condtions.push([
-          'created_at',
-          '<=',
-          this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        if (newName && newName.length) {
+          const time_condtions = []
+          time_condtions.push([
+            'created_at',
+            '>=',
+            this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          time_condtions.push([
+            'created_at',
+            '<=',
+            this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        }else{
+          this.gameListQuery.time_condtions = []
+        }
       },
       immediate: true
     },
     tracesTime: {
       handler(newName) {
-        const time_condtions = []
-        time_condtions.push([
-          'created_at',
-          '>=',
-          this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        time_condtions.push([
-          'created_at',
-          '<=',
-          this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        this.tracesListQuery.time_condtions = JSON.stringify(time_condtions)
+        if (newName && newName.length) {
+          const time_condtions = []
+          time_condtions.push([
+            'created_at',
+            '>=',
+            this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          time_condtions.push([
+            'created_at',
+            '<=',
+            this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          this.tracesListQuery.time_condtions = JSON.stringify(time_condtions)
+        }else{
+          this.tracesListQuery.time_condtions = []
+        }
       },
       immediate: true
     },
@@ -488,7 +490,7 @@ export default {
         lottery_sign: this.gameListQuery.lotterySign && this.gameListQuery.lotterySign.length == 2 ? this.gameListQuery.lotterySign[1] : ''
       })
       for (var propName in this.gameListQuery) { 
-        if (this.gameListQuery[propName] === '') {
+        if (this.gameListQuery[propName] == '' || this.gameListQuery[propName] == []) {
           delete this.gameListQuery[propName]
         }
       }
@@ -507,7 +509,7 @@ export default {
         lottery_sign: this.tracesListQuery.lotterySign && this.tracesListQuery.lotterySign.length == 2 ? this.tracesListQuery.lotterySign[1] : ''
       })
       for (var propName in this.tracesListQuery) { 
-        if (this.tracesListQuery[propName] === '') {
+        if (this.tracesListQuery[propName] == '' ||  this.gameListQuery[propName] == []) {
           delete this.tracesListQuery[propName]
         }
       }

@@ -73,7 +73,6 @@
 <script>
 export default {
   data() {
-    const date = new Date()
     return {
       typeSelect: 'project_id',
       valueSelect: '',
@@ -116,30 +115,31 @@ export default {
         page: 1,
         time_condtions: [],
       },
-      gameTime: [
-        new Date(date.setHours(0, 0, 0)),
-        new Date(date.setHours(23, 59, 59))
-      ],
+      gameTime: [],
     }
   },
   watch: {
     gameTime: {
       handler(newName) {
-        const time_condtions = []
-        time_condtions.push([
-          'created_at',
-          '>=',
-          this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        time_condtions.push([
-          'created_at',
-          '<=',
-          this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
-        ]) 
-        this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        if (newName && newName.length) {
+          const time_condtions = []
+          time_condtions.push([
+            'created_at',
+            '>=',
+            this.Utils.formatTime(newName[0],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          time_condtions.push([
+            'created_at',
+            '<=',
+            this.Utils.formatTime(newName[1],'YYYY-MM-DD HH:MM:SS')
+          ]) 
+          this.gameListQuery.time_condtions = JSON.stringify(time_condtions)
+        }else{
+          this.gameListQuery.time_condtions = []
+        }
       },
       immediate: true
-    }
+    },
   },
   created () {
     this.getGameList()
@@ -147,6 +147,11 @@ export default {
   methods: {
     getGameList() {
       this.listLoading = true
+      for (var propName in this.gameListQuery) {
+        if (this.gameListQuery[propName] == '' || this.gameListQuery[propName] == []) {
+          delete this.gameListQuery[propName]
+        }
+      }
       this.Api.rechargeList(this.gameListQuery).then(res => {
         const { success, data } = res
         this.listLoading = false
