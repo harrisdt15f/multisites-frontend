@@ -2,7 +2,7 @@
   <div class="transfer">
     <div class="filter-container">
       平台转入：
-      <el-select v-model="value" style="width:140px; margin-right:15px;" placeholder="请选择">
+      <el-select size="mini" v-model="value" style="width:140px; margin-right:15px;" placeholder="请选择">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -11,7 +11,7 @@
         </el-option>
       </el-select>
       平台转出：
-      <el-select v-model="value" style="width:140px; margin-right:15px;" placeholder="请选择">
+      <el-select size="mini" v-model="value" style="width:140px; margin-right:15px;" placeholder="请选择">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -20,7 +20,7 @@
         </el-option>
       </el-select>
       额度转换：
-      <el-input v-model="input" style="width:140px; margin-right:15px;" placeholder="0"></el-input>
+      <el-input size="mini" v-model="input" style="width:140px; margin-right:15px;" placeholder="0"></el-input>
       <div class="bmn-search-button" style="margin-left:20px;">
         <input type="submit" value="搜 索" class="btn">
       </div>

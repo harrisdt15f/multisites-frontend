@@ -69,52 +69,42 @@
     </div>
     <div class="custom-table">
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column align="center" label="区间合计 >" width="188px">
-          <template>
-            <span>所以区间合计 ></span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="充值总额">
+        <el-table-column align="center" label="用户名">
           <template slot-scope="scope">
             <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="提现总额">
+        <el-table-column align="center" label="层级">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注总额">
+        <el-table-column align="center" label="奖金组">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="派奖总额">
+        <el-table-column align="center" label="团队人数">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="投注返点">
+        <el-table-column align="center" label="注册日期">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="游戏盈亏">
+        <el-table-column align="center" label="最新登录">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="下级返点">
+        <el-table-column align="center" label="团队余额">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="促销红利">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="净盈亏">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <span>{{ scope.row.address }}</span>
           </template>

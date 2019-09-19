@@ -17,6 +17,7 @@
       :close-on-press-escape="false"
       class="dialog-create-pass"
       title="创建资金密码"
+      @closed="closedDialog"
       :visible.sync="showSetFund"
     >
       <el-form
@@ -166,10 +167,15 @@ export default {
               this.$alert('设置资金密码成功成功！', '提示', {
                 confirmButtonText: '确定'
               });
+              this.activeName = 'personal-info';
             }
           });
         }
       });
+    },
+    // Dialog 关闭动画结束时的回调
+    closedDialog(){
+      this.activeName = 'personal-info';
     }
   }
 };

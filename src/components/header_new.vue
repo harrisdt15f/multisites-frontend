@@ -286,6 +286,14 @@ export default {
       'innerNotice'
     ])
   },
+  created () {
+    // 记住密码
+    let rememberPassword = this.Utils.storage.get('rememberPassword')
+    if (rememberPassword) {
+      this.user.username = rememberPassword.data.account
+      this.user.password = rememberPassword.data.password
+    }
+  },
   mounted() {
     // 获取全部彩种
     this.$store.dispatch('lotteryAll');
