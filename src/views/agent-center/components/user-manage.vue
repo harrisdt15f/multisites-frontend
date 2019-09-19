@@ -16,13 +16,14 @@
           size="small"
           v-model="time"
           type="datetimerange"
+          :picker-options="pickerOptions"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
       </div>
       <div class="bmn-search-button">
-        <input type="submit" value="搜 索" class="btn" />
+        <el-button :loading="searchLoading" class="btn">搜 索</el-button>
       </div>
     </div>
     <div class="custom-table m-t-25">
@@ -197,13 +198,44 @@ export default {
     return {
       time: '',
       username: '',
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '0.0000',
-          address: '0.0000'
-        }
-      ]
+      searchLoading: false,
+      pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近一个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }, {
+            text: '最近三个月',
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+      tableData: [],
+      listQuery: {
+        page_size: 10,
+        page: 1,
+        time_condtions: [],
+        type_sign: '',
+        lottery_id: '',
+        project_id: '',
+        issue: ''
+      },
     }
   }
 }
@@ -228,13 +260,18 @@ export default {
   line-height: 34px;
   color: white;
   margin-right: 8px;
-  input {
+  /deep/{
+    .el-button{
+      border:0;
+      border-radius: 0;
+    }
+  }
+  .btn {
     width: 80px;
     height: 100%;
      background: $primary-color;
     box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.15),
       inset 0px 1px 0px 0px rgba(255, 255, 255, 0.4);
-
     border-width: 1px;
     color: white;
     padding: 0;

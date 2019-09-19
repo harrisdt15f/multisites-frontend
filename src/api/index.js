@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { AES_encrypt, randomString } from '@/utils/encrypt'
+import { getIsCryptData } from '@/utils/auth'
 
 import Site from './site'
 import User from './user'
@@ -16,15 +17,23 @@ var KEY = randomString(16)
 var pkcs8_public =
   '-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCt5ugWm2WdqkMI5iDgTmdavYPTp6hmqbopy7N9fNnsNiwEE+toi0XgQjQeuE0Yf7VOIiCI8eWzUaTWfCK3D/dmFTbsTK3Ugql6QuYKRhSn9QnxtEqzvkz5jv3dc3sSav8gK3Ox22DBWUX5LOwY52kBieawlRFckv8vtCOYVPrd+wIDAQAB-----END PUBLIC KEY-----'
 
+
+
+
 export const API = {
   get(url, data) {
     return new Promise((resolve, reject) => {
+      const isCryptData = getIsCryptData()
       let enstr = null
+      
       data
         ? (enstr = AES_encrypt(JSON.stringify(data), KEY, IV, pkcs8_public))
         : (enstr = null)
+
       request
-        .get(url, { params: { data: enstr } })
+        .get(url, { 
+          params: isCryptData == 'true' ? {data: enstr} : data
+        })
         .then(res => {
           resolve(res)
         })

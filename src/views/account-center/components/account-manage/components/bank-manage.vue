@@ -60,12 +60,13 @@
       <el-row class="title">
         <el-col v-if="show.verifty" :span="8" :class="{on : show.verifty}">1.验证信息</el-col>
         <el-col
-          :span="show.createBank && !show.verifty ? 12 : 8"
-          :class="{on : showCreateBank && !show.verifty}"
-        >{{showCreateBank && !showVerifty ? 1 : 2}}.输入银行卡信息</el-col>
+          :span="!show.verifty ? 12 : 8"
+          :class="{on : show.form}"
+        >{{!show.verifty ? 1 : 2}}.输入银行卡信息</el-col>
         <el-col
-          :span="showCreateBank && !show.verifty ? 12 : 8"
-        >{{showCreateBank && !showVerifty ? 2 : 3}}.绑定结果</el-col>
+          :span="!show.verifty ? 12 : 8"
+          :class="{on : !show.form && !show.verifty}"
+        >{{!show.verifty ? 2 : 3}}.绑定结果</el-col>
       </el-row>
       <div class="content">
         <div v-if="show.verifty">
@@ -365,6 +366,7 @@ export default {
             if (success) {
               this.show.verifty = false;
               this.show.form = true;
+              this.cardForm.owner_name = this.veriftyForm.owner_name
             }
           });
         }
