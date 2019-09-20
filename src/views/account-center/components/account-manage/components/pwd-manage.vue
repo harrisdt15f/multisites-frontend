@@ -10,14 +10,14 @@
     <div v-show="radio1 == 'account'">
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="旧密码：" prop="oldPass">
-          <el-input type="password" v-model="form.oldPass" autocomplete="off"></el-input>
+          <el-input maxlength="18" type="password" v-model="form.oldPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码：" prop="pass" class="new-pwd">
-          <el-input type="password" v-model="form.pass" autocomplete="off"></el-input>
-          <span class="pwd-info">6-16位字符，需使用字母或数字</span>
+          <el-input maxlength="18" type="password" v-model="form.pass" autocomplete="off"></el-input>
+          <span class="pwd-info">6-18位字符，需使用字母或数字</span>
         </el-form-item>
         <el-form-item label="确认密码：" prop="checkPass">
-          <el-input type="password" v-model="form.checkPass" autocomplete="off"></el-input>
+          <el-input maxlength="18" type="password" v-model="form.checkPass" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div class="submit-btn">
@@ -38,14 +38,14 @@
     <div v-show="radio1 == 'funds'">
       <el-form ref="fundForm" :rules="fundRules" :model="fundForm" label-width="100px">
         <el-form-item label="旧密码：" prop="oldPass">
-          <el-input type="password" v-model="fundForm.oldPass" autocomplete="off"></el-input>
+          <el-input maxlength="18" type="password" max="18" v-model="fundForm.oldPass" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="新密码：" prop="pass" class="new-pwd">
-          <el-input type="password" v-model="fundForm.pass" autocomplete="off"></el-input>
-          <span class="pwd-info">6-16位字符，需使用字母或数字</span>
+          <el-input maxlength="18" type="password" v-model="fundForm.pass" autocomplete="off"></el-input>
+          <span class="pwd-info">6-18位字符，需使用字母或数字</span>
         </el-form-item>
         <el-form-item label="确认密码：" prop="checkPass">
-          <el-input type="password" v-model="fundForm.checkPass" autocomplete="off"></el-input>
+          <el-input maxlength="18" type="password" v-model="fundForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div class="submit-btn">

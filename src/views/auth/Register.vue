@@ -30,6 +30,7 @@
                   style="width:250px"
                   placeholder="密码"
                   v-model="userForm.password"
+                  maxlength="18"
                   type="password"
                   required
                   clearable
@@ -40,6 +41,7 @@
                   style="width:250px"
                   placeholder="确认密码"
                   v-model="userForm.checkPass"
+                  maxlength="18"
                   type="password"
                   required
                   clearable

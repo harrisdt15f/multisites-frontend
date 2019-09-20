@@ -20,6 +20,7 @@
               <el-form-item  label="密码" prop="password">
                 <el-input
                   style="width:250px"
+                  maxlength="18"
                   placeholder="密码"
                   v-model="user.password"
                   type="password"

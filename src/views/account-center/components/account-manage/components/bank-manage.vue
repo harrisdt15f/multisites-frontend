@@ -44,11 +44,6 @@
               <span v-else>可用</span>
             </template>
           </el-table-column>
-          <!-- <el-table-column align="center" label="操作">
-            <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="delectBankCard(scope.row)">删除</el-button>
-            </template>
-          </el-table-column> -->
         </el-table>
       </div>
       <div class="form-text">
@@ -84,6 +79,7 @@
             <el-form-item label="资金密码：" prop="fund_password">
               <el-input
                 style="width:285px"
+                maxlength="18"
                 type="password"
                 v-model="veriftyForm.fund_password"
                 autocomplete="off"
@@ -162,9 +158,18 @@
               <el-input
                 @paste.native.capture.prevent
                 style="width:285px"
-                type="number"
+                maxlength="19"
                 placeholder="银行卡卡号由16位或19位数字组成"
                 v-model="cardForm.card_number"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="确认银行卡号：" prop="check_card_number">
+              <el-input
+                @paste.native.capture.prevent
+                maxlength="19"
+                style="width:285px"
+                placeholder="银行卡卡号由16位或19位数字组成"
+                v-model="cardForm.check_card_number"
               ></el-input>
             </el-form-item>
             <el-form-item>
@@ -201,7 +206,20 @@ export default {
       } else if (value.length !== 16 && value.length !== 19) {
         callback(new Error('银行卡卡号由16位或19位数字组成'));
       } else {
-        callback();
+        // if (this.cardForm.check_card_number !== '') {
+        //   this.$refs.cardForm.validateField('check_card_number')
+        // }
+        callback()
+      }
+    };
+    const validateCheckCardNumber = (rule, value, callback) => {
+      console.log(value)
+      if (value === '') {
+        callback(new Error('请填写银行卡号'));
+      } else if (value !== this.cardForm.card_number) {
+        callback(new Error('两次输入银行卡号不一致!'))
+      } else {
+        callback()
       }
     };
     const validateFundPassword =  (rule, value, callback) => {
@@ -229,6 +247,7 @@ export default {
         province_id: undefined,
         city_id: undefined,
         card_number: '',
+        check_card_number: '',
         branch: '',
         owner_name: ''
       },
@@ -238,19 +257,22 @@ export default {
       },
       rules: {
         bank_sign: [
-          { required: true, message: '请选择开户银行', trigger: 'blur' }
+          { required: true, message: '请选择开户银行', trigger: 'change' }
         ],
         province_id: [
-          { required: true, message: '请选择开户银行区域', trigger: 'blur' }
+          { required: true, message: '请选择开户银行区域', trigger: 'change' }
         ],
         branch: [
-          { required: true, message: '请填写开户支行名称', trigger: 'blur' }
+          { required: true, message: '请填写开户支行名称', trigger: 'change' }
         ],
         owner_name: [
           { required: true, message: '请填写持卡人姓名', trigger: 'blur' }
         ],
         card_number: [
           { required: true, validator: validateCardNumber, trigger: 'blur' }
+        ],
+        check_card_number: [
+          { required: true, validator: validateCheckCardNumber, trigger: 'blur' }          
         ]
       },
       veriftyRules: {
@@ -410,43 +432,6 @@ export default {
     goToBankManage() {
       this.show.createBank = false;
       this.show.bankManage = true;
-    },
-    //删除银行卡
-    delectBankCard(row) {
-      this.$confirm('此操作将永久删除该银行卡, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-        .then(() => {
-          this.Api.deleteBank({ id: row.id }).then(({ success }) => {
-            if (success) {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-              this.fetchCardList().then(res => {
-                const { success, data } = res;
-                if (success && data) {
-                  if (data.length) {
-                    this.haveBankCard = true;
-                    this.show.bankManage = true;
-                  } else {
-                    this.haveBankCard = false;
-                    this.show.bankManage = false;
-                    this.show.createBank = false;
-                  }
-                }
-              });
-            }
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
     }
   }
 };

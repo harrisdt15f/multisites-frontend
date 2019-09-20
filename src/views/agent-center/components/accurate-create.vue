@@ -12,7 +12,7 @@
     <template v-if="resource === '人工开户'">
       <el-form :rules="rules" class="create-form" label-width="100px" ref="form" :model="form">
         <el-form-item label="开户类型：" prop="user_type">
-          <el-radio-group v-model="linkForm.user_type">
+          <el-radio-group v-model="form.user_type">
             <el-radio-button label=3>会员</el-radio-button>
             <el-radio-button label=2>代理</el-radio-button>
           </el-radio-group>
@@ -24,6 +24,7 @@
           <el-input
             placeholder="请输入密码"
             style="width:280px"
+            maxlength="18"
             type="password"
             v-model="form.password"
             autocomplete="off"

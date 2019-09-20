@@ -90,6 +90,7 @@
             <el-form-item prop="password">
               <el-input
                 type="password"
+                maxlength="18"
                 style="width:185px;"
                 suffix-icon="el-icon-lock"
                 size="small"
@@ -266,7 +267,7 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, message: '长度在 6 个以上', trigger: 'blur' }
+          { min: 6, message: '密码长度在 6 个以上', trigger: 'blur' }
         ]
       },
       // 显示关闭全部菜单

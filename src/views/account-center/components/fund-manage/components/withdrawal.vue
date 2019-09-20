@@ -92,7 +92,7 @@
               <span class="field-name">确认资金密码：</span>
             </td>
             <td>
-              <input type="password" class="input w-2 input-ico-lock" name="fund_password" />
+              <el-input size="mini" maxlength="18" placeholder="请输入资金密码" type="password" v-model="fundPass" style="width:150px" autocomplete="off"></el-input>
             </td>
           </tr>
           <tr>
@@ -118,6 +118,7 @@ export default {
       btnLoading: false,
       dialogVisible: false,
       cardList: [],
+      fundPass: '',
       amount: null,
       bankCard: null
     };
@@ -162,6 +163,17 @@ export default {
     },
     //提交
     submitForm() {
+      if (!this.fundPass) {
+        this.$alert(
+            '请先输入资金密码！',
+            '提示',
+            {
+              confirmButtonText: '确定'
+            }
+          )
+          return false
+          
+      }
       const sendData = {
         amount: this.amount,
         bank_sign: this.bankCard.bank_sign,
