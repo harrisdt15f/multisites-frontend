@@ -67,11 +67,22 @@
         <el-button @click="searchGame" :loading="searchLoading" class="btn">搜 索</el-button>
       </div>
     </div>
+    <el-breadcrumb v-if="showBreadcrumb" separator="/" style="margin-bottom:10px;">
+      <el-breadcrumb-item @click.native="searchGame">{{userDetail.username}}</el-breadcrumb-item>
+      <el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="index">{{item.username}}</el-breadcrumb-item>
+    </el-breadcrumb>
     <div class="custom-table">
-      <el-table :data="tableData" style="width: 100%">
+      <el-table :data="list" v-loading="listLoading" style="width: 100%">
         <el-table-column align="center" label="用户名">
           <template slot-scope="scope">
-            <span>{{ scope.row.name }}</span>
+            <div @click="handleNextLink(scope.row)" class="next-link">
+              <span>{{ scope.row.username }}</span>
+              <i
+                style="margin-left:2px;font-size:12px"
+                class="fa fa-caret-right"
+                aria-hidden="true"
+              ></i>
+            </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="层级">
@@ -81,47 +92,59 @@
         </el-table-column>
         <el-table-column align="center" label="奖金组">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.prize_group }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="团队人数">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.total_members }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="注册日期">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.register_at }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="最新登录">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.last_login_time }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" label="团队余额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.team_balance }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" label="操作"></el-table-column>
       </el-table>
+    </div>
+    <div class="pagination-container">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="listQuery.page"
+        :page-sizes="[10,20,30, 50]"
+        :page-size="listQuery.page_size"
+        layout="total, sizes, prev, pager, next"
+        :total="total"
+      ></el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
-      time: '',
-      username: '',
+      list: [],
+      total: undefined,
       listLoading: false,
       searchLoading: false,
+      showBreadcrumb: false,
+      breadcrumbList: [],
       pickerOptions: {
         shortcuts: [
           {
@@ -166,6 +189,9 @@ export default {
         parent_id: ''
       }
     };
+  },
+  computed: {
+    ...mapGetters(['userDetail'])
   },
   watch: {
     gameTime: {
@@ -221,15 +247,24 @@ export default {
         const { success, data } = res;
         this.listLoading = false;
         this.searchLoading = false;
-
         if (success) {
-          this.gameList = data.data;
-          this.gameListTotal = data.total;
+          this.list = data.data;
+          this.total = data.total;
         }
       });
     },
     searchGame() {
       this.listQuery.page = 1;
+      this.listQuery.parent_id = '';
+      this.showBreadcrumb = false;
+      this.breadcrumbList = [];
+      this.getList();
+    },
+    handleNextLink(row) {
+      this.listQuery.page = 1;
+      this.listQuery.parent_id = row.id;
+      this.showBreadcrumb = true;
+      this.breadcrumbList.push(row);
       this.getList();
     },
     handleSizeChange(val) {
@@ -293,5 +328,12 @@ export default {
   text-align: center;
   border-left: 1px solid #cfcfcf;
   border-right: 1px solid #cfcfcf;
+}
+.next-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.el-breadcrumb {
+  cursor: pointer;
 }
 </style>
