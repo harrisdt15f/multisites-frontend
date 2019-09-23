@@ -215,6 +215,7 @@ export default {
     //请求数量改变
     dataNumChange(num) {
       this.listQuery.count = num
+      this.select = ['guides', 'lost', 'trend']
       this.getData(this.lotteryId[1])
     },
     //选择不同彩种

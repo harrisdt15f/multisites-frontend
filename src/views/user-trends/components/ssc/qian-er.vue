@@ -21,9 +21,9 @@
           <th rowspan="2" colspan="3" class="border-right">开奖号码</th>
           <th colspan="12" class="border-right">万位</th>
           <th colspan="12" class="border-right">千位</th>
-          <th rowspan="2" class="border-bottom border-right td-bg">对子(二同号)</th>
           <th colspan="12" class="border-right">号码分布</th>
           <th colspan="12" class="border-right">跨度走势</th>
+          <th rowspan="2" class="border-bottom border-right td-bg">对子(二同号)</th>
           <th rowspan="2" class="border-bottom">和值</th>
         </tr>
         <tr class="title-number">
@@ -190,13 +190,6 @@
             </td>
           </template>
           <td class="ball-none border-right"></td>
-          <!-- 对子 -->
-          <td class="border-right">
-            <template v-if="item[4] == 0">
-              <span class="group-current"></span>
-            </template>
-            <template v-else>{{item[4]}}</template>
-          </td>
           <td class="ball-none"></td>
           <!-- 号码分布 -->
           <td v-for="(ball, index1) in item[5]" :key="`${item[1]}${index1}`">
@@ -212,13 +205,19 @@
               </td>
             </template>
             <template v-else>
-              <td class="" :key="`${item[1]}${num}-ll`">
+              <td class :key="`${item[1]}${num}-ll`">
                 <i class="ball-noraml">{{item[6][num-1][0]}}</i>
               </td>
             </template>
           </template>
-          
           <td class="ball-none border-right"></td>
+          <!-- 对子 -->
+          <td class="border-right">
+            <template v-if="item[4] == 0">
+              <span class="group-current"></span>
+            </template>
+            <template v-else>{{item[4]}}</template>
+          </td>
           <td>{{item[7]}}</td>
         </tr>
       </tbody>
@@ -241,9 +240,7 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
             <i class="ball-noraml">{{totalNum[index+10]}}</i>
           </td>
-          <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{totalNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
@@ -254,9 +251,14 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
             <i class="ball-noraml">{{totalNum[index+31]}}</i>
           </td>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right">
+            <i class="ball-noraml">{{continuousNum[20]}}</i>
+          </td>
           <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
         </tr>
+        <!-- 平均遗漏值 -->
         <tr class="auxiliary-area">
           <td class="ball-none border-bottom"></td>
           <td class="border-bottom">平均遗漏值</td>
@@ -274,9 +276,7 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
             <i class="ball-noraml">{{omissionNum[index+10]}}</i>
           </td>
-          <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
@@ -287,8 +287,12 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
             <i class="ball-noraml">{{omissionNum[index+31]}}</i>
           </td>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right">
+            <i class="ball-noraml">{{omissionNum[20]}}</i>
+          </td>
           <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
         </tr>
         <!-- 最大遗漏值 -->
         <tr class="auxiliary-area">
@@ -308,9 +312,8 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-0`">
             <i class="ball-noraml">{{omissionMaxNum[index+10]}}</i>
           </td>
-          <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{omissionMaxNum[20]}}</i></td>
+
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
@@ -321,8 +324,12 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
             <i class="ball-noraml">{{omissionMaxNum[index+31]}}</i>
           </td>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right">
+            <i class="ball-noraml">{{omissionMaxNum[20]}}</i>
+          </td>
           <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
         </tr>
         <!-- 最大连出值 -->
         <tr class="auxiliary-area">
@@ -344,7 +351,6 @@
           </td>
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
-          <td class="border-bottom border-right"><i class="ball-noraml">{{continuousNum[20]}}</i></td>
           <td class="border-bottom"></td>
           <!-- 号码分布	跨度 -->
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-1`">
@@ -355,8 +361,12 @@
           <td class="border-bottom" v-for="(item, index) in 10" :key="`${item}-${index}-2`">
             <i class="ball-noraml">{{continuousNum[index+31]}}</i>
           </td>
+          <!-- 对子(二同号) -->
+          <td class="border-right border-bottom"></td>
+          <td class="border-bottom border-right">
+            <i class="ball-noraml">{{continuousNum[20]}}</i>
+          </td>
           <td class="ball-none border-right border-bottom"></td>
-          <td class="ball-none border-bottom"></td>
         </tr>
       </tbody>
       <tbody class="tbody tbody-footer-header">
@@ -426,7 +436,7 @@
           <td class="border-bottom td-bg">
             <i class="ball-noraml">9</i>
           </td>
-          <td class="ball-none border-right border-bottom td-bg"></td>
+
           <td class="border-right border-bottom td-bg"></td>
           <td class="ball-none border-bottom td-bg"></td>
           <td class="border-bottom td-bg">
@@ -492,14 +502,15 @@
             <i class="ball-noraml">9</i>
           </td>
           <td class="ball-none border-right border-bottom td-bg"></td>
+          <td class="ball-none border-right border-bottom td-bg"></td>
           <td class="border-bottom" rowspan="2">和值</td>
         </tr>
         <tr class="auxiliary-area title-text">
           <td colspan="12" class="border-right border-bottom">万位</td>
           <td colspan="12" class="border-right border-bottom">千位</td>
-          <td class="border-right border-bottom">对子(二同号)</td>
           <td colspan="12" class="border-right border-bottom">号码分布</td>
           <td colspan="12" class="border-right border-bottom">跨度</td>
+          <td class="border-right border-bottom">对子(二同号)</td>
         </tr>
       </tbody>
     </table>

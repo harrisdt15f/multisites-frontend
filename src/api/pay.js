@@ -1,7 +1,7 @@
 export default {
   //  获取充值渠道网关信息
   getRechargeChannel() {
-    return this.get('/pay/get-recharge-channel').then(response =>  response)
+    return this.get('/pay/v2.0/get-recharge-channel').then(response =>  response)
   },
   //   发起充值申请  
   postRecharge(data) {

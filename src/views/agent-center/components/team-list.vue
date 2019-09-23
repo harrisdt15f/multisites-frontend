@@ -12,45 +12,6 @@
         ></el-input>
       </div>
       <div class="filter-label">
-        余额范围:
-        <el-input
-          type="number"
-          v-model="listQuery.min_team_balance"
-          placeholder="最小团队余额"
-          size="mini"
-          style="width: 105px;"
-          class="filter-item"
-        ></el-input>-
-        <el-input
-          type="number"
-          v-model="listQuery.max_team_balance"
-          placeholder="最大团队余额"
-          size="mini"
-          style="width: 105px;"
-          class="filter-item"
-        ></el-input>
-      </div>
-      <div class="filter-label">
-        奖金组范围:
-        <el-input
-          type="number"
-          v-model="peize[0]"
-          placeholder="最小奖金组"
-          size="mini"
-          style="width: 105px;"
-          class="filter-item"
-        ></el-input>-
-        <el-input
-          type="number"
-          v-model="peize[1]"
-          placeholder="最大奖金组"
-          size="mini"
-          style="width: 105px;"
-          class="filter-item"
-        ></el-input>
-      </div>
-      <br />
-      <div class="filter-label">
         时间:
         <el-date-picker
           style="margin-bottom:20px"
@@ -67,7 +28,72 @@
         <el-button @click="searchGame" :loading="searchLoading" class="btn">搜 索</el-button>
       </div>
     </div>
-    <el-breadcrumb v-if="showBreadcrumb" separator="/" style="margin-bottom:10px;">
+    <div class="custom-table">
+      <el-table :data="[team_data]" style="width: 100%">
+        <el-table-column align="center" show-overflow-tooltip label="团队新注册人数">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_new }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队总人数">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_num }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队下注人数">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_bet_num }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队充值人数">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_recharge_num }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队充值总额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_recharge }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队提现总额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_withdraw }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队提现总额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_withdraw }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队总余额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_balance }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队总下注金额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_bet_amount }}</span>
+          </template>
+        </el-table-column>
+         <el-table-column align="center" show-overflow-tooltip label="团队派奖总额">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_bonus_amount }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队投注返点">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_commission }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" show-overflow-tooltip label="团队盈亏">
+          <template slot-scope="scope">
+            <span>{{ scope.row.team_profit }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <el-breadcrumb v-if="showBreadcrumb" separator="/" style="margin-top:15px">
       <el-breadcrumb-item @click.native="searchGame">{{userDetail.username}}</el-breadcrumb-item>
       <el-breadcrumb-item
         @click.native="handleBreadcrumb(item, index)"
@@ -75,15 +101,8 @@
         :key="index"
       >{{item.username}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="custom-table">
-      <el-table
-        :data="list"
-        v-loading="listLoading"
-        sum-text="本页变动"
-        :summary-method="getSummaries"
-        show-summary
-        style="width: 100%"
-      >
+    <div class="custom-table" style="margin-top:10px">
+      <el-table :data="list" v-loading="listLoading" style="width: 100%">
         <el-table-column align="center" label="用户名">
           <template slot-scope="scope">
             <div @click="handleNextLink(scope.row)" class="next-link">
@@ -96,37 +115,41 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="层级">
+        <el-table-column align="center" label="用户余额">
           <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
+            <span>{{ scope.row.user_balance }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="奖金组">
+        <el-table-column align="center" label="用户充值金额">
           <template slot-scope="scope">
-            <span>{{ scope.row.prize_group }}</span>
+            <span>{{ scope.row.user_recharge }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="团队人数">
+        <el-table-column align="center" label="用户提现金额">
           <template slot-scope="scope">
-            <span>{{ scope.row.total_members }}</span>
+            <span>{{ scope.row.user_withdraw }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="注册日期">
+        <el-table-column align="center" label="用户下注金额">
           <template slot-scope="scope">
-            <span>{{ scope.row.register_at }}</span>
+            <span>{{ scope.row.user_bet_amount }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="最新登录">
+        <el-table-column align="center" label="用户派奖金额">
           <template slot-scope="scope">
-            <span>{{ scope.row.last_login_time }}</span>
+            <span>{{ scope.row.user_bonus_amount }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="团队余额">
+        <el-table-column align="center" label="用户投注返点">
           <template slot-scope="scope">
-            <span>{{ scope.row.team_balance }}</span>
+            <span>{{ scope.row.user_commission }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作"></el-table-column>
+        <el-table-column align="center" label="用户游戏盈亏">
+          <template slot-scope="scope">
+            <span>{{ scope.row.user_profit }}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <p style="overflow:hidden">
@@ -155,6 +178,7 @@ export default {
     return {
       list: [],
       total: undefined,
+      team_data: undefined,
       listLoading: false,
       searchLoading: false,
       showBreadcrumb: false,
@@ -197,9 +221,6 @@ export default {
         page_size: 10,
         page: 1,
         time_condtions: [],
-        price_group_condtions: [],
-        min_team_balance: '',
-        max_team_balance: '',
         parent_id: ''
       }
     };
@@ -228,21 +249,6 @@ export default {
         }
       },
       immediate: true
-    },
-    peize: {
-      handler(newName) {
-        if (newName && newName.length === 2) {
-          const price_group_condtions = [];
-          price_group_condtions.push(['prize_group', '>=', newName[0]]);
-          price_group_condtions.push(['prize_group', '<=', newName[1]]);
-          this.listQuery.price_group_condtions = JSON.stringify(
-            price_group_condtions
-          );
-        } else {
-          this.listQuery.price_group_condtions = [];
-        }
-      },
-      immediate: true
     }
   },
   created() {
@@ -257,13 +263,15 @@ export default {
       }
       this.listLoading = true;
       this.searchLoading = true;
-      this.Api.getTeamManagement(this.listQuery).then(res => {
+      this.Api.getTeamReport(this.listQuery).then(res => {
         const { success, data } = res;
+        const { team_data, user_data } = data;
         this.listLoading = false;
         this.searchLoading = false;
         if (success) {
-          this.list = data.data;
-          this.total = data.total;
+          this.team_data = team_data;
+          this.list = user_data.data;
+          this.total = user_data.total;
         }
       });
     },
@@ -281,6 +289,12 @@ export default {
       this.breadcrumbList.push(row);
       this.getList();
     },
+    handleBreadcrumb(item, index) {
+      this.listQuery.page = 1;
+      this.breadcrumbList = this.breadcrumbList.slice(0, index + 1);
+      this.listQuery.parent_id = item.id;
+      this.getList();
+    },
     handleSizeChange(val) {
       this.listQuery.page_size = val;
       this.getList();
@@ -288,46 +302,6 @@ export default {
     handleCurrentChange(val) {
       this.listQuery.page = val;
       this.getList();
-    },
-    handleBreadcrumb(item, index) {
-      this.listQuery.page = 1;
-      this.breadcrumbList = this.breadcrumbList.slice(0, index + 1);
-      this.listQuery.parent_id = item.id;
-      this.getList();
-    },
-    //本页小结
-    getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '小结'
-          return
-        }
-        if (index === 1) {
-          sums[index] = '本页变动'
-          return
-        }
-        if (index === 6) {
-          const values = data.map(item => {
-            return Number(item['team_balance'])
-          })
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
-            if (!isNaN(value)) {
-              return prev + curr
-            } else {
-              return prev
-            }
-          }, 0)
-          sums[index] =
-            sums[index] > 0
-              ? `+${sums[index].toFixed(3)}`
-              : `${sums[index].toFixed(3)}`
-        }
-      })
-
-      return sums
     }
   }
 };

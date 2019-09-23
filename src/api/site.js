@@ -48,4 +48,8 @@ export default {
   isCryptData(data) {
     return this.get('/system/is-crypt-data', data).then(response =>  response)
   },
+  //优惠活动
+  activityList(data) {
+    return this.post('/homepage/activity-list', data).then(response =>  response)
+  }
 }

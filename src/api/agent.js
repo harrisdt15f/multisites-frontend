@@ -11,6 +11,10 @@ export default {
   getTeamManagement(data) {
     return this.get('/user-agent-center/team-management', data).then(response =>  response)
   },
+  //团队报表
+  getTeamReport(data) {
+    return this.get('/user-agent-center/team-report', data).then(response =>  response)
+  },
   //日工资
   getUserBonus(data) {
     return this.get('/user-agent-center/user-bonus', data).then(response =>  response)
