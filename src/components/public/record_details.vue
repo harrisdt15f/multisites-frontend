@@ -10,11 +10,11 @@
       <!-- 投注记录详情 -->
       <div class="content" v-if="!isTraces">
         <div class="openball-result" v-if="detailData.open_number && detailData.open_number.length">
-            <span
-              class="item"
-              v-for="(item, index) in detailData.open_number.split(lotteryLists[detailData.series_id]['encode_splitter'] || '')"
-              :key="index"
-            >{{item}}</span>
+          <span
+            class="item"
+            v-for="(item, index) in detailData.open_number.split(lotteryLists[detailData.series_id]['encode_splitter'] || '')"
+            :key="index"
+          >{{item}}</span>
         </div>
         <div class="table-detail">
           <table width="100%" class="table-detail">
@@ -22,9 +22,7 @@
               <tr>
                 <td width="30%" align="right">游戏：</td>
                 <td>
-                  <span class="value">
-                    {{lotteryAll[detailData.lottery_sign].lottery.cn_name}}
-                  </span>
+                  <span class="value">{{lotteryAll[detailData.lottery_sign].lottery.cn_name}}</span>
                 </td>
                 <td align="right">注单编号：</td>
                 <td>
@@ -156,7 +154,9 @@
                 </td>
                 <td align="right">中奖金额：</td>
                 <td>
-                  <span class="value">{{detailData.finished_bonus ? detailData.finished_bonus : '--'}}</span>
+                  <span
+                    class="value"
+                  >{{detailData.finished_bonus ? detailData.finished_bonus : '--'}}</span>
                 </td>
               </tr>
 
@@ -207,6 +207,12 @@
             </el-table-column>
             <el-table-column align="center" prop="times" label="追号倍数"></el-table-column>
             <el-table-column align="center" prop="total_price" label="投注金额	"></el-table-column>
+            <el-table-column align="center" label="单挑">
+              <template slot-scope="scope">
+                <span v-if="scope.row.challenge">是</span>
+                <span v-else>否</span>
+              </template>
+            </el-table-column>
             <el-table-column align="center" prop="address" label="追号状态">
               <template slot-scope="scope">
                 <span v-if="scope.row.status == 0">等待追号</span>
@@ -219,13 +225,18 @@
               </template>
             </el-table-column>
             <el-table-column align="center" label="中奖">
-              <!-- <template slot-scope="scope"> -->
-                <!-- {{scope.row.status}} -->
-              <!-- </template> -->
+              <!-- <template slot-scope="scope">
+                {{scope.row.status}}
+              </template>-->
             </el-table-column>
             <el-table-column align="center" label="操作	">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.status == 0" @click="handleStopIssueTrace(scope.row)" type="text" size="mini">取消本期追号</el-button>
+                <el-button
+                  v-if="scope.row.status == 0"
+                  @click="handleStopIssueTrace(scope.row)"
+                  type="text"
+                  size="mini"
+                >取消本期追号</el-button>
                 <span v-else>--</span>
               </template>
             </el-table-column>
@@ -237,29 +248,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
       // 弹框显示
       openStatus: this.dialogVisible
-    }
+    };
   },
   computed: {
     ...mapGetters(['currentLottery', 'lotteryAll', 'lotteryLists']),
     // 是否是追号
     isTraces() {
-      return this.detailData.win_stop !== undefined
+      return this.detailData.win_stop !== undefined;
     },
     // 翻译字符
     bet_number() {
       if (this.detailData.series_id === 'pk10') {
         return this.detailData.bet_number
-          .replace(/&/g,',')
-          .replace(/[0-9]/g, match=>{
-            return parseInt(match) + 1
-          })
+          .replace(/&/g, ',')
+          .replace(/[0-9]/g, match => {
+            return parseInt(match) + 1;
+          });
       }
       if (this.detailData.method_group === 'DXDS') {
         return this.detailData.bet_number
@@ -267,25 +278,25 @@ export default {
           .replace(/(0)/g, '小')
           .replace(/(1)/g, '大')
           .replace(/(2)/g, '双')
-          .replace(/(3)/g, '单')
+          .replace(/(3)/g, '单');
       }
       if (this.detailData.method_group === 'LH') {
         return this.detailData.bet_number
           .replace(/&/g, ',')
           .replace(/(0)/g, '龙')
           .replace(/(1)/g, '虎')
-          .replace(/(2)/g, '和')
+          .replace(/(2)/g, '和');
       }
       if (
-        this.detailData.method_sign === 'QTS3' || 
-        this.detailData.method_sign === 'ZTS3' || 
+        this.detailData.method_sign === 'QTS3' ||
+        this.detailData.method_sign === 'ZTS3' ||
         this.detailData.method_sign === 'HTS3'
       ) {
         return this.detailData.bet_number
           .replace(/&/g, ',')
           .replace(/(0)/g, '豹子')
           .replace(/(1)/g, '顺子')
-          .replace(/(2)/g, '对子')
+          .replace(/(2)/g, '对子');
       }
       if (this.detailData.method_sign === 'LTDDS') {
         return this.detailData.bet_number
@@ -295,21 +306,21 @@ export default {
           .replace(/(2)/g, '二单三双')
           .replace(/(3)/g, '三单二双')
           .replace(/(4)/g, '四单一双')
-          .replace(/(5)/g, '五单零双')
+          .replace(/(5)/g, '五单零双');
       }
-      return this.detailData.bet_number.replace(/&/g, ',')
+      return this.detailData.bet_number.replace(/&/g, ',');
     }
   },
   watch: {
     dialogVisible(val) {
-      this.openStatus = val
+      this.openStatus = val;
     }
   },
   props: ['dialogVisible', 'detailData'],
   methods: {
     // 关闭弹框
     handleClose() {
-      this.$emit('close')
+      this.$emit('close');
     },
     // 撤单
     handleCancelBet(item) {
@@ -320,64 +331,70 @@ export default {
       }).then(() => {
         this.Api.cancelBet({ id: item.id }).then(({ success }) => {
           if (success) {
-            this.$store.dispatch('betHistory')
-            item.status = 1
+            this.$store.dispatch('betHistory');
+            item.status = 1;
             this.$message({
               type: 'success',
               message: '撤单成功!',
               duration: 1000
-            })
+            });
           }
-        })
-      })
+        });
+      });
     },
     // 终止追号
-    handleStopTrace(item){
+    handleStopTrace(item) {
       this.$confirm('你确认中止追号么？', '', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Api.stopTrace({ type: 1, lottery_traces_id: item.id}).then(({ success }) => {
-          if (success) {
-            this.$store.dispatch('betHistory')
-            item.status = 5
-            item.trace_lists.forEach(val => {
-              if (val.status == 0) {
-                this.$set(val, 'status', 3)
-              }
-            })
-            this.$message({
-              type: 'success',
-              message: '本期追号单取消成功!',
-              duration: 1000
-            })
+        this.Api.stopTrace({ type: 1, lottery_traces_id: item.id }).then(
+          ({ success }) => {
+            if (success) {
+              this.$store.dispatch('betHistory');
+              item.status = 5;
+              item.trace_lists.forEach(val => {
+                if (val.status == 0) {
+                  this.$set(val, 'status', 3);
+                }
+              });
+              this.$message({
+                type: 'success',
+                message: '本期追号单取消成功!',
+                duration: 1000
+              });
+            }
           }
-        })
-      })
+        );
+      });
     },
     // 终止本期追号
-    handleStopIssueTrace(item){
-       this.$confirm('你确认取消本期追号么？', '', {
+    handleStopIssueTrace(item) {
+      this.$confirm('你确认取消本期追号么？', '', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Api.stopTrace({ type: 2, lottery_traces_id: item.trace_id, lottery_trace_lists_id: item.id}).then(({ success }) => {
+        this.Api.stopTrace({
+          type: 2,
+          lottery_traces_id: item.trace_id,
+          lottery_trace_lists_id: item.id
+        }).then(({ success }) => {
           if (success) {
-            this.$store.dispatch('betHistory')
-            item.status = 3
+            this.$store.dispatch('betHistory');
+            item.status = 3;
             this.$message({
               type: 'success',
               message: '本期追号单取消成功!',
               duration: 1000
-            })
+            });
           }
-        })
-      })
+        });
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

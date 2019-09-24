@@ -115,7 +115,7 @@
                   <span>{{ scope.row.bonus }}</span>
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="奖金组-返点">
+              <el-table-column align="center" label="奖金组(返点)">
                 <template slot-scope="scope">
                   <span>{{ scope.row.bet_prize_group }}</span>
                 </template>
@@ -128,6 +128,12 @@
                   <span v-if="scope.row.status == 3">中奖</span>
                   <span style="color:green" v-if="scope.row.status == 4">已派奖</span>
                   <span v-if="scope.row.status == 5">管理员撤销</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="单挑">
+                <template slot-scope="scope">
+                  <span v-if="scope.row.challenge">是</span>
+                  <span v-else>否</span>
                 </template>
               </el-table-column>
             </el-table>

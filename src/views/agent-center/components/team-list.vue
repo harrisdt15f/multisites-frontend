@@ -284,7 +284,7 @@ export default {
     },
     handleNextLink(row) {
       this.listQuery.page = 1;
-      this.listQuery.parent_id = row.id;
+      this.listQuery.parent_id = row.user_id;
       this.showBreadcrumb = true;
       this.breadcrumbList.push(row);
       this.getList();
@@ -292,7 +292,7 @@ export default {
     handleBreadcrumb(item, index) {
       this.listQuery.page = 1;
       this.breadcrumbList = this.breadcrumbList.slice(0, index + 1);
-      this.listQuery.parent_id = item.id;
+      this.listQuery.parent_id = item.user_id;
       this.getList();
     },
     handleSizeChange(val) {
