@@ -38,10 +38,10 @@
           <span class="header-line-in">|</span>
           <div class="header-wallet">
             <span class="wallet">钱包余额:</span>
-            <span class="header-money">￥</span>
             <span class="header-money">
-              <span class="header-money">
-                {{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}
+              <span class="header-money" style="cursor:pointer">
+                <i class="hiddle" @click="hiddleMoney = !hiddleMoney" v-if="!hiddleMoney">￥{{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}</i>
+                <i class="hiddle" style="letter-spacing:3px;margin:0 3px 0 3px;vertical-align: -3px;" @click="hiddleMoney = !hiddleMoney" v-else>*****</i>
                 <i
                   class="fa fa-refresh cur"
                   :class="{loading: loading}"
@@ -256,6 +256,7 @@ export default {
     };
     return {
       hotLottery: ['cqssc', 'qiqtxffc', 'duotxffc', 'txffc', 'xjssc', 'sd115', 'gd115', 'ftpk10', 'jssc', 'jsk3', 'hklhc'],
+      hiddleMoney: true, //隐藏金额
       showBulletin: false,
       loginLoading: false,
       loading: false,
@@ -747,6 +748,9 @@ export default {
 .header-money {
   .cur.loading {
     animation: myRotate 1.5s linear infinite;
+  }
+  .hiddle{
+    margin-right: 2px;
   }
 }
 .header-line-in {

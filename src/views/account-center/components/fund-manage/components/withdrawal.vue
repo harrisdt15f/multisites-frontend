@@ -48,7 +48,7 @@
       使用提示：
       <br />为确保您达资金安全，请填写您的提款银行资料，以免有心人士窃取，谢谢合作。
     </div>
-    <el-dialog :visible.sync="dialogVisible">
+    <el-dialog :visible.sync="dialogVisible" v-if="dialogVisible">
       <table width="100%" class="table-field">
         <tbody>
           <tr>
