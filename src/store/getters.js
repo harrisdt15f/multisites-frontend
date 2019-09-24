@@ -3,6 +3,7 @@ const getters = {
   token: state => state.user.token,
   userDetail: state => state.user.userDetail,
   isLogin: state => Boolean(state.user.token),
+  userFronzen: state => state.user.userFronzen,
   // 网站
   isCryptData: state => state.site.isCryptData, //参数加密
   banner: state => state.site.banner,

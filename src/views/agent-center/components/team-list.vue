@@ -29,65 +29,65 @@
       </div>
     </div>
     <div class="custom-table">
-      <el-table :data="[team_data]" style="width: 100%">
+      <el-table :data="[team_data]" v-if="team_data" style="width: 100%">
         <el-table-column align="center" show-overflow-tooltip label="团队新注册人数">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_new }}</span>
+          <template >
+            <span>{{ team_data.team_new }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队总人数">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_num }}</span>
+          <template >
+            <span>{{ team_data.team_num }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队下注人数">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_bet_num }}</span>
+          <template >
+            <span>{{ team_data.team_bet_num }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队充值人数">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_recharge_num }}</span>
+          <template >
+            <span>{{ team_data.team_recharge_num }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队充值总额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_recharge }}</span>
+          <template >
+            <span>{{ team_data.team_recharge }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队提现总额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_withdraw }}</span>
+          <template >
+            <span>{{ team_data.team_withdraw }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队提现总额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_withdraw }}</span>
+          <template >
+            <span>{{ team_data.team_withdraw }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队总余额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_balance }}</span>
+          <template >
+            <span>{{ team_data.team_balance }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队总下注金额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_bet_amount }}</span>
+          <template >
+            <span>{{ team_data.team_bet_amount }}</span>
           </template>
         </el-table-column>
          <el-table-column align="center" show-overflow-tooltip label="团队派奖总额">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_bonus_amount }}</span>
+          <template >
+            <span>{{ team_data.team_bonus_amount }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队投注返点">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_commission }}</span>
+          <template >
+            <span>{{ team_data.team_commission }}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" show-overflow-tooltip label="团队盈亏">
-          <template slot-scope="scope">
-            <span>{{ scope.row.team_profit }}</span>
+          <template >
+            <span>{{ team_data.team_profit }}</span>
           </template>
         </el-table-column>
       </el-table>

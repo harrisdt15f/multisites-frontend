@@ -9,6 +9,7 @@ const state = {
     username: '',
     balance: ''
   },
+  userFronzen: 0
 }
 
 const mutations = {
@@ -20,7 +21,10 @@ const mutations = {
   },
   SET_BALANCE(state, data) {
     state.balance = data
-  }
+  },
+  SET_USER_FRONZEN(state, data) {
+    state.userFronzen = data
+  },
 }
 
 const actions = {
@@ -53,6 +57,7 @@ const actions = {
             resolve(res)
             commit('SET_USER_DETAIL', data)
             commit('SET_BALANCE', data.balance)
+            commit('SET_USER_FRONZEN', data.user_fronzen_type)
           }
         })
         .catch(error => {

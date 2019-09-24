@@ -15,13 +15,75 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                title="1549948430681908.png"
-                alt="时时彩.png"
-                src="../../assets/images/help/ssc.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>第一截止时间</th>
+                  <th>最后一期截止时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2">春秋时时彩</td>
+                  <td>07:10 - 23:50</td>
+                  <td>每期20分钟</td>
+                  <td>50期</td>
+                  <td>07:30:00</td>
+                  <td>23:50:00</td>
+                </tr>
+                <tr>
+                  <td>00:10 - 03:10</td>
+                  <td>每期20分钟</td>
+                  <td>9期</td>
+                  <td>00:30:00</td>
+                  <td>03:10:00</td>
+                </tr>
+                <tr>
+                  <td>黑龙江时时彩</td>
+                  <td>08:40 - 22:40</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>09:00:00</td>
+                  <td>22:40:00</td>
+                </tr>
+                <tr>
+                  <td>新疆时时彩</td>
+                  <td>10:00 - 02:00</td>
+                  <td>每期20分钟</td>
+                  <td>48期</td>
+                  <td>10:20:00</td>
+                  <td>02:00:00</td>
+                </tr>
+                <tr>
+                  <td>天津时时彩</td>
+                  <td>09:00 - 23:00</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>09:20:00</td>
+                  <td>23:00:00</td>
+                </tr>
+                <tr>
+                  <td>腾讯时时彩</td>
+                  <td>00:00 - 24:00</td>
+                  <td>每期1分钟</td>
+                  <td>1440期</td>
+                  <td>00:01:00</td>
+                  <td>00:00:00</td>
+                </tr>
+                <tr>
+                  <td>上海时时乐</td>
+                  <td>10:00 - 21:30</td>
+                  <td>每期30分钟</td>
+                  <td>23期</td>
+                  <td>10:30:00</td>
+                  <td>21:30:00</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="row">
@@ -36,13 +98,68 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                title="1550824022454903.png"
-                alt="11选5.png"
-                src="../../assets/images/help/11x5.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>第一截止时间</th>
+                  <th>最后一期截止时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>山东11选5</td>
+                  <td>08:41 - 23:01</td>
+                  <td>每期20分钟</td>
+                  <td>43期</td>
+                  <td>09:01:00</td>
+                  <td>23:01:00</td>
+                </tr>
+                <tr>
+                  <td>广东11选5</td>
+                  <td>09:10 - 23:10</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>09:30:00</td>
+                  <td>23:10:00</td>
+                </tr>
+                <tr>
+                  <td>山西11选5</td>
+                  <td>08:26 - 00:06</td>
+                  <td>每期20分钟</td>
+                  <td>47期</td>
+                  <td>08:46:00</td>
+                  <td>00:06:00</td>
+                </tr>
+                <tr>
+                  <td>上海11选5</td>
+                  <td>09:00 - 24:00</td>
+                  <td>每期20分钟</td>
+                  <td>45期</td>
+                  <td>09:20:00</td>
+                  <td>20:00:00</td>
+                </tr>
+                <tr>
+                  <td>江西11选5</td>
+                  <td>09:10 - 23:10</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>09:30:00</td>
+                  <td>23:10:00</td>
+                </tr>
+                <tr>
+                  <td>中兴11选5</td>
+                  <td>09:10 - 23:10</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>09:30:00</td>
+                  <td>23:10:00</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="row">
@@ -58,13 +175,60 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                title="1551757304901230.png"
-                alt="快3.png"
-                src="../../assets/images/help/k3.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>第一截止时间</th>
+                  <th>最后一期截止时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>江苏快3</td>
+                  <td>08:30 - 22:10</td>
+                  <td>每期20分钟</td>
+                  <td>41期</td>
+                  <td>08:50:00</td>
+                  <td>22:10:00</td>
+                </tr>
+                <tr>
+                  <td>安徽快3</td>
+                  <td>08:40 - 22:00</td>
+                  <td>每期20分钟</td>
+                  <td>40期</td>
+                  <td>09:00:00</td>
+                  <td>22:00:00</td>
+                </tr>
+                <tr>
+                  <td>甘肃快3</td>
+                  <td>09:59 - 21:59</td>
+                  <td>每期20分钟</td>
+                  <td>36期</td>
+                  <td>10:19:00</td>
+                  <td>21:59:00</td>
+                </tr>
+                <tr>
+                  <td>河南快3</td>
+                  <td>08:35 - 22:35</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>08:55:00</td>
+                  <td>22:35:00</td>
+                </tr>
+                <tr>
+                  <td>中兴快3</td>
+                  <td>08:35 - 22:35</td>
+                  <td>每期20分钟</td>
+                  <td>42期</td>
+                  <td>08:55:00</td>
+                  <td>22:35:00</td>
+                </tr>
+              </tbody>
+            </table>
             <p>
               <br />
             </p>
@@ -87,13 +251,26 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                src="../../assets/images/help/p3.png"
-                title="1529900444401282.png"
-                alt="1616.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>开奖时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>体彩P3/P5</td>
+                  <td>00:00 - 20:15</td>
+                  <td>每期1天</td>
+                  <td>1期</td>
+                  <td>20:45:00</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="row">
@@ -105,19 +282,26 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                src="../../assets/images/help/3d.png"
-                title="1529900510525314.png"
-                alt="1717.png"
-              />
-            </p>
-            <p>
-              <br />
-            </p>
-            <p>
-              <br />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>开奖时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>福彩3D</td>
+                  <td>00:00 - 21:15</td>
+                  <td>每期1天</td>
+                  <td>1期</td>
+                  <td>21:15:00</td>
+                </tr>
+              </tbody>
+            </table>
             <p>
               <br />
             </p>
@@ -274,13 +458,26 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                src="../../assets/images/help/lhc.png"
-                title="1529900563459590.png"
-                alt="1414.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>第一期截止时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>香港六合彩</td>
+                  <td>00:00 - 21:25</td>
+                  <td>每周二，四，六</td>
+                  <td>每周3期</td>
+                  <td>21:30:00</td>
+                </tr>
+              </tbody>
+            </table>
             <p>
               <br />
             </p>
@@ -299,13 +496,44 @@
             <p>
               <br />
             </p>
-            <p>
-              <img
-                title="1550823879614813.png"
-                alt="pk10.png"
-                src="../../assets/images/help/pk10.png"
-              />
-            </p>
+            <table class="help-table" border>
+              <thead>
+                <tr>
+                  <th>高频彩种</th>
+                  <th>销售时间</th>
+                  <th>期数间隔</th>
+                  <th>总期数</th>
+                  <th>第一截止时间</th>
+                  <th>最后一期截止时间</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>北京赛车 PK10</td>
+                  <td>09:10 - 23:50</td>
+                  <td>每期20分钟</td>
+                  <td>44期</td>
+                  <td>09:30:00</td>
+                  <td>23:50:00</td>
+                </tr>
+                <tr>
+                  <td>幸运飞艇</td>
+                  <td>13:03 - 次 04:03</td>
+                  <td>每期05分钟</td>
+                  <td>180期</td>
+                  <td>13:08:00</td>
+                  <td>次 04:03:00</td>
+                </tr>
+                <tr style="color:red">
+                  <td>极速赛车</td>
+                  <td>00:00 - 24:00</td>
+                  <td>每期1分钟</td>
+                  <td>1440期</td>
+                  <td>00:01:00</td>
+                  <td>00:00:00</td>
+                </tr>
+              </tbody>
+            </table>
             <p>
               <br />
             </p>
@@ -352,12 +580,12 @@
 <script>
 export default {
   name: 'help-play',
-  data () {
+  data() {
     return {
-      lottoryName:'玄武'
-    }
+      lottoryName: '玄武'
+    };
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -385,6 +613,19 @@ export default {
     color: #494949;
     margin: 10px 0;
     padding-bottom: 20px;
+  }
+}
+.help-table {
+  text-align: center;
+  thead {
+    background: #ff5656;
+    color: #fff;
+    th{
+      padding: 5px 20px;
+    }
+    td {
+     padding: 10px 20px; 
+    }
   }
 }
 </style>

@@ -84,7 +84,7 @@
         <el-table-column align="center" prop="channel" label="投放渠道"></el-table-column>
         <el-table-column align="center" prop="is_agent" label="开户类型">
           <template slot-scope="scope">
-            <span v-if="scope.row.user_type == 3">代理</span>
+            <span v-if="scope.row.user_type == 3">会员</span>
             <span v-else>会员</span>
           </template>
         </el-table-column>

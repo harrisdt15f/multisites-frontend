@@ -43,6 +43,8 @@ service.interceptors.request.use(
         config.headers['Content-Type'] =
           'application/x-www-form-urlencoded; charset=UTF-8'
         config.data = qs.stringify({ data: enstr })
+      }else{
+        config.headers['Content-Type'] = 'application/json'
       }
     }
     return config
