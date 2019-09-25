@@ -83,6 +83,7 @@
                 style="width:185px;"
                 suffix-icon="el-icon-user"
                 size="small"
+                maxlength="18"
                 v-model="user.username"
                 placeholder="账号"
               ></el-input>

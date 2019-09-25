@@ -14,7 +14,7 @@
             </div>
             <el-form class="user-form" status-icon :model="user" :rules="userRules" label-width="100px"  ref="userForm">
               <el-form-item label="用户名" prop="username">
-                <el-input style="width:250px" placeholder="用户名" v-model="user.username" type="text" required clearable>
+                <el-input maxlength="18" style="width:250px" placeholder="用户名" v-model="user.username" type="text" required clearable>
                 </el-input>
               </el-form-item>
               <el-form-item  label="密码" prop="password">

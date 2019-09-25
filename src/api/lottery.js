@@ -71,7 +71,7 @@ export default {
     let data = {
       lottery_sign: lotterySign,
       trace_issues: JSON.stringify(issues),
-      balls: balls,
+      balls: JSON.stringify(balls),
       trace_win_stop: trace_win_stop,
       total_cost: total_cost,
       is_trace: is_trace

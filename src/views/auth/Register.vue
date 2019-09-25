@@ -19,6 +19,7 @@
                 <el-input
                   style="width:250px"
                   placeholder="用户名"
+                  maxlength="18"
                   v-model="userForm.username"
                   type="text"
                   required

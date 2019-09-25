@@ -18,7 +18,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="用户名：" prop="username">
-          <el-input placeholder="请输入用户名" style="width:280px" v-model="form.username"></el-input>
+          <el-input maxlength="18" placeholder="请输入用户名" style="width:280px" v-model="form.username"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
           <el-input

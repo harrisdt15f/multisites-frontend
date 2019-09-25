@@ -368,6 +368,9 @@ export default {
       if (this.currentOrder.currentTimes > this.currentOrder.currentMaxTimes) {
         this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
       }
+      if (this.currentOrder.currentTimes < this.currentLottery.min_times) {
+        this.currentOrder.currentTimes = this.currentLottery.min_times
+      }
       this.calculate()
     },
     // 切换玩法时
@@ -414,6 +417,7 @@ export default {
       }
     }
     // 当前奖金组
+    this.currentOrder.currentTimes = this.currentLottery.min_times
     this.lottery.countPrize = this.userDetail.prize_group
     this.inputAreaInit()
     this.series = this.currentLottery && this.currentLottery.series_id
@@ -436,7 +440,7 @@ export default {
       this.currentOrder.currentCost = 0
       this.currentOrder.currentCount = 0
       this.currentOrder.maxProfit = 0
-      this.currentOrder.currentTimes = 1
+      this.currentOrder.currentTimes = this.currentLottery.min_times
     },
     // 添加投注单
     addOrder(oneKey) {
@@ -740,11 +744,18 @@ export default {
         return [_count, inputcodes, positionDesc]
       } else {
         //最大倍数
-        this.currentOrder.currentMaxTimes = Math.floor(
-          this.currentLottery.max_profit_bonus /
-            (this.currentCountPrizes -
-              +this.userConfig.mode * this.userConfig.singlePrice)
-        )
+        this.currentOrder.currentMaxTimes = (() => {
+          const v = Math.floor(
+            this.currentLottery.max_profit_bonus /
+              (this.currentCountPrizes -
+                +this.userConfig.mode * this.userConfig.singlePrice)
+          )
+          if (v > this.currentLottery.max_times) {
+            return this.currentLottery.max_times
+          } else {
+            return v
+          }
+        })()
         //如何大于最大盈利返回false
         const maxProfit =
           (this.currentCountPrizes -
