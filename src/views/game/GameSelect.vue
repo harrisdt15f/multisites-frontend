@@ -271,13 +271,13 @@
   </section>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
-import algorithm from '../../lib/algorithm'
+import { mapGetters, mapState } from 'vuex';
+import algorithm from '../../lib/algorithm';
 // import pako from 'pako/index.js'
 
-import { isRepeat, isRepeatNum } from '@/utils'
+import { isRepeat, isRepeatNum } from '@/utils';
 
-import Lhc from '@/components/game/lhc'
+import Lhc from '@/components/game/lhc';
 
 export default {
   name: 'game-select',
@@ -313,7 +313,7 @@ export default {
         { value: 2, label: '二元模式' }
       ],
       betLoading: false // 投注loading
-    }
+    };
   },
   props: ['countPrizes'],
   components: {
@@ -338,7 +338,7 @@ export default {
 
     // 模式配置
     modeConfig: function() {
-      return this.currentLottery.valid_modes
+      return this.currentLottery.valid_modes;
     },
     // 当前订单状态
     orderState: function() {
@@ -346,118 +346,119 @@ export default {
         input: this.inputCodes,
         choices: this.chooseNumber,
         position: this.choosePosition
-      }
+      };
     },
     //当前奖金
     currentCountPrizes() {
       if (Array.isArray(this.countPrizes)) {
-        return this.countPrizes[0].prize
+        return this.countPrizes[0].prize;
       } else {
-        return this.countPrizes
+        return this.countPrizes;
       }
     }
   },
   watch: {
     // 更改一元两元模式
     'userConfig.singlePrice'() {
-      this.calculate()
+      this.calculate();
     },
     //更改倍数
     'currentOrder.currentTimes'() {
       //最大倍数
       if (this.currentOrder.currentTimes > this.currentOrder.currentMaxTimes) {
-        this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
+        this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes;
       }
       if (this.currentOrder.currentTimes < this.currentLottery.min_times) {
-        this.currentOrder.currentTimes = this.currentLottery.min_times
+        this.currentOrder.currentTimes = this.currentLottery.min_times;
       }
-      this.calculate()
+      this.calculate();
     },
     // 切换玩法时
     'bet.methodsTab'() {
-      this.currentOrder.currentMaxTimes = undefined
-      this.currentOrder.currentCost = 0
-      this.currentOrder.maxProfit = 0
-      this.currentOrder.currentCount = 0
-      this.currentOrder.currentTimes = 1
-      this.inputCodes = ''
+      this.currentOrder.currentMaxTimes = undefined;
+      this.currentOrder.currentCost = 0;
+      this.currentOrder.maxProfit = 0;
+      this.currentOrder.currentCount = 0;
+      this.currentOrder.currentTimes = 1;
+      this.inputCodes = '';
     },
     // 号码被清空时 清空注单
     // 'currentOrder.currentCost'(newVal) {},
     orderList(newVal) {
       if (newVal.length === 0) {
-        this.clearBtn()
+        this.clearBtn();
       }
     },
     oneKeyList(newVal) {
       if (JSON.stringify(newVal) === '{}') {
-        this.clearBtn()
+        this.clearBtn();
       }
     },
     // 更新玩法时
     currentMethod: {
       handler() {
-        this.initChoose()
+        this.initChoose();
       },
       deep: true
     }
   },
   created() {
-    this.preSelectButton()
+    this.preSelectButton();
     // 当前最大 最小奖金组
-    let list = this.lotteryLists[this.currentLottery.series_id].list
+    let list = this.lotteryLists[this.currentLottery.series_id].list;
     for (const k of list) {
       if (k.id === this.currentLottery.en_name) {
-        this.prizes.min = parseInt(this.userDetail.min_prize_group)
+        this.prizes.min = parseInt(this.userDetail.min_prize_group);
         if (k.max_prize_group >= this.userDetail.prize_group) {
-          this.prizes.max = parseInt(this.userDetail.prize_group)
+          this.prizes.max = parseInt(this.userDetail.prize_group);
         } else {
-          this.prizes.max = k.max_prize_group
+          this.prizes.max = k.max_prize_group;
         }
       }
     }
     // 当前奖金组
-    this.currentOrder.currentTimes = this.currentLottery.min_times
-    this.lottery.countPrize = this.userDetail.prize_group
-    this.inputAreaInit()
-    this.series = this.currentLottery && this.currentLottery.series_id
+    this.currentOrder.currentTimes = this.currentLottery.min_times;
+    this.lottery.countPrize = this.userDetail.prize_group;
+    this.inputAreaInit();
+    this.series = this.currentLottery && this.currentLottery.series_id;
   },
   methods: {
     // 投注成功 清除选中的数字
     clearBtn() {
       for (let j = 0; j < this.chooseNumber.length; j++) {
         for (let i = 0; i < this.chooseNumber[j].length; i++) {
-          this.$set(this.chooseNumber[j], i, false)
+          this.$set(this.chooseNumber[j], i, false);
         }
       }
       for (let j = 0; j < this.chooseButton.length; j++) {
         for (let i = 0; i < this.chooseButton[j].length; i++) {
-          this.$set(this.chooseButton[j], i, false)
+          this.$set(this.chooseButton[j], i, false);
         }
       }
       // 清空注单值
-      this.currentOrder.currentMaxTimes = undefined
-      this.currentOrder.currentCost = 0
-      this.currentOrder.currentCount = 0
-      this.currentOrder.maxProfit = 0
-      this.currentOrder.currentTimes = this.currentLottery.min_times
+      this.currentOrder.currentMaxTimes = undefined;
+      this.currentOrder.currentCost = 0;
+      this.currentOrder.currentCount = 0;
+      this.currentOrder.maxProfit = 0;
+      this.currentOrder.currentTimes = this.currentLottery.min_times;
     },
     // 添加投注单
     addOrder(oneKey) {
-      let order = null
-      const h = this.$createElement
+      let order = null;
+      const h = this.$createElement;
       if (
         !this.currentOrder.currentCost ||
         Number(this.currentOrder.currentCost) <= 0
       ) {
         this.$alert('选号不符合规则, 请按照规则选号', '提示', {
           confirmButtonText: '确定'
-        })
-        return
+        });
+        return;
       }
-      const convertCodes = this.convertCodes()
-      const isHe = this.currentMethodGroup === 'LH' && convertCodes == 2
-      const isChallenge = +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
+      const convertCodes = this.convertCodes();
+      const isHe = this.currentMethodGroup === 'LH' && convertCodes == 2;
+      const isChallenge =
+        +this.currentCountPrizes / +this.currentOrder.currentCost >= 45;
       if (
         this.currentMethod.type === 'multi' ||
         this.currentMethod.type === 'k3'
@@ -475,11 +476,11 @@ export default {
           prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice,
           challenge: isChallenge || isHe ? 1 : 0,
-          challenge_prize: isChallenge || isHe ? isHe ? 40000 : 20000 : 0
-        }
-        order._codes = this.formatInputCodes(order.codes)
+          challenge_prize: isChallenge || isHe ? (isHe ? 40000 : 20000) : 0
+        };
+        order._codes = this.formatInputCodes(order.codes);
         if (oneKey) {
-          this.oneKeyList = order
+          this.oneKeyList = order;
         } else {
           if (isChallenge || isHe) {
             this.$msgbox({
@@ -494,20 +495,25 @@ export default {
                 h(
                   'p',
                   { style: 'text-align: center; font-weight:bold;' },
-                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
                 ),
                 h(
                   'p',
                   { style: 'text-align: center; color: #ff7200' },
-                  isHe ? '投注包含单挑注单，奖金上限为4万元' : '投注包含单挑注单，奖金上限为2万元'
+                  isHe
+                    ? '投注包含单挑注单，奖金上限为4万元'
+                    : '投注包含单挑注单，奖金上限为2万元'
                 )
               ]),
 
               confirmButtonText: '继续添加'
             }).then(() => {
               let index = this.orderList.findIndex(item => {
-                return order.codes === item.codes && order.method_id === item.method_id
-              })
+                return (
+                  order.codes === item.codes &&
+                  order.method_id === item.method_id
+                );
+              });
               // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
               if (index > -1) {
                 this.$alert(
@@ -520,31 +526,33 @@ export default {
                         this.orderList[index],
                         'times',
                         this.orderList[index].times + order.times
-                      )
+                      );
                       this.$set(
                         this.orderList[index],
                         'cost',
                         Number(this.orderList[index].cost) + Number(order.cost)
-                      )
+                      );
                     }
                   }
-                )
+                );
               } else {
-                this.orderList.unshift(order)
+                this.orderList.unshift(order);
               }
               // 初始化翻倍后的数据
-              let doubleBeforeOrder = []
+              let doubleBeforeOrder = [];
               if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder);
               }
-              doubleBeforeOrder.push(order)
-              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-              this.clearBtn()
-            })
+              doubleBeforeOrder.push(order);
+              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder);
+              this.clearBtn();
+            });
           } else {
             let index = this.orderList.findIndex(item => {
-              return order.codes === item.codes && order.method_id === item.method_id
-            })
+              return (
+                order.codes === item.codes && order.method_id === item.method_id
+              );
+            });
             // 如果订单存在相同号码  不添加订单 在原有订单基础上累加倍数
             if (index > -1) {
               this.$alert(
@@ -557,47 +565,45 @@ export default {
                       this.orderList[index],
                       'times',
                       this.orderList[index].times + order.times
-                    )
+                    );
                     this.$set(
                       this.orderList[index],
                       'cost',
                       Number(this.orderList[index].cost) + Number(order.cost)
-                    )
+                    );
                   }
                 }
-              )
+              );
             } else {
-              this.orderList.unshift(order)
+              this.orderList.unshift(order);
             }
             // 初始化翻倍后的数据
-            let doubleBeforeOrder = []
+            let doubleBeforeOrder = [];
             if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder);
             }
-            doubleBeforeOrder.push(order)
-            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-            this.clearBtn()
+            doubleBeforeOrder.push(order);
+            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder);
+            this.clearBtn();
           }
         }
       } else {
         const codes = (() => {
           if (this.currentLottery.series_id === 'lotto') {
-            return this.inputCodes.split('|')
-          } else if(this.currentLottery.series_id === 'pk10'){
-            return this.inputCodes
-              .split('|')
-              .map(val => {
-                const arr = val.split(' ').map(ele => {
-                  return parseInt(ele) - 1
-                })
-                return arr.join('&')
-              })
+            return this.inputCodes.split('|');
+          } else if (this.currentLottery.series_id === 'pk10') {
+            return this.inputCodes.split('|').map(val => {
+              const arr = val.split(' ').map(ele => {
+                return parseInt(ele) - 1;
+              });
+              return arr.join('&');
+            });
           } else {
             return this.inputCodes
               .split(',')
-              .map(val => val.split('').join('&'))
+              .map(val => val.split('').join('&'));
           }
-        })()
+        })();
         order = {
           method_group: this.currentMethodGroup,
           method_id: this.currentMethod.method,
@@ -613,10 +619,10 @@ export default {
           prize_group: this.lottery.countPrize,
           price: this.userConfig.singlePrice,
           challenge: isChallenge || isHe ? 1 : 0,
-          challenge_prize: isChallenge || isHe ? isHe ? 40000 : 20000 : 0
-        }
+          challenge_prize: isChallenge || isHe ? (isHe ? 40000 : 20000) : 0
+        };
         if (oneKey) {
-          this.oneKeyList = order
+          this.oneKeyList = order;
         } else {
           if (isChallenge) {
             this.$msgbox({
@@ -631,7 +637,7 @@ export default {
                 h(
                   'p',
                   { style: 'text-align: center; font-weight:bold;' },
-                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
                 ),
                 h(
                   'p',
@@ -642,30 +648,30 @@ export default {
 
               confirmButtonText: '继续添加'
             }).then(() => {
-              this.oneKeyList = {}
-              this.orderList.unshift(order)
+              this.oneKeyList = {};
+              this.orderList.unshift(order);
               // 初始化翻倍后的数据
-              let doubleBeforeOrder = []
+              let doubleBeforeOrder = [];
               if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+                doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder);
               }
-              doubleBeforeOrder.push(order)
-              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-              this.inputCodesSingle = 0
-              this.inputCodes = ''
-            })
+              doubleBeforeOrder.push(order);
+              this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder);
+              this.inputCodesSingle = 0;
+              this.inputCodes = '';
+            });
           } else {
-            this.oneKeyList = {}
-            this.orderList.unshift(order)
+            this.oneKeyList = {};
+            this.orderList.unshift(order);
             // 初始化翻倍后的数据
-            let doubleBeforeOrder = []
+            let doubleBeforeOrder = [];
             if (!Array.isArray(this.bet.doubleBeforeOrder)) {
-              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder)
+              doubleBeforeOrder = JSON.parse(this.bet.doubleBeforeOrder);
             }
-            doubleBeforeOrder.push(order)
-            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder)
-            this.inputCodesSingle = 0
-            this.inputCodes = ''
+            doubleBeforeOrder.push(order);
+            this.bet.doubleBeforeOrder = JSON.stringify(doubleBeforeOrder);
+            this.inputCodesSingle = 0;
+            this.inputCodes = '';
           }
         }
       }
@@ -676,7 +682,7 @@ export default {
         this.currentMethod.type === 'multi' ||
         this.currentMethod.type === 'k3'
       ) {
-        const method = this.currentMethod
+        const method = this.currentMethod;
         let _cnt,
           _count = 0,
           _pcnt,
@@ -685,63 +691,70 @@ export default {
           ref,
           result,
           inputcodes,
-          positionDesc
-        inputcodes = ''
-        positionDesc = []
-        result = algorithm[method.method](method, this.orderState)
+          positionDesc;
+        inputcodes = '';
+        positionDesc = [];
+        result = algorithm[method.method](method, this.orderState);
         if (method.rx && result[0]) {
-          _count = result[0]
-          _cnt = result[1]
-          _pcnt = 0
-          ref = this.orderState.position
+          _count = result[0];
+          _cnt = result[1];
+          _pcnt = 0;
+          ref = this.orderState.position;
           for (k in ref) {
-            item = ref[k]
+            item = ref[k];
             if (item) {
-              _pcnt += 1
+              _pcnt += 1;
             }
           }
-          positionDesc = [_pcnt, _cnt]
+          positionDesc = [_pcnt, _cnt];
           if (result.length === 3) {
-            inputcodes = result[2]
+            inputcodes = result[2];
           }
         } else if (result instanceof Array && result[0]) {
-          _count = result[0]
-          inputcodes = result[1]
+          _count = result[0];
+          inputcodes = result[1];
         } else {
-          _count = result
+          _count = result;
         }
         //最大倍数
-        this.currentOrder.currentMaxTimes = Math.floor(
-          this.currentLottery.max_profit_bonus /
-            (this.currentCountPrizes -
-              +this.userConfig.mode * this.userConfig.singlePrice)
-        )
+        this.currentOrder.currentMaxTimes = (() => {
+          const v = Math.floor(
+            this.currentLottery.max_profit_bonus /
+              (this.currentCountPrizes -
+                +this.userConfig.mode * this.userConfig.singlePrice)
+          );
+          if (v > this.currentLottery.max_times) {
+            return this.currentLottery.max_times;
+          } else {
+            return v;
+          }
+        })();
         //如何大于最大盈利返回false
         const maxProfit =
           _count &&
           (+this.currentCountPrizes -
             _count * +this.userConfig.mode * this.userConfig.singlePrice) *
-            this.currentOrder.currentTimes
+            this.currentOrder.currentTimes;
         if (maxProfit < this.currentLottery.max_profit_bonus) {
-          this.currentOrder.maxProfit = maxProfit
+          this.currentOrder.maxProfit = maxProfit;
         } else {
           this.$message({
             message: '已超过最高盈利',
             type: 'warning'
-          })
-          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
-          return false
+          });
+          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes;
+          return false;
         }
 
-        this.currentOrder.currentCount = _count
+        this.currentOrder.currentCount = _count;
         this.currentOrder.currentCost =
           +_count *
           +this.userConfig.mode *
           +this.userConfig.singlePrice *
-          +this.currentOrder.currentTimes
-        this.currentOrder.inputcodes = inputcodes
-        this.currentOrder.positionDesc = positionDesc
-        return [_count, inputcodes, positionDesc]
+          +this.currentOrder.currentTimes;
+        this.currentOrder.inputcodes = inputcodes;
+        this.currentOrder.positionDesc = positionDesc;
+        return [_count, inputcodes, positionDesc];
       } else {
         //最大倍数
         this.currentOrder.currentMaxTimes = (() => {
@@ -749,88 +762,88 @@ export default {
             this.currentLottery.max_profit_bonus /
               (this.currentCountPrizes -
                 +this.userConfig.mode * this.userConfig.singlePrice)
-          )
+          );
           if (v > this.currentLottery.max_times) {
-            return this.currentLottery.max_times
+            return this.currentLottery.max_times;
           } else {
-            return v
+            return v;
           }
-        })()
+        })();
         //如何大于最大盈利返回false
         const maxProfit =
           (this.currentCountPrizes -
             this.inputCodesSingle *
               +this.userConfig.mode *
               this.userConfig.singlePrice) *
-          this.currentOrder.currentTimes
+          this.currentOrder.currentTimes;
         if (maxProfit < this.currentLottery.max_profit_bonus) {
-          this.currentOrder.maxProfit = maxProfit
+          this.currentOrder.maxProfit = maxProfit;
         } else {
           this.$message({
             message: '已超过最高盈利',
             type: 'warning'
-          })
-          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes
-          return false
+          });
+          this.currentOrder.currentTimes = this.currentOrder.currentMaxTimes;
+          return false;
         }
 
         this.currentOrder.currentCost =
           this.inputCodesSingle *
           +this.userConfig.singlePrice *
           this.currentOrder.currentTimes *
-          this.userConfig.mode
-        this.currentOrder.currentCount = this.inputCodesSingle
+          this.userConfig.mode;
+        this.currentOrder.currentCount = this.inputCodesSingle;
       }
     },
     //将金组改变
     sliderChange() {
-      this.calculate()
+      this.calculate();
     },
     // 倍数增加
     timeAdd() {
       if (this.currentOrder.currentTimes < this.currentOrder.currentMaxTimes) {
-        this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1
+        this.currentOrder.currentTimes = +this.currentOrder.currentTimes + 1;
       }
     },
     // 倍数减少
     timeReduce() {
       this.currentOrder.currentTimes > 1
         ? (this.currentOrder.currentTimes = +this.currentOrder.currentTimes - 1)
-        : ''
-      this.calculate()
+        : '';
+      this.calculate();
     },
     // 选择模式
     selectMode(mode) {
       const userConfig = Object.assign(this.userConfig, {
         mode: (+mode).toFixed(3)
-      })
-      this.$store.commit('userConfig', userConfig)
-      this.$emit('countPrizes')
+      });
+      this.$store.commit('userConfig', userConfig);
+      this.$emit('countPrizes');
       this.$nextTick(() => {
-        this.calculate()
-      })
+        this.calculate();
+      });
     },
     singlePriceChange(val) {
-      const userConfig = Object.assign(this.userConfig, { singlePrice: val })
-      this.$store.commit('userConfig', userConfig)
+      const userConfig = Object.assign(this.userConfig, { singlePrice: val });
+      this.$store.commit('userConfig', userConfig);
     },
     // 选择数字
     selectCode(y, x) {
-      this.cleanChooseButton(y)
+      this.cleanChooseButton(y);
       // 限制号码个数
       if (
         this.currentMethod.limitSelectedCount &&
         (this.chooseNumber[y] && this.chooseNumber[y][x] === false)
       ) {
-        let count = 0
+        let count = 0;
         for (let c = 0; c < this.chooseNumber[y].length; c++) {
-          const col1 = this.chooseNumber[y][c]
+          const col1 = this.chooseNumber[y][c];
           if (x !== c) {
             if (col1) {
-              count++
+              count++;
             }
             if (count >= this.currentMethod.limitSelectedCount[y] && col1) {
-              this.$set(this.chooseNumber[y], c, false)
+              this.$set(this.chooseNumber[y], c, false);
             }
           }
         }
@@ -840,15 +853,15 @@ export default {
         for (let _row = 0; _row < this.chooseNumber.length; _row++) {
           if (_row !== y) {
             if (this.chooseNumber[_row][x] === true) {
-              this.$set(this.chooseNumber[_row], x, false)
+              this.$set(this.chooseNumber[_row], x, false);
             }
           }
         }
       }
 
-      this.$set(this.chooseNumber[y], x, !this.chooseNumber[y][x])
+      this.$set(this.chooseNumber[y], x, !this.chooseNumber[y][x]);
       // 计算注数
-      this.calculate()
+      this.calculate();
     },
     preSelectButton() {
       if (this.currentLottery.series_id === 'lotto') {
@@ -918,7 +931,7 @@ export default {
             false,
             false
           ]
-        ]
+        ];
         this.chooseButton = [
           [
             false,
@@ -985,7 +998,7 @@ export default {
             false,
             false
           ]
-        ]
+        ];
       } else {
         this.chooseNumber = [
           [
@@ -1037,7 +1050,7 @@ export default {
             false
           ],
           [false, false, false, false, false, false, false, false, false, false]
-        ]
+        ];
         this.chooseButton = [
           [
             false,
@@ -1088,17 +1101,17 @@ export default {
             false
           ],
           [false, false, false, false, false, false, false, false, false, false]
-        ]
+        ];
       }
     },
     // 选择按钮
     selectButton(y, b) {
       if (this.currentMethod.method !== 'ETH') {
-        this.cleanChooseButton(y)
-        this.cleanChooseNumber(y)
+        this.cleanChooseButton(y);
+        this.cleanChooseNumber(y);
       }
-      this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b])
-      let rowData = this.chooseNumber[y]
+      this.$set(this.chooseButton[y], b, !this.chooseNumber[y][b]);
+      let rowData = this.chooseNumber[y];
       if (
         this.currentLottery.series_id === 'lotto' ||
         this.currentLottery.series_id === 'pk10'
@@ -1118,257 +1131,257 @@ export default {
           switch (this.currentMethod.buttons[b]) {
             case '全':
               for (let i = 0; i < rowData.length; i++) {
-                this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                this.chooseNumber[y][i] = !this.chooseNumber[0][i];
               }
-              break
+              break;
             case '大':
               for (let i = 0; i < rowData.length; i++) {
                 if (i >= Math.floor(rowData.length / 2)) {
-                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i];
                 }
               }
-              break
+              break;
             case '小':
               for (let i = 0; i < rowData.length; i++) {
                 if (i < Math.floor(rowData.length / 2)) {
-                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i];
                 }
               }
-              break
+              break;
             case '偶':
               for (let i = 0; i < rowData.length; i++) {
                 if (i % 2 === 1) {
-                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i];
                 }
               }
-              break
+              break;
             case '奇':
               for (let i = 0; i < rowData.length; i++) {
                 if (i % 2 === 0) {
-                  this.chooseNumber[y][i] = !this.chooseNumber[0][i]
+                  this.chooseNumber[y][i] = !this.chooseNumber[0][i];
                 }
               }
-              break
+              break;
             case '清':
-              this.chooseButton[y][b] = false
-              break
+              this.chooseButton[y][b] = false;
+              break;
           }
         } else {
           switch (this.currentMethod.buttons[b]) {
             case '全':
               for (let i = 0; i < rowData.length; i++) {
-                this.chooseNumber[y][i] = true
+                this.chooseNumber[y][i] = true;
               }
-              break
+              break;
             case '大':
               for (let i = 0; i < rowData.length; i++) {
                 if (i >= Math.floor(rowData.length / 2)) {
-                  this.chooseNumber[y][i] = true
+                  this.chooseNumber[y][i] = true;
                 }
               }
-              break
+              break;
             case '小':
               for (let i = 0; i < rowData.length; i++) {
                 if (i < Math.floor(rowData.length / 2)) {
-                  this.chooseNumber[y][i] = true
+                  this.chooseNumber[y][i] = true;
                 }
               }
-              break
+              break;
             case '偶':
               for (let i = 0; i < rowData.length; i++) {
                 if (i % 2 === 1) {
-                  this.chooseNumber[y][i] = true
+                  this.chooseNumber[y][i] = true;
                 }
               }
-              break
+              break;
             case '奇':
               for (let i = 0; i < rowData.length; i++) {
                 if (i % 2 === 0) {
-                  this.chooseNumber[y][i] = true
+                  this.chooseNumber[y][i] = true;
                 }
               }
-              break
+              break;
             case '清':
-              this.chooseButton[y][b] = false
-              break
+              this.chooseButton[y][b] = false;
+              break;
           }
         }
       } else {
         switch (this.currentMethod.buttons[b]) {
           case '全':
             for (let i = 0; i < rowData.length; i++) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '大':
             for (let i = 0; i < rowData.length; i++) {
               if (i >= rowData.length / 2) {
-                this.chooseNumber[y][i] = true
+                this.chooseNumber[y][i] = true;
               }
             }
-            break
+            break;
           case '小':
             for (let i = 0; i < rowData.length; i++) {
               if (i < rowData.length / 2) {
-                this.chooseNumber[y][i] = true
+                this.chooseNumber[y][i] = true;
               }
             }
-            break
+            break;
           case '偶':
             for (let i = 0; i < rowData.length; i++) {
               if ((i + 1) % 2 === 1) {
-                this.chooseNumber[y][i] = true
+                this.chooseNumber[y][i] = true;
               }
             }
-            break
+            break;
           case '奇':
             for (let i = 0; i < rowData.length; i++) {
               if ((i + 1) % 2 === 0) {
-                this.chooseNumber[y][i] = true
+                this.chooseNumber[y][i] = true;
               }
             }
-            break
+            break;
           case '11':
             for (let i = 0; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '22':
             for (let i = 1; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '33':
             for (let i = 2; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '44':
             for (let i = 3; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '55':
             for (let i = 4; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '66':
             for (let i = 5; i < 30; i += 6) {
-              this.chooseNumber[y][i] = true
+              this.chooseNumber[y][i] = true;
             }
-            break
+            break;
           case '清':
-            this.chooseButton[y][b] = false
-            break
+            this.chooseButton[y][b] = false;
+            break;
         }
       }
-      this.calculate()
+      this.calculate();
     },
     // 初始化选号
     initChoose() {
-      this.chooseNumber = []
+      this.chooseNumber = [];
       if (this.currentMethod.layout) {
-        const iterable = Object.keys(this.currentMethod.layout)
+        const iterable = Object.keys(this.currentMethod.layout);
         for (let i = 0; i < iterable.length; i++) {
-          let row = iterable[i]
-          this.chooseNumber[i] = []
-          this.chooseButton[i] = []
-          let _xData = []
+          let row = iterable[i];
+          this.chooseNumber[i] = [];
+          this.chooseButton[i] = [];
+          let _xData = [];
           for (let j = 0; j < this.currentMethod.layout[row].length; j++) {
-            _xData[j] = false
+            _xData[j] = false;
           }
-          let _bData = []
+          let _bData = [];
           for (let k = 0; k < this.currentMethod.buttons; k++) {
-            _bData[k] = false
+            _bData[k] = false;
           }
-          this.$set(this.chooseButton, i, _bData)
-          this.$set(this.chooseNumber, i, _xData)
+          this.$set(this.chooseButton, i, _bData);
+          this.$set(this.chooseNumber, i, _xData);
         }
       }
     },
     // 清空选号
     cleanChooseNumber(y) {
       for (let j = 0; j < this.chooseNumber[y].length; j++) {
-        this.chooseNumber[y][j] = false
+        this.chooseNumber[y][j] = false;
       }
     },
     // 清空按钮
     cleanChooseButton(y) {
       for (let j = 0; j < this.chooseButton[y].length; j++) {
-        this.chooseButton[y][j] = false
+        this.chooseButton[y][j] = false;
       }
     },
     // 切换号码
     convertCodes() {
-      const method = this.currentMethod
+      const method = this.currentMethod;
       // 选球类型
       if (method.type === 'multi' || method.type === 'k3') {
-        let codes = []
-        const iterable = Object.keys(method.layout)
+        let codes = [];
+        const iterable = Object.keys(method.layout);
         for (let i = 0; i < iterable.length; i++) {
-          const name = iterable[i]
-          const layout = method.layout[name]
-          const col = []
+          const name = iterable[i];
+          const layout = method.layout[name];
+          const col = [];
           for (let j = 0; j < layout.length; j++) {
-            const number = layout[j]
+            const number = layout[j];
             if (this.chooseNumber[i][j]) {
-              let temp = null
+              let temp = null;
               if (this.Utils.checkIsChinese(number)) {
                 switch (number) {
                   case '5单0双':
-                    temp = '5'
-                    break
+                    temp = '5';
+                    break;
                   case '4单1双':
-                    temp = '4'
-                    break
+                    temp = '4';
+                    break;
                   case '3单2双':
-                    temp = '3'
-                    break
+                    temp = '3';
+                    break;
                   case '2单3双':
-                    temp = '2'
-                    break
+                    temp = '2';
+                    break;
                   case '1单4双':
-                    temp = '1'
-                    break
+                    temp = '1';
+                    break;
                   case '0单5双':
-                    temp = '0'
-                    break
+                    temp = '0';
+                    break;
                   case '龙':
-                    temp = '0'
-                    break
+                    temp = '0';
+                    break;
                   case '虎':
-                    temp = '1'
-                    break
+                    temp = '1';
+                    break;
                   case '和':
-                    temp = '2'
-                    break
+                    temp = '2';
+                    break;
                   case '豹子':
-                    temp = '0'
-                    break
+                    temp = '0';
+                    break;
                   case '顺子':
-                    temp = '1'
-                    break
+                    temp = '1';
+                    break;
                   case '对子':
-                    temp = '2'
-                    break
+                    temp = '2';
+                    break;
                   case '大':
-                    temp = '1'
-                    break
+                    temp = '1';
+                    break;
                   case '小':
-                    temp = '0'
-                    break
+                    temp = '0';
+                    break;
                   case '单':
-                    temp = '3'
-                    break
+                    temp = '3';
+                    break;
                   case '双':
-                    temp = '2'
-                    break
+                    temp = '2';
+                    break;
                 }
               } else {
-                temp = number
+                temp = number;
               }
-              col.push(temp)
+              col.push(temp);
             }
           }
           if (
@@ -1380,30 +1393,30 @@ export default {
             method.method === 'HZXHZ' ||
             method.method === 'HZUHZ'
           ) {
-            codes.push(col.join('|'))
+            codes.push(col.join('|'));
           } else if (method.method === 'LTDDS') {
-            codes.push(col.join(' ').trim())
+            codes.push(col.join(' ').trim());
           } else if (method.method === 'LTCZW') {
             codes.push(
               col
                 .map(val => {
-                  return `0${val}`
+                  return `0${val}`;
                 })
                 .join(' ')
-            )
+            );
           } else if (this.currentLottery.series_id === 'pk10') {
             codes.push(
               col
                 .map(val => {
-                  return parseInt(val) - 1
+                  return parseInt(val) - 1;
                 })
                 .join('&')
-            )
+            );
           } else {
-            codes.push(col.join('&'))
+            codes.push(col.join('&'));
           }
         }
-        return codes.join('|')
+        return codes.join('|');
       }
     },
     // 格式化号码
@@ -1421,37 +1434,37 @@ export default {
             Array.from(code).includes('|') ||
             this.currentMethod.method === 'DWD'
           ) {
-            return code.replace(/&/g, '')
+            return code.replace(/&/g, '');
           } else {
-            return code.replace(/&/g, ',')
+            return code.replace(/&/g, ',');
           }
         } else if (this.currentLottery.series_id === 'lotto') {
           if (
             Array.from(code).includes('|') ||
             this.currentMethod.method === 'LTDWD'
           ) {
-            return code.replace(/&/g, ' ')
+            return code.replace(/&/g, ' ');
           } else {
-            return code.replace(/&/g, ',')
+            return code.replace(/&/g, ',');
           }
         } else if (this.currentLottery.series_id === 'pk10') {
           if (
             Array.from(code).includes('|') ||
             this.currentMethod.method === 'PKDWD'
           ) {
-            return code.replace(/&/g, ' ')
+            return code.replace(/&/g, ' ');
           } else {
-            return code.replace(/&/g, ',')
+            return code.replace(/&/g, ',');
           }
         } else if (this.currentLottery.series_id === 'ks') {
           if (Array.from(code).includes('|')) {
-            return code.replace(/&/g, '')
+            return code.replace(/&/g, '');
           } else {
-            return code.replace(/&/g, ',')
+            return code.replace(/&/g, ',');
           }
         }
       }
-      return code
+      return code;
     },
     // 输入框初始化
     inputAreaInit() {
@@ -1462,65 +1475,65 @@ export default {
         this.inputCodesInitText =
           '说明：\n 1、每一注号码之间的间隔符支持|符或者逗号，号码之间则使用空格隔开\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容 \n' +
           ' 范例1：01 02 03|03 04 05|07 08 11 \n' +
-          ' 范例2：01 02 03,03 04 05,07 08 11 \n'
+          ' 范例2：01 02 03,03 04 05,07 08 11 \n';
       } else {
         this.inputCodesInitText =
-          '说明：\n 1、每一注号码之间的间隔符支持换行符 回车 逗号。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容'
+          '说明：\n 1、每一注号码之间的间隔符支持换行符 回车 逗号。\n 2、文件格式必须是.txt格式。\n 3、导入文本内容后将覆盖文本框中现有的内容';
       }
       // this.inputCodes = this.inputCodesInitText
     },
     // 单式输入框获取焦点
     inputAreaFocus() {
       if (this.inputCodes === this.inputCodesInitText) {
-        this.inputCodes = ''
-        return true
+        this.inputCodes = '';
+        return true;
       }
     },
     // 单式输入框 变化时
     inputAreaChange() {
-      clearInterval(this.dsTimer)
+      clearInterval(this.dsTimer);
       this.dsTimer = setTimeout(() => {
-        this.inputClearRepeatOrder()
-      }, 2000)
+        this.inputClearRepeatOrder();
+      }, 2000);
     },
     // 单式输入框失去焦点
     inputAreaBlur() {
       if (!this.inputCodes) {
-        this.inputCodes = this.inputCodesInitText
+        this.inputCodes = this.inputCodesInitText;
       } else {
-        this.inputClearRepeatOrder()
+        this.inputClearRepeatOrder();
       }
     },
     // 清空直选单式文本
     inputClearOrder() {
-      this.inputCodes = ''
+      this.inputCodes = '';
     },
     // 清理重复项 和 错误项
     inputClearRepeatOrder() {
       let [
         tmp = new Set(
           (this.inputCodes || '').split(/[\s\n,，|]+/).map(item => {
-            return this.Utils.trim(item)
+            return this.Utils.trim(item);
           })
         )
-      ] = []
+      ] = [];
       // 任选单式
       if (this.currentMethod.mType && this.currentMethod.mType === 'rxds') {
         tmp = new Set(
           (this.inputCodes || '').split(/[,，|;]+/).map(item => {
-            return this.Utils.trim(item)
+            return this.Utils.trim(item);
           })
-        )
+        );
         for (const k of tmp) {
           // 去除重复的组
-          const arr = k.split(/[\s\n]+/)
+          const arr = k.split(/[\s\n]+/);
           if (
             isRepeat(arr) ||
             arr.length != this.currentMethod.b64 ||
             arr.some(val => Number(val) > 11 || Number(val) <= 0) ||
             arr.some(val => val.length !== 2)
           ) {
-            tmp.delete(k)
+            tmp.delete(k);
           }
         }
       } else {
@@ -1531,26 +1544,26 @@ export default {
         ) {
           tmp = new Set(
             (this.inputCodes || '').split(/[,|，;]+/).map(item => {
-              return this.Utils.trim(item)
+              return this.Utils.trim(item);
             })
-          )
+          );
           for (const i of tmp) {
             // 去除重复的组
-            const arr = i.split(/[\s\n]+/)
+            const arr = i.split(/[\s\n]+/);
             if (
               isRepeat(arr) ||
               arr.length != this.currentMethod.b64 ||
               arr.some(val => Number(val) > 11 || Number(val) <= 0) ||
               arr.some(val => val.length !== 2)
             ) {
-              tmp.delete(i)
+              tmp.delete(i);
             }
           }
         } else {
           for (const i of tmp) {
             // 去除非数字项
             if (isNaN(i)) {
-              tmp.delete(i)
+              tmp.delete(i);
             }
             // 去除 小于 或者 大于规定长度
             if (
@@ -1558,7 +1571,7 @@ export default {
                 String(i).length < this.currentMethod.b64) ||
               String(i).length > this.currentMethod.b64
             ) {
-              tmp.delete(i)
+              tmp.delete(i);
             }
             if (
               this.currentMethod.method === 'QZU3_S' ||
@@ -1566,7 +1579,7 @@ export default {
               this.currentMethod.method === 'HZU3_S'
             ) {
               if (isRepeatNum(i) !== 2) {
-                tmp.delete(i)
+                tmp.delete(i);
               }
             }
             if (
@@ -1575,7 +1588,7 @@ export default {
               this.currentMethod.method === 'HZU6_S'
             ) {
               if (isRepeat(i)) {
-                tmp.delete(i)
+                tmp.delete(i);
               }
             }
             if (
@@ -1584,7 +1597,7 @@ export default {
               this.currentMethod.method === 'HHHZX'
             ) {
               if (isRepeatNum(i) === 3) {
-                tmp.delete(i)
+                tmp.delete(i);
               }
             }
           }
@@ -1595,45 +1608,46 @@ export default {
         this.currentLottery.series_id === 'lotto' ||
         this.currentLottery.series_id === 'pk10'
       ) {
-        this.inputCodes = [...tmp].join('|')
+        this.inputCodes = [...tmp].join('|');
         if (!this.inputCodes) {
-          this.inputCodesSingle = 0
+          this.inputCodesSingle = 0;
         } else {
-          this.inputCodesSingle = this.inputCodes.split('|').length
+          this.inputCodesSingle = this.inputCodes.split('|').length;
         }
       } else {
-        this.inputCodes = [...tmp].join(',')
+        this.inputCodes = [...tmp].join(',');
         if (!this.inputCodes) {
-          this.inputCodesSingle = 0
+          this.inputCodesSingle = 0;
         } else {
-          this.inputCodesSingle = this.inputCodes.split(',').length
+          this.inputCodesSingle = this.inputCodes.split(',').length;
         }
       }
 
-      this.calculate()
+      this.calculate();
     },
     // 一键投注
     oneKeyBet() {
       if (this.betLoading) {
-        return
+        return;
       }
       let [
         currentIssus = this.currentIssue.issue_no,
         issus = { [currentIssus]: 1 }
-      ] = []
-      this.addOrder(true)
+      ] = [];
+      this.addOrder(true);
       if (
         this.currentOrder.currentCost <= 0 ||
         JSON.stringify(this.oneKeyList) === '{}'
       ) {
         this.$alert('请输入正确的投注号码！', '提示', {
           confirmButtonText: '确定'
-        })
-        return false
+        });
+        return false;
       }
-      const h = this.$createElement
-      const isChallenge = +this.currentCountPrizes / +this.currentOrder.currentCost >= 45
-      const isHe = this.currentMethodGroup === 'LH' && this.convertCodes() == 2
+      const h = this.$createElement;
+      const isChallenge =
+        +this.currentCountPrizes / +this.currentOrder.currentCost >= 45;
+      const isHe = this.currentMethodGroup === 'LH' && this.convertCodes() == 2;
       this.$msgbox({
         title: '投注确认',
         customClass: 'confirm-bet',
@@ -1646,21 +1660,24 @@ export default {
           h(
             'p',
             { style: 'text-align: center; font-weight:bold;' },
-            `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost}元`
+            `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
           ),
-          isChallenge || isHe ? h(
+          isChallenge || isHe
+            ? h(
                 'p',
                 { style: 'text-align: center; color: #ff7200' },
-                isHe ? '投注包含单挑注单，奖金上限为4万元' : '投注包含单挑注单，奖金上限为2万元'
+                isHe
+                  ? '投注包含单挑注单，奖金上限为4万元'
+                  : '投注包含单挑注单，奖金上限为2万元'
               )
             : null
         ]),
 
         confirmButtonText: '确认投注'
       }).then(() => {
-        this.betLoading = true
-        const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList))
-        delete oneKeyList._codes
+        this.betLoading = true;
+        const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList));
+        delete oneKeyList._codes;
         this.Api.bet(
           this.currentLottery.en_name,
           issus,
@@ -1668,44 +1685,44 @@ export default {
           this.currentOrder.currentCost.toFixed(3),
           0
         ).then(res => {
-          this.betLoading = false
+          this.betLoading = false;
           if (res.success) {
-            this.oneKeyList = {}
+            this.oneKeyList = {};
             this.$alert(
               '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
               '提示',
               {
                 confirmButtonText: '确定'
               }
-            )
+            );
             // 添加完选号 清空选中号码
-            this.clearBtn()
+            this.clearBtn();
 
             // 获取我的投注 我的追号记录
-            this.$store.dispatch('betHistory')
+            this.$store.dispatch('betHistory');
             // 刷新余额
-            this.$store.dispatch('getUserDetail')
+            this.$store.dispatch('getUserDetail');
           }
-        })
-      })
+        });
+      });
     },
     uploadSectionFile(param) {
       const _this = this,
         fileReader = new FileReader(),
-        file = param.file
+        file = param.file;
 
-      fileReader.readAsText(file, 'gb2312')
+      fileReader.readAsText(file, 'gb2312');
       fileReader.onload = e => {
-        let fileText = e.target.result
+        let fileText = e.target.result;
         if (fileText.trim() != '') {
-          _this.inputCodes = fileText
-          this.inputAreaChange()
+          _this.inputCodes = fileText;
+          this.inputAreaChange();
         }
-      }
-      return
+      };
+      return;
     }
   }
-}
+};
 </script>
 <style lang="scss">
 @import "../../assets/css/var.scss";

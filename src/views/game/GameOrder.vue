@@ -849,16 +849,18 @@ export default {
       this.chase.doubleMoney = 0;
 
       const maxArr = [];
+      // 如果投注里面有倍数 先改为1 
       for (let i = 0; i < this.orderList.length; i++) {
         maxArr.push(this.orderList[i].currentMaxTimes);
-        this.$set(this.orderList[i], "times", 1);
+        this.$set(this.orderList[i], "times", this.currentLottery.min_times);
         this.$set(
           this.orderList[i],
           "cost",
           (
             this.orderList[i].count *
             +this.orderList[i].mode *
-            +this.orderList[i].price
+            +this.orderList[i].price *
+            +this.orderList[i].times
           ).toFixed(3)
         );
         this.chase.doubleMoney += Number(this.orderList[i].cost);
@@ -1311,7 +1313,6 @@ export default {
     },
     // 倍数改变
     rateInputChange(item, index) {
-      debugger;
       this.$set(item, "multiple", item.multiple.replace(/[^\d]/g, ""));
       const maxArr = [];
       this.orderList.forEach(val => {
