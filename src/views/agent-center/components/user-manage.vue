@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profits">
+  <div class="user-manage">
     <!-- 搜索 -->
     <div class="filter-container">
       <div class="filter-label">
@@ -96,11 +96,6 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="层级">
-          <template slot-scope="scope">
-            <span>{{ scope.row.address }}</span>
-          </template>
-        </el-table-column>
         <el-table-column align="center" label="奖金组">
           <template slot-scope="scope">
             <span>{{ scope.row.prize_group }}</span>
@@ -126,7 +121,11 @@
             <span>{{ scope.row.team_balance }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作"></el-table-column>
+        <el-table-column align="center" label="操作">
+          <template slot-scope="scope">
+            <el-button @click="handleTransfer(scope.row)" size="mini">转账</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <p style="overflow:hidden">
@@ -144,21 +143,99 @@
         :total="total"
       ></el-pagination>
     </div>
+    <!-- 转账dialog -->
+    <el-dialog title="转账操作" :visible.sync="dialogTransferVisible">
+      <el-form
+        :model="transferForm"
+        :rules="transferRules"
+        ref="transferForm"
+        label-width="80px"
+        class="transfer-form"
+      >
+        <el-form-item label="账户余额">
+          <span style="font-size: 16px;color: red;">{{userDetail.balance}}</span> 元
+        </el-form-item>
+        <el-form-item label="收款账号">
+          <el-input style="width:250px" disabled v-model="userName" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="转账金额" prop="amount">
+          <el-input-number
+            class="custom-amount"
+            v-model="transferForm.amount"
+            style="width:200px"
+            controls-position="right"
+            :max="Number(userDetail.balance)"
+          ></el-input-number>&nbsp;&nbsp;&nbsp;元
+        </el-form-item>
+        <el-form-item label="资金密码" prop="fund_password">
+          <el-input
+            maxlength="18"
+            placeholder="请输入资金密码"
+            type="password"
+            v-model="transferForm.fund_password"
+            style="width:250px"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="安全验证" prop="bank_card_id">
+          <el-select
+            style="width:300px"
+            v-model="transferForm.bank_card_id"
+            placeholder=" 请选择要验证的银行卡，以完成身份核实"
+          >
+            <el-option
+              v-for="(item, index) in cardList"
+              :key="index"
+              :label="`${item.owner_name} ${item.card_num} [${item.bank_name}]`"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label prop="bank_card_number">
+          <el-input
+            style="width:250px"
+            v-model="transferForm.bank_card_number"
+            placeholder="请输入完整卡号"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogTransferVisible = false">取 消</el-button>
+        <el-button type="primary" @click="transfer">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-
+const validateCardNumber = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请填写银行卡号'));
+  } else if (value.length !== 16 && value.length !== 19) {
+    callback(new Error('银行卡卡号由16位或19位数字组成'));
+  } else {
+    callback();
+  }
+};
+const validateFundPassword = (rule, value, callback) => {
+  if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(value)) {
+    callback(new Error('资金密码必须同时包含字母和数字'));
+  }
+  callback();
+};
 export default {
   data() {
     return {
       list: [],
+      cardList: [],
       total: undefined,
       listLoading: false,
       searchLoading: false,
       showBreadcrumb: false,
       breadcrumbList: [],
+      dialogTransferVisible: false,
       pickerOptions: {
         shortcuts: [
           {
@@ -190,7 +267,15 @@ export default {
           }
         ]
       },
-      tableData: [],
+      userName: '', //收款账号
+      // 转账表单
+      transferForm: {
+        user_id: '',
+        amount: '',
+        fund_password: '',
+        bank_card_id: '',
+        bank_card_number: ''
+      },
       peize: [],
       gameTime: [],
       listQuery: {
@@ -201,6 +286,27 @@ export default {
         min_team_balance: '',
         max_team_balance: '',
         parent_id: ''
+      },
+      transferRules: {
+        amount: [
+          { required: true, message: '请输入转账金额', trigger: 'change' }
+        ],
+        fund_password: [
+          { required: true, message: '请输入资金密码', trigger: 'blur' },
+          {
+            min: 6,
+            max: 18,
+            message: '资金密码长度应在 6-18 之间,',
+            trigger: 'blur'
+          },
+          { validator: validateFundPassword, trigger: 'blur' }
+        ],
+        bank_card_id: [
+          { required: true, message: '请选择银行卡', trigger: 'change' }
+        ],
+        bank_card_number: [
+          { required: true, validator: validateCardNumber, trigger: 'blur' }
+        ]
       }
     };
   },
@@ -247,6 +353,7 @@ export default {
   },
   created() {
     this.getList();
+    this.getCardList();
   },
   methods: {
     getList() {
@@ -264,6 +371,14 @@ export default {
         if (success) {
           this.list = data.data;
           this.total = data.total;
+        }
+      });
+    },
+    getCardList() {
+      this.Api.getCardList().then(res => {
+        const { success, data } = res;
+        if (success) {
+          this.cardList = data;
         }
       });
     },
@@ -295,39 +410,71 @@ export default {
       this.listQuery.parent_id = item.id;
       this.getList();
     },
+    //初始化转账数据
+    restTransferForm(data) {
+      this.$refs['transferForm'] && this.$refs['transferForm'].clearValidate();
+      this.userName = data.username;
+      this.transferForm = {
+        user_id: data.id,
+        amount: '',
+        fund_password: '',
+        bank_card_id: '',
+        bank_card_number: ''
+      };
+    },
+    // 转账
+    handleTransfer(row) {
+      this.dialogTransferVisible = true;
+      this.restTransferForm(row);
+    },
+    transfer() {
+      this.$refs['transferForm'].validate(valid => {
+        if (valid) {
+          this.Api.transferToChild(this.transferForm).then(({ success }) => {
+            if (success) {
+              this.$alert('转账成功！', '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                this.dialogTransferVisible = false;
+              });
+            }
+          });
+        }
+      });
+    },
     //本页小结
     getSummaries(param) {
-      const { columns, data } = param
-      const sums = []
+      const { columns, data } = param;
+      const sums = [];
       columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = '小结'
-          return
+          sums[index] = '小结';
+          return;
         }
         if (index === 1) {
-          sums[index] = '本页变动'
-          return
+          sums[index] = '本页变动';
+          return;
         }
-        if (index === 6) {
+        if (index === 5) {
           const values = data.map(item => {
-            return Number(item['team_balance'])
-          })
+            return Number(item['team_balance']);
+          });
           sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr)
+            const value = Number(curr);
             if (!isNaN(value)) {
-              return prev + curr
+              return prev + curr;
             } else {
-              return prev
+              return prev;
             }
-          }, 0)
+          }, 0);
           sums[index] =
             sums[index] > 0
               ? `+${sums[index].toFixed(3)}`
-              : `${sums[index].toFixed(3)}`
+              : `${sums[index].toFixed(3)}`;
         }
-      })
+      });
 
-      return sums
+      return sums;
     }
   }
 };
@@ -389,5 +536,32 @@ export default {
 }
 .el-breadcrumb {
   cursor: pointer;
+}
+.transfer-form {
+  width: 340px;
+  margin: 0 auto;
+}
+.user-manage {
+  /deep/ {
+    .el-input-number.is-controls-right .el-input-number__decrease,
+    .el-input-number.is-controls-right .el-input-number__increase {
+      display: none;
+    }
+    .el-input-number.is-controls-right .el-input__inner {
+      padding-right: 15px;
+    }
+    /deep/ {
+    .el-button--primary {
+        background-color: $primary-color;
+        border-color: $primary-color;
+      }
+      .el-button--primary:focus,
+      .el-button--primary:hover {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: #fff;
+      }
+    }
+  }
 }
 </style>

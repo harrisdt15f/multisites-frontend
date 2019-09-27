@@ -81,10 +81,10 @@
   </section>
 </template>
 <script>
-import FlipDown from '../../components/public/flip-down'
-import { Flip } from 'number-flip'
+import FlipDown from '../../components/public/flip-down';
+import { Flip } from 'number-flip';
 
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'game-issue',
@@ -107,162 +107,219 @@ export default {
   data() {
     return {
       //系统时间
-      serverTime:'',
+      serverTime: '',
       //上期开奖
       lastIssue: {
         issue_no: '---------',
         open_code: null
       },
-      timerout:null, //获取下期定时
+      timerout: null, //获取下期定时
       issueNum: 0,
       notice: {
         issue: '',
         time: 3,
         show: false
       }
-    }
+    };
   },
   created() {
     if (this.currentLottery.series_id === 'pk10') {
-      this.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-    } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
-      this.lastIssue.open_code = ['-', '-', '-']
+      this.lastIssue.open_code = [
+        '-',
+        '-',
+        '-',
+        '-',
+        '-',
+        '-',
+        '-',
+        '-',
+        '-',
+        '-'
+      ];
+    } else if (
+      this.currentLottery.series_id === 'k3' ||
+      this.currentLottery.series_id === 'ssl' ||
+      this.currentLottery.series_id === 'sd'
+    ) {
+      this.lastIssue.open_code = ['-', '-', '-'];
     } else {
-      this.lastIssue.open_code = ['-', '-', '-', '-', '-']
+      this.lastIssue.open_code = ['-', '-', '-', '-', '-'];
     }
   },
   mounted() {
-    this.getLottery()
+    this.getLottery();
   },
   watch: {
     //倒计时结束弹出
     'notice.show'(newVal) {
-      let timer = null
+      let timer = null;
       if (newVal) {
         setTimeout(() => {
           timer = setInterval(() => {
-            this.notice.time -= 1
+            this.notice.time -= 1;
             if (this.notice.time === 0) {
-              clearInterval(timer)
-              timer = null
-              this.notice.time = 3
-              this.notice.show = false
+              clearInterval(timer);
+              timer = null;
+              this.notice.time = 3;
+              this.notice.show = false;
             }
-          }, 1000)
-        }, 1)
+          }, 1000);
+        }, 1);
       }
     }
   },
   methods: {
     //开奖号码滚动
     filpOpenCode() {
-      let $node = undefined
+      let $node = undefined;
       if (this.lastIssue.open_code) {
         this.lastIssue.open_code.forEach((v, i) => {
           if (v === '-') {
-            v = 0
+            v = 0;
           }
-          $node = document.querySelector(`.open_code${i}`)
+          $node = document.querySelector(`.open_code${i}`);
           if ($node) {
-            $node.innerHTML = ''
-            new Flip({node: $node,from: 0,to: v,duration: 2})
+            $node.innerHTML = '';
+            new Flip({ node: $node, from: 0, to: v, duration: 2 });
           }
-        })
+        });
       }
-      return
+      return;
     },
     // 获取开奖结果
     getLottery() {
       this.Api.getOpenAward(this.currentLottery.en_name)
         .then(({ success, data }) => {
           if (success) {
-            this.serverTime = data.serverTime
-            this.$store.commit('currentIssue', data.currentIssue)
-            this.$store.commit('issueInfo', data.issueInfo)
+            this.issueNum = 0;
+            this.serverTime = data.serverTime;
+            this.$store.commit('currentIssue', data.currentIssue);
+            this.$store.commit('issueInfo', data.issueInfo);
             if (data.lastIssue.open_code) {
-              const encodeSplitter = this.lotteryLists[this.currentLottery.series_id]['encode_splitter'] || ''
-              data.lastIssue.open_code = data.lastIssue.open_code.split(encodeSplitter)
-              this.lastIssue = data.lastIssue
+              const encodeSplitter =
+                this.lotteryLists[this.currentLottery.series_id][
+                  'encode_splitter'
+                ] || '';
+              data.lastIssue.open_code = data.lastIssue.open_code.split(
+                encodeSplitter
+              );
+              this.lastIssue = data.lastIssue;
             } else {
               if (this.currentLottery.series_id === 'pk10') {
-                data.lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-              } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
-                data.lastIssue.open_code = ['-', '-', '-']
+                data.lastIssue.open_code = [
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-'
+                ];
+              } else if (
+                this.currentLottery.series_id === 'k3' ||
+                this.currentLottery.series_id === 'ssl' ||
+                this.currentLottery.series_id === 'sd'
+              ) {
+                data.lastIssue.open_code = ['-', '-', '-'];
               } else {
-                data.lastIssue.open_code = ['-', '-', '-', '-', '-']
+                data.lastIssue.open_code = ['-', '-', '-', '-', '-'];
               }
+              // 如果上期未开奖 间隔秒再次请求，知道开奖为止
+              this.timerout = setTimeout(() => {
+                this.getLastIssue();
+              }, 10000);
             }
-            this.lastIssue = data.lastIssue
+            this.lastIssue = data.lastIssue;
           }
         })
         .then(() => {
-          this.filpOpenCode()
-        })
+          this.filpOpenCode();
+        });
     },
     ////获取彩种上期的奖期
-    getLastIssue(nextIssue){
+    getLastIssue(nextIssue) {
       //再次求上期 清除定时
-      clearTimeout(this.timerout)
-      this.Api.lastIssue(this.currentLottery.en_name).then(({ success, data }) => {
-        if (success) {
-          if (nextIssue) {
-            this.serverTime = data.serverTime
-          }
-          const lastIssue = {}
-          if (data.official_code) {
-            if (this.currentLottery.series_id === 'lotto') {
-              lastIssue.open_code = data.official_code.split(' ')
-            } else if (this.currentLottery.series_id === 'pk10') {
-              lastIssue.open_code = data.official_code.split(',')
-            } else {
-              lastIssue.open_code = data.official_code.split('')
+      clearTimeout(this.timerout);
+      this.Api.lastIssue(this.currentLottery.en_name)
+        .then(({ success, data }) => {
+          if (success) {
+            if (nextIssue) {
+              this.serverTime = data.serverTime;
             }
-            this.lastIssue = data
-          } else {
-            if (this.currentLottery.series_id === 'pk10') {
-              lastIssue.open_code = ['-','-','-','-','-','-','-','-','-','-']
-            } else if (this.currentLottery.series_id === 'k3' || this.currentLottery.series_id === 'ssl' || this.currentLottery.series_id === 'sd') {
-              lastIssue.open_code = ['-', '-', '-']
+            const lastIssue = {};
+            if (data.official_code) {
+              if (this.currentLottery.series_id === 'lotto') {
+                lastIssue.open_code = data.official_code.split(' ');
+              } else if (this.currentLottery.series_id === 'pk10') {
+                lastIssue.open_code = data.official_code.split(',');
+              } else {
+                lastIssue.open_code = data.official_code.split('');
+              }
+              this.lastIssue = data;
             } else {
-              lastIssue.open_code = ['-', '-', '-', '-', '-']
+              if (this.currentLottery.series_id === 'pk10') {
+                lastIssue.open_code = [
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-',
+                  '-'
+                ];
+              } else if (
+                this.currentLottery.series_id === 'k3' ||
+                this.currentLottery.series_id === 'ssl' ||
+                this.currentLottery.series_id === 'sd'
+              ) {
+                lastIssue.open_code = ['-', '-', '-'];
+              } else {
+                lastIssue.open_code = ['-', '-', '-', '-', '-'];
+              }
+              // 如果上期未开奖 间隔秒再次请求，知道开奖为止
+              this.timerout = setTimeout(() => {
+                this.getLastIssue();
+              }, 10000);
             }
-            // 如果上期未开奖 间隔秒再次请求，知道开奖为止
-            this.timerout = setTimeout(() => {
-              this.getLastIssue()
-            }, 10000)
+            lastIssue.issue_no = data.issue;
+            this.lastIssue = lastIssue;
           }
-          lastIssue.issue_no = data.issue
-          this.lastIssue = lastIssue
-        }
-      }).then(() => {
-        this.filpOpenCode()
-      })
+        })
+        .then(() => {
+          this.filpOpenCode();
+        });
     },
     //倒计时完执行
     handleTimeup() {
-      if (!this.currentIssue.end_time) return
-      this.issueNum += 1
-      if(this.issueInfo.length < this.issueNum+1){
-         // 获取开奖结果
-        this.getLottery()
-      } else{
-        this.$store.commit('currentIssue', this.issueInfo[this.issueNum])
-        this.notice.issue = this.issueInfo[this.issueNum].issue_no
-        this.notice.show = true
-        this.$store.dispatch('getUserDetail')
-        this.$store.dispatch('betHistory')
-        this.getLastIssue({nextIssue: true})
+      if (!this.currentIssue.end_time) return;
+      this.issueNum += 1;
+      if (this.issueInfo.length < this.issueNum + 1) {
+        // 获取开奖结果
+        this.getLottery();
+      } else {
+        this.$store.commit('currentIssue', this.issueInfo[this.issueNum]);
+        this.notice.issue = this.issueInfo[this.issueNum].issue_no;
+        this.notice.show = true;
+        this.$store.dispatch('getUserDetail');
+        this.$store.dispatch('betHistory');
+        this.getLastIssue({ nextIssue: true });
         setTimeout(() => {
-          this.$store.dispatch('issueHistory')
-        }, 3000)
+          this.$store.dispatch('issueHistory');
+        }, 3000);
       }
     }
   },
   beforeDestroy() {
     // 组件销毁时清除定时
-    clearTimeout(this.timerout)
+    clearTimeout(this.timerout);
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 @import "../../assets/css/var.scss";

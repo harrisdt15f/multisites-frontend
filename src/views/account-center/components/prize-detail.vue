@@ -11,6 +11,7 @@
         <div class="slider">
           奖金组:
           <el-slider
+            :disabled="prizes.min == prizes.max"
             @change="sliderChange"
             v-model="countPrize"
             :min="prizes.min"

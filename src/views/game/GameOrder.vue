@@ -99,7 +99,7 @@
                       class="tab-input"
                     />
                   </label>
-                  <el-button size="small" @click="chaseRateSubmit()">生成追号计划</el-button>
+                  <el-button size="small" @click.native="chaseRateSubmit()">生成追号计划</el-button>
                 </section>
                 <div class="chase-stop">
                   <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
@@ -127,7 +127,7 @@
                       class="tab-input"
                     />
                   </label>
-                  <el-button size="small" @click="chaseSameSubmit()">生成追号计划</el-button>
+                  <el-button size="small" @click.native="chaseSameSubmit()">生成追号计划</el-button>
                 </section>
                 <div class="chase-stop">
                   <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
@@ -165,7 +165,7 @@
                       class="tab-input"
                     />
                   </label>
-                  <el-button size="small" @click="chaseDoubleSubmit()">生成追号计划</el-button>
+                  <el-button size="small" @click.native="chaseDoubleSubmit()">生成追号计划</el-button>
                 </section>
                 <div class="chase-stop">
                   <el-checkbox v-model="checkTraceWinStop">中奖后停止追号</el-checkbox>
@@ -852,15 +852,14 @@ export default {
       // 如果投注里面有倍数 先改为1 
       for (let i = 0; i < this.orderList.length; i++) {
         maxArr.push(this.orderList[i].currentMaxTimes);
-        this.$set(this.orderList[i], "times", this.currentLottery.min_times);
+        this.$set(this.orderList[i], "times", 1);
         this.$set(
           this.orderList[i],
           "cost",
           (
             this.orderList[i].count *
             +this.orderList[i].mode *
-            +this.orderList[i].price *
-            +this.orderList[i].times
+            +this.orderList[i].price
           ).toFixed(3)
         );
         this.chase.doubleMoney += Number(this.orderList[i].cost);
@@ -1008,12 +1007,10 @@ export default {
       //盈利/盈利率追号不支持混投
       let type = "",
         mode = "";
-
       const maxArr = [];
       for (let i = 0; i < this.orderList.length; i++) {
         maxArr.push(this.orderList[i].currentMaxTimes);
         this.$set(this.orderList[i], "times", 1);
-
         this.$set(
           this.orderList[i],
           "cost",
@@ -1074,9 +1071,7 @@ export default {
       for (let i = 0; i < list.length; i++) {
         if (i < rateIssue) {
           let row_data = {};
-
           this.chase.rateData.push(list[i]);
-
           row_data.id = i + 1;
           row_data.multiple = this.chase.rateNum;
 

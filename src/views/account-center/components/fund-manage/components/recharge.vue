@@ -1,46 +1,78 @@
 <template>
-  <div class="recharge">
+  <div class="recharge" v-loading="showLoading">
     <div class="recharge-group">
       <div
         class="recharge-item"
         v-for="(item, index) in channelList"
         :key="index"
         @click="changeChannel(item)"
-        :class="{on: item.channel_sign === currentIndex}"
+        :class="{on: item[0].payment_type_sign === currentIndex}"
       >
-        <img class="img" src="@/assets/images/center/recharge_bank.png">
-        {{item.channel_name}}
+        <img class="img" :src="item[0].payment_ico" />
+        {{item[0].payment_type_name}}
         <div class="on-r">
           <i class="fa fa-check" aria-hidden="true"></i>
         </div>
       </div>
     </div>
-    <div class="recharge-content" v-if="channelList.length">
-      <template v-if="currentIndex === 'transfer'">
-        <div class="tip">
-          <p> 重要提醒：平台不定期更换收款卡，每次充值务必获取最新的收款卡信息</p>
-          <p>1. 平台支持手机网银、任何跨行、支付宝、微信等转账方式</p>
-          <p>2. 务必记得填写正确附言以及申请金额与实际支付金额保持一致</p>
-          <p> 3. 充值到平台已更换的银行卡中导致的资金损失，平台概不负责</p>
-          <p> 4. 支付宝、微信转账务必选择2小时内到账，转账后联系客服上分</p>
+    <div class="recharge-content" v-if="Object.keys(channelList).length">
+      <div class="channel-box">
+        <div class="channel-title">充值渠道：</div>
+        <div class="channel-group">
+          <div class="channel-item">
+            <el-radio-group v-model="channel">
+              <el-radio
+                :label="item"
+                v-for="(item, index) in channelList[currentIndex]"
+                :key="index"
+              >
+                {{item.front_name}}
+                <div style="text-indent: 30px;color: #7f7f7f; margin-top:6px">
+                  最低：
+                  <span style="color:red">{{Number(item.min).toFixed(2)}}</span>&nbsp;元 &nbsp; &nbsp;
+                  最高：
+                  <span
+                    style="color:red"
+                  >{{Number(item.max).toFixed(2)}}</span> 元
+                </div>
+              </el-radio>
+            </el-radio-group>
+          </div>
         </div>
-      </template>
-      <template v-else-if="currentIndex === 'zfb'">
-        <div class="tip">
-          请在新弹出的支付宝收银台页面，进行充值操作。
-          如果您的浏览器未弹出新的支付页面，请取消浏览器对弹出页面的<br>阻拦，并选择允许（信任）。
+      </div>
+      <div class="p" v-if="channel['banks_code'] && channel['banks_code'].length">
+        <div class="p-input fl">
+          银行名称：
+          <el-select v-model="banks_code" placeholder="请选择银行名称">
+            <el-option
+              v-for="item in channel['banks_code']"
+              :key="item.payment_type_sign"
+              :label="item.payment_type_name"
+              :value="item.payment_type_sign"
+            ></el-option>
+          </el-select>
+          <span style="color:red">&nbsp;*</span>
         </div>
-      </template>
+      </div>
       <div class="p">
         <div class="p-input fl">
           充值金额：
-          <el-input-number v-model="amount" controls-position="right" :min="prizes.min" :max="prizes.max"></el-input-number>
-          <span style="color:red">*</span> 元
+          <el-input-number
+            style="width:120px"
+            v-model="amount"
+            controls-position="right"
+            :min="Number(channel.min)"
+            :max="Number(channel.max)"
+          ></el-input-number>
+          <span style="color:red">&nbsp;*</span> 元
+          <br />
+          <span class="tip" id="J-money-tip-row">
+            充值额度限定：最低
+            <span id="J-money-min-union-scan">100.00</span> 元,最高
+            <span id="J-money-max-union-scan">4850.00</span> 元
+            <br />{{channel.front_remark}}
+          </span>
         </div>
-        <p class="p-input-line">
-          最低 <span>{{prizes.min}}</span> 元， 
-          最高 <span>{{prizes.max}}</span> 元
-        </p> 
       </div>
       <div class="submit-btn">
         <el-button @click="submitForm" :loading="btnLoading" class="form-button">提交充值订单</el-button>
@@ -53,60 +85,85 @@ export default {
   data() {
     return {
       btnLoading: false,
+      showLoading: false,
       // 最大最小额度
       prizes: {
         min: null,
         max: null
       },
-      channelList:[],
+      channelList: {},
       currentIndex: null,
       radio: 1,
-      amount: null
-    }
+      channel: null,
+      banks_code: null,
+      amount: null,
+      form: {
+        amount: '',
+        channel: ''
+      }
+    };
   },
-  mounted () {
-    this.initData()
+  created() {
+    this.initData();
   },
   methods: {
-    initData(){
-      this.Api.getRechargeChannel().then(({success, data}) => {
+    initData() {
+      this.showLoading = true;
+      this.Api.getRechargeChannel().then(({ success, data }) => {
+        this.showLoading = false;
         if (success && data.length) {
-          this.currentIndex = data[0].channel_sign
-          this.prizes.max = parseInt(data[0].max)
-          this.prizes.min = parseInt(data[0].min)
-          this.channelList = data
+          this.currentIndex = data[0].payment_type_sign;
+          this.channelList = this._.groupBy(
+            data,
+            item => item.payment_type_sign
+          );
+          this.currentChannel();
         }
-      })
+      });
     },
     // 切换支付渠道
     changeChannel(item) {
-      this.amount = null
-      this.currentIndex = item.channel_sign
-      this.prizes.max = parseInt(item.max)
-      this.prizes.min = parseInt(item.min)
+      this.amount = null;
+      this.currentIndex = item[0].payment_type_sign;
+      this.currentChannel();
     },
     //提交
-    submitForm(){
+    submitForm() {
       const sendData = {
         amount: this.amount,
-        channel: this.currentIndex
-      }
-      this.btnLoading = true
-      this.Api.postRecharge(sendData).then(({success, data}) => {
-        this.btnLoading = false
-        if (success) {
-          this.$alert(
-            data.msg,
-            '提示',
-            {
-              confirmButtonText: '确定'
-            }
-          )
+        channel: this.channel.payment_sign
+      };
+      if (this.channel['banks_code'] && this.channel['banks_code'].length) {
+        if (this.banks_code) {
+          Object.assign(sendData, {
+            bank_code: this.banks_code
+          });
+        } else {
+          this.$alert('请选择银行名称', '提示', {
+            confirmButtonText: '确定'
+          });
+          return;
         }
-      })
+      }
+      this.btnLoading = true;
+      this.Api.postRecharge(sendData).then(({ success, data }) => {
+        this.btnLoading = false;
+        if (success && this.channel.request_mode == 1) {
+          this.$alert(data.msg, '提示', {
+            confirmButtonText: '确定'
+          });
+        }
+      });
+      
+    },
+    currentChannel() {
+      const arr = this.channelList[this.currentIndex];
+      if (arr && arr.length) {
+        this.channel = arr[0];
+      }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -118,6 +175,13 @@ export default {
     .submit-btn {
       padding: 20px 95px;
       text-align: left;
+    }
+    .el-radio__input.is-checked + .el-radio__label {
+      color: $primary-color;
+    }
+    .el-radio__input.is-checked .el-radio__inner {
+      border-color: $primary-color;
+      background: $primary-color;
     }
     .form-button {
       width: 150px;
@@ -134,12 +198,19 @@ export default {
       border: 1px solid;
       border-image-slice: 1;
     }
+    .el-input-number.is-controls-right .el-input-number__decrease,
+    .el-input-number.is-controls-right .el-input-number__increase {
+      display: none;
+    }
+    .el-input-number.is-controls-right .el-input__inner {
+      padding-right: 15px;
+    }
   }
   .tip {
     border: none;
     padding-left: 32px;
-    background: url('../../../../../assets/images/recharge-hint.png') no-repeat;
-    color: #C4A17C;
+    background: url("../../../../../assets/images/recharge-hint.png") no-repeat;
+    color: #c4a17c;
     font-size: 14px;
     margin-bottom: 15px;
   }
@@ -156,7 +227,7 @@ export default {
     padding: 5px 10px;
     margin-right: 15px;
     border-radius: 5px;
-    .on-r{
+    .on-r {
       display: none;
     }
     &.on {
@@ -172,7 +243,7 @@ export default {
         height: 0;
         border-bottom: 20px solid red;
         border-left: 20px solid transparent;
-        i{
+        i {
           font-size: 12px;
           position: absolute;
           left: -12px;
@@ -222,11 +293,11 @@ export default {
     }
   }
 }
-     
-.p-input-line{
+
+.p-input-line {
   font-size: 12px;
   margin-top: 16px;
-  span{
+  span {
     color: red;
   }
 }
@@ -254,7 +325,7 @@ export default {
         height: 0;
         border-bottom: 25px solid red;
         border-left: 25px solid transparent;
-        i{
+        i {
           font-size: 12px;
           position: absolute;
           left: -14px;
@@ -267,6 +338,15 @@ export default {
       color: #000;
     }
   }
+}
+.channel-box {
+  margin: 15px 25px 30px;
+  display: flex;
+  .channel-title {
+    flex: 0 0 78px;
+  }
+}
+.front-remark {
 }
 </style>
 

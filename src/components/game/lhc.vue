@@ -224,144 +224,154 @@
       </a>
     </section>
 
+    <!-- 展开右侧按钮 -->
+
+    <div @click="handleCollapse" v-if="currentMethod.method !== 'ZF' &&  currentMethod.method !== 'BZ'" class="slide-collapse">
+      <span class="span">快速选号</span>
+    </div>
     <!--右侧-->
-    <section class="silde">
-      <section class="fw">
-        <p class="fw">
-          金额(元)：
-          <input
-            type="text"
-            v-model="currentOrder.betMoney"
-            maxlength="8"
-            class="silde-money-text"
-          />
-        </p>
-        <a href="javascript:;" class="silde-reset" @click="clearNumber()">
-          <i class="fa fa-refresh"></i>重置
-        </a>
-        <a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
+     <transition name="el-zoom-in-top">
+      <section class="silde" v-if="showSilde">
+        <section class="fw">
+          <p class="fw">
+            金额(元)：
+            <input
+              type="text"
+              v-model="currentOrder.betMoney"
+              maxlength="8"
+              class="silde-money-text"
+            />
+          </p>
+          <a href="javascript:;" class="silde-reset" @click="clearNumber()">
+            <i class="fa fa-refresh"></i>重置
+          </a>
+          <a href="javascript:;" class="silde-submit" @click="submit()">立即下注</a>
+        </section>
+        <section class="silde-plays">
+          <!--正特 特马-->
+          <template v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1">
+            <section class="fw silde-play red">
+              <span
+                class="cur"
+                @click="selectNumberSub(item)"
+                v-for="(item, index) in currentMethod.buttons.red"
+                :key="index"
+              >
+                <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
+              </span>
+            </section>
+            <section class="fw silde-play green">
+              <span
+                @click="selectNumberSub(item)"
+                v-for="(item, index) in currentMethod.buttons.green"
+                :key="index"
+              >
+                <el-radio
+                  v-model="playValue"
+                  :label="index + currentMethod.buttons.red.length"
+                >{{item}}</el-radio>
+              </span>
+            </section>
+            <section class="fw silde-play blue">
+              <span
+                @click="selectNumberSub(item)"
+                v-for="(item, index) in currentMethod.buttons.blue"
+                :key="index"
+              >
+                <el-radio
+                  v-model="playValue"
+                  :label="index + currentMethod.buttons.red.length + currentMethod.buttons.green.length"
+                >{{item}}</el-radio>
+              </span>
+            </section>
+            <ul class="fw plays">
+              <li
+                class="play"
+                :class="{
+                red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
+                on: item.flag}"
+                v-for="(item, index) in plays"
+                :key="index"
+                @click="selectNumber(item)"
+              >{{item.code}}</li>
+            </ul>
+          </template>
+
+          <!--半波-->
+          <template v-if="currentMethod.method === 'BB'">
+            <section class="fw silde-play">
+              <span
+                @click="selectNumber(item)"
+                v-for="(item, index) in currentMethod.buttons.wave"
+                :key="index"
+              >
+                <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
+              </span>
+            </section>
+            <ul class="fw plays">
+              <li
+                class="play"
+                :class="{
+                red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
+                on: item.flag,
+                w50: index === plays.length -1 || index === plays.length - 2}"
+                v-for="(item, index) in plays"
+                :key="index"
+                @click="selectNumber(item)"
+              >{{item.code}}</li>
+            </ul>
+          </template>
+
+          <!--生肖-->
+          <template v-if="currentMethod.method === 'SX'">
+            <section class="fw silde-play lhc-silde-play">
+              <span
+                @click="selectNumber(item)"
+                v-for="(item, index) in currentMethod.buttons.class"
+                :key="index"
+              >
+                <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
+              </span>
+            </section>
+            <ul class="fw plays">
+              <li
+                class="play w50 red"
+                :class="{on: item.flag}"
+                v-for="(item, index) in plays"
+                :key="index"
+                @click="selectNumber(item)"
+              >{{item.code}}</li>
+            </ul>
+            <ul class="fw plays lhc-silde-playsFive">
+              <li
+                class="play w100"
+                :class="{on: item.flag}"
+                v-for="(item, index) in playsFive"
+                :key="index"
+                @click="selectNumber(item)"
+              >{{item.code}}</li>
+            </ul>
+          </template>
+
+          <!--尾数-->
+          <template v-if="currentMethod.method === 'WX'">
+            <section class="fw silde-play lhc-silde-play">
+              <span
+                class="lhc-wx-silde-play"
+                @click="selectNumber(item)"
+                v-for="(item, index) in currentMethod.buttons.class"
+                :key="index"
+              >
+                <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
+              </span>
+            </section>
+          </template>
+        </section>
+        <!-- 收起展开按钮 -->
+        <div @click="handleCloseCollapse" class="close-collapse">
+        </div>
       </section>
-      <section class="silde-plays">
-        <!--正特 特马-->
-        <template v-if="currentMethod.method === 'TM' || currentMethod.method.indexOf('ZT') > -1">
-          <section class="fw silde-play red">
-            <span
-              class="cur"
-              @click="selectNumberSub(item)"
-              v-for="(item, index) in currentMethod.buttons.red"
-              :key="index"
-            >
-              <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
-            </span>
-          </section>
-          <section class="fw silde-play green">
-            <span
-              @click="selectNumberSub(item)"
-              v-for="(item, index) in currentMethod.buttons.green"
-              :key="index"
-            >
-              <el-radio
-                v-model="playValue"
-                :label="index + currentMethod.buttons.red.length"
-              >{{item}}</el-radio>
-            </span>
-          </section>
-          <section class="fw silde-play blue">
-            <span
-              @click="selectNumberSub(item)"
-              v-for="(item, index) in currentMethod.buttons.blue"
-              :key="index"
-            >
-              <el-radio
-                v-model="playValue"
-                :label="index + currentMethod.buttons.red.length + currentMethod.buttons.green.length"
-              >{{item}}</el-radio>
-            </span>
-          </section>
-          <ul class="fw plays">
-            <li
-              class="play"
-              :class="{
-              red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
-              on: item.flag}"
-              v-for="(item, index) in plays"
-              :key="index"
-              @click="selectNumber(item)"
-            >{{item.code}}</li>
-          </ul>
-        </template>
-
-        <!--半波-->
-        <template v-if="currentMethod.method === 'BB'">
-          <section class="fw silde-play">
-            <span
-              @click="selectNumber(item)"
-              v-for="(item, index) in currentMethod.buttons.wave"
-              :key="index"
-            >
-              <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
-            </span>
-          </section>
-          <ul class="fw plays">
-            <li
-              class="play"
-              :class="{
-              red: item.code === '大' || item.code === '小' || item.code === '单' || item.code === '双',
-              on: item.flag,
-              w50: index === plays.length -1 || index === plays.length - 2}"
-              v-for="(item, index) in plays"
-              :key="index"
-              @click="selectNumber(item)"
-            >{{item.code}}</li>
-          </ul>
-        </template>
-
-        <!--生肖-->
-        <template v-if="currentMethod.method === 'SX'">
-          <section class="fw silde-play lhc-silde-play">
-            <span
-              @click="selectNumber(item)"
-              v-for="(item, index) in currentMethod.buttons.class"
-              :key="index"
-            >
-              <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
-            </span>
-          </section>
-          <ul class="fw plays">
-            <li
-              class="play w50 red"
-              :class="{on: item.flag}"
-              v-for="(item, index) in plays"
-              :key="index"
-              @click="selectNumber(item)"
-            >{{item.code}}</li>
-          </ul>
-          <ul class="fw plays lhc-silde-playsFive">
-            <li
-              class="play w100"
-              :class="{on: item.flag}"
-              v-for="(item, index) in playsFive"
-              :key="index"
-              @click="selectNumber(item)"
-            >{{item.code}}</li>
-          </ul>
-        </template>
-
-        <!--尾数-->
-        <template v-if="currentMethod.method === 'WX'">
-          <section class="fw silde-play lhc-silde-play">
-            <span
-              class="lhc-wx-silde-play"
-              @click="selectNumber(item)"
-              v-for="(item, index) in currentMethod.buttons.class"
-              :key="index"
-            >
-              <el-radio v-model="playValue" :label="index">{{item}}</el-radio>
-            </span>
-          </section>
-        </template>
-      </section>
-    </section>
+    </transition>
 
     <!--投注弹出框-->
     <el-dialog title="下注清单" :visible.sync="submitDialog" width="30%">
@@ -428,6 +438,8 @@ export default {
   name: 'lhc',
   data() {
     return {
+      //展开侧栏
+      showSilde:false,
       // 整理后的currentMethod.layout.codes
       newCodes: [],
       // 红球
@@ -465,14 +477,13 @@ export default {
   },
   watch: {
     currentMethod(newVal) {
+      //侧边初始化
+      this.showSilde = false
       // 将号码顺序转换 和 初始渲染数据处理
-      let [silde = document.getElementsByClassName('silde')[0]] = []
       if (newVal.method === 'ZF' || newVal.method === 'BZ') {
         let [mainCenter = document.getElementsByClassName('main-left')[0]] = []
         mainCenter.style.width = '100%'
-        silde.style.display = 'none'
       } else {
-        silde.style.display = 'block'
         this.enterMain()
       }
       this.ballSort()
@@ -567,6 +578,7 @@ export default {
     submitClose() {
       this.submitDialog = false
     },
+
     // 立即下注
     submit() {
       this.currentOrder.list = []
@@ -1315,6 +1327,12 @@ export default {
         mainRight.style.display = 'block'
         mainCenter.style.width = '885px'
       }
+    },
+    handleCollapse(){
+      this.showSilde = true
+    },
+    handleCloseCollapse(){
+      this.showSilde = false
     }
   },
   mounted() {
@@ -1330,8 +1348,9 @@ export default {
 /*	右侧*/
 .silde {
   position: absolute;
-  top: -73px;
-  right: -210px;
+  border: 1px solid #d9d9d9;
+  top: 0;
+  right: 0;
   padding: 20px 8px;
   width: 184px;
   background: #fff;
@@ -1719,37 +1738,31 @@ export default {
   display: inline-block;
   vertical-align: initial;
 }
-/*	.lhc-sx:nth-of-type(2) .lhc-bb-ball-icon{
-		background-position:-10px -4px;
-	}
-	.lhc-sx:nth-of-type(3) .lhc-bb-ball-icon{
-		background-position:-292px -4px;
-	}
-	.lhc-sx:nth-of-type(4) .lhc-bb-ball-icon{
-		background-position:-339px -4px;
-	}
-	.lhc-sx:nth-of-type(5) .lhc-bb-ball-icon{
-		background-position:-104px -4px;
-	}
-	.lhc-sx:nth-of-type(6) .lhc-bb-ball-icon{
-		background-position:-386px -4px;
-	}
-	.lhc-sx:nth-of-type(7) .lhc-bb-ball-icon{
-		background-position:-151px -4px;
-	}
-	.lhc-sx:nth-of-type(8) .lhc-bb-ball-icon{
-		background-position:-433px -4px;
-	}
-	.lhc-sx:nth-of-type(9) .lhc-bb-ball-icon{
-		background-position:-198px -4px;
-	}
-	.lhc-sx:nth-of-type(10) .lhc-bb-ball-icon{
-		background-position:-480px -4px;
-	}
-	.lhc-sx:nth-of-type(11) .lhc-bb-ball-icon{
-		background-position:-245px -4px;
-	}
-	.lhc-sx:nth-of-type(12) .lhc-bb-ball-icon{
-		background-position:-527px -4px;
-	}*/
+/* 展开 */
+.slide-collapse{
+  width: 33px;
+  height: 138px;
+  background: url("../../assets/images/slide-collapse.png");
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right:0;
+  cursor: pointer;
+}
+.slide-collapse .span{
+  display: inline-block;
+  line-height: 1.3;
+  padding: 36px 8px 0;
+  color: #f73b3b;
+}
+.close-collapse{
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: -28px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 70px;
+  background: url("../../assets/images/close-collapse.png");
+}
 </style>

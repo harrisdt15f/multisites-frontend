@@ -175,6 +175,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   data() {
+    const date = new Date()
     return {
       list: [],
       total: undefined,
@@ -216,7 +217,10 @@ export default {
       },
       tableData: [],
       peize: [],
-      gameTime: [],
+      gameTime: [
+        new Date(date.setHours(0, 0, 0)),
+        new Date(date.setHours(23, 59, 59))
+      ],
       listQuery: {
         page_size: 10,
         page: 1,

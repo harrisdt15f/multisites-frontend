@@ -30,6 +30,8 @@ export default {
   //删除开户链接
   deleteRestisterLink(data) {
     return this.post('/user-agent-center/link-del', data).then(response =>  response)
-  }
-  
+  },
+  transferToChild(data) {
+    return this.post('/user-agent-center/transfer-to-child', data).then(response =>  response)
+  },
 }

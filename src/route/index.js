@@ -23,6 +23,7 @@ import HelpCenter from '../components/public/help-center.vue'
 import HelpPlay from '../components/public/help-play.vue'
 import HelpInfo from '../components/public/help-info.vue'
 import PreventHijack from '../components/public/preventHijack.vue'
+import bigWheel from '../views/active/components/big-wheel.vue';
 
 Vue.use(Router)
 
@@ -51,7 +52,7 @@ const router = new Router({
           props: true
         },
         {
-          path: '/agent-center',
+          path: '/agent-center/:tabName?',
           name: 'agent-center',
           component: AgentCenter
         },
@@ -117,6 +118,12 @@ const router = new Router({
           path: '/preventHijack',
           name: 'preventHijack',
           component: PreventHijack
+        },
+        // 大转盘
+        {
+          path: '/big-wheel',
+          name: 'big-wheel',
+          component: bigWheel
         }
       ]
     },

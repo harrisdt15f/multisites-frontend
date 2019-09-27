@@ -5,7 +5,7 @@ export default {
   },
   //   发起充值申请  
   postRecharge(data) {
-    return this.post('/pay/recharge', data).then(response =>  response)
+    return this.post('/pay/v2.0/recharge', data).then(response =>  response)
   },
   // 发起提现申请 
   postWithdraw(data) {

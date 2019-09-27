@@ -217,7 +217,7 @@
           <a
             v-for="(mode, modeIndex) in currentLottery.valid_modes"
             href="javascript:;"
-            @click="selectMode(mode.val)"
+            @click="selectMode(mode.val, modeIndex)"
             :class="['btn-tab', 'btn-effect', 'btn-red', userConfig.mode == mode.val ? 'tab-on' : '']"
             :key="modeIndex"
             :v="modeIndex"
@@ -239,6 +239,7 @@
       <div class="bet-add-box fr">
         奖金组:
         <el-slider
+          :disabled="prizes.min == prizes.max"
           @change="sliderChange"
           v-model="lottery.countPrize"
           :min="prizes.min"
@@ -286,6 +287,7 @@ export default {
       inputCodesInitText: '',
       inputCodes: undefined,
       inputCodesSingle: 0,
+      max_times: undefined,
       chooseNumber: [],
       chooseButton: [],
       choosePosition: [],
@@ -361,6 +363,21 @@ export default {
     // 更改一元两元模式
     'userConfig.singlePrice'() {
       this.calculate();
+    },
+    //元角分更改
+    'userConfig.mode': {
+      handler(v) {
+        if (+v == 1) {
+          this.max_times = +this.currentLottery.max_times
+        } else if(+v == 0.1){
+          this.max_times = +this.currentLottery.max_times * 10
+        } else if(+v == 0.01){
+          this.max_times = +this.currentLottery.max_times * 100
+        } else {
+          this.max_times = +this.currentLottery.max_times * 1000
+        }
+      },
+      immediate: true
     },
     //更改倍数
     'currentOrder.currentTimes'() {
@@ -495,7 +512,9 @@ export default {
                 h(
                   'p',
                   { style: 'text-align: center; font-weight:bold;' },
-                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
+                  `总计${
+                    this.currentOrder.currentCount
+                  }注  总共${this.currentOrder.currentCost.toFixed(3)}元`
                 ),
                 h(
                   'p',
@@ -505,7 +524,7 @@ export default {
                     : '投注包含单挑注单，奖金上限为2万元'
                 )
               ]),
-
+              showCancelButton: true,
               confirmButtonText: '继续添加'
             }).then(() => {
               let index = this.orderList.findIndex(item => {
@@ -637,7 +656,9 @@ export default {
                 h(
                   'p',
                   { style: 'text-align: center; font-weight:bold;' },
-                  `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
+                  `总计${
+                    this.currentOrder.currentCount
+                  }注  总共${this.currentOrder.currentCost.toFixed(3)}元`
                 ),
                 h(
                   'p',
@@ -645,7 +666,7 @@ export default {
                   '投注包含单挑注单，奖金上限为2万元'
                 )
               ]),
-
+              showCancelButton: true,
               confirmButtonText: '继续添加'
             }).then(() => {
               this.oneKeyList = {};
@@ -718,13 +739,9 @@ export default {
         }
         //最大倍数
         this.currentOrder.currentMaxTimes = (() => {
-          const v = Math.floor(
-            this.currentLottery.max_profit_bonus /
-              (this.currentCountPrizes -
-                +this.userConfig.mode * this.userConfig.singlePrice)
-          );
-          if (v > this.currentLottery.max_times) {
-            return this.currentLottery.max_times;
+          const v = Math.floor(+this.currentLottery.max_profit_bonus / +this.currentCountPrizes);
+          if (v > this.max_times) {
+            return this.max_times;
           } else {
             return v;
           }
@@ -735,6 +752,7 @@ export default {
           (+this.currentCountPrizes -
             _count * +this.userConfig.mode * this.userConfig.singlePrice) *
             this.currentOrder.currentTimes;
+        // 最大倍数
         if (maxProfit < this.currentLottery.max_profit_bonus) {
           this.currentOrder.maxProfit = maxProfit;
         } else {
@@ -758,13 +776,9 @@ export default {
       } else {
         //最大倍数
         this.currentOrder.currentMaxTimes = (() => {
-          const v = Math.floor(
-            this.currentLottery.max_profit_bonus /
-              (this.currentCountPrizes -
-                +this.userConfig.mode * this.userConfig.singlePrice)
-          );
-          if (v > this.currentLottery.max_times) {
-            return this.currentLottery.max_times;
+          const v = Math.floor(this.currentLottery.max_profit_bonus / this.currentCountPrizes);
+          if (v > this.max_times) {
+            return this.max_times;
           } else {
             return v;
           }
@@ -813,7 +827,7 @@ export default {
       this.calculate();
     },
     // 选择模式
-    selectMode(mode) {
+    selectMode(mode, index) {
       const userConfig = Object.assign(this.userConfig, {
         mode: (+mode).toFixed(3)
       });
@@ -824,6 +838,7 @@ export default {
       });
     },
     singlePriceChange(val) {
+      console.log(val);
       const userConfig = Object.assign(this.userConfig, { singlePrice: val });
       this.$store.commit('userConfig', userConfig);
     },
@@ -1660,7 +1675,9 @@ export default {
           h(
             'p',
             { style: 'text-align: center; font-weight:bold;' },
-            `总计${this.currentOrder.currentCount}注  总共${this.currentOrder.currentCost.toFixed(3)}元`
+            `总计${
+              this.currentOrder.currentCount
+            }注  总共${this.currentOrder.currentCost.toFixed(3)}元`
           ),
           isChallenge || isHe
             ? h(
@@ -1672,7 +1689,7 @@ export default {
               )
             : null
         ]),
-
+        showCancelButton: true,
         confirmButtonText: '确认投注'
       }).then(() => {
         this.betLoading = true;
