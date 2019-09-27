@@ -1,6 +1,6 @@
 <template>
   <div class="bet-record sub-account">
-    <el-tabs v-model="activeName">
+    <el-tabs v-model="activeName" :before-leave="handleBeforeLeave">
       <el-tab-pane label="充值" :lazy="true" name="recharge">
         <recharge></recharge>
       </el-tab-pane>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import recharge from './components/recharge'
 import transfer from './components/transfer'
 import withdrawal from './components/withdrawal'
@@ -31,6 +32,24 @@ export default {
   },
   created () {
     this.activeName = this.active ? this.active : 'recharge'
+  },
+  computed: {
+    ...mapGetters(['userFronzen'])
+  },
+  methods: {
+    handleBeforeLeave(activeName) {
+      if (activeName === 'withdrawal') {
+        if (this.userFronzen === 3) {
+          this.$alert('对不起，您已被禁止提款', '提示', {
+            confirmButtonText: '确定',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+            showClose: false
+          });
+          return false;
+        }
+      }
+    }
   }
 }
 </script>

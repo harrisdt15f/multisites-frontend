@@ -68,7 +68,7 @@ export default {
     this.activeName = this.type ? this.type : 'account-manage';
   },
   methods: {
-    handleBeforeLeave(activeName, oldActiveName) {
+    handleBeforeLeave(activeName) {
       if (activeName === 'fund-manage') {
         // this.$store.dispatch('getUserDetail').then(() => {
 
