@@ -92,7 +92,15 @@
               <span class="field-name">确认资金密码：</span>
             </td>
             <td>
-              <el-input size="mini" maxlength="18" placeholder="请输入资金密码" type="password" v-model="fundPass" style="width:150px" autocomplete="off"></el-input>
+              <el-input
+                size="mini"
+                maxlength="18"
+                placeholder="请输入资金密码"
+                type="password"
+                v-model="fundPass"
+                style="width:150px"
+                autocomplete="off"
+              ></el-input>
             </td>
           </tr>
           <tr>
@@ -158,41 +166,39 @@ export default {
         });
       });
     },
-    nextStep(){
+    nextStep() {
       this.dialogVisible = true;
     },
     //提交
     submitForm() {
       if (!this.fundPass) {
-        this.$alert(
-            '请先输入资金密码！',
-            '提示',
-            {
-              confirmButtonText: '确定'
-            }
-          )
-          return false
-          
+        this.$alert('请先输入资金密码！', '提示', {
+          confirmButtonText: '确定'
+        });
+        return false;
+      } else if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(this.fundPass)) {
+        this.$alert('资金密码必须同时包含字母和数字', '提示', {
+          confirmButtonText: '确定'
+        });
+        return false;
       }
       const sendData = {
         amount: this.amount,
-        bank_sign: this.bankCard.bank_sign,
-        card_number: this.bankCard.card_num,
-        card_username: this.bankCard.owner_name
-      }
-      this.btnLoading = true
-      this.Api.postWithdraw(sendData).then(({success}) => {
-        this.btnLoading = false
+        fund_password: this.fundPass,
+        card_id: this.bankCard.id
+      };
+      console.log(this.bankCard);
+      this.btnLoading = true;
+      this.Api.postWithdraw(sendData).then(({ success }) => {
+        this.btnLoading = false;
         if (success) {
-          this.$alert(
-            '提款成功！',
-            '提示',
-            {
-              confirmButtonText: '确定'
-            }
-          )
+          this.$alert('提款成功！', '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            this.dialogVisible = false;
+          });
         }
-      })
+      });
     }
   }
 };
@@ -259,7 +265,7 @@ export default {
     padding: 7px 5px;
   }
   .field-name {
-    color: #7F7F7F;
-}
+    color: #7f7f7f;
+  }
 }
 </style>

@@ -5,10 +5,7 @@ const state = {
   token: getToken(),
   balance: 0,
   // 用户信息
-  userDetail: {
-    username: '',
-    balance: ''
-  },
+  userDetail: {},
   userFronzen: 0
 }
 

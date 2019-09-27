@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <el-tabs v-model="activeName" type="border-card" @tab-click="handleTabClick">
+    <el-tabs v-model="activeName" type="border-card" :before-leave="handleBeforeLeave">
       <el-tab-pane label="账户管理" :lazy="true" name="account-manage">
         <account-manage></account-manage>
       </el-tab-pane>
@@ -27,13 +27,15 @@
 </template>
 
 <script>
-import betRecord from './components/bet-record'
-import fundManage from './components/fund-manage/index'
-import fundRecord from './components/fund-record'
-import userRecharge from './components/user-recharge'
-import userWithdraw from './components/user-withdraw'
-import accountManage from './components/account-manage/index'
-import prizeDetail from './components/prize-detail'
+import { mapGetters } from 'vuex';
+
+import betRecord from './components/bet-record';
+import fundManage from './components/fund-manage/index';
+import fundRecord from './components/fund-record';
+import userRecharge from './components/user-recharge';
+import userWithdraw from './components/user-withdraw';
+import accountManage from './components/account-manage/index';
+import prizeDetail from './components/prize-detail';
 
 export default {
   name: 'Account',
@@ -51,23 +53,41 @@ export default {
       activeName: '',
       copyActiveName: '',
       showBulletin: false
-    }
+    };
   },
   provide() {
     return {
       active: this.subtype
-    }
+    };
   },
   props: ['type', 'subtype'],
+  computed: {
+    ...mapGetters(['userFronzen'])
+  },
   created() {
-    this.activeName = this.type ? this.type : 'account-manage'
+    this.activeName = this.type ? this.type : 'account-manage';
   },
   methods: {
-    handleTabClick(v){
-      this.$router.push(`/account-center/${v.name}`)
+    handleBeforeLeave(activeName, oldActiveName) {
+      if (activeName === 'fund-manage') {
+        // this.$store.dispatch('getUserDetail').then(() => {
+
+        // });
+        if (this.userFronzen === 4) {
+          this.$alert('对不起，您已被禁止资金操作', '提示', {
+            confirmButtonText: '确定',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+            showClose: false
+          });
+          return false;
+        }
+      } else {
+        this.$router.push(`/account-center/${activeName}`);
+      }
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -204,7 +224,7 @@ export default {
     .el-pagination.is-background .el-pager li:not(.disabled).active {
       background-color: $primary-color;
     }
-    .el-input--mini{
+    .el-input--mini {
       margin-top: -4px !important;
     }
   }

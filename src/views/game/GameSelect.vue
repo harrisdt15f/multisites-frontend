@@ -335,7 +335,8 @@ export default {
       'currentIssue',
       'allMethods',
       'userDetail',
-      'lotteryLists'
+      'lotteryLists',
+      'userFronzen'
     ]),
 
     // 模式配置
@@ -368,13 +369,13 @@ export default {
     'userConfig.mode': {
       handler(v) {
         if (+v == 1) {
-          this.max_times = +this.currentLottery.max_times
-        } else if(+v == 0.1){
-          this.max_times = +this.currentLottery.max_times * 10
-        } else if(+v == 0.01){
-          this.max_times = +this.currentLottery.max_times * 100
+          this.max_times = +this.currentLottery.max_times;
+        } else if (+v == 0.1) {
+          this.max_times = +this.currentLottery.max_times * 10;
+        } else if (+v == 0.01) {
+          this.max_times = +this.currentLottery.max_times * 100;
         } else {
-          this.max_times = +this.currentLottery.max_times * 1000
+          this.max_times = +this.currentLottery.max_times * 1000;
         }
       },
       immediate: true
@@ -739,7 +740,9 @@ export default {
         }
         //最大倍数
         this.currentOrder.currentMaxTimes = (() => {
-          const v = Math.floor(+this.currentLottery.max_profit_bonus / +this.currentCountPrizes);
+          const v = Math.floor(
+            +this.currentLottery.max_profit_bonus / +this.currentCountPrizes
+          );
           if (v > this.max_times) {
             return this.max_times;
           } else {
@@ -776,7 +779,9 @@ export default {
       } else {
         //最大倍数
         this.currentOrder.currentMaxTimes = (() => {
-          const v = Math.floor(this.currentLottery.max_profit_bonus / this.currentCountPrizes);
+          const v = Math.floor(
+            this.currentLottery.max_profit_bonus / this.currentCountPrizes
+          );
           if (v > this.max_times) {
             return this.max_times;
           } else {
@@ -1642,85 +1647,107 @@ export default {
     },
     // 一键投注
     oneKeyBet() {
-      if (this.betLoading) {
-        return;
-      }
-      let [
-        currentIssus = this.currentIssue.issue_no,
-        issus = { [currentIssus]: 1 }
-      ] = [];
-      this.addOrder(true);
-      if (
-        this.currentOrder.currentCost <= 0 ||
-        JSON.stringify(this.oneKeyList) === '{}'
-      ) {
-        this.$alert('请输入正确的投注号码！', '提示', {
-          confirmButtonText: '确定'
-        });
-        return false;
-      }
-      const h = this.$createElement;
-      const isChallenge =
-        +this.currentCountPrizes / +this.currentOrder.currentCost >= 45;
-      const isHe = this.currentMethodGroup === 'LH' && this.convertCodes() == 2;
-      this.$msgbox({
-        title: '投注确认',
-        customClass: 'confirm-bet',
-        message: h('div', null, [
-          h(
-            'p',
-            { style: 'text-align: center; font-weight:bold;' },
-            `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`
-          ),
-          h(
-            'p',
-            { style: 'text-align: center; font-weight:bold;' },
-            `总计${
-              this.currentOrder.currentCount
-            }注  总共${this.currentOrder.currentCost.toFixed(3)}元`
-          ),
-          isChallenge || isHe
-            ? h(
-                'p',
-                { style: 'text-align: center; color: #ff7200' },
-                isHe
-                  ? '投注包含单挑注单，奖金上限为4万元'
-                  : '投注包含单挑注单，奖金上限为2万元'
-              )
-            : null
-        ]),
-        showCancelButton: true,
-        confirmButtonText: '确认投注'
-      }).then(() => {
-        this.betLoading = true;
-        const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList));
-        delete oneKeyList._codes;
-        this.Api.bet(
-          this.currentLottery.en_name,
-          issus,
-          [oneKeyList],
-          this.currentOrder.currentCost.toFixed(3),
-          0
-        ).then(res => {
-          this.betLoading = false;
-          if (res.success) {
-            this.oneKeyList = {};
-            this.$alert(
-              '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
-              '提示',
-              {
-                confirmButtonText: '确定'
-              }
-            );
-            // 添加完选号 清空选中号码
-            this.clearBtn();
-
-            // 获取我的投注 我的追号记录
-            this.$store.dispatch('betHistory');
-            // 刷新余额
-            this.$store.dispatch('getUserDetail');
+      this.$store.dispatch('getUserDetail').then(({ success }) => {
+        if (success) {
+          if (this.userFronzen === 4) {
+            this.$alert('对不起，您已被禁止资金操作', '提示', {
+              confirmButtonText: '确定',
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
+          } else if (this.userFronzen === 2) {
+            this.$alert('对不起，您已被禁止投注', '提示', {
+              confirmButtonText: '确定',
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
           }
-        });
+          if (this.betLoading) {
+            return;
+          }
+          let [
+            currentIssus = this.currentIssue.issue_no,
+            issus = { [currentIssus]: 1 }
+          ] = [];
+          this.addOrder(true);
+          if (
+            this.currentOrder.currentCost <= 0 ||
+            JSON.stringify(this.oneKeyList) === '{}'
+          ) {
+            this.$alert('请输入正确的投注号码！', '提示', {
+              confirmButtonText: '确定'
+            });
+            return false;
+          }
+          const h = this.$createElement;
+          const isChallenge =
+            +this.currentCountPrizes / +this.currentOrder.currentCost >= 45;
+          const isHe =
+            this.currentMethodGroup === 'LH' && this.convertCodes() == 2;
+          this.$msgbox({
+            title: '投注确认',
+            customClass: 'confirm-bet',
+            message: h('div', null, [
+              h(
+                'p',
+                { style: 'text-align: center; font-weight:bold;' },
+                `${this.currentLottery.cn_name} 第${this.currentIssue.issue_no}期`
+              ),
+              h(
+                'p',
+                { style: 'text-align: center; font-weight:bold;' },
+                `总计${
+                  this.currentOrder.currentCount
+                }注  总共${this.currentOrder.currentCost.toFixed(3)}元`
+              ),
+              isChallenge || isHe
+                ? h(
+                    'p',
+                    { style: 'text-align: center; color: #ff7200' },
+                    isHe
+                      ? '投注包含单挑注单，奖金上限为4万元'
+                      : '投注包含单挑注单，奖金上限为2万元'
+                  )
+                : null
+            ]),
+            showCancelButton: true,
+            confirmButtonText: '确认投注'
+          }).then(() => {
+            this.betLoading = true;
+            const oneKeyList = JSON.parse(JSON.stringify(this.oneKeyList));
+            delete oneKeyList._codes;
+            this.Api.bet(
+              this.currentLottery.en_name,
+              issus,
+              [oneKeyList],
+              this.currentOrder.currentCost.toFixed(3),
+              0
+            ).then(res => {
+              this.betLoading = false;
+              if (res.success) {
+                this.oneKeyList = {};
+                this.$alert(
+                  '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+                  '提示',
+                  {
+                    confirmButtonText: '确定'
+                  }
+                );
+                // 添加完选号 清空选中号码
+                this.clearBtn();
+
+                // 获取我的投注 我的追号记录
+                this.$store.dispatch('betHistory');
+                // 刷新余额
+                this.$store.dispatch('getUserDetail');
+              }
+            });
+          });
+        }
       });
     },
     uploadSectionFile(param) {

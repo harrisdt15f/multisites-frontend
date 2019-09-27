@@ -299,6 +299,7 @@ export default {
   computed: {
     ...mapGetters([
       'customerService',
+      'userFronzen',
       'lotteryLists',
       'showInitNotice',
       'isLogin',
@@ -449,41 +450,62 @@ export default {
         this.$router.push('/login');
         return;
       }
-      const code = [],
-        bet = [];
-      item.code.forEach(v => {
-        v.sign ? code.push(v.num) : null;
-      });
-      bet.push({
-        mode: 1,
-        price: 2,
-        count: item.count,
-        prize_group: this.userDetail.prize_group,
-        method_group: item.method_group,
-        method_name: item.name,
-        times: item.multiple,
-        codes: code.join('&'),
-        method_id: item.method_id,
-        cost: item.totalCost.toFixed(3),
-        challenge: 0,
-        challenge_prize: 0
-      });
-      this.betBtnLoading = true;
-      this.Api.bet(
-        item.id,
-        { [item.issue]: 1 },
-        bet,
-        item.totalCost.toFixed(3)
-      ).then(res => {
-        this.betBtnLoading = false;
-        if (res.success) {
-          this.$alert(
-            '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
-            '提示',
-            {
-              confirmButtonText: '确定'
+      this.$store.dispatch('getUserDetail').then(({ success }) => {
+        if (success) {
+          if (this.userFronzen === 4) {
+            this.$alert('对不起，您已被禁止资金操作', '提示', {
+              confirmButtonText: '确定',
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
+          } else if (this.userFronzen === 2) {
+            this.$alert('对不起，您已被禁止投注', '提示', {
+              confirmButtonText: '确定',
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
+          }
+          const code = [],
+            bet = [];
+          item.code.forEach(v => {
+            v.sign ? code.push(v.num) : null;
+          });
+          bet.push({
+            mode: 1,
+            price: 2,
+            count: item.count,
+            prize_group: this.userDetail.prize_group,
+            method_group: item.method_group,
+            method_name: item.name,
+            times: item.multiple,
+            codes: code.join('&'),
+            method_id: item.method_id,
+            cost: item.totalCost.toFixed(3),
+            challenge: 0,
+            challenge_prize: 0
+          });
+          this.betBtnLoading = true;
+          this.Api.bet(
+            item.id,
+            { [item.issue]: 1 },
+            bet,
+            item.totalCost.toFixed(3)
+          ).then(res => {
+            this.betBtnLoading = false;
+            if (res.success) {
+              this.$alert(
+                '投注成功, 您可以通过”游戏记录“查询您的投注记录！',
+                '提示',
+                {
+                  confirmButtonText: '确定'
+                }
+              );
             }
-          );
+          });
         }
       });
     },
@@ -491,8 +513,8 @@ export default {
     goToBannerUrl(item) {
       if (item.redirect_url) {
         if (item.type === 3) {
-          window.open(item.redirect_url)
-        }else{
+          window.open(item.redirect_url);
+        } else {
           this.$router.push(item.redirect_url);
         }
       }

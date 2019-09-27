@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import { getToken, getIsCryptData } from '@/utils/auth'
 import store from '@/store'
-import { Message } from 'element-ui'
+import { Message, MessageBox } from 'element-ui'
 
 import Login from '../views/auth/Login.vue'
 import Register from '../views/auth/Register.vue'
@@ -23,7 +23,7 @@ import HelpCenter from '../components/public/help-center.vue'
 import HelpPlay from '../components/public/help-play.vue'
 import HelpInfo from '../components/public/help-info.vue'
 import PreventHijack from '../components/public/preventHijack.vue'
-import bigWheel from '../views/active/components/big-wheel.vue';
+import bigWheel from '../views/active/components/big-wheel.vue'
 
 Vue.use(Router)
 
@@ -37,7 +37,12 @@ const router = new Router({
       children: [
         { path: '', name: 'index', component: Index },
         { path: '/login', name: 'login', component: Login },
-        { path: '/register/:code?', name: 'register', component: Register, props: true },
+        {
+          path: '/register/:code?',
+          name: 'register',
+          component: Register,
+          props: true
+        },
         {
           path: '/bet/:lotterySign?',
           name: 'bet',
@@ -80,17 +85,17 @@ const router = new Router({
         {
           path: '/download',
           name: 'download',
-          component: Download,
+          component: Download
         },
         {
           path: '/help-play',
           name: 'help-play',
-          component: HelpPlay,
+          component: HelpPlay
         },
         {
           path: '/help-center',
           name: 'help-center',
-          component: HelpCenter,
+          component: HelpCenter
         },
         {
           path: '/help-info/:pageId?',
@@ -129,7 +134,7 @@ const router = new Router({
     },
     { path: '*', redirect: '/page404' }
   ],
-  scrollBehavior () {
+  scrollBehavior() {
     return { x: 0, y: 0 }
   }
 })
@@ -141,33 +146,81 @@ router.beforeEach((to, from, next) => {
     if (hasToken) {
       if (to.path === '/login') {
         next({ path: '/' })
-      } else{
+      } else {
         if (store.getters.userDetail && store.getters.userDetail.user_id > 0) {
-          next()
-        }else {
-          store.dispatch('getUserDetail').then(res => {
-            const {success} = res
-            if (success) {
-              next({ ...to, replace: true })
-            }
-          }).catch(error => {
-            Message.error(error || '请求出错！')
-            next({path: '/login'})
-          })
+          if (
+            ['recharge', 'withdrawal', 'transfer'].includes(to.params.subtype)
+          ) {
+            store.dispatch('getUserDetail').then(({ success }) => {
+              if (success) {
+                switch (store.getters.userFronzen) {
+                  case 3: //禁止提现
+                    if (to.path.includes('withdrawal')) {
+                      MessageBox('对不起，您已被禁止提现', '提示', {
+                        confirmButtonText: '确定',
+                        closeOnClickModal: false,
+                        closeOnPressEscape: false,
+                        showClose: false
+                      })
+                    } else {
+                      next()
+                    }
+                    break
+                  case 4: //禁止资金操作
+                    if (
+                      ['recharge', 'withdrawal', 'transfer'].includes(
+                        to.params.subtype
+                      )
+                    ) {
+                      MessageBox('对不起，您已被禁止资金操作', '提示', {
+                        confirmButtonText: '确定',
+                        closeOnClickModal: false,
+                        closeOnPressEscape: false,
+                        showClose: false
+                      })
+                    } else {
+                      next()
+                    }
+                    break
+                  default:
+                    next()
+                    break
+                }
+              }
+            })
+          } else {
+            next();
+          }
+        } else {
+          store
+            .dispatch('getUserDetail')
+            .then(res => {
+              const { success } = res
+              if (success) {
+                next({ ...to, replace: true })
+              }
+            })
+            .catch(error => {
+              Message.error(error || '请求出错！')
+              next({ path: '/login' })
+            })
         }
       }
     } else {
       next()
     }
   } else {
-    store.dispatch('getIsCryptData').then(res => {
-      const {success} = res
-      if (success) {
-        next({ ...to, replace: true })
-      }
-    }).catch(error => {
-      Message.error(error || '请求出错！')
-    })
+    store
+      .dispatch('getIsCryptData')
+      .then(res => {
+        const { success } = res
+        if (success) {
+          next({ ...to, replace: true })
+        }
+      })
+      .catch(error => {
+        Message.error(error || '请求出错！')
+      })
   }
 })
 

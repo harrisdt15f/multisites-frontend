@@ -70,7 +70,8 @@
             充值额度限定：最低
             <span id="J-money-min-union-scan">100.00</span> 元,最高
             <span id="J-money-max-union-scan">4850.00</span> 元
-            <br />{{channel.front_remark}}
+            <br />
+            {{channel.front_remark}}
           </span>
         </div>
       </div>
@@ -78,9 +79,19 @@
         <el-button @click="submitForm" :loading="btnLoading" class="form-button">提交充值订单</el-button>
       </div>
     </div>
+    <form style="display:none" id="pureForm" :action="formUrl" method="post" target="_blank">
+      <input name="Authorization" v-model= "Token" />
+      <input v-model="amount" name="amount" />
+      <input v-if="channel" v-model="channel.payment_sign" name="channel" />
+      <input v-if="channel && channel['banks_code'] && channel['banks_code'].length" v-model="banks_code" name="bank_code" />
+    </form>
   </div>
 </template>
 <script>
+import { getToken } from '@/utils/auth'
+import axios from 'axios'
+import qs from 'qs'
+
 export default {
   data() {
     return {
@@ -97,6 +108,8 @@ export default {
       channel: null,
       banks_code: null,
       amount: null,
+      formUrl: null,
+      Token: 'Bearer ' + getToken(),
       form: {
         amount: '',
         channel: ''
@@ -105,6 +118,7 @@ export default {
   },
   created() {
     this.initData();
+    this.formUrl = `${process.env.VUE_APP_API_URL}/web-api/pay/v2.0/recharge`
   },
   methods: {
     initData() {
@@ -146,14 +160,30 @@ export default {
         }
       }
       this.btnLoading = true;
-      this.Api.postRecharge(sendData).then(({ success, data }) => {
+      if (this.channel.request_mode == 1) {
+        this.Api.postRecharge(sendData).then(({ success, data }) => {
+          this.btnLoading = false;
+          if (success) {
+            this.$alert(data.msg, '提示', {
+              confirmButtonText: '确定'
+            });
+          } 
+        })
+      }else {
         this.btnLoading = false;
-        if (success && this.channel.request_mode == 1) {
-          this.$alert(data.msg, '提示', {
-            confirmButtonText: '确定'
-          });
-        }
-      });
+        // document.getElementById('pureForm').submit();
+        axios.post('http://192.168.0.117/web-api/pay/v2.0/recharge',
+          qs.stringify(sendData), { 
+          headers: { 
+            'Content-Type':'application/x-www-form-urlencoded' ,
+            'Authorization':  'Bearer ' + getToken()
+        }}
+        ).then((result) => {
+          console.log(result)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
       
     },
     currentChannel() {

@@ -283,6 +283,7 @@ export default {
       'customerService',
       'isLogin',
       'userDetail',
+      'userFronzen',
       'lotteryLists',
       'popularLotteries1',
       'logoSrc',
@@ -298,6 +299,7 @@ export default {
     }
   },
   mounted() {
+    Object.keys(this.userDetail).length && this.$store.dispatch('getUserDetail');
     // 获取全部彩种
     this.$store.dispatch('lotteryAll');
     this.lotteryList();

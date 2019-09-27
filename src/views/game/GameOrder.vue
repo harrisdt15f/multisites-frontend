@@ -582,7 +582,8 @@ export default {
       'currentIssue',
       'issueInfo',
       'countPrize',
-      'userConfig'
+      'userConfig',
+      'userFronzen'
     ]),
     // 翻倍
     totals() {
@@ -1184,97 +1185,123 @@ export default {
     },
     // 确定投注
     submitBet() {
-      if (this.betLoading) {
-        return;
-      }
-      if (
-        this.bet.doubleBeforeOrder.length === 0 ||
-        this.bet.doubleBeforeOrder === "[]"
-      ) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
-      }
-      let [
-        currentIssus = this.currentIssue.issue_no,
-        issus = {},
-        money = 0,
-        chaseData = []
-      ] = [];
-      this.betLoading = true;
-      if (this.chase.rateCon) {
-        chaseData = this.chase.rateData.filter(val => val.checked == true);
-        for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {
-            [chaseData[i].issue_no]: chaseData[i].multiple
-          });
-        }
-        money = this.chase.rateMoneyAll;
-      } else if (this.chase.sameCon) {
-        // 如果打开同倍追奖
-        chaseData = this.chase.sameData.filter(val => val.checked === true);
-        for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {
-            [chaseData[i].issue_no]: chaseData[i].multiple
-          });
-        }
-        money = this.chase.sameMoneyAll;
-      } else if (this.chase.doubleCon) {
-        // 如果打开翻倍
-        chaseData = this.chase.doubleData.filter(val => val.checked === true);
-
-        for (let i = 0; i < chaseData.length; i++) {
-          Object.assign(issus, {
-            [chaseData[i].issue_no]: chaseData[i].multiple
-          });
-        }
-        money = this.chase.doubleMoneyAll;
-      } else {
-        // 同倍和翻倍追奖 都没有打开
-        issus = { [currentIssus]: 1 };
-        money =
-          this.totalSub.double > 1 ? this.totalSub.money : this.totals.money;
-      }
-      // 计算翻倍后的 金额 和倍数
-      let [list = JSON.parse(this.bet.doubleBeforeOrder)] = [];
-      if (list.length === 0) {
-        this.$alert("请至少选择一注投注号码", "提示", {
-          confirmButtonText: "确定"
-        });
-        return;
-      }
-      for (let i = 0; i < list.length; i++) {
-        list[i].cost = (
-          Number(list[i].cost) * Number(this.totalSub.double)
-        ).toFixed(3);
-        list[i].count = Number(list[i].count) * Number(this.totalSub.double);
-        delete list[i]._codes;
-      }
-      this.Api.bet(
-        this.currentLottery.en_name,
-        issus,
-        list,
-        money.toFixed(3),
-        this.isTrace,
-        this.checkTraceWinStop ? 1 : 0
-      ).then(res => {
-        this.betLoading = false;
-        if (res.success) {
-          this.$store.commit("orderList", []);
-          this.bet.doubleBeforeOrder = JSON.stringify([]);
-          this.$alert(
-            "投注成功, 您可以通过”游戏记录“查询您的投注记录！",
-            "提示",
-            {
+      this.$store.dispatch("getUserDetail").then(({ success }) => {
+        if (success) {
+          if (this.userFronzen === 4) {
+            this.$alert("对不起，您已被禁止资金操作", "提示", {
+              confirmButtonText: "确定",
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
+          } else if (this.userFronzen === 2) {
+            this.$alert("对不起，您已被禁止投注", "提示", {
+              confirmButtonText: "确定",
+              closeOnClickModal: false,
+              closeOnPressEscape: false,
+              showClose: false
+            });
+            return false;
+          }
+          if (this.betLoading) {
+            return;
+          }
+          if (
+            this.bet.doubleBeforeOrder.length === 0 ||
+            this.bet.doubleBeforeOrder === "[]"
+          ) {
+            this.$alert("请至少选择一注投注号码", "提示", {
               confirmButtonText: "确定"
+            });
+            return;
+          }
+          let [
+            currentIssus = this.currentIssue.issue_no,
+            issus = {},
+            money = 0,
+            chaseData = []
+          ] = [];
+          this.betLoading = true;
+          if (this.chase.rateCon) {
+            chaseData = this.chase.rateData.filter(val => val.checked == true);
+            for (let i = 0; i < chaseData.length; i++) {
+              Object.assign(issus, {
+                [chaseData[i].issue_no]: chaseData[i].multiple
+              });
             }
-          );
-          // 获取我的投注 我的追号记录
-          this.$store.dispatch("betHistory");
-          // 刷新余额
-          this.$store.dispatch("getUserDetail");
-          this.clearOrderList();
+            money = this.chase.rateMoneyAll;
+          } else if (this.chase.sameCon) {
+            // 如果打开同倍追奖
+            chaseData = this.chase.sameData.filter(val => val.checked === true);
+            for (let i = 0; i < chaseData.length; i++) {
+              Object.assign(issus, {
+                [chaseData[i].issue_no]: chaseData[i].multiple
+              });
+            }
+            money = this.chase.sameMoneyAll;
+          } else if (this.chase.doubleCon) {
+            // 如果打开翻倍
+            chaseData = this.chase.doubleData.filter(
+              val => val.checked === true
+            );
+
+            for (let i = 0; i < chaseData.length; i++) {
+              Object.assign(issus, {
+                [chaseData[i].issue_no]: chaseData[i].multiple
+              });
+            }
+            money = this.chase.doubleMoneyAll;
+          } else {
+            // 同倍和翻倍追奖 都没有打开
+            issus = { [currentIssus]: 1 };
+            money =
+              this.totalSub.double > 1
+                ? this.totalSub.money
+                : this.totals.money;
+          }
+          // 计算翻倍后的 金额 和倍数
+          let [list = JSON.parse(this.bet.doubleBeforeOrder)] = [];
+          if (list.length === 0) {
+            this.$alert("请至少选择一注投注号码", "提示", {
+              confirmButtonText: "确定"
+            });
+            return;
+          }
+          for (let i = 0; i < list.length; i++) {
+            list[i].cost = (
+              Number(list[i].cost) * Number(this.totalSub.double)
+            ).toFixed(3);
+            list[i].count =
+              Number(list[i].count) * Number(this.totalSub.double);
+            delete list[i]._codes;
+          }
+          this.Api.bet(
+            this.currentLottery.en_name,
+            issus,
+            list,
+            money.toFixed(3),
+            this.isTrace,
+            this.checkTraceWinStop ? 1 : 0
+          ).then(res => {
+            this.betLoading = false;
+            if (res.success) {
+              this.$store.commit("orderList", []);
+              this.bet.doubleBeforeOrder = JSON.stringify([]);
+              this.$alert(
+                "投注成功, 您可以通过”游戏记录“查询您的投注记录！",
+                "提示",
+                {
+                  confirmButtonText: "确定"
+                }
+              );
+              // 获取我的投注 我的追号记录
+              this.$store.dispatch("betHistory");
+              // 刷新余额
+              this.$store.dispatch("getUserDetail");
+              this.clearOrderList();
+            }
+          });
         }
       });
     },
