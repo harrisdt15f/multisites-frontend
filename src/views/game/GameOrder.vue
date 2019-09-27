@@ -765,7 +765,7 @@ export default {
         sameChecked: true,
         sameMoneyAll: 0,
         sameMoney: 0,
-        sameNum: 1,
+        sameNum: this.currentLottery.min_times,
         sameIssue: 10,
         doubleData: [],
         doubleCon: false,
@@ -847,19 +847,20 @@ export default {
       this.chase.doubleChecked = true;
       this.chase.doubleMoneyAll = 0;
       this.chase.doubleMoney = 0;
-
+      this.chase.doubleNum = this.currentLottery.min_times;
       const maxArr = [];
-      // 如果投注里面有倍数 先改为1 
+      // 如果投注里面有倍数 先改为1
       for (let i = 0; i < this.orderList.length; i++) {
         maxArr.push(this.orderList[i].currentMaxTimes);
-        this.$set(this.orderList[i], "times", 1);
+        this.$set(this.orderList[i], "times", this.currentLottery.min_times);
         this.$set(
           this.orderList[i],
           "cost",
           (
             this.orderList[i].count *
             +this.orderList[i].mode *
-            +this.orderList[i].price
+            +this.orderList[i].price *
+            +this.orderList[i].times
           ).toFixed(3)
         );
         this.chase.doubleMoney += Number(this.orderList[i].cost);
@@ -936,14 +937,15 @@ export default {
       this.chase.sameMoneyAll = 0;
       this.chase.sameMoney = 0;
       for (let i = 0; i < this.orderList.length; i++) {
-        this.$set(this.orderList[i], "times", 1);
+        this.$set(this.orderList[i], "times", this.currentLottery.min_times);
         this.$set(
           this.orderList[i],
           "cost",
           (
             this.orderList[i].count *
             +this.orderList[i].mode *
-            +this.orderList[i].price
+            +this.orderList[i].price *
+            +this.orderList[i].times
           ).toFixed(3)
         );
         this.chase.sameMoney += Number(this.orderList[i].cost);
@@ -1004,20 +1006,22 @@ export default {
       this.chase.rateChecked = true;
       this.chase.rateMoneyAll = 0;
       this.chase.rateMoney = 0;
+      this.chase.rateNum = this.currentLottery.min_times;
       //盈利/盈利率追号不支持混投
       let type = "",
         mode = "";
       const maxArr = [];
       for (let i = 0; i < this.orderList.length; i++) {
         maxArr.push(this.orderList[i].currentMaxTimes);
-        this.$set(this.orderList[i], "times", 1);
+        this.$set(this.orderList[i], "times", this.currentLottery.min_times);
         this.$set(
           this.orderList[i],
           "cost",
           (
             this.orderList[i].count *
             +this.orderList[i].mode *
-            +this.orderList[i].price
+            +this.orderList[i].price *
+            +this.orderList[i].times
           ).toFixed(3)
         );
         if (type !== "" && mode !== "") {
@@ -1156,6 +1160,7 @@ export default {
           this.chase.doubleCon = false;
         }
       } else if (val === 1) {
+        this.chase.sameNum = this.currentLottery.min_times;
         if (this.chase.sameData.length > 0) {
           this.chase.sameCon = true;
           this.chase.doubleCon = false;
@@ -1315,6 +1320,8 @@ export default {
       });
       if (item.multiple > Math.min(...maxArr)) {
         this.$set(item, "multiple", ...maxArr);
+      } else if (item.multiple < this.currentLottery.min_times) {
+        this.$set(item, "multiple", this.currentLottery.min_times);
       }
       const money = this.chase.rateMoney,
         multiple = this.Utils.number(item.multiple);
@@ -1342,6 +1349,8 @@ export default {
       });
       if (item.multiple > Math.min(...maxArr)) {
         this.$set(item, "multiple", ...maxArr);
+      } else if (item.multiple < this.currentLottery.min_times) {
+        this.$set(item, "multiple", this.currentLottery.min_times);
       }
     },
     //投注记录详情
@@ -1357,8 +1366,11 @@ export default {
       this.orderList.forEach(val => {
         maxArr.push(val.currentMaxTimes);
       });
-      if (maxArr.length && value > Math.min(...maxArr)) {
+      if (maxArr.length && +value > Math.min(...maxArr)) {
         this.chase.sameNum = Math.min(...maxArr);
+      }
+      if (+value < this.currentLottery.min_times) {
+        this.chase.sameNum = this.currentLottery.min_times;
       }
     },
     onDoubleBChange(value) {
