@@ -254,7 +254,7 @@
           <!-- 对子(二同号) -->
           <td class="border-right border-bottom"></td>
           <td class="border-bottom border-right">
-            <i class="ball-noraml">{{continuousNum[20]}}</i>
+            <i class="ball-noraml">{{totalNum[20]}}</i>
           </td>
           <td class="ball-none border-right border-bottom"></td>
         </tr>

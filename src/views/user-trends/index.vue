@@ -194,7 +194,7 @@ export default {
     this.switchChat(this.lotteryId[0])
   },
   mounted() {
-    this.getData(this.lotteryId[1], 5)
+    this.getData(this.lotteryId[1])
   },
   methods: {
     // 请求走势数据
