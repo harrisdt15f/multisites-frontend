@@ -143,6 +143,13 @@ const actions = {
       }
     })
   },
+  getcasinoGame({ commit }){
+    API.casinoGame().then(({success, data}) => {
+      if (success && data) {
+        console.log(data)
+      }
+    })
+  },
   getActivity({ commit }){
     API.getActivity().then(({success, data}) => {
       if (success) {

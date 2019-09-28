@@ -313,7 +313,8 @@ export default {
       'userDetail',
       'lotteryNoticeList',
       'popularEgame',
-      'popularChess'
+      'popularChess',
+      'lotteryAll'
     ])
   },
   mounted() {
@@ -471,6 +472,8 @@ export default {
           }
           const code = [],
             bet = [];
+          let prize_group = null;
+          prize_group = this.lotteryAll[item.id] && this.lotteryAll[item.id]['lottery']['min_prize_group'];
           item.code.forEach(v => {
             v.sign ? code.push(v.num) : null;
           });
@@ -478,7 +481,7 @@ export default {
             mode: 1,
             price: 2,
             count: item.count,
-            prize_group: this.userDetail.prize_group,
+            prize_group: prize_group,
             method_group: item.method_group,
             method_name: item.name,
             times: item.multiple,

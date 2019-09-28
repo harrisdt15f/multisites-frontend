@@ -7,10 +7,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
 
-import Header from '../components/header_new'
-import Footer from '../components/footer_new'
+import Header from '../components/header_new';
+import Footer from '../components/footer_new';
 
 export default {
   name: 'Home',
@@ -19,25 +19,27 @@ export default {
     Footer
   },
   created() {
-    this.initData()
+    this.initData();
   },
   methods: {
     ...mapActions([
       'getPopularGame',
       'getLotteryNotice',
       'getActivity',
-      'getBasicContent'
+      'getBasicContent',
+      'getcasinoGame'
     ]),
     //初始化不常变动数据
     initData() {
-      this.$store.commit('SET_SHOW_FLOAT', true)
-      this.$store.commit('SET_INDEX_NOTICE', true)
-      this.getBasicContent()
-      this.getLotteryNotice()
-      this.getPopularGame()
+      this.$store.commit('SET_SHOW_FLOAT', true);
+      this.$store.commit('SET_INDEX_NOTICE', true);
+      this.getBasicContent();
+      this.getLotteryNotice();
+      this.getPopularGame();
+      this.getcasinoGame();
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

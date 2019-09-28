@@ -1,18 +1,20 @@
 <template>
   <div class="dialog-bulletin">
-    <el-dialog :class="{mail: currentIndex == 1}" :visible.sync="dialogVisible" @closed="$emit('close')" width="765px">
+    <el-dialog
+      :class="{mail: currentIndex == 1}"
+      :visible.sync="dialogVisible"
+      @closed="$emit('close')"
+      width="765px"
+    >
       <div class="close" @click="$emit('close')">
         <i class="fa fa-times" aria-hidden="true"></i>
       </div>
       <div class="head">
         <el-row>
-          <el-col
-            :span="24"
-            class="head-tab on"
-          >{{currentIndex == 1 ? '站内信' : '平台公告'}}</el-col>
+          <el-col :span="24" class="head-tab on">{{currentIndex == 1 ? '站内信' : '平台公告'}}</el-col>
         </el-row>
       </div>
-      <div class="content" v-loading="loading" >
+      <div class="content" v-loading="loading">
         <el-row class="nr" element-loading-background="rgba(0, 0, 0, 0.8)">
           <el-col :span="6" class="nr-l">
             <template v-if="list && list.length">
@@ -20,9 +22,12 @@
                 class="nr-l-item"
                 @click="handleTabBulletin(item, item.id)"
                 v-for="item in list"
-                :key="item.id">
+                :key="item.id"
+              >
                 <div v-if="currentIndex == 1 && !item.status" class="message-circle"></div>
-                <div class="title wzfw">{{currentIndex == 1 ? item['message_content']['title'] : item['title']}}</div>
+                <div
+                  class="title wzfw"
+                >{{currentIndex == 1 ? item['message_content']['title'] : item['title']}}</div>
                 <div class="date">{{item['created_at']}}</div>
               </div>
             </template>
@@ -48,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'dialog_bulletin',
   data() {
@@ -61,79 +66,100 @@ export default {
       page: 1,
       page_size: 6,
       loading: false
-    }
+    };
   },
   props: ['showBulletin', 'index', 'currentBulletinIndex'],
   computed: {
     ...mapGetters(['notice'])
   },
   created() {
-    this.initData()
+    this.initData();
   },
   methods: {
     ...mapActions(['getNotice', 'getInnerNotice']),
     initData() {
-      this.loading = true
+      this.loading = true;
       // 平台公告
-      if(this.currentIndex == 0){
-        this.Api.getNotice({ type: 1, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
-          this.loading = false
+      if (this.currentIndex == 0) {
+        this.Api.getNotice({
+          type: 1,
+          page_size: this.page_size,
+          page: this.page
+        }).then(({ success, data }) => {
+          this.loading = false;
           if (success) {
-            this.total = data.total
+            this.total = data.total;
             for (const k of data['data']) {
-              k['content'] = this.Utils.setImg(k['content'], 'add')
+              k['content'] = this.Utils.setImg(k['content'], 'add');
             }
-            this.list = data.data
-            this.currentBullrtin = this.currentBulletinIndex ? (this['list'].filter(val => val.id === this.currentBulletinIndex))[0] : this.list[0]
+            this.list = data.data;
+            this.currentBullrtin = this.currentBulletinIndex
+              ? this['list'].filter(
+                  val => val.id === this.currentBulletinIndex
+                )[0]
+              : this.list[0];
           }
-        })
+        });
       } else {
         // 消息中心
-        this.getInnerNotice({ type: 2, page_size: this.page_size, page: this.page }).then(({ success, data }) => {
-          const {message} = data
-          this.loading = false
+        this.getInnerNotice({
+          type: 2,
+          page_size: this.page_size,
+          page: this.page
+        }).then(({ success, data }) => {
+          const { message } = data;
+          this.loading = false;
           if (success) {
-            this.total = message.total
+            this.total = message.total;
             for (const k of message['data']) {
-              k['message_content']['content'] = this.Utils.setImg(k['message_content']['content'], 'add')
+              k['message_content']['content'] = this.Utils.setImg(
+                k['message_content']['content'],
+                'add'
+              );
             }
-            this.list = message.data
-            this.currentBullrtin = this.list[0]['message_content']
+            this.list = message.data;
+            this.currentBullrtin = this.list[0]['message_content'];
           }
-        })
+        });
       }
     },
-    handleCurrentIndex(num){
-      this.list = []
-      this.currentBullrtin = null
-      this.currentIndex = num
-      this.initData()
+    handleCurrentIndex(num) {
+      this.list = [];
+      this.currentBullrtin = null;
+      this.currentIndex = num;
+      this.initData();
     },
     handleTabBulletin(item, id) {
       if (this.currentIndex == 1) {
         if (!item.status) {
-          this.Api.lotteryRedMessage({id: id}).then(({success}) => {
+          this.Api.lotteryRedMessage({ id: id }).then(({ success }) => {
             if (success) {
-              item.status = 1
+              item.status = 1;
             }
-          })
-          this.getInnerNotice({ type: 2, page_size: this.page_size, page: this.page })
+          });
+          this.getInnerNotice({
+            type: 2,
+            page_size: this.page_size,
+            page: this.page
+          });
         }
-        this.currentBullrtin = this.list.filter(val => val.id === id)[0]['message_content']
-      }else{
-        this.currentBullrtin = this.list.filter(val => val.id === id)[0]
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0][
+          'message_content'
+        ];
+      } else {
+        this.currentBullrtin = this.list.filter(val => val.id === id)[0];
       }
     },
     handleSizeChange(val) {
-      this.page_size = val
-      this.initData()
+      this.page_size = val;
+      this.initData();
     },
     handleCurrentChange(val) {
-      this.page = val
-      this.initData()
-    },
+      this.page = val;
+      this.initData();
+    }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -141,14 +167,14 @@ export default {
 .dialog-bulletin {
   /deep/ {
     .el-dialog {
-      position:absolute;
-      top:0;
-      bottom:0;
-      left:0;
-      right:0;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       margin: auto !important;
-      width:800px !important;
-      height:515px;
+      width: 800px !important;
+      height: 515px;
       border-radius: 5px;
       overflow: auto;
     }
@@ -158,9 +184,9 @@ export default {
     .el-dialog__body {
       padding: 0;
     }
-    .mail{
+    .mail {
       .el-dialog {
-        height:515px;
+        height: 515px;
       }
     }
   }
@@ -199,7 +225,7 @@ export default {
       width: 100%;
       height: 135px;
       overflow: hidden;
-      .img{
+      .img {
         width: 100%;
         height: 135px;
       }
@@ -221,11 +247,11 @@ export default {
         padding: 10px 15px;
         border-bottom: 1px dotted #dadada;
         position: relative;
-        .message-circle{
+        .message-circle {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #C82834;
+          background: #c82834;
           position: absolute;
           left: 3px;
           top: 8px;
@@ -256,13 +282,19 @@ export default {
             padding-bottom: 15px;
             text-indent: 2em;
           }
-          /deep/ img{
-            width:auto !important;
-            max-width:95%;
+          /deep/ img {
+            width: auto !important;
+            max-width: 95%;
           }
         }
       }
     }
   }
+}
+</style>
+<style>
+.text-centent p, .text-centent span, .text-centent i, .text-centent a, .text-centent div{
+  white-space:normal !important;
+  word-wrap: break-word !important;
 }
 </style>

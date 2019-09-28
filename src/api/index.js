@@ -8,6 +8,7 @@ import Lottery from './lottery'
 import Player from './player'
 import Agent from './agent'
 import Pay from './pay'
+import Game from './game'
 
 //偏移量 由前端每次请求随机生成 16位
 var IV = randomString(16)
@@ -60,5 +61,6 @@ export const API = {
   ...Lottery,
   ...Player,
   ...Agent,
-  ...Pay
+  ...Pay,
+  ...Game
 }

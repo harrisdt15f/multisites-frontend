@@ -423,16 +423,11 @@ export default {
   created() {
     this.preSelectButton();
     // 当前最大 最小奖金组
-    let list = this.lotteryLists[this.currentLottery.series_id].list;
-    for (const k of list) {
-      if (k.id === this.currentLottery.en_name) {
-        this.prizes.min = parseInt(this.userDetail.min_prize_group);
-        if (k.max_prize_group >= this.userDetail.prize_group) {
-          this.prizes.max = parseInt(this.userDetail.prize_group);
-        } else {
-          this.prizes.max = k.max_prize_group;
-        }
-      }
+    this.prizes.min = parseInt(this.userDetail.min_prize_group);
+    if (this.currentLottery.max_prize_group >= this.userDetail.prize_group) {
+      this.prizes.max = parseInt(this.userDetail.prize_group);
+    } else {
+      this.prizes.max = this.currentLottery.max_prize_group;
     }
     // 当前奖金组
     this.currentOrder.currentTimes = this.currentLottery.min_times;
