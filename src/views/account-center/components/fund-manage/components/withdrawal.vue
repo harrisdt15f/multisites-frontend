@@ -118,6 +118,10 @@
 </template>
 
 <script>
+// import axios from 'axios';
+// import qs from 'qs';
+// import { getToken } from '@/utils/auth';
+
 import { mapGetters } from 'vuex';
 
 export default {
@@ -176,7 +180,9 @@ export default {
           confirmButtonText: '确定'
         });
         return false;
-      } else if (!/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(this.fundPass)) {
+      } else if (
+        !/([0-9]+[a-zA-Z]+|[a-zA-Z]+[0-9]+)[0-9a-zA-Z]*/.test(this.fundPass)
+      ) {
         this.$alert('资金密码必须同时包含字母和数字', '提示', {
           confirmButtonText: '确定'
         });
@@ -187,7 +193,6 @@ export default {
         fund_password: this.fundPass,
         card_id: this.bankCard.id
       };
-      console.log(this.bankCard);
       this.btnLoading = true;
       this.Api.postWithdraw(sendData).then(({ success }) => {
         this.btnLoading = false;

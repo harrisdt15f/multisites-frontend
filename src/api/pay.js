@@ -9,7 +9,7 @@ export default {
   },
   // 发起提现申请 
   postWithdraw(data) {
-    return this.post('/pay/withdraw', data).then(response =>  response)
+    return this.post('/pay/v2.0/withdraw', data).then(response =>  response)
   },
   //用户充值到账列表
   realRechargeList(data) {

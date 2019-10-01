@@ -30,6 +30,7 @@ service.interceptors.request.use(
       config.headers.Authorization = 'Bearer ' + getToken()
     }
     if (config.data) {
+      
       console.log(`%c ${config.url}`, 'color: #ff7200', config.data)
       const IsCryptData = getIsCryptData()
       if (IsCryptData == 'true') {
@@ -43,6 +44,11 @@ service.interceptors.request.use(
         config.headers['Content-Type'] =
           'application/x-www-form-urlencoded; charset=UTF-8'
         config.data = qs.stringify({ data: enstr })
+      }
+      if (config.url.includes('/pay/v2.0/withdraw')) {
+        config.data = qs.stringify(config.data)
+        config.headers['Content-Type'] =
+          'application/x-www-form-urlencoded; charset=UTF-8'
       }
     }
     return config

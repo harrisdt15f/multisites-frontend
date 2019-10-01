@@ -11,17 +11,20 @@ const state = {
   activity: '',
   customerService: '', 
   popularLotteries1: [],
-  popularChess: [],
-  popularEgame:[],
+  popularGame:[],
   ranking: [],
   lotteryNoticeList: [],
   showBanner: false,
   showSideFloat: true,
   showInitNotice: true,
-  helpList: []
+  helpList: [],
+  casinoPlat: null, // 导航-游戏平台
 }
 
 const mutations = {
+  SET_CASION_PLAT:(state, data) => {
+    state.casinoPlat = data
+  },
   SET_ICO:(state, data) => {
     state.ico = process.env.VUE_APP_API_URL + data
   },
@@ -52,17 +55,8 @@ const mutations = {
     })
     state.popularLotteries1 = data
   },
-  SET_POPULAR_CHESS: (state, data) => {
-    data.forEach(val => {
-      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon.substring(1)}`
-    })
-    state.popularChess = data
-  },
-  SET_POPULAR_EGAME: (state, data) => {
-    data.forEach(val => {
-      val.icon = `${process.env.VUE_APP_API_URL}/${val.icon.substring(1)}`
-    })
-    state.popularEgame = data
+  SET_POPULAR_GAME: (state, data) => {
+    state.popularGame = data
   },
   SET_BANNER: (state, data) => {
     data.forEach(val => {
@@ -138,15 +132,13 @@ const actions = {
     API.getPopularGame().then(({success, data}) => {
       if (success && data) {
         commit('SET_POPULAR_LOTTERIES1', data.lotteries)
-        commit('SET_POPULAR_CHESS', data.chess_cards)
-        commit('SET_POPULAR_EGAME', data.e_game)
       }
     })
   },
   getcasinoGame({ commit }){
     API.casinoGame().then(({success, data}) => {
       if (success && data) {
-        console.log(data)
+        commit('SET_POPULAR_GAME', data)
       }
     })
   },
@@ -183,6 +175,14 @@ const actions = {
       })
     })
   },
+  // 获取游戏平台导航
+  getCasinoPlat({ commit }){
+    API.casinoPlat().then(({success, data}) => {
+      if (success) {
+        commit('SET_CASION_PLAT', data)        
+      }
+    })
+  }
 }
 
 export default {

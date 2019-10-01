@@ -40,13 +40,18 @@
             <span class="wallet">钱包余额:</span>
             <span class="header-money">
               <span class="header-money" style="cursor:pointer">
-                <i class="hiddle" @click="hiddleMoney = !hiddleMoney" v-if="!hiddleMoney">￥{{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}</i>
-                <i class="hiddle" style="letter-spacing:3px;margin:0 3px 0 3px;vertical-align: -3px;" @click="hiddleMoney = !hiddleMoney" v-else>*****</i>
                 <i
-                  class="fa fa-refresh cur"
-                  :class="{loading: loading}"
-                  @click="refresh()"
-                ></i>
+                  class="hiddle"
+                  @click="hiddleMoney = !hiddleMoney"
+                  v-if="!hiddleMoney"
+                >￥{{this.userDetail.balance && Utils.toFixed(this.userDetail.balance)}}</i>
+                <i
+                  class="hiddle"
+                  style="letter-spacing:3px;margin:0 3px 0 3px;vertical-align: -3px;"
+                  @click="hiddleMoney = !hiddleMoney"
+                  v-else
+                >*****</i>
+                <i class="fa fa-refresh cur" :class="{loading: loading}" @click="refresh()"></i>
               </span>
             </span>
           </div>
@@ -140,9 +145,12 @@
                     :key="index"
                     class="w"
                   >
-                    <img v-if="hotLottery.some(v => v === item.en_name)" 
+                    <img
+                      v-if="hotLottery.some(v => v === item.en_name)"
                       src="../assets/images/hot.png"
-                      alt="hot" class="hot">
+                      alt="hot"
+                      class="hot"
+                    />
                     <img class="select-grou-img" :src="item.icon_path" />
                     <div class="name">{{item.cn_name}}</div>
                     <div class="issue">全天{{item.day_issue}}期</div>
@@ -151,13 +159,12 @@
               </div>
             </div>
           </el-col>
-          <el-col :span="18">
-            <el-row>
-              <el-col :span="3">&nbsp;</el-col>
-              <el-col :span="3">
+          <el-col class="navigation" :span="18">
+            <div class="row">
+              <div class="col">
                 <router-link class="nav-col" tag="span" to="/home">首页</router-link>
-              </el-col>
-              <el-col :span="3" class="all-lottery">
+              </div>
+              <div class="col all-lottery">
                 <span
                   class="nav-col"
                   to="/bet"
@@ -181,7 +188,7 @@
                     <el-row :gutter="30">
                       <el-col v-for="(lottery, index) in lotteryLists" :key="index" :span="12">
                         <div class="nav-menu-title">{{lottery.name}}</div>
-                        <el-row :gutter="4" class="nav-menus" >
+                        <el-row :gutter="4" class="nav-menus">
                           <el-col
                             :span="8"
                             class="nav-menu"
@@ -200,27 +207,36 @@
                     </el-row>
                   </section>
                 </div>
-              </el-col>
-              <el-col :span="3">
-                <router-link class="nav-col" tag="span" to="/chess-all">棋牌游戏</router-link>
-              </el-col>
-              <el-col :span="3">
-                <router-link class="nav-col" tag="span" to="/fish-game">捕鱼游戏</router-link>
-              </el-col>
-              <el-col :span="3">
+              </div>
+              <div class="col" :span="3">
+                <span class="nav-col" tag="span">真人</span>
+              </div>
+              <div class="col" :span="3">
+                <span class="nav-col" tag="span">电子</span>
+              </div>
+              <div class="col" :span="3">
+                <router-link class="nav-col" tag="span" to="/chess-all">棋牌</router-link>
+              </div>
+              <div class="col" :span="3">
+                <router-link class="nav-col" tag="span" to="/fish-game">捕鱼</router-link>
+              </div>
+              <!-- <div class = "col" v-for="(item, index) in casinoPlat" :key="index">
+                <router-link class="nav-col" tag="span" to="/active">{{item.cateName}}</router-link>
+              </div>-->
+              <div class="col">
                 <router-link class="nav-col" tag="span" to="/active">优惠活动</router-link>
-              </el-col>
-              <el-col :span="3">
+              </div>
+              <div class="col">
                 <router-link class="nav-col" tag="span" to="/user-trends">走势图表</router-link>
-              </el-col>
-              <el-col :span="3">
+              </div>
+              <div class="col">
                 <span
                   :class="{'router-link-active' : this.$route.path.includes('/agent-center')}"
                   class="nav-col"
                   @click="preInto(`/agent-center`)"
                 >代理中心</span>
-              </el-col>
-            </el-row>
+              </div>
+            </div>
           </el-col>
         </el-row>
       </div>
@@ -256,7 +272,19 @@ export default {
       }
     };
     return {
-      hotLottery: ['cqssc', 'qiqtxffc', 'duotxffc', 'txffc', 'xjssc', 'sd115', 'gd115', 'ftpk10', 'jssc', 'jsk3', 'hklhc'],
+      hotLottery: [
+        'cqssc',
+        'qiqtxffc',
+        'duotxffc',
+        'txffc',
+        'xjssc',
+        'sd115',
+        'gd115',
+        'ftpk10',
+        'jssc',
+        'jsk3',
+        'hklhc'
+      ],
       hiddleMoney: true, //隐藏金额
       showBulletin: false,
       loginLoading: false,
@@ -287,19 +315,21 @@ export default {
       'lotteryLists',
       'popularLotteries1',
       'logoSrc',
-      'innerNotice'
+      'innerNotice',
+      'casinoPlat'
     ])
   },
-  created () {
+  created() {
     // 记住密码
-    let rememberPassword = this.Utils.storage.get('rememberPassword')
+    let rememberPassword = this.Utils.storage.get('rememberPassword');
     if (rememberPassword) {
-      this.user.username = rememberPassword.data.account
-      this.user.password = rememberPassword.data.password
+      this.user.username = rememberPassword.data.account;
+      this.user.password = rememberPassword.data.password;
     }
   },
   mounted() {
-    Object.keys(this.userDetail).length && this.$store.dispatch('getUserDetail');
+    Object.keys(this.userDetail).length &&
+      this.$store.dispatch('getUserDetail');
     // 获取全部彩种
     this.$store.dispatch('lotteryAll');
     this.lotteryList();
@@ -514,7 +544,6 @@ export default {
 .nav-col {
   cursor: pointer;
   display: block;
-  width: 100%;
   height: 100%;
   &:hover,
   &.router-link-active {
@@ -553,13 +582,13 @@ export default {
     border-bottom: 1px solid #e2e2e2;
     cursor: pointer;
     position: relative;
-    .hot{
+    .hot {
       position: absolute;
       top: -8px;
       left: 52px;
       width: 18px;
       height: 23px;
-      animation: hot .5s linear infinite alternate;
+      animation: hot 0.5s linear infinite alternate;
     }
     &:hover {
       .name {
@@ -673,7 +702,7 @@ export default {
             height: 0;
             border-style: solid;
             border-width: 0 25px 28px 0;
-            border-color:transparent #ffea00 transparent transparent;
+            border-color: transparent #ffea00 transparent transparent;
           }
           &::after {
             content: "热";
@@ -752,7 +781,7 @@ export default {
   .cur.loading {
     animation: myRotate 1.5s linear infinite;
   }
-  .hiddle{
+  .hiddle {
     margin-right: 2px;
   }
 }
@@ -761,6 +790,20 @@ export default {
 }
 .corigin {
   color: $primary-color-hover;
+}
+.navigation {
+  overflow: hidden;
+  .row {
+    overflow: hidden;
+    float: right;
+    .col {
+      float: left;
+      overflow: hidden;
+      .nav-col {
+        padding: 0 20px;
+      }
+    }
+  }
 }
 </style>
 

@@ -187,40 +187,29 @@
                     </template>
                   </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="棋牌" name="chess">
-                  <el-row :gutter="8" class="tab-lott">
-                    <el-col :span="12" v-for="(item, index) in popularChess" :key="index">
-                      <div class="lott-item-warp">
-                        <div class="lott-item lott-item-game">
-                          <img class="img" :src="item.icon" />
-                          <div class="lott-r">
-                            <div class="title">
-                              {{item.name}}
-                              <br />经典棋牌游戏
+                <el-tab-pane
+                  :label="items.cateGorie"
+                  :name="items.cateGorie"
+                  v-for="(items, index) in popularGame"
+                  :key="index"
+                >
+                  <el-row :gutter="8" class="tab-lott" style="height:480px;overflow: hidden;">
+                    <template v-if="Object.keys(items) && Object.keys(items).length">
+                      <el-col :span="12" v-for="(item, index0) in items" :key="`${index}-${index0}`">
+                        <div class="lott-item-warp">
+                          <div class="lott-item lott-item-game">
+                            <img class="img" :src="`${urlPath}/${item.icon_path}`" />
+                            <div class="lott-r">
+                              <div class="title">
+                                {{item.cn_name}}
+                                <br />经典游戏
+                              </div>
+                              <div class="btn">进入游戏</div>
                             </div>
-                            <div class="btn">进入游戏</div>
                           </div>
                         </div>
-                      </div>
-                    </el-col>
-                  </el-row>
-                </el-tab-pane>
-                <el-tab-pane label="电子" name="electron">
-                  <el-row :gutter="8" class="tab-lott">
-                    <el-col :span="12" v-for="(item, index) in popularEgame" :key="index">
-                      <div class="lott-item-warp">
-                        <div class="lott-item lott-item-game">
-                          <img class="img" :src="item.icon" />
-                          <div class="lott-r">
-                            <div class="title">
-                              {{item.name}}
-                              <br />经典电子游艺
-                            </div>
-                            <div class="btn">进入游戏</div>
-                          </div>
-                        </div>
-                      </div>
-                    </el-col>
+                      </el-col>
+                    </template>
                   </el-row>
                 </el-tab-pane>
               </el-tabs>
@@ -283,6 +272,7 @@ export default {
       lotteriesList: [],
       currentBulletinIndex: null,
       showBulletin: false,
+      urlPath: process.env.VUE_APP_API_URL,
       activeName: 0,
       endTime: null,
       activeGameName: 'lott',
@@ -312,8 +302,7 @@ export default {
       'ranking',
       'userDetail',
       'lotteryNoticeList',
-      'popularEgame',
-      'popularChess',
+      'popularGame',
       'lotteryAll'
     ])
   },
@@ -473,7 +462,9 @@ export default {
           const code = [],
             bet = [];
           let prize_group = null;
-          prize_group = this.lotteryAll[item.id] && this.lotteryAll[item.id]['lottery']['min_prize_group'];
+          prize_group =
+            this.lotteryAll[item.id] &&
+            this.lotteryAll[item.id]['lottery']['min_prize_group'];
           item.code.forEach(v => {
             v.sign ? code.push(v.num) : null;
           });

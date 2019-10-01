@@ -225,9 +225,7 @@
               </template>
             </el-table-column>
             <el-table-column align="center" label="中奖">
-              <!-- <template slot-scope="scope">
-                {{scope.row.status}}
-              </template>-->
+              <template slot-scope="scope">{{scope.row.bonus}}</template>
             </el-table-column>
             <el-table-column align="center" label="操作	">
               <template slot-scope="scope">

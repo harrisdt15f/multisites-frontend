@@ -827,7 +827,7 @@ export default {
       this.calculate();
     },
     // 选择模式
-    selectMode(mode, index) {
+    selectMode(mode) {
       const userConfig = Object.assign(this.userConfig, {
         mode: (+mode).toFixed(3)
       });

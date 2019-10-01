@@ -80,17 +80,15 @@
       </div>
     </div>
     <form style="display:none" id="pureForm" :action="formUrl" method="post" target="_blank">
-      <input name="Authorization" v-model= "Token" />
-      <input v-model="amount" name="amount" />
-      <input v-if="channel" v-model="channel.payment_sign" name="channel" />
-      <input v-if="channel && channel['banks_code'] && channel['banks_code'].length" v-model="banks_code" name="bank_code" />
+      <input type="text" name="token" :value= "Token" />
+      <input :value="amount" name="amount" />
+      <input v-if="channel" :value="channel.payment_sign" name="channel" />
+      <input v-if="channel && channel['banks_code'] && channel['banks_code'].length" :value="banks_code" name="bank_code" />
     </form>
   </div>
 </template>
 <script>
 import { getToken } from '@/utils/auth'
-import axios from 'axios'
-import qs from 'qs'
 
 export default {
   data() {
@@ -109,7 +107,7 @@ export default {
       banks_code: null,
       amount: null,
       formUrl: null,
-      Token: 'Bearer ' + getToken(),
+      Token: getToken(),
       form: {
         amount: '',
         channel: ''
@@ -171,20 +169,19 @@ export default {
         })
       }else {
         this.btnLoading = false;
-        // document.getElementById('pureForm').submit();
-        axios.post('http://192.168.0.117/web-api/pay/v2.0/recharge',
-          qs.stringify(sendData), { 
-          headers: { 
-            'Content-Type':'application/x-www-form-urlencoded' ,
-            'Authorization':  'Bearer ' + getToken()
-        }}
-        ).then((result) => {
-          console.log(result)
-        }).catch(err => {
-          console.log(err)
-        })
+        document.getElementById('pureForm').submit();
+        // axios.post('http://192.168.0.117/web-api/pay/v2.0/recharge',
+        //   qs.stringify(sendData), { 
+        //   headers: { 
+        //     'Content-Type':'application/x-www-form-urlencoded' ,
+        //     'Authorization':  'Bearer ' + getToken()
+        // }}
+        // ).then((result) => {
+        //   console.log(result)
+        // }).catch(err => {
+        //   console.log(err)
+        // })
       }
-      
     },
     currentChannel() {
       const arr = this.channelList[this.currentIndex];

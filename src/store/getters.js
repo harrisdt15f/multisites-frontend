@@ -18,8 +18,8 @@ const getters = {
   showInitNotice: state => state.site.showInitNotice,
   ranking: state => state.site.ranking,
   lotteryNoticeList: state => state.site.lotteryNoticeList,
-  popularChess: state => state.site.popularChess,
-  popularEgame: state => state.site.popularEgame,
+  popularGame: state => state.site.popularGame,
+  casinoPlat: state => state.site.casinoPlat,
   helpList: state => state.site.helpList,
   customerService: state => state.site.customerService,
   // 彩票

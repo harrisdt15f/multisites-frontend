@@ -27,7 +27,8 @@ export default {
       'getLotteryNotice',
       'getActivity',
       'getBasicContent',
-      'getcasinoGame'
+      'getcasinoGame',
+      'getCasinoPlat'
     ]),
     //初始化不常变动数据
     initData() {
@@ -37,6 +38,7 @@ export default {
       this.getLotteryNotice();
       this.getPopularGame();
       this.getcasinoGame();
+      this.getCasinoPlat();
     }
   }
 };
